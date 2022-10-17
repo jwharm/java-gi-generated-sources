@@ -3,6 +3,7 @@ package org.gtk.gsk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A rectangular region with rounded corners.
@@ -25,7 +26,7 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle gsk_rounded_rect_contains_point = Interop.downcallHandle(
+    private static final MethodHandle gsk_rounded_rect_contains_point = Interop.downcallHandle(
         "gsk_rounded_rect_contains_point",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -33,16 +34,17 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Checks if the given {@code point} is inside the rounded rectangle.
      */
-    public boolean containsPoint(org.gtk.graphene.Point point) {
+    public boolean containsPoint(@NotNull org.gtk.graphene.Point point) {
+        int RESULT;
         try {
-            var RESULT = (int) gsk_rounded_rect_contains_point.invokeExact(handle(), point.handle());
-            return RESULT != 0;
+            RESULT = (int) gsk_rounded_rect_contains_point.invokeExact(handle(), point.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gsk_rounded_rect_contains_rect = Interop.downcallHandle(
+    private static final MethodHandle gsk_rounded_rect_contains_rect = Interop.downcallHandle(
         "gsk_rounded_rect_contains_rect",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -50,16 +52,17 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Checks if the given {@code rect} is contained inside the rounded rectangle.
      */
-    public boolean containsRect(org.gtk.graphene.Rect rect) {
+    public boolean containsRect(@NotNull org.gtk.graphene.Rect rect) {
+        int RESULT;
         try {
-            var RESULT = (int) gsk_rounded_rect_contains_rect.invokeExact(handle(), rect.handle());
-            return RESULT != 0;
+            RESULT = (int) gsk_rounded_rect_contains_rect.invokeExact(handle(), rect.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gsk_rounded_rect_init = Interop.downcallHandle(
+    private static final MethodHandle gsk_rounded_rect_init = Interop.downcallHandle(
         "gsk_rounded_rect_init",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -70,16 +73,17 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
      * This function will implicitly normalize the {@code GskRoundedRect}
      * before returning.
      */
-    public RoundedRect init(org.gtk.graphene.Rect bounds, org.gtk.graphene.Size topLeft, org.gtk.graphene.Size topRight, org.gtk.graphene.Size bottomRight, org.gtk.graphene.Size bottomLeft) {
+    public @NotNull RoundedRect init(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Size topLeft, @NotNull org.gtk.graphene.Size topRight, @NotNull org.gtk.graphene.Size bottomRight, @NotNull org.gtk.graphene.Size bottomLeft) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_rounded_rect_init.invokeExact(handle(), bounds.handle(), topLeft.handle(), topRight.handle(), bottomRight.handle(), bottomLeft.handle());
-            return new RoundedRect(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gsk_rounded_rect_init.invokeExact(handle(), bounds.handle(), topLeft.handle(), topRight.handle(), bottomRight.handle(), bottomLeft.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new RoundedRect(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gsk_rounded_rect_init_copy = Interop.downcallHandle(
+    private static final MethodHandle gsk_rounded_rect_init_copy = Interop.downcallHandle(
         "gsk_rounded_rect_init_copy",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -90,16 +94,17 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
      * This function will not normalize the {@code GskRoundedRect},
      * so make sure the source is normalized.
      */
-    public RoundedRect initCopy(RoundedRect src) {
+    public @NotNull RoundedRect initCopy(@NotNull RoundedRect src) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_rounded_rect_init_copy.invokeExact(handle(), src.handle());
-            return new RoundedRect(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gsk_rounded_rect_init_copy.invokeExact(handle(), src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new RoundedRect(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gsk_rounded_rect_init_from_rect = Interop.downcallHandle(
+    private static final MethodHandle gsk_rounded_rect_init_from_rect = Interop.downcallHandle(
         "gsk_rounded_rect_init_from_rect",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
     );
@@ -108,16 +113,17 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
      * Initializes {@code self} to the given {@code bounds} and sets the radius
      * of all four corners to {@code radius}.
      */
-    public RoundedRect initFromRect(org.gtk.graphene.Rect bounds, float radius) {
+    public @NotNull RoundedRect initFromRect(@NotNull org.gtk.graphene.Rect bounds, @NotNull float radius) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_rounded_rect_init_from_rect.invokeExact(handle(), bounds.handle(), radius);
-            return new RoundedRect(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gsk_rounded_rect_init_from_rect.invokeExact(handle(), bounds.handle(), radius);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new RoundedRect(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gsk_rounded_rect_intersects_rect = Interop.downcallHandle(
+    private static final MethodHandle gsk_rounded_rect_intersects_rect = Interop.downcallHandle(
         "gsk_rounded_rect_intersects_rect",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -125,16 +131,17 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Checks if part of the given {@code rect} is contained inside the rounded rectangle.
      */
-    public boolean intersectsRect(org.gtk.graphene.Rect rect) {
+    public boolean intersectsRect(@NotNull org.gtk.graphene.Rect rect) {
+        int RESULT;
         try {
-            var RESULT = (int) gsk_rounded_rect_intersects_rect.invokeExact(handle(), rect.handle());
-            return RESULT != 0;
+            RESULT = (int) gsk_rounded_rect_intersects_rect.invokeExact(handle(), rect.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gsk_rounded_rect_is_rectilinear = Interop.downcallHandle(
+    private static final MethodHandle gsk_rounded_rect_is_rectilinear = Interop.downcallHandle(
         "gsk_rounded_rect_is_rectilinear",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -147,15 +154,16 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
      * or {@link RoundedClipNode#RoundedClipNode} should be called.
      */
     public boolean isRectilinear() {
+        int RESULT;
         try {
-            var RESULT = (int) gsk_rounded_rect_is_rectilinear.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gsk_rounded_rect_is_rectilinear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gsk_rounded_rect_normalize = Interop.downcallHandle(
+    private static final MethodHandle gsk_rounded_rect_normalize = Interop.downcallHandle(
         "gsk_rounded_rect_normalize",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -167,16 +175,17 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
      * are normalized and ensure that the corner values are positive
      * and the corners do not overlap.
      */
-    public RoundedRect normalize() {
+    public @NotNull RoundedRect normalize() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_rounded_rect_normalize.invokeExact(handle());
-            return new RoundedRect(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gsk_rounded_rect_normalize.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new RoundedRect(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gsk_rounded_rect_offset = Interop.downcallHandle(
+    private static final MethodHandle gsk_rounded_rect_offset = Interop.downcallHandle(
         "gsk_rounded_rect_offset",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
     );
@@ -186,16 +195,17 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The size and corners of the rectangle are unchanged.
      */
-    public RoundedRect offset(float dx, float dy) {
+    public @NotNull RoundedRect offset(@NotNull float dx, @NotNull float dy) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_rounded_rect_offset.invokeExact(handle(), dx, dy);
-            return new RoundedRect(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gsk_rounded_rect_offset.invokeExact(handle(), dx, dy);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new RoundedRect(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gsk_rounded_rect_shrink = Interop.downcallHandle(
+    private static final MethodHandle gsk_rounded_rect_shrink = Interop.downcallHandle(
         "gsk_rounded_rect_shrink",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
     );
@@ -210,13 +220,14 @@ public class RoundedRect extends io.github.jwharm.javagi.ResourceBase {
      * This function also works for growing rectangles if you pass
      * negative values for the {@code top}, {@code right}, {@code bottom} or {@code left}.
      */
-    public RoundedRect shrink(float top, float right, float bottom, float left) {
+    public @NotNull RoundedRect shrink(@NotNull float top, @NotNull float right, @NotNull float bottom, @NotNull float left) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_rounded_rect_shrink.invokeExact(handle(), top, right, bottom, left);
-            return new RoundedRect(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gsk_rounded_rect_shrink.invokeExact(handle(), top, right, bottom, left);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new RoundedRect(Refcounted.get(RESULT, false));
     }
     
 }

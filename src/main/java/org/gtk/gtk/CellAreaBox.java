@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A cell area that renders GtkCellRenderers into a row or a column
@@ -36,7 +37,7 @@ public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orie
         return new CellAreaBox(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_cell_area_box_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_box_new = Interop.downcallHandle(
         "gtk_cell_area_box_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -57,7 +58,7 @@ public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orie
         super(constructNew());
     }
     
-    static final MethodHandle gtk_cell_area_box_get_spacing = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_box_get_spacing = Interop.downcallHandle(
         "gtk_cell_area_box_get_spacing",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -66,15 +67,16 @@ public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orie
      * Gets the spacing added between cell renderers.
      */
     public int getSpacing() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_cell_area_box_get_spacing.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_cell_area_box_get_spacing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_cell_area_box_pack_end = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_box_pack_end = Interop.downcallHandle(
         "gtk_cell_area_box_pack_end",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -85,7 +87,7 @@ public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orie
      * The {@code renderer} is packed after (away from end of) any other
      * {@code GtkCellRenderer} packed with reference to the end of {@code box}.
      */
-    public void packEnd(CellRenderer renderer, boolean expand, boolean align, boolean fixed) {
+    public @NotNull void packEnd(@NotNull CellRenderer renderer, @NotNull boolean expand, @NotNull boolean align, @NotNull boolean fixed) {
         try {
             gtk_cell_area_box_pack_end.invokeExact(handle(), renderer.handle(), expand ? 1 : 0, align ? 1 : 0, fixed ? 1 : 0);
         } catch (Throwable ERR) {
@@ -93,7 +95,7 @@ public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orie
         }
     }
     
-    static final MethodHandle gtk_cell_area_box_pack_start = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_box_pack_start = Interop.downcallHandle(
         "gtk_cell_area_box_pack_start",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -104,7 +106,7 @@ public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orie
      * The {@code renderer} is packed after any other {@code GtkCellRenderer} packed
      * with reference to the start of {@code box}.
      */
-    public void packStart(CellRenderer renderer, boolean expand, boolean align, boolean fixed) {
+    public @NotNull void packStart(@NotNull CellRenderer renderer, @NotNull boolean expand, @NotNull boolean align, @NotNull boolean fixed) {
         try {
             gtk_cell_area_box_pack_start.invokeExact(handle(), renderer.handle(), expand ? 1 : 0, align ? 1 : 0, fixed ? 1 : 0);
         } catch (Throwable ERR) {
@@ -112,7 +114,7 @@ public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orie
         }
     }
     
-    static final MethodHandle gtk_cell_area_box_set_spacing = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_box_set_spacing = Interop.downcallHandle(
         "gtk_cell_area_box_set_spacing",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -120,7 +122,7 @@ public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orie
     /**
      * Sets the spacing to add between cell renderers in {@code box}.
      */
-    public void setSpacing(int spacing) {
+    public @NotNull void setSpacing(@NotNull int spacing) {
         try {
             gtk_cell_area_box_set_spacing.invokeExact(handle(), spacing);
         } catch (Throwable ERR) {

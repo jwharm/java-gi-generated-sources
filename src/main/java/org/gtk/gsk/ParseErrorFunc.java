@@ -1,6 +1,7 @@
 package org.gtk.gsk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Type of callback that is called when an error occurs
@@ -8,5 +9,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface ParseErrorFunc {
-        void onParseErrorFunc(ParseLocation start, ParseLocation end, org.gtk.glib.Error error);
+        void onParseErrorFunc(@NotNull ParseLocation start, @NotNull ParseLocation end, @NotNull org.gtk.glib.Error error);
 }

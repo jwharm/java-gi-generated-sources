@@ -1,6 +1,7 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The type used for callback functions in structure definitions and function

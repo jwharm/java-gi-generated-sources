@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@code GtkOrientable} interface is implemented by all widgets that can be
@@ -13,7 +14,7 @@ import java.lang.invoke.*;
  */
 public interface Orientable extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle gtk_orientable_get_orientation = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_orientable_get_orientation = Interop.downcallHandle(
         "gtk_orientable_get_orientation",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -21,16 +22,17 @@ public interface Orientable extends io.github.jwharm.javagi.Proxy {
     /**
      * Retrieves the orientation of the {@code orientable}.
      */
-    public default Orientation getOrientation() {
+    default @NotNull Orientation getOrientation() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_orientable_get_orientation.invokeExact(handle());
-            return new Orientation(RESULT);
+            RESULT = (int) gtk_orientable_get_orientation.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Orientation(RESULT);
     }
     
-    static final MethodHandle gtk_orientable_set_orientation = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_orientable_set_orientation = Interop.downcallHandle(
         "gtk_orientable_set_orientation",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -38,7 +40,7 @@ public interface Orientable extends io.github.jwharm.javagi.Proxy {
     /**
      * Sets the orientation of the {@code orientable}.
      */
-    public default void setOrientation(Orientation orientation) {
+    default @NotNull void setOrientation(@NotNull Orientation orientation) {
         try {
             gtk_orientable_set_orientation.invokeExact(handle(), orientation.getValue());
         } catch (Throwable ERR) {

@@ -1,6 +1,7 @@
 package org.pango;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Callback used when enumerating fonts in a fontset.
@@ -9,5 +10,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface FontsetForeachFunc {
-        boolean onFontsetForeachFunc(Fontset fontset, Font font);
+        boolean onFontsetForeachFunc(@NotNull Fontset fontset, @NotNull Font font);
 }

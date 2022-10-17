@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Base class for output stream implementations that perform some
@@ -21,7 +22,7 @@ public class FilterOutputStream extends OutputStream {
         return new FilterOutputStream(gobject.refcounted());
     }
     
-    static final MethodHandle g_filter_output_stream_get_base_stream = Interop.downcallHandle(
+    private static final MethodHandle g_filter_output_stream_get_base_stream = Interop.downcallHandle(
         "g_filter_output_stream_get_base_stream",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -29,16 +30,17 @@ public class FilterOutputStream extends OutputStream {
     /**
      * Gets the base stream for the filter stream.
      */
-    public OutputStream getBaseStream() {
+    public @NotNull OutputStream getBaseStream() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_filter_output_stream_get_base_stream.invokeExact(handle());
-            return new OutputStream(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_filter_output_stream_get_base_stream.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new OutputStream(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_filter_output_stream_get_close_base_stream = Interop.downcallHandle(
+    private static final MethodHandle g_filter_output_stream_get_close_base_stream = Interop.downcallHandle(
         "g_filter_output_stream_get_close_base_stream",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -48,15 +50,16 @@ public class FilterOutputStream extends OutputStream {
      * closed.
      */
     public boolean getCloseBaseStream() {
+        int RESULT;
         try {
-            var RESULT = (int) g_filter_output_stream_get_close_base_stream.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_filter_output_stream_get_close_base_stream.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_filter_output_stream_set_close_base_stream = Interop.downcallHandle(
+    private static final MethodHandle g_filter_output_stream_set_close_base_stream = Interop.downcallHandle(
         "g_filter_output_stream_set_close_base_stream",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -64,7 +67,7 @@ public class FilterOutputStream extends OutputStream {
     /**
      * Sets whether the base stream will be closed when {@code stream} is closed.
      */
-    public void setCloseBaseStream(boolean closeBase) {
+    public @NotNull void setCloseBaseStream(@NotNull boolean closeBase) {
         try {
             g_filter_output_stream_set_close_base_stream.invokeExact(handle(), closeBase ? 1 : 0);
         } catch (Throwable ERR) {

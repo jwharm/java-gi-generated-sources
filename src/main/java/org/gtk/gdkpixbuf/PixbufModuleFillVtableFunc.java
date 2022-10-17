@@ -1,6 +1,7 @@
 package org.gtk.gdkpixbuf;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Defines the type of the function used to set the vtable of a
@@ -8,5 +9,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface PixbufModuleFillVtableFunc {
-        void onPixbufModuleFillVtableFunc(PixbufModule module);
+        void onPixbufModuleFillVtableFunc(@NotNull PixbufModule module);
 }

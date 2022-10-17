@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * An opaque type which identifies a specific node in a {@link Tree}.
@@ -13,7 +14,7 @@ public class TreeNode extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_tree_node_key = Interop.downcallHandle(
+    private static final MethodHandle g_tree_node_key = Interop.downcallHandle(
         "g_tree_node_key",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -21,16 +22,17 @@ public class TreeNode extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the key stored at a particular tree node.
      */
-    public java.lang.foreign.MemoryAddress key() {
+    public @Nullable java.lang.foreign.MemoryAddress key() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_tree_node_key.invokeExact(handle());
-            return RESULT;
+            RESULT = (MemoryAddress) g_tree_node_key.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_tree_node_next = Interop.downcallHandle(
+    private static final MethodHandle g_tree_node_next = Interop.downcallHandle(
         "g_tree_node_next",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -39,16 +41,17 @@ public class TreeNode extends io.github.jwharm.javagi.ResourceBase {
      * Returns the next in-order node of the tree, or {@code null}
      * if the passed node was already the last one.
      */
-    public TreeNode next() {
+    public @Nullable TreeNode next() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_tree_node_next.invokeExact(handle());
-            return new TreeNode(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_tree_node_next.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TreeNode(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_tree_node_previous = Interop.downcallHandle(
+    private static final MethodHandle g_tree_node_previous = Interop.downcallHandle(
         "g_tree_node_previous",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -57,16 +60,17 @@ public class TreeNode extends io.github.jwharm.javagi.ResourceBase {
      * Returns the previous in-order node of the tree, or {@code null}
      * if the passed node was already the first one.
      */
-    public TreeNode previous() {
+    public @Nullable TreeNode previous() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_tree_node_previous.invokeExact(handle());
-            return new TreeNode(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_tree_node_previous.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TreeNode(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_tree_node_value = Interop.downcallHandle(
+    private static final MethodHandle g_tree_node_value = Interop.downcallHandle(
         "g_tree_node_value",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -74,13 +78,14 @@ public class TreeNode extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the value stored at a particular tree node.
      */
-    public java.lang.foreign.MemoryAddress value() {
+    public @Nullable java.lang.foreign.MemoryAddress value() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_tree_node_value.invokeExact(handle());
-            return RESULT;
+            RESULT = (MemoryAddress) g_tree_node_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
 }

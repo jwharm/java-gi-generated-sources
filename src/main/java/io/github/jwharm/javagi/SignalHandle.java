@@ -1,8 +1,8 @@
 package io.github.jwharm.javagi;
 
-import java.lang.foreign.Addressable;
-
 import org.gtk.gobject.GObject;
+
+import java.lang.foreign.Addressable;
 
 public class SignalHandle {
 

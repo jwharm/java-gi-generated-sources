@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkListBoxRow} is the kind of widget that can be added to a {@code GtkListBox}.
@@ -18,7 +19,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
         return new ListBoxRow(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_list_box_row_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_list_box_row_new = Interop.downcallHandle(
         "gtk_list_box_row_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -39,7 +40,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
         super(constructNew());
     }
     
-    static final MethodHandle gtk_list_box_row_changed = Interop.downcallHandle(
+    private static final MethodHandle gtk_list_box_row_changed = Interop.downcallHandle(
         "gtk_list_box_row_changed",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -64,7 +65,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      * is to call {@link ListBox#invalidateSort} on any model change,
      * but that is more expensive.
      */
-    public void changed() {
+    public @NotNull void changed() {
         try {
             gtk_list_box_row_changed.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -72,7 +73,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
         }
     }
     
-    static final MethodHandle gtk_list_box_row_get_activatable = Interop.downcallHandle(
+    private static final MethodHandle gtk_list_box_row_get_activatable = Interop.downcallHandle(
         "gtk_list_box_row_get_activatable",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -81,15 +82,16 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      * Gets whether the row is activatable.
      */
     public boolean getActivatable() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_list_box_row_get_activatable.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_list_box_row_get_activatable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_list_box_row_get_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_list_box_row_get_child = Interop.downcallHandle(
         "gtk_list_box_row_get_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -97,16 +99,17 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
     /**
      * Gets the child widget of {@code row}.
      */
-    public Widget getChild() {
+    public @Nullable Widget getChild() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_list_box_row_get_child.invokeExact(handle());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_list_box_row_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_list_box_row_get_header = Interop.downcallHandle(
+    private static final MethodHandle gtk_list_box_row_get_header = Interop.downcallHandle(
         "gtk_list_box_row_get_header",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -119,16 +122,17 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      * there is a header set already, and if so to update
      * the state of it.
      */
-    public Widget getHeader() {
+    public @Nullable Widget getHeader() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_list_box_row_get_header.invokeExact(handle());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_list_box_row_get_header.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_list_box_row_get_index = Interop.downcallHandle(
+    private static final MethodHandle gtk_list_box_row_get_index = Interop.downcallHandle(
         "gtk_list_box_row_get_index",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -137,15 +141,16 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      * Gets the current index of the {@code row} in its {@code GtkListBox} container.
      */
     public int getIndex() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_list_box_row_get_index.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_list_box_row_get_index.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_list_box_row_get_selectable = Interop.downcallHandle(
+    private static final MethodHandle gtk_list_box_row_get_selectable = Interop.downcallHandle(
         "gtk_list_box_row_get_selectable",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -154,15 +159,16 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      * Gets whether the row can be selected.
      */
     public boolean getSelectable() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_list_box_row_get_selectable.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_list_box_row_get_selectable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_list_box_row_is_selected = Interop.downcallHandle(
+    private static final MethodHandle gtk_list_box_row_is_selected = Interop.downcallHandle(
         "gtk_list_box_row_is_selected",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -172,15 +178,16 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      * {@code GtkListBox} container.
      */
     public boolean isSelected() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_list_box_row_is_selected.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_list_box_row_is_selected.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_list_box_row_set_activatable = Interop.downcallHandle(
+    private static final MethodHandle gtk_list_box_row_set_activatable = Interop.downcallHandle(
         "gtk_list_box_row_set_activatable",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -188,7 +195,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
     /**
      * Set whether the row is activatable.
      */
-    public void setActivatable(boolean activatable) {
+    public @NotNull void setActivatable(@NotNull boolean activatable) {
         try {
             gtk_list_box_row_set_activatable.invokeExact(handle(), activatable ? 1 : 0);
         } catch (Throwable ERR) {
@@ -196,7 +203,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
         }
     }
     
-    static final MethodHandle gtk_list_box_row_set_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_list_box_row_set_child = Interop.downcallHandle(
         "gtk_list_box_row_set_child",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -204,7 +211,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
     /**
      * Sets the child widget of {@code self}.
      */
-    public void setChild(Widget child) {
+    public @NotNull void setChild(@Nullable Widget child) {
         try {
             gtk_list_box_row_set_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -212,7 +219,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
         }
     }
     
-    static final MethodHandle gtk_list_box_row_set_header = Interop.downcallHandle(
+    private static final MethodHandle gtk_list_box_row_set_header = Interop.downcallHandle(
         "gtk_list_box_row_set_header",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -225,7 +232,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
      * It will replace any existing header in the row,
      * and be shown in front of the row in the listbox.
      */
-    public void setHeader(Widget header) {
+    public @NotNull void setHeader(@Nullable Widget header) {
         try {
             gtk_list_box_row_set_header.invokeExact(handle(), header.handle());
         } catch (Throwable ERR) {
@@ -233,7 +240,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
         }
     }
     
-    static final MethodHandle gtk_list_box_row_set_selectable = Interop.downcallHandle(
+    private static final MethodHandle gtk_list_box_row_set_selectable = Interop.downcallHandle(
         "gtk_list_box_row_set_selectable",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -241,7 +248,7 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
     /**
      * Set whether the row can be selected.
      */
-    public void setSelectable(boolean selectable) {
+    public @NotNull void setSelectable(@NotNull boolean selectable) {
         try {
             gtk_list_box_row_set_selectable.invokeExact(handle(), selectable ? 1 : 0);
         } catch (Throwable ERR) {
@@ -265,13 +272,13 @@ public class ListBoxRow extends Widget implements Accessible, Actionable, Builda
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("activate").handle(),
+                Interop.allocateNativeString("activate"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ListBoxRow.Callbacks.class, "signalListBoxRowActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

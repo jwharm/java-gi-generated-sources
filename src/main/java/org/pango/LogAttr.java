@@ -3,6 +3,7 @@ package org.pango;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@code PangoLogAttr} structure stores information about the attributes of a

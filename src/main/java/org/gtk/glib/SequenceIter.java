@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@link SequenceIter} struct is an opaque data type representing an
@@ -14,7 +15,7 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_sequence_iter_compare = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_iter_compare = Interop.downcallHandle(
         "g_sequence_iter_compare",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -25,16 +26,17 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The @a and @b iterators must point into the same sequence.
      */
-    public int compare(SequenceIter b) {
+    public int compare(@NotNull SequenceIter b) {
+        int RESULT;
         try {
-            var RESULT = (int) g_sequence_iter_compare.invokeExact(handle(), b.handle());
-            return RESULT;
+            RESULT = (int) g_sequence_iter_compare.invokeExact(handle(), b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_sequence_iter_get_position = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_iter_get_position = Interop.downcallHandle(
         "g_sequence_iter_get_position",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -43,15 +45,16 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
      * Returns the position of {@code iter}
      */
     public int getPosition() {
+        int RESULT;
         try {
-            var RESULT = (int) g_sequence_iter_get_position.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_sequence_iter_get_position.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_sequence_iter_get_sequence = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_iter_get_sequence = Interop.downcallHandle(
         "g_sequence_iter_get_sequence",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -59,16 +62,17 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the {@link Sequence} that {@code iter} points into.
      */
-    public Sequence getSequence() {
+    public @NotNull Sequence getSequence() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_sequence_iter_get_sequence.invokeExact(handle());
-            return new Sequence(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_sequence_iter_get_sequence.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Sequence(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_sequence_iter_is_begin = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_iter_is_begin = Interop.downcallHandle(
         "g_sequence_iter_is_begin",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -77,15 +81,16 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
      * Returns whether {@code iter} is the begin iterator
      */
     public boolean isBegin() {
+        int RESULT;
         try {
-            var RESULT = (int) g_sequence_iter_is_begin.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_sequence_iter_is_begin.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_sequence_iter_is_end = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_iter_is_end = Interop.downcallHandle(
         "g_sequence_iter_is_end",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -94,15 +99,16 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
      * Returns whether {@code iter} is the end iterator
      */
     public boolean isEnd() {
+        int RESULT;
         try {
-            var RESULT = (int) g_sequence_iter_is_end.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_sequence_iter_is_end.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_sequence_iter_move = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_iter_move = Interop.downcallHandle(
         "g_sequence_iter_move",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -113,16 +119,17 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
      * the begin iterator is returned. If {@code iter} is closer than {@code delta} positions
      * to the end of the sequence, the end iterator is returned.
      */
-    public SequenceIter move(int delta) {
+    public @NotNull SequenceIter move(@NotNull int delta) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_sequence_iter_move.invokeExact(handle(), delta);
-            return new SequenceIter(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_sequence_iter_move.invokeExact(handle(), delta);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_sequence_iter_next = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_iter_next = Interop.downcallHandle(
         "g_sequence_iter_next",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -131,16 +138,17 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
      * Returns an iterator pointing to the next position after {@code iter}.
      * If {@code iter} is the end iterator, the end iterator is returned.
      */
-    public SequenceIter next() {
+    public @NotNull SequenceIter next() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_sequence_iter_next.invokeExact(handle());
-            return new SequenceIter(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_sequence_iter_next.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_sequence_iter_prev = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_iter_prev = Interop.downcallHandle(
         "g_sequence_iter_prev",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -149,13 +157,14 @@ public class SequenceIter extends io.github.jwharm.javagi.ResourceBase {
      * Returns an iterator pointing to the previous position before {@code iter}.
      * If {@code iter} is the begin iterator, the begin iterator is returned.
      */
-    public SequenceIter prev() {
+    public @NotNull SequenceIter prev() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_sequence_iter_prev.invokeExact(handle());
-            return new SequenceIter(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_sequence_iter_prev.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
 }

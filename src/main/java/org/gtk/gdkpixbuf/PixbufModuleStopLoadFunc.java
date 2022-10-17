@@ -1,6 +1,7 @@
 package org.gtk.gdkpixbuf;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Finalizes the image loading state.
@@ -9,5 +10,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface PixbufModuleStopLoadFunc {
-        boolean onPixbufModuleStopLoadFunc(java.lang.foreign.MemoryAddress context);
+        boolean onPixbufModuleStopLoadFunc(@Nullable java.lang.foreign.MemoryAddress context);
 }

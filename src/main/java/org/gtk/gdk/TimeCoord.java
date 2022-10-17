@@ -3,6 +3,7 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GdkTimeCoord} stores a single event in a motion history.

@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * An interface for packing cells
@@ -20,9 +21,8 @@ import java.lang.invoke.*;
  * the cell renderer. Finally, it is possible to specify a function with
  * gtk_cell_layout_set_cell_data_func() that is called to determine the
  * value of the attribute for each cell that is rendered.
- * <p>
+ * 
  * <h1>GtkCellLayouts as GtkBuildable</h1>
- * <p>
  * Implementations of GtkCellLayout which also implement the GtkBuildable
  * interface ({@code GtkCellView}, {@code GtkIconView}, {@code GtkComboBox},
  * {@code GtkEntryCompletion}, {@code GtkTreeViewColumn}) accept {@code GtkCellRenderer} objects
@@ -33,7 +33,7 @@ import java.lang.invoke.*;
  * attribute value.
  * <p>
  * This is an example of a UI definition fragment specifying attributes:
- * <p>
+ * 
  * <pre>{@code xml
  * <object class="GtkCellView">
  *   <child>
@@ -52,7 +52,7 @@ import java.lang.invoke.*;
  * contain multiple {@code <property>} elements.
  * <p>
  * Here is a UI definition fragment specifying cell properties:
- * <p>
+ * 
  * <pre>{@code xml
  * <object class="GtkTreeViewColumn">
  *   <child>
@@ -64,15 +64,14 @@ import java.lang.invoke.*;
  *   </child>
  * </object>
  * }</pre>
- * <p>
+ * 
  * <h1>Subclassing GtkCellLayout implementations</h1>
- * <p>
  * When subclassing a widget that implements {@code GtkCellLayout} like
  * {@code GtkIconView} or {@code GtkComboBox}, there are some considerations related
  * to the fact that these widgets internally use a {@code GtkCellArea}.
  * The cell area is exposed as a construct-only property by these
  * widgets. This means that it is possible to e.g. do
- * <p>
+ * 
  * <pre>{@code c
  * GtkWIdget *combo =
  *   g_object_new (GTK_TYPE_COMBO_BOX, "cell-area", my_cell_area, NULL);
@@ -85,7 +84,7 @@ import java.lang.invoke.*;
  * cause the default cell area to be instantiated. In this case, a provided
  * construct property value will be ignored (with a warning, to alert
  * you to the problem).
- * <p>
+ * 
  * <pre>{@code c
  * static void
  * my_combo_box_init (MyComboBox *b)
@@ -116,7 +115,7 @@ import java.lang.invoke.*;
  */
 public interface CellLayout extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle gtk_cell_layout_add_attribute = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_cell_layout_add_attribute = Interop.downcallHandle(
         "gtk_cell_layout_add_attribute",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -130,15 +129,15 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
      * “text” attribute of a {@code GtkCellRendererText} get its values from column 2.
      * In this context "attribute" and "property" are used interchangeably.
      */
-    public default void addAttribute(CellRenderer cell, java.lang.String attribute, int column) {
+    default @NotNull void addAttribute(@NotNull CellRenderer cell, @NotNull java.lang.String attribute, @NotNull int column) {
         try {
-            gtk_cell_layout_add_attribute.invokeExact(handle(), cell.handle(), Interop.allocateNativeString(attribute).handle(), column);
+            gtk_cell_layout_add_attribute.invokeExact(handle(), cell.handle(), Interop.allocateNativeString(attribute), column);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_cell_layout_clear = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_cell_layout_clear = Interop.downcallHandle(
         "gtk_cell_layout_clear",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -147,7 +146,7 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
      * Unsets all the mappings on all renderers on {@code cell_layout} and
      * removes all renderers from {@code cell_layout}.
      */
-    public default void clear() {
+    default @NotNull void clear() {
         try {
             gtk_cell_layout_clear.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -155,7 +154,7 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_cell_layout_clear_attributes = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_cell_layout_clear_attributes = Interop.downcallHandle(
         "gtk_cell_layout_clear_attributes",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -164,7 +163,7 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
      * Clears all existing attributes previously set with
      * gtk_cell_layout_set_attributes().
      */
-    public default void clearAttributes(CellRenderer cell) {
+    default @NotNull void clearAttributes(@NotNull CellRenderer cell) {
         try {
             gtk_cell_layout_clear_attributes.invokeExact(handle(), cell.handle());
         } catch (Throwable ERR) {
@@ -172,7 +171,7 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_cell_layout_get_area = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_cell_layout_get_area = Interop.downcallHandle(
         "gtk_cell_layout_get_area",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -182,16 +181,17 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
      * if called on a {@code GtkCellArea} or might be {@code null} if no {@code GtkCellArea}
      * is used by {@code cell_layout}.
      */
-    public default CellArea getArea() {
+    default @Nullable CellArea getArea() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_cell_layout_get_area.invokeExact(handle());
-            return new CellArea(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_cell_layout_get_area.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new CellArea(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_cell_layout_get_cells = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_cell_layout_get_cells = Interop.downcallHandle(
         "gtk_cell_layout_get_cells",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -199,16 +199,17 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
     /**
      * Returns the cell renderers which have been added to {@code cell_layout}.
      */
-    public default org.gtk.glib.List getCells() {
+    default @NotNull org.gtk.glib.List getCells() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_cell_layout_get_cells.invokeExact(handle());
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_cell_layout_get_cells.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_cell_layout_pack_end = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_cell_layout_pack_end = Interop.downcallHandle(
         "gtk_cell_layout_pack_end",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -220,7 +221,7 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
      * <p>
      * Note that reusing the same cell renderer is not supported.
      */
-    public default void packEnd(CellRenderer cell, boolean expand) {
+    default @NotNull void packEnd(@NotNull CellRenderer cell, @NotNull boolean expand) {
         try {
             gtk_cell_layout_pack_end.invokeExact(handle(), cell.handle(), expand ? 1 : 0);
         } catch (Throwable ERR) {
@@ -228,7 +229,7 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_cell_layout_pack_start = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_cell_layout_pack_start = Interop.downcallHandle(
         "gtk_cell_layout_pack_start",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -240,7 +241,7 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
      * <p>
      * Note that reusing the same cell renderer is not supported.
      */
-    public default void packStart(CellRenderer cell, boolean expand) {
+    default @NotNull void packStart(@NotNull CellRenderer cell, @NotNull boolean expand) {
         try {
             gtk_cell_layout_pack_start.invokeExact(handle(), cell.handle(), expand ? 1 : 0);
         } catch (Throwable ERR) {
@@ -248,7 +249,7 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_cell_layout_reorder = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_cell_layout_reorder = Interop.downcallHandle(
         "gtk_cell_layout_reorder",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -259,7 +260,7 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
      * Note that {@code cell} has already to be packed into {@code cell_layout}
      * for this to function properly.
      */
-    public default void reorder(CellRenderer cell, int position) {
+    default @NotNull void reorder(@NotNull CellRenderer cell, @NotNull int position) {
         try {
             gtk_cell_layout_reorder.invokeExact(handle(), cell.handle(), position);
         } catch (Throwable ERR) {
@@ -267,7 +268,7 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_cell_layout_set_cell_data_func = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_cell_layout_set_cell_data_func = Interop.downcallHandle(
         "gtk_cell_layout_set_cell_data_func",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -281,7 +282,7 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
      * <p>
      * {@code func} may be {@code null} to remove a previously set function.
      */
-    public default void setCellDataFunc(CellRenderer cell, CellLayoutDataFunc func) {
+    default @NotNull void setCellDataFunc(@NotNull CellRenderer cell, @Nullable CellLayoutDataFunc func) {
         try {
             gtk_cell_layout_set_cell_data_func.invokeExact(handle(), cell.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -289,7 +290,7 @@ public interface CellLayout extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);

@@ -3,6 +3,7 @@ package org.gtk.gobject;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link Binding} is the representation of a binding between a property on a
@@ -95,7 +96,7 @@ public class Binding extends Object {
         return new Binding(gobject.refcounted());
     }
     
-    static final MethodHandle g_binding_dup_source = Interop.downcallHandle(
+    private static final MethodHandle g_binding_dup_source = Interop.downcallHandle(
         "g_binding_dup_source",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -107,16 +108,17 @@ public class Binding extends Object {
      * strong reference to the source. If the source is destroyed before the
      * binding then this function will return {@code null}.
      */
-    public Object dupSource() {
+    public @Nullable Object dupSource() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_binding_dup_source.invokeExact(handle());
-            return new Object(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_binding_dup_source.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Object(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_binding_dup_target = Interop.downcallHandle(
+    private static final MethodHandle g_binding_dup_target = Interop.downcallHandle(
         "g_binding_dup_target",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -128,16 +130,17 @@ public class Binding extends Object {
      * strong reference to the target. If the target is destroyed before the
      * binding then this function will return {@code null}.
      */
-    public Object dupTarget() {
+    public @Nullable Object dupTarget() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_binding_dup_target.invokeExact(handle());
-            return new Object(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_binding_dup_target.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Object(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_binding_get_flags = Interop.downcallHandle(
+    private static final MethodHandle g_binding_get_flags = Interop.downcallHandle(
         "g_binding_get_flags",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -145,16 +148,17 @@ public class Binding extends Object {
     /**
      * Retrieves the flags passed when constructing the {@link Binding}.
      */
-    public BindingFlags getFlags() {
+    public @NotNull BindingFlags getFlags() {
+        int RESULT;
         try {
-            var RESULT = (int) g_binding_get_flags.invokeExact(handle());
-            return new BindingFlags(RESULT);
+            RESULT = (int) g_binding_get_flags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new BindingFlags(RESULT);
     }
     
-    static final MethodHandle g_binding_get_source_property = Interop.downcallHandle(
+    private static final MethodHandle g_binding_get_source_property = Interop.downcallHandle(
         "g_binding_get_source_property",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -163,16 +167,17 @@ public class Binding extends Object {
      * Retrieves the name of the property of {@link Binding}:source used as the source
      * of the binding.
      */
-    public java.lang.String getSourceProperty() {
+    public @NotNull java.lang.String getSourceProperty() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_binding_get_source_property.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_binding_get_source_property.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_binding_get_target_property = Interop.downcallHandle(
+    private static final MethodHandle g_binding_get_target_property = Interop.downcallHandle(
         "g_binding_get_target_property",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -181,16 +186,17 @@ public class Binding extends Object {
      * Retrieves the name of the property of {@link Binding}:target used as the target
      * of the binding.
      */
-    public java.lang.String getTargetProperty() {
+    public @NotNull java.lang.String getTargetProperty() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_binding_get_target_property.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_binding_get_target_property.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_binding_unbind = Interop.downcallHandle(
+    private static final MethodHandle g_binding_unbind = Interop.downcallHandle(
         "g_binding_unbind",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -208,7 +214,7 @@ public class Binding extends Object {
      * only unrefs the reference that was initially created by
      * g_object_bind_property() and is owned by the binding.
      */
-    public void unbind() {
+    public @NotNull void unbind() {
         try {
             g_binding_unbind.invokeExact(handle());
         } catch (Throwable ERR) {

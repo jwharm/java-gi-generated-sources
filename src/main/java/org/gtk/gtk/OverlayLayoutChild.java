@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkLayoutChild} subclass for children in a {@code GtkOverlayLayout}.
@@ -18,7 +19,7 @@ public class OverlayLayoutChild extends LayoutChild {
         return new OverlayLayoutChild(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_overlay_layout_child_get_clip_overlay = Interop.downcallHandle(
+    private static final MethodHandle gtk_overlay_layout_child_get_clip_overlay = Interop.downcallHandle(
         "gtk_overlay_layout_child_get_clip_overlay",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -27,15 +28,16 @@ public class OverlayLayoutChild extends LayoutChild {
      * Retrieves whether the child is clipped.
      */
     public boolean getClipOverlay() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_overlay_layout_child_get_clip_overlay.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_overlay_layout_child_get_clip_overlay.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_overlay_layout_child_get_measure = Interop.downcallHandle(
+    private static final MethodHandle gtk_overlay_layout_child_get_measure = Interop.downcallHandle(
         "gtk_overlay_layout_child_get_measure",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -44,15 +46,16 @@ public class OverlayLayoutChild extends LayoutChild {
      * Retrieves whether the child is measured.
      */
     public boolean getMeasure() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_overlay_layout_child_get_measure.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_overlay_layout_child_get_measure.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_overlay_layout_child_set_clip_overlay = Interop.downcallHandle(
+    private static final MethodHandle gtk_overlay_layout_child_set_clip_overlay = Interop.downcallHandle(
         "gtk_overlay_layout_child_set_clip_overlay",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -60,7 +63,7 @@ public class OverlayLayoutChild extends LayoutChild {
     /**
      * Sets whether to clip this child.
      */
-    public void setClipOverlay(boolean clipOverlay) {
+    public @NotNull void setClipOverlay(@NotNull boolean clipOverlay) {
         try {
             gtk_overlay_layout_child_set_clip_overlay.invokeExact(handle(), clipOverlay ? 1 : 0);
         } catch (Throwable ERR) {
@@ -68,7 +71,7 @@ public class OverlayLayoutChild extends LayoutChild {
         }
     }
     
-    static final MethodHandle gtk_overlay_layout_child_set_measure = Interop.downcallHandle(
+    private static final MethodHandle gtk_overlay_layout_child_set_measure = Interop.downcallHandle(
         "gtk_overlay_layout_child_set_measure",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -76,7 +79,7 @@ public class OverlayLayoutChild extends LayoutChild {
     /**
      * Sets whether to measure this child.
      */
-    public void setMeasure(boolean measure) {
+    public @NotNull void setMeasure(@NotNull boolean measure) {
         try {
             gtk_overlay_layout_child_set_measure.invokeExact(handle(), measure ? 1 : 0);
         } catch (Throwable ERR) {

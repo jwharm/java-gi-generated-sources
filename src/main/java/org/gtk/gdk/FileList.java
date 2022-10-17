@@ -3,6 +3,7 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * An opaque type representing a list of files.
@@ -13,7 +14,7 @@ public class FileList extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle gdk_file_list_get_files = Interop.downcallHandle(
+    private static final MethodHandle gdk_file_list_get_files = Interop.downcallHandle(
         "gdk_file_list_get_files",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -23,13 +24,14 @@ public class FileList extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function is meant for language bindings.
      */
-    public org.gtk.glib.SList getFiles() {
+    public @NotNull org.gtk.glib.SList getFiles() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_file_list_get_files.invokeExact(handle());
-            return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_file_list_get_files.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
 }

@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Information about nodes in a remote object hierarchy.
@@ -13,15 +14,15 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_dbus_node_info_new_for_xml = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_node_info_new_for_xml = Interop.downcallHandle(
         "g_dbus_node_info_new_for_xml",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewForXml(java.lang.String xmlData) throws GErrorException {
+    private static Refcounted constructNewForXml(@NotNull java.lang.String xmlData) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_node_info_new_for_xml.invokeExact(Interop.allocateNativeString(xmlData).handle(), (Addressable) GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_node_info_new_for_xml.invokeExact(Interop.allocateNativeString(xmlData), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -41,11 +42,11 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
      * [GMarkup][glib-Simple-XML-Subset-Parser.description]-based
      * parser that only accepts a subset of valid XML documents.
      */
-    public static DBusNodeInfo newForXml(java.lang.String xmlData) throws GErrorException {
+    public static DBusNodeInfo newForXml(@NotNull java.lang.String xmlData) throws GErrorException {
         return new DBusNodeInfo(constructNewForXml(xmlData));
     }
     
-    static final MethodHandle g_dbus_node_info_generate_xml = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_node_info_generate_xml = Interop.downcallHandle(
         "g_dbus_node_info_generate_xml",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -56,7 +57,7 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
      * This function is typically used for generating introspection XML documents at run-time for
      * handling the {@code org.freedesktop.DBus.Introspectable.Introspect}  method.
      */
-    public void generateXml(int indent, org.gtk.glib.String stringBuilder) {
+    public @NotNull void generateXml(@NotNull int indent, @NotNull org.gtk.glib.String stringBuilder) {
         try {
             g_dbus_node_info_generate_xml.invokeExact(handle(), indent, stringBuilder.handle());
         } catch (Throwable ERR) {
@@ -64,7 +65,7 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_dbus_node_info_lookup_interface = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_node_info_lookup_interface = Interop.downcallHandle(
         "g_dbus_node_info_lookup_interface",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -74,16 +75,17 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The cost of this function is O(n) in number of interfaces.
      */
-    public DBusInterfaceInfo lookupInterface(java.lang.String name) {
+    public @Nullable DBusInterfaceInfo lookupInterface(@NotNull java.lang.String name) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_dbus_node_info_lookup_interface.invokeExact(handle(), Interop.allocateNativeString(name).handle());
-            return new DBusInterfaceInfo(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_dbus_node_info_lookup_interface.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new DBusInterfaceInfo(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_dbus_node_info_ref = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_node_info_ref = Interop.downcallHandle(
         "g_dbus_node_info_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -92,16 +94,17 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
      * If {@code info} is statically allocated does nothing. Otherwise increases
      * the reference count.
      */
-    public DBusNodeInfo ref() {
+    public @NotNull DBusNodeInfo ref() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_dbus_node_info_ref.invokeExact(handle());
-            return new DBusNodeInfo(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_dbus_node_info_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new DBusNodeInfo(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_dbus_node_info_unref = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_node_info_unref = Interop.downcallHandle(
         "g_dbus_node_info_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -111,7 +114,7 @@ public class DBusNodeInfo extends io.github.jwharm.javagi.ResourceBase {
      * the reference count of {@code info}. When its reference count drops to 0,
      * the memory used is freed.
      */
-    public void unref() {
+    public @NotNull void unref() {
         try {
             g_dbus_node_info_unref.invokeExact(handle());
         } catch (Throwable ERR) {

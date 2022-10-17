@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkEventControllerLegacy} is an event controller that provides raw
@@ -22,7 +23,7 @@ public class EventControllerLegacy extends EventController {
         return new EventControllerLegacy(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_event_controller_legacy_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_event_controller_legacy_new = Interop.downcallHandle(
         "gtk_event_controller_legacy_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -45,7 +46,7 @@ public class EventControllerLegacy extends EventController {
     
     @FunctionalInterface
     public interface EventHandler {
-        boolean signalReceived(EventControllerLegacy source, org.gtk.gdk.Event event);
+        boolean signalReceived(EventControllerLegacy source, @NotNull org.gtk.gdk.Event event);
     }
     
     /**
@@ -55,13 +56,13 @@ public class EventControllerLegacy extends EventController {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("event").handle(),
+                Interop.allocateNativeString("event"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EventControllerLegacy.Callbacks.class, "signalEventControllerLegacyEvent",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

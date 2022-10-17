@@ -1,6 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Defines the type of function to be called when a hook in a
@@ -8,5 +9,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface HookFinalizeFunc {
-        void onHookFinalizeFunc(HookList hookList, Hook hook);
+        void onHookFinalizeFunc(@NotNull HookList hookList, @NotNull Hook hook);
 }

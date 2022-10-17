@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A GHashTableIter structure represents an iterator that can be used
@@ -19,7 +20,7 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_hash_table_iter_get_hash_table = Interop.downcallHandle(
+    private static final MethodHandle g_hash_table_iter_get_hash_table = Interop.downcallHandle(
         "g_hash_table_iter_get_hash_table",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -27,16 +28,17 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the {@link HashTable} associated with {@code iter}.
      */
-    public org.gtk.glib.HashTable getHashTable() {
+    public @NotNull org.gtk.glib.HashTable getHashTable() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_hash_table_iter_get_hash_table.invokeExact(handle());
-            return new org.gtk.glib.HashTable(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_hash_table_iter_get_hash_table.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.HashTable(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_hash_table_iter_init = Interop.downcallHandle(
+    private static final MethodHandle g_hash_table_iter_init = Interop.downcallHandle(
         "g_hash_table_iter_init",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -60,7 +62,7 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
      *   }
      * }</pre>
      */
-    public void init(org.gtk.glib.HashTable hashTable) {
+    public @NotNull void init(@NotNull org.gtk.glib.HashTable hashTable) {
         try {
             g_hash_table_iter_init.invokeExact(handle(), hashTable.handle());
         } catch (Throwable ERR) {
@@ -68,7 +70,7 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_hash_table_iter_next = Interop.downcallHandle(
+    private static final MethodHandle g_hash_table_iter_next = Interop.downcallHandle(
         "g_hash_table_iter_next",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -78,16 +80,21 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
      * pointed to as a result of this advancement. If {@code false} is returned,
      * {@code key} and {@code value} are not set, and the iterator becomes invalid.
      */
-    public boolean next(java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value) {
+    public boolean next(@Nullable Out<java.lang.foreign.MemoryAddress> key, @Nullable Out<java.lang.foreign.MemoryAddress> value) {
+        MemorySegment keyPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_hash_table_iter_next.invokeExact(handle(), key, value);
-            return RESULT != 0;
+            RESULT = (int) g_hash_table_iter_next.invokeExact(handle(), (Addressable) keyPOINTER.address(), (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        key.set(keyPOINTER.get(ValueLayout.ADDRESS, 0));
+        value.set(valuePOINTER.get(ValueLayout.ADDRESS, 0));
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_hash_table_iter_remove = Interop.downcallHandle(
+    private static final MethodHandle g_hash_table_iter_remove = Interop.downcallHandle(
         "g_hash_table_iter_remove",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -112,7 +119,7 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
      *   }
      * }</pre>
      */
-    public void remove() {
+    public @NotNull void remove() {
         try {
             g_hash_table_iter_remove.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -120,7 +127,7 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_hash_table_iter_replace = Interop.downcallHandle(
+    private static final MethodHandle g_hash_table_iter_replace = Interop.downcallHandle(
         "g_hash_table_iter_replace",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -133,7 +140,7 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
      * If you supplied a {@code value_destroy_func} when creating the
      * {@link HashTable}, the old value is freed using that function.
      */
-    public void replace(java.lang.foreign.MemoryAddress value) {
+    public @NotNull void replace(@Nullable java.lang.foreign.MemoryAddress value) {
         try {
             g_hash_table_iter_replace.invokeExact(handle(), value);
         } catch (Throwable ERR) {
@@ -141,7 +148,7 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_hash_table_iter_steal = Interop.downcallHandle(
+    private static final MethodHandle g_hash_table_iter_steal = Interop.downcallHandle(
         "g_hash_table_iter_steal",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -153,7 +160,7 @@ public class HashTableIter extends io.github.jwharm.javagi.ResourceBase {
      * after g_hash_table_iter_next() returned {@code true}, and cannot
      * be called more than once for the same key/value pair.
      */
-    public void steal() {
+    public @NotNull void steal() {
         try {
             g_hash_table_iter_steal.invokeExact(handle());
         } catch (Throwable ERR) {

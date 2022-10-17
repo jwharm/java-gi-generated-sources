@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkGestureDrag} is a {@code GtkGesture} implementation for drags.
@@ -26,7 +27,7 @@ public class GestureDrag extends GestureSingle {
         return new GestureDrag(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_gesture_drag_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_gesture_drag_new = Interop.downcallHandle(
         "gtk_gesture_drag_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -47,7 +48,7 @@ public class GestureDrag extends GestureSingle {
         super(constructNew());
     }
     
-    static final MethodHandle gtk_gesture_drag_get_offset = Interop.downcallHandle(
+    private static final MethodHandle gtk_gesture_drag_get_offset = Interop.downcallHandle(
         "gtk_gesture_drag_get_offset",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -59,16 +60,21 @@ public class GestureDrag extends GestureSingle {
      * fills in @x and @y with the coordinates of the current point,
      * as an offset to the starting drag point.
      */
-    public boolean getOffset(PointerDouble x, PointerDouble y) {
+    public boolean getOffset(@Nullable Out<Double> x, @Nullable Out<Double> y) {
+        MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_gesture_drag_get_offset.invokeExact(handle(), x.handle(), y.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_gesture_drag_get_offset.invokeExact(handle(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        x.set(xPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        y.set(yPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_gesture_drag_get_start_point = Interop.downcallHandle(
+    private static final MethodHandle gtk_gesture_drag_get_start_point = Interop.downcallHandle(
         "gtk_gesture_drag_get_start_point",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -80,18 +86,23 @@ public class GestureDrag extends GestureSingle {
      * and fills in @x and @y with the drag start coordinates,
      * in surface-relative coordinates.
      */
-    public boolean getStartPoint(PointerDouble x, PointerDouble y) {
+    public boolean getStartPoint(@Nullable Out<Double> x, @Nullable Out<Double> y) {
+        MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_gesture_drag_get_start_point.invokeExact(handle(), x.handle(), y.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_gesture_drag_get_start_point.invokeExact(handle(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        x.set(xPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        y.set(yPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        return RESULT != 0;
     }
     
     @FunctionalInterface
     public interface DragBeginHandler {
-        void signalReceived(GestureDrag source, double startX, double startY);
+        void signalReceived(GestureDrag source, @NotNull double startX, @NotNull double startY);
     }
     
     /**
@@ -101,13 +112,13 @@ public class GestureDrag extends GestureSingle {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("drag-begin").handle(),
+                Interop.allocateNativeString("drag-begin"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureDrag.Callbacks.class, "signalGestureDragDragBegin",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -117,7 +128,7 @@ public class GestureDrag extends GestureSingle {
     
     @FunctionalInterface
     public interface DragEndHandler {
-        void signalReceived(GestureDrag source, double offsetX, double offsetY);
+        void signalReceived(GestureDrag source, @NotNull double offsetX, @NotNull double offsetY);
     }
     
     /**
@@ -127,13 +138,13 @@ public class GestureDrag extends GestureSingle {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("drag-end").handle(),
+                Interop.allocateNativeString("drag-end"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureDrag.Callbacks.class, "signalGestureDragDragEnd",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -143,7 +154,7 @@ public class GestureDrag extends GestureSingle {
     
     @FunctionalInterface
     public interface DragUpdateHandler {
-        void signalReceived(GestureDrag source, double offsetX, double offsetY);
+        void signalReceived(GestureDrag source, @NotNull double offsetX, @NotNull double offsetY);
     }
     
     /**
@@ -153,13 +164,13 @@ public class GestureDrag extends GestureSingle {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("drag-update").handle(),
+                Interop.allocateNativeString("drag-update"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureDrag.Callbacks.class, "signalGestureDragDragUpdate",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

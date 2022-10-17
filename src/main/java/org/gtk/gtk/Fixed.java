@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkFixed} places its child widgets at fixed positions and with fixed sizes.
@@ -14,19 +15,12 @@ import java.lang.invoke.*;
  * results in broken applications.  With {@code GtkFixed}, the following
  * things will result in truncated text, overlapping widgets, and
  * other display bugs:
- * <p>
  * <ul>
  * <li>Themes, which may change widget sizes.
- * </ul>
- * <p>
- * <ul>
  * <li>Fonts other than the one you used to write the app will of course
  *   change the size of widgets containing text; keep in mind that
  *   users may use a larger font because of difficulty reading the
  *   default, or they may be using a different OS that provides different fonts.
- * </ul>
- * <p>
- * <ul>
  * <li>Translation of text into other languages changes its size. Also,
  *   display of non-English text will use a different font in many
  *   cases.
@@ -60,7 +54,7 @@ public class Fixed extends Widget implements Accessible, Buildable, ConstraintTa
         return new Fixed(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_fixed_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_fixed_new = Interop.downcallHandle(
         "gtk_fixed_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -81,7 +75,7 @@ public class Fixed extends Widget implements Accessible, Buildable, ConstraintTa
         super(constructNew());
     }
     
-    static final MethodHandle gtk_fixed_get_child_position = Interop.downcallHandle(
+    private static final MethodHandle gtk_fixed_get_child_position = Interop.downcallHandle(
         "gtk_fixed_get_child_position",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -92,15 +86,19 @@ public class Fixed extends Widget implements Accessible, Buildable, ConstraintTa
      * <p>
      * See also: {@link Fixed#getChildTransform}.
      */
-    public void getChildPosition(Widget widget, PointerDouble x, PointerDouble y) {
+    public @NotNull void getChildPosition(@NotNull Widget widget, @NotNull Out<Double> x, @NotNull Out<Double> y) {
+        MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         try {
-            gtk_fixed_get_child_position.invokeExact(handle(), widget.handle(), x.handle(), y.handle());
+            gtk_fixed_get_child_position.invokeExact(handle(), widget.handle(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        x.set(xPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        y.set(yPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
     }
     
-    static final MethodHandle gtk_fixed_get_child_transform = Interop.downcallHandle(
+    private static final MethodHandle gtk_fixed_get_child_transform = Interop.downcallHandle(
         "gtk_fixed_get_child_transform",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -109,16 +107,17 @@ public class Fixed extends Widget implements Accessible, Buildable, ConstraintTa
      * Retrieves the transformation for {@code widget} set using
      * gtk_fixed_set_child_transform().
      */
-    public org.gtk.gsk.Transform getChildTransform(Widget widget) {
+    public @Nullable org.gtk.gsk.Transform getChildTransform(@NotNull Widget widget) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_fixed_get_child_transform.invokeExact(handle(), widget.handle());
-            return new org.gtk.gsk.Transform(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_fixed_get_child_transform.invokeExact(handle(), widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gsk.Transform(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_fixed_move = Interop.downcallHandle(
+    private static final MethodHandle gtk_fixed_move = Interop.downcallHandle(
         "gtk_fixed_move",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
     );
@@ -127,7 +126,7 @@ public class Fixed extends Widget implements Accessible, Buildable, ConstraintTa
      * Sets a translation transformation to the given @x and @y
      * coordinates to the child {@code widget} of the {@code GtkFixed}.
      */
-    public void move(Widget widget, double x, double y) {
+    public @NotNull void move(@NotNull Widget widget, @NotNull double x, @NotNull double y) {
         try {
             gtk_fixed_move.invokeExact(handle(), widget.handle(), x, y);
         } catch (Throwable ERR) {
@@ -135,7 +134,7 @@ public class Fixed extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_fixed_put = Interop.downcallHandle(
+    private static final MethodHandle gtk_fixed_put = Interop.downcallHandle(
         "gtk_fixed_put",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
     );
@@ -143,7 +142,7 @@ public class Fixed extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Adds a widget to a {@code GtkFixed} at the given position.
      */
-    public void put(Widget widget, double x, double y) {
+    public @NotNull void put(@NotNull Widget widget, @NotNull double x, @NotNull double y) {
         try {
             gtk_fixed_put.invokeExact(handle(), widget.handle(), x, y);
         } catch (Throwable ERR) {
@@ -151,7 +150,7 @@ public class Fixed extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_fixed_remove = Interop.downcallHandle(
+    private static final MethodHandle gtk_fixed_remove = Interop.downcallHandle(
         "gtk_fixed_remove",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -159,7 +158,7 @@ public class Fixed extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Removes a child from {@code fixed}.
      */
-    public void remove(Widget widget) {
+    public @NotNull void remove(@NotNull Widget widget) {
         try {
             gtk_fixed_remove.invokeExact(handle(), widget.handle());
         } catch (Throwable ERR) {
@@ -167,7 +166,7 @@ public class Fixed extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_fixed_set_child_transform = Interop.downcallHandle(
+    private static final MethodHandle gtk_fixed_set_child_transform = Interop.downcallHandle(
         "gtk_fixed_set_child_transform",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -179,7 +178,7 @@ public class Fixed extends Widget implements Accessible, Buildable, ConstraintTa
      * {@link FixedLayoutChild} instance associated to
      * {@code widget} and calls {@link FixedLayoutChild#setTransform}.
      */
-    public void setChildTransform(Widget widget, org.gtk.gsk.Transform transform) {
+    public @NotNull void setChildTransform(@NotNull Widget widget, @Nullable org.gtk.gsk.Transform transform) {
         try {
             gtk_fixed_set_child_transform.invokeExact(handle(), widget.handle(), transform.handle());
         } catch (Throwable ERR) {

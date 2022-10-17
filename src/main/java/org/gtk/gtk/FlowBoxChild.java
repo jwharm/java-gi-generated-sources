@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkFlowBoxChild} is the kind of widget that can be added to a {@code GtkFlowBox}.
@@ -18,7 +19,7 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
         return new FlowBoxChild(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_flow_box_child_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_flow_box_child_new = Interop.downcallHandle(
         "gtk_flow_box_child_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -41,7 +42,7 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
         super(constructNew());
     }
     
-    static final MethodHandle gtk_flow_box_child_changed = Interop.downcallHandle(
+    private static final MethodHandle gtk_flow_box_child_changed = Interop.downcallHandle(
         "gtk_flow_box_child_changed",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -67,7 +68,7 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
      * Another alternative is to call {@link FlowBox#invalidateSort}
      * on any model change, but that is more expensive.
      */
-    public void changed() {
+    public @NotNull void changed() {
         try {
             gtk_flow_box_child_changed.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -75,7 +76,7 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
         }
     }
     
-    static final MethodHandle gtk_flow_box_child_get_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_flow_box_child_get_child = Interop.downcallHandle(
         "gtk_flow_box_child_get_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -83,16 +84,17 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
     /**
      * Gets the child widget of {@code self}.
      */
-    public Widget getChild() {
+    public @Nullable Widget getChild() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_flow_box_child_get_child.invokeExact(handle());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_flow_box_child_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_flow_box_child_get_index = Interop.downcallHandle(
+    private static final MethodHandle gtk_flow_box_child_get_index = Interop.downcallHandle(
         "gtk_flow_box_child_get_index",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -101,15 +103,16 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
      * Gets the current index of the {@code child} in its {@code GtkFlowBox} container.
      */
     public int getIndex() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_flow_box_child_get_index.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_flow_box_child_get_index.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_flow_box_child_is_selected = Interop.downcallHandle(
+    private static final MethodHandle gtk_flow_box_child_is_selected = Interop.downcallHandle(
         "gtk_flow_box_child_is_selected",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -119,15 +122,16 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
      * {@code GtkFlowBox} container.
      */
     public boolean isSelected() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_flow_box_child_is_selected.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_flow_box_child_is_selected.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_flow_box_child_set_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_flow_box_child_set_child = Interop.downcallHandle(
         "gtk_flow_box_child_set_child",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -135,7 +139,7 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
     /**
      * Sets the child widget of {@code self}.
      */
-    public void setChild(Widget child) {
+    public @NotNull void setChild(@Nullable Widget child) {
         try {
             gtk_flow_box_child_set_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -157,19 +161,19 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
      * This is a <a href="class.SignalAction.html">keybinding signal</a>,
      * but it can be used by applications for their own purposes.
      * <p>
-     * The default bindings are &lt;kbd>Space</kbd> and <kbd>Enter</kbd&gt;.
+     * The default bindings are &lt;kbd&gt;Space&lt;/kbd&gt; and &lt;kbd&gt;Enter&lt;/kbd&gt;.
      */
     public SignalHandle onActivate(ActivateHandler handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("activate").handle(),
+                Interop.allocateNativeString("activate"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FlowBoxChild.Callbacks.class, "signalFlowBoxChildActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

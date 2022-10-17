@@ -1,6 +1,7 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * When doing file operations that may take a while, such as moving
@@ -9,5 +10,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface FileProgressCallback {
-        void onFileProgressCallback(long currentNumBytes, long totalNumBytes);
+        void onFileProgressCallback(@NotNull long currentNumBytes, @NotNull long totalNumBytes);
 }

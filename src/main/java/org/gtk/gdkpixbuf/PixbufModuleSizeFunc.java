@@ -1,6 +1,7 @@
 package org.gtk.gdkpixbuf;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Defines the type of the function that gets called once the size
@@ -19,5 +20,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface PixbufModuleSizeFunc {
-        void onPixbufModuleSizeFunc(PointerInteger width, PointerInteger height);
+        void onPixbufModuleSizeFunc(@NotNull PointerInteger width, @NotNull PointerInteger height);
 }

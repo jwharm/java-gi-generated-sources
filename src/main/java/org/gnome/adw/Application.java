@@ -3,6 +3,7 @@ package org.gnome.adw;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A base class for Adwaita applications.
@@ -12,30 +13,19 @@ import java.lang.invoke.*;
  * as required by {@link org.gtk.gtk.Application}. Therefore, any subclass of
  * {@code AdwApplication} should always chain up its {@code startup} handler before using
  * any Adwaita or GTK API.
- * <p>
+ * 
  * <h2>Automatic Resources</h2>
- * <p>
  * {@code AdwApplication} will automatically load stylesheets located in the
  * application's resource base path (see
  * {@link org.gtk.gio.Application#setResourceBasePath}, if they're present.
  * <p>
  * They can be used to add custom styles to the application, as follows:
- * <p>
  * <ul>
  * <li>{@code style.css} contains styles that are always present.
- * </ul>
- * <p>
- * <ul>
  * <li>{@code style-dark.css} contains styles only used when
  * {@code StyleManager:dark} is {@code TRUE}.
- * </ul>
- * <p>
- * <ul>
  * <li>{@code style-hc.css} contains styles used when the system high contrast
  *   preference is enabled.
- * </ul>
- * <p>
- * <ul>
  * <li>{@code style-hc-dark.css} contains styles used when the system high contrast
  *   preference is enabled and {@code StyleManager:dark} is {@code TRUE}.
  */
@@ -50,14 +40,14 @@ public class Application extends org.gtk.gtk.Application implements org.gtk.gio.
         return new Application(gobject.refcounted());
     }
     
-    static final MethodHandle adw_application_new = Interop.downcallHandle(
+    private static final MethodHandle adw_application_new = Interop.downcallHandle(
         "adw_application_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNew(java.lang.String applicationId, org.gtk.gio.ApplicationFlags flags) {
+    private static Refcounted constructNew(@Nullable java.lang.String applicationId, @NotNull org.gtk.gio.ApplicationFlags flags) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_application_new.invokeExact(Interop.allocateNativeString(applicationId).handle(), flags.getValue()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_application_new.invokeExact(Interop.allocateNativeString(applicationId), flags.getValue()), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -73,11 +63,11 @@ public class Application extends org.gtk.gtk.Application implements org.gtk.gio.
      * If no application ID is given then some features (most notably application
      * uniqueness) will be disabled.
      */
-    public Application(java.lang.String applicationId, org.gtk.gio.ApplicationFlags flags) {
+    public Application(@Nullable java.lang.String applicationId, @NotNull org.gtk.gio.ApplicationFlags flags) {
         super(constructNew(applicationId, flags));
     }
     
-    static final MethodHandle adw_application_get_style_manager = Interop.downcallHandle(
+    private static final MethodHandle adw_application_get_style_manager = Interop.downcallHandle(
         "adw_application_get_style_manager",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -85,13 +75,14 @@ public class Application extends org.gtk.gtk.Application implements org.gtk.gio.
     /**
      * Gets the style manager for {@code self}.
      */
-    public StyleManager getStyleManager() {
+    public @NotNull StyleManager getStyleManager() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_application_get_style_manager.invokeExact(handle());
-            return new StyleManager(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_application_get_style_manager.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new StyleManager(Refcounted.get(RESULT, false));
     }
     
 }

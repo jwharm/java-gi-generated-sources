@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkEventControllerKey} is an event controller that provides access
@@ -19,7 +20,7 @@ public class EventControllerKey extends EventController {
         return new EventControllerKey(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_event_controller_key_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_event_controller_key_new = Interop.downcallHandle(
         "gtk_event_controller_key_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -40,7 +41,7 @@ public class EventControllerKey extends EventController {
         super(constructNew());
     }
     
-    static final MethodHandle gtk_event_controller_key_forward = Interop.downcallHandle(
+    private static final MethodHandle gtk_event_controller_key_forward = Interop.downcallHandle(
         "gtk_event_controller_key_forward",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -53,16 +54,17 @@ public class EventControllerKey extends EventController {
      * {@code Gtk.EventControllerKey::key-released}
      * or {@code Gtk.EventControllerKey::modifiers} signals.
      */
-    public boolean forward(Widget widget) {
+    public boolean forward(@NotNull Widget widget) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_event_controller_key_forward.invokeExact(handle(), widget.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_event_controller_key_forward.invokeExact(handle(), widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_event_controller_key_get_group = Interop.downcallHandle(
+    private static final MethodHandle gtk_event_controller_key_get_group = Interop.downcallHandle(
         "gtk_event_controller_key_get_group",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -73,15 +75,16 @@ public class EventControllerKey extends EventController {
      * See {@link org.gtk.gdk.KeyEvent#getLayout}.
      */
     public int getGroup() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_event_controller_key_get_group.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_event_controller_key_get_group.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_event_controller_key_get_im_context = Interop.downcallHandle(
+    private static final MethodHandle gtk_event_controller_key_get_im_context = Interop.downcallHandle(
         "gtk_event_controller_key_get_im_context",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -89,16 +92,17 @@ public class EventControllerKey extends EventController {
     /**
      * Gets the input method context of the key {@code controller}.
      */
-    public IMContext getImContext() {
+    public @Nullable IMContext getImContext() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_event_controller_key_get_im_context.invokeExact(handle());
-            return new IMContext(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_event_controller_key_get_im_context.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new IMContext(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_event_controller_key_set_im_context = Interop.downcallHandle(
+    private static final MethodHandle gtk_event_controller_key_set_im_context = Interop.downcallHandle(
         "gtk_event_controller_key_set_im_context",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -106,7 +110,7 @@ public class EventControllerKey extends EventController {
     /**
      * Sets the input method context of the key {@code controller}.
      */
-    public void setImContext(IMContext imContext) {
+    public @NotNull void setImContext(@Nullable IMContext imContext) {
         try {
             gtk_event_controller_key_set_im_context.invokeExact(handle(), imContext.handle());
         } catch (Throwable ERR) {
@@ -130,13 +134,13 @@ public class EventControllerKey extends EventController {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("im-update").handle(),
+                Interop.allocateNativeString("im-update"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EventControllerKey.Callbacks.class, "signalEventControllerKeyImUpdate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -146,7 +150,7 @@ public class EventControllerKey extends EventController {
     
     @FunctionalInterface
     public interface KeyPressedHandler {
-        boolean signalReceived(EventControllerKey source, int keyval, int keycode, org.gtk.gdk.ModifierType state);
+        boolean signalReceived(EventControllerKey source, @NotNull int keyval, @NotNull int keycode, @NotNull org.gtk.gdk.ModifierType state);
     }
     
     /**
@@ -156,13 +160,13 @@ public class EventControllerKey extends EventController {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("key-pressed").handle(),
+                Interop.allocateNativeString("key-pressed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EventControllerKey.Callbacks.class, "signalEventControllerKeyKeyPressed",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -172,7 +176,7 @@ public class EventControllerKey extends EventController {
     
     @FunctionalInterface
     public interface KeyReleasedHandler {
-        void signalReceived(EventControllerKey source, int keyval, int keycode, org.gtk.gdk.ModifierType state);
+        void signalReceived(EventControllerKey source, @NotNull int keyval, @NotNull int keycode, @NotNull org.gtk.gdk.ModifierType state);
     }
     
     /**
@@ -182,13 +186,13 @@ public class EventControllerKey extends EventController {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("key-released").handle(),
+                Interop.allocateNativeString("key-released"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EventControllerKey.Callbacks.class, "signalEventControllerKeyKeyReleased",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -198,7 +202,7 @@ public class EventControllerKey extends EventController {
     
     @FunctionalInterface
     public interface ModifiersHandler {
-        boolean signalReceived(EventControllerKey source, org.gtk.gdk.ModifierType keyval);
+        boolean signalReceived(EventControllerKey source, @NotNull org.gtk.gdk.ModifierType keyval);
     }
     
     /**
@@ -208,13 +212,13 @@ public class EventControllerKey extends EventController {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("modifiers").handle(),
+                Interop.allocateNativeString("modifiers"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EventControllerKey.Callbacks.class, "signalEventControllerKeyModifiers",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

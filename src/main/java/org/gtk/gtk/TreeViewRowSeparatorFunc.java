@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Function type for determining whether the row pointed to by {@code iter} should
@@ -10,5 +11,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface TreeViewRowSeparatorFunc {
-        boolean onTreeViewRowSeparatorFunc(TreeModel model, TreeIter iter);
+        boolean onTreeViewRowSeparatorFunc(@NotNull TreeModel model, @NotNull TreeIter iter);
 }

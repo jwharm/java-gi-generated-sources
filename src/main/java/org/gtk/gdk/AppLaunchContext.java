@@ -3,15 +3,15 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GdkAppLaunchContext} handles launching an application in a graphical context.
  * <p>
  * It is an implementation of {@code GAppLaunchContext} that provides startup
  * notification and allows to launch applications on a specific workspace.
- * <p>
+ * 
  * <h2>Launching an application</h2>
- * <p>
  * <pre>{@code c
  * GdkAppLaunchContext *context;
  * 
@@ -36,7 +36,7 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
         return new AppLaunchContext(gobject.refcounted());
     }
     
-    static final MethodHandle gdk_app_launch_context_get_display = Interop.downcallHandle(
+    private static final MethodHandle gdk_app_launch_context_get_display = Interop.downcallHandle(
         "gdk_app_launch_context_get_display",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -44,16 +44,17 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
     /**
      * Gets the {@code GdkDisplay} that {@code context} is for.
      */
-    public Display getDisplay() {
+    public @NotNull Display getDisplay() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_app_launch_context_get_display.invokeExact(handle());
-            return new Display(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_app_launch_context_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Display(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_app_launch_context_set_desktop = Interop.downcallHandle(
+    private static final MethodHandle gdk_app_launch_context_set_desktop = Interop.downcallHandle(
         "gdk_app_launch_context_set_desktop",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -73,7 +74,7 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      * it is up to the window manager to pick one, typically it will
      * be the current workspace.
      */
-    public void setDesktop(int desktop) {
+    public @NotNull void setDesktop(@NotNull int desktop) {
         try {
             gdk_app_launch_context_set_desktop.invokeExact(handle(), desktop);
         } catch (Throwable ERR) {
@@ -81,7 +82,7 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
         }
     }
     
-    static final MethodHandle gdk_app_launch_context_set_icon = Interop.downcallHandle(
+    private static final MethodHandle gdk_app_launch_context_set_icon = Interop.downcallHandle(
         "gdk_app_launch_context_set_icon",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -95,7 +96,7 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      * <p>
      * See also {@link AppLaunchContext#setIconName}.
      */
-    public void setIcon(org.gtk.gio.Icon icon) {
+    public @NotNull void setIcon(@Nullable org.gtk.gio.Icon icon) {
         try {
             gdk_app_launch_context_set_icon.invokeExact(handle(), icon.handle());
         } catch (Throwable ERR) {
@@ -103,7 +104,7 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
         }
     }
     
-    static final MethodHandle gdk_app_launch_context_set_icon_name = Interop.downcallHandle(
+    private static final MethodHandle gdk_app_launch_context_set_icon_name = Interop.downcallHandle(
         "gdk_app_launch_context_set_icon_name",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -119,15 +120,15 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      * the file that is passed to launched application or from the {@code GAppInfo}
      * for the launched application itself.
      */
-    public void setIconName(java.lang.String iconName) {
+    public @NotNull void setIconName(@Nullable java.lang.String iconName) {
         try {
-            gdk_app_launch_context_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName).handle());
+            gdk_app_launch_context_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gdk_app_launch_context_set_timestamp = Interop.downcallHandle(
+    private static final MethodHandle gdk_app_launch_context_set_timestamp = Interop.downcallHandle(
         "gdk_app_launch_context_set_timestamp",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -143,7 +144,7 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      * typing in another window. This is also known as 'focus stealing
      * prevention'.
      */
-    public void setTimestamp(int timestamp) {
+    public @NotNull void setTimestamp(@NotNull int timestamp) {
         try {
             gdk_app_launch_context_set_timestamp.invokeExact(handle(), timestamp);
         } catch (Throwable ERR) {

@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * GIOStream represents an object that has both read and write streams.
@@ -63,7 +64,7 @@ public class IOStream extends org.gtk.gobject.Object {
         return new IOStream(gobject.refcounted());
     }
     
-    static final MethodHandle g_io_stream_clear_pending = Interop.downcallHandle(
+    private static final MethodHandle g_io_stream_clear_pending = Interop.downcallHandle(
         "g_io_stream_clear_pending",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -71,7 +72,7 @@ public class IOStream extends org.gtk.gobject.Object {
     /**
      * Clears the pending flag on {@code stream}.
      */
-    public void clearPending() {
+    public @NotNull void clearPending() {
         try {
             g_io_stream_clear_pending.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -79,7 +80,7 @@ public class IOStream extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle g_io_stream_close = Interop.downcallHandle(
+    private static final MethodHandle g_io_stream_close = Interop.downcallHandle(
         "g_io_stream_close",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -119,20 +120,21 @@ public class IOStream extends org.gtk.gobject.Object {
      * The default implementation of this method just calls close on the
      * individual input/output streams.
      */
-    public boolean close(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public boolean close(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_io_stream_close.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_io_stream_close.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_io_stream_close_async = Interop.downcallHandle(
+    private static final MethodHandle g_io_stream_close_async = Interop.downcallHandle(
         "g_io_stream_close_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -149,7 +151,7 @@ public class IOStream extends org.gtk.gobject.Object {
      * to implement asynchronicity, so they are optional for inheriting
      * classes. However, if you override one you must override all.
      */
-    public void closeAsync(int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public @NotNull void closeAsync(@NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_io_stream_close_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -157,13 +159,13 @@ public class IOStream extends org.gtk.gobject.Object {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_io_stream_close_finish = Interop.downcallHandle(
+    private static final MethodHandle g_io_stream_close_finish = Interop.downcallHandle(
         "g_io_stream_close_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -171,20 +173,21 @@ public class IOStream extends org.gtk.gobject.Object {
     /**
      * Closes a stream.
      */
-    public boolean closeFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public boolean closeFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_io_stream_close_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_io_stream_close_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_io_stream_get_input_stream = Interop.downcallHandle(
+    private static final MethodHandle g_io_stream_get_input_stream = Interop.downcallHandle(
         "g_io_stream_get_input_stream",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -193,16 +196,17 @@ public class IOStream extends org.gtk.gobject.Object {
      * Gets the input stream for this object. This is used
      * for reading.
      */
-    public InputStream getInputStream() {
+    public @NotNull InputStream getInputStream() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_io_stream_get_input_stream.invokeExact(handle());
-            return new InputStream(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_io_stream_get_input_stream.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new InputStream(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_io_stream_get_output_stream = Interop.downcallHandle(
+    private static final MethodHandle g_io_stream_get_output_stream = Interop.downcallHandle(
         "g_io_stream_get_output_stream",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -211,16 +215,17 @@ public class IOStream extends org.gtk.gobject.Object {
      * Gets the output stream for this object. This is used for
      * writing.
      */
-    public OutputStream getOutputStream() {
+    public @NotNull OutputStream getOutputStream() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_io_stream_get_output_stream.invokeExact(handle());
-            return new OutputStream(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_io_stream_get_output_stream.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new OutputStream(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_io_stream_has_pending = Interop.downcallHandle(
+    private static final MethodHandle g_io_stream_has_pending = Interop.downcallHandle(
         "g_io_stream_has_pending",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -229,15 +234,16 @@ public class IOStream extends org.gtk.gobject.Object {
      * Checks if a stream has pending actions.
      */
     public boolean hasPending() {
+        int RESULT;
         try {
-            var RESULT = (int) g_io_stream_has_pending.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_io_stream_has_pending.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_io_stream_is_closed = Interop.downcallHandle(
+    private static final MethodHandle g_io_stream_is_closed = Interop.downcallHandle(
         "g_io_stream_is_closed",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -246,15 +252,16 @@ public class IOStream extends org.gtk.gobject.Object {
      * Checks if a stream is closed.
      */
     public boolean isClosed() {
+        int RESULT;
         try {
-            var RESULT = (int) g_io_stream_is_closed.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_io_stream_is_closed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_io_stream_set_pending = Interop.downcallHandle(
+    private static final MethodHandle g_io_stream_set_pending = Interop.downcallHandle(
         "g_io_stream_set_pending",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -266,18 +273,19 @@ public class IOStream extends org.gtk.gobject.Object {
      */
     public boolean setPending() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_io_stream_set_pending.invokeExact(handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_io_stream_set_pending.invokeExact(handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_io_stream_splice_async = Interop.downcallHandle(
+    private static final MethodHandle g_io_stream_splice_async = Interop.downcallHandle(
         "g_io_stream_splice_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -291,7 +299,7 @@ public class IOStream extends org.gtk.gobject.Object {
      * You can then call g_io_stream_splice_finish() to get the
      * result of the operation.
      */
-    public void spliceAsync(IOStream stream2, IOStreamSpliceFlags flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public @NotNull void spliceAsync(@NotNull IOStream stream2, @NotNull IOStreamSpliceFlags flags, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_io_stream_splice_async.invokeExact(handle(), stream2.handle(), flags.getValue(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -299,13 +307,13 @@ public class IOStream extends org.gtk.gobject.Object {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_io_stream_splice_finish = Interop.downcallHandle(
+    private static final MethodHandle g_io_stream_splice_finish = Interop.downcallHandle(
         "g_io_stream_splice_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -313,17 +321,18 @@ public class IOStream extends org.gtk.gobject.Object {
     /**
      * Finishes an asynchronous io stream splice operation.
      */
-    public static boolean spliceFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean spliceFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_io_stream_splice_finish.invokeExact(result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_io_stream_splice_finish.invokeExact(result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
 }

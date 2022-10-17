@@ -1,6 +1,7 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * This is the function type of the callback used for the {@link org.gtk.glib.Source}
@@ -9,5 +10,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface PollableSourceFunc {
-        boolean onPollableSourceFunc(org.gtk.gobject.Object pollableStream);
+        boolean onPollableSourceFunc(@NotNull org.gtk.gobject.Object pollableStream);
 }

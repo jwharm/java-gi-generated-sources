@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GtkRevealer} animates the transition of its child from invisible to visible.
@@ -12,16 +13,14 @@ import java.lang.invoke.*;
  * <p>
  * These animations respect the {@code Gtk.Settings:gtk-enable-animations}
  * setting.
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * {@code GtkRevealer} has a single CSS node with name revealer.
  * When styling {@code GtkRevealer} using CSS, remember that it only hides its contents,
  * not itself. That means applied margin, padding and borders will be visible even
  * when the {@code Gtk.Revealer:reveal-child} property is set to {@code false}.
- * <p>
+ * 
  * <h1>Accessibility</h1>
- * <p>
  * {@code GtkRevealer} uses the {@link AccessibleRole#GROUP} role.
  * <p>
  * The child of {@code GtkRevealer}, if set, is always available in the accessibility
@@ -38,7 +37,7 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
         return new Revealer(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_revealer_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_revealer_new = Interop.downcallHandle(
         "gtk_revealer_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -59,7 +58,7 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
         super(constructNew());
     }
     
-    static final MethodHandle gtk_revealer_get_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_revealer_get_child = Interop.downcallHandle(
         "gtk_revealer_get_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -67,16 +66,17 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
     /**
      * Gets the child widget of {@code revealer}.
      */
-    public Widget getChild() {
+    public @Nullable Widget getChild() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_revealer_get_child.invokeExact(handle());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_revealer_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_revealer_get_child_revealed = Interop.downcallHandle(
+    private static final MethodHandle gtk_revealer_get_child_revealed = Interop.downcallHandle(
         "gtk_revealer_get_child_revealed",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -88,15 +88,16 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
      * to the revealed state is completed.
      */
     public boolean getChildRevealed() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_revealer_get_child_revealed.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_revealer_get_child_revealed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_revealer_get_reveal_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_revealer_get_reveal_child = Interop.downcallHandle(
         "gtk_revealer_get_reveal_child",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -110,15 +111,16 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
      * use {@link Revealer#getChildRevealed}.
      */
     public boolean getRevealChild() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_revealer_get_reveal_child.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_revealer_get_reveal_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_revealer_get_transition_duration = Interop.downcallHandle(
+    private static final MethodHandle gtk_revealer_get_transition_duration = Interop.downcallHandle(
         "gtk_revealer_get_transition_duration",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -128,15 +130,16 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
      * transitions will take.
      */
     public int getTransitionDuration() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_revealer_get_transition_duration.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_revealer_get_transition_duration.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_revealer_get_transition_type = Interop.downcallHandle(
+    private static final MethodHandle gtk_revealer_get_transition_type = Interop.downcallHandle(
         "gtk_revealer_get_transition_type",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -145,16 +148,17 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
      * Gets the type of animation that will be used
      * for transitions in {@code revealer}.
      */
-    public RevealerTransitionType getTransitionType() {
+    public @NotNull RevealerTransitionType getTransitionType() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_revealer_get_transition_type.invokeExact(handle());
-            return new RevealerTransitionType(RESULT);
+            RESULT = (int) gtk_revealer_get_transition_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new RevealerTransitionType(RESULT);
     }
     
-    static final MethodHandle gtk_revealer_set_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_revealer_set_child = Interop.downcallHandle(
         "gtk_revealer_set_child",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -162,7 +166,7 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
     /**
      * Sets the child widget of {@code revealer}.
      */
-    public void setChild(Widget child) {
+    public @NotNull void setChild(@Nullable Widget child) {
         try {
             gtk_revealer_set_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -170,7 +174,7 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_revealer_set_reveal_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_revealer_set_reveal_child = Interop.downcallHandle(
         "gtk_revealer_set_reveal_child",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -181,7 +185,7 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
      * The transition will be animated with the current
      * transition type of {@code revealer}.
      */
-    public void setRevealChild(boolean revealChild) {
+    public @NotNull void setRevealChild(@NotNull boolean revealChild) {
         try {
             gtk_revealer_set_reveal_child.invokeExact(handle(), revealChild ? 1 : 0);
         } catch (Throwable ERR) {
@@ -189,7 +193,7 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_revealer_set_transition_duration = Interop.downcallHandle(
+    private static final MethodHandle gtk_revealer_set_transition_duration = Interop.downcallHandle(
         "gtk_revealer_set_transition_duration",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -197,7 +201,7 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
     /**
      * Sets the duration that transitions will take.
      */
-    public void setTransitionDuration(int duration) {
+    public @NotNull void setTransitionDuration(@NotNull int duration) {
         try {
             gtk_revealer_set_transition_duration.invokeExact(handle(), duration);
         } catch (Throwable ERR) {
@@ -205,7 +209,7 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_revealer_set_transition_type = Interop.downcallHandle(
+    private static final MethodHandle gtk_revealer_set_transition_type = Interop.downcallHandle(
         "gtk_revealer_set_transition_type",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -216,7 +220,7 @@ public class Revealer extends Widget implements Accessible, Buildable, Constrain
      * <p>
      * Available types include various kinds of fades and slides.
      */
-    public void setTransitionType(RevealerTransitionType transition) {
+    public @NotNull void setTransitionType(@NotNull RevealerTransitionType transition) {
         try {
             gtk_revealer_set_transition_type.invokeExact(handle(), transition.getValue());
         } catch (Throwable ERR) {

@@ -1,6 +1,7 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Invoked when the name being watched is known not to have to have an owner.
@@ -11,5 +12,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface BusNameVanishedCallback {
-        void onBusNameVanishedCallback(DBusConnection connection, java.lang.String name);
+        void onBusNameVanishedCallback(@NotNull DBusConnection connection, @NotNull java.lang.String name);
 }

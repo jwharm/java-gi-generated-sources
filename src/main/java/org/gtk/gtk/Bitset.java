@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GtkBitset} represents a set of unsigned integers.
@@ -27,7 +28,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle gtk_bitset_new_empty = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_new_empty = Interop.downcallHandle(
         "gtk_bitset_new_empty",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -48,12 +49,12 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
         return new Bitset(constructNewEmpty());
     }
     
-    static final MethodHandle gtk_bitset_new_range = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_new_range = Interop.downcallHandle(
         "gtk_bitset_new_range",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNewRange(int start, int nItems) {
+    private static Refcounted constructNewRange(@NotNull int start, @NotNull int nItems) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_bitset_new_range.invokeExact(start, nItems), true);
             return RESULT;
@@ -65,11 +66,11 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a bitset with the given range set.
      */
-    public static Bitset newRange(int start, int nItems) {
+    public static Bitset newRange(@NotNull int start, @NotNull int nItems) {
         return new Bitset(constructNewRange(start, nItems));
     }
     
-    static final MethodHandle gtk_bitset_add = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_add = Interop.downcallHandle(
         "gtk_bitset_add",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -77,16 +78,17 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Adds {@code value} to {@code self} if it wasn't part of it before.
      */
-    public boolean add(int value) {
+    public boolean add(@NotNull int value) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_bitset_add.invokeExact(handle(), value);
-            return RESULT != 0;
+            RESULT = (int) gtk_bitset_add.invokeExact(handle(), value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_bitset_add_range = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_add_range = Interop.downcallHandle(
         "gtk_bitset_add_range",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -95,7 +97,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      * Adds all values from {@code start} (inclusive) to {@code start} + {@code n_items}
      * (exclusive) in {@code self}.
      */
-    public void addRange(int start, int nItems) {
+    public @NotNull void addRange(@NotNull int start, @NotNull int nItems) {
         try {
             gtk_bitset_add_range.invokeExact(handle(), start, nItems);
         } catch (Throwable ERR) {
@@ -103,7 +105,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle gtk_bitset_add_range_closed = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_add_range_closed = Interop.downcallHandle(
         "gtk_bitset_add_range_closed",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -112,7 +114,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      * Adds the closed range {@code last}, so {@code first}, {@code last} and all
      * values in between. {@code first} must be smaller than {@code last}.
      */
-    public void addRangeClosed(int first, int last) {
+    public @NotNull void addRangeClosed(@NotNull int first, @NotNull int last) {
         try {
             gtk_bitset_add_range_closed.invokeExact(handle(), first, last);
         } catch (Throwable ERR) {
@@ -120,7 +122,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle gtk_bitset_add_rectangle = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_add_rectangle = Interop.downcallHandle(
         "gtk_bitset_add_rectangle",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -129,7 +131,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      * Interprets the values as a 2-dimensional boolean grid with the given {@code stride}
      * and inside that grid, adds a rectangle with the given {@code width} and {@code height}.
      */
-    public void addRectangle(int start, int width, int height, int stride) {
+    public @NotNull void addRectangle(@NotNull int start, @NotNull int width, @NotNull int height, @NotNull int stride) {
         try {
             gtk_bitset_add_rectangle.invokeExact(handle(), start, width, height, stride);
         } catch (Throwable ERR) {
@@ -137,7 +139,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle gtk_bitset_contains = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_contains = Interop.downcallHandle(
         "gtk_bitset_contains",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -145,16 +147,17 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Checks if the given {@code value} has been added to {@code self}
      */
-    public boolean contains(int value) {
+    public boolean contains(@NotNull int value) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_bitset_contains.invokeExact(handle(), value);
-            return RESULT != 0;
+            RESULT = (int) gtk_bitset_contains.invokeExact(handle(), value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_bitset_copy = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_copy = Interop.downcallHandle(
         "gtk_bitset_copy",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -162,16 +165,17 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a copy of {@code self}.
      */
-    public Bitset copy() {
+    public @NotNull Bitset copy() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_bitset_copy.invokeExact(handle());
-            return new Bitset(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_bitset_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Bitset(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_bitset_difference = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_difference = Interop.downcallHandle(
         "gtk_bitset_difference",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -186,7 +190,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      * It is allowed for {@code self} and {@code other} to be the same bitset. The bitset
      * will be emptied in that case.
      */
-    public void difference(Bitset other) {
+    public @NotNull void difference(@NotNull Bitset other) {
         try {
             gtk_bitset_difference.invokeExact(handle(), other.handle());
         } catch (Throwable ERR) {
@@ -194,7 +198,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle gtk_bitset_equals = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_equals = Interop.downcallHandle(
         "gtk_bitset_equals",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -202,16 +206,17 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns {@code true} if {@code self} and {@code other} contain the same values.
      */
-    public boolean equals(Bitset other) {
+    public boolean equals(@NotNull Bitset other) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_bitset_equals.invokeExact(handle(), other.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_bitset_equals.invokeExact(handle(), other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_bitset_get_maximum = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_get_maximum = Interop.downcallHandle(
         "gtk_bitset_get_maximum",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -222,15 +227,16 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      * If {@code self} is empty, 0 is returned.
      */
     public int getMaximum() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_bitset_get_maximum.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_bitset_get_maximum.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_bitset_get_minimum = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_get_minimum = Interop.downcallHandle(
         "gtk_bitset_get_minimum",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -241,15 +247,16 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      * If {@code self} is empty, {@code G_MAXUINT} is returned.
      */
     public int getMinimum() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_bitset_get_minimum.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_bitset_get_minimum.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_bitset_get_nth = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_get_nth = Interop.downcallHandle(
         "gtk_bitset_get_nth",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -259,16 +266,17 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If {@code nth} is >= the size of {@code self}, 0 is returned.
      */
-    public int getNth(int nth) {
+    public int getNth(@NotNull int nth) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_bitset_get_nth.invokeExact(handle(), nth);
-            return RESULT;
+            RESULT = (int) gtk_bitset_get_nth.invokeExact(handle(), nth);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_bitset_get_size = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_get_size = Interop.downcallHandle(
         "gtk_bitset_get_size",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -284,15 +292,16 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      * to use a 64bit type.
      */
     public long getSize() {
+        long RESULT;
         try {
-            var RESULT = (long) gtk_bitset_get_size.invokeExact(handle());
-            return RESULT;
+            RESULT = (long) gtk_bitset_get_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_bitset_get_size_in_range = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_get_size_in_range = Interop.downcallHandle(
         "gtk_bitset_get_size_in_range",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -305,16 +314,17 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      * set, the return value is {@code G_MAXUINT + 1}. Unless you are sure this cannot
      * happen (it can't with {@code GListModel}), be sure to use a 64bit type.
      */
-    public long getSizeInRange(int first, int last) {
+    public long getSizeInRange(@NotNull int first, @NotNull int last) {
+        long RESULT;
         try {
-            var RESULT = (long) gtk_bitset_get_size_in_range.invokeExact(handle(), first, last);
-            return RESULT;
+            RESULT = (long) gtk_bitset_get_size_in_range.invokeExact(handle(), first, last);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_bitset_intersect = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_intersect = Interop.downcallHandle(
         "gtk_bitset_intersect",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -327,7 +337,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      * It is allowed for {@code self} and {@code other} to be the same bitset. Nothing will
      * happen in that case.
      */
-    public void intersect(Bitset other) {
+    public @NotNull void intersect(@NotNull Bitset other) {
         try {
             gtk_bitset_intersect.invokeExact(handle(), other.handle());
         } catch (Throwable ERR) {
@@ -335,7 +345,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle gtk_bitset_is_empty = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_is_empty = Interop.downcallHandle(
         "gtk_bitset_is_empty",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -344,15 +354,16 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      * Check if no value is contained in bitset.
      */
     public boolean isEmpty() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_bitset_is_empty.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_bitset_is_empty.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_bitset_ref = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_ref = Interop.downcallHandle(
         "gtk_bitset_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -360,16 +371,17 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Acquires a reference on the given {@code GtkBitset}.
      */
-    public Bitset ref() {
+    public @NotNull Bitset ref() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_bitset_ref.invokeExact(handle());
-            return new Bitset(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_bitset_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Bitset(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_bitset_remove = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_remove = Interop.downcallHandle(
         "gtk_bitset_remove",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -377,16 +389,17 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Removes {@code value} from {@code self} if it was part of it before.
      */
-    public boolean remove(int value) {
+    public boolean remove(@NotNull int value) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_bitset_remove.invokeExact(handle(), value);
-            return RESULT != 0;
+            RESULT = (int) gtk_bitset_remove.invokeExact(handle(), value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_bitset_remove_all = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_remove_all = Interop.downcallHandle(
         "gtk_bitset_remove_all",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -394,7 +407,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Removes all values from the bitset so that it is empty again.
      */
-    public void removeAll() {
+    public @NotNull void removeAll() {
         try {
             gtk_bitset_remove_all.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -402,7 +415,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle gtk_bitset_remove_range = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_remove_range = Interop.downcallHandle(
         "gtk_bitset_remove_range",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -411,7 +424,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      * Removes all values from {@code start} (inclusive) to {@code start} + {@code n_items} (exclusive)
      * in {@code self}.
      */
-    public void removeRange(int start, int nItems) {
+    public @NotNull void removeRange(@NotNull int start, @NotNull int nItems) {
         try {
             gtk_bitset_remove_range.invokeExact(handle(), start, nItems);
         } catch (Throwable ERR) {
@@ -419,7 +432,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle gtk_bitset_remove_range_closed = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_remove_range_closed = Interop.downcallHandle(
         "gtk_bitset_remove_range_closed",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -428,7 +441,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      * Removes the closed range {@code last}, so {@code first}, {@code last} and all
      * values in between. {@code first} must be smaller than {@code last}.
      */
-    public void removeRangeClosed(int first, int last) {
+    public @NotNull void removeRangeClosed(@NotNull int first, @NotNull int last) {
         try {
             gtk_bitset_remove_range_closed.invokeExact(handle(), first, last);
         } catch (Throwable ERR) {
@@ -436,7 +449,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle gtk_bitset_remove_rectangle = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_remove_rectangle = Interop.downcallHandle(
         "gtk_bitset_remove_rectangle",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -445,7 +458,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      * Interprets the values as a 2-dimensional boolean grid with the given {@code stride}
      * and inside that grid, removes a rectangle with the given {@code width} and {@code height}.
      */
-    public void removeRectangle(int start, int width, int height, int stride) {
+    public @NotNull void removeRectangle(@NotNull int start, @NotNull int width, @NotNull int height, @NotNull int stride) {
         try {
             gtk_bitset_remove_rectangle.invokeExact(handle(), start, width, height, stride);
         } catch (Throwable ERR) {
@@ -453,7 +466,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle gtk_bitset_shift_left = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_shift_left = Interop.downcallHandle(
         "gtk_bitset_shift_left",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -463,7 +476,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Values smaller than {@code amount} are discarded.
      */
-    public void shiftLeft(int amount) {
+    public @NotNull void shiftLeft(@NotNull int amount) {
         try {
             gtk_bitset_shift_left.invokeExact(handle(), amount);
         } catch (Throwable ERR) {
@@ -471,7 +484,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle gtk_bitset_shift_right = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_shift_right = Interop.downcallHandle(
         "gtk_bitset_shift_right",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -481,7 +494,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Values that end up too large to be held in a {@code guint} are discarded.
      */
-    public void shiftRight(int amount) {
+    public @NotNull void shiftRight(@NotNull int amount) {
         try {
             gtk_bitset_shift_right.invokeExact(handle(), amount);
         } catch (Throwable ERR) {
@@ -489,7 +502,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle gtk_bitset_splice = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_splice = Interop.downcallHandle(
         "gtk_bitset_splice",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -506,7 +519,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      * larger than {@code position} by {@code added} spaces to the right. This frees
      * up space that can then be filled.
      */
-    public void splice(int position, int removed, int added) {
+    public @NotNull void splice(@NotNull int position, @NotNull int removed, @NotNull int added) {
         try {
             gtk_bitset_splice.invokeExact(handle(), position, removed, added);
         } catch (Throwable ERR) {
@@ -514,7 +527,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle gtk_bitset_subtract = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_subtract = Interop.downcallHandle(
         "gtk_bitset_subtract",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -527,7 +540,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      * It is allowed for {@code self} and {@code other} to be the same bitset. The bitset
      * will be emptied in that case.
      */
-    public void subtract(Bitset other) {
+    public @NotNull void subtract(@NotNull Bitset other) {
         try {
             gtk_bitset_subtract.invokeExact(handle(), other.handle());
         } catch (Throwable ERR) {
@@ -535,7 +548,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle gtk_bitset_union = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_union = Interop.downcallHandle(
         "gtk_bitset_union",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -548,7 +561,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      * It is allowed for {@code self} and {@code other} to be the same bitset. Nothing will
      * happen in that case.
      */
-    public void union(Bitset other) {
+    public @NotNull void union(@NotNull Bitset other) {
         try {
             gtk_bitset_union.invokeExact(handle(), other.handle());
         } catch (Throwable ERR) {
@@ -556,7 +569,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle gtk_bitset_unref = Interop.downcallHandle(
+    private static final MethodHandle gtk_bitset_unref = Interop.downcallHandle(
         "gtk_bitset_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -567,7 +580,7 @@ public class Bitset extends io.github.jwharm.javagi.ResourceBase {
      * If the reference was the last, the resources associated to the {@code self} are
      * freed.
      */
-    public void unref() {
+    public @NotNull void unref() {
         try {
             gtk_bitset_unref.invokeExact(handle());
         } catch (Throwable ERR) {

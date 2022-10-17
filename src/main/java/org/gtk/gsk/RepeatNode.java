@@ -3,6 +3,7 @@ package org.gtk.gsk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A render node repeating its single child node.
@@ -18,12 +19,12 @@ public class RepeatNode extends RenderNode {
         return new RepeatNode(gobject.refcounted());
     }
     
-    static final MethodHandle gsk_repeat_node_new = Interop.downcallHandle(
+    private static final MethodHandle gsk_repeat_node_new = Interop.downcallHandle(
         "gsk_repeat_node_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(org.gtk.graphene.Rect bounds, RenderNode child, org.gtk.graphene.Rect childBounds) {
+    private static Refcounted constructNew(@NotNull org.gtk.graphene.Rect bounds, @NotNull RenderNode child, @Nullable org.gtk.graphene.Rect childBounds) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_repeat_node_new.invokeExact(bounds.handle(), child.handle(), childBounds.handle()), true);
             return RESULT;
@@ -36,11 +37,11 @@ public class RepeatNode extends RenderNode {
      * Creates a {@code GskRenderNode} that will repeat the drawing of {@code child} across
      * the given {@code bounds}.
      */
-    public RepeatNode(org.gtk.graphene.Rect bounds, RenderNode child, org.gtk.graphene.Rect childBounds) {
+    public RepeatNode(@NotNull org.gtk.graphene.Rect bounds, @NotNull RenderNode child, @Nullable org.gtk.graphene.Rect childBounds) {
         super(constructNew(bounds, child, childBounds));
     }
     
-    static final MethodHandle gsk_repeat_node_get_child = Interop.downcallHandle(
+    private static final MethodHandle gsk_repeat_node_get_child = Interop.downcallHandle(
         "gsk_repeat_node_get_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -48,16 +49,17 @@ public class RepeatNode extends RenderNode {
     /**
      * Retrieves the child of {@code node}.
      */
-    public RenderNode getChild() {
+    public @NotNull RenderNode getChild() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_repeat_node_get_child.invokeExact(handle());
-            return new RenderNode(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gsk_repeat_node_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new RenderNode(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gsk_repeat_node_get_child_bounds = Interop.downcallHandle(
+    private static final MethodHandle gsk_repeat_node_get_child_bounds = Interop.downcallHandle(
         "gsk_repeat_node_get_child_bounds",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -65,13 +67,14 @@ public class RepeatNode extends RenderNode {
     /**
      * Retrieves the bounding rectangle of the child of {@code node}.
      */
-    public org.gtk.graphene.Rect getChildBounds() {
+    public @NotNull org.gtk.graphene.Rect getChildBounds() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_repeat_node_get_child_bounds.invokeExact(handle());
-            return new org.gtk.graphene.Rect(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gsk_repeat_node_get_child_bounds.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.graphene.Rect(Refcounted.get(RESULT, false));
     }
     
 }

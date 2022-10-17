@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The GIConv struct wraps an iconv() conversion descriptor. It contains
@@ -14,7 +15,7 @@ public class IConv extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_iconv = Interop.downcallHandle(
+    private static final MethodHandle g_iconv = Interop.downcallHandle(
         "g_iconv",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -34,16 +35,17 @@ public class IConv extends io.github.jwharm.javagi.ResourceBase {
      * used), or it may return -1 and set an error such as {@code EILSEQ}, in such a
      * situation.
      */
-    public long gIconv(java.lang.String[] inbuf, PointerLong inbytesLeft, java.lang.String[] outbuf, PointerLong outbytesLeft) {
+    public long gIconv(@NotNull PointerString inbuf, @NotNull PointerLong inbytesLeft, @NotNull PointerString outbuf, @NotNull PointerLong outbytesLeft) {
+        long RESULT;
         try {
-            var RESULT = (long) g_iconv.invokeExact(handle(), Interop.allocateNativeArray(inbuf).handle(), inbytesLeft.handle(), Interop.allocateNativeArray(outbuf).handle(), outbytesLeft.handle());
-            return RESULT;
+            RESULT = (long) g_iconv.invokeExact(handle(), inbuf.handle(), inbytesLeft.handle(), outbuf.handle(), outbytesLeft.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_iconv_close = Interop.downcallHandle(
+    private static final MethodHandle g_iconv_close = Interop.downcallHandle(
         "g_iconv_close",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -59,15 +61,16 @@ public class IConv extends io.github.jwharm.javagi.ResourceBase {
      * more convenient than the raw iconv wrappers.
      */
     public int close() {
+        int RESULT;
         try {
-            var RESULT = (int) g_iconv_close.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_iconv_close.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_iconv_open = Interop.downcallHandle(
+    private static final MethodHandle g_iconv_open = Interop.downcallHandle(
         "g_iconv_open",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -80,13 +83,14 @@ public class IConv extends io.github.jwharm.javagi.ResourceBase {
      * GLib provides g_convert() and g_locale_to_utf8() which are likely
      * more convenient than the raw iconv wrappers.
      */
-    public static IConv open(java.lang.String toCodeset, java.lang.String fromCodeset) {
+    public static @NotNull IConv open(@NotNull java.lang.String toCodeset, @NotNull java.lang.String fromCodeset) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_iconv_open.invokeExact(Interop.allocateNativeString(toCodeset).handle(), Interop.allocateNativeString(fromCodeset).handle());
-            return new IConv(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_iconv_open.invokeExact(Interop.allocateNativeString(toCodeset), Interop.allocateNativeString(fromCodeset));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new IConv(Refcounted.get(RESULT, false));
     }
     
 }

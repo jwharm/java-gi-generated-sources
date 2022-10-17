@@ -5,9 +5,9 @@ import java.lang.foreign.ValueLayout;
 import java.lang.reflect.InvocationTargetException;
 
 public class PointerEnumeration<T extends Enumeration> extends Pointer<T> {
-    
+
     private final Class<T> cls;
-    
+
     /**
      * Create a pointer to an existing enum.
      */
@@ -22,7 +22,7 @@ public class PointerEnumeration<T extends Enumeration> extends Pointer<T> {
     public void set(T value) {
         address.set(ValueLayout.JAVA_INT, 0, value.getValue());
     }
-    
+
     /**
      * Use this method to retreive the value of the parameter after the
      * function call that set the value, has been executed.
@@ -30,7 +30,7 @@ public class PointerEnumeration<T extends Enumeration> extends Pointer<T> {
     public T get() {
         return get(0);
     }
-    
+
     /**
      * Treat the pointer as an array, and return the given element.
      * <p>
@@ -40,7 +40,7 @@ public class PointerEnumeration<T extends Enumeration> extends Pointer<T> {
      */
     public T get(int index) {
         int value = address.get(
-                ValueLayout.JAVA_INT, 
+                ValueLayout.JAVA_INT,
                 ValueLayout.JAVA_DOUBLE.byteSize() * index
         );
         try {

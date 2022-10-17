@@ -3,6 +3,7 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Base class for objects implementing different rendering methods.
@@ -26,7 +27,7 @@ public class DrawContext extends org.gtk.gobject.Object {
         return new DrawContext(gobject.refcounted());
     }
     
-    static final MethodHandle gdk_draw_context_begin_frame = Interop.downcallHandle(
+    private static final MethodHandle gdk_draw_context_begin_frame = Interop.downcallHandle(
         "gdk_draw_context_begin_frame",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -57,7 +58,7 @@ public class DrawContext extends org.gtk.gobject.Object {
      * use of {@link org.gtk.gsk.Renderer}s, so application code does not need to call
      * these functions explicitly.
      */
-    public void beginFrame(org.cairographics.Region region) {
+    public @NotNull void beginFrame(@NotNull org.cairographics.Region region) {
         try {
             gdk_draw_context_begin_frame.invokeExact(handle(), region.handle());
         } catch (Throwable ERR) {
@@ -65,7 +66,7 @@ public class DrawContext extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gdk_draw_context_end_frame = Interop.downcallHandle(
+    private static final MethodHandle gdk_draw_context_end_frame = Interop.downcallHandle(
         "gdk_draw_context_end_frame",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -80,7 +81,7 @@ public class DrawContext extends org.gtk.gobject.Object {
      * implicitly before returning; it is not recommended to call {@code glFlush()}
      * explicitly before calling this function.
      */
-    public void endFrame() {
+    public @NotNull void endFrame() {
         try {
             gdk_draw_context_end_frame.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -88,7 +89,7 @@ public class DrawContext extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gdk_draw_context_get_display = Interop.downcallHandle(
+    private static final MethodHandle gdk_draw_context_get_display = Interop.downcallHandle(
         "gdk_draw_context_get_display",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -96,16 +97,17 @@ public class DrawContext extends org.gtk.gobject.Object {
     /**
      * Retrieves the {@code GdkDisplay} the {@code context} is created for
      */
-    public Display getDisplay() {
+    public @Nullable Display getDisplay() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_draw_context_get_display.invokeExact(handle());
-            return new Display(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_draw_context_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Display(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_draw_context_get_frame_region = Interop.downcallHandle(
+    private static final MethodHandle gdk_draw_context_get_frame_region = Interop.downcallHandle(
         "gdk_draw_context_get_frame_region",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -120,16 +122,17 @@ public class DrawContext extends org.gtk.gobject.Object {
      * If {@code context} is not in between calls to {@link DrawContext#beginFrame}
      * and {@link DrawContext#endFrame}, {@code null} will be returned.
      */
-    public org.cairographics.Region getFrameRegion() {
+    public @Nullable org.cairographics.Region getFrameRegion() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_draw_context_get_frame_region.invokeExact(handle());
-            return new org.cairographics.Region(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_draw_context_get_frame_region.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.cairographics.Region(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_draw_context_get_surface = Interop.downcallHandle(
+    private static final MethodHandle gdk_draw_context_get_surface = Interop.downcallHandle(
         "gdk_draw_context_get_surface",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -137,16 +140,17 @@ public class DrawContext extends org.gtk.gobject.Object {
     /**
      * Retrieves the surface that {@code context} is bound to.
      */
-    public Surface getSurface() {
+    public @Nullable Surface getSurface() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_draw_context_get_surface.invokeExact(handle());
-            return new Surface(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_draw_context_get_surface.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Surface(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_draw_context_is_in_frame = Interop.downcallHandle(
+    private static final MethodHandle gdk_draw_context_is_in_frame = Interop.downcallHandle(
         "gdk_draw_context_is_in_frame",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -159,12 +163,13 @@ public class DrawContext extends org.gtk.gobject.Object {
      * may be effecting the contents of the {@code context}'s surface.
      */
     public boolean isInFrame() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_draw_context_is_in_frame.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_draw_context_is_in_frame.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
 }

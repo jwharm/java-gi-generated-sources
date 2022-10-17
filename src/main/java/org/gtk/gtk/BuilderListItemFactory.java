@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkBuilderListItemFactory} is a {@code GtkListItemFactory} that creates
@@ -40,12 +41,12 @@ public class BuilderListItemFactory extends ListItemFactory {
         return new BuilderListItemFactory(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_builder_list_item_factory_new_from_bytes = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_list_item_factory_new_from_bytes = Interop.downcallHandle(
         "gtk_builder_list_item_factory_new_from_bytes",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewFromBytes(BuilderScope scope, org.gtk.glib.Bytes bytes) {
+    private static Refcounted constructNewFromBytes(@Nullable BuilderScope scope, @NotNull org.gtk.glib.Bytes bytes) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_builder_list_item_factory_new_from_bytes.invokeExact(scope.handle(), bytes.handle()), true);
             return RESULT;
@@ -58,18 +59,18 @@ public class BuilderListItemFactory extends ListItemFactory {
      * Creates a new {@code GtkBuilderListItemFactory} that instantiates widgets
      * using {@code bytes} as the data to pass to {@code GtkBuilder}.
      */
-    public static BuilderListItemFactory newFromBytes(BuilderScope scope, org.gtk.glib.Bytes bytes) {
+    public static BuilderListItemFactory newFromBytes(@Nullable BuilderScope scope, @NotNull org.gtk.glib.Bytes bytes) {
         return new BuilderListItemFactory(constructNewFromBytes(scope, bytes));
     }
     
-    static final MethodHandle gtk_builder_list_item_factory_new_from_resource = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_list_item_factory_new_from_resource = Interop.downcallHandle(
         "gtk_builder_list_item_factory_new_from_resource",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewFromResource(BuilderScope scope, java.lang.String resourcePath) {
+    private static Refcounted constructNewFromResource(@Nullable BuilderScope scope, @NotNull java.lang.String resourcePath) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_builder_list_item_factory_new_from_resource.invokeExact(scope.handle(), Interop.allocateNativeString(resourcePath).handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_builder_list_item_factory_new_from_resource.invokeExact(scope.handle(), Interop.allocateNativeString(resourcePath)), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -80,11 +81,11 @@ public class BuilderListItemFactory extends ListItemFactory {
      * Creates a new {@code GtkBuilderListItemFactory} that instantiates widgets
      * using data read from the given {@code resource_path} to pass to {@code GtkBuilder}.
      */
-    public static BuilderListItemFactory newFromResource(BuilderScope scope, java.lang.String resourcePath) {
+    public static BuilderListItemFactory newFromResource(@Nullable BuilderScope scope, @NotNull java.lang.String resourcePath) {
         return new BuilderListItemFactory(constructNewFromResource(scope, resourcePath));
     }
     
-    static final MethodHandle gtk_builder_list_item_factory_get_bytes = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_list_item_factory_get_bytes = Interop.downcallHandle(
         "gtk_builder_list_item_factory_get_bytes",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -93,16 +94,17 @@ public class BuilderListItemFactory extends ListItemFactory {
      * Gets the data used as the {@code GtkBuilder} UI template for constructing
      * listitems.
      */
-    public org.gtk.glib.Bytes getBytes() {
+    public @NotNull org.gtk.glib.Bytes getBytes() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_builder_list_item_factory_get_bytes.invokeExact(handle());
-            return new org.gtk.glib.Bytes(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_builder_list_item_factory_get_bytes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_builder_list_item_factory_get_resource = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_list_item_factory_get_resource = Interop.downcallHandle(
         "gtk_builder_list_item_factory_get_resource",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -110,16 +112,17 @@ public class BuilderListItemFactory extends ListItemFactory {
     /**
      * If the data references a resource, gets the path of that resource.
      */
-    public java.lang.String getResource() {
+    public @Nullable java.lang.String getResource() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_builder_list_item_factory_get_resource.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_builder_list_item_factory_get_resource.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_builder_list_item_factory_get_scope = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_list_item_factory_get_scope = Interop.downcallHandle(
         "gtk_builder_list_item_factory_get_scope",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -127,13 +130,14 @@ public class BuilderListItemFactory extends ListItemFactory {
     /**
      * Gets the scope used when constructing listitems.
      */
-    public BuilderScope getScope() {
+    public @Nullable BuilderScope getScope() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_builder_list_item_factory_get_scope.invokeExact(handle());
-            return new BuilderScope.BuilderScopeImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_builder_list_item_factory_get_scope.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new BuilderScope.BuilderScopeImpl(Refcounted.get(RESULT, false));
     }
     
 }

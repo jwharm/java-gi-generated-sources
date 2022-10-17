@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkAccessible} is an interface for describing UI elements for
@@ -26,7 +27,7 @@ import java.lang.invoke.*;
  */
 public interface Accessible extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle gtk_accessible_get_accessible_role = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_accessible_get_accessible_role = Interop.downcallHandle(
         "gtk_accessible_get_accessible_role",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -34,16 +35,17 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
     /**
      * Retrieves the {@code GtkAccessibleRole} for the given {@code GtkAccessible}.
      */
-    public default AccessibleRole getAccessibleRole() {
+    default @NotNull AccessibleRole getAccessibleRole() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_accessible_get_accessible_role.invokeExact(handle());
-            return new AccessibleRole(RESULT);
+            RESULT = (int) gtk_accessible_get_accessible_role.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new AccessibleRole(RESULT);
     }
     
-    static final MethodHandle gtk_accessible_reset_property = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_accessible_reset_property = Interop.downcallHandle(
         "gtk_accessible_reset_property",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -51,7 +53,7 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
     /**
      * Resets the accessible {@code property} to its default value.
      */
-    public default void resetProperty(AccessibleProperty property) {
+    default @NotNull void resetProperty(@NotNull AccessibleProperty property) {
         try {
             gtk_accessible_reset_property.invokeExact(handle(), property.getValue());
         } catch (Throwable ERR) {
@@ -59,7 +61,7 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_accessible_reset_relation = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_accessible_reset_relation = Interop.downcallHandle(
         "gtk_accessible_reset_relation",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -67,7 +69,7 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
     /**
      * Resets the accessible {@code relation} to its default value.
      */
-    public default void resetRelation(AccessibleRelation relation) {
+    default @NotNull void resetRelation(@NotNull AccessibleRelation relation) {
         try {
             gtk_accessible_reset_relation.invokeExact(handle(), relation.getValue());
         } catch (Throwable ERR) {
@@ -75,7 +77,7 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_accessible_reset_state = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_accessible_reset_state = Interop.downcallHandle(
         "gtk_accessible_reset_state",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -83,7 +85,7 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
     /**
      * Resets the accessible {@code state} to its default value.
      */
-    public default void resetState(AccessibleState state) {
+    default @NotNull void resetState(@NotNull AccessibleState state) {
         try {
             gtk_accessible_reset_state.invokeExact(handle(), state.getValue());
         } catch (Throwable ERR) {
@@ -91,7 +93,7 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_accessible_update_property_value = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_accessible_update_property_value = Interop.downcallHandle(
         "gtk_accessible_update_property_value",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -104,15 +106,15 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
      * <p>
      * This function is meant to be used by language bindings.
      */
-    public default void updatePropertyValue(int nProperties, AccessibleProperty[] properties, org.gtk.gobject.Value[] values) {
+    default @NotNull void updatePropertyValue(@NotNull int nProperties, @NotNull AccessibleProperty[] properties, @NotNull org.gtk.gobject.Value[] values) {
         try {
-            gtk_accessible_update_property_value.invokeExact(handle(), nProperties, Interop.allocateNativeArray(AccessibleProperty.getValues(properties)).handle(), Interop.allocateNativeArray(values).handle());
+            gtk_accessible_update_property_value.invokeExact(handle(), nProperties, Interop.allocateNativeArray(AccessibleProperty.getValues(properties)), Interop.allocateNativeArray(values));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_accessible_update_relation_value = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_accessible_update_relation_value = Interop.downcallHandle(
         "gtk_accessible_update_relation_value",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -125,15 +127,15 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
      * <p>
      * This function is meant to be used by language bindings.
      */
-    public default void updateRelationValue(int nRelations, AccessibleRelation[] relations, org.gtk.gobject.Value[] values) {
+    default @NotNull void updateRelationValue(@NotNull int nRelations, @NotNull AccessibleRelation[] relations, @NotNull org.gtk.gobject.Value[] values) {
         try {
-            gtk_accessible_update_relation_value.invokeExact(handle(), nRelations, Interop.allocateNativeArray(AccessibleRelation.getValues(relations)).handle(), Interop.allocateNativeArray(values).handle());
+            gtk_accessible_update_relation_value.invokeExact(handle(), nRelations, Interop.allocateNativeArray(AccessibleRelation.getValues(relations)), Interop.allocateNativeArray(values));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_accessible_update_state_value = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_accessible_update_state_value = Interop.downcallHandle(
         "gtk_accessible_update_state_value",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -146,9 +148,9 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
      * <p>
      * This function is meant to be used by language bindings.
      */
-    public default void updateStateValue(int nStates, AccessibleState[] states, org.gtk.gobject.Value[] values) {
+    default @NotNull void updateStateValue(@NotNull int nStates, @NotNull AccessibleState[] states, @NotNull org.gtk.gobject.Value[] values) {
         try {
-            gtk_accessible_update_state_value.invokeExact(handle(), nStates, Interop.allocateNativeArray(AccessibleState.getValues(states)).handle(), Interop.allocateNativeArray(values).handle());
+            gtk_accessible_update_state_value.invokeExact(handle(), nStates, Interop.allocateNativeArray(AccessibleState.getValues(states)), Interop.allocateNativeArray(values));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -1,6 +1,7 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The type of the {@code use_plugin} function of {@link TypePluginClass}, which gets called
@@ -8,5 +9,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface TypePluginUse {
-        void onTypePluginUse(TypePlugin plugin);
+        void onTypePluginUse(@NotNull TypePlugin plugin);
 }

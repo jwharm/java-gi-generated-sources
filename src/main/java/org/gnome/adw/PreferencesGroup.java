@@ -3,6 +3,7 @@ package org.gnome.adw;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A group of preference rows.
@@ -18,9 +19,8 @@ import java.lang.invoke.*;
  * To summarize the role of the preferences it gathers, a group can have both a
  * title and a description. The title will be used by {@link PreferencesWindow}
  * to let the user look for a preference.
- * <p>
+ * 
  * <h2>AdwPreferencesGroup as GtkBuildable</h2>
- * <p>
  * The {@code AdwPreferencesGroup} implementation of the {@code Gtk.Buildable} interface
  * supports adding {@link PreferencesRow}s to the list by omitting "type". If "type"
  * is omitted and the widget isn't a {@link PreferencesRow} the child is added to
@@ -28,13 +28,11 @@ import java.lang.invoke.*;
  * <p>
  * When the "type" attribute of a child is {@code header-suffix}, the child
  * is set as the suffix on the end of the title and description.
- * <p>
+ * 
  * <h2>CSS nodes</h2>
- * <p>
  * {@code AdwPreferencesGroup} has a single CSS node with name {@code preferencesgroup}.
- * <p>
+ * 
  * <h2>Accessibility</h2>
- * <p>
  * {@code AdwPreferencesGroup} uses the {@code GTK_ACCESSIBLE_ROLE_GROUP} role.
  */
 public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
@@ -48,7 +46,7 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
         return new PreferencesGroup(gobject.refcounted());
     }
     
-    static final MethodHandle adw_preferences_group_new = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_group_new = Interop.downcallHandle(
         "adw_preferences_group_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -69,7 +67,7 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
         super(constructNew());
     }
     
-    static final MethodHandle adw_preferences_group_add = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_group_add = Interop.downcallHandle(
         "adw_preferences_group_add",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -77,7 +75,7 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
     /**
      * Adds a child to {@code self}.
      */
-    public void add(org.gtk.gtk.Widget child) {
+    public @NotNull void add(@NotNull org.gtk.gtk.Widget child) {
         try {
             adw_preferences_group_add.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -85,7 +83,7 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
         }
     }
     
-    static final MethodHandle adw_preferences_group_get_description = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_group_get_description = Interop.downcallHandle(
         "adw_preferences_group_get_description",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -93,16 +91,17 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
     /**
      * Gets the description of {@code self}.
      */
-    public java.lang.String getDescription() {
+    public @Nullable java.lang.String getDescription() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_preferences_group_get_description.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) adw_preferences_group_get_description.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle adw_preferences_group_get_header_suffix = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_group_get_header_suffix = Interop.downcallHandle(
         "adw_preferences_group_get_header_suffix",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -110,16 +109,17 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
     /**
      * Gets the suffix for {@code self}'s header.
      */
-    public org.gtk.gtk.Widget getHeaderSuffix() {
+    public @Nullable org.gtk.gtk.Widget getHeaderSuffix() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_preferences_group_get_header_suffix.invokeExact(handle());
-            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_preferences_group_get_header_suffix.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_preferences_group_get_title = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_group_get_title = Interop.downcallHandle(
         "adw_preferences_group_get_title",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -127,16 +127,17 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
     /**
      * Gets the title of {@code self}.
      */
-    public java.lang.String getTitle() {
+    public @NotNull java.lang.String getTitle() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_preferences_group_get_title.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) adw_preferences_group_get_title.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle adw_preferences_group_remove = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_group_remove = Interop.downcallHandle(
         "adw_preferences_group_remove",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -144,7 +145,7 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
     /**
      * Removes a child from {@code self}.
      */
-    public void remove(org.gtk.gtk.Widget child) {
+    public @NotNull void remove(@NotNull org.gtk.gtk.Widget child) {
         try {
             adw_preferences_group_remove.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -152,7 +153,7 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
         }
     }
     
-    static final MethodHandle adw_preferences_group_set_description = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_group_set_description = Interop.downcallHandle(
         "adw_preferences_group_set_description",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -160,15 +161,15 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
     /**
      * Sets the description for {@code self}.
      */
-    public void setDescription(java.lang.String description) {
+    public @NotNull void setDescription(@Nullable java.lang.String description) {
         try {
-            adw_preferences_group_set_description.invokeExact(handle(), Interop.allocateNativeString(description).handle());
+            adw_preferences_group_set_description.invokeExact(handle(), Interop.allocateNativeString(description));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle adw_preferences_group_set_header_suffix = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_group_set_header_suffix = Interop.downcallHandle(
         "adw_preferences_group_set_header_suffix",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -176,7 +177,7 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
     /**
      * Sets the suffix for {@code self}'s header.
      */
-    public void setHeaderSuffix(org.gtk.gtk.Widget suffix) {
+    public @NotNull void setHeaderSuffix(@Nullable org.gtk.gtk.Widget suffix) {
         try {
             adw_preferences_group_set_header_suffix.invokeExact(handle(), suffix.handle());
         } catch (Throwable ERR) {
@@ -184,7 +185,7 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
         }
     }
     
-    static final MethodHandle adw_preferences_group_set_title = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_group_set_title = Interop.downcallHandle(
         "adw_preferences_group_set_title",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -192,9 +193,9 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
     /**
      * Sets the title for {@code self}.
      */
-    public void setTitle(java.lang.String title) {
+    public @NotNull void setTitle(@NotNull java.lang.String title) {
         try {
-            adw_preferences_group_set_title.invokeExact(handle(), Interop.allocateNativeString(title).handle());
+            adw_preferences_group_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

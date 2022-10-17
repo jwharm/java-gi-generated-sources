@@ -3,6 +3,7 @@ package org.gtk.gsk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A render node for a repeating radial gradient.
@@ -18,14 +19,14 @@ public class RepeatingRadialGradientNode extends RenderNode {
         return new RepeatingRadialGradientNode(gobject.refcounted());
     }
     
-    static final MethodHandle gsk_repeating_radial_gradient_node_new = Interop.downcallHandle(
+    private static final MethodHandle gsk_repeating_radial_gradient_node_new = Interop.downcallHandle(
         "gsk_repeating_radial_gradient_node_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
     
-    private static Refcounted constructNew(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float hradius, float vradius, float start, float end, ColorStop[] colorStops, long nColorStops) {
+    private static Refcounted constructNew(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point center, @NotNull float hradius, @NotNull float vradius, @NotNull float start, @NotNull float end, @NotNull ColorStop[] colorStops, @NotNull long nColorStops) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_repeating_radial_gradient_node_new.invokeExact(bounds.handle(), center.handle(), hradius, vradius, start, end, Interop.allocateNativeArray(colorStops).handle(), nColorStops), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_repeating_radial_gradient_node_new.invokeExact(bounds.handle(), center.handle(), hradius, vradius, start, end, Interop.allocateNativeArray(colorStops), nColorStops), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -39,7 +40,7 @@ public class RepeatingRadialGradientNode extends RenderNode {
      * is dictated by {@code hradius} in horizontal orientation and by {@code vradius}
      * in vertial orientation.
      */
-    public RepeatingRadialGradientNode(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float hradius, float vradius, float start, float end, ColorStop[] colorStops, long nColorStops) {
+    public RepeatingRadialGradientNode(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point center, @NotNull float hradius, @NotNull float vradius, @NotNull float start, @NotNull float end, @NotNull ColorStop[] colorStops, @NotNull long nColorStops) {
         super(constructNew(bounds, center, hradius, vradius, start, end, colorStops, nColorStops));
     }
     

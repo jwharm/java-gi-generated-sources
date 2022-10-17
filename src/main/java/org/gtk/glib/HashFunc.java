@@ -1,6 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Specifies the type of the hash function which is passed to
@@ -36,5 +37,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface HashFunc {
-        int onHashFunc(java.lang.foreign.MemoryAddress key);
+        int onHashFunc(@Nullable java.lang.foreign.MemoryAddress key);
 }

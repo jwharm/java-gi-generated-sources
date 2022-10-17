@@ -1,6 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Specifies the type of a comparison function used to compare two
@@ -10,5 +11,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface CompareFunc {
-        int onCompareFunc(java.lang.foreign.MemoryAddress a, java.lang.foreign.MemoryAddress b);
+        int onCompareFunc(@Nullable java.lang.foreign.MemoryAddress a, @Nullable java.lang.foreign.MemoryAddress b);
 }

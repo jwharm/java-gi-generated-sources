@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Renders a spin button in a cell
@@ -32,7 +33,7 @@ public class CellRendererSpin extends CellRendererText {
         return new CellRendererSpin(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_cell_renderer_spin_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_renderer_spin_new = Interop.downcallHandle(
         "gtk_cell_renderer_spin_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );

@@ -3,6 +3,7 @@ package org.gnome.adw;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A paginated scrolling widget.
@@ -17,9 +18,8 @@ import java.lang.invoke.*;
  * <p>
  * {@code CarouselIndicatorLines} can be used
  * to provide page indicators for {@code AdwCarousel}.
- * <p>
+ * 
  * <h2>CSS nodes</h2>
- * <p>
  * {@code AdwCarousel} has a single CSS node with name {@code carousel}.
  */
 public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Orientable {
@@ -33,7 +33,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
         return new Carousel(gobject.refcounted());
     }
     
-    static final MethodHandle adw_carousel_new = Interop.downcallHandle(
+    private static final MethodHandle adw_carousel_new = Interop.downcallHandle(
         "adw_carousel_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -54,7 +54,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
         super(constructNew());
     }
     
-    static final MethodHandle adw_carousel_append = Interop.downcallHandle(
+    private static final MethodHandle adw_carousel_append = Interop.downcallHandle(
         "adw_carousel_append",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -62,7 +62,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
     /**
      * Appends {@code child} to {@code self}.
      */
-    public void append(org.gtk.gtk.Widget child) {
+    public @NotNull void append(@NotNull org.gtk.gtk.Widget child) {
         try {
             adw_carousel_append.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -70,7 +70,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
         }
     }
     
-    static final MethodHandle adw_carousel_get_allow_long_swipes = Interop.downcallHandle(
+    private static final MethodHandle adw_carousel_get_allow_long_swipes = Interop.downcallHandle(
         "adw_carousel_get_allow_long_swipes",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -79,15 +79,16 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
      * Gets whether to allow swiping for more than one page at a time.
      */
     public boolean getAllowLongSwipes() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_carousel_get_allow_long_swipes.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) adw_carousel_get_allow_long_swipes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_carousel_get_allow_mouse_drag = Interop.downcallHandle(
+    private static final MethodHandle adw_carousel_get_allow_mouse_drag = Interop.downcallHandle(
         "adw_carousel_get_allow_mouse_drag",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -96,15 +97,16 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
      * Sets whether {@code self} can be dragged with mouse pointer.
      */
     public boolean getAllowMouseDrag() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_carousel_get_allow_mouse_drag.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) adw_carousel_get_allow_mouse_drag.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_carousel_get_allow_scroll_wheel = Interop.downcallHandle(
+    private static final MethodHandle adw_carousel_get_allow_scroll_wheel = Interop.downcallHandle(
         "adw_carousel_get_allow_scroll_wheel",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -113,15 +115,16 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
      * Gets whether {@code self} will respond to scroll wheel events.
      */
     public boolean getAllowScrollWheel() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_carousel_get_allow_scroll_wheel.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) adw_carousel_get_allow_scroll_wheel.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_carousel_get_interactive = Interop.downcallHandle(
+    private static final MethodHandle adw_carousel_get_interactive = Interop.downcallHandle(
         "adw_carousel_get_interactive",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -130,15 +133,16 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
      * Gets whether {@code self} can be navigated.
      */
     public boolean getInteractive() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_carousel_get_interactive.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) adw_carousel_get_interactive.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_carousel_get_n_pages = Interop.downcallHandle(
+    private static final MethodHandle adw_carousel_get_n_pages = Interop.downcallHandle(
         "adw_carousel_get_n_pages",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -147,15 +151,16 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
      * Gets the number of pages in {@code self}.
      */
     public int getNPages() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_carousel_get_n_pages.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) adw_carousel_get_n_pages.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle adw_carousel_get_nth_page = Interop.downcallHandle(
+    private static final MethodHandle adw_carousel_get_nth_page = Interop.downcallHandle(
         "adw_carousel_get_nth_page",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -163,16 +168,17 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
     /**
      * Gets the page at position @n.
      */
-    public org.gtk.gtk.Widget getNthPage(int n) {
+    public @NotNull org.gtk.gtk.Widget getNthPage(@NotNull int n) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_carousel_get_nth_page.invokeExact(handle(), n);
-            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_carousel_get_nth_page.invokeExact(handle(), n);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_carousel_get_position = Interop.downcallHandle(
+    private static final MethodHandle adw_carousel_get_position = Interop.downcallHandle(
         "adw_carousel_get_position",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -183,15 +189,16 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
      * It's unitless, 1 matches 1 page.
      */
     public double getPosition() {
+        double RESULT;
         try {
-            var RESULT = (double) adw_carousel_get_position.invokeExact(handle());
-            return RESULT;
+            RESULT = (double) adw_carousel_get_position.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle adw_carousel_get_reveal_duration = Interop.downcallHandle(
+    private static final MethodHandle adw_carousel_get_reveal_duration = Interop.downcallHandle(
         "adw_carousel_get_reveal_duration",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -200,15 +207,16 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
      * Gets duration of the animation used when adding or removing pages.
      */
     public int getRevealDuration() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_carousel_get_reveal_duration.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) adw_carousel_get_reveal_duration.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle adw_carousel_get_scroll_params = Interop.downcallHandle(
+    private static final MethodHandle adw_carousel_get_scroll_params = Interop.downcallHandle(
         "adw_carousel_get_scroll_params",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -216,16 +224,17 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
     /**
      * Gets the scroll animation spring parameters for {@code self}.
      */
-    public SpringParams getScrollParams() {
+    public @NotNull SpringParams getScrollParams() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_carousel_get_scroll_params.invokeExact(handle());
-            return new SpringParams(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) adw_carousel_get_scroll_params.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SpringParams(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle adw_carousel_get_spacing = Interop.downcallHandle(
+    private static final MethodHandle adw_carousel_get_spacing = Interop.downcallHandle(
         "adw_carousel_get_spacing",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -234,15 +243,16 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
      * Gets spacing between pages in pixels.
      */
     public int getSpacing() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_carousel_get_spacing.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) adw_carousel_get_spacing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle adw_carousel_insert = Interop.downcallHandle(
+    private static final MethodHandle adw_carousel_insert = Interop.downcallHandle(
         "adw_carousel_insert",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -253,7 +263,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
      * If position is -1, or larger than the number of pages,
      * {@code child} will be appended to the end.
      */
-    public void insert(org.gtk.gtk.Widget child, int position) {
+    public @NotNull void insert(@NotNull org.gtk.gtk.Widget child, @NotNull int position) {
         try {
             adw_carousel_insert.invokeExact(handle(), child.handle(), position);
         } catch (Throwable ERR) {
@@ -261,7 +271,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
         }
     }
     
-    static final MethodHandle adw_carousel_prepend = Interop.downcallHandle(
+    private static final MethodHandle adw_carousel_prepend = Interop.downcallHandle(
         "adw_carousel_prepend",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -269,7 +279,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
     /**
      * Prepends {@code child} to {@code self}.
      */
-    public void prepend(org.gtk.gtk.Widget child) {
+    public @NotNull void prepend(@NotNull org.gtk.gtk.Widget child) {
         try {
             adw_carousel_prepend.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -277,7 +287,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
         }
     }
     
-    static final MethodHandle adw_carousel_remove = Interop.downcallHandle(
+    private static final MethodHandle adw_carousel_remove = Interop.downcallHandle(
         "adw_carousel_remove",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -285,7 +295,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
     /**
      * Removes {@code child} from {@code self}.
      */
-    public void remove(org.gtk.gtk.Widget child) {
+    public @NotNull void remove(@NotNull org.gtk.gtk.Widget child) {
         try {
             adw_carousel_remove.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -293,7 +303,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
         }
     }
     
-    static final MethodHandle adw_carousel_reorder = Interop.downcallHandle(
+    private static final MethodHandle adw_carousel_reorder = Interop.downcallHandle(
         "adw_carousel_reorder",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -304,7 +314,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
      * If position is -1, or larger than the number of pages, {@code child} will be moved
      * at the end.
      */
-    public void reorder(org.gtk.gtk.Widget child, int position) {
+    public @NotNull void reorder(@NotNull org.gtk.gtk.Widget child, @NotNull int position) {
         try {
             adw_carousel_reorder.invokeExact(handle(), child.handle(), position);
         } catch (Throwable ERR) {
@@ -312,7 +322,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
         }
     }
     
-    static final MethodHandle adw_carousel_scroll_to = Interop.downcallHandle(
+    private static final MethodHandle adw_carousel_scroll_to = Interop.downcallHandle(
         "adw_carousel_scroll_to",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -322,7 +332,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
      * <p>
      * If {@code animate} is {@code TRUE}, the transition will be animated.
      */
-    public void scrollTo(org.gtk.gtk.Widget widget, boolean animate) {
+    public @NotNull void scrollTo(@NotNull org.gtk.gtk.Widget widget, @NotNull boolean animate) {
         try {
             adw_carousel_scroll_to.invokeExact(handle(), widget.handle(), animate ? 1 : 0);
         } catch (Throwable ERR) {
@@ -330,7 +340,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
         }
     }
     
-    static final MethodHandle adw_carousel_set_allow_long_swipes = Interop.downcallHandle(
+    private static final MethodHandle adw_carousel_set_allow_long_swipes = Interop.downcallHandle(
         "adw_carousel_set_allow_long_swipes",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -338,7 +348,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
     /**
      * Sets whether to allow swiping for more than one page at a time.
      */
-    public void setAllowLongSwipes(boolean allowLongSwipes) {
+    public @NotNull void setAllowLongSwipes(@NotNull boolean allowLongSwipes) {
         try {
             adw_carousel_set_allow_long_swipes.invokeExact(handle(), allowLongSwipes ? 1 : 0);
         } catch (Throwable ERR) {
@@ -346,7 +356,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
         }
     }
     
-    static final MethodHandle adw_carousel_set_allow_mouse_drag = Interop.downcallHandle(
+    private static final MethodHandle adw_carousel_set_allow_mouse_drag = Interop.downcallHandle(
         "adw_carousel_set_allow_mouse_drag",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -354,7 +364,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
     /**
      * Sets whether {@code self} can be dragged with mouse pointer.
      */
-    public void setAllowMouseDrag(boolean allowMouseDrag) {
+    public @NotNull void setAllowMouseDrag(@NotNull boolean allowMouseDrag) {
         try {
             adw_carousel_set_allow_mouse_drag.invokeExact(handle(), allowMouseDrag ? 1 : 0);
         } catch (Throwable ERR) {
@@ -362,7 +372,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
         }
     }
     
-    static final MethodHandle adw_carousel_set_allow_scroll_wheel = Interop.downcallHandle(
+    private static final MethodHandle adw_carousel_set_allow_scroll_wheel = Interop.downcallHandle(
         "adw_carousel_set_allow_scroll_wheel",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -370,7 +380,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
     /**
      * Sets whether {@code self} will respond to scroll wheel events.
      */
-    public void setAllowScrollWheel(boolean allowScrollWheel) {
+    public @NotNull void setAllowScrollWheel(@NotNull boolean allowScrollWheel) {
         try {
             adw_carousel_set_allow_scroll_wheel.invokeExact(handle(), allowScrollWheel ? 1 : 0);
         } catch (Throwable ERR) {
@@ -378,7 +388,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
         }
     }
     
-    static final MethodHandle adw_carousel_set_interactive = Interop.downcallHandle(
+    private static final MethodHandle adw_carousel_set_interactive = Interop.downcallHandle(
         "adw_carousel_set_interactive",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -386,7 +396,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
     /**
      * Sets whether {@code self} can be navigated.
      */
-    public void setInteractive(boolean interactive) {
+    public @NotNull void setInteractive(@NotNull boolean interactive) {
         try {
             adw_carousel_set_interactive.invokeExact(handle(), interactive ? 1 : 0);
         } catch (Throwable ERR) {
@@ -394,7 +404,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
         }
     }
     
-    static final MethodHandle adw_carousel_set_reveal_duration = Interop.downcallHandle(
+    private static final MethodHandle adw_carousel_set_reveal_duration = Interop.downcallHandle(
         "adw_carousel_set_reveal_duration",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -402,7 +412,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
     /**
      * Sets duration of the animation used when adding or removing pages.
      */
-    public void setRevealDuration(int revealDuration) {
+    public @NotNull void setRevealDuration(@NotNull int revealDuration) {
         try {
             adw_carousel_set_reveal_duration.invokeExact(handle(), revealDuration);
         } catch (Throwable ERR) {
@@ -410,7 +420,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
         }
     }
     
-    static final MethodHandle adw_carousel_set_scroll_params = Interop.downcallHandle(
+    private static final MethodHandle adw_carousel_set_scroll_params = Interop.downcallHandle(
         "adw_carousel_set_scroll_params",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -418,7 +428,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
     /**
      * Sets the scroll animation spring parameters for {@code self}.
      */
-    public void setScrollParams(SpringParams params) {
+    public @NotNull void setScrollParams(@NotNull SpringParams params) {
         try {
             adw_carousel_set_scroll_params.invokeExact(handle(), params.handle());
         } catch (Throwable ERR) {
@@ -426,7 +436,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
         }
     }
     
-    static final MethodHandle adw_carousel_set_spacing = Interop.downcallHandle(
+    private static final MethodHandle adw_carousel_set_spacing = Interop.downcallHandle(
         "adw_carousel_set_spacing",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -434,7 +444,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
     /**
      * Sets spacing between pages in pixels.
      */
-    public void setSpacing(int spacing) {
+    public @NotNull void setSpacing(@NotNull int spacing) {
         try {
             adw_carousel_set_spacing.invokeExact(handle(), spacing);
         } catch (Throwable ERR) {
@@ -444,7 +454,7 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
     
     @FunctionalInterface
     public interface PageChangedHandler {
-        void signalReceived(Carousel source, int index);
+        void signalReceived(Carousel source, @NotNull int index);
     }
     
     /**
@@ -457,13 +467,13 @@ public class Carousel extends org.gtk.gtk.Widget implements Swipeable, org.gtk.g
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("page-changed").handle(),
+                Interop.allocateNativeString("page-changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Carousel.Callbacks.class, "signalCarouselPageChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

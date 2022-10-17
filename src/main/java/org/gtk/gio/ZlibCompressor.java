@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link ZlibCompressor} is an implementation of {@link Converter} that
@@ -19,12 +20,12 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements Converter 
         return new ZlibCompressor(gobject.refcounted());
     }
     
-    static final MethodHandle g_zlib_compressor_new = Interop.downcallHandle(
+    private static final MethodHandle g_zlib_compressor_new = Interop.downcallHandle(
         "g_zlib_compressor_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNew(ZlibCompressorFormat format, int level) {
+    private static Refcounted constructNew(@NotNull ZlibCompressorFormat format, @NotNull int level) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_zlib_compressor_new.invokeExact(format.getValue(), level), true);
             return RESULT;
@@ -36,11 +37,11 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements Converter 
     /**
      * Creates a new {@link ZlibCompressor}.
      */
-    public ZlibCompressor(ZlibCompressorFormat format, int level) {
+    public ZlibCompressor(@NotNull ZlibCompressorFormat format, @NotNull int level) {
         super(constructNew(format, level));
     }
     
-    static final MethodHandle g_zlib_compressor_get_file_info = Interop.downcallHandle(
+    private static final MethodHandle g_zlib_compressor_get_file_info = Interop.downcallHandle(
         "g_zlib_compressor_get_file_info",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -48,16 +49,17 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements Converter 
     /**
      * Returns the {@link ZlibCompressor}:file-info property.
      */
-    public FileInfo getFileInfo() {
+    public @Nullable FileInfo getFileInfo() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_zlib_compressor_get_file_info.invokeExact(handle());
-            return new FileInfo(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_zlib_compressor_get_file_info.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new FileInfo(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_zlib_compressor_set_file_info = Interop.downcallHandle(
+    private static final MethodHandle g_zlib_compressor_set_file_info = Interop.downcallHandle(
         "g_zlib_compressor_set_file_info",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -72,7 +74,7 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements Converter 
      * progress; it may only be called immediately after creation of {@code compressor},
      * or after resetting it with g_converter_reset().
      */
-    public void setFileInfo(FileInfo fileInfo) {
+    public @NotNull void setFileInfo(@Nullable FileInfo fileInfo) {
         try {
             g_zlib_compressor_set_file_info.invokeExact(handle(), fileInfo.handle());
         } catch (Throwable ERR) {

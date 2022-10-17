@@ -1,6 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Specifies the type of function passed to g_main_context_set_poll_func().
@@ -8,5 +9,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface PollFunc {
-        int onPollFunc(PollFD ufds, int nfsd, int timeout);
+        int onPollFunc(@NotNull PollFD ufds, @NotNull int nfsd, @NotNull int timeout);
 }

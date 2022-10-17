@@ -3,6 +3,7 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A GdkTexture representing a GL texture object.
@@ -18,12 +19,12 @@ public class GLTexture extends Texture implements Paintable, org.gtk.gio.Icon, o
         return new GLTexture(gobject.refcounted());
     }
     
-    static final MethodHandle gdk_gl_texture_new = Interop.downcallHandle(
+    private static final MethodHandle gdk_gl_texture_new = Interop.downcallHandle(
         "gdk_gl_texture_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(GLContext context, int id, int width, int height, org.gtk.glib.DestroyNotify destroy, java.lang.foreign.MemoryAddress data) {
+    private static Refcounted constructNew(@NotNull GLContext context, @NotNull int id, @NotNull int width, @NotNull int height, @NotNull org.gtk.glib.DestroyNotify destroy, @Nullable java.lang.foreign.MemoryAddress data) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_gl_texture_new.invokeExact(context.handle(), id, width, height, 
                     Interop.cbDestroyNotifySymbol(), data), true);
@@ -40,11 +41,11 @@ public class GLTexture extends Texture implements Paintable, org.gtk.gio.Icon, o
      * which will happen when the GdkTexture object is finalized, or due to
      * an explicit call of {@link GLTexture#release}.
      */
-    public GLTexture(GLContext context, int id, int width, int height, org.gtk.glib.DestroyNotify destroy, java.lang.foreign.MemoryAddress data) {
+    public GLTexture(@NotNull GLContext context, @NotNull int id, @NotNull int width, @NotNull int height, @NotNull org.gtk.glib.DestroyNotify destroy, @Nullable java.lang.foreign.MemoryAddress data) {
         super(constructNew(context, id, width, height, destroy, data));
     }
     
-    static final MethodHandle gdk_gl_texture_release = Interop.downcallHandle(
+    private static final MethodHandle gdk_gl_texture_release = Interop.downcallHandle(
         "gdk_gl_texture_release",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -56,7 +57,7 @@ public class GLTexture extends Texture implements Paintable, org.gtk.gio.Icon, o
      * {@link Texture#download} function, after this
      * function has been called.
      */
-    public void release() {
+    public @NotNull void release() {
         try {
             gdk_gl_texture_release.invokeExact(handle());
         } catch (Throwable ERR) {

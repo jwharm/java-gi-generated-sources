@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@link DBusObjectManager} type is the base type for service- and
@@ -15,7 +16,7 @@ import java.lang.invoke.*;
  */
 public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle g_dbus_object_manager_get_interface = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dbus_object_manager_get_interface = Interop.downcallHandle(
         "g_dbus_object_manager_get_interface",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -24,16 +25,17 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
      * Gets the interface proxy for {@code interface_name} at {@code object_path}, if
      * any.
      */
-    public default DBusInterface getInterface(java.lang.String objectPath, java.lang.String interfaceName) {
+    default @Nullable DBusInterface getInterface(@NotNull java.lang.String objectPath, @NotNull java.lang.String interfaceName) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_dbus_object_manager_get_interface.invokeExact(handle(), Interop.allocateNativeString(objectPath).handle(), Interop.allocateNativeString(interfaceName).handle());
-            return new DBusInterface.DBusInterfaceImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_dbus_object_manager_get_interface.invokeExact(handle(), Interop.allocateNativeString(objectPath), Interop.allocateNativeString(interfaceName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new DBusInterface.DBusInterfaceImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_dbus_object_manager_get_object = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dbus_object_manager_get_object = Interop.downcallHandle(
         "g_dbus_object_manager_get_object",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -41,16 +43,17 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets the {@link DBusObject} at {@code object_path}, if any.
      */
-    public default DBusObject getObject(java.lang.String objectPath) {
+    default @Nullable DBusObject getObject(@NotNull java.lang.String objectPath) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_dbus_object_manager_get_object.invokeExact(handle(), Interop.allocateNativeString(objectPath).handle());
-            return new DBusObject.DBusObjectImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_dbus_object_manager_get_object.invokeExact(handle(), Interop.allocateNativeString(objectPath));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new DBusObject.DBusObjectImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_dbus_object_manager_get_object_path = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dbus_object_manager_get_object_path = Interop.downcallHandle(
         "g_dbus_object_manager_get_object_path",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -58,16 +61,17 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets the object path that {@code manager} is for.
      */
-    public default java.lang.String getObjectPath() {
+    default @NotNull java.lang.String getObjectPath() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_dbus_object_manager_get_object_path.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_dbus_object_manager_get_object_path.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_dbus_object_manager_get_objects = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dbus_object_manager_get_objects = Interop.downcallHandle(
         "g_dbus_object_manager_get_objects",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -75,18 +79,19 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets all {@link DBusObject} objects known to {@code manager}.
      */
-    public default org.gtk.glib.List getObjects() {
+    default @NotNull org.gtk.glib.List getObjects() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_dbus_object_manager_get_objects.invokeExact(handle());
-            return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_dbus_object_manager_get_objects.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
     @FunctionalInterface
     public interface InterfaceAddedHandler {
-        void signalReceived(DBusObjectManager source, DBusObject object, DBusInterface interface_);
+        void signalReceived(DBusObjectManager source, @NotNull DBusObject object, @NotNull DBusInterface interface_);
     }
     
     /**
@@ -99,13 +104,13 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("interface-added").handle(),
+                Interop.allocateNativeString("interface-added"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DBusObjectManager.Callbacks.class, "signalDBusObjectManagerInterfaceAdded",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -115,7 +120,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface InterfaceRemovedHandler {
-        void signalReceived(DBusObjectManager source, DBusObject object, DBusInterface interface_);
+        void signalReceived(DBusObjectManager source, @NotNull DBusObject object, @NotNull DBusInterface interface_);
     }
     
     /**
@@ -128,13 +133,13 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("interface-removed").handle(),
+                Interop.allocateNativeString("interface-removed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DBusObjectManager.Callbacks.class, "signalDBusObjectManagerInterfaceRemoved",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -144,7 +149,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface ObjectAddedHandler {
-        void signalReceived(DBusObjectManager source, DBusObject object);
+        void signalReceived(DBusObjectManager source, @NotNull DBusObject object);
     }
     
     /**
@@ -154,13 +159,13 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("object-added").handle(),
+                Interop.allocateNativeString("object-added"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DBusObjectManager.Callbacks.class, "signalDBusObjectManagerObjectAdded",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -170,7 +175,7 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface ObjectRemovedHandler {
-        void signalReceived(DBusObjectManager source, DBusObject object);
+        void signalReceived(DBusObjectManager source, @NotNull DBusObject object);
     }
     
     /**
@@ -180,13 +185,13 @@ public interface DBusObjectManager extends io.github.jwharm.javagi.Proxy {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("object-removed").handle(),
+                Interop.allocateNativeString("object-removed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DBusObjectManager.Callbacks.class, "signalDBusObjectManagerObjectRemoved",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

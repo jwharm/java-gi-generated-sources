@@ -3,6 +3,7 @@ package org.gnome.adw;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * An auxiliary class used by {@link Leaflet}.
@@ -18,7 +19,7 @@ public class LeafletPage extends org.gtk.gobject.Object {
         return new LeafletPage(gobject.refcounted());
     }
     
-    static final MethodHandle adw_leaflet_page_get_child = Interop.downcallHandle(
+    private static final MethodHandle adw_leaflet_page_get_child = Interop.downcallHandle(
         "adw_leaflet_page_get_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -26,16 +27,17 @@ public class LeafletPage extends org.gtk.gobject.Object {
     /**
      * Gets the leaflet child th which {@code self} belongs.
      */
-    public org.gtk.gtk.Widget getChild() {
+    public @NotNull org.gtk.gtk.Widget getChild() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_leaflet_page_get_child.invokeExact(handle());
-            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_leaflet_page_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_leaflet_page_get_name = Interop.downcallHandle(
+    private static final MethodHandle adw_leaflet_page_get_name = Interop.downcallHandle(
         "adw_leaflet_page_get_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -43,16 +45,17 @@ public class LeafletPage extends org.gtk.gobject.Object {
     /**
      * Gets the name of {@code self}.
      */
-    public java.lang.String getName() {
+    public @Nullable java.lang.String getName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_leaflet_page_get_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) adw_leaflet_page_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle adw_leaflet_page_get_navigatable = Interop.downcallHandle(
+    private static final MethodHandle adw_leaflet_page_get_navigatable = Interop.downcallHandle(
         "adw_leaflet_page_get_navigatable",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -61,15 +64,16 @@ public class LeafletPage extends org.gtk.gobject.Object {
      * Gets whether the child can be navigated to when folded.
      */
     public boolean getNavigatable() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_leaflet_page_get_navigatable.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) adw_leaflet_page_get_navigatable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_leaflet_page_set_name = Interop.downcallHandle(
+    private static final MethodHandle adw_leaflet_page_set_name = Interop.downcallHandle(
         "adw_leaflet_page_set_name",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -77,15 +81,15 @@ public class LeafletPage extends org.gtk.gobject.Object {
     /**
      * Sets the name of the {@code self}.
      */
-    public void setName(java.lang.String name) {
+    public @NotNull void setName(@Nullable java.lang.String name) {
         try {
-            adw_leaflet_page_set_name.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+            adw_leaflet_page_set_name.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle adw_leaflet_page_set_navigatable = Interop.downcallHandle(
+    private static final MethodHandle adw_leaflet_page_set_navigatable = Interop.downcallHandle(
         "adw_leaflet_page_set_navigatable",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -93,7 +97,7 @@ public class LeafletPage extends org.gtk.gobject.Object {
     /**
      * Sets whether {@code self} can be navigated to when folded.
      */
-    public void setNavigatable(boolean navigatable) {
+    public @NotNull void setNavigatable(@NotNull boolean navigatable) {
         try {
             adw_leaflet_page_set_navigatable.invokeExact(handle(), navigatable ? 1 : 0);
         } catch (Throwable ERR) {

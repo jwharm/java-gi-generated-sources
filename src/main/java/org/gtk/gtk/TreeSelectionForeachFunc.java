@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A function used by gtk_tree_selection_selected_foreach() to map all
@@ -8,5 +9,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface TreeSelectionForeachFunc {
-        void onTreeSelectionForeachFunc(TreeModel model, TreePath path, TreeIter iter);
+        void onTreeSelectionForeachFunc(@NotNull TreeModel model, @NotNull TreePath path, @NotNull TreeIter iter);
 }

@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The GRecMutex struct is an opaque data structure to represent a
@@ -24,7 +25,7 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_rec_mutex_clear = Interop.downcallHandle(
+    private static final MethodHandle g_rec_mutex_clear = Interop.downcallHandle(
         "g_rec_mutex_clear",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -41,7 +42,7 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Sine: 2.32
      */
-    public void clear() {
+    public @NotNull void clear() {
         try {
             g_rec_mutex_clear.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -49,7 +50,7 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_rec_mutex_init = Interop.downcallHandle(
+    private static final MethodHandle g_rec_mutex_init = Interop.downcallHandle(
         "g_rec_mutex_init",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -82,7 +83,7 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
      * To undo the effect of g_rec_mutex_init() when a recursive mutex
      * is no longer needed, use g_rec_mutex_clear().
      */
-    public void init() {
+    public @NotNull void init() {
         try {
             g_rec_mutex_init.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -90,7 +91,7 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_rec_mutex_lock = Interop.downcallHandle(
+    private static final MethodHandle g_rec_mutex_lock = Interop.downcallHandle(
         "g_rec_mutex_lock",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -103,7 +104,7 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
      * The mutex will only become available again when it is unlocked
      * as many times as it has been locked.
      */
-    public void lock() {
+    public @NotNull void lock() {
         try {
             g_rec_mutex_lock.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -111,7 +112,7 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_rec_mutex_trylock = Interop.downcallHandle(
+    private static final MethodHandle g_rec_mutex_trylock = Interop.downcallHandle(
         "g_rec_mutex_trylock",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -122,15 +123,16 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
      * it locks {@code rec_mutex} and returns {@code true}.
      */
     public boolean trylock() {
+        int RESULT;
         try {
-            var RESULT = (int) g_rec_mutex_trylock.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_rec_mutex_trylock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_rec_mutex_unlock = Interop.downcallHandle(
+    private static final MethodHandle g_rec_mutex_unlock = Interop.downcallHandle(
         "g_rec_mutex_unlock",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -143,7 +145,7 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
      * Calling g_rec_mutex_unlock() on a recursive mutex that is not
      * locked by the current thread leads to undefined behaviour.
      */
-    public void unlock() {
+    public @NotNull void unlock() {
         try {
             g_rec_mutex_unlock.invokeExact(handle());
         } catch (Throwable ERR) {

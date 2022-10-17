@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link MenuModel} represents the contents of a menu -- an ordered list of
@@ -21,14 +22,12 @@ import java.lang.invoke.*;
  * in which it is used).
  * <p>
  * As an example, consider the visible portions of this menu:
- * <p>
+ * 
  * <h2>An example menu # {#menu-example}</h2>
- * <p>
  * ![](menu-example.png)
  * <p>
  * There are 8 "menus" visible in the screenshot: one menubar, two
  * submenus and 5 sections:
- * <p>
  * <ul>
  * <li>the toplevel menubar (containing 4 items)
  * <li>the View submenu (containing 3 sections)
@@ -44,9 +43,8 @@ import java.lang.invoke.*;
  * these 8 menus. Each large block in the figure represents a menu and the
  * smaller blocks within the large block represent items in that menu. Some
  * items contain references to other menus.
- * <p>
+ * 
  * <h2>A menu example # {#menu-model}</h2>
- * <p>
  * ![](menu-model.png)
  * <p>
  * Notice that the separators visible in the [example][menu-example]
@@ -93,25 +91,22 @@ import java.lang.invoke.*;
  * <li>an action with no parameter type and no state
  * <li>an action with no parameter type and boolean state
  * <li>an action with string parameter type and string state
+ * 
+ * <h2>Stateless</h2>
+ * A stateless action typically corresponds to an ordinary menu item.
  * </ul>
  * <p>
- * <h2>Stateless</h2>
- * <p>
- * A stateless action typically corresponds to an ordinary menu item.
- * <p>
  * Selecting such a menu item will activate the action (with no parameter).
- * <p>
+ * 
  * <h2>Boolean State</h2>
- * <p>
  * An action with a boolean state will most typically be used with a "toggle"
  * or "switch" menu item. The state can be set directly, but activating the
  * action (with no parameter) results in the state being toggled.
  * <p>
  * Selecting a toggle menu item will activate the action. The menu item should
  * be rendered as "checked" when the state is true.
- * <p>
+ * 
  * <h2>String Parameter and State</h2>
- * <p>
  * Actions with string parameters and state will most typically be used to
  * represent an enumerated choice over the items available for a group of
  * radio menu items. Activating the action with a string parameter is
@@ -134,7 +129,7 @@ public class MenuModel extends org.gtk.gobject.Object {
         return new MenuModel(gobject.refcounted());
     }
     
-    static final MethodHandle g_menu_model_get_item_attribute_value = Interop.downcallHandle(
+    private static final MethodHandle g_menu_model_get_item_attribute_value = Interop.downcallHandle(
         "g_menu_model_get_item_attribute_value",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -152,16 +147,17 @@ public class MenuModel extends org.gtk.gobject.Object {
      * If the attribute does not exist, or does not match the expected type
      * then {@code null} is returned.
      */
-    public org.gtk.glib.Variant getItemAttributeValue(int itemIndex, java.lang.String attribute, org.gtk.glib.VariantType expectedType) {
+    public @Nullable org.gtk.glib.Variant getItemAttributeValue(@NotNull int itemIndex, @NotNull java.lang.String attribute, @Nullable org.gtk.glib.VariantType expectedType) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_menu_model_get_item_attribute_value.invokeExact(handle(), itemIndex, Interop.allocateNativeString(attribute).handle(), expectedType.handle());
-            return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_menu_model_get_item_attribute_value.invokeExact(handle(), itemIndex, Interop.allocateNativeString(attribute), expectedType.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_menu_model_get_item_link = Interop.downcallHandle(
+    private static final MethodHandle g_menu_model_get_item_link = Interop.downcallHandle(
         "g_menu_model_get_item_link",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -173,16 +169,17 @@ public class MenuModel extends org.gtk.gobject.Object {
      * If the link exists, the linked {@link MenuModel} is returned.  If the link
      * does not exist, {@code null} is returned.
      */
-    public MenuModel getItemLink(int itemIndex, java.lang.String link) {
+    public @Nullable MenuModel getItemLink(@NotNull int itemIndex, @NotNull java.lang.String link) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_menu_model_get_item_link.invokeExact(handle(), itemIndex, Interop.allocateNativeString(link).handle());
-            return new MenuModel(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_menu_model_get_item_link.invokeExact(handle(), itemIndex, Interop.allocateNativeString(link));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new MenuModel(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_menu_model_get_n_items = Interop.downcallHandle(
+    private static final MethodHandle g_menu_model_get_n_items = Interop.downcallHandle(
         "g_menu_model_get_n_items",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -191,15 +188,16 @@ public class MenuModel extends org.gtk.gobject.Object {
      * Query the number of items in {@code model}.
      */
     public int getNItems() {
+        int RESULT;
         try {
-            var RESULT = (int) g_menu_model_get_n_items.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_menu_model_get_n_items.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_menu_model_is_mutable = Interop.downcallHandle(
+    private static final MethodHandle g_menu_model_is_mutable = Interop.downcallHandle(
         "g_menu_model_is_mutable",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -211,15 +209,16 @@ public class MenuModel extends org.gtk.gobject.Object {
      * signal. Consumers of the model may make optimisations accordingly.
      */
     public boolean isMutable() {
+        int RESULT;
         try {
-            var RESULT = (int) g_menu_model_is_mutable.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_menu_model_is_mutable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_menu_model_items_changed = Interop.downcallHandle(
+    private static final MethodHandle g_menu_model_items_changed = Interop.downcallHandle(
         "g_menu_model_items_changed",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -241,7 +240,7 @@ public class MenuModel extends org.gtk.gobject.Object {
      * {@link MenuModel} API.  Said another way: the menu must not change while
      * user code is running without returning to the mainloop.
      */
-    public void itemsChanged(int position, int removed, int added) {
+    public @NotNull void itemsChanged(@NotNull int position, @NotNull int removed, @NotNull int added) {
         try {
             g_menu_model_items_changed.invokeExact(handle(), position, removed, added);
         } catch (Throwable ERR) {
@@ -249,7 +248,7 @@ public class MenuModel extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle g_menu_model_iterate_item_attributes = Interop.downcallHandle(
+    private static final MethodHandle g_menu_model_iterate_item_attributes = Interop.downcallHandle(
         "g_menu_model_iterate_item_attributes",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -260,16 +259,17 @@ public class MenuModel extends org.gtk.gobject.Object {
      * <p>
      * You must free the iterator with g_object_unref() when you are done.
      */
-    public MenuAttributeIter iterateItemAttributes(int itemIndex) {
+    public @NotNull MenuAttributeIter iterateItemAttributes(@NotNull int itemIndex) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_menu_model_iterate_item_attributes.invokeExact(handle(), itemIndex);
-            return new MenuAttributeIter(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_menu_model_iterate_item_attributes.invokeExact(handle(), itemIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new MenuAttributeIter(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_menu_model_iterate_item_links = Interop.downcallHandle(
+    private static final MethodHandle g_menu_model_iterate_item_links = Interop.downcallHandle(
         "g_menu_model_iterate_item_links",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -280,18 +280,19 @@ public class MenuModel extends org.gtk.gobject.Object {
      * <p>
      * You must free the iterator with g_object_unref() when you are done.
      */
-    public MenuLinkIter iterateItemLinks(int itemIndex) {
+    public @NotNull MenuLinkIter iterateItemLinks(@NotNull int itemIndex) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_menu_model_iterate_item_links.invokeExact(handle(), itemIndex);
-            return new MenuLinkIter(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_menu_model_iterate_item_links.invokeExact(handle(), itemIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new MenuLinkIter(Refcounted.get(RESULT, true));
     }
     
     @FunctionalInterface
     public interface ItemsChangedHandler {
-        void signalReceived(MenuModel source, int position, int removed, int added);
+        void signalReceived(MenuModel source, @NotNull int position, @NotNull int removed, @NotNull int added);
     }
     
     /**
@@ -320,13 +321,13 @@ public class MenuModel extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("items-changed").handle(),
+                Interop.allocateNativeString("items-changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(MenuModel.Callbacks.class, "signalMenuModelItemsChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

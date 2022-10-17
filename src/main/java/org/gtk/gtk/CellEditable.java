@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Interface for widgets that can be used for editing cells
@@ -13,7 +14,7 @@ import java.lang.invoke.*;
  */
 public interface CellEditable extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle gtk_cell_editable_editing_done = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_cell_editable_editing_done = Interop.downcallHandle(
         "gtk_cell_editable_editing_done",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -21,7 +22,7 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
     /**
      * Emits the {@code GtkCellEditable::editing-done} signal.
      */
-    public default void editingDone() {
+    default @NotNull void editingDone() {
         try {
             gtk_cell_editable_editing_done.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -29,7 +30,7 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_cell_editable_remove_widget = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_cell_editable_remove_widget = Interop.downcallHandle(
         "gtk_cell_editable_remove_widget",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -37,7 +38,7 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
     /**
      * Emits the {@code GtkCellEditable::remove-widget} signal.
      */
-    public default void removeWidget() {
+    default @NotNull void removeWidget() {
         try {
             gtk_cell_editable_remove_widget.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -45,7 +46,7 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_cell_editable_start_editing = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_cell_editable_start_editing = Interop.downcallHandle(
         "gtk_cell_editable_start_editing",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -62,7 +63,7 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
      * Note that the {@code cell_editable} is created on-demand for the current edit; its
      * lifetime is temporary and does not persist across other edits and/or cells.
      */
-    public default void startEditing(org.gtk.gdk.Event event) {
+    default @NotNull void startEditing(@Nullable org.gtk.gdk.Event event) {
         try {
             gtk_cell_editable_start_editing.invokeExact(handle(), event.handle());
         } catch (Throwable ERR) {
@@ -92,13 +93,13 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("editing-done").handle(),
+                Interop.allocateNativeString("editing-done"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(CellEditable.Callbacks.class, "signalCellEditableEditingDone",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -129,13 +130,13 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("remove-widget").handle(),
+                Interop.allocateNativeString("remove-widget"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(CellEditable.Callbacks.class, "signalCellEditableRemoveWidget",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

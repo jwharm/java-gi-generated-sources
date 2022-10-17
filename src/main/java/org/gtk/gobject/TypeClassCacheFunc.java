@@ -1,6 +1,7 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A callback function which is called when the reference count of a class
@@ -16,5 +17,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface TypeClassCacheFunc {
-        boolean onTypeClassCacheFunc(TypeClass gClass);
+        boolean onTypeClassCacheFunc(@NotNull TypeClass gClass);
 }

@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A function used with gtk_text_tag_table_foreach(),
@@ -8,5 +9,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface TextTagTableForeach {
-        void onTextTagTableForeach(TextTag tag);
+        void onTextTagTableForeach(@NotNull TextTag tag);
 }

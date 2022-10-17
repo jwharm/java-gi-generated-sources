@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link NetworkAddress} provides an easy way to resolve a hostname and
@@ -27,14 +28,14 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
         return new NetworkAddress(gobject.refcounted());
     }
     
-    static final MethodHandle g_network_address_new = Interop.downcallHandle(
+    private static final MethodHandle g_network_address_new = Interop.downcallHandle(
         "g_network_address_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT)
     );
     
-    private static Refcounted constructNew(java.lang.String hostname, short port) {
+    private static Refcounted constructNew(@NotNull java.lang.String hostname, @NotNull short port) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_network_address_new.invokeExact(Interop.allocateNativeString(hostname).handle(), port), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_network_address_new.invokeExact(Interop.allocateNativeString(hostname), port), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -51,16 +52,16 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
      * g_network_address_new_loopback() to create a {@link NetworkAddress} that
      * is guaranteed to resolve to both addresses.
      */
-    public NetworkAddress(java.lang.String hostname, short port) {
+    public NetworkAddress(@NotNull java.lang.String hostname, @NotNull short port) {
         super(constructNew(hostname, port));
     }
     
-    static final MethodHandle g_network_address_new_loopback = Interop.downcallHandle(
+    private static final MethodHandle g_network_address_new_loopback = Interop.downcallHandle(
         "g_network_address_new_loopback",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT)
     );
     
-    private static Refcounted constructNewLoopback(short port) {
+    private static Refcounted constructNewLoopback(@NotNull short port) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_network_address_new_loopback.invokeExact(port), true);
             return RESULT;
@@ -83,11 +84,11 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
      * g_network_address_get_hostname() will always return {@code localhost} for
      * a {@link NetworkAddress} created with this constructor.
      */
-    public static NetworkAddress newLoopback(short port) {
+    public static NetworkAddress newLoopback(@NotNull short port) {
         return new NetworkAddress(constructNewLoopback(port));
     }
     
-    static final MethodHandle g_network_address_get_hostname = Interop.downcallHandle(
+    private static final MethodHandle g_network_address_get_hostname = Interop.downcallHandle(
         "g_network_address_get_hostname",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -96,16 +97,17 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
      * Gets {@code addr}'s hostname. This might be either UTF-8 or ASCII-encoded,
      * depending on what {@code addr} was created with.
      */
-    public java.lang.String getHostname() {
+    public @NotNull java.lang.String getHostname() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_network_address_get_hostname.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_network_address_get_hostname.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_network_address_get_port = Interop.downcallHandle(
+    private static final MethodHandle g_network_address_get_port = Interop.downcallHandle(
         "g_network_address_get_port",
         FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
     );
@@ -114,15 +116,16 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
      * Gets {@code addr}'s port number
      */
     public short getPort() {
+        short RESULT;
         try {
-            var RESULT = (short) g_network_address_get_port.invokeExact(handle());
-            return RESULT;
+            RESULT = (short) g_network_address_get_port.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_network_address_get_scheme = Interop.downcallHandle(
+    private static final MethodHandle g_network_address_get_scheme = Interop.downcallHandle(
         "g_network_address_get_scheme",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -130,16 +133,17 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
     /**
      * Gets {@code addr}'s scheme
      */
-    public java.lang.String getScheme() {
+    public @Nullable java.lang.String getScheme() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_network_address_get_scheme.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_network_address_get_scheme.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_network_address_parse = Interop.downcallHandle(
+    private static final MethodHandle g_network_address_parse = Interop.downcallHandle(
         "g_network_address_parse",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
     );
@@ -167,20 +171,21 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
      * is deprecated, because it depends on the contents of /etc/services,
      * which is generally quite sparse on platforms other than Linux.)
      */
-    public static NetworkAddress parse(java.lang.String hostAndPort, short defaultPort) throws io.github.jwharm.javagi.GErrorException {
+    public static @NotNull NetworkAddress parse(@NotNull java.lang.String hostAndPort, @NotNull short defaultPort) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_network_address_parse.invokeExact(Interop.allocateNativeString(hostAndPort).handle(), defaultPort, (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new NetworkAddress(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_network_address_parse.invokeExact(Interop.allocateNativeString(hostAndPort), defaultPort, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new NetworkAddress(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_network_address_parse_uri = Interop.downcallHandle(
+    private static final MethodHandle g_network_address_parse_uri = Interop.downcallHandle(
         "g_network_address_parse_uri",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
     );
@@ -193,17 +198,18 @@ public class NetworkAddress extends org.gtk.gobject.Object implements SocketConn
      * g_network_address_parse() allows {@link SocketClient} to determine
      * when to use application-specific proxy protocols.
      */
-    public static NetworkAddress parseUri(java.lang.String uri, short defaultPort) throws io.github.jwharm.javagi.GErrorException {
+    public static @NotNull NetworkAddress parseUri(@NotNull java.lang.String uri, @NotNull short defaultPort) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_network_address_parse_uri.invokeExact(Interop.allocateNativeString(uri).handle(), defaultPort, (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new NetworkAddress(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_network_address_parse_uri.invokeExact(Interop.allocateNativeString(uri), defaultPort, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new NetworkAddress(Refcounted.get(RESULT, true));
     }
     
 }

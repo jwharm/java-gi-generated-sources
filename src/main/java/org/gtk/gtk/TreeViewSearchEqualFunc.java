@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A function used for checking whether a row in {@code model} matches
@@ -10,5 +11,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface TreeViewSearchEqualFunc {
-        boolean onTreeViewSearchEqualFunc(TreeModel model, int column, java.lang.String key, TreeIter iter);
+        boolean onTreeViewSearchEqualFunc(@NotNull TreeModel model, @NotNull int column, @NotNull java.lang.String key, @NotNull TreeIter iter);
 }

@@ -1,6 +1,7 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * This callback type is used by g_file_measure_disk_usage() to make
@@ -33,5 +34,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface FileMeasureProgressCallback {
-        void onFileMeasureProgressCallback(boolean reporting, long currentSize, long numDirs, long numFiles);
+        void onFileMeasureProgressCallback(@NotNull boolean reporting, @NotNull long currentSize, @NotNull long numDirs, @NotNull long numFiles);
 }

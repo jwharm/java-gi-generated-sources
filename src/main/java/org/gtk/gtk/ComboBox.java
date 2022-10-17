@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GtkComboBox} is a widget that allows the user to choose from a list of
@@ -30,9 +31,8 @@ import java.lang.invoke.*;
  * can be a bit overwhelming. In this case, {@link ComboBoxText} offers
  * a simple alternative. Both {@code GtkComboBox} and {@code GtkComboBoxText} can contain
  * an entry.
- * <p>
+ * 
  * <h2>CSS nodes</h2>
- * <p>
  * <pre>{@code 
  * combobox
  * ├── box.linked
@@ -46,7 +46,7 @@ import java.lang.invoke.*;
  * A normal combobox contains a box with the .linked class, a button
  * with the .combo class and inside those buttons, there are a cellview and
  * an arrow.
- * <p>
+ * 
  * <pre>{@code 
  * combobox
  * ├── box.linked
@@ -61,9 +61,8 @@ import java.lang.invoke.*;
  * It contains a box with the .linked class. That box contains an entry and
  * a button, both with the .combo class added. The button also contains another
  * node with name arrow.
- * <p>
+ * 
  * <h1>Accessibility</h1>
- * <p>
  * {@code GtkComboBox} uses the {@link AccessibleRole#COMBO_BOX} role.
  */
 public class ComboBox extends Widget implements Accessible, Buildable, CellEditable, CellLayout, ConstraintTarget {
@@ -77,7 +76,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         return new ComboBox(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_combo_box_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_new = Interop.downcallHandle(
         "gtk_combo_box_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -98,7 +97,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         super(constructNew());
     }
     
-    static final MethodHandle gtk_combo_box_new_with_entry = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_new_with_entry = Interop.downcallHandle(
         "gtk_combo_box_new_with_entry",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -123,12 +122,12 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         return new ComboBox(constructNewWithEntry());
     }
     
-    static final MethodHandle gtk_combo_box_new_with_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_new_with_model = Interop.downcallHandle(
         "gtk_combo_box_new_with_model",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewWithModel(TreeModel model) {
+    private static Refcounted constructNewWithModel(@NotNull TreeModel model) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_combo_box_new_with_model.invokeExact(model.handle()), false);
             return RESULT;
@@ -140,16 +139,16 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     /**
      * Creates a new {@code GtkComboBox} with a model.
      */
-    public static ComboBox newWithModel(TreeModel model) {
+    public static ComboBox newWithModel(@NotNull TreeModel model) {
         return new ComboBox(constructNewWithModel(model));
     }
     
-    static final MethodHandle gtk_combo_box_new_with_model_and_entry = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_new_with_model_and_entry = Interop.downcallHandle(
         "gtk_combo_box_new_with_model_and_entry",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewWithModelAndEntry(TreeModel model) {
+    private static Refcounted constructNewWithModelAndEntry(@NotNull TreeModel model) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_combo_box_new_with_model_and_entry.invokeExact(model.handle()), false);
             return RESULT;
@@ -163,11 +162,11 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * <p>
      * See also {@link ComboBox#newWithEntry}.
      */
-    public static ComboBox newWithModelAndEntry(TreeModel model) {
+    public static ComboBox newWithModelAndEntry(@NotNull TreeModel model) {
         return new ComboBox(constructNewWithModelAndEntry(model));
     }
     
-    static final MethodHandle gtk_combo_box_get_active = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_get_active = Interop.downcallHandle(
         "gtk_combo_box_get_active",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -181,15 +180,16 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * {@code Gtk.TreePath} of the active item.
      */
     public int getActive() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_combo_box_get_active.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_combo_box_get_active.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_combo_box_get_active_id = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_get_active_id = Interop.downcallHandle(
         "gtk_combo_box_get_active_id",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -209,16 +209,17 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * not set, or if no row is active, or if the active row has a {@code null}
      * ID value, then {@code null} is returned.
      */
-    public java.lang.String getActiveId() {
+    public @Nullable java.lang.String getActiveId() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_combo_box_get_active_id.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_combo_box_get_active_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_combo_box_get_active_iter = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_get_active_iter = Interop.downcallHandle(
         "gtk_combo_box_get_active_iter",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -228,16 +229,19 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * <p>
      * If no item is active, {@code iter} is left unchanged.
      */
-    public boolean getActiveIter(TreeIter iter) {
+    public boolean getActiveIter(@NotNull Out<TreeIter> iter) {
+        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_combo_box_get_active_iter.invokeExact(handle(), iter.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_combo_box_get_active_iter.invokeExact(handle(), (Addressable) iterPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        iter.set(new TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_combo_box_get_button_sensitivity = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_get_button_sensitivity = Interop.downcallHandle(
         "gtk_combo_box_get_button_sensitivity",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -246,16 +250,17 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * Returns whether the combo box sets the dropdown button
      * sensitive or not when there are no items in the model.
      */
-    public SensitivityType getButtonSensitivity() {
+    public @NotNull SensitivityType getButtonSensitivity() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_combo_box_get_button_sensitivity.invokeExact(handle());
-            return new SensitivityType(RESULT);
+            RESULT = (int) gtk_combo_box_get_button_sensitivity.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SensitivityType(RESULT);
     }
     
-    static final MethodHandle gtk_combo_box_get_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_get_child = Interop.downcallHandle(
         "gtk_combo_box_get_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -263,16 +268,17 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     /**
      * Gets the child widget of {@code combo_box}.
      */
-    public Widget getChild() {
+    public @Nullable Widget getChild() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_combo_box_get_child.invokeExact(handle());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_combo_box_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_combo_box_get_entry_text_column = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_get_entry_text_column = Interop.downcallHandle(
         "gtk_combo_box_get_entry_text_column",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -282,15 +288,16 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * from to display in the internal entry.
      */
     public int getEntryTextColumn() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_combo_box_get_entry_text_column.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_combo_box_get_entry_text_column.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_combo_box_get_has_entry = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_get_has_entry = Interop.downcallHandle(
         "gtk_combo_box_get_has_entry",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -299,15 +306,16 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * Returns whether the combo box has an entry.
      */
     public boolean getHasEntry() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_combo_box_get_has_entry.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_combo_box_get_has_entry.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_combo_box_get_id_column = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_get_id_column = Interop.downcallHandle(
         "gtk_combo_box_get_id_column",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -317,15 +325,16 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * for values from.
      */
     public int getIdColumn() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_combo_box_get_id_column.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_combo_box_get_id_column.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_combo_box_get_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_get_model = Interop.downcallHandle(
         "gtk_combo_box_get_model",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -333,16 +342,17 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     /**
      * Returns the {@code GtkTreeModel} of {@code combo_box}.
      */
-    public TreeModel getModel() {
+    public @Nullable TreeModel getModel() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_combo_box_get_model.invokeExact(handle());
-            return new TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_combo_box_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_combo_box_get_popup_fixed_width = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_get_popup_fixed_width = Interop.downcallHandle(
         "gtk_combo_box_get_popup_fixed_width",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -351,15 +361,16 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * Gets whether the popup uses a fixed width.
      */
     public boolean getPopupFixedWidth() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_combo_box_get_popup_fixed_width.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_combo_box_get_popup_fixed_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_combo_box_popdown = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_popdown = Interop.downcallHandle(
         "gtk_combo_box_popdown",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -370,7 +381,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * This function is mostly intended for use by accessibility technologies;
      * applications should have little use for it.
      */
-    public void popdown() {
+    public @NotNull void popdown() {
         try {
             gtk_combo_box_popdown.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -378,7 +389,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         }
     }
     
-    static final MethodHandle gtk_combo_box_popup = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_popup = Interop.downcallHandle(
         "gtk_combo_box_popup",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -391,7 +402,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * <p>
      * Before calling this, {@code combo_box} must be mapped, or nothing will happen.
      */
-    public void popup() {
+    public @NotNull void popup() {
         try {
             gtk_combo_box_popup.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -399,7 +410,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         }
     }
     
-    static final MethodHandle gtk_combo_box_popup_for_device = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_popup_for_device = Interop.downcallHandle(
         "gtk_combo_box_popup_for_device",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -412,7 +423,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * in GTK 4. However, it is retained in case similar functionality is added
      * back later.
      */
-    public void popupForDevice(org.gtk.gdk.Device device) {
+    public @NotNull void popupForDevice(@NotNull org.gtk.gdk.Device device) {
         try {
             gtk_combo_box_popup_for_device.invokeExact(handle(), device.handle());
         } catch (Throwable ERR) {
@@ -420,7 +431,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         }
     }
     
-    static final MethodHandle gtk_combo_box_set_active = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_set_active = Interop.downcallHandle(
         "gtk_combo_box_set_active",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -428,7 +439,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     /**
      * Sets the active item of {@code combo_box} to be the item at {@code index}.
      */
-    public void setActive(int index) {
+    public @NotNull void setActive(@NotNull int index) {
         try {
             gtk_combo_box_set_active.invokeExact(handle(), index);
         } catch (Throwable ERR) {
@@ -436,7 +447,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         }
     }
     
-    static final MethodHandle gtk_combo_box_set_active_id = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_set_active_id = Interop.downcallHandle(
         "gtk_combo_box_set_active_id",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -452,16 +463,17 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * unset or if no row has the given ID then the function does nothing
      * and returns {@code false}.
      */
-    public boolean setActiveId(java.lang.String activeId) {
+    public boolean setActiveId(@Nullable java.lang.String activeId) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_combo_box_set_active_id.invokeExact(handle(), Interop.allocateNativeString(activeId).handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_combo_box_set_active_id.invokeExact(handle(), Interop.allocateNativeString(activeId));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_combo_box_set_active_iter = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_set_active_iter = Interop.downcallHandle(
         "gtk_combo_box_set_active_iter",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -471,7 +483,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * <p>
      * If {@code iter} is {@code null}, the active item is unset.
      */
-    public void setActiveIter(TreeIter iter) {
+    public @NotNull void setActiveIter(@Nullable TreeIter iter) {
         try {
             gtk_combo_box_set_active_iter.invokeExact(handle(), iter.handle());
         } catch (Throwable ERR) {
@@ -479,7 +491,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         }
     }
     
-    static final MethodHandle gtk_combo_box_set_button_sensitivity = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_set_button_sensitivity = Interop.downcallHandle(
         "gtk_combo_box_set_button_sensitivity",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -488,7 +500,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * Sets whether the dropdown button of the combo box should update
      * its sensitivity depending on the model contents.
      */
-    public void setButtonSensitivity(SensitivityType sensitivity) {
+    public @NotNull void setButtonSensitivity(@NotNull SensitivityType sensitivity) {
         try {
             gtk_combo_box_set_button_sensitivity.invokeExact(handle(), sensitivity.getValue());
         } catch (Throwable ERR) {
@@ -496,7 +508,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         }
     }
     
-    static final MethodHandle gtk_combo_box_set_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_set_child = Interop.downcallHandle(
         "gtk_combo_box_set_child",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -504,7 +516,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     /**
      * Sets the child widget of {@code combo_box}.
      */
-    public void setChild(Widget child) {
+    public @NotNull void setChild(@Nullable Widget child) {
         try {
             gtk_combo_box_set_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -512,7 +524,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         }
     }
     
-    static final MethodHandle gtk_combo_box_set_entry_text_column = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_set_entry_text_column = Interop.downcallHandle(
         "gtk_combo_box_set_entry_text_column",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -530,7 +542,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * This is only relevant if {@code combo_box} has been created with
      * {@code Gtk.ComboBox:has-entry} as {@code true}.
      */
-    public void setEntryTextColumn(int textColumn) {
+    public @NotNull void setEntryTextColumn(@NotNull int textColumn) {
         try {
             gtk_combo_box_set_entry_text_column.invokeExact(handle(), textColumn);
         } catch (Throwable ERR) {
@@ -538,7 +550,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         }
     }
     
-    static final MethodHandle gtk_combo_box_set_id_column = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_set_id_column = Interop.downcallHandle(
         "gtk_combo_box_set_id_column",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -550,7 +562,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * The column {@code id_column} in the model of {@code combo_box} must be of type
      * {@code G_TYPE_STRING}.
      */
-    public void setIdColumn(int idColumn) {
+    public @NotNull void setIdColumn(@NotNull int idColumn) {
         try {
             gtk_combo_box_set_id_column.invokeExact(handle(), idColumn);
         } catch (Throwable ERR) {
@@ -558,7 +570,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         }
     }
     
-    static final MethodHandle gtk_combo_box_set_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_set_model = Interop.downcallHandle(
         "gtk_combo_box_set_model",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -573,7 +585,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * call {@link CellLayout#clear} yourself if you need to set up different
      * cell renderers for the new model.
      */
-    public void setModel(TreeModel model) {
+    public @NotNull void setModel(@Nullable TreeModel model) {
         try {
             gtk_combo_box_set_model.invokeExact(handle(), model.handle());
         } catch (Throwable ERR) {
@@ -581,7 +593,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         }
     }
     
-    static final MethodHandle gtk_combo_box_set_popup_fixed_width = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_set_popup_fixed_width = Interop.downcallHandle(
         "gtk_combo_box_set_popup_fixed_width",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -592,7 +604,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * If {@code fixed} is {@code true}, the popup's width is set to match the
      * allocated width of the combo box.
      */
-    public void setPopupFixedWidth(boolean fixed) {
+    public @NotNull void setPopupFixedWidth(@NotNull boolean fixed) {
         try {
             gtk_combo_box_set_popup_fixed_width.invokeExact(handle(), fixed ? 1 : 0);
         } catch (Throwable ERR) {
@@ -600,7 +612,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         }
     }
     
-    static final MethodHandle gtk_combo_box_set_row_separator_func = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_set_row_separator_func = Interop.downcallHandle(
         "gtk_combo_box_set_row_separator_func",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -612,7 +624,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
      * If the row separator function is {@code null}, no separators are drawn.
      * This is the default value.
      */
-    public void setRowSeparatorFunc(TreeViewRowSeparatorFunc func) {
+    public @NotNull void setRowSeparatorFunc(@Nullable TreeViewRowSeparatorFunc func) {
         try {
             gtk_combo_box_set_row_separator_func.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -620,7 +632,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -642,13 +654,13 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("activate").handle(),
+                Interop.allocateNativeString("activate"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ComboBox.Callbacks.class, "signalComboBoxActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -672,13 +684,13 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("changed").handle(),
+                Interop.allocateNativeString("changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ComboBox.Callbacks.class, "signalComboBoxChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -688,7 +700,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     
     @FunctionalInterface
     public interface FormatEntryTextHandler {
-        void signalReceived(ComboBox source, java.lang.String path);
+        void signalReceived(ComboBox source, @NotNull java.lang.String path);
     }
     
     /**
@@ -728,13 +740,13 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("format-entry-text").handle(),
+                Interop.allocateNativeString("format-entry-text"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ComboBox.Callbacks.class, "signalComboBoxFormatEntryText",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -744,7 +756,7 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
     
     @FunctionalInterface
     public interface MoveActiveHandler {
-        void signalReceived(ComboBox source, ScrollType scrollType);
+        void signalReceived(ComboBox source, @NotNull ScrollType scrollType);
     }
     
     /**
@@ -756,13 +768,13 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("move-active").handle(),
+                Interop.allocateNativeString("move-active"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ComboBox.Callbacks.class, "signalComboBoxMoveActive",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -786,13 +798,13 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("popdown").handle(),
+                Interop.allocateNativeString("popdown"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ComboBox.Callbacks.class, "signalComboBoxPopdown",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -816,13 +828,13 @@ public class ComboBox extends Widget implements Accessible, Buildable, CellEdita
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("popup").handle(),
+                Interop.allocateNativeString("popup"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ComboBox.Callbacks.class, "signalComboBoxPopup",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

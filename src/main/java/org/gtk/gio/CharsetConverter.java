@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link CharsetConverter} is an implementation of {@link Converter} based on
@@ -19,15 +20,15 @@ public class CharsetConverter extends org.gtk.gobject.Object implements Converte
         return new CharsetConverter(gobject.refcounted());
     }
     
-    static final MethodHandle g_charset_converter_new = Interop.downcallHandle(
+    private static final MethodHandle g_charset_converter_new = Interop.downcallHandle(
         "g_charset_converter_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(java.lang.String toCharset, java.lang.String fromCharset) throws GErrorException {
+    private static Refcounted constructNew(@NotNull java.lang.String toCharset, @NotNull java.lang.String fromCharset) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_charset_converter_new.invokeExact(Interop.allocateNativeString(toCharset).handle(), Interop.allocateNativeString(fromCharset).handle(), (Addressable) GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_charset_converter_new.invokeExact(Interop.allocateNativeString(toCharset), Interop.allocateNativeString(fromCharset), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -40,11 +41,11 @@ public class CharsetConverter extends org.gtk.gobject.Object implements Converte
     /**
      * Creates a new {@link CharsetConverter}.
      */
-    public CharsetConverter(java.lang.String toCharset, java.lang.String fromCharset) throws GErrorException {
+    public CharsetConverter(@NotNull java.lang.String toCharset, @NotNull java.lang.String fromCharset) throws GErrorException {
         super(constructNew(toCharset, fromCharset));
     }
     
-    static final MethodHandle g_charset_converter_get_num_fallbacks = Interop.downcallHandle(
+    private static final MethodHandle g_charset_converter_get_num_fallbacks = Interop.downcallHandle(
         "g_charset_converter_get_num_fallbacks",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -53,15 +54,16 @@ public class CharsetConverter extends org.gtk.gobject.Object implements Converte
      * Gets the number of fallbacks that {@code converter} has applied so far.
      */
     public int getNumFallbacks() {
+        int RESULT;
         try {
-            var RESULT = (int) g_charset_converter_get_num_fallbacks.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_charset_converter_get_num_fallbacks.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_charset_converter_get_use_fallback = Interop.downcallHandle(
+    private static final MethodHandle g_charset_converter_get_use_fallback = Interop.downcallHandle(
         "g_charset_converter_get_use_fallback",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -70,15 +72,16 @@ public class CharsetConverter extends org.gtk.gobject.Object implements Converte
      * Gets the {@link CharsetConverter}:use-fallback property.
      */
     public boolean getUseFallback() {
+        int RESULT;
         try {
-            var RESULT = (int) g_charset_converter_get_use_fallback.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_charset_converter_get_use_fallback.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_charset_converter_set_use_fallback = Interop.downcallHandle(
+    private static final MethodHandle g_charset_converter_set_use_fallback = Interop.downcallHandle(
         "g_charset_converter_set_use_fallback",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -86,7 +89,7 @@ public class CharsetConverter extends org.gtk.gobject.Object implements Converte
     /**
      * Sets the {@link CharsetConverter}:use-fallback property.
      */
-    public void setUseFallback(boolean useFallback) {
+    public @NotNull void setUseFallback(@NotNull boolean useFallback) {
         try {
             g_charset_converter_set_use_fallback.invokeExact(handle(), useFallback ? 1 : 0);
         } catch (Throwable ERR) {

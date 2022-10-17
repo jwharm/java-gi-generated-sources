@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkEventControllerMotion} is an event controller tracking the pointer
@@ -26,7 +27,7 @@ public class EventControllerMotion extends EventController {
         return new EventControllerMotion(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_event_controller_motion_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_event_controller_motion_new = Interop.downcallHandle(
         "gtk_event_controller_motion_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -47,7 +48,7 @@ public class EventControllerMotion extends EventController {
         super(constructNew());
     }
     
-    static final MethodHandle gtk_event_controller_motion_contains_pointer = Interop.downcallHandle(
+    private static final MethodHandle gtk_event_controller_motion_contains_pointer = Interop.downcallHandle(
         "gtk_event_controller_motion_contains_pointer",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -56,15 +57,16 @@ public class EventControllerMotion extends EventController {
      * Returns if a pointer is within {@code self} or one of its children.
      */
     public boolean containsPointer() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_event_controller_motion_contains_pointer.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_event_controller_motion_contains_pointer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_event_controller_motion_is_pointer = Interop.downcallHandle(
+    private static final MethodHandle gtk_event_controller_motion_is_pointer = Interop.downcallHandle(
         "gtk_event_controller_motion_is_pointer",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -73,17 +75,18 @@ public class EventControllerMotion extends EventController {
      * Returns if a pointer is within {@code self}, but not one of its children.
      */
     public boolean isPointer() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_event_controller_motion_is_pointer.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_event_controller_motion_is_pointer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
     @FunctionalInterface
     public interface EnterHandler {
-        void signalReceived(EventControllerMotion source, double x, double y);
+        void signalReceived(EventControllerMotion source, @NotNull double x, @NotNull double y);
     }
     
     /**
@@ -93,13 +96,13 @@ public class EventControllerMotion extends EventController {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("enter").handle(),
+                Interop.allocateNativeString("enter"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EventControllerMotion.Callbacks.class, "signalEventControllerMotionEnter",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -119,13 +122,13 @@ public class EventControllerMotion extends EventController {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("leave").handle(),
+                Interop.allocateNativeString("leave"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EventControllerMotion.Callbacks.class, "signalEventControllerMotionLeave",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -135,7 +138,7 @@ public class EventControllerMotion extends EventController {
     
     @FunctionalInterface
     public interface MotionHandler {
-        void signalReceived(EventControllerMotion source, double x, double y);
+        void signalReceived(EventControllerMotion source, @NotNull double x, @NotNull double y);
     }
     
     /**
@@ -145,13 +148,13 @@ public class EventControllerMotion extends EventController {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("motion").handle(),
+                Interop.allocateNativeString("motion"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EventControllerMotion.Callbacks.class, "signalEventControllerMotionMotion",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

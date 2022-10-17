@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkBinLayout} is a {@code GtkLayoutManager} subclass useful for create "bins" of
@@ -24,7 +25,7 @@ public class BinLayout extends LayoutManager {
         return new BinLayout(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_bin_layout_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_bin_layout_new = Interop.downcallHandle(
         "gtk_bin_layout_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );

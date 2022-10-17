@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@link Cond} struct is an opaque data structure that represents a
@@ -77,7 +78,7 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_cond_broadcast = Interop.downcallHandle(
+    private static final MethodHandle g_cond_broadcast = Interop.downcallHandle(
         "g_cond_broadcast",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -88,7 +89,7 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      * It is good practice to lock the same mutex as the waiting threads
      * while calling this function, though not required.
      */
-    public void broadcast() {
+    public @NotNull void broadcast() {
         try {
             g_cond_broadcast.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -96,7 +97,7 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_cond_clear = Interop.downcallHandle(
+    private static final MethodHandle g_cond_clear = Interop.downcallHandle(
         "g_cond_clear",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -110,7 +111,7 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      * Calling g_cond_clear() for a {@link Cond} on which threads are
      * blocking leads to undefined behaviour.
      */
-    public void clear() {
+    public @NotNull void clear() {
         try {
             g_cond_clear.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -118,7 +119,7 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_cond_init = Interop.downcallHandle(
+    private static final MethodHandle g_cond_init = Interop.downcallHandle(
         "g_cond_init",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -136,7 +137,7 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      * Calling g_cond_init() on an already-initialised {@link Cond} leads
      * to undefined behaviour.
      */
-    public void init() {
+    public @NotNull void init() {
         try {
             g_cond_init.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -144,7 +145,7 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_cond_signal = Interop.downcallHandle(
+    private static final MethodHandle g_cond_signal = Interop.downcallHandle(
         "g_cond_signal",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -155,7 +156,7 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      * It is good practice to hold the same lock as the waiting thread
      * while calling this function, though not required.
      */
-    public void signal() {
+    public @NotNull void signal() {
         try {
             g_cond_signal.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -163,7 +164,7 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_cond_wait = Interop.downcallHandle(
+    private static final MethodHandle g_cond_wait = Interop.downcallHandle(
         "g_cond_wait",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -184,7 +185,7 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      * For this reason, g_cond_wait() must always be used in a loop.  See
      * the documentation for {@link Cond} for a complete example.
      */
-    public void wait(Mutex mutex) {
+    public @NotNull void wait(@NotNull Mutex mutex) {
         try {
             g_cond_wait.invokeExact(handle(), mutex.handle());
         } catch (Throwable ERR) {
@@ -192,7 +193,7 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_cond_wait_until = Interop.downcallHandle(
+    private static final MethodHandle g_cond_wait_until = Interop.downcallHandle(
         "g_cond_wait_until",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -247,13 +248,14 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      * have to start over waiting again (which would lead to a total wait
      * time of more than 5 seconds).
      */
-    public boolean waitUntil(Mutex mutex, long endTime) {
+    public boolean waitUntil(@NotNull Mutex mutex, @NotNull long endTime) {
+        int RESULT;
         try {
-            var RESULT = (int) g_cond_wait_until.invokeExact(handle(), mutex.handle(), endTime);
-            return RESULT != 0;
+            RESULT = (int) g_cond_wait_until.invokeExact(handle(), mutex.handle(), endTime);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
 }

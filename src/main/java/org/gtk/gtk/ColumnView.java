@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkColumnView} presents a large dynamic list of items using multiple columns
@@ -35,9 +36,8 @@ import java.lang.invoke.*;
  * <p>
  * To learn more about the list widget framework, see the
  * <a href="section-list-widget.html">overview</a>.
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * <pre>{@code 
  * columnview[.column-separators][.rich-list][.navigation-sidebar][.data-table]
  * ├── header
@@ -63,9 +63,8 @@ import java.lang.invoke.*;
  * The main columnview node may also carry style classes to select
  * the style of <a href="section-list-widget.html#list-styles">list presentation</a>:
  * .rich-list, .navigation-sidebar or .data-table.
- * <p>
+ * 
  * <h1>Accessibility</h1>
- * <p>
  * {@code GtkColumnView} uses the {@link AccessibleRole#TREE_GRID} role, header title
  * widgets are using the {@link AccessibleRole#COLUMN_HEADER} role. The row widgets
  * are using the {@link AccessibleRole#ROW} role, and individual cells are using
@@ -82,12 +81,12 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
         return new ColumnView(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_column_view_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_column_view_new = Interop.downcallHandle(
         "gtk_column_view_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(SelectionModel model) {
+    private static Refcounted constructNew(@Nullable SelectionModel model) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_column_view_new.invokeExact(model.refcounted().unowned().handle()), false);
             return RESULT;
@@ -102,11 +101,11 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * You most likely want to call {@link ColumnView#appendColumn}
      * to add columns next.
      */
-    public ColumnView(SelectionModel model) {
+    public ColumnView(@Nullable SelectionModel model) {
         super(constructNew(model));
     }
     
-    static final MethodHandle gtk_column_view_append_column = Interop.downcallHandle(
+    private static final MethodHandle gtk_column_view_append_column = Interop.downcallHandle(
         "gtk_column_view_append_column",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -114,7 +113,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
     /**
      * Appends the {@code column} to the end of the columns in {@code self}.
      */
-    public void appendColumn(ColumnViewColumn column) {
+    public @NotNull void appendColumn(@NotNull ColumnViewColumn column) {
         try {
             gtk_column_view_append_column.invokeExact(handle(), column.handle());
         } catch (Throwable ERR) {
@@ -122,7 +121,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
         }
     }
     
-    static final MethodHandle gtk_column_view_get_columns = Interop.downcallHandle(
+    private static final MethodHandle gtk_column_view_get_columns = Interop.downcallHandle(
         "gtk_column_view_get_columns",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -134,16 +133,17 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * monitor changes to the columns of {@code self} by connecting to the
      * ::items-changed signal.
      */
-    public org.gtk.gio.ListModel getColumns() {
+    public @NotNull org.gtk.gio.ListModel getColumns() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_column_view_get_columns.invokeExact(handle());
-            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_column_view_get_columns.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_column_view_get_enable_rubberband = Interop.downcallHandle(
+    private static final MethodHandle gtk_column_view_get_enable_rubberband = Interop.downcallHandle(
         "gtk_column_view_get_enable_rubberband",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -152,15 +152,16 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * Returns whether rows can be selected by dragging with the mouse.
      */
     public boolean getEnableRubberband() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_column_view_get_enable_rubberband.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_column_view_get_enable_rubberband.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_column_view_get_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_column_view_get_model = Interop.downcallHandle(
         "gtk_column_view_get_model",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -168,16 +169,17 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
     /**
      * Gets the model that's currently used to read the items displayed.
      */
-    public SelectionModel getModel() {
+    public @Nullable SelectionModel getModel() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_column_view_get_model.invokeExact(handle());
-            return new SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_column_view_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_column_view_get_reorderable = Interop.downcallHandle(
+    private static final MethodHandle gtk_column_view_get_reorderable = Interop.downcallHandle(
         "gtk_column_view_get_reorderable",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -186,15 +188,16 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * Returns whether columns are reorderable.
      */
     public boolean getReorderable() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_column_view_get_reorderable.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_column_view_get_reorderable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_column_view_get_show_column_separators = Interop.downcallHandle(
+    private static final MethodHandle gtk_column_view_get_show_column_separators = Interop.downcallHandle(
         "gtk_column_view_get_show_column_separators",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -204,15 +207,16 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * between columns.
      */
     public boolean getShowColumnSeparators() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_column_view_get_show_column_separators.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_column_view_get_show_column_separators.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_column_view_get_show_row_separators = Interop.downcallHandle(
+    private static final MethodHandle gtk_column_view_get_show_row_separators = Interop.downcallHandle(
         "gtk_column_view_get_show_row_separators",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -222,15 +226,16 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * between rows.
      */
     public boolean getShowRowSeparators() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_column_view_get_show_row_separators.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_column_view_get_show_row_separators.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_column_view_get_single_click_activate = Interop.downcallHandle(
+    private static final MethodHandle gtk_column_view_get_single_click_activate = Interop.downcallHandle(
         "gtk_column_view_get_single_click_activate",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -240,15 +245,16 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * selected on hover.
      */
     public boolean getSingleClickActivate() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_column_view_get_single_click_activate.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_column_view_get_single_click_activate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_column_view_get_sorter = Interop.downcallHandle(
+    private static final MethodHandle gtk_column_view_get_sorter = Interop.downcallHandle(
         "gtk_column_view_get_sorter",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -274,16 +280,17 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * gtk_column_view_set_model (view, selection);
      * }</pre>
      */
-    public Sorter getSorter() {
+    public @Nullable Sorter getSorter() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_column_view_get_sorter.invokeExact(handle());
-            return new Sorter(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_column_view_get_sorter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Sorter(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_column_view_insert_column = Interop.downcallHandle(
+    private static final MethodHandle gtk_column_view_insert_column = Interop.downcallHandle(
         "gtk_column_view_insert_column",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -293,7 +300,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * <p>
      * If {@code column} is already a column of {@code self}, it will be repositioned.
      */
-    public void insertColumn(int position, ColumnViewColumn column) {
+    public @NotNull void insertColumn(@NotNull int position, @NotNull ColumnViewColumn column) {
         try {
             gtk_column_view_insert_column.invokeExact(handle(), position, column.handle());
         } catch (Throwable ERR) {
@@ -301,7 +308,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
         }
     }
     
-    static final MethodHandle gtk_column_view_remove_column = Interop.downcallHandle(
+    private static final MethodHandle gtk_column_view_remove_column = Interop.downcallHandle(
         "gtk_column_view_remove_column",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -309,7 +316,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
     /**
      * Removes the {@code column} from the list of columns of {@code self}.
      */
-    public void removeColumn(ColumnViewColumn column) {
+    public @NotNull void removeColumn(@NotNull ColumnViewColumn column) {
         try {
             gtk_column_view_remove_column.invokeExact(handle(), column.handle());
         } catch (Throwable ERR) {
@@ -317,7 +324,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
         }
     }
     
-    static final MethodHandle gtk_column_view_set_enable_rubberband = Interop.downcallHandle(
+    private static final MethodHandle gtk_column_view_set_enable_rubberband = Interop.downcallHandle(
         "gtk_column_view_set_enable_rubberband",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -325,7 +332,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
     /**
      * Sets whether selections can be changed by dragging with the mouse.
      */
-    public void setEnableRubberband(boolean enableRubberband) {
+    public @NotNull void setEnableRubberband(@NotNull boolean enableRubberband) {
         try {
             gtk_column_view_set_enable_rubberband.invokeExact(handle(), enableRubberband ? 1 : 0);
         } catch (Throwable ERR) {
@@ -333,7 +340,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
         }
     }
     
-    static final MethodHandle gtk_column_view_set_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_column_view_set_model = Interop.downcallHandle(
         "gtk_column_view_set_model",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -343,7 +350,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * <p>
      * This must be a {@code Gtk.SelectionModel}.
      */
-    public void setModel(SelectionModel model) {
+    public @NotNull void setModel(@Nullable SelectionModel model) {
         try {
             gtk_column_view_set_model.invokeExact(handle(), model.handle());
         } catch (Throwable ERR) {
@@ -351,7 +358,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
         }
     }
     
-    static final MethodHandle gtk_column_view_set_reorderable = Interop.downcallHandle(
+    private static final MethodHandle gtk_column_view_set_reorderable = Interop.downcallHandle(
         "gtk_column_view_set_reorderable",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -359,7 +366,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
     /**
      * Sets whether columns should be reorderable by dragging.
      */
-    public void setReorderable(boolean reorderable) {
+    public @NotNull void setReorderable(@NotNull boolean reorderable) {
         try {
             gtk_column_view_set_reorderable.invokeExact(handle(), reorderable ? 1 : 0);
         } catch (Throwable ERR) {
@@ -367,7 +374,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
         }
     }
     
-    static final MethodHandle gtk_column_view_set_show_column_separators = Interop.downcallHandle(
+    private static final MethodHandle gtk_column_view_set_show_column_separators = Interop.downcallHandle(
         "gtk_column_view_set_show_column_separators",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -376,7 +383,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * Sets whether the list should show separators
      * between columns.
      */
-    public void setShowColumnSeparators(boolean showColumnSeparators) {
+    public @NotNull void setShowColumnSeparators(@NotNull boolean showColumnSeparators) {
         try {
             gtk_column_view_set_show_column_separators.invokeExact(handle(), showColumnSeparators ? 1 : 0);
         } catch (Throwable ERR) {
@@ -384,7 +391,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
         }
     }
     
-    static final MethodHandle gtk_column_view_set_show_row_separators = Interop.downcallHandle(
+    private static final MethodHandle gtk_column_view_set_show_row_separators = Interop.downcallHandle(
         "gtk_column_view_set_show_row_separators",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -393,7 +400,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * Sets whether the list should show separators
      * between rows.
      */
-    public void setShowRowSeparators(boolean showRowSeparators) {
+    public @NotNull void setShowRowSeparators(@NotNull boolean showRowSeparators) {
         try {
             gtk_column_view_set_show_row_separators.invokeExact(handle(), showRowSeparators ? 1 : 0);
         } catch (Throwable ERR) {
@@ -401,7 +408,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
         }
     }
     
-    static final MethodHandle gtk_column_view_set_single_click_activate = Interop.downcallHandle(
+    private static final MethodHandle gtk_column_view_set_single_click_activate = Interop.downcallHandle(
         "gtk_column_view_set_single_click_activate",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -410,7 +417,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * Sets whether rows should be activated on single click and
      * selected on hover.
      */
-    public void setSingleClickActivate(boolean singleClickActivate) {
+    public @NotNull void setSingleClickActivate(@NotNull boolean singleClickActivate) {
         try {
             gtk_column_view_set_single_click_activate.invokeExact(handle(), singleClickActivate ? 1 : 0);
         } catch (Throwable ERR) {
@@ -418,7 +425,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
         }
     }
     
-    static final MethodHandle gtk_column_view_sort_by_column = Interop.downcallHandle(
+    private static final MethodHandle gtk_column_view_sort_by_column = Interop.downcallHandle(
         "gtk_column_view_sort_by_column",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -437,7 +444,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
      * <p>
      * If {@code column} is {@code null}, the view will be unsorted.
      */
-    public void sortByColumn(ColumnViewColumn column, SortType direction) {
+    public @NotNull void sortByColumn(@Nullable ColumnViewColumn column, @NotNull SortType direction) {
         try {
             gtk_column_view_sort_by_column.invokeExact(handle(), column.handle(), direction.getValue());
         } catch (Throwable ERR) {
@@ -447,7 +454,7 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
     
     @FunctionalInterface
     public interface ActivateHandler {
-        void signalReceived(ColumnView source, int position);
+        void signalReceived(ColumnView source, @NotNull int position);
     }
     
     /**
@@ -462,13 +469,13 @@ public class ColumnView extends Widget implements Accessible, Buildable, Constra
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("activate").handle(),
+                Interop.allocateNativeString("activate"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ColumnView.Callbacks.class, "signalColumnViewActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

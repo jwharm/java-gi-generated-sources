@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@code GtkLabel} widget displays a small amount of text.
@@ -11,9 +12,8 @@ import java.lang.invoke.*;
  * such as a {@link Button}.
  * <p>
  * <img src="./doc-files/label.png" alt="An example GtkLabel">
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * <pre>{@code 
  * label
  * ├── [selection]
@@ -32,11 +32,10 @@ import java.lang.invoke.*;
  * If the label has links, there is one subnode per link. These subnodes
  * carry the link or visited state depending on whether they have been
  * visited. In this case, label node also gets a .link style class.
- * <p>
+ * 
  * <h1>GtkLabel as GtkBuildable</h1>
- * <p>
  * The GtkLabel implementation of the GtkBuildable interface supports a
- * custom &lt;attributes> element, which supports any number of <attribute&gt;
+ * custom &lt;attributes&gt; element, which supports any number of &lt;attribute&gt;
  * elements. The &lt;attribute&gt; element has attributes named “name“, “value“,
  * “start“ and “end“ and allows you to specify {@code Pango.Attribute}
  * values for this label.
@@ -56,13 +55,11 @@ import java.lang.invoke.*;
  * applied to the whole text. Note that specifying ranges does not make much
  * sense with translatable attributes. Use markup embedded in the translatable
  * content instead.
- * <p>
+ * 
  * <h1>Accessibility</h1>
- * <p>
  * {@code GtkLabel} uses the {@link AccessibleRole#LABEL} role.
- * <p>
+ * 
  * <h1>Mnemonics</h1>
- * <p>
  * Labels may contain “mnemonics”. Mnemonics are underlined characters in the
  * label, used for keyboard navigation. Mnemonics are created by providing a
  * string with an underscore before the mnemonic character, such as {@code "_File"},
@@ -74,7 +71,7 @@ import java.lang.invoke.*;
  * mnemonic’s target widget, you have to tell the label about the target
  * using {@link Label}. Here’s a simple example where
  * the label is inside a button:
- * <p>
+ * 
  * <pre>{@code c
  * // Pressing Alt+H will activate this button
  * GtkWidget *button = gtk_button_new ();
@@ -84,7 +81,7 @@ import java.lang.invoke.*;
  * <p>
  * There’s a convenience function to create buttons with a mnemonic label
  * already inside:
- * <p>
+ * 
  * <pre>{@code c
  * // Pressing Alt+H will activate this button
  * GtkWidget *button = gtk_button_new_with_mnemonic ("_Hello");
@@ -93,16 +90,15 @@ import java.lang.invoke.*;
  * To create a mnemonic for a widget alongside the label, such as a
  * {@link Entry}, you have to point the label at the entry with
  * {@link Label#setMnemonicWidget}:
- * <p>
+ * 
  * <pre>{@code c
  * // Pressing Alt+H will focus the entry
  * GtkWidget *entry = gtk_entry_new ();
  * GtkWidget *label = gtk_label_new_with_mnemonic ("_Hello");
  * gtk_label_set_mnemonic_widget (GTK_LABEL (label), entry);
  * }</pre>
- * <p>
+ * 
  * <h1>Markup (styled text)</h1>
- * <p>
  * To make it easy to format text in a label (changing colors,
  * fonts, etc.), label text can be provided in a simple
  * markup format:
@@ -130,16 +126,14 @@ import java.lang.invoke.*;
  * to [0, {@code G_MAXINT})). The reason is that specifying the start_index and
  * end_index for a {@code Pango.Attribute} requires knowledge of the exact
  * string being displayed, so translations will cause problems.
- * <p>
+ * 
  * <h1>Selectable labels</h1>
- * <p>
  * Labels can be made selectable with {@link Label#setSelectable}.
  * Selectable labels allow the user to copy the label contents to
  * the clipboard. Only labels that contain useful-to-copy information
  * — such as error messages — should be made selectable.
- * <p>
+ * 
  * <h1>Text layout</h1>
- * <p>
  * A label can contain any number of paragraphs, but will have
  * performance problems if it contains more than a small number.
  * Paragraphs are separated by newlines or other paragraph separators
@@ -160,9 +154,8 @@ import java.lang.invoke.*;
  * width-chars is used as the minimum width, if specified, and max-width-chars
  * is used as the natural width. Even if max-width-chars specified, wrapping
  * labels will be rewrapped to use all of the available width.
- * <p>
+ * 
  * <h1>Links</h1>
- * <p>
  * GTK supports markup for clickable hyperlinks in addition to regular Pango
  * markup. The markup for links is borrowed from HTML, using the {@code <a>} with
  * “href“, “title“ and “class“ attributes. GTK renders links similar to the
@@ -171,7 +164,7 @@ import java.lang.invoke.*;
  * used as style class on the CSS node for the link.
  * <p>
  * An example looks like this:
- * <p>
+ * 
  * <pre>{@code c
  * const char *text =
  * "Go to the"
@@ -196,14 +189,14 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         return new Label(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_label_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_new = Interop.downcallHandle(
         "gtk_label_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(java.lang.String str) {
+    private static Refcounted constructNew(@Nullable java.lang.String str) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_label_new.invokeExact(Interop.allocateNativeString(str).handle()), false);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_label_new.invokeExact(Interop.allocateNativeString(str)), false);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -215,18 +208,18 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * <p>
      * You can pass {@code null} to get an empty label widget.
      */
-    public Label(java.lang.String str) {
+    public Label(@Nullable java.lang.String str) {
         super(constructNew(str));
     }
     
-    static final MethodHandle gtk_label_new_with_mnemonic = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_new_with_mnemonic = Interop.downcallHandle(
         "gtk_label_new_with_mnemonic",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewWithMnemonic(java.lang.String str) {
+    private static Refcounted constructNewWithMnemonic(@Nullable java.lang.String str) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_label_new_with_mnemonic.invokeExact(Interop.allocateNativeString(str).handle()), false);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_label_new_with_mnemonic.invokeExact(Interop.allocateNativeString(str)), false);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -249,11 +242,11 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * the button or menu item will automatically become the mnemonic widget
      * and be activated by the mnemonic.
      */
-    public static Label newWithMnemonic(java.lang.String str) {
+    public static Label newWithMnemonic(@Nullable java.lang.String str) {
         return new Label(constructNewWithMnemonic(str));
     }
     
-    static final MethodHandle gtk_label_get_attributes = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_get_attributes = Interop.downcallHandle(
         "gtk_label_get_attributes",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -268,16 +261,17 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * attributes for the label, use
      * {@code pango_layout_get_attribute (gtk_label_get_layout (self))}.
      */
-    public org.pango.AttrList getAttributes() {
+    public @Nullable org.pango.AttrList getAttributes() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_label_get_attributes.invokeExact(handle());
-            return new org.pango.AttrList(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_label_get_attributes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.pango.AttrList(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_label_get_current_uri = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_get_current_uri = Interop.downcallHandle(
         "gtk_label_get_current_uri",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -292,16 +286,17 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * This function is intended for use in a {@code Gtk.Label::activate-link}
      * handler or for use in a {@code Gtk.Widget::query-tooltip} handler.
      */
-    public java.lang.String getCurrentUri() {
+    public @Nullable java.lang.String getCurrentUri() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_label_get_current_uri.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_label_get_current_uri.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_label_get_ellipsize = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_get_ellipsize = Interop.downcallHandle(
         "gtk_label_get_ellipsize",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -311,16 +306,17 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * <p>
      * See {@link Label#setEllipsize}.
      */
-    public org.pango.EllipsizeMode getEllipsize() {
+    public @NotNull org.pango.EllipsizeMode getEllipsize() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_label_get_ellipsize.invokeExact(handle());
-            return new org.pango.EllipsizeMode(RESULT);
+            RESULT = (int) gtk_label_get_ellipsize.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.pango.EllipsizeMode(RESULT);
     }
     
-    static final MethodHandle gtk_label_get_extra_menu = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_get_extra_menu = Interop.downcallHandle(
         "gtk_label_get_extra_menu",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -330,16 +326,17 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * <p>
      * See {@link Label#setExtraMenu}.
      */
-    public org.gtk.gio.MenuModel getExtraMenu() {
+    public @Nullable org.gtk.gio.MenuModel getExtraMenu() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_label_get_extra_menu.invokeExact(handle());
-            return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_label_get_extra_menu.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_label_get_justify = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_get_justify = Interop.downcallHandle(
         "gtk_label_get_justify",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -349,16 +346,17 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * <p>
      * See {@link Label#setJustify}.
      */
-    public Justification getJustify() {
+    public @NotNull Justification getJustify() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_label_get_justify.invokeExact(handle());
-            return new Justification(RESULT);
+            RESULT = (int) gtk_label_get_justify.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Justification(RESULT);
     }
     
-    static final MethodHandle gtk_label_get_label = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_get_label = Interop.downcallHandle(
         "gtk_label_get_label",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -369,16 +367,17 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * The returned text includes any embedded underlines indicating
      * mnemonics and Pango markup. (See {@link Label#getText}).
      */
-    public java.lang.String getLabel() {
+    public @NotNull java.lang.String getLabel() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_label_get_label.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_label_get_label.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_label_get_layout = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_get_layout = Interop.downcallHandle(
         "gtk_label_get_layout",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -392,16 +391,17 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * freed by the caller. The {@code label} is free to recreate its layout
      * at any time, so it should be considered read-only.
      */
-    public org.pango.Layout getLayout() {
+    public @NotNull org.pango.Layout getLayout() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_label_get_layout.invokeExact(handle());
-            return new org.pango.Layout(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_label_get_layout.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.pango.Layout(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_label_get_layout_offsets = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_get_layout_offsets = Interop.downcallHandle(
         "gtk_label_get_layout_offsets",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -415,15 +415,19 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * functions you need to convert to and from pixels using PANGO_PIXELS()
      * or {@code Pango.SCALE}.
      */
-    public void getLayoutOffsets(PointerInteger x, PointerInteger y) {
+    public @NotNull void getLayoutOffsets(@NotNull Out<Integer> x, @NotNull Out<Integer> y) {
+        MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gtk_label_get_layout_offsets.invokeExact(handle(), x.handle(), y.handle());
+            gtk_label_get_layout_offsets.invokeExact(handle(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        x.set(xPOINTER.get(ValueLayout.JAVA_INT, 0));
+        y.set(yPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    static final MethodHandle gtk_label_get_lines = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_get_lines = Interop.downcallHandle(
         "gtk_label_get_lines",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -435,15 +439,16 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See {@link Label#setLines}.
      */
     public int getLines() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_label_get_lines.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_label_get_lines.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_label_get_max_width_chars = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_get_max_width_chars = Interop.downcallHandle(
         "gtk_label_get_max_width_chars",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -454,15 +459,16 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See {@link Label#setWidthChars}.
      */
     public int getMaxWidthChars() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_label_get_max_width_chars.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_label_get_max_width_chars.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_label_get_mnemonic_keyval = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_get_mnemonic_keyval = Interop.downcallHandle(
         "gtk_label_get_mnemonic_keyval",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -475,15 +481,16 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * mnemonic set up it returns {@code GDK_KEY_VoidSymbol}.
      */
     public int getMnemonicKeyval() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_label_get_mnemonic_keyval.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_label_get_mnemonic_keyval.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_label_get_mnemonic_widget = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_get_mnemonic_widget = Interop.downcallHandle(
         "gtk_label_get_mnemonic_widget",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -494,16 +501,17 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * <p>
      * See {@link Label#setMnemonicWidget}.
      */
-    public Widget getMnemonicWidget() {
+    public @Nullable Widget getMnemonicWidget() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_label_get_mnemonic_widget.invokeExact(handle());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_label_get_mnemonic_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_label_get_natural_wrap_mode = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_get_natural_wrap_mode = Interop.downcallHandle(
         "gtk_label_get_natural_wrap_mode",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -513,16 +521,17 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * <p>
      * See {@link Label#setNaturalWrapMode}.
      */
-    public NaturalWrapMode getNaturalWrapMode() {
+    public @NotNull NaturalWrapMode getNaturalWrapMode() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_label_get_natural_wrap_mode.invokeExact(handle());
-            return new NaturalWrapMode(RESULT);
+            RESULT = (int) gtk_label_get_natural_wrap_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new NaturalWrapMode(RESULT);
     }
     
-    static final MethodHandle gtk_label_get_selectable = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_get_selectable = Interop.downcallHandle(
         "gtk_label_get_selectable",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -531,15 +540,16 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * Returns whether the label is selectable.
      */
     public boolean getSelectable() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_label_get_selectable.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_label_get_selectable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_label_get_selection_bounds = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_get_selection_bounds = Interop.downcallHandle(
         "gtk_label_get_selection_bounds",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -547,16 +557,21 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Gets the selected range of characters in the label.
      */
-    public boolean getSelectionBounds(PointerInteger start, PointerInteger end) {
+    public boolean getSelectionBounds(@NotNull Out<Integer> start, @NotNull Out<Integer> end) {
+        MemorySegment startPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment endPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_label_get_selection_bounds.invokeExact(handle(), start.handle(), end.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_label_get_selection_bounds.invokeExact(handle(), (Addressable) startPOINTER.address(), (Addressable) endPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        start.set(startPOINTER.get(ValueLayout.JAVA_INT, 0));
+        end.set(endPOINTER.get(ValueLayout.JAVA_INT, 0));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_label_get_single_line_mode = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_get_single_line_mode = Interop.downcallHandle(
         "gtk_label_get_single_line_mode",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -565,15 +580,16 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * Returns whether the label is in single line mode.
      */
     public boolean getSingleLineMode() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_label_get_single_line_mode.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_label_get_single_line_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_label_get_text = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_get_text = Interop.downcallHandle(
         "gtk_label_get_text",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -585,16 +601,17 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * any embedded underlines indicating mnemonics or Pango markup. (See
      * {@link Label#getLabel})
      */
-    public java.lang.String getText() {
+    public @NotNull java.lang.String getText() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_label_get_text.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_label_get_text.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_label_get_use_markup = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_get_use_markup = Interop.downcallHandle(
         "gtk_label_get_use_markup",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -605,15 +622,16 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See {@link Label#setUseMarkup}.
      */
     public boolean getUseMarkup() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_label_get_use_markup.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_label_get_use_markup.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_label_get_use_underline = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_get_use_underline = Interop.downcallHandle(
         "gtk_label_get_use_underline",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -624,15 +642,16 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See {@link Label#setUseUnderline}.
      */
     public boolean getUseUnderline() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_label_get_use_underline.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_label_get_use_underline.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_label_get_width_chars = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_get_width_chars = Interop.downcallHandle(
         "gtk_label_get_width_chars",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -643,15 +662,16 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See {@link Label#setWidthChars}.
      */
     public int getWidthChars() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_label_get_width_chars.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_label_get_width_chars.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_label_get_wrap = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_get_wrap = Interop.downcallHandle(
         "gtk_label_get_wrap",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -662,15 +682,16 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See {@link Label#setWrap}.
      */
     public boolean getWrap() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_label_get_wrap.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_label_get_wrap.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_label_get_wrap_mode = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_get_wrap_mode = Interop.downcallHandle(
         "gtk_label_get_wrap_mode",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -680,16 +701,17 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * <p>
      * See {@link Label#setWrapMode}.
      */
-    public org.pango.WrapMode getWrapMode() {
+    public @NotNull org.pango.WrapMode getWrapMode() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_label_get_wrap_mode.invokeExact(handle());
-            return new org.pango.WrapMode(RESULT);
+            RESULT = (int) gtk_label_get_wrap_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.pango.WrapMode(RESULT);
     }
     
-    static final MethodHandle gtk_label_get_xalign = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_get_xalign = Interop.downcallHandle(
         "gtk_label_get_xalign",
         FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -700,15 +722,16 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See the {@code Gtk.Label:xalign} property.
      */
     public float getXalign() {
+        float RESULT;
         try {
-            var RESULT = (float) gtk_label_get_xalign.invokeExact(handle());
-            return RESULT;
+            RESULT = (float) gtk_label_get_xalign.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_label_get_yalign = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_get_yalign = Interop.downcallHandle(
         "gtk_label_get_yalign",
         FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -719,15 +742,16 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * See the {@code Gtk.Label:yalign} property.
      */
     public float getYalign() {
+        float RESULT;
         try {
-            var RESULT = (float) gtk_label_get_yalign.invokeExact(handle());
-            return RESULT;
+            RESULT = (float) gtk_label_get_yalign.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_label_select_region = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_select_region = Interop.downcallHandle(
         "gtk_label_select_region",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -739,7 +763,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * this function has no effect. If {@code start_offset} or
      * {@code end_offset} are -1, then the end of the label will be substituted.
      */
-    public void selectRegion(int startOffset, int endOffset) {
+    public @NotNull void selectRegion(@NotNull int startOffset, @NotNull int endOffset) {
         try {
             gtk_label_select_region.invokeExact(handle(), startOffset, endOffset);
         } catch (Throwable ERR) {
@@ -747,7 +771,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_label_set_attributes = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_set_attributes = Interop.downcallHandle(
         "gtk_label_set_attributes",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -762,7 +786,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * manually set attributes, if you must; know that the attributes will
      * be applied to the label after the markup string is parsed.
      */
-    public void setAttributes(org.pango.AttrList attrs) {
+    public @NotNull void setAttributes(@Nullable org.pango.AttrList attrs) {
         try {
             gtk_label_set_attributes.invokeExact(handle(), attrs.handle());
         } catch (Throwable ERR) {
@@ -770,7 +794,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_label_set_ellipsize = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_set_ellipsize = Interop.downcallHandle(
         "gtk_label_set_ellipsize",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -781,7 +805,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * The text will be ellipsized if there is not enough space
      * to render the entire string.
      */
-    public void setEllipsize(org.pango.EllipsizeMode mode) {
+    public @NotNull void setEllipsize(@NotNull org.pango.EllipsizeMode mode) {
         try {
             gtk_label_set_ellipsize.invokeExact(handle(), mode.getValue());
         } catch (Throwable ERR) {
@@ -789,7 +813,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_label_set_extra_menu = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_set_extra_menu = Interop.downcallHandle(
         "gtk_label_set_extra_menu",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -798,7 +822,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * Sets a menu model to add when constructing
      * the context menu for {@code label}.
      */
-    public void setExtraMenu(org.gtk.gio.MenuModel model) {
+    public @NotNull void setExtraMenu(@Nullable org.gtk.gio.MenuModel model) {
         try {
             gtk_label_set_extra_menu.invokeExact(handle(), model.handle());
         } catch (Throwable ERR) {
@@ -806,7 +830,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_label_set_justify = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_set_justify = Interop.downcallHandle(
         "gtk_label_set_justify",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -821,7 +845,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * {@link Label#setJustify} has no effect on labels containing
      * only a single line.
      */
-    public void setJustify(Justification jtype) {
+    public @NotNull void setJustify(@NotNull Justification jtype) {
         try {
             gtk_label_set_justify.invokeExact(handle(), jtype.getValue());
         } catch (Throwable ERR) {
@@ -829,7 +853,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_label_set_label = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_set_label = Interop.downcallHandle(
         "gtk_label_set_label",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -841,15 +865,15 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * markup depending on the values of the {@code Gtk.Label:use-underline}
      * and {@code Gtk.Label:use-markup} properties.
      */
-    public void setLabel(java.lang.String str) {
+    public @NotNull void setLabel(@NotNull java.lang.String str) {
         try {
-            gtk_label_set_label.invokeExact(handle(), Interop.allocateNativeString(str).handle());
+            gtk_label_set_label.invokeExact(handle(), Interop.allocateNativeString(str));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_label_set_lines = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_set_lines = Interop.downcallHandle(
         "gtk_label_set_lines",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -861,7 +885,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * This has no effect if the label is not wrapping or ellipsized.
      * Set this to -1 if you don’t want to limit the number of lines.
      */
-    public void setLines(int lines) {
+    public @NotNull void setLines(@NotNull int lines) {
         try {
             gtk_label_set_lines.invokeExact(handle(), lines);
         } catch (Throwable ERR) {
@@ -869,7 +893,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_label_set_markup = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_set_markup = Interop.downcallHandle(
         "gtk_label_set_markup",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -882,7 +906,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * <p>
      * If the {@code str} is external data, you may need to escape it
      * with g_markup_escape_text() or g_markup_printf_escaped():
-     * <p>
+     * 
      * <pre>{@code c
      * GtkWidget *self = gtk_label_new (NULL);
      * const char *str = "...";
@@ -903,15 +927,15 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * <p>
      * See also: {@link Label#setText}
      */
-    public void setMarkup(java.lang.String str) {
+    public @NotNull void setMarkup(@NotNull java.lang.String str) {
         try {
-            gtk_label_set_markup.invokeExact(handle(), Interop.allocateNativeString(str).handle());
+            gtk_label_set_markup.invokeExact(handle(), Interop.allocateNativeString(str));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_label_set_markup_with_mnemonic = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_set_markup_with_mnemonic = Interop.downcallHandle(
         "gtk_label_set_markup_with_mnemonic",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -927,15 +951,15 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * The mnemonic key can be used to activate another widget, chosen
      * automatically, or explicitly using {@link Label#setMnemonicWidget}.
      */
-    public void setMarkupWithMnemonic(java.lang.String str) {
+    public @NotNull void setMarkupWithMnemonic(@NotNull java.lang.String str) {
         try {
-            gtk_label_set_markup_with_mnemonic.invokeExact(handle(), Interop.allocateNativeString(str).handle());
+            gtk_label_set_markup_with_mnemonic.invokeExact(handle(), Interop.allocateNativeString(str));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_label_set_max_width_chars = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_set_max_width_chars = Interop.downcallHandle(
         "gtk_label_set_max_width_chars",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -943,7 +967,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Sets the desired maximum width in characters of {@code label} to {@code n_chars}.
      */
-    public void setMaxWidthChars(int nChars) {
+    public @NotNull void setMaxWidthChars(@NotNull int nChars) {
         try {
             gtk_label_set_max_width_chars.invokeExact(handle(), nChars);
         } catch (Throwable ERR) {
@@ -951,7 +975,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_label_set_mnemonic_widget = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_set_mnemonic_widget = Interop.downcallHandle(
         "gtk_label_set_mnemonic_widget",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -975,7 +999,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * this signal will activate the widget if there are no mnemonic collisions
      * and toggle focus between the colliding widgets otherwise.
      */
-    public void setMnemonicWidget(Widget widget) {
+    public @NotNull void setMnemonicWidget(@Nullable Widget widget) {
         try {
             gtk_label_set_mnemonic_widget.invokeExact(handle(), widget.handle());
         } catch (Throwable ERR) {
@@ -983,7 +1007,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_label_set_natural_wrap_mode = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_set_natural_wrap_mode = Interop.downcallHandle(
         "gtk_label_set_natural_wrap_mode",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -994,7 +1018,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * This only affects the natural size requested, for the actual wrapping used,
      * see the {@code Gtk.Label:wrap-mode} property.
      */
-    public void setNaturalWrapMode(NaturalWrapMode wrapMode) {
+    public @NotNull void setNaturalWrapMode(@NotNull NaturalWrapMode wrapMode) {
         try {
             gtk_label_set_natural_wrap_mode.invokeExact(handle(), wrapMode.getValue());
         } catch (Throwable ERR) {
@@ -1002,7 +1026,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_label_set_selectable = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_set_selectable = Interop.downcallHandle(
         "gtk_label_set_selectable",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1013,7 +1037,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * Selectable labels allow the user to select text from the label,
      * for copy-and-paste.
      */
-    public void setSelectable(boolean setting) {
+    public @NotNull void setSelectable(@NotNull boolean setting) {
         try {
             gtk_label_set_selectable.invokeExact(handle(), setting ? 1 : 0);
         } catch (Throwable ERR) {
@@ -1021,7 +1045,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_label_set_single_line_mode = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_set_single_line_mode = Interop.downcallHandle(
         "gtk_label_set_single_line_mode",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1029,7 +1053,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Sets whether the label is in single line mode.
      */
-    public void setSingleLineMode(boolean singleLineMode) {
+    public @NotNull void setSingleLineMode(@NotNull boolean singleLineMode) {
         try {
             gtk_label_set_single_line_mode.invokeExact(handle(), singleLineMode ? 1 : 0);
         } catch (Throwable ERR) {
@@ -1037,7 +1061,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_label_set_text = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_set_text = Interop.downcallHandle(
         "gtk_label_set_text",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1056,15 +1080,15 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * <p>
      * See also: {@link Label#setMarkup}
      */
-    public void setText(java.lang.String str) {
+    public @NotNull void setText(@NotNull java.lang.String str) {
         try {
-            gtk_label_set_text.invokeExact(handle(), Interop.allocateNativeString(str).handle());
+            gtk_label_set_text.invokeExact(handle(), Interop.allocateNativeString(str));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_label_set_text_with_mnemonic = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_set_text_with_mnemonic = Interop.downcallHandle(
         "gtk_label_set_text_with_mnemonic",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1077,15 +1101,15 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * The mnemonic key can be used to activate another widget, chosen
      * automatically, or explicitly using {@link Label#setMnemonicWidget}.
      */
-    public void setTextWithMnemonic(java.lang.String str) {
+    public @NotNull void setTextWithMnemonic(@NotNull java.lang.String str) {
         try {
-            gtk_label_set_text_with_mnemonic.invokeExact(handle(), Interop.allocateNativeString(str).handle());
+            gtk_label_set_text_with_mnemonic.invokeExact(handle(), Interop.allocateNativeString(str));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_label_set_use_markup = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_set_use_markup = Interop.downcallHandle(
         "gtk_label_set_use_markup",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1095,7 +1119,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * <p>
      * See {@link Label#setMarkup}.
      */
-    public void setUseMarkup(boolean setting) {
+    public @NotNull void setUseMarkup(@NotNull boolean setting) {
         try {
             gtk_label_set_use_markup.invokeExact(handle(), setting ? 1 : 0);
         } catch (Throwable ERR) {
@@ -1103,7 +1127,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_label_set_use_underline = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_set_use_underline = Interop.downcallHandle(
         "gtk_label_set_use_underline",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1111,7 +1135,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Sets whether underlines in the text indicate mnemonics.
      */
-    public void setUseUnderline(boolean setting) {
+    public @NotNull void setUseUnderline(@NotNull boolean setting) {
         try {
             gtk_label_set_use_underline.invokeExact(handle(), setting ? 1 : 0);
         } catch (Throwable ERR) {
@@ -1119,7 +1143,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_label_set_width_chars = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_set_width_chars = Interop.downcallHandle(
         "gtk_label_set_width_chars",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1127,7 +1151,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Sets the desired width in characters of {@code label} to {@code n_chars}.
      */
-    public void setWidthChars(int nChars) {
+    public @NotNull void setWidthChars(@NotNull int nChars) {
         try {
             gtk_label_set_width_chars.invokeExact(handle(), nChars);
         } catch (Throwable ERR) {
@@ -1135,7 +1159,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_label_set_wrap = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_set_wrap = Interop.downcallHandle(
         "gtk_label_set_wrap",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1153,7 +1177,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * container’s size. For a label that wraps at a specific position,
      * set the label’s width using {@link Widget#setSizeRequest}.
      */
-    public void setWrap(boolean wrap) {
+    public @NotNull void setWrap(@NotNull boolean wrap) {
         try {
             gtk_label_set_wrap.invokeExact(handle(), wrap ? 1 : 0);
         } catch (Throwable ERR) {
@@ -1161,7 +1185,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_label_set_wrap_mode = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_set_wrap_mode = Interop.downcallHandle(
         "gtk_label_set_wrap_mode",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1176,7 +1200,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * For sizing behavior, also consider the {@code Gtk.Label:natural-wrap-mode}
      * property.
      */
-    public void setWrapMode(org.pango.WrapMode wrapMode) {
+    public @NotNull void setWrapMode(@NotNull org.pango.WrapMode wrapMode) {
         try {
             gtk_label_set_wrap_mode.invokeExact(handle(), wrapMode.getValue());
         } catch (Throwable ERR) {
@@ -1184,7 +1208,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_label_set_xalign = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_set_xalign = Interop.downcallHandle(
         "gtk_label_set_xalign",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
     );
@@ -1194,7 +1218,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * <p>
      * See the {@code Gtk.Label:xalign} property.
      */
-    public void setXalign(float xalign) {
+    public @NotNull void setXalign(@NotNull float xalign) {
         try {
             gtk_label_set_xalign.invokeExact(handle(), xalign);
         } catch (Throwable ERR) {
@@ -1202,7 +1226,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_label_set_yalign = Interop.downcallHandle(
+    private static final MethodHandle gtk_label_set_yalign = Interop.downcallHandle(
         "gtk_label_set_yalign",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
     );
@@ -1212,7 +1236,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
      * <p>
      * See the {@code Gtk.Label:yalign} property.
      */
-    public void setYalign(float yalign) {
+    public @NotNull void setYalign(@NotNull float yalign) {
         try {
             gtk_label_set_yalign.invokeExact(handle(), yalign);
         } catch (Throwable ERR) {
@@ -1239,13 +1263,13 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("activate-current-link").handle(),
+                Interop.allocateNativeString("activate-current-link"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Label.Callbacks.class, "signalLabelActivateCurrentLink",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1255,7 +1279,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     
     @FunctionalInterface
     public interface ActivateLinkHandler {
-        boolean signalReceived(Label source, java.lang.String uri);
+        boolean signalReceived(Label source, @NotNull java.lang.String uri);
     }
     
     /**
@@ -1268,13 +1292,13 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("activate-link").handle(),
+                Interop.allocateNativeString("activate-link"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Label.Callbacks.class, "signalLabelActivateLink",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1298,13 +1322,13 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("copy-clipboard").handle(),
+                Interop.allocateNativeString("copy-clipboard"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Label.Callbacks.class, "signalLabelCopyClipboard",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1314,7 +1338,7 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
     
     @FunctionalInterface
     public interface MoveCursorHandler {
-        void signalReceived(Label source, MovementStep step, int count, boolean extendSelection);
+        void signalReceived(Label source, @NotNull MovementStep step, @NotNull int count, @NotNull boolean extendSelection);
     }
     
     /**
@@ -1341,13 +1365,13 @@ public class Label extends Widget implements Accessible, Buildable, ConstraintTa
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("move-cursor").handle(),
+                Interop.allocateNativeString("move-cursor"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Label.Callbacks.class, "signalLabelMoveCursor",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

@@ -3,13 +3,14 @@ package org.pango;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code PangoMatrix} specifies a transformation between user-space
  * and device coordinates.
  * <p>
  * The transformation is given by
- * <p>
+ * 
  * <pre>{@code 
  * x_device = x_user * matrix->xx + y_user * matrix->xy + matrix->x0;
  * y_device = x_user * matrix->yx + y_user * matrix->yy + matrix->y0;
@@ -21,7 +22,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle pango_matrix_concat = Interop.downcallHandle(
+    private static final MethodHandle pango_matrix_concat = Interop.downcallHandle(
         "pango_matrix_concat",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -31,7 +32,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * transformation given by first applying transformation
      * given by {@code new_matrix} then applying the original transformation.
      */
-    public void concat(Matrix newMatrix) {
+    public @NotNull void concat(@NotNull Matrix newMatrix) {
         try {
             pango_matrix_concat.invokeExact(handle(), newMatrix.handle());
         } catch (Throwable ERR) {
@@ -39,7 +40,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle pango_matrix_copy = Interop.downcallHandle(
+    private static final MethodHandle pango_matrix_copy = Interop.downcallHandle(
         "pango_matrix_copy",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -47,16 +48,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Copies a {@code PangoMatrix}.
      */
-    public Matrix copy() {
+    public @Nullable Matrix copy() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_matrix_copy.invokeExact(handle());
-            return new Matrix(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_matrix_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Matrix(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle pango_matrix_free = Interop.downcallHandle(
+    private static final MethodHandle pango_matrix_free = Interop.downcallHandle(
         "pango_matrix_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -64,7 +66,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Free a {@code PangoMatrix}.
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             pango_matrix_free.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -72,7 +74,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle pango_matrix_get_font_scale_factor = Interop.downcallHandle(
+    private static final MethodHandle pango_matrix_get_font_scale_factor = Interop.downcallHandle(
         "pango_matrix_get_font_scale_factor",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -85,15 +87,16 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * coordinate is needed as well, use {@link Matrix#getFontScaleFactors}.
      */
     public double getFontScaleFactor() {
+        double RESULT;
         try {
-            var RESULT = (double) pango_matrix_get_font_scale_factor.invokeExact(handle());
-            return RESULT;
+            RESULT = (double) pango_matrix_get_font_scale_factor.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle pango_matrix_get_font_scale_factors = Interop.downcallHandle(
+    private static final MethodHandle pango_matrix_get_font_scale_factors = Interop.downcallHandle(
         "pango_matrix_get_font_scale_factors",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -107,15 +110,19 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Note that output numbers will always be non-negative.
      */
-    public void getFontScaleFactors(PointerDouble xscale, PointerDouble yscale) {
+    public @NotNull void getFontScaleFactors(@NotNull Out<Double> xscale, @NotNull Out<Double> yscale) {
+        MemorySegment xscalePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment yscalePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         try {
-            pango_matrix_get_font_scale_factors.invokeExact(handle(), xscale.handle(), yscale.handle());
+            pango_matrix_get_font_scale_factors.invokeExact(handle(), (Addressable) xscalePOINTER.address(), (Addressable) yscalePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        xscale.set(xscalePOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        yscale.set(yscalePOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
     }
     
-    static final MethodHandle pango_matrix_get_slant_ratio = Interop.downcallHandle(
+    private static final MethodHandle pango_matrix_get_slant_ratio = Interop.downcallHandle(
         "pango_matrix_get_slant_ratio",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -131,15 +138,16 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * this is simply λ.
      */
     public double getSlantRatio() {
+        double RESULT;
         try {
-            var RESULT = (double) pango_matrix_get_slant_ratio.invokeExact(handle());
-            return RESULT;
+            RESULT = (double) pango_matrix_get_slant_ratio.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle pango_matrix_rotate = Interop.downcallHandle(
+    private static final MethodHandle pango_matrix_rotate = Interop.downcallHandle(
         "pango_matrix_rotate",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
     );
@@ -149,7 +157,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * transformation given by first rotating by {@code degrees} degrees
      * counter-clockwise then applying the original transformation.
      */
-    public void rotate(double degrees) {
+    public @NotNull void rotate(@NotNull double degrees) {
         try {
             pango_matrix_rotate.invokeExact(handle(), degrees);
         } catch (Throwable ERR) {
@@ -157,7 +165,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle pango_matrix_scale = Interop.downcallHandle(
+    private static final MethodHandle pango_matrix_scale = Interop.downcallHandle(
         "pango_matrix_scale",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
     );
@@ -168,7 +176,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * and {@code sy} in the Y direction then applying the original
      * transformation.
      */
-    public void scale(double scaleX, double scaleY) {
+    public @NotNull void scale(@NotNull double scaleX, @NotNull double scaleY) {
         try {
             pango_matrix_scale.invokeExact(handle(), scaleX, scaleY);
         } catch (Throwable ERR) {
@@ -176,7 +184,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle pango_matrix_transform_distance = Interop.downcallHandle(
+    private static final MethodHandle pango_matrix_transform_distance = Interop.downcallHandle(
         "pango_matrix_transform_distance",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -187,7 +195,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * This is similar to {@link Matrix#transformPoint},
      * except that the translation components of the transformation
      * are ignored. The calculation of the returned vector is as follows:
-     * <p>
+     * 
      * <pre>{@code 
      * dx2 = dx1 * xx + dy1 * xy;
      * dy2 = dx1 * yx + dy1 * yy;
@@ -198,15 +206,19 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * to ({@code x2},{@code y2}) then ({@code x1}+{@code dx1},{@code y1}+{@code dy1}) will transform to
      * ({@code x1}+{@code dx2},{@code y1}+{@code dy2}) for all values of {@code x1} and {@code x2}.
      */
-    public void transformDistance(PointerDouble dx, PointerDouble dy) {
+    public @NotNull void transformDistance(@NotNull Out<Double> dx, @NotNull Out<Double> dy) {
+        MemorySegment dxPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment dyPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         try {
-            pango_matrix_transform_distance.invokeExact(handle(), dx.handle(), dy.handle());
+            pango_matrix_transform_distance.invokeExact(handle(), (Addressable) dxPOINTER.address(), (Addressable) dyPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        dx.set(dxPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        dy.set(dyPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
     }
     
-    static final MethodHandle pango_matrix_transform_pixel_rectangle = Interop.downcallHandle(
+    private static final MethodHandle pango_matrix_transform_pixel_rectangle = Interop.downcallHandle(
         "pango_matrix_transform_pixel_rectangle",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -223,15 +235,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * on original rectangle in Pango units and convert to pixels afterward
      * using {@link extents_to_pixels#null}'s first argument.
      */
-    public void transformPixelRectangle(Rectangle rect) {
+    public @NotNull void transformPixelRectangle(@NotNull Out<Rectangle> rect) {
+        MemorySegment rectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            pango_matrix_transform_pixel_rectangle.invokeExact(handle(), rect.refcounted().unowned().handle());
+            pango_matrix_transform_pixel_rectangle.invokeExact(handle(), (Addressable) rectPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        rect.set(new Rectangle(Refcounted.get(rectPOINTER.get(ValueLayout.ADDRESS, 0), true)));
     }
     
-    static final MethodHandle pango_matrix_transform_point = Interop.downcallHandle(
+    private static final MethodHandle pango_matrix_transform_point = Interop.downcallHandle(
         "pango_matrix_transform_point",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -239,15 +253,19 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Transforms the point (@x, @y) by {@code matrix}.
      */
-    public void transformPoint(PointerDouble x, PointerDouble y) {
+    public @NotNull void transformPoint(@NotNull Out<Double> x, @NotNull Out<Double> y) {
+        MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         try {
-            pango_matrix_transform_point.invokeExact(handle(), x.handle(), y.handle());
+            pango_matrix_transform_point.invokeExact(handle(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        x.set(xPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        y.set(yPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
     }
     
-    static final MethodHandle pango_matrix_transform_rectangle = Interop.downcallHandle(
+    private static final MethodHandle pango_matrix_transform_rectangle = Interop.downcallHandle(
         "pango_matrix_transform_rectangle",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -272,15 +290,17 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * coordinates may overflow in Pango units (large matrix translation for
      * example).
      */
-    public void transformRectangle(Rectangle rect) {
+    public @NotNull void transformRectangle(@NotNull Out<Rectangle> rect) {
+        MemorySegment rectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            pango_matrix_transform_rectangle.invokeExact(handle(), rect.refcounted().unowned().handle());
+            pango_matrix_transform_rectangle.invokeExact(handle(), (Addressable) rectPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        rect.set(new Rectangle(Refcounted.get(rectPOINTER.get(ValueLayout.ADDRESS, 0), true)));
     }
     
-    static final MethodHandle pango_matrix_translate = Interop.downcallHandle(
+    private static final MethodHandle pango_matrix_translate = Interop.downcallHandle(
         "pango_matrix_translate",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
     );
@@ -290,7 +310,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * transformation given by first translating by ({@code tx}, {@code ty})
      * then applying the original transformation.
      */
-    public void translate(double tx, double ty) {
+    public @NotNull void translate(@NotNull double tx, @NotNull double ty) {
         try {
             pango_matrix_translate.invokeExact(handle(), tx, ty);
         } catch (Throwable ERR) {

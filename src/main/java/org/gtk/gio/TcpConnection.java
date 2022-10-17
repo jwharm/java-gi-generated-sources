@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * This is the subclass of {@link SocketConnection} that is created
@@ -19,7 +20,7 @@ public class TcpConnection extends SocketConnection {
         return new TcpConnection(gobject.refcounted());
     }
     
-    static final MethodHandle g_tcp_connection_get_graceful_disconnect = Interop.downcallHandle(
+    private static final MethodHandle g_tcp_connection_get_graceful_disconnect = Interop.downcallHandle(
         "g_tcp_connection_get_graceful_disconnect",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -29,15 +30,16 @@ public class TcpConnection extends SocketConnection {
      * g_tcp_connection_set_graceful_disconnect().
      */
     public boolean getGracefulDisconnect() {
+        int RESULT;
         try {
-            var RESULT = (int) g_tcp_connection_get_graceful_disconnect.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_tcp_connection_get_graceful_disconnect.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_tcp_connection_set_graceful_disconnect = Interop.downcallHandle(
+    private static final MethodHandle g_tcp_connection_set_graceful_disconnect = Interop.downcallHandle(
         "g_tcp_connection_set_graceful_disconnect",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -53,7 +55,7 @@ public class TcpConnection extends SocketConnection {
      * other side and for it to acknowledge this by closing the socket, which may
      * take a while. For this reason it is disabled by default.
      */
-    public void setGracefulDisconnect(boolean gracefulDisconnect) {
+    public @NotNull void setGracefulDisconnect(@NotNull boolean gracefulDisconnect) {
         try {
             g_tcp_connection_set_graceful_disconnect.invokeExact(handle(), gracefulDisconnect ? 1 : 0);
         } catch (Throwable ERR) {

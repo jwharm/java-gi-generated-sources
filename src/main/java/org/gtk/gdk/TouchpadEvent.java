@@ -3,6 +3,7 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * An event related to a gesture on a touchpad device.
@@ -23,7 +24,7 @@ public class TouchpadEvent extends Event {
         return new TouchpadEvent(gobject.refcounted());
     }
     
-    static final MethodHandle gdk_touchpad_event_get_deltas = Interop.downcallHandle(
+    private static final MethodHandle gdk_touchpad_event_get_deltas = Interop.downcallHandle(
         "gdk_touchpad_event_get_deltas",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -31,15 +32,19 @@ public class TouchpadEvent extends Event {
     /**
      * Extracts delta information from a touchpad event.
      */
-    public void getDeltas(PointerDouble dx, PointerDouble dy) {
+    public @NotNull void getDeltas(@NotNull Out<Double> dx, @NotNull Out<Double> dy) {
+        MemorySegment dxPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment dyPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         try {
-            gdk_touchpad_event_get_deltas.invokeExact(handle(), dx.handle(), dy.handle());
+            gdk_touchpad_event_get_deltas.invokeExact(handle(), (Addressable) dxPOINTER.address(), (Addressable) dyPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        dx.set(dxPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        dy.set(dyPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
     }
     
-    static final MethodHandle gdk_touchpad_event_get_gesture_phase = Interop.downcallHandle(
+    private static final MethodHandle gdk_touchpad_event_get_gesture_phase = Interop.downcallHandle(
         "gdk_touchpad_event_get_gesture_phase",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -47,16 +52,17 @@ public class TouchpadEvent extends Event {
     /**
      * Extracts the touchpad gesture phase from a touchpad event.
      */
-    public TouchpadGesturePhase getGesturePhase() {
+    public @NotNull TouchpadGesturePhase getGesturePhase() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_touchpad_event_get_gesture_phase.invokeExact(handle());
-            return new TouchpadGesturePhase(RESULT);
+            RESULT = (int) gdk_touchpad_event_get_gesture_phase.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TouchpadGesturePhase(RESULT);
     }
     
-    static final MethodHandle gdk_touchpad_event_get_n_fingers = Interop.downcallHandle(
+    private static final MethodHandle gdk_touchpad_event_get_n_fingers = Interop.downcallHandle(
         "gdk_touchpad_event_get_n_fingers",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -65,15 +71,16 @@ public class TouchpadEvent extends Event {
      * Extracts the number of fingers from a touchpad event.
      */
     public int getNFingers() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_touchpad_event_get_n_fingers.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gdk_touchpad_event_get_n_fingers.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gdk_touchpad_event_get_pinch_angle_delta = Interop.downcallHandle(
+    private static final MethodHandle gdk_touchpad_event_get_pinch_angle_delta = Interop.downcallHandle(
         "gdk_touchpad_event_get_pinch_angle_delta",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -82,15 +89,16 @@ public class TouchpadEvent extends Event {
      * Extracts the angle delta from a touchpad pinch event.
      */
     public double getPinchAngleDelta() {
+        double RESULT;
         try {
-            var RESULT = (double) gdk_touchpad_event_get_pinch_angle_delta.invokeExact(handle());
-            return RESULT;
+            RESULT = (double) gdk_touchpad_event_get_pinch_angle_delta.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gdk_touchpad_event_get_pinch_scale = Interop.downcallHandle(
+    private static final MethodHandle gdk_touchpad_event_get_pinch_scale = Interop.downcallHandle(
         "gdk_touchpad_event_get_pinch_scale",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -99,12 +107,13 @@ public class TouchpadEvent extends Event {
      * Extracts the scale from a touchpad pinch event.
      */
     public double getPinchScale() {
+        double RESULT;
         try {
-            var RESULT = (double) gdk_touchpad_event_get_pinch_scale.invokeExact(handle());
-            return RESULT;
+            RESULT = (double) gdk_touchpad_event_get_pinch_scale.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
 }

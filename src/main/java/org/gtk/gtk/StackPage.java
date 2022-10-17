@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkStackPage} is an auxiliary class used by {@code GtkStack}.
@@ -18,7 +19,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
         return new StackPage(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_stack_page_get_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_stack_page_get_child = Interop.downcallHandle(
         "gtk_stack_page_get_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -26,16 +27,17 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
     /**
      * Returns the stack child to which {@code self} belongs.
      */
-    public Widget getChild() {
+    public @NotNull Widget getChild() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_stack_page_get_child.invokeExact(handle());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_stack_page_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_stack_page_get_icon_name = Interop.downcallHandle(
+    private static final MethodHandle gtk_stack_page_get_icon_name = Interop.downcallHandle(
         "gtk_stack_page_get_icon_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -43,16 +45,17 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
     /**
      * Returns the icon name of the page.
      */
-    public java.lang.String getIconName() {
+    public @Nullable java.lang.String getIconName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_stack_page_get_icon_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_stack_page_get_icon_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_stack_page_get_name = Interop.downcallHandle(
+    private static final MethodHandle gtk_stack_page_get_name = Interop.downcallHandle(
         "gtk_stack_page_get_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -60,16 +63,17 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
     /**
      * Returns the name of the page.
      */
-    public java.lang.String getName() {
+    public @Nullable java.lang.String getName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_stack_page_get_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_stack_page_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_stack_page_get_needs_attention = Interop.downcallHandle(
+    private static final MethodHandle gtk_stack_page_get_needs_attention = Interop.downcallHandle(
         "gtk_stack_page_get_needs_attention",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -78,15 +82,16 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
      * Returns whether the page is marked as “needs attention”.
      */
     public boolean getNeedsAttention() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_stack_page_get_needs_attention.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_stack_page_get_needs_attention.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_stack_page_get_title = Interop.downcallHandle(
+    private static final MethodHandle gtk_stack_page_get_title = Interop.downcallHandle(
         "gtk_stack_page_get_title",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -94,16 +99,17 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
     /**
      * Gets the page title.
      */
-    public java.lang.String getTitle() {
+    public @Nullable java.lang.String getTitle() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_stack_page_get_title.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_stack_page_get_title.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_stack_page_get_use_underline = Interop.downcallHandle(
+    private static final MethodHandle gtk_stack_page_get_use_underline = Interop.downcallHandle(
         "gtk_stack_page_get_use_underline",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -112,15 +118,16 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
      * Gets whether underlines in the page title indicate mnemonics.
      */
     public boolean getUseUnderline() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_stack_page_get_use_underline.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_stack_page_get_use_underline.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_stack_page_get_visible = Interop.downcallHandle(
+    private static final MethodHandle gtk_stack_page_get_visible = Interop.downcallHandle(
         "gtk_stack_page_get_visible",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -132,15 +139,16 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
      * property of its widget.
      */
     public boolean getVisible() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_stack_page_get_visible.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_stack_page_get_visible.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_stack_page_set_icon_name = Interop.downcallHandle(
+    private static final MethodHandle gtk_stack_page_set_icon_name = Interop.downcallHandle(
         "gtk_stack_page_set_icon_name",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -148,15 +156,15 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
     /**
      * Sets the icon name of the page.
      */
-    public void setIconName(java.lang.String setting) {
+    public @NotNull void setIconName(@NotNull java.lang.String setting) {
         try {
-            gtk_stack_page_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(setting).handle());
+            gtk_stack_page_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(setting));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_stack_page_set_name = Interop.downcallHandle(
+    private static final MethodHandle gtk_stack_page_set_name = Interop.downcallHandle(
         "gtk_stack_page_set_name",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -164,15 +172,15 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
     /**
      * Sets the name of the page.
      */
-    public void setName(java.lang.String setting) {
+    public @NotNull void setName(@NotNull java.lang.String setting) {
         try {
-            gtk_stack_page_set_name.invokeExact(handle(), Interop.allocateNativeString(setting).handle());
+            gtk_stack_page_set_name.invokeExact(handle(), Interop.allocateNativeString(setting));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_stack_page_set_needs_attention = Interop.downcallHandle(
+    private static final MethodHandle gtk_stack_page_set_needs_attention = Interop.downcallHandle(
         "gtk_stack_page_set_needs_attention",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -180,7 +188,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
     /**
      * Sets whether the page is marked as “needs attention”.
      */
-    public void setNeedsAttention(boolean setting) {
+    public @NotNull void setNeedsAttention(@NotNull boolean setting) {
         try {
             gtk_stack_page_set_needs_attention.invokeExact(handle(), setting ? 1 : 0);
         } catch (Throwable ERR) {
@@ -188,7 +196,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
         }
     }
     
-    static final MethodHandle gtk_stack_page_set_title = Interop.downcallHandle(
+    private static final MethodHandle gtk_stack_page_set_title = Interop.downcallHandle(
         "gtk_stack_page_set_title",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -196,15 +204,15 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
     /**
      * Sets the page title.
      */
-    public void setTitle(java.lang.String setting) {
+    public @NotNull void setTitle(@NotNull java.lang.String setting) {
         try {
-            gtk_stack_page_set_title.invokeExact(handle(), Interop.allocateNativeString(setting).handle());
+            gtk_stack_page_set_title.invokeExact(handle(), Interop.allocateNativeString(setting));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_stack_page_set_use_underline = Interop.downcallHandle(
+    private static final MethodHandle gtk_stack_page_set_use_underline = Interop.downcallHandle(
         "gtk_stack_page_set_use_underline",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -212,7 +220,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
     /**
      * Sets whether underlines in the page title indicate mnemonics.
      */
-    public void setUseUnderline(boolean setting) {
+    public @NotNull void setUseUnderline(@NotNull boolean setting) {
         try {
             gtk_stack_page_set_use_underline.invokeExact(handle(), setting ? 1 : 0);
         } catch (Throwable ERR) {
@@ -220,7 +228,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
         }
     }
     
-    static final MethodHandle gtk_stack_page_set_visible = Interop.downcallHandle(
+    private static final MethodHandle gtk_stack_page_set_visible = Interop.downcallHandle(
         "gtk_stack_page_set_visible",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -228,7 +236,7 @@ public class StackPage extends org.gtk.gobject.Object implements Accessible {
     /**
      * Sets whether {@code page} is visible in its {@code GtkStack}.
      */
-    public void setVisible(boolean visible) {
+    public @NotNull void setVisible(@NotNull boolean visible) {
         try {
             gtk_stack_page_set_visible.invokeExact(handle(), visible ? 1 : 0);
         } catch (Throwable ERR) {

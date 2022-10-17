@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link FileIcon} specifies an icon by pointing to an image file
@@ -19,12 +20,12 @@ public class FileIcon extends org.gtk.gobject.Object implements Icon, LoadableIc
         return new FileIcon(gobject.refcounted());
     }
     
-    static final MethodHandle g_file_icon_new = Interop.downcallHandle(
+    private static final MethodHandle g_file_icon_new = Interop.downcallHandle(
         "g_file_icon_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(File file) {
+    private static Refcounted constructNew(@NotNull File file) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_file_icon_new.invokeExact(file.handle()), true);
             return RESULT;
@@ -36,11 +37,11 @@ public class FileIcon extends org.gtk.gobject.Object implements Icon, LoadableIc
     /**
      * Creates a new icon for a file.
      */
-    public FileIcon(File file) {
+    public FileIcon(@NotNull File file) {
         super(constructNew(file));
     }
     
-    static final MethodHandle g_file_icon_get_file = Interop.downcallHandle(
+    private static final MethodHandle g_file_icon_get_file = Interop.downcallHandle(
         "g_file_icon_get_file",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -48,13 +49,14 @@ public class FileIcon extends org.gtk.gobject.Object implements Icon, LoadableIc
     /**
      * Gets the {@link File} associated with the given {@code icon}.
      */
-    public File getFile() {
+    public @NotNull File getFile() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_icon_get_file.invokeExact(handle());
-            return new File.FileImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_file_icon_get_file.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new File.FileImpl(Refcounted.get(RESULT, false));
     }
     
 }

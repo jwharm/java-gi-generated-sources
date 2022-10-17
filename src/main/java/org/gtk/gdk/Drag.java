@@ -3,6 +3,7 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@code GdkDrag} object represents the source of an ongoing DND operation.
@@ -27,7 +28,7 @@ public class Drag extends org.gtk.gobject.Object {
         return new Drag(gobject.refcounted());
     }
     
-    static final MethodHandle gdk_drag_drop_done = Interop.downcallHandle(
+    private static final MethodHandle gdk_drag_drop_done = Interop.downcallHandle(
         "gdk_drag_drop_done",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -45,7 +46,7 @@ public class Drag extends org.gtk.gobject.Object {
      * call as effective, if this function is called multiple times,
      * all subsequent calls will be ignored.
      */
-    public void dropDone(boolean success) {
+    public @NotNull void dropDone(@NotNull boolean success) {
         try {
             gdk_drag_drop_done.invokeExact(handle(), success ? 1 : 0);
         } catch (Throwable ERR) {
@@ -53,7 +54,7 @@ public class Drag extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gdk_drag_get_actions = Interop.downcallHandle(
+    private static final MethodHandle gdk_drag_get_actions = Interop.downcallHandle(
         "gdk_drag_get_actions",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -61,16 +62,17 @@ public class Drag extends org.gtk.gobject.Object {
     /**
      * Determines the bitmask of possible actions proposed by the source.
      */
-    public DragAction getActions() {
+    public @NotNull DragAction getActions() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_drag_get_actions.invokeExact(handle());
-            return new DragAction(RESULT);
+            RESULT = (int) gdk_drag_get_actions.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new DragAction(RESULT);
     }
     
-    static final MethodHandle gdk_drag_get_content = Interop.downcallHandle(
+    private static final MethodHandle gdk_drag_get_content = Interop.downcallHandle(
         "gdk_drag_get_content",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -78,16 +80,17 @@ public class Drag extends org.gtk.gobject.Object {
     /**
      * Returns the {@code GdkContentProvider} associated to the {@code GdkDrag} object.
      */
-    public ContentProvider getContent() {
+    public @NotNull ContentProvider getContent() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_drag_get_content.invokeExact(handle());
-            return new ContentProvider(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_drag_get_content.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ContentProvider(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_drag_get_device = Interop.downcallHandle(
+    private static final MethodHandle gdk_drag_get_device = Interop.downcallHandle(
         "gdk_drag_get_device",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -95,16 +98,17 @@ public class Drag extends org.gtk.gobject.Object {
     /**
      * Returns the {@code GdkDevice} associated to the {@code GdkDrag} object.
      */
-    public Device getDevice() {
+    public @NotNull Device getDevice() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_drag_get_device.invokeExact(handle());
-            return new Device(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_drag_get_device.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Device(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_drag_get_display = Interop.downcallHandle(
+    private static final MethodHandle gdk_drag_get_display = Interop.downcallHandle(
         "gdk_drag_get_display",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -112,16 +116,17 @@ public class Drag extends org.gtk.gobject.Object {
     /**
      * Gets the {@code GdkDisplay} that the drag object was created for.
      */
-    public Display getDisplay() {
+    public @NotNull Display getDisplay() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_drag_get_display.invokeExact(handle());
-            return new Display(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_drag_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Display(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_drag_get_drag_surface = Interop.downcallHandle(
+    private static final MethodHandle gdk_drag_get_drag_surface = Interop.downcallHandle(
         "gdk_drag_get_drag_surface",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -135,16 +140,17 @@ public class Drag extends org.gtk.gobject.Object {
      * drag operation. The surface is owned by {@code drag} and will be destroyed
      * when the drag operation is over.
      */
-    public Surface getDragSurface() {
+    public @Nullable Surface getDragSurface() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_drag_get_drag_surface.invokeExact(handle());
-            return new Surface(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_drag_get_drag_surface.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Surface(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_drag_get_formats = Interop.downcallHandle(
+    private static final MethodHandle gdk_drag_get_formats = Interop.downcallHandle(
         "gdk_drag_get_formats",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -152,16 +158,17 @@ public class Drag extends org.gtk.gobject.Object {
     /**
      * Retrieves the formats supported by this {@code GdkDrag} object.
      */
-    public ContentFormats getFormats() {
+    public @NotNull ContentFormats getFormats() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_drag_get_formats.invokeExact(handle());
-            return new ContentFormats(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_drag_get_formats.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ContentFormats(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_drag_get_selected_action = Interop.downcallHandle(
+    private static final MethodHandle gdk_drag_get_selected_action = Interop.downcallHandle(
         "gdk_drag_get_selected_action",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -169,16 +176,17 @@ public class Drag extends org.gtk.gobject.Object {
     /**
      * Determines the action chosen by the drag destination.
      */
-    public DragAction getSelectedAction() {
+    public @NotNull DragAction getSelectedAction() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_drag_get_selected_action.invokeExact(handle());
-            return new DragAction(RESULT);
+            RESULT = (int) gdk_drag_get_selected_action.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new DragAction(RESULT);
     }
     
-    static final MethodHandle gdk_drag_get_surface = Interop.downcallHandle(
+    private static final MethodHandle gdk_drag_get_surface = Interop.downcallHandle(
         "gdk_drag_get_surface",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -186,16 +194,17 @@ public class Drag extends org.gtk.gobject.Object {
     /**
      * Returns the {@code GdkSurface} where the drag originates.
      */
-    public Surface getSurface() {
+    public @NotNull Surface getSurface() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_drag_get_surface.invokeExact(handle());
-            return new Surface(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_drag_get_surface.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Surface(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_drag_set_hotspot = Interop.downcallHandle(
+    private static final MethodHandle gdk_drag_set_hotspot = Interop.downcallHandle(
         "gdk_drag_set_hotspot",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -206,7 +215,7 @@ public class Drag extends org.gtk.gobject.Object {
      * <p>
      * Initially, the hotspot is at the top left corner of the drag surface.
      */
-    public void setHotspot(int hotX, int hotY) {
+    public @NotNull void setHotspot(@NotNull int hotX, @NotNull int hotY) {
         try {
             gdk_drag_set_hotspot.invokeExact(handle(), hotX, hotY);
         } catch (Throwable ERR) {
@@ -214,7 +223,7 @@ public class Drag extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gdk_drag_begin = Interop.downcallHandle(
+    private static final MethodHandle gdk_drag_begin = Interop.downcallHandle(
         "gdk_drag_begin",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
     );
@@ -235,18 +244,19 @@ public class Drag extends org.gtk.gobject.Object {
      * the source if {@link Drag#getSelectedAction} returns
      * {@link DragAction#MOVE}.
      */
-    public static Drag begin(Surface surface, Device device, ContentProvider content, DragAction actions, double dx, double dy) {
+    public static @Nullable Drag begin(@NotNull Surface surface, @NotNull Device device, @NotNull ContentProvider content, @NotNull DragAction actions, @NotNull double dx, @NotNull double dy) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_drag_begin.invokeExact(surface.handle(), device.handle(), content.handle(), actions.getValue(), dx, dy);
-            return new Drag(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gdk_drag_begin.invokeExact(surface.handle(), device.handle(), content.handle(), actions.getValue(), dx, dy);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Drag(Refcounted.get(RESULT, true));
     }
     
     @FunctionalInterface
     public interface CancelHandler {
-        void signalReceived(Drag source, DragCancelReason reason);
+        void signalReceived(Drag source, @NotNull DragCancelReason reason);
     }
     
     /**
@@ -256,13 +266,13 @@ public class Drag extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("cancel").handle(),
+                Interop.allocateNativeString("cancel"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Drag.Callbacks.class, "signalDragCancel",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -284,13 +294,13 @@ public class Drag extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("dnd-finished").handle(),
+                Interop.allocateNativeString("dnd-finished"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Drag.Callbacks.class, "signalDragDndFinished",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -310,13 +320,13 @@ public class Drag extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("drop-performed").handle(),
+                Interop.allocateNativeString("drop-performed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Drag.Callbacks.class, "signalDragDropPerformed",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

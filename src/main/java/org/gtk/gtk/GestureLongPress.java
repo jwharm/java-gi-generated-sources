@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkGestureLongPress} is a {@code GtkGesture} for long presses.
@@ -32,7 +33,7 @@ public class GestureLongPress extends GestureSingle {
         return new GestureLongPress(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_gesture_long_press_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_gesture_long_press_new = Interop.downcallHandle(
         "gtk_gesture_long_press_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -53,7 +54,7 @@ public class GestureLongPress extends GestureSingle {
         super(constructNew());
     }
     
-    static final MethodHandle gtk_gesture_long_press_get_delay_factor = Interop.downcallHandle(
+    private static final MethodHandle gtk_gesture_long_press_get_delay_factor = Interop.downcallHandle(
         "gtk_gesture_long_press_get_delay_factor",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -62,15 +63,16 @@ public class GestureLongPress extends GestureSingle {
      * Returns the delay factor.
      */
     public double getDelayFactor() {
+        double RESULT;
         try {
-            var RESULT = (double) gtk_gesture_long_press_get_delay_factor.invokeExact(handle());
-            return RESULT;
+            RESULT = (double) gtk_gesture_long_press_get_delay_factor.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_gesture_long_press_set_delay_factor = Interop.downcallHandle(
+    private static final MethodHandle gtk_gesture_long_press_set_delay_factor = Interop.downcallHandle(
         "gtk_gesture_long_press_set_delay_factor",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
     );
@@ -81,7 +83,7 @@ public class GestureLongPress extends GestureSingle {
      * The default long press time will be multiplied by this value.
      * Valid values are in the range [0.5..2.0].
      */
-    public void setDelayFactor(double delayFactor) {
+    public @NotNull void setDelayFactor(@NotNull double delayFactor) {
         try {
             gtk_gesture_long_press_set_delay_factor.invokeExact(handle(), delayFactor);
         } catch (Throwable ERR) {
@@ -102,13 +104,13 @@ public class GestureLongPress extends GestureSingle {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("cancelled").handle(),
+                Interop.allocateNativeString("cancelled"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureLongPress.Callbacks.class, "signalGestureLongPressCancelled",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -118,7 +120,7 @@ public class GestureLongPress extends GestureSingle {
     
     @FunctionalInterface
     public interface PressedHandler {
-        void signalReceived(GestureLongPress source, double x, double y);
+        void signalReceived(GestureLongPress source, @NotNull double x, @NotNull double y);
     }
     
     /**
@@ -129,13 +131,13 @@ public class GestureLongPress extends GestureSingle {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("pressed").handle(),
+                Interop.allocateNativeString("pressed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureLongPress.Callbacks.class, "signalGestureLongPressPressed",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

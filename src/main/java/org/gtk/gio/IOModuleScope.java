@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Represents a scope for loading IO modules. A scope can be used for blocking
@@ -17,7 +18,7 @@ public class IOModuleScope extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_io_module_scope_block = Interop.downcallHandle(
+    private static final MethodHandle g_io_module_scope_block = Interop.downcallHandle(
         "g_io_module_scope_block",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -27,15 +28,15 @@ public class IOModuleScope extends io.github.jwharm.javagi.ResourceBase {
      * this scope is used with g_io_modules_scan_all_in_directory_with_scope()
      * or g_io_modules_load_all_in_directory_with_scope().
      */
-    public void block(java.lang.String basename) {
+    public @NotNull void block(@NotNull java.lang.String basename) {
         try {
-            g_io_module_scope_block.invokeExact(handle(), Interop.allocateNativeString(basename).handle());
+            g_io_module_scope_block.invokeExact(handle(), Interop.allocateNativeString(basename));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_io_module_scope_free = Interop.downcallHandle(
+    private static final MethodHandle g_io_module_scope_free = Interop.downcallHandle(
         "g_io_module_scope_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -43,7 +44,7 @@ public class IOModuleScope extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Free a module scope.
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             g_io_module_scope_free.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -51,7 +52,7 @@ public class IOModuleScope extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_io_module_scope_new = Interop.downcallHandle(
+    private static final MethodHandle g_io_module_scope_new = Interop.downcallHandle(
         "g_io_module_scope_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -64,13 +65,14 @@ public class IOModuleScope extends io.github.jwharm.javagi.ResourceBase {
      * which have the same base name as a module that has already been seen
      * in this scope.
      */
-    public static IOModuleScope new_(IOModuleScopeFlags flags) {
+    public static @NotNull IOModuleScope new_(@NotNull IOModuleScopeFlags flags) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_io_module_scope_new.invokeExact(flags.getValue());
-            return new IOModuleScope(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_io_module_scope_new.invokeExact(flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new IOModuleScope(Refcounted.get(RESULT, true));
     }
     
 }

@@ -1,6 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The type used for functions that operate on test fixtures.  This is
@@ -16,5 +17,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface TestFixtureFunc {
-        void onTestFixtureFunc(java.lang.foreign.MemoryAddress fixture);
+        void onTestFixtureFunc(@NotNull java.lang.foreign.MemoryAddress fixture);
 }

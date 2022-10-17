@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Contains the public fields of a pointer array.
@@ -13,7 +14,7 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_ptr_array_add = Interop.downcallHandle(
+    private static final MethodHandle g_ptr_array_add = Interop.downcallHandle(
         "g_ptr_array_add",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -22,15 +23,15 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * Adds a pointer to the end of the pointer array. The array will grow
      * in size automatically if necessary.
      */
-    public static void add(java.lang.foreign.MemoryAddress[] array, java.lang.foreign.MemoryAddress data) {
+    public static @NotNull void add(@NotNull java.lang.foreign.MemoryAddress[] array, @Nullable java.lang.foreign.MemoryAddress data) {
         try {
-            g_ptr_array_add.invokeExact(Interop.allocateNativeArray(array).handle(), data);
+            g_ptr_array_add.invokeExact(Interop.allocateNativeArray(array), data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_ptr_array_copy = Interop.downcallHandle(
+    private static final MethodHandle g_ptr_array_copy = Interop.downcallHandle(
         "g_ptr_array_copy",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -50,22 +51,23 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * The copy of {@code array} will have the same {@link DestroyNotify} for its elements as
      * {@code array}.
      */
-    public static PointerAddress copy(java.lang.foreign.MemoryAddress[] array, CopyFunc func) {
+    public static PointerAddress copy(@NotNull java.lang.foreign.MemoryAddress[] array, @Nullable CopyFunc func) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_ptr_array_copy.invokeExact(Interop.allocateNativeArray(array).handle(), 
+            RESULT = (MemoryAddress) g_ptr_array_copy.invokeExact(Interop.allocateNativeArray(array), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCopyFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
-            return new PointerAddress(RESULT);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PointerAddress(RESULT);
     }
     
-    static final MethodHandle g_ptr_array_extend = Interop.downcallHandle(
+    private static final MethodHandle g_ptr_array_extend = Interop.downcallHandle(
         "g_ptr_array_extend",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -84,21 +86,21 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * If {@code func} is {@code null}, then only the pointers (and not what they are
      * pointing to) are copied to the new {@link PtrArray}.
      */
-    public static void extend(java.lang.foreign.MemoryAddress[] arrayToExtend, java.lang.foreign.MemoryAddress[] array, CopyFunc func) {
+    public static @NotNull void extend(@NotNull java.lang.foreign.MemoryAddress[] arrayToExtend, @NotNull java.lang.foreign.MemoryAddress[] array, @Nullable CopyFunc func) {
         try {
-            g_ptr_array_extend.invokeExact(Interop.allocateNativeArray(arrayToExtend).handle(), Interop.allocateNativeArray(array).handle(), 
+            g_ptr_array_extend.invokeExact(Interop.allocateNativeArray(arrayToExtend), Interop.allocateNativeArray(array), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCopyFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_ptr_array_extend_and_steal = Interop.downcallHandle(
+    private static final MethodHandle g_ptr_array_extend_and_steal = Interop.downcallHandle(
         "g_ptr_array_extend_and_steal",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -112,15 +114,15 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * is 1. If its reference count is higher, it will be decremented and the
      * length of {@code array} set to zero.
      */
-    public static void extendAndSteal(java.lang.foreign.MemoryAddress[] arrayToExtend, java.lang.foreign.MemoryAddress[] array) {
+    public static @NotNull void extendAndSteal(@NotNull java.lang.foreign.MemoryAddress[] arrayToExtend, @NotNull java.lang.foreign.MemoryAddress[] array) {
         try {
-            g_ptr_array_extend_and_steal.invokeExact(Interop.allocateNativeArray(arrayToExtend).handle(), Interop.allocateNativeArray(array).handle());
+            g_ptr_array_extend_and_steal.invokeExact(Interop.allocateNativeArray(arrayToExtend), Interop.allocateNativeArray(array));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_ptr_array_find = Interop.downcallHandle(
+    private static final MethodHandle g_ptr_array_find = Interop.downcallHandle(
         "g_ptr_array_find",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -134,16 +136,19 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * This does pointer comparisons only. If you want to use more complex equality
      * checks, such as string comparisons, use g_ptr_array_find_with_equal_func().
      */
-    public static boolean find(java.lang.foreign.MemoryAddress[] haystack, java.lang.foreign.MemoryAddress needle, PointerInteger index) {
+    public static boolean find(@NotNull java.lang.foreign.MemoryAddress[] haystack, @Nullable java.lang.foreign.MemoryAddress needle, @NotNull Out<Integer> index) {
+        MemorySegment indexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        int RESULT;
         try {
-            var RESULT = (int) g_ptr_array_find.invokeExact(Interop.allocateNativeArray(haystack).handle(), needle, index.handle());
-            return RESULT != 0;
+            RESULT = (int) g_ptr_array_find.invokeExact(Interop.allocateNativeArray(haystack), needle, (Addressable) indexPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        index.set(indexPOINTER.get(ValueLayout.JAVA_INT, 0));
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_ptr_array_foreach = Interop.downcallHandle(
+    private static final MethodHandle g_ptr_array_foreach = Interop.downcallHandle(
         "g_ptr_array_foreach",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -152,21 +157,21 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * Calls a function for each element of a {@link PtrArray}. {@code func} must not
      * add elements to or remove elements from the array.
      */
-    public static void foreach(java.lang.foreign.MemoryAddress[] array, Func func) {
+    public static @NotNull void foreach(@NotNull java.lang.foreign.MemoryAddress[] array, @NotNull Func func) {
         try {
-            g_ptr_array_foreach.invokeExact(Interop.allocateNativeArray(array).handle(), 
+            g_ptr_array_foreach.invokeExact(Interop.allocateNativeArray(array), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_ptr_array_free = Interop.downcallHandle(
+    private static final MethodHandle g_ptr_array_free = Interop.downcallHandle(
         "g_ptr_array_free",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -187,16 +192,17 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * threads, use only the atomic g_ptr_array_ref() and g_ptr_array_unref()
      * functions.
      */
-    public static java.lang.foreign.MemoryAddress free(java.lang.foreign.MemoryAddress[] array, boolean freeSeg) {
+    public static @Nullable java.lang.foreign.MemoryAddress free(@NotNull java.lang.foreign.MemoryAddress[] array, @NotNull boolean freeSeg) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_ptr_array_free.invokeExact(Interop.allocateNativeArray(array).handle(), freeSeg ? 1 : 0);
-            return RESULT;
+            RESULT = (MemoryAddress) g_ptr_array_free.invokeExact(Interop.allocateNativeArray(array), freeSeg ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_ptr_array_insert = Interop.downcallHandle(
+    private static final MethodHandle g_ptr_array_insert = Interop.downcallHandle(
         "g_ptr_array_insert",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -205,15 +211,15 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * Inserts an element into the pointer array at the given index. The
      * array will grow in size automatically if necessary.
      */
-    public static void insert(java.lang.foreign.MemoryAddress[] array, int index, java.lang.foreign.MemoryAddress data) {
+    public static @NotNull void insert(@NotNull java.lang.foreign.MemoryAddress[] array, @NotNull int index, @Nullable java.lang.foreign.MemoryAddress data) {
         try {
-            g_ptr_array_insert.invokeExact(Interop.allocateNativeArray(array).handle(), index, data);
+            g_ptr_array_insert.invokeExact(Interop.allocateNativeArray(array), index, data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_ptr_array_new = Interop.downcallHandle(
+    private static final MethodHandle g_ptr_array_new = Interop.downcallHandle(
         "g_ptr_array_new",
         FunctionDescriptor.ofVoid()
     );
@@ -222,15 +228,16 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * Creates a new {@link PtrArray} with a reference count of 1.
      */
     public static PointerAddress new_() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_ptr_array_new.invokeExact();
-            return new PointerAddress(RESULT);
+            RESULT = (MemoryAddress) g_ptr_array_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PointerAddress(RESULT);
     }
     
-    static final MethodHandle g_ptr_array_ref = Interop.downcallHandle(
+    private static final MethodHandle g_ptr_array_ref = Interop.downcallHandle(
         "g_ptr_array_ref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -239,16 +246,17 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * Atomically increments the reference count of {@code array} by one.
      * This function is thread-safe and may be called from any thread.
      */
-    public static PointerAddress ref(java.lang.foreign.MemoryAddress[] array) {
+    public static PointerAddress ref(@NotNull java.lang.foreign.MemoryAddress[] array) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_ptr_array_ref.invokeExact(Interop.allocateNativeArray(array).handle());
-            return new PointerAddress(RESULT);
+            RESULT = (MemoryAddress) g_ptr_array_ref.invokeExact(Interop.allocateNativeArray(array));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PointerAddress(RESULT);
     }
     
-    static final MethodHandle g_ptr_array_remove = Interop.downcallHandle(
+    private static final MethodHandle g_ptr_array_remove = Interop.downcallHandle(
         "g_ptr_array_remove",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -262,16 +270,17 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * It returns {@code true} if the pointer was removed, or {@code false} if the
      * pointer was not found.
      */
-    public static boolean remove(java.lang.foreign.MemoryAddress[] array, java.lang.foreign.MemoryAddress data) {
+    public static boolean remove(@NotNull java.lang.foreign.MemoryAddress[] array, @Nullable java.lang.foreign.MemoryAddress data) {
+        int RESULT;
         try {
-            var RESULT = (int) g_ptr_array_remove.invokeExact(Interop.allocateNativeArray(array).handle(), data);
-            return RESULT != 0;
+            RESULT = (int) g_ptr_array_remove.invokeExact(Interop.allocateNativeArray(array), data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_ptr_array_remove_fast = Interop.downcallHandle(
+    private static final MethodHandle g_ptr_array_remove_fast = Interop.downcallHandle(
         "g_ptr_array_remove_fast",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -286,16 +295,17 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * It returns {@code true} if the pointer was removed, or {@code false} if the
      * pointer was not found.
      */
-    public static boolean removeFast(java.lang.foreign.MemoryAddress[] array, java.lang.foreign.MemoryAddress data) {
+    public static boolean removeFast(@NotNull java.lang.foreign.MemoryAddress[] array, @Nullable java.lang.foreign.MemoryAddress data) {
+        int RESULT;
         try {
-            var RESULT = (int) g_ptr_array_remove_fast.invokeExact(Interop.allocateNativeArray(array).handle(), data);
-            return RESULT != 0;
+            RESULT = (int) g_ptr_array_remove_fast.invokeExact(Interop.allocateNativeArray(array), data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_ptr_array_remove_index = Interop.downcallHandle(
+    private static final MethodHandle g_ptr_array_remove_index = Interop.downcallHandle(
         "g_ptr_array_remove_index",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -307,16 +317,17 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * element. If so, the return value from this function will potentially point
      * to freed memory (depending on the {@link DestroyNotify} implementation).
      */
-    public static java.lang.foreign.MemoryAddress removeIndex(java.lang.foreign.MemoryAddress[] array, int index) {
+    public static @Nullable java.lang.foreign.MemoryAddress removeIndex(@NotNull java.lang.foreign.MemoryAddress[] array, @NotNull int index) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_ptr_array_remove_index.invokeExact(Interop.allocateNativeArray(array).handle(), index);
-            return RESULT;
+            RESULT = (MemoryAddress) g_ptr_array_remove_index.invokeExact(Interop.allocateNativeArray(array), index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_ptr_array_remove_index_fast = Interop.downcallHandle(
+    private static final MethodHandle g_ptr_array_remove_index_fast = Interop.downcallHandle(
         "g_ptr_array_remove_index_fast",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -330,16 +341,17 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * return value from this function will potentially point to freed memory
      * (depending on the {@link DestroyNotify} implementation).
      */
-    public static java.lang.foreign.MemoryAddress removeIndexFast(java.lang.foreign.MemoryAddress[] array, int index) {
+    public static @Nullable java.lang.foreign.MemoryAddress removeIndexFast(@NotNull java.lang.foreign.MemoryAddress[] array, @NotNull int index) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_ptr_array_remove_index_fast.invokeExact(Interop.allocateNativeArray(array).handle(), index);
-            return RESULT;
+            RESULT = (MemoryAddress) g_ptr_array_remove_index_fast.invokeExact(Interop.allocateNativeArray(array), index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_ptr_array_remove_range = Interop.downcallHandle(
+    private static final MethodHandle g_ptr_array_remove_range = Interop.downcallHandle(
         "g_ptr_array_remove_range",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -350,16 +362,17 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * gap. If {@code array} has a non-{@code null} {@link DestroyNotify} function it is
      * called for the removed elements.
      */
-    public static PointerAddress removeRange(java.lang.foreign.MemoryAddress[] array, int index, int length) {
+    public static PointerAddress removeRange(@NotNull java.lang.foreign.MemoryAddress[] array, @NotNull int index, @NotNull int length) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_ptr_array_remove_range.invokeExact(Interop.allocateNativeArray(array).handle(), index, length);
-            return new PointerAddress(RESULT);
+            RESULT = (MemoryAddress) g_ptr_array_remove_range.invokeExact(Interop.allocateNativeArray(array), index, length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PointerAddress(RESULT);
     }
     
-    static final MethodHandle g_ptr_array_set_size = Interop.downcallHandle(
+    private static final MethodHandle g_ptr_array_set_size = Interop.downcallHandle(
         "g_ptr_array_set_size",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -370,15 +383,15 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * if {@code array} has a non-{@code null} {@link DestroyNotify} function then it will be
      * called for the removed elements.
      */
-    public static void setSize(java.lang.foreign.MemoryAddress[] array, int length) {
+    public static @NotNull void setSize(@NotNull java.lang.foreign.MemoryAddress[] array, @NotNull int length) {
         try {
-            g_ptr_array_set_size.invokeExact(Interop.allocateNativeArray(array).handle(), length);
+            g_ptr_array_set_size.invokeExact(Interop.allocateNativeArray(array), length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_ptr_array_sized_new = Interop.downcallHandle(
+    private static final MethodHandle g_ptr_array_sized_new = Interop.downcallHandle(
         "g_ptr_array_sized_new",
         FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
     );
@@ -389,16 +402,17 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * you are going to add many pointers to the array. Note however that
      * the size of the array is still 0.
      */
-    public static PointerAddress sizedNew(int reservedSize) {
+    public static PointerAddress sizedNew(@NotNull int reservedSize) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_ptr_array_sized_new.invokeExact(reservedSize);
-            return new PointerAddress(RESULT);
+            RESULT = (MemoryAddress) g_ptr_array_sized_new.invokeExact(reservedSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PointerAddress(RESULT);
     }
     
-    static final MethodHandle g_ptr_array_sort_with_data = Interop.downcallHandle(
+    private static final MethodHandle g_ptr_array_sort_with_data = Interop.downcallHandle(
         "g_ptr_array_sort_with_data",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -458,21 +472,21 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This is guaranteed to be a stable sort since version 2.32.
      */
-    public static void sortWithData(java.lang.foreign.MemoryAddress[] array, CompareDataFunc compareFunc) {
+    public static @NotNull void sortWithData(@NotNull java.lang.foreign.MemoryAddress[] array, @NotNull CompareDataFunc compareFunc) {
         try {
-            g_ptr_array_sort_with_data.invokeExact(Interop.allocateNativeArray(array).handle(), 
+            g_ptr_array_sort_with_data.invokeExact(Interop.allocateNativeArray(array), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(compareFunc.hashCode(), compareFunc)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(compareFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_ptr_array_steal = Interop.downcallHandle(
+    private static final MethodHandle g_ptr_array_steal = Interop.downcallHandle(
         "g_ptr_array_steal",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -519,16 +533,19 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * g_assert (chunk_buffer->len == 0);
      * }</pre>
      */
-    public static java.lang.foreign.MemoryAddress steal(java.lang.foreign.MemoryAddress[] array, PointerLong len) {
+    public static @Nullable java.lang.foreign.MemoryAddress steal(@NotNull java.lang.foreign.MemoryAddress[] array, @NotNull Out<Long> len) {
+        MemorySegment lenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_ptr_array_steal.invokeExact(Interop.allocateNativeArray(array).handle(), len.handle());
-            return RESULT;
+            RESULT = (MemoryAddress) g_ptr_array_steal.invokeExact(Interop.allocateNativeArray(array), (Addressable) lenPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        len.set(lenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        return RESULT;
     }
     
-    static final MethodHandle g_ptr_array_steal_index = Interop.downcallHandle(
+    private static final MethodHandle g_ptr_array_steal_index = Interop.downcallHandle(
         "g_ptr_array_steal_index",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -539,16 +556,17 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * {@code array} is <strong>not</strong> called on the removed element; ownership is transferred to
      * the caller of this function.
      */
-    public static java.lang.foreign.MemoryAddress stealIndex(java.lang.foreign.MemoryAddress[] array, int index) {
+    public static @Nullable java.lang.foreign.MemoryAddress stealIndex(@NotNull java.lang.foreign.MemoryAddress[] array, @NotNull int index) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_ptr_array_steal_index.invokeExact(Interop.allocateNativeArray(array).handle(), index);
-            return RESULT;
+            RESULT = (MemoryAddress) g_ptr_array_steal_index.invokeExact(Interop.allocateNativeArray(array), index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_ptr_array_steal_index_fast = Interop.downcallHandle(
+    private static final MethodHandle g_ptr_array_steal_index_fast = Interop.downcallHandle(
         "g_ptr_array_steal_index_fast",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -561,16 +579,17 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * <strong>not</strong> called on the removed element; ownership is transferred to the caller
      * of this function.
      */
-    public static java.lang.foreign.MemoryAddress stealIndexFast(java.lang.foreign.MemoryAddress[] array, int index) {
+    public static @Nullable java.lang.foreign.MemoryAddress stealIndexFast(@NotNull java.lang.foreign.MemoryAddress[] array, @NotNull int index) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_ptr_array_steal_index_fast.invokeExact(Interop.allocateNativeArray(array).handle(), index);
-            return RESULT;
+            RESULT = (MemoryAddress) g_ptr_array_steal_index_fast.invokeExact(Interop.allocateNativeArray(array), index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_ptr_array_unref = Interop.downcallHandle(
+    private static final MethodHandle g_ptr_array_unref = Interop.downcallHandle(
         "g_ptr_array_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -581,9 +600,9 @@ public class PtrArray extends io.github.jwharm.javagi.ResourceBase {
      * g_ptr_array_free() with {@code free_segment} set to {@code true}. This function
      * is thread-safe and may be called from any thread.
      */
-    public static void unref(java.lang.foreign.MemoryAddress[] array) {
+    public static @NotNull void unref(@NotNull java.lang.foreign.MemoryAddress[] array) {
         try {
-            g_ptr_array_unref.invokeExact(Interop.allocateNativeArray(array).handle());
+            g_ptr_array_unref.invokeExact(Interop.allocateNativeArray(array));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

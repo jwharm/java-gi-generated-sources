@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Monitors a file or directory for changes.
@@ -31,7 +32,7 @@ public class FileMonitor extends org.gtk.gobject.Object {
         return new FileMonitor(gobject.refcounted());
     }
     
-    static final MethodHandle g_file_monitor_cancel = Interop.downcallHandle(
+    private static final MethodHandle g_file_monitor_cancel = Interop.downcallHandle(
         "g_file_monitor_cancel",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -40,15 +41,16 @@ public class FileMonitor extends org.gtk.gobject.Object {
      * Cancels a file monitor.
      */
     public boolean cancel() {
+        int RESULT;
         try {
-            var RESULT = (int) g_file_monitor_cancel.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_file_monitor_cancel.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_monitor_emit_event = Interop.downcallHandle(
+    private static final MethodHandle g_file_monitor_emit_event = Interop.downcallHandle(
         "g_file_monitor_emit_event",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -62,7 +64,7 @@ public class FileMonitor extends org.gtk.gobject.Object {
      * [thread-default main context][g-main-context-push-thread-default] of the
      * thread that the monitor was created in.
      */
-    public void emitEvent(File child, File otherFile, FileMonitorEvent eventType) {
+    public @NotNull void emitEvent(@NotNull File child, @NotNull File otherFile, @NotNull FileMonitorEvent eventType) {
         try {
             g_file_monitor_emit_event.invokeExact(handle(), child.handle(), otherFile.handle(), eventType.getValue());
         } catch (Throwable ERR) {
@@ -70,7 +72,7 @@ public class FileMonitor extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle g_file_monitor_is_cancelled = Interop.downcallHandle(
+    private static final MethodHandle g_file_monitor_is_cancelled = Interop.downcallHandle(
         "g_file_monitor_is_cancelled",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -79,15 +81,16 @@ public class FileMonitor extends org.gtk.gobject.Object {
      * Returns whether the monitor is canceled.
      */
     public boolean isCancelled() {
+        int RESULT;
         try {
-            var RESULT = (int) g_file_monitor_is_cancelled.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_file_monitor_is_cancelled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_monitor_set_rate_limit = Interop.downcallHandle(
+    private static final MethodHandle g_file_monitor_set_rate_limit = Interop.downcallHandle(
         "g_file_monitor_set_rate_limit",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -96,7 +99,7 @@ public class FileMonitor extends org.gtk.gobject.Object {
      * Sets the rate limit to which the {@code monitor} will report
      * consecutive change events to the same file.
      */
-    public void setRateLimit(int limitMsecs) {
+    public @NotNull void setRateLimit(@NotNull int limitMsecs) {
         try {
             g_file_monitor_set_rate_limit.invokeExact(handle(), limitMsecs);
         } catch (Throwable ERR) {
@@ -106,7 +109,7 @@ public class FileMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ChangedHandler {
-        void signalReceived(FileMonitor source, File file, File otherFile, FileMonitorEvent eventType);
+        void signalReceived(FileMonitor source, @NotNull File file, @Nullable File otherFile, @NotNull FileMonitorEvent eventType);
     }
     
     /**
@@ -143,13 +146,13 @@ public class FileMonitor extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("changed").handle(),
+                Interop.allocateNativeString("changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(FileMonitor.Callbacks.class, "signalFileMonitorChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

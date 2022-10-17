@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkExpression} provides a way to describe references to values.
@@ -29,7 +30,7 @@ import java.lang.invoke.*;
  * {@link ClosureExpression#ClosureExpression}.
  * <p>
  * Here is an example of a complex expression:
- * <p>
+ * 
  * <pre>{@code c
  *   color_expr = gtk_property_expression_new (GTK_TYPE_LIST_ITEM,
  *                                             NULL, "item");
@@ -42,7 +43,7 @@ import java.lang.invoke.*;
  * from the resulting object (which is assumed to be of type {@code GTK_TYPE_COLOR}).
  * <p>
  * A more concise way to describe this would be
- * <p>
+ * 
  * <pre>{@code 
  *   this->item->name
  * }</pre>
@@ -62,13 +63,12 @@ import java.lang.invoke.*;
  * <p>
  * Watches can be created for automatically updating the property of an object,
  * similar to GObject's {@code GBinding} mechanism, by using {@link Expression#bind}.
- * <p>
+ * 
  * <h2>GtkExpression in GObject properties</h2>
- * <p>
  * In order to use a {@code GtkExpression} as a {@code GObject} property, you must use the
  * {@link Gtk#paramSpecExpression} when creating a {@code GParamSpec} to install in the
  * {@code GObject} class being defined; for instance:
- * <p>
+ * 
  * <pre>{@code c
  * obj_props[PROP_EXPRESSION] =
  *   gtk_param_spec_expression ("expression",
@@ -83,7 +83,7 @@ import java.lang.invoke.*;
  * virtual functions, you must use {@link Gtk#valueGetExpression}, to retrieve the
  * stored {@code GtkExpression} from the {@code GValue} container, and {@link Gtk#valueSetExpression},
  * to store the {@code GtkExpression} into the {@code GValue}; for instance:
- * <p>
+ * 
  * <pre>{@code c
  *   // in set_property()...
  *   case PROP_EXPRESSION:
@@ -95,9 +95,8 @@ import java.lang.invoke.*;
  *     gtk_value_set_expression (value, foo->expression);
  *     break;
  * }</pre>
- * <p>
+ * 
  * <h2>GtkExpression in .ui files</h2>
- * <p>
  * {@code GtkBuilder} has support for creating expressions. The syntax here can be used where
  * a {@code GtkExpression} object is needed like in a {@code <property>} tag for an expression
  * property, or in a {@code <binding name="property">} tag to bind a property to an expression.
@@ -108,7 +107,7 @@ import java.lang.invoke.*;
  * to use the object, or a string that specifies the name of the object to use.
  * <p>
  * Example:
- * <p>
+ * 
  * <pre>{@code xml
  *   <lookup name='search'>string_filter</lookup>
  * }</pre>
@@ -116,7 +115,7 @@ import java.lang.invoke.*;
  * To create a constant expression, use the {@code <constant>} element. If the type attribute
  * is specified, the element content is interpreted as a value of that type. Otherwise,
  * it is assumed to be an object. For instance:
- * <p>
+ * 
  * <pre>{@code xml
  *   <constant>string_filter</constant>
  *   <constant type='gchararray'>Hello, world</constant>
@@ -125,7 +124,7 @@ import java.lang.invoke.*;
  * To create a closure expression, use the {@code <closure>} element. The {@code type} and {@code function}
  * attributes specify what function to use for the closure, the content of the element
  * contains the expressions for the parameters. For instance:
- * <p>
+ * 
  * <pre>{@code xml
  *   <closure type='gchararray' function='combine_args_somehow'>
  *     <constant type='gchararray'>File size:</constant>
@@ -144,7 +143,7 @@ public class Expression extends org.gtk.gobject.Object {
         return new Expression(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_expression_bind = Interop.downcallHandle(
+    private static final MethodHandle gtk_expression_bind = Interop.downcallHandle(
         "gtk_expression_bind",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -163,16 +162,17 @@ public class Expression extends org.gtk.gobject.Object {
      * Note that this function takes ownership of {@code self}. If you want
      * to keep it around, you should {@link Expression#ref} it beforehand.
      */
-    public ExpressionWatch bind(org.gtk.gobject.Object target, java.lang.String property, org.gtk.gobject.Object this_) {
+    public @NotNull ExpressionWatch bind(@NotNull org.gtk.gobject.Object target, @NotNull java.lang.String property, @Nullable org.gtk.gobject.Object this_) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_expression_bind.invokeExact(handle(), target.handle(), Interop.allocateNativeString(property).handle(), this_.handle());
-            return new ExpressionWatch(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_expression_bind.invokeExact(handle(), target.handle(), Interop.allocateNativeString(property), this_.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ExpressionWatch(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_expression_evaluate = Interop.downcallHandle(
+    private static final MethodHandle gtk_expression_evaluate = Interop.downcallHandle(
         "gtk_expression_evaluate",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -189,16 +189,17 @@ public class Expression extends org.gtk.gobject.Object {
      * set to {@code NULL}. In that case {@code value} will remain empty and {@code FALSE}
      * will be returned.
      */
-    public boolean evaluate(org.gtk.gobject.Object this_, org.gtk.gobject.Value value) {
+    public boolean evaluate(@Nullable org.gtk.gobject.Object this_, @NotNull org.gtk.gobject.Value value) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_expression_evaluate.invokeExact(handle(), this_.handle(), value.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_expression_evaluate.invokeExact(handle(), this_.handle(), value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_expression_get_value_type = Interop.downcallHandle(
+    private static final MethodHandle gtk_expression_get_value_type = Interop.downcallHandle(
         "gtk_expression_get_value_type",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -209,16 +210,17 @@ public class Expression extends org.gtk.gobject.Object {
      * This type is constant and will not change over the lifetime
      * of this expression.
      */
-    public org.gtk.gobject.Type getValueType() {
+    public @NotNull org.gtk.gobject.Type getValueType() {
+        long RESULT;
         try {
-            var RESULT = (long) gtk_expression_get_value_type.invokeExact(handle());
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) gtk_expression_get_value_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle gtk_expression_is_static = Interop.downcallHandle(
+    private static final MethodHandle gtk_expression_is_static = Interop.downcallHandle(
         "gtk_expression_is_static",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -233,15 +235,16 @@ public class Expression extends org.gtk.gobject.Object {
      * it will never trigger a notify.
      */
     public boolean isStatic() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_expression_is_static.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_expression_is_static.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_expression_ref = Interop.downcallHandle(
+    private static final MethodHandle gtk_expression_ref = Interop.downcallHandle(
         "gtk_expression_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -249,16 +252,17 @@ public class Expression extends org.gtk.gobject.Object {
     /**
      * Acquires a reference on the given {@code GtkExpression}.
      */
-    public Expression ref() {
+    public @NotNull Expression ref() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_expression_ref.invokeExact(handle());
-            return new Expression(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_expression_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Expression(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_expression_unref = Interop.downcallHandle(
+    private static final MethodHandle gtk_expression_unref = Interop.downcallHandle(
         "gtk_expression_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -269,7 +273,7 @@ public class Expression extends org.gtk.gobject.Object {
      * If the reference was the last, the resources associated to the {@code self} are
      * freed.
      */
-    public void unref() {
+    public @NotNull void unref() {
         try {
             gtk_expression_unref.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -277,7 +281,7 @@ public class Expression extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_expression_watch = Interop.downcallHandle(
+    private static final MethodHandle gtk_expression_watch = Interop.downcallHandle(
         "gtk_expression_watch",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -292,20 +296,21 @@ public class Expression extends org.gtk.gobject.Object {
      * gets invoked, but it guarantees the opposite: When it did in fact change,
      * the {@code notify} will be invoked.
      */
-    public ExpressionWatch watch(org.gtk.gobject.Object this_, ExpressionNotify notify) {
+    public @NotNull ExpressionWatch watch(@Nullable org.gtk.gobject.Object this_, @NotNull ExpressionNotify notify) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_expression_watch.invokeExact(handle(), this_.handle(), 
+            RESULT = (MemoryAddress) gtk_expression_watch.invokeExact(handle(), this_.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbExpressionNotify",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notify.hashCode(), notify)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notify)), 
                     Interop.cbDestroyNotifySymbol());
-            return new ExpressionWatch(Refcounted.get(RESULT, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ExpressionWatch(Refcounted.get(RESULT, false));
     }
     
 }

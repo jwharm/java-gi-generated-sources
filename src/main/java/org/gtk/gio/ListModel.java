@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link ListModel} is an interface that represents a mutable list of
@@ -55,7 +56,7 @@ import java.lang.invoke.*;
  */
 public interface ListModel extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle g_list_model_get_item = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_list_model_get_item = Interop.downcallHandle(
         "g_list_model_get_item",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -71,16 +72,17 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
      * <p>
      * See also: g_list_model_get_n_items()
      */
-    public default java.lang.foreign.MemoryAddress getItem(int position) {
+    default @Nullable java.lang.foreign.MemoryAddress getItem(@NotNull int position) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_model_get_item.invokeExact(handle(), position);
-            return RESULT;
+            RESULT = (MemoryAddress) g_list_model_get_item.invokeExact(handle(), position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_list_model_get_item_type = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_list_model_get_item_type = Interop.downcallHandle(
         "g_list_model_get_item_type",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -95,16 +97,17 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
      * The item type of a {@link ListModel} can not change during the life of the
      * model.
      */
-    public default org.gtk.gobject.Type getItemType() {
+    default @NotNull org.gtk.gobject.Type getItemType() {
+        long RESULT;
         try {
-            var RESULT = (long) g_list_model_get_item_type.invokeExact(handle());
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) g_list_model_get_item_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle g_list_model_get_n_items = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_list_model_get_n_items = Interop.downcallHandle(
         "g_list_model_get_n_items",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -116,16 +119,17 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
      * less efficient than iterating the list with increasing values for
      * {@code position} until g_list_model_get_item() returns {@code null}.
      */
-    public default int getNItems() {
+    default int getNItems() {
+        int RESULT;
         try {
-            var RESULT = (int) g_list_model_get_n_items.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_list_model_get_n_items.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_list_model_get_object = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_list_model_get_object = Interop.downcallHandle(
         "g_list_model_get_object",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -144,16 +148,17 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
      * <p>
      * See also: g_list_model_get_n_items()
      */
-    public default org.gtk.gobject.Object getObject(int position) {
+    default @Nullable org.gtk.gobject.Object getObject(@NotNull int position) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_model_get_object.invokeExact(handle(), position);
-            return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_list_model_get_object.invokeExact(handle(), position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_list_model_items_changed = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_list_model_items_changed = Interop.downcallHandle(
         "g_list_model_items_changed",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -180,7 +185,7 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
      * mainloop, and without calling other code, will continue to view the
      * same contents of the model.
      */
-    public default void itemsChanged(int position, int removed, int added) {
+    default @NotNull void itemsChanged(@NotNull int position, @NotNull int removed, @NotNull int added) {
         try {
             g_list_model_items_changed.invokeExact(handle(), position, removed, added);
         } catch (Throwable ERR) {
@@ -190,7 +195,7 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface ItemsChangedHandler {
-        void signalReceived(ListModel source, int position, int removed, int added);
+        void signalReceived(ListModel source, @NotNull int position, @NotNull int removed, @NotNull int added);
     }
     
     /**
@@ -205,13 +210,13 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("items-changed").handle(),
+                Interop.allocateNativeString("items-changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ListModel.Callbacks.class, "signalListModelItemsChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

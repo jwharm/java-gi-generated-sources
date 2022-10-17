@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkApplicationWindow} is a {@code GtkWindow} subclass that integrates with
@@ -41,12 +42,11 @@ import java.lang.invoke.*;
  * used by {@code GtkBuilder} for menu models.
  * <p>
  * See also: {@link Application#setMenubar}.
- * <p>
+ * 
  * <h2>A GtkApplicationWindow with a menubar</h2>
- * <p>
  * The code sample below shows how to set up a {@code GtkApplicationWindow}
  * with a menu bar defined on the {@link Application}:
- * <p>
+ * 
  * <pre>{@code c
  * GtkApplication *app = gtk_application_new ("org.gtk.test", 0);
  * 
@@ -88,12 +88,12 @@ public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup
         return new ApplicationWindow(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_application_window_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_application_window_new = Interop.downcallHandle(
         "gtk_application_window_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(Application application) {
+    private static Refcounted constructNew(@NotNull Application application) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_application_window_new.invokeExact(application.handle()), false);
             return RESULT;
@@ -105,11 +105,11 @@ public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup
     /**
      * Creates a new {@code GtkApplicationWindow}.
      */
-    public ApplicationWindow(Application application) {
+    public ApplicationWindow(@NotNull Application application) {
         super(constructNew(application));
     }
     
-    static final MethodHandle gtk_application_window_get_help_overlay = Interop.downcallHandle(
+    private static final MethodHandle gtk_application_window_get_help_overlay = Interop.downcallHandle(
         "gtk_application_window_get_help_overlay",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -119,16 +119,17 @@ public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup
      * <p>
      * See {@link ApplicationWindow#setHelpOverlay}.
      */
-    public ShortcutsWindow getHelpOverlay() {
+    public @Nullable ShortcutsWindow getHelpOverlay() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_application_window_get_help_overlay.invokeExact(handle());
-            return new ShortcutsWindow(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_application_window_get_help_overlay.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ShortcutsWindow(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_application_window_get_id = Interop.downcallHandle(
+    private static final MethodHandle gtk_application_window_get_id = Interop.downcallHandle(
         "gtk_application_window_get_id",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -139,15 +140,16 @@ public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup
      *  If the window has not yet been added to a {@code GtkApplication}, returns {@code 0}.
      */
     public int getId() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_application_window_get_id.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_application_window_get_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_application_window_get_show_menubar = Interop.downcallHandle(
+    private static final MethodHandle gtk_application_window_get_show_menubar = Interop.downcallHandle(
         "gtk_application_window_get_show_menubar",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -157,15 +159,16 @@ public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup
      * and menubar as needed.
      */
     public boolean getShowMenubar() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_application_window_get_show_menubar.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_application_window_get_show_menubar.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_application_window_set_help_overlay = Interop.downcallHandle(
+    private static final MethodHandle gtk_application_window_set_help_overlay = Interop.downcallHandle(
         "gtk_application_window_set_help_overlay",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -178,7 +181,7 @@ public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup
      * <p>
      * {@code window} takes responsibility for destroying {@code help_overlay}.
      */
-    public void setHelpOverlay(ShortcutsWindow helpOverlay) {
+    public @NotNull void setHelpOverlay(@Nullable ShortcutsWindow helpOverlay) {
         try {
             gtk_application_window_set_help_overlay.invokeExact(handle(), helpOverlay.handle());
         } catch (Throwable ERR) {
@@ -186,7 +189,7 @@ public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup
         }
     }
     
-    static final MethodHandle gtk_application_window_set_show_menubar = Interop.downcallHandle(
+    private static final MethodHandle gtk_application_window_set_show_menubar = Interop.downcallHandle(
         "gtk_application_window_set_show_menubar",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -195,7 +198,7 @@ public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup
      * Sets whether the window will display a menubar for the app menu
      * and menubar as needed.
      */
-    public void setShowMenubar(boolean showMenubar) {
+    public @NotNull void setShowMenubar(@NotNull boolean showMenubar) {
         try {
             gtk_application_window_set_show_menubar.invokeExact(handle(), showMenubar ? 1 : 0);
         } catch (Throwable ERR) {

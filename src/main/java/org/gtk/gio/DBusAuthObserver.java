@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@link DBusAuthObserver} type provides a mechanism for participating
@@ -10,9 +11,8 @@ import java.lang.invoke.*;
  * peers. Simply instantiate a {@link DBusAuthObserver} and connect to the
  * signals you are interested in. Note that new signals may be added
  * in the future
- * <p>
+ * 
  * <h2>Controlling Authentication Mechanisms</h2>
- * <p>
  * By default, a {@link DBusServer} or server-side {@link DBusConnection} will allow
  * any authentication mechanism to be used. If you only
  * want to allow D-Bus connections with the {@code EXTERNAL} mechanism,
@@ -34,9 +34,8 @@ import java.lang.invoke.*;
  *   return FALSE;
  * }
  * }</pre>
- * <p>
+ * 
  * <h2>Controlling Authorization # {#auth-observer}</h2>
- * <p>
  * By default, a {@link DBusServer} or server-side {@link DBusConnection} will accept
  * connections from any successfully authenticated user (but not from
  * anonymous connections using the {@code ANONYMOUS} mechanism). If you only
@@ -79,7 +78,7 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
         return new DBusAuthObserver(gobject.refcounted());
     }
     
-    static final MethodHandle g_dbus_auth_observer_new = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_auth_observer_new = Interop.downcallHandle(
         "g_dbus_auth_observer_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -100,7 +99,7 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
-    static final MethodHandle g_dbus_auth_observer_allow_mechanism = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_auth_observer_allow_mechanism = Interop.downcallHandle(
         "g_dbus_auth_observer_allow_mechanism",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -108,16 +107,17 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
     /**
      * Emits the {@link DBusAuthObserver}::allow-mechanism signal on {@code observer}.
      */
-    public boolean allowMechanism(java.lang.String mechanism) {
+    public boolean allowMechanism(@NotNull java.lang.String mechanism) {
+        int RESULT;
         try {
-            var RESULT = (int) g_dbus_auth_observer_allow_mechanism.invokeExact(handle(), Interop.allocateNativeString(mechanism).handle());
-            return RESULT != 0;
+            RESULT = (int) g_dbus_auth_observer_allow_mechanism.invokeExact(handle(), Interop.allocateNativeString(mechanism));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_dbus_auth_observer_authorize_authenticated_peer = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_auth_observer_authorize_authenticated_peer = Interop.downcallHandle(
         "g_dbus_auth_observer_authorize_authenticated_peer",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -125,18 +125,19 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
     /**
      * Emits the {@link DBusAuthObserver}::authorize-authenticated-peer signal on {@code observer}.
      */
-    public boolean authorizeAuthenticatedPeer(IOStream stream, Credentials credentials) {
+    public boolean authorizeAuthenticatedPeer(@NotNull IOStream stream, @Nullable Credentials credentials) {
+        int RESULT;
         try {
-            var RESULT = (int) g_dbus_auth_observer_authorize_authenticated_peer.invokeExact(handle(), stream.handle(), credentials.handle());
-            return RESULT != 0;
+            RESULT = (int) g_dbus_auth_observer_authorize_authenticated_peer.invokeExact(handle(), stream.handle(), credentials.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
     @FunctionalInterface
     public interface AllowMechanismHandler {
-        boolean signalReceived(DBusAuthObserver source, java.lang.String mechanism);
+        boolean signalReceived(DBusAuthObserver source, @NotNull java.lang.String mechanism);
     }
     
     /**
@@ -146,13 +147,13 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("allow-mechanism").handle(),
+                Interop.allocateNativeString("allow-mechanism"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DBusAuthObserver.Callbacks.class, "signalDBusAuthObserverAllowMechanism",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -162,7 +163,7 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface AuthorizeAuthenticatedPeerHandler {
-        boolean signalReceived(DBusAuthObserver source, IOStream stream, Credentials credentials);
+        boolean signalReceived(DBusAuthObserver source, @NotNull IOStream stream, @Nullable Credentials credentials);
     }
     
     /**
@@ -173,13 +174,13 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("authorize-authenticated-peer").handle(),
+                Interop.allocateNativeString("authorize-authenticated-peer"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DBusAuthObserver.Callbacks.class, "signalDBusAuthObserverAuthorizeAuthenticatedPeer",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

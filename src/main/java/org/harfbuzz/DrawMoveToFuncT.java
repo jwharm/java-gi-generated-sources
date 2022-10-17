@@ -1,6 +1,7 @@
 package org.harfbuzz;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A virtual method for the {@link draw_funcs_t} to perform a "move-to" draw
@@ -8,5 +9,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface DrawMoveToFuncT {
-        void onDrawMoveToFuncT(DrawFuncsT dfuncs, java.lang.foreign.MemoryAddress drawData, DrawStateT st, float toX, float toY, java.lang.foreign.MemoryAddress userData);
+        void onDrawMoveToFuncT(@NotNull DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, @NotNull DrawStateT st, @NotNull float toX, @NotNull float toY, @Nullable java.lang.foreign.MemoryAddress userData);
 }

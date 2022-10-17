@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@code GtkPicture} widget displays a {@code GdkPaintable}.
@@ -12,7 +13,7 @@ import java.lang.invoke.*;
  * Many convenience functions are provided to make pictures simple to use.
  * For example, if you want to load an image from a file, and then display
  * it, there’s a convenience function to do this:
- * <p>
+ * 
  * <pre>{@code c
  * GtkWidget *widget = gtk_picture_new_for_filename ("myfile.png");
  * }</pre>
@@ -31,9 +32,8 @@ import java.lang.invoke.*;
  * <p>
  * {@code GtkPicture} displays an image at its natural size. See {@link Image}
  * if you want to display a fixed-size image, such as an icon.
- * <p>
+ * 
  * <h2>Sizing the paintable</h2>
- * <p>
  * You can influence how the paintable is displayed inside the {@code GtkPicture}.
  * By turning off {@code Gtk.Picture:keep-aspect-ratio} you can allow the
  * paintable to get stretched. {@code Gtk.Picture:can-shrink} can be unset
@@ -43,13 +43,11 @@ import java.lang.invoke.*;
  * grow larger than the screen. And {@code GtkWidget:halign} and
  * {@code GtkWidget:valign} can be used to make sure the paintable doesn't
  * fill all available space but is instead displayed at its original size.
- * <p>
+ * 
  * <h2>CSS nodes</h2>
- * <p>
  * {@code GtkPicture} has a single CSS node with the name {@code picture}.
- * <p>
+ * 
  * <h2>Accessibility</h2>
- * <p>
  * {@code GtkPicture} uses the {@code GTK_ACCESSIBLE_ROLE_IMG} role.
  */
 public class Picture extends Widget implements Accessible, Buildable, ConstraintTarget {
@@ -63,7 +61,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
         return new Picture(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_picture_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_picture_new = Interop.downcallHandle(
         "gtk_picture_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -84,12 +82,12 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
         super(constructNew());
     }
     
-    static final MethodHandle gtk_picture_new_for_file = Interop.downcallHandle(
+    private static final MethodHandle gtk_picture_new_for_file = Interop.downcallHandle(
         "gtk_picture_new_for_file",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewForFile(org.gtk.gio.File file) {
+    private static Refcounted constructNewForFile(@Nullable org.gtk.gio.File file) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_picture_new_for_file.invokeExact(file.handle()), false);
             return RESULT;
@@ -108,18 +106,18 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * {@link org.gtk.gdk.Texture#newFromFile} to load the file yourself,
      * then create the {@code GtkPicture} from the texture.
      */
-    public static Picture newForFile(org.gtk.gio.File file) {
+    public static Picture newForFile(@Nullable org.gtk.gio.File file) {
         return new Picture(constructNewForFile(file));
     }
     
-    static final MethodHandle gtk_picture_new_for_filename = Interop.downcallHandle(
+    private static final MethodHandle gtk_picture_new_for_filename = Interop.downcallHandle(
         "gtk_picture_new_for_filename",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewForFilename(java.lang.String filename) {
+    private static Refcounted constructNewForFilename(@Nullable java.lang.String filename) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_picture_new_for_filename.invokeExact(Interop.allocateNativeString(filename).handle()), false);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_picture_new_for_filename.invokeExact(Interop.allocateNativeString(filename)), false);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -132,16 +130,16 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * This is a utility function that calls {@link Picture#newForFile}.
      * See that function for details.
      */
-    public static Picture newForFilename(java.lang.String filename) {
+    public static Picture newForFilename(@Nullable java.lang.String filename) {
         return new Picture(constructNewForFilename(filename));
     }
     
-    static final MethodHandle gtk_picture_new_for_paintable = Interop.downcallHandle(
+    private static final MethodHandle gtk_picture_new_for_paintable = Interop.downcallHandle(
         "gtk_picture_new_for_paintable",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewForPaintable(org.gtk.gdk.Paintable paintable) {
+    private static Refcounted constructNewForPaintable(@Nullable org.gtk.gdk.Paintable paintable) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_picture_new_for_paintable.invokeExact(paintable.handle()), false);
             return RESULT;
@@ -156,16 +154,16 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * The {@code GtkPicture} will track changes to the {@code paintable} and update
      * its size and contents in response to it.
      */
-    public static Picture newForPaintable(org.gtk.gdk.Paintable paintable) {
+    public static Picture newForPaintable(@Nullable org.gtk.gdk.Paintable paintable) {
         return new Picture(constructNewForPaintable(paintable));
     }
     
-    static final MethodHandle gtk_picture_new_for_pixbuf = Interop.downcallHandle(
+    private static final MethodHandle gtk_picture_new_for_pixbuf = Interop.downcallHandle(
         "gtk_picture_new_for_pixbuf",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewForPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
+    private static Refcounted constructNewForPixbuf(@Nullable org.gtk.gdkpixbuf.Pixbuf pixbuf) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_picture_new_for_pixbuf.invokeExact(pixbuf.handle()), false);
             return RESULT;
@@ -182,18 +180,18 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * <p>
      * The pixbuf must not be modified after passing it to this function.
      */
-    public static Picture newForPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
+    public static Picture newForPixbuf(@Nullable org.gtk.gdkpixbuf.Pixbuf pixbuf) {
         return new Picture(constructNewForPixbuf(pixbuf));
     }
     
-    static final MethodHandle gtk_picture_new_for_resource = Interop.downcallHandle(
+    private static final MethodHandle gtk_picture_new_for_resource = Interop.downcallHandle(
         "gtk_picture_new_for_resource",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewForResource(java.lang.String resourcePath) {
+    private static Refcounted constructNewForResource(@Nullable java.lang.String resourcePath) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_picture_new_for_resource.invokeExact(Interop.allocateNativeString(resourcePath).handle()), false);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_picture_new_for_resource.invokeExact(Interop.allocateNativeString(resourcePath)), false);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -206,11 +204,11 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * This is a utility function that calls {@link Picture#newForFile}.
      * See that function for details.
      */
-    public static Picture newForResource(java.lang.String resourcePath) {
+    public static Picture newForResource(@Nullable java.lang.String resourcePath) {
         return new Picture(constructNewForResource(resourcePath));
     }
     
-    static final MethodHandle gtk_picture_get_alternative_text = Interop.downcallHandle(
+    private static final MethodHandle gtk_picture_get_alternative_text = Interop.downcallHandle(
         "gtk_picture_get_alternative_text",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -220,16 +218,17 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * <p>
      * The returned string will be {@code null} if the picture cannot be described textually.
      */
-    public java.lang.String getAlternativeText() {
+    public @Nullable java.lang.String getAlternativeText() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_picture_get_alternative_text.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_picture_get_alternative_text.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_picture_get_can_shrink = Interop.downcallHandle(
+    private static final MethodHandle gtk_picture_get_can_shrink = Interop.downcallHandle(
         "gtk_picture_get_can_shrink",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -238,15 +237,16 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * Returns whether the {@code GtkPicture} respects its contents size.
      */
     public boolean getCanShrink() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_picture_get_can_shrink.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_picture_get_can_shrink.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_picture_get_file = Interop.downcallHandle(
+    private static final MethodHandle gtk_picture_get_file = Interop.downcallHandle(
         "gtk_picture_get_file",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -257,16 +257,17 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * If {@code self} is not displaying a file, for example when
      * {@link Picture#setPaintable} was used, then {@code null} is returned.
      */
-    public org.gtk.gio.File getFile() {
+    public @Nullable org.gtk.gio.File getFile() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_picture_get_file.invokeExact(handle());
-            return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_picture_get_file.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_picture_get_keep_aspect_ratio = Interop.downcallHandle(
+    private static final MethodHandle gtk_picture_get_keep_aspect_ratio = Interop.downcallHandle(
         "gtk_picture_get_keep_aspect_ratio",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -275,15 +276,16 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * Returns whether the {@code GtkPicture} preserves its contents aspect ratio.
      */
     public boolean getKeepAspectRatio() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_picture_get_keep_aspect_ratio.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_picture_get_keep_aspect_ratio.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_picture_get_paintable = Interop.downcallHandle(
+    private static final MethodHandle gtk_picture_get_paintable = Interop.downcallHandle(
         "gtk_picture_get_paintable",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -291,16 +293,17 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
     /**
      * Gets the {@code GdkPaintable} being displayed by the {@code GtkPicture}.
      */
-    public org.gtk.gdk.Paintable getPaintable() {
+    public @Nullable org.gtk.gdk.Paintable getPaintable() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_picture_get_paintable.invokeExact(handle());
-            return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_picture_get_paintable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_picture_set_alternative_text = Interop.downcallHandle(
+    private static final MethodHandle gtk_picture_set_alternative_text = Interop.downcallHandle(
         "gtk_picture_set_alternative_text",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -314,15 +317,15 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * <p>
      * If the picture cannot be described textually, set this property to {@code null}.
      */
-    public void setAlternativeText(java.lang.String alternativeText) {
+    public @NotNull void setAlternativeText(@Nullable java.lang.String alternativeText) {
         try {
-            gtk_picture_set_alternative_text.invokeExact(handle(), Interop.allocateNativeString(alternativeText).handle());
+            gtk_picture_set_alternative_text.invokeExact(handle(), Interop.allocateNativeString(alternativeText));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_picture_set_can_shrink = Interop.downcallHandle(
+    private static final MethodHandle gtk_picture_set_can_shrink = Interop.downcallHandle(
         "gtk_picture_set_can_shrink",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -339,7 +342,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * because the grow behavior can be controlled via
      * {@code Gtk.Widget.set_valign}.
      */
-    public void setCanShrink(boolean canShrink) {
+    public @NotNull void setCanShrink(@NotNull boolean canShrink) {
         try {
             gtk_picture_set_can_shrink.invokeExact(handle(), canShrink ? 1 : 0);
         } catch (Throwable ERR) {
@@ -347,7 +350,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
         }
     }
     
-    static final MethodHandle gtk_picture_set_file = Interop.downcallHandle(
+    private static final MethodHandle gtk_picture_set_file = Interop.downcallHandle(
         "gtk_picture_set_file",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -357,7 +360,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * <p>
      * See {@link Picture#newForFile} for details.
      */
-    public void setFile(org.gtk.gio.File file) {
+    public @NotNull void setFile(@Nullable org.gtk.gio.File file) {
         try {
             gtk_picture_set_file.invokeExact(handle(), file.handle());
         } catch (Throwable ERR) {
@@ -365,7 +368,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
         }
     }
     
-    static final MethodHandle gtk_picture_set_filename = Interop.downcallHandle(
+    private static final MethodHandle gtk_picture_set_filename = Interop.downcallHandle(
         "gtk_picture_set_filename",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -375,15 +378,15 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * <p>
      * This is a utility function that calls {@link Picture#setFile}.
      */
-    public void setFilename(java.lang.String filename) {
+    public @NotNull void setFilename(@Nullable java.lang.String filename) {
         try {
-            gtk_picture_set_filename.invokeExact(handle(), Interop.allocateNativeString(filename).handle());
+            gtk_picture_set_filename.invokeExact(handle(), Interop.allocateNativeString(filename));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_picture_set_keep_aspect_ratio = Interop.downcallHandle(
+    private static final MethodHandle gtk_picture_set_keep_aspect_ratio = Interop.downcallHandle(
         "gtk_picture_set_keep_aspect_ratio",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -398,7 +401,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * If set to {@code false} or if the contents provide no aspect ratio,
      * the contents will be stretched over the picture's whole area.
      */
-    public void setKeepAspectRatio(boolean keepAspectRatio) {
+    public @NotNull void setKeepAspectRatio(@NotNull boolean keepAspectRatio) {
         try {
             gtk_picture_set_keep_aspect_ratio.invokeExact(handle(), keepAspectRatio ? 1 : 0);
         } catch (Throwable ERR) {
@@ -406,7 +409,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
         }
     }
     
-    static final MethodHandle gtk_picture_set_paintable = Interop.downcallHandle(
+    private static final MethodHandle gtk_picture_set_paintable = Interop.downcallHandle(
         "gtk_picture_set_paintable",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -418,7 +421,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * <p>
      * See {@link Picture#newForPaintable} for details.
      */
-    public void setPaintable(org.gtk.gdk.Paintable paintable) {
+    public @NotNull void setPaintable(@Nullable org.gtk.gdk.Paintable paintable) {
         try {
             gtk_picture_set_paintable.invokeExact(handle(), paintable.handle());
         } catch (Throwable ERR) {
@@ -426,7 +429,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
         }
     }
     
-    static final MethodHandle gtk_picture_set_pixbuf = Interop.downcallHandle(
+    private static final MethodHandle gtk_picture_set_pixbuf = Interop.downcallHandle(
         "gtk_picture_set_pixbuf",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -438,7 +441,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * <p>
      * This is a utility function that calls {@link Picture#setPaintable}.
      */
-    public void setPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
+    public @NotNull void setPixbuf(@Nullable org.gtk.gdkpixbuf.Pixbuf pixbuf) {
         try {
             gtk_picture_set_pixbuf.invokeExact(handle(), pixbuf.handle());
         } catch (Throwable ERR) {
@@ -446,7 +449,7 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
         }
     }
     
-    static final MethodHandle gtk_picture_set_resource = Interop.downcallHandle(
+    private static final MethodHandle gtk_picture_set_resource = Interop.downcallHandle(
         "gtk_picture_set_resource",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -457,9 +460,9 @@ public class Picture extends Widget implements Accessible, Buildable, Constraint
      * <p>
      * This is a utility function that calls {@link Picture#setFile}.
      */
-    public void setResource(java.lang.String resourcePath) {
+    public @NotNull void setResource(@Nullable java.lang.String resourcePath) {
         try {
-            gtk_picture_set_resource.invokeExact(handle(), Interop.allocateNativeString(resourcePath).handle());
+            gtk_picture_set_resource.invokeExact(handle(), Interop.allocateNativeString(resourcePath));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

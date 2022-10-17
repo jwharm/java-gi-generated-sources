@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * An opaque data structure representing a set of bookmarks.
@@ -13,7 +14,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_bookmark_file_add_application = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_add_application = Interop.downcallHandle(
         "g_bookmark_file_add_application",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -42,15 +43,15 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If no bookmark for {@code uri} is found, one is created.
      */
-    public void addApplication(java.lang.String uri, java.lang.String name, java.lang.String exec) {
+    public @NotNull void addApplication(@NotNull java.lang.String uri, @Nullable java.lang.String name, @Nullable java.lang.String exec) {
         try {
-            g_bookmark_file_add_application.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(exec).handle());
+            g_bookmark_file_add_application.invokeExact(handle(), Interop.allocateNativeString(uri), Interop.allocateNativeString(name), Interop.allocateNativeString(exec));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_bookmark_file_add_group = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_add_group = Interop.downcallHandle(
         "g_bookmark_file_add_group",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -61,15 +62,15 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If no bookmark for {@code uri} is found then it is created.
      */
-    public void addGroup(java.lang.String uri, java.lang.String group) {
+    public @NotNull void addGroup(@NotNull java.lang.String uri, @NotNull java.lang.String group) {
         try {
-            g_bookmark_file_add_group.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(group).handle());
+            g_bookmark_file_add_group.invokeExact(handle(), Interop.allocateNativeString(uri), Interop.allocateNativeString(group));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_bookmark_file_free = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_free = Interop.downcallHandle(
         "g_bookmark_file_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -77,7 +78,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Frees a {@link BookmarkFile}.
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             g_bookmark_file_free.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -85,7 +86,7 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_bookmark_file_get_added_date_time = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_get_added_date_time = Interop.downcallHandle(
         "g_bookmark_file_get_added_date_time",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -96,20 +97,21 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * In the event the URI cannot be found, {@code null} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
-    public DateTime getAddedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull DateTime getAddedDateTime(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_bookmark_file_get_added_date_time.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new DateTime(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_bookmark_file_get_added_date_time.invokeExact(handle(), Interop.allocateNativeString(uri), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new DateTime(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_bookmark_file_get_application_info = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_get_application_info = Interop.downcallHandle(
         "g_bookmark_file_get_application_info",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -129,20 +131,27 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * the command line fails, an error of the {@code G_SHELL_ERROR} domain is
      * set and {@code false} is returned.
      */
-    public boolean getApplicationInfo(java.lang.String uri, java.lang.String name, PointerString exec, PointerInteger count, PointerProxy<DateTime> stamp) throws io.github.jwharm.javagi.GErrorException {
+    public boolean getApplicationInfo(@NotNull java.lang.String uri, @NotNull java.lang.String name, @NotNull Out<java.lang.String> exec, @NotNull Out<Integer> count, @NotNull Out<DateTime> stamp) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment execPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment countPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment stampPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_bookmark_file_get_application_info.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(name).handle(), exec.handle(), count.handle(), stamp.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_bookmark_file_get_application_info.invokeExact(handle(), Interop.allocateNativeString(uri), Interop.allocateNativeString(name), (Addressable) execPOINTER.address(), (Addressable) countPOINTER.address(), (Addressable) stampPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        exec.set(execPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        count.set(countPOINTER.get(ValueLayout.JAVA_INT, 0));
+        stamp.set(new DateTime(Refcounted.get(stampPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_bookmark_file_get_applications = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_get_applications = Interop.downcallHandle(
         "g_bookmark_file_get_applications",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -154,20 +163,28 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * In the event the URI cannot be found, {@code null} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
-    public PointerString getApplications(java.lang.String uri, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+    public java.lang.String[] getApplications(@NotNull java.lang.String uri, @NotNull Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_bookmark_file_get_applications.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), length.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new PointerString(RESULT);
+            RESULT = (MemoryAddress) g_bookmark_file_get_applications.invokeExact(handle(), Interop.allocateNativeString(uri), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
+        for (int I = 0; I < length.get().intValue(); I++) {
+            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            resultARRAY[I] = OBJ.getUtf8String(0);
+        }
+        return resultARRAY;
     }
     
-    static final MethodHandle g_bookmark_file_get_description = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_get_description = Interop.downcallHandle(
         "g_bookmark_file_get_description",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -178,20 +195,21 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * In the event the URI cannot be found, {@code null} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
-    public java.lang.String getDescription(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull java.lang.String getDescription(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_bookmark_file_get_description.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_bookmark_file_get_description.invokeExact(handle(), Interop.allocateNativeString(uri), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_bookmark_file_get_groups = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_get_groups = Interop.downcallHandle(
         "g_bookmark_file_get_groups",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -205,20 +223,28 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * The returned array is {@code null} terminated, so {@code length} may optionally
      * be {@code null}.
      */
-    public PointerString getGroups(java.lang.String uri, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+    public java.lang.String[] getGroups(@NotNull java.lang.String uri, @NotNull Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_bookmark_file_get_groups.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), length.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new PointerString(RESULT);
+            RESULT = (MemoryAddress) g_bookmark_file_get_groups.invokeExact(handle(), Interop.allocateNativeString(uri), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
+        for (int I = 0; I < length.get().intValue(); I++) {
+            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            resultARRAY[I] = OBJ.getUtf8String(0);
+        }
+        return resultARRAY;
     }
     
-    static final MethodHandle g_bookmark_file_get_icon = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_get_icon = Interop.downcallHandle(
         "g_bookmark_file_get_icon",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -229,20 +255,25 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * In the event the URI cannot be found, {@code false} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
-    public boolean getIcon(java.lang.String uri, PointerString href, PointerString mimeType) throws io.github.jwharm.javagi.GErrorException {
+    public boolean getIcon(@NotNull java.lang.String uri, @NotNull Out<java.lang.String> href, @NotNull Out<java.lang.String> mimeType) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment hrefPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment mimeTypePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_bookmark_file_get_icon.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), href.handle(), mimeType.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_bookmark_file_get_icon.invokeExact(handle(), Interop.allocateNativeString(uri), (Addressable) hrefPOINTER.address(), (Addressable) mimeTypePOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        href.set(hrefPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        mimeType.set(mimeTypePOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_bookmark_file_get_is_private = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_get_is_private = Interop.downcallHandle(
         "g_bookmark_file_get_is_private",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -255,20 +286,21 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * event that the private flag cannot be found, {@code false} is returned and
      * {@code error} is set to {@link BookmarkFileError#INVALID_VALUE}.
      */
-    public boolean getIsPrivate(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
+    public boolean getIsPrivate(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_bookmark_file_get_is_private.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_bookmark_file_get_is_private.invokeExact(handle(), Interop.allocateNativeString(uri), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_bookmark_file_get_mime_type = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_get_mime_type = Interop.downcallHandle(
         "g_bookmark_file_get_mime_type",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -281,20 +313,21 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * event that the MIME type cannot be found, {@code null} is returned and
      * {@code error} is set to {@link BookmarkFileError#INVALID_VALUE}.
      */
-    public java.lang.String getMimeType(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull java.lang.String getMimeType(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_bookmark_file_get_mime_type.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_bookmark_file_get_mime_type.invokeExact(handle(), Interop.allocateNativeString(uri), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_bookmark_file_get_modified_date_time = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_get_modified_date_time = Interop.downcallHandle(
         "g_bookmark_file_get_modified_date_time",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -305,20 +338,21 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * In the event the URI cannot be found, {@code null} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
-    public DateTime getModifiedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull DateTime getModifiedDateTime(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_bookmark_file_get_modified_date_time.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new DateTime(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_bookmark_file_get_modified_date_time.invokeExact(handle(), Interop.allocateNativeString(uri), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new DateTime(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_bookmark_file_get_size = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_get_size = Interop.downcallHandle(
         "g_bookmark_file_get_size",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -327,15 +361,16 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * Gets the number of bookmarks inside {@code bookmark}.
      */
     public int getSize() {
+        int RESULT;
         try {
-            var RESULT = (int) g_bookmark_file_get_size.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_bookmark_file_get_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_bookmark_file_get_title = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_get_title = Interop.downcallHandle(
         "g_bookmark_file_get_title",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -348,20 +383,21 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * In the event the URI cannot be found, {@code null} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
-    public java.lang.String getTitle(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull java.lang.String getTitle(@Nullable java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_bookmark_file_get_title.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_bookmark_file_get_title.invokeExact(handle(), Interop.allocateNativeString(uri), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_bookmark_file_get_uris = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_get_uris = Interop.downcallHandle(
         "g_bookmark_file_get_uris",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -371,16 +407,24 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * The array of returned URIs will be {@code null}-terminated, so {@code length} may
      * optionally be {@code null}.
      */
-    public PointerString getUris(PointerLong length) {
+    public java.lang.String[] getUris(@NotNull Out<Long> length) {
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_bookmark_file_get_uris.invokeExact(handle(), length.handle());
-            return new PointerString(RESULT);
+            RESULT = (MemoryAddress) g_bookmark_file_get_uris.invokeExact(handle(), (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
+        for (int I = 0; I < length.get().intValue(); I++) {
+            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            resultARRAY[I] = OBJ.getUtf8String(0);
+        }
+        return resultARRAY;
     }
     
-    static final MethodHandle g_bookmark_file_get_visited_date_time = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_get_visited_date_time = Interop.downcallHandle(
         "g_bookmark_file_get_visited_date_time",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -391,20 +435,21 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * In the event the URI cannot be found, {@code null} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
-    public DateTime getVisitedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull DateTime getVisitedDateTime(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_bookmark_file_get_visited_date_time.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new DateTime(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_bookmark_file_get_visited_date_time.invokeExact(handle(), Interop.allocateNativeString(uri), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new DateTime(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_bookmark_file_has_application = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_has_application = Interop.downcallHandle(
         "g_bookmark_file_has_application",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -416,20 +461,21 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * In the event the URI cannot be found, {@code false} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
-    public boolean hasApplication(java.lang.String uri, java.lang.String name) throws io.github.jwharm.javagi.GErrorException {
+    public boolean hasApplication(@NotNull java.lang.String uri, @NotNull java.lang.String name) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_bookmark_file_has_application.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(name).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_bookmark_file_has_application.invokeExact(handle(), Interop.allocateNativeString(uri), Interop.allocateNativeString(name), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_bookmark_file_has_group = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_has_group = Interop.downcallHandle(
         "g_bookmark_file_has_group",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -441,20 +487,21 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * In the event the URI cannot be found, {@code false} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
-    public boolean hasGroup(java.lang.String uri, java.lang.String group) throws io.github.jwharm.javagi.GErrorException {
+    public boolean hasGroup(@NotNull java.lang.String uri, @NotNull java.lang.String group) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_bookmark_file_has_group.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(group).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_bookmark_file_has_group.invokeExact(handle(), Interop.allocateNativeString(uri), Interop.allocateNativeString(group), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_bookmark_file_has_item = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_has_item = Interop.downcallHandle(
         "g_bookmark_file_has_item",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -462,16 +509,17 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Looks whether the desktop bookmark has an item with its URI set to {@code uri}.
      */
-    public boolean hasItem(java.lang.String uri) {
+    public boolean hasItem(@NotNull java.lang.String uri) {
+        int RESULT;
         try {
-            var RESULT = (int) g_bookmark_file_has_item.invokeExact(handle(), Interop.allocateNativeString(uri).handle());
-            return RESULT != 0;
+            RESULT = (int) g_bookmark_file_has_item.invokeExact(handle(), Interop.allocateNativeString(uri));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_bookmark_file_load_from_data = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_load_from_data = Interop.downcallHandle(
         "g_bookmark_file_load_from_data",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -481,20 +529,21 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * structure.  If the object cannot be created then {@code error} is set to a
      * {@link BookmarkFileError}.
      */
-    public boolean loadFromData(byte[] data, long length) throws io.github.jwharm.javagi.GErrorException {
+    public boolean loadFromData(@NotNull byte[] data, @NotNull long length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_bookmark_file_load_from_data.invokeExact(handle(), Interop.allocateNativeArray(data).handle(), length, (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_bookmark_file_load_from_data.invokeExact(handle(), Interop.allocateNativeArray(data), length, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_bookmark_file_load_from_data_dirs = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_load_from_data_dirs = Interop.downcallHandle(
         "g_bookmark_file_load_from_data_dirs",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -506,20 +555,23 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * {@code full_path}.  If the file could not be loaded then {@code error} is
      * set to either a {@link FileError} or {@link BookmarkFileError}.
      */
-    public boolean loadFromDataDirs(java.lang.String file, PointerString fullPath) throws io.github.jwharm.javagi.GErrorException {
+    public boolean loadFromDataDirs(@NotNull java.lang.String file, @NotNull Out<java.lang.String> fullPath) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment fullPathPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_bookmark_file_load_from_data_dirs.invokeExact(handle(), Interop.allocateNativeString(file).handle(), fullPath.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_bookmark_file_load_from_data_dirs.invokeExact(handle(), Interop.allocateNativeString(file), (Addressable) fullPathPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        fullPath.set(fullPathPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_bookmark_file_load_from_file = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_load_from_file = Interop.downcallHandle(
         "g_bookmark_file_load_from_file",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -529,20 +581,21 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * If the file could not be loaded then {@code error} is set to either a {@link FileError}
      * or {@link BookmarkFileError}.
      */
-    public boolean loadFromFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
+    public boolean loadFromFile(@NotNull java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_bookmark_file_load_from_file.invokeExact(handle(), Interop.allocateNativeString(filename).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_bookmark_file_load_from_file.invokeExact(handle(), Interop.allocateNativeString(filename), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_bookmark_file_move_item = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_move_item = Interop.downcallHandle(
         "g_bookmark_file_move_item",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -555,20 +608,21 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * In the event the URI cannot be found, {@code false} is returned and
      * {@code error} is set to {@link BookmarkFileError#URI_NOT_FOUND}.
      */
-    public boolean moveItem(java.lang.String oldUri, java.lang.String newUri) throws io.github.jwharm.javagi.GErrorException {
+    public boolean moveItem(@NotNull java.lang.String oldUri, @Nullable java.lang.String newUri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_bookmark_file_move_item.invokeExact(handle(), Interop.allocateNativeString(oldUri).handle(), Interop.allocateNativeString(newUri).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_bookmark_file_move_item.invokeExact(handle(), Interop.allocateNativeString(oldUri), Interop.allocateNativeString(newUri), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_bookmark_file_remove_application = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_remove_application = Interop.downcallHandle(
         "g_bookmark_file_remove_application",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -583,20 +637,21 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * a bookmark for {@code uri},  {@code false} is returned and error is set to
      * {@link BookmarkFileError#APP_NOT_REGISTERED}.
      */
-    public boolean removeApplication(java.lang.String uri, java.lang.String name) throws io.github.jwharm.javagi.GErrorException {
+    public boolean removeApplication(@NotNull java.lang.String uri, @NotNull java.lang.String name) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_bookmark_file_remove_application.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(name).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_bookmark_file_remove_application.invokeExact(handle(), Interop.allocateNativeString(uri), Interop.allocateNativeString(name), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_bookmark_file_remove_group = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_remove_group = Interop.downcallHandle(
         "g_bookmark_file_remove_group",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -610,20 +665,21 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * In the event no group was defined, {@code false} is returned and
      * {@code error} is set to {@link BookmarkFileError#INVALID_VALUE}.
      */
-    public boolean removeGroup(java.lang.String uri, java.lang.String group) throws io.github.jwharm.javagi.GErrorException {
+    public boolean removeGroup(@NotNull java.lang.String uri, @NotNull java.lang.String group) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_bookmark_file_remove_group.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(group).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_bookmark_file_remove_group.invokeExact(handle(), Interop.allocateNativeString(uri), Interop.allocateNativeString(group), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_bookmark_file_remove_item = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_remove_item = Interop.downcallHandle(
         "g_bookmark_file_remove_item",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -631,20 +687,21 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Removes the bookmark for {@code uri} from the bookmark file {@code bookmark}.
      */
-    public boolean removeItem(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
+    public boolean removeItem(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_bookmark_file_remove_item.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_bookmark_file_remove_item.invokeExact(handle(), Interop.allocateNativeString(uri), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_bookmark_file_set_added_date_time = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_set_added_date_time = Interop.downcallHandle(
         "g_bookmark_file_set_added_date_time",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -654,15 +711,15 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If no bookmark for {@code uri} is found then it is created.
      */
-    public void setAddedDateTime(java.lang.String uri, DateTime added) {
+    public @NotNull void setAddedDateTime(@NotNull java.lang.String uri, @NotNull DateTime added) {
         try {
-            g_bookmark_file_set_added_date_time.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), added.handle());
+            g_bookmark_file_set_added_date_time.invokeExact(handle(), Interop.allocateNativeString(uri), added.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_bookmark_file_set_application_info = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_set_application_info = Interop.downcallHandle(
         "g_bookmark_file_set_application_info",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -696,20 +753,21 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * {@link BookmarkFileError#APP_NOT_REGISTERED}.  Otherwise, if no bookmark
      * for {@code uri} is found, one is created.
      */
-    public boolean setApplicationInfo(java.lang.String uri, java.lang.String name, java.lang.String exec, int count, DateTime stamp) throws io.github.jwharm.javagi.GErrorException {
+    public boolean setApplicationInfo(@NotNull java.lang.String uri, @NotNull java.lang.String name, @NotNull java.lang.String exec, @NotNull int count, @Nullable DateTime stamp) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_bookmark_file_set_application_info.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(exec).handle(), count, stamp.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_bookmark_file_set_application_info.invokeExact(handle(), Interop.allocateNativeString(uri), Interop.allocateNativeString(name), Interop.allocateNativeString(exec), count, stamp.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_bookmark_file_set_description = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_set_description = Interop.downcallHandle(
         "g_bookmark_file_set_description",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -721,15 +779,15 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If a bookmark for {@code uri} cannot be found then it is created.
      */
-    public void setDescription(java.lang.String uri, java.lang.String description) {
+    public @NotNull void setDescription(@Nullable java.lang.String uri, @NotNull java.lang.String description) {
         try {
-            g_bookmark_file_set_description.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(description).handle());
+            g_bookmark_file_set_description.invokeExact(handle(), Interop.allocateNativeString(uri), Interop.allocateNativeString(description));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_bookmark_file_set_groups = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_set_groups = Interop.downcallHandle(
         "g_bookmark_file_set_groups",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -740,15 +798,15 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If {@code uri} cannot be found then an item for it is created.
      */
-    public void setGroups(java.lang.String uri, java.lang.String[] groups, long length) {
+    public @NotNull void setGroups(@NotNull java.lang.String uri, @Nullable java.lang.String[] groups, @NotNull long length) {
         try {
-            g_bookmark_file_set_groups.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeArray(groups).handle(), length);
+            g_bookmark_file_set_groups.invokeExact(handle(), Interop.allocateNativeString(uri), Interop.allocateNativeArray(groups), length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_bookmark_file_set_icon = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_set_icon = Interop.downcallHandle(
         "g_bookmark_file_set_icon",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -760,15 +818,15 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If no bookmark for {@code uri} is found one is created.
      */
-    public void setIcon(java.lang.String uri, java.lang.String href, java.lang.String mimeType) {
+    public @NotNull void setIcon(@NotNull java.lang.String uri, @Nullable java.lang.String href, @NotNull java.lang.String mimeType) {
         try {
-            g_bookmark_file_set_icon.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(href).handle(), Interop.allocateNativeString(mimeType).handle());
+            g_bookmark_file_set_icon.invokeExact(handle(), Interop.allocateNativeString(uri), Interop.allocateNativeString(href), Interop.allocateNativeString(mimeType));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_bookmark_file_set_is_private = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_set_is_private = Interop.downcallHandle(
         "g_bookmark_file_set_is_private",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -778,15 +836,15 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If a bookmark for {@code uri} cannot be found then it is created.
      */
-    public void setIsPrivate(java.lang.String uri, boolean isPrivate) {
+    public @NotNull void setIsPrivate(@NotNull java.lang.String uri, @NotNull boolean isPrivate) {
         try {
-            g_bookmark_file_set_is_private.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), isPrivate ? 1 : 0);
+            g_bookmark_file_set_is_private.invokeExact(handle(), Interop.allocateNativeString(uri), isPrivate ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_bookmark_file_set_mime_type = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_set_mime_type = Interop.downcallHandle(
         "g_bookmark_file_set_mime_type",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -796,15 +854,15 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If a bookmark for {@code uri} cannot be found then it is created.
      */
-    public void setMimeType(java.lang.String uri, java.lang.String mimeType) {
+    public @NotNull void setMimeType(@NotNull java.lang.String uri, @NotNull java.lang.String mimeType) {
         try {
-            g_bookmark_file_set_mime_type.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(mimeType).handle());
+            g_bookmark_file_set_mime_type.invokeExact(handle(), Interop.allocateNativeString(uri), Interop.allocateNativeString(mimeType));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_bookmark_file_set_modified_date_time = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_set_modified_date_time = Interop.downcallHandle(
         "g_bookmark_file_set_modified_date_time",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -819,15 +877,15 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * modifies a bookmark also changes the modification time, except for
      * g_bookmark_file_set_visited_date_time().
      */
-    public void setModifiedDateTime(java.lang.String uri, DateTime modified) {
+    public @NotNull void setModifiedDateTime(@NotNull java.lang.String uri, @NotNull DateTime modified) {
         try {
-            g_bookmark_file_set_modified_date_time.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), modified.handle());
+            g_bookmark_file_set_modified_date_time.invokeExact(handle(), Interop.allocateNativeString(uri), modified.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_bookmark_file_set_title = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_set_title = Interop.downcallHandle(
         "g_bookmark_file_set_title",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -840,15 +898,15 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If a bookmark for {@code uri} cannot be found then it is created.
      */
-    public void setTitle(java.lang.String uri, java.lang.String title) {
+    public @NotNull void setTitle(@Nullable java.lang.String uri, @NotNull java.lang.String title) {
         try {
-            g_bookmark_file_set_title.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), Interop.allocateNativeString(title).handle());
+            g_bookmark_file_set_title.invokeExact(handle(), Interop.allocateNativeString(uri), Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_bookmark_file_set_visited_date_time = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_set_visited_date_time = Interop.downcallHandle(
         "g_bookmark_file_set_visited_date_time",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -864,15 +922,15 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * using g_bookmark_file_get_mime_type().  Changing the "visited" time
      * does not affect the "modified" time.
      */
-    public void setVisitedDateTime(java.lang.String uri, DateTime visited) {
+    public @NotNull void setVisitedDateTime(@NotNull java.lang.String uri, @NotNull DateTime visited) {
         try {
-            g_bookmark_file_set_visited_date_time.invokeExact(handle(), Interop.allocateNativeString(uri).handle(), visited.handle());
+            g_bookmark_file_set_visited_date_time.invokeExact(handle(), Interop.allocateNativeString(uri), visited.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_bookmark_file_to_data = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_to_data = Interop.downcallHandle(
         "g_bookmark_file_to_data",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -880,20 +938,23 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * This function outputs {@code bookmark} as a string.
      */
-    public PointerByte toData(PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+    public byte[] toData(@NotNull Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_bookmark_file_to_data.invokeExact(handle(), length.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new PointerByte(RESULT);
+            RESULT = (MemoryAddress) g_bookmark_file_to_data.invokeExact(handle(), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return MemorySegment.ofAddress(RESULT.get(ValueLayout.ADDRESS, 0), length.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE);
     }
     
-    static final MethodHandle g_bookmark_file_to_file = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_to_file = Interop.downcallHandle(
         "g_bookmark_file_to_file",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -902,34 +963,36 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * This function outputs {@code bookmark} into a file.  The write process is
      * guaranteed to be atomic by using g_file_set_contents() internally.
      */
-    public boolean toFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
+    public boolean toFile(@NotNull java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_bookmark_file_to_file.invokeExact(handle(), Interop.allocateNativeString(filename).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_bookmark_file_to_file.invokeExact(handle(), Interop.allocateNativeString(filename), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_bookmark_file_error_quark = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_error_quark = Interop.downcallHandle(
         "g_bookmark_file_error_quark",
         FunctionDescriptor.of(ValueLayout.JAVA_INT)
     );
     
-    public static Quark errorQuark() {
+    public static @NotNull Quark errorQuark() {
+        int RESULT;
         try {
-            var RESULT = (int) g_bookmark_file_error_quark.invokeExact();
-            return new Quark(RESULT);
+            RESULT = (int) g_bookmark_file_error_quark.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Quark(RESULT);
     }
     
-    static final MethodHandle g_bookmark_file_new = Interop.downcallHandle(
+    private static final MethodHandle g_bookmark_file_new = Interop.downcallHandle(
         "g_bookmark_file_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -941,13 +1004,14 @@ public class BookmarkFile extends io.github.jwharm.javagi.ResourceBase {
      * or g_bookmark_file_load_from_data_dirs() to read an existing bookmark
      * file.
      */
-    public static BookmarkFile new_() {
+    public static @NotNull BookmarkFile new_() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_bookmark_file_new.invokeExact();
-            return new BookmarkFile(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_bookmark_file_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new BookmarkFile(Refcounted.get(RESULT, false));
     }
     
 }

@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link SocketConnection} is a {@link IOStream} for a connected socket. They
@@ -33,7 +34,7 @@ public class SocketConnection extends IOStream {
         return new SocketConnection(gobject.refcounted());
     }
     
-    static final MethodHandle g_socket_connection_connect = Interop.downcallHandle(
+    private static final MethodHandle g_socket_connection_connect = Interop.downcallHandle(
         "g_socket_connection_connect",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -41,20 +42,21 @@ public class SocketConnection extends IOStream {
     /**
      * Connect {@code connection} to the specified remote address.
      */
-    public boolean connect(SocketAddress address, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public boolean connect(@NotNull SocketAddress address, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_socket_connection_connect.invokeExact(handle(), address.handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_socket_connection_connect.invokeExact(handle(), address.handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_socket_connection_connect_async = Interop.downcallHandle(
+    private static final MethodHandle g_socket_connection_connect_async = Interop.downcallHandle(
         "g_socket_connection_connect_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -67,7 +69,7 @@ public class SocketConnection extends IOStream {
      * <p>
      * Use g_socket_connection_connect_finish() to retrieve the result.
      */
-    public void connectAsync(SocketAddress address, Cancellable cancellable, AsyncReadyCallback callback) {
+    public @NotNull void connectAsync(@NotNull SocketAddress address, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_socket_connection_connect_async.invokeExact(handle(), address.handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -75,13 +77,13 @@ public class SocketConnection extends IOStream {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_socket_connection_connect_finish = Interop.downcallHandle(
+    private static final MethodHandle g_socket_connection_connect_finish = Interop.downcallHandle(
         "g_socket_connection_connect_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -89,20 +91,21 @@ public class SocketConnection extends IOStream {
     /**
      * Gets the result of a g_socket_connection_connect_async() call.
      */
-    public boolean connectFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public boolean connectFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_socket_connection_connect_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_socket_connection_connect_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_socket_connection_get_local_address = Interop.downcallHandle(
+    private static final MethodHandle g_socket_connection_get_local_address = Interop.downcallHandle(
         "g_socket_connection_get_local_address",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -110,20 +113,21 @@ public class SocketConnection extends IOStream {
     /**
      * Try to get the local address of a socket connection.
      */
-    public SocketAddress getLocalAddress() throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull SocketAddress getLocalAddress() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_socket_connection_get_local_address.invokeExact(handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new SocketAddress(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_socket_connection_get_local_address.invokeExact(handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new SocketAddress(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_socket_connection_get_remote_address = Interop.downcallHandle(
+    private static final MethodHandle g_socket_connection_get_remote_address = Interop.downcallHandle(
         "g_socket_connection_get_remote_address",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -138,20 +142,21 @@ public class SocketConnection extends IOStream {
      * applications to print e.g. "Connecting to example.com
      * (10.42.77.3)...".
      */
-    public SocketAddress getRemoteAddress() throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull SocketAddress getRemoteAddress() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_socket_connection_get_remote_address.invokeExact(handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new SocketAddress(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_socket_connection_get_remote_address.invokeExact(handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new SocketAddress(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_socket_connection_get_socket = Interop.downcallHandle(
+    private static final MethodHandle g_socket_connection_get_socket = Interop.downcallHandle(
         "g_socket_connection_get_socket",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -161,16 +166,17 @@ public class SocketConnection extends IOStream {
      * This can be useful if you want to do something unusual on it
      * not supported by the {@link SocketConnection} APIs.
      */
-    public Socket getSocket() {
+    public @NotNull Socket getSocket() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_socket_connection_get_socket.invokeExact(handle());
-            return new Socket(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_socket_connection_get_socket.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Socket(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_socket_connection_is_connected = Interop.downcallHandle(
+    private static final MethodHandle g_socket_connection_is_connected = Interop.downcallHandle(
         "g_socket_connection_is_connected",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -180,15 +186,16 @@ public class SocketConnection extends IOStream {
      * g_socket_is_connected() on {@code connection}'s underlying {@link Socket}.
      */
     public boolean isConnected() {
+        int RESULT;
         try {
-            var RESULT = (int) g_socket_connection_is_connected.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_socket_connection_is_connected.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_socket_connection_factory_lookup_type = Interop.downcallHandle(
+    private static final MethodHandle g_socket_connection_factory_lookup_type = Interop.downcallHandle(
         "g_socket_connection_factory_lookup_type",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -199,16 +206,17 @@ public class SocketConnection extends IOStream {
      * <p>
      * If no type is registered, the {@link SocketConnection} base type is returned.
      */
-    public static org.gtk.gobject.Type factoryLookupType(SocketFamily family, SocketType type, int protocolId) {
+    public static @NotNull org.gtk.gobject.Type factoryLookupType(@NotNull SocketFamily family, @NotNull SocketType type, @NotNull int protocolId) {
+        long RESULT;
         try {
-            var RESULT = (long) g_socket_connection_factory_lookup_type.invokeExact(family.getValue(), type.getValue(), protocolId);
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) g_socket_connection_factory_lookup_type.invokeExact(family.getValue(), type.getValue(), protocolId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle g_socket_connection_factory_register_type = Interop.downcallHandle(
+    private static final MethodHandle g_socket_connection_factory_register_type = Interop.downcallHandle(
         "g_socket_connection_factory_register_type",
         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -219,7 +227,7 @@ public class SocketConnection extends IOStream {
      * <p>
      * If no type is registered, the {@link SocketConnection} base type is returned.
      */
-    public static void factoryRegisterType(org.gtk.gobject.Type gType, SocketFamily family, SocketType type, int protocol) {
+    public static @NotNull void factoryRegisterType(@NotNull org.gtk.gobject.Type gType, @NotNull SocketFamily family, @NotNull SocketType type, @NotNull int protocol) {
         try {
             g_socket_connection_factory_register_type.invokeExact(gType.getValue(), family.getValue(), type.getValue(), protocol);
         } catch (Throwable ERR) {

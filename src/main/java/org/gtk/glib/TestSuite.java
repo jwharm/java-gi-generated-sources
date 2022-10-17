@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * An opaque structure representing a test suite.
@@ -13,7 +14,7 @@ public class TestSuite extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_test_suite_add = Interop.downcallHandle(
+    private static final MethodHandle g_test_suite_add = Interop.downcallHandle(
         "g_test_suite_add",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -21,7 +22,7 @@ public class TestSuite extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Adds {@code test_case} to {@code suite}.
      */
-    public void add(TestCase testCase) {
+    public @NotNull void add(@NotNull TestCase testCase) {
         try {
             g_test_suite_add.invokeExact(handle(), testCase.handle());
         } catch (Throwable ERR) {
@@ -29,7 +30,7 @@ public class TestSuite extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_test_suite_add_suite = Interop.downcallHandle(
+    private static final MethodHandle g_test_suite_add_suite = Interop.downcallHandle(
         "g_test_suite_add_suite",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -37,7 +38,7 @@ public class TestSuite extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Adds {@code nestedsuite} to {@code suite}.
      */
-    public void addSuite(TestSuite nestedsuite) {
+    public @NotNull void addSuite(@NotNull TestSuite nestedsuite) {
         try {
             g_test_suite_add_suite.invokeExact(handle(), nestedsuite.handle());
         } catch (Throwable ERR) {
@@ -45,7 +46,7 @@ public class TestSuite extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_test_suite_free = Interop.downcallHandle(
+    private static final MethodHandle g_test_suite_free = Interop.downcallHandle(
         "g_test_suite_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -53,7 +54,7 @@ public class TestSuite extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Free the {@code suite} and all nested {@code GTestSuites}.
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             g_test_suite_free.invokeExact(handle());
         } catch (Throwable ERR) {

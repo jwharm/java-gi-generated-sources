@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkMultiSorter} combines multiple sorters by trying them
@@ -22,7 +23,7 @@ public class MultiSorter extends Sorter implements org.gtk.gio.ListModel, Builda
         return new MultiSorter(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_multi_sorter_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_multi_sorter_new = Interop.downcallHandle(
         "gtk_multi_sorter_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -48,7 +49,7 @@ public class MultiSorter extends Sorter implements org.gtk.gio.ListModel, Builda
         super(constructNew());
     }
     
-    static final MethodHandle gtk_multi_sorter_append = Interop.downcallHandle(
+    private static final MethodHandle gtk_multi_sorter_append = Interop.downcallHandle(
         "gtk_multi_sorter_append",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -59,7 +60,7 @@ public class MultiSorter extends Sorter implements org.gtk.gio.ListModel, Builda
      * {@code self} will consult all existing sorters before it will
      * sort with the given {@code sorter}.
      */
-    public void append(Sorter sorter) {
+    public @NotNull void append(@NotNull Sorter sorter) {
         try {
             gtk_multi_sorter_append.invokeExact(handle(), sorter.refcounted().unowned().handle());
         } catch (Throwable ERR) {
@@ -67,7 +68,7 @@ public class MultiSorter extends Sorter implements org.gtk.gio.ListModel, Builda
         }
     }
     
-    static final MethodHandle gtk_multi_sorter_remove = Interop.downcallHandle(
+    private static final MethodHandle gtk_multi_sorter_remove = Interop.downcallHandle(
         "gtk_multi_sorter_remove",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -78,7 +79,7 @@ public class MultiSorter extends Sorter implements org.gtk.gio.ListModel, Builda
      * <p>
      * If {@code position} is larger than the number of sorters, nothing happens.
      */
-    public void remove(int position) {
+    public @NotNull void remove(@NotNull int position) {
         try {
             gtk_multi_sorter_remove.invokeExact(handle(), position);
         } catch (Throwable ERR) {

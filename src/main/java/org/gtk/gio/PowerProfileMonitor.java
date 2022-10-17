@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link PowerProfileMonitor} makes it possible for applications as well as OS components
@@ -32,7 +33,7 @@ import java.lang.invoke.*;
  */
 public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle g_power_profile_monitor_get_power_saver_enabled = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_power_profile_monitor_get_power_saver_enabled = Interop.downcallHandle(
         "g_power_profile_monitor_get_power_saver_enabled",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -44,16 +45,17 @@ public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
      * {@link PowerProfileMonitor}::notify::power-saver-enabled signal to know when the profile has
      * changed.
      */
-    public default boolean getPowerSaverEnabled() {
+    default boolean getPowerSaverEnabled() {
+        int RESULT;
         try {
-            var RESULT = (int) g_power_profile_monitor_get_power_saver_enabled.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_power_profile_monitor_get_power_saver_enabled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_power_profile_monitor_dup_default = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_power_profile_monitor_dup_default = Interop.downcallHandle(
         "g_power_profile_monitor_dup_default",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -61,13 +63,14 @@ public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets a reference to the default {@link PowerProfileMonitor} for the system.
      */
-    public static PowerProfileMonitor dupDefault() {
+    public static @NotNull PowerProfileMonitor dupDefault() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_power_profile_monitor_dup_default.invokeExact();
-            return new PowerProfileMonitor.PowerProfileMonitorImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_power_profile_monitor_dup_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PowerProfileMonitor.PowerProfileMonitorImpl(Refcounted.get(RESULT, true));
     }
     
     class PowerProfileMonitorImpl extends org.gtk.gobject.Object implements PowerProfileMonitor {

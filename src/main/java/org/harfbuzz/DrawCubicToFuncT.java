@@ -1,6 +1,7 @@
 package org.harfbuzz;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A virtual method for the {@link draw_funcs_t} to perform a "cubic-to" draw
@@ -8,5 +9,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface DrawCubicToFuncT {
-        void onDrawCubicToFuncT(DrawFuncsT dfuncs, java.lang.foreign.MemoryAddress drawData, DrawStateT st, float control1X, float control1Y, float control2X, float control2Y, float toX, float toY, java.lang.foreign.MemoryAddress userData);
+        void onDrawCubicToFuncT(@NotNull DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, @NotNull DrawStateT st, @NotNull float control1X, @NotNull float control1Y, @NotNull float control2X, @NotNull float control2Y, @NotNull float toX, @NotNull float toY, @Nullable java.lang.foreign.MemoryAddress userData);
 }

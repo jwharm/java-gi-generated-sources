@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkHeaderBar} is a widget for creating custom title bars for windows.
@@ -22,9 +23,8 @@ import java.lang.invoke.*;
  * custom titlebar widget of a {@code GtkWindow} (see {@link Window#setTitlebar}),
  * as it gives features typical of titlebars while allowing the addition of
  * child widgets.
- * <p>
+ * 
  * <h2>GtkHeaderBar as GtkBuildable</h2>
- * <p>
  * The {@code GtkHeaderBar} implementation of the {@code GtkBuildable} interface supports
  * adding children at the start or end sides by specifying “start” or “end” as
  * the “type” attribute of a &lt;child&gt; element, or setting the title widget by
@@ -33,7 +33,7 @@ import java.lang.invoke.*;
  * By default the {@code GtkHeaderBar} uses a {@code GtkLabel} displaying the title of the
  * window it is contained in as the title widget, equivalent to the following
  * UI definition:
- * <p>
+ * 
  * <pre>{@code xml
  * <object class="GtkHeaderBar">
  *   <property name="title-widget">
@@ -49,9 +49,8 @@ import java.lang.invoke.*;
  *   </property>
  * </object>
  * }</pre>
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * <pre>{@code 
  * headerbar
  * ╰── windowhandle
@@ -72,9 +71,8 @@ import java.lang.invoke.*;
  * <p>
  * Each of the boxes contains a {@code windowcontrols} subnode, see
  * {@link WindowControls} for details, as well as other children.
- * <p>
+ * 
  * <h1>Accessibility</h1>
- * <p>
  * {@code GtkHeaderBar} uses the {@link AccessibleRole#GROUP} role.
  */
 public class HeaderBar extends Widget implements Accessible, Buildable, ConstraintTarget {
@@ -88,7 +86,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
         return new HeaderBar(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_header_bar_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_header_bar_new = Interop.downcallHandle(
         "gtk_header_bar_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -109,7 +107,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
         super(constructNew());
     }
     
-    static final MethodHandle gtk_header_bar_get_decoration_layout = Interop.downcallHandle(
+    private static final MethodHandle gtk_header_bar_get_decoration_layout = Interop.downcallHandle(
         "gtk_header_bar_get_decoration_layout",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -117,16 +115,17 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
     /**
      * Gets the decoration layout of the {@code GtkHeaderBar}.
      */
-    public java.lang.String getDecorationLayout() {
+    public @Nullable java.lang.String getDecorationLayout() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_header_bar_get_decoration_layout.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_header_bar_get_decoration_layout.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_header_bar_get_show_title_buttons = Interop.downcallHandle(
+    private static final MethodHandle gtk_header_bar_get_show_title_buttons = Interop.downcallHandle(
         "gtk_header_bar_get_show_title_buttons",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -136,15 +135,16 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      * title buttons.
      */
     public boolean getShowTitleButtons() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_header_bar_get_show_title_buttons.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_header_bar_get_show_title_buttons.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_header_bar_get_title_widget = Interop.downcallHandle(
+    private static final MethodHandle gtk_header_bar_get_title_widget = Interop.downcallHandle(
         "gtk_header_bar_get_title_widget",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -154,16 +154,17 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      * <p>
      * See {@link HeaderBar#setTitleWidget}.
      */
-    public Widget getTitleWidget() {
+    public @Nullable Widget getTitleWidget() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_header_bar_get_title_widget.invokeExact(handle());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_header_bar_get_title_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_header_bar_pack_end = Interop.downcallHandle(
+    private static final MethodHandle gtk_header_bar_pack_end = Interop.downcallHandle(
         "gtk_header_bar_pack_end",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -172,7 +173,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      * Adds {@code child} to {@code bar}, packed with reference to the
      * end of the {@code bar}.
      */
-    public void packEnd(Widget child) {
+    public @NotNull void packEnd(@NotNull Widget child) {
         try {
             gtk_header_bar_pack_end.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -180,7 +181,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
         }
     }
     
-    static final MethodHandle gtk_header_bar_pack_start = Interop.downcallHandle(
+    private static final MethodHandle gtk_header_bar_pack_start = Interop.downcallHandle(
         "gtk_header_bar_pack_start",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -189,7 +190,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      * Adds {@code child} to {@code bar}, packed with reference to the
      * start of the {@code bar}.
      */
-    public void packStart(Widget child) {
+    public @NotNull void packStart(@NotNull Widget child) {
         try {
             gtk_header_bar_pack_start.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -197,7 +198,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
         }
     }
     
-    static final MethodHandle gtk_header_bar_remove = Interop.downcallHandle(
+    private static final MethodHandle gtk_header_bar_remove = Interop.downcallHandle(
         "gtk_header_bar_remove",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -210,7 +211,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      * {@link HeaderBar#packEnd} or
      * {@link HeaderBar#setTitleWidget}.
      */
-    public void remove(Widget child) {
+    public @NotNull void remove(@NotNull Widget child) {
         try {
             gtk_header_bar_remove.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -218,7 +219,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
         }
     }
     
-    static final MethodHandle gtk_header_bar_set_decoration_layout = Interop.downcallHandle(
+    private static final MethodHandle gtk_header_bar_set_decoration_layout = Interop.downcallHandle(
         "gtk_header_bar_set_decoration_layout",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -242,15 +243,15 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      * For example, “icon:minimize,maximize,close” specifies a icon
      * on the left, and minimize, maximize and close buttons on the right.
      */
-    public void setDecorationLayout(java.lang.String layout) {
+    public @NotNull void setDecorationLayout(@Nullable java.lang.String layout) {
         try {
-            gtk_header_bar_set_decoration_layout.invokeExact(handle(), Interop.allocateNativeString(layout).handle());
+            gtk_header_bar_set_decoration_layout.invokeExact(handle(), Interop.allocateNativeString(layout));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_header_bar_set_show_title_buttons = Interop.downcallHandle(
+    private static final MethodHandle gtk_header_bar_set_show_title_buttons = Interop.downcallHandle(
         "gtk_header_bar_set_show_title_buttons",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -259,7 +260,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      * Sets whether this header bar shows the standard window
      * title buttons.
      */
-    public void setShowTitleButtons(boolean setting) {
+    public @NotNull void setShowTitleButtons(@NotNull boolean setting) {
         try {
             gtk_header_bar_set_show_title_buttons.invokeExact(handle(), setting ? 1 : 0);
         } catch (Throwable ERR) {
@@ -267,7 +268,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
         }
     }
     
-    static final MethodHandle gtk_header_bar_set_title_widget = Interop.downcallHandle(
+    private static final MethodHandle gtk_header_bar_set_title_widget = Interop.downcallHandle(
         "gtk_header_bar_set_title_widget",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -285,7 +286,7 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      * You should set the title widget to {@code null}, for the window
      * title label to be visible again.
      */
-    public void setTitleWidget(Widget titleWidget) {
+    public @NotNull void setTitleWidget(@Nullable Widget titleWidget) {
         try {
             gtk_header_bar_set_title_widget.invokeExact(handle(), titleWidget.handle());
         } catch (Throwable ERR) {

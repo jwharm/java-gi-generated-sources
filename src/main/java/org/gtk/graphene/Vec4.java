@@ -3,6 +3,7 @@ package org.gtk.graphene;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A structure capable of holding a vector with four dimensions: x, y, z, and w.
@@ -16,7 +17,7 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle graphene_vec4_alloc = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_alloc = Interop.downcallHandle(
         "graphene_vec4_alloc",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -41,7 +42,7 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
         return new Vec4(constructAlloc());
     }
     
-    static final MethodHandle graphene_vec4_add = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_add = Interop.downcallHandle(
         "graphene_vec4_add",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -49,15 +50,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Adds each component of the two given vectors.
      */
-    public void add(Vec4 b, Vec4 res) {
+    public @NotNull void add(@NotNull Vec4 b, @NotNull Out<Vec4> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec4_add.invokeExact(handle(), b.handle(), res.handle());
+            graphene_vec4_add.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_vec4_divide = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_divide = Interop.downcallHandle(
         "graphene_vec4_divide",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -67,15 +70,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * component of the second operand @b, and places the results into the
      * vector {@code res}.
      */
-    public void divide(Vec4 b, Vec4 res) {
+    public @NotNull void divide(@NotNull Vec4 b, @NotNull Out<Vec4> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec4_divide.invokeExact(handle(), b.handle(), res.handle());
+            graphene_vec4_divide.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_vec4_dot = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_dot = Interop.downcallHandle(
         "graphene_vec4_dot",
         FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -83,16 +88,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Computes the dot product of the two given vectors.
      */
-    public float dot(Vec4 b) {
+    public float dot(@NotNull Vec4 b) {
+        float RESULT;
         try {
-            var RESULT = (float) graphene_vec4_dot.invokeExact(handle(), b.handle());
-            return RESULT;
+            RESULT = (float) graphene_vec4_dot.invokeExact(handle(), b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_vec4_equal = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_equal = Interop.downcallHandle(
         "graphene_vec4_equal",
         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -100,16 +106,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Checks whether the two given {@link Vec4} are equal.
      */
-    public boolean equal(Vec4 v2) {
+    public boolean equal(@NotNull Vec4 v2) {
+        boolean RESULT;
         try {
-            var RESULT = (boolean) graphene_vec4_equal.invokeExact(handle(), v2.handle());
-            return RESULT;
+            RESULT = (boolean) graphene_vec4_equal.invokeExact(handle(), v2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_vec4_free = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_free = Interop.downcallHandle(
         "graphene_vec4_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -117,7 +124,7 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Frees the resources allocated by @v
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             graphene_vec4_free.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -125,7 +132,7 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle graphene_vec4_get_w = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_get_w = Interop.downcallHandle(
         "graphene_vec4_get_w",
         FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -134,15 +141,16 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * Retrieves the value of the fourth component of the given {@link Vec4}.
      */
     public float getW() {
+        float RESULT;
         try {
-            var RESULT = (float) graphene_vec4_get_w.invokeExact(handle());
-            return RESULT;
+            RESULT = (float) graphene_vec4_get_w.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_vec4_get_x = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_get_x = Interop.downcallHandle(
         "graphene_vec4_get_x",
         FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -151,15 +159,16 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * Retrieves the value of the first component of the given {@link Vec4}.
      */
     public float getX() {
+        float RESULT;
         try {
-            var RESULT = (float) graphene_vec4_get_x.invokeExact(handle());
-            return RESULT;
+            RESULT = (float) graphene_vec4_get_x.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_vec4_get_xy = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_get_xy = Interop.downcallHandle(
         "graphene_vec4_get_xy",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -168,15 +177,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * Creates a {@link Vec2} that contains the first two components
      * of the given {@link Vec4}.
      */
-    public void getXy(Vec2 res) {
+    public @NotNull void getXy(@NotNull Out<Vec2> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec4_get_xy.invokeExact(handle(), res.handle());
+            graphene_vec4_get_xy.invokeExact(handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Vec2(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_vec4_get_xyz = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_get_xyz = Interop.downcallHandle(
         "graphene_vec4_get_xyz",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -185,15 +196,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * Creates a {@link Vec3} that contains the first three components
      * of the given {@link Vec4}.
      */
-    public void getXyz(Vec3 res) {
+    public @NotNull void getXyz(@NotNull Out<Vec3> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec4_get_xyz.invokeExact(handle(), res.handle());
+            graphene_vec4_get_xyz.invokeExact(handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_vec4_get_y = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_get_y = Interop.downcallHandle(
         "graphene_vec4_get_y",
         FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -202,15 +215,16 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * Retrieves the value of the second component of the given {@link Vec4}.
      */
     public float getY() {
+        float RESULT;
         try {
-            var RESULT = (float) graphene_vec4_get_y.invokeExact(handle());
-            return RESULT;
+            RESULT = (float) graphene_vec4_get_y.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_vec4_get_z = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_get_z = Interop.downcallHandle(
         "graphene_vec4_get_z",
         FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -219,15 +233,16 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * Retrieves the value of the third component of the given {@link Vec4}.
      */
     public float getZ() {
+        float RESULT;
         try {
-            var RESULT = (float) graphene_vec4_get_z.invokeExact(handle());
-            return RESULT;
+            RESULT = (float) graphene_vec4_get_z.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_vec4_init = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_init = Interop.downcallHandle(
         "graphene_vec4_init",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
     );
@@ -237,16 +252,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function can be called multiple times.
      */
-    public Vec4 init(float x, float y, float z, float w) {
+    public @NotNull Vec4 init(@NotNull float x, @NotNull float y, @NotNull float z, @NotNull float w) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_vec4_init.invokeExact(handle(), x, y, z, w);
-            return new Vec4(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_vec4_init.invokeExact(handle(), x, y, z, w);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_vec4_init_from_float = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_init_from_float = Interop.downcallHandle(
         "graphene_vec4_init_from_float",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -254,16 +270,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Initializes a {@link Vec4} with the values inside the given array.
      */
-    public Vec4 initFromFloat(float[] src) {
+    public @NotNull Vec4 initFromFloat(@NotNull float[] src) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_vec4_init_from_float.invokeExact(handle(), Interop.allocateNativeArray(src).handle());
-            return new Vec4(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_vec4_init_from_float.invokeExact(handle(), Interop.allocateNativeArray(src));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_vec4_init_from_vec2 = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_init_from_vec2 = Interop.downcallHandle(
         "graphene_vec4_init_from_vec2",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
     );
@@ -272,16 +289,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * Initializes a {@link Vec4} using the components of a
      * {@link Vec2} and the values of @z and @w.
      */
-    public Vec4 initFromVec2(Vec2 src, float z, float w) {
+    public @NotNull Vec4 initFromVec2(@NotNull Vec2 src, @NotNull float z, @NotNull float w) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_vec4_init_from_vec2.invokeExact(handle(), src.handle(), z, w);
-            return new Vec4(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_vec4_init_from_vec2.invokeExact(handle(), src.handle(), z, w);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_vec4_init_from_vec3 = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_init_from_vec3 = Interop.downcallHandle(
         "graphene_vec4_init_from_vec3",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
     );
@@ -290,16 +308,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * Initializes a {@link Vec4} using the components of a
      * {@link Vec3} and the value of @w.
      */
-    public Vec4 initFromVec3(Vec3 src, float w) {
+    public @NotNull Vec4 initFromVec3(@NotNull Vec3 src, @NotNull float w) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_vec4_init_from_vec3.invokeExact(handle(), src.handle(), w);
-            return new Vec4(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_vec4_init_from_vec3.invokeExact(handle(), src.handle(), w);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_vec4_init_from_vec4 = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_init_from_vec4 = Interop.downcallHandle(
         "graphene_vec4_init_from_vec4",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -308,16 +327,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * Initializes a {@link Vec4} using the components of
      * another {@link Vec4}.
      */
-    public Vec4 initFromVec4(Vec4 src) {
+    public @NotNull Vec4 initFromVec4(@NotNull Vec4 src) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_vec4_init_from_vec4.invokeExact(handle(), src.handle());
-            return new Vec4(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_vec4_init_from_vec4.invokeExact(handle(), src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_vec4_interpolate = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_interpolate = Interop.downcallHandle(
         "graphene_vec4_interpolate",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -325,15 +345,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Linearly interpolates {@code v1} and {@code v2} using the given {@code factor}.
      */
-    public void interpolate(Vec4 v2, double factor, Vec4 res) {
+    public @NotNull void interpolate(@NotNull Vec4 v2, @NotNull double factor, @NotNull Out<Vec4> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec4_interpolate.invokeExact(handle(), v2.handle(), factor, res.handle());
+            graphene_vec4_interpolate.invokeExact(handle(), v2.handle(), factor, (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_vec4_length = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_length = Interop.downcallHandle(
         "graphene_vec4_length",
         FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -342,15 +364,16 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * Computes the length of the given {@link Vec4}.
      */
     public float length() {
+        float RESULT;
         try {
-            var RESULT = (float) graphene_vec4_length.invokeExact(handle());
-            return RESULT;
+            RESULT = (float) graphene_vec4_length.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_vec4_max = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_max = Interop.downcallHandle(
         "graphene_vec4_max",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -359,15 +382,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * Compares each component of the two given vectors and creates a
      * vector that contains the maximum values.
      */
-    public void max(Vec4 b, Vec4 res) {
+    public @NotNull void max(@NotNull Vec4 b, @NotNull Out<Vec4> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec4_max.invokeExact(handle(), b.handle(), res.handle());
+            graphene_vec4_max.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_vec4_min = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_min = Interop.downcallHandle(
         "graphene_vec4_min",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -376,15 +401,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * Compares each component of the two given vectors and creates a
      * vector that contains the minimum values.
      */
-    public void min(Vec4 b, Vec4 res) {
+    public @NotNull void min(@NotNull Vec4 b, @NotNull Out<Vec4> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec4_min.invokeExact(handle(), b.handle(), res.handle());
+            graphene_vec4_min.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_vec4_multiply = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_multiply = Interop.downcallHandle(
         "graphene_vec4_multiply",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -392,15 +419,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Multiplies each component of the two given vectors.
      */
-    public void multiply(Vec4 b, Vec4 res) {
+    public @NotNull void multiply(@NotNull Vec4 b, @NotNull Out<Vec4> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec4_multiply.invokeExact(handle(), b.handle(), res.handle());
+            graphene_vec4_multiply.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_vec4_near = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_near = Interop.downcallHandle(
         "graphene_vec4_near",
         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
     );
@@ -409,16 +438,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * Compares the two given {@link Vec4} vectors and checks
      * whether their values are within the given {@code epsilon}.
      */
-    public boolean near(Vec4 v2, float epsilon) {
+    public boolean near(@NotNull Vec4 v2, @NotNull float epsilon) {
+        boolean RESULT;
         try {
-            var RESULT = (boolean) graphene_vec4_near.invokeExact(handle(), v2.handle(), epsilon);
-            return RESULT;
+            RESULT = (boolean) graphene_vec4_near.invokeExact(handle(), v2.handle(), epsilon);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_vec4_negate = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_negate = Interop.downcallHandle(
         "graphene_vec4_negate",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -426,15 +456,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Negates the given {@link Vec4}.
      */
-    public void negate(Vec4 res) {
+    public @NotNull void negate(@NotNull Out<Vec4> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec4_negate.invokeExact(handle(), res.handle());
+            graphene_vec4_negate.invokeExact(handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_vec4_normalize = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_normalize = Interop.downcallHandle(
         "graphene_vec4_normalize",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -442,15 +474,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Normalizes the given {@link Vec4}.
      */
-    public void normalize(Vec4 res) {
+    public @NotNull void normalize(@NotNull Out<Vec4> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec4_normalize.invokeExact(handle(), res.handle());
+            graphene_vec4_normalize.invokeExact(handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_vec4_scale = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_scale = Interop.downcallHandle(
         "graphene_vec4_scale",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -458,15 +492,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Multiplies all components of the given vector with the given scalar {@code factor}.
      */
-    public void scale(float factor, Vec4 res) {
+    public @NotNull void scale(@NotNull float factor, @NotNull Out<Vec4> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec4_scale.invokeExact(handle(), factor, res.handle());
+            graphene_vec4_scale.invokeExact(handle(), factor, (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_vec4_subtract = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_subtract = Interop.downcallHandle(
         "graphene_vec4_subtract",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -476,15 +512,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * corresponding component of the second operand @b and places
      * each result into the components of {@code res}.
      */
-    public void subtract(Vec4 b, Vec4 res) {
+    public @NotNull void subtract(@NotNull Vec4 b, @NotNull Out<Vec4> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec4_subtract.invokeExact(handle(), b.handle(), res.handle());
+            graphene_vec4_subtract.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_vec4_to_float = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_to_float = Interop.downcallHandle(
         "graphene_vec4_to_float",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -493,15 +531,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * Stores the components of the given {@link Vec4} into an array
      * of floating point values.
      */
-    public void toFloat(PointerFloat dest) {
+    public @NotNull void toFloat(@NotNull Out<float[]> dest) {
+        MemorySegment destPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec4_to_float.invokeExact(handle(), dest.handle());
+            graphene_vec4_to_float.invokeExact(handle(), (Addressable) destPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        dest.set(MemorySegment.ofAddress(destPOINTER.get(ValueLayout.ADDRESS, 0), 4 * ValueLayout.JAVA_FLOAT.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_FLOAT));
     }
     
-    static final MethodHandle graphene_vec4_one = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_one = Interop.downcallHandle(
         "graphene_vec4_one",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -510,16 +550,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * Retrieves a pointer to a {@link Vec4} with all its
      * components set to 1.
      */
-    public static Vec4 one() {
+    public static @NotNull Vec4 one() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_vec4_one.invokeExact();
-            return new Vec4(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_vec4_one.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_vec4_w_axis = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_w_axis = Interop.downcallHandle(
         "graphene_vec4_w_axis",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -528,16 +569,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * Retrieves a pointer to a {@link Vec4} with its
      * components set to (0, 0, 0, 1).
      */
-    public static Vec4 wAxis() {
+    public static @NotNull Vec4 wAxis() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_vec4_w_axis.invokeExact();
-            return new Vec4(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_vec4_w_axis.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_vec4_x_axis = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_x_axis = Interop.downcallHandle(
         "graphene_vec4_x_axis",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -546,16 +588,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * Retrieves a pointer to a {@link Vec4} with its
      * components set to (1, 0, 0, 0).
      */
-    public static Vec4 xAxis() {
+    public static @NotNull Vec4 xAxis() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_vec4_x_axis.invokeExact();
-            return new Vec4(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_vec4_x_axis.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_vec4_y_axis = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_y_axis = Interop.downcallHandle(
         "graphene_vec4_y_axis",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -564,16 +607,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * Retrieves a pointer to a {@link Vec4} with its
      * components set to (0, 1, 0, 0).
      */
-    public static Vec4 yAxis() {
+    public static @NotNull Vec4 yAxis() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_vec4_y_axis.invokeExact();
-            return new Vec4(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_vec4_y_axis.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_vec4_z_axis = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_z_axis = Interop.downcallHandle(
         "graphene_vec4_z_axis",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -582,16 +626,17 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * Retrieves a pointer to a {@link Vec4} with its
      * components set to (0, 0, 1, 0).
      */
-    public static Vec4 zAxis() {
+    public static @NotNull Vec4 zAxis() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_vec4_z_axis.invokeExact();
-            return new Vec4(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_vec4_z_axis.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_vec4_zero = Interop.downcallHandle(
+    private static final MethodHandle graphene_vec4_zero = Interop.downcallHandle(
         "graphene_vec4_zero",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -600,13 +645,14 @@ public class Vec4 extends io.github.jwharm.javagi.ResourceBase {
      * Retrieves a pointer to a {@link Vec4} with all its
      * components set to 0.
      */
-    public static Vec4 zero() {
+    public static @NotNull Vec4 zero() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_vec4_zero.invokeExact();
-            return new Vec4(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_vec4_zero.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Vec4(Refcounted.get(RESULT, false));
     }
     
 }

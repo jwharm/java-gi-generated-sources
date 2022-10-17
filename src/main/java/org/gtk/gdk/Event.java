@@ -3,6 +3,7 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GdkEvent}s are immutable data structures, created by GDK to
@@ -23,7 +24,7 @@ public class Event extends org.gtk.gobject.Object {
         return new Event(gobject.refcounted());
     }
     
-    static final MethodHandle gdk_events_get_angle = Interop.downcallHandle(
+    private static final MethodHandle gdk_events_get_angle = Interop.downcallHandle(
         "gdk_events_get_angle",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -38,16 +39,19 @@ public class Event extends org.gtk.gobject.Object {
      * This assumes that both events have X/Y information.
      * If not, this function returns {@code false}.
      */
-    public boolean GetAngle(Event event2, PointerDouble angle) {
+    public boolean GetAngle(@NotNull Event event2, @NotNull Out<Double> angle) {
+        MemorySegment anglePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        int RESULT;
         try {
-            var RESULT = (int) gdk_events_get_angle.invokeExact(handle(), event2.handle(), angle.handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_events_get_angle.invokeExact(handle(), event2.handle(), (Addressable) anglePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        angle.set(anglePOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_events_get_center = Interop.downcallHandle(
+    private static final MethodHandle gdk_events_get_center = Interop.downcallHandle(
         "gdk_events_get_center",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -58,16 +62,21 @@ public class Event extends org.gtk.gobject.Object {
      * This assumes that both events have X/Y information.
      * If not, this function returns {@code false}.
      */
-    public boolean GetCenter(Event event2, PointerDouble x, PointerDouble y) {
+    public boolean GetCenter(@NotNull Event event2, @NotNull Out<Double> x, @NotNull Out<Double> y) {
+        MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        int RESULT;
         try {
-            var RESULT = (int) gdk_events_get_center.invokeExact(handle(), event2.handle(), x.handle(), y.handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_events_get_center.invokeExact(handle(), event2.handle(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        x.set(xPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        y.set(yPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_events_get_distance = Interop.downcallHandle(
+    private static final MethodHandle gdk_events_get_distance = Interop.downcallHandle(
         "gdk_events_get_distance",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -78,16 +87,19 @@ public class Event extends org.gtk.gobject.Object {
      * This assumes that both events have X/Y information.
      * If not, this function returns {@code false}.
      */
-    public boolean GetDistance(Event event2, PointerDouble distance) {
+    public boolean GetDistance(@NotNull Event event2, @NotNull Out<Double> distance) {
+        MemorySegment distancePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        int RESULT;
         try {
-            var RESULT = (int) gdk_events_get_distance.invokeExact(handle(), event2.handle(), distance.handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_events_get_distance.invokeExact(handle(), event2.handle(), (Addressable) distancePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        distance.set(distancePOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_event_get_axes = Interop.downcallHandle(
+    private static final MethodHandle gdk_event_get_axes = Interop.downcallHandle(
         "gdk_event_get_axes",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -98,16 +110,21 @@ public class Event extends org.gtk.gobject.Object {
      * To find out which axes are used, use {@link DeviceTool#getAxes}
      * on the device tool returned by {@link Event#getDeviceTool}.
      */
-    public boolean getAxes(PointerDouble axes, PointerInteger nAxes) {
+    public boolean getAxes(@NotNull Out<double[]> axes, @NotNull Out<Integer> nAxes) {
+        MemorySegment axesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment nAxesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        int RESULT;
         try {
-            var RESULT = (int) gdk_event_get_axes.invokeExact(handle(), axes.handle(), nAxes.handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_event_get_axes.invokeExact(handle(), (Addressable) axesPOINTER.address(), (Addressable) nAxesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        nAxes.set(nAxesPOINTER.get(ValueLayout.JAVA_INT, 0));
+        axes.set(MemorySegment.ofAddress(axesPOINTER.get(ValueLayout.ADDRESS, 0), nAxes.get().intValue() * ValueLayout.JAVA_DOUBLE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_DOUBLE));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_event_get_axis = Interop.downcallHandle(
+    private static final MethodHandle gdk_event_get_axis = Interop.downcallHandle(
         "gdk_event_get_axis",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -119,16 +136,19 @@ public class Event extends org.gtk.gobject.Object {
      * To find out which axes are used, use {@link DeviceTool#getAxes}
      * on the device tool returned by {@link Event#getDeviceTool}.
      */
-    public boolean getAxis(AxisUse axisUse, PointerDouble value) {
+    public boolean getAxis(@NotNull AxisUse axisUse, @NotNull Out<Double> value) {
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        int RESULT;
         try {
-            var RESULT = (int) gdk_event_get_axis.invokeExact(handle(), axisUse.getValue(), value.handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_event_get_axis.invokeExact(handle(), axisUse.getValue(), (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        value.set(valuePOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_event_get_device = Interop.downcallHandle(
+    private static final MethodHandle gdk_event_get_device = Interop.downcallHandle(
         "gdk_event_get_device",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -136,16 +156,17 @@ public class Event extends org.gtk.gobject.Object {
     /**
      * Returns the device of an event.
      */
-    public Device getDevice() {
+    public @Nullable Device getDevice() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_event_get_device.invokeExact(handle());
-            return new Device(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_event_get_device.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Device(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_event_get_device_tool = Interop.downcallHandle(
+    private static final MethodHandle gdk_event_get_device_tool = Interop.downcallHandle(
         "gdk_event_get_device_tool",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -162,16 +183,17 @@ public class Event extends org.gtk.gobject.Object {
      * the application lifetime, if settings must be stored
      * persistently across runs, see {@link DeviceTool#getSerial}.
      */
-    public DeviceTool getDeviceTool() {
+    public @Nullable DeviceTool getDeviceTool() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_event_get_device_tool.invokeExact(handle());
-            return new DeviceTool(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_event_get_device_tool.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new DeviceTool(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_event_get_display = Interop.downcallHandle(
+    private static final MethodHandle gdk_event_get_display = Interop.downcallHandle(
         "gdk_event_get_display",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -179,16 +201,17 @@ public class Event extends org.gtk.gobject.Object {
     /**
      * Retrieves the display associated to the {@code event}.
      */
-    public Display getDisplay() {
+    public @Nullable Display getDisplay() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_event_get_display.invokeExact(handle());
-            return new Display(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_event_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Display(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_event_get_event_sequence = Interop.downcallHandle(
+    private static final MethodHandle gdk_event_get_event_sequence = Interop.downcallHandle(
         "gdk_event_get_event_sequence",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -199,16 +222,17 @@ public class Event extends org.gtk.gobject.Object {
      * Related touch events are connected in a sequence. Other
      * events typically don't have event sequence information.
      */
-    public EventSequence getEventSequence() {
+    public @NotNull EventSequence getEventSequence() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_event_get_event_sequence.invokeExact(handle());
-            return new EventSequence(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_event_get_event_sequence.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new EventSequence(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_event_get_event_type = Interop.downcallHandle(
+    private static final MethodHandle gdk_event_get_event_type = Interop.downcallHandle(
         "gdk_event_get_event_type",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -216,16 +240,17 @@ public class Event extends org.gtk.gobject.Object {
     /**
      * Retrieves the type of the event.
      */
-    public EventType getEventType() {
+    public @NotNull EventType getEventType() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_event_get_event_type.invokeExact(handle());
-            return new EventType(RESULT);
+            RESULT = (int) gdk_event_get_event_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new EventType(RESULT);
     }
     
-    static final MethodHandle gdk_event_get_history = Interop.downcallHandle(
+    private static final MethodHandle gdk_event_get_history = Interop.downcallHandle(
         "gdk_event_get_history",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -241,16 +266,24 @@ public class Event extends org.gtk.gobject.Object {
      * events do it only if one of the mouse buttons is down, or the device
      * has a tool.
      */
-    public PointerProxy<TimeCoord> getHistory(PointerInteger outNCoords) {
+    public TimeCoord[] getHistory(@NotNull Out<Integer> outNCoords) {
+        MemorySegment outNCoordsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_event_get_history.invokeExact(handle(), outNCoords.handle());
-            return new PointerProxy<TimeCoord>(RESULT, TimeCoord.class);
+            RESULT = (MemoryAddress) gdk_event_get_history.invokeExact(handle(), (Addressable) outNCoordsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        outNCoords.set(outNCoordsPOINTER.get(ValueLayout.JAVA_INT, 0));
+        TimeCoord[] resultARRAY = new TimeCoord[outNCoords.get().intValue()];
+        for (int I = 0; I < outNCoords.get().intValue(); I++) {
+            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            resultARRAY[I] = new TimeCoord(Refcounted.get(OBJ, false));
+        }
+        return resultARRAY;
     }
     
-    static final MethodHandle gdk_event_get_modifier_state = Interop.downcallHandle(
+    private static final MethodHandle gdk_event_get_modifier_state = Interop.downcallHandle(
         "gdk_event_get_modifier_state",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -258,16 +291,17 @@ public class Event extends org.gtk.gobject.Object {
     /**
      * Returns the modifier state field of an event.
      */
-    public ModifierType getModifierState() {
+    public @NotNull ModifierType getModifierState() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_event_get_modifier_state.invokeExact(handle());
-            return new ModifierType(RESULT);
+            RESULT = (int) gdk_event_get_modifier_state.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ModifierType(RESULT);
     }
     
-    static final MethodHandle gdk_event_get_pointer_emulated = Interop.downcallHandle(
+    private static final MethodHandle gdk_event_get_pointer_emulated = Interop.downcallHandle(
         "gdk_event_get_pointer_emulated",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -278,15 +312,16 @@ public class Event extends org.gtk.gobject.Object {
      * Emulated pointer events typically originate from a touch events.
      */
     public boolean getPointerEmulated() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_event_get_pointer_emulated.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_event_get_pointer_emulated.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_event_get_position = Interop.downcallHandle(
+    private static final MethodHandle gdk_event_get_position = Interop.downcallHandle(
         "gdk_event_get_position",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -294,16 +329,21 @@ public class Event extends org.gtk.gobject.Object {
     /**
      * Extract the event surface relative x/y coordinates from an event.
      */
-    public boolean getPosition(PointerDouble x, PointerDouble y) {
+    public boolean getPosition(@NotNull Out<Double> x, @NotNull Out<Double> y) {
+        MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        int RESULT;
         try {
-            var RESULT = (int) gdk_event_get_position.invokeExact(handle(), x.handle(), y.handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_event_get_position.invokeExact(handle(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        x.set(xPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        y.set(yPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_event_get_seat = Interop.downcallHandle(
+    private static final MethodHandle gdk_event_get_seat = Interop.downcallHandle(
         "gdk_event_get_seat",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -311,16 +351,17 @@ public class Event extends org.gtk.gobject.Object {
     /**
      * Returns the seat that originated the event.
      */
-    public Seat getSeat() {
+    public @Nullable Seat getSeat() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_event_get_seat.invokeExact(handle());
-            return new Seat(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_event_get_seat.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Seat(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_event_get_surface = Interop.downcallHandle(
+    private static final MethodHandle gdk_event_get_surface = Interop.downcallHandle(
         "gdk_event_get_surface",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -328,16 +369,17 @@ public class Event extends org.gtk.gobject.Object {
     /**
      * Extracts the surface associated with an event.
      */
-    public Surface getSurface() {
+    public @Nullable Surface getSurface() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_event_get_surface.invokeExact(handle());
-            return new Surface(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_event_get_surface.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Surface(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_event_get_time = Interop.downcallHandle(
+    private static final MethodHandle gdk_event_get_time = Interop.downcallHandle(
         "gdk_event_get_time",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -349,15 +391,16 @@ public class Event extends org.gtk.gobject.Object {
      * returns {@code GDK_CURRENT_TIME}.
      */
     public int getTime() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_event_get_time.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gdk_event_get_time.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gdk_event_ref = Interop.downcallHandle(
+    private static final MethodHandle gdk_event_ref = Interop.downcallHandle(
         "gdk_event_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -365,16 +408,17 @@ public class Event extends org.gtk.gobject.Object {
     /**
      * Increase the ref count of {@code event}.
      */
-    public Event ref() {
+    public @NotNull Event ref() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_event_ref.invokeExact(handle());
-            return new Event(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gdk_event_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Event(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gdk_event_triggers_context_menu = Interop.downcallHandle(
+    private static final MethodHandle gdk_event_triggers_context_menu = Interop.downcallHandle(
         "gdk_event_triggers_context_menu",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -389,15 +433,16 @@ public class Event extends org.gtk.gobject.Object {
      * event->button == {@code GDK_BUTTON_SECONDARY}.
      */
     public boolean triggersContextMenu() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_event_triggers_context_menu.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_event_triggers_context_menu.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_event_unref = Interop.downcallHandle(
+    private static final MethodHandle gdk_event_unref = Interop.downcallHandle(
         "gdk_event_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -407,7 +452,7 @@ public class Event extends org.gtk.gobject.Object {
      * <p>
      * If the last reference is dropped, the structure is freed.
      */
-    public void unref() {
+    public @NotNull void unref() {
         try {
             gdk_event_unref.invokeExact(handle());
         } catch (Throwable ERR) {

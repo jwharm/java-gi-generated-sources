@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkFileChooserDialog} is a dialog suitable for use with
@@ -23,12 +24,11 @@ import java.lang.invoke.*;
  * {@link FileChooserNative} API, which will use a platform-specific
  * dialog if available and fall back to {@code GtkFileChooserDialog}
  * otherwise.
- * <p>
+ * 
  * <h2>Typical usage</h2>
- * <p>
  * In the simplest of cases, you can the following code to use
  * {@code GtkFileChooserDialog} to select a file for opening:
- * <p>
+ * 
  * <pre>{@code c
  * static void
  * on_open_response (GtkDialog *dialog,
@@ -67,7 +67,7 @@ import java.lang.invoke.*;
  * }</pre>
  * <p>
  * To use a dialog for saving, you can use this:
- * <p>
+ * 
  * <pre>{@code c
  * static void
  * on_save_response (GtkDialog *dialog,
@@ -111,27 +111,16 @@ import java.lang.invoke.*;
  *                     G_CALLBACK (on_save_response),
  *                     NULL);
  * }</pre>
- * <p>
+ * 
  * <h2>Setting up a file chooser dialog</h2>
- * <p>
  * There are various cases in which you may need to use a {@code GtkFileChooserDialog}:
- * <p>
  * <ul>
  * <li>To select a file for opening, use {@link FileChooserAction#OPEN}.
- * </ul>
- * <p>
- * <ul>
  * <li>To save a file for the first time, use {@link FileChooserAction#SAVE},
  *   and suggest a name such as “Untitled” with
  *   {@link FileChooser#setCurrentName}.
- * </ul>
- * <p>
- * <ul>
  * <li>To save a file under a different name, use {@link FileChooserAction#SAVE},
  *   and set the existing file with {@link FileChooser#setFile}.
- * </ul>
- * <p>
- * <ul>
  * <li>To choose a folder instead of a filem use {@link FileChooserAction#SELECT_FOLDER}.
  * </ul>
  * <p>
@@ -139,14 +128,13 @@ import java.lang.invoke.*;
  * folder when it is appropriate to use {@link FileChooser#setFile},
  * i.e. when you are doing a “Save As” command and you already have a file
  * saved somewhere.
- * <p>
+ * 
  * <h2>Response Codes</h2>
- * <p>
  * {@code GtkFileChooserDialog} inherits from {@link Dialog}, so buttons that
  * go in its action area have response codes such as {@link ResponseType#ACCEPT} and
  * {@link ResponseType#CANCEL}. For example, you could call
  * {@link FileChooserDialog#FileChooserDialog} as follows:
- * <p>
+ * 
  * <pre>{@code c
  * GtkWidget *dialog;
  * GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
@@ -167,7 +155,6 @@ import java.lang.invoke.*;
  * ones in {@code Gtk.ResponseType}, but {@code GtkFileChooserDialog} assumes that
  * its “accept”-type action, e.g. an “Open” or “Save” button,
  * will have one of the following response codes:
- * <p>
  * <ul>
  * <li>{@link ResponseType#ACCEPT}
  * <li>{@link ResponseType#OK}

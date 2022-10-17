@@ -3,6 +3,7 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@code GdkToplevelSize} struct contains information that is useful
@@ -14,7 +15,7 @@ public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle gdk_toplevel_size_get_bounds = Interop.downcallHandle(
+    private static final MethodHandle gdk_toplevel_size_get_bounds = Interop.downcallHandle(
         "gdk_toplevel_size_get_bounds",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -28,15 +29,19 @@ public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
      * window is being presented on, or something else that limits the way a
      * toplevel can be presented.
      */
-    public void getBounds(PointerInteger boundsWidth, PointerInteger boundsHeight) {
+    public @NotNull void getBounds(@NotNull Out<Integer> boundsWidth, @NotNull Out<Integer> boundsHeight) {
+        MemorySegment boundsWidthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment boundsHeightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gdk_toplevel_size_get_bounds.invokeExact(handle(), boundsWidth.handle(), boundsHeight.handle());
+            gdk_toplevel_size_get_bounds.invokeExact(handle(), (Addressable) boundsWidthPOINTER.address(), (Addressable) boundsHeightPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        boundsWidth.set(boundsWidthPOINTER.get(ValueLayout.JAVA_INT, 0));
+        boundsHeight.set(boundsHeightPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    static final MethodHandle gdk_toplevel_size_set_min_size = Interop.downcallHandle(
+    private static final MethodHandle gdk_toplevel_size_set_min_size = Interop.downcallHandle(
         "gdk_toplevel_size_set_min_size",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -52,7 +57,7 @@ public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
      * The minimum size should be within the bounds (see
      * {@link ToplevelSize#getBounds}).
      */
-    public void setMinSize(int minWidth, int minHeight) {
+    public @NotNull void setMinSize(@NotNull int minWidth, @NotNull int minHeight) {
         try {
             gdk_toplevel_size_set_min_size.invokeExact(handle(), minWidth, minHeight);
         } catch (Throwable ERR) {
@@ -60,7 +65,7 @@ public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle gdk_toplevel_size_set_shadow_width = Interop.downcallHandle(
+    private static final MethodHandle gdk_toplevel_size_set_shadow_width = Interop.downcallHandle(
         "gdk_toplevel_size_set_shadow_width",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -72,7 +77,7 @@ public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
      * that would consist of the shadow margin surrounding the window, would
      * there be any.
      */
-    public void setShadowWidth(int left, int right, int top, int bottom) {
+    public @NotNull void setShadowWidth(@NotNull int left, @NotNull int right, @NotNull int top, @NotNull int bottom) {
         try {
             gdk_toplevel_size_set_shadow_width.invokeExact(handle(), left, right, top, bottom);
         } catch (Throwable ERR) {
@@ -80,7 +85,7 @@ public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle gdk_toplevel_size_set_size = Interop.downcallHandle(
+    private static final MethodHandle gdk_toplevel_size_set_size = Interop.downcallHandle(
         "gdk_toplevel_size_set_size",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -93,7 +98,7 @@ public class ToplevelSize extends io.github.jwharm.javagi.ResourceBase {
      * be considered as a hint, and should not be assumed to be
      * respected by the windowing system, or backend.
      */
-    public void setSize(int width, int height) {
+    public @NotNull void setSize(@NotNull int width, @NotNull int height) {
         try {
             gdk_toplevel_size_set_size.invokeExact(handle(), width, height);
         } catch (Throwable ERR) {

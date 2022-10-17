@@ -1,6 +1,7 @@
 package org.gtk.gdkpixbuf;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A function of this type is responsible for freeing the pixel array
@@ -13,5 +14,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface PixbufDestroyNotify {
-        void onPixbufDestroyNotify(PointerByte pixels);
+        void onPixbufDestroyNotify(@NotNull PointerByte pixels);
 }

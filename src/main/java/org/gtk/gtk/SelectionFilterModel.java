@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkSelectionFilterModel} is a list model that presents the selection from
@@ -19,12 +20,12 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
         return new SelectionFilterModel(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_selection_filter_model_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_selection_filter_model_new = Interop.downcallHandle(
         "gtk_selection_filter_model_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(SelectionModel model) {
+    private static Refcounted constructNew(@Nullable SelectionModel model) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_selection_filter_model_new.invokeExact(model.handle()), true);
             return RESULT;
@@ -37,11 +38,11 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
      * Creates a new {@code GtkSelectionFilterModel} that will include the
      * selected items from the underlying selection model.
      */
-    public SelectionFilterModel(SelectionModel model) {
+    public SelectionFilterModel(@Nullable SelectionModel model) {
         super(constructNew(model));
     }
     
-    static final MethodHandle gtk_selection_filter_model_get_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_selection_filter_model_get_model = Interop.downcallHandle(
         "gtk_selection_filter_model_get_model",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -49,16 +50,17 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
     /**
      * Gets the model currently filtered or {@code null} if none.
      */
-    public SelectionModel getModel() {
+    public @Nullable SelectionModel getModel() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_selection_filter_model_get_model.invokeExact(handle());
-            return new SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_selection_filter_model_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_selection_filter_model_set_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_selection_filter_model_set_model = Interop.downcallHandle(
         "gtk_selection_filter_model_set_model",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -71,7 +73,7 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
      * are doing and have set up an appropriate filter to ensure that item
      * types match.
      */
-    public void setModel(SelectionModel model) {
+    public @NotNull void setModel(@Nullable SelectionModel model) {
         try {
             gtk_selection_filter_model_set_model.invokeExact(handle(), model.handle());
         } catch (Throwable ERR) {

@@ -3,6 +3,7 @@ package org.gtk.graphene;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A 4 vertex quadrilateral, as represented by four {@link Point}.
@@ -16,7 +17,7 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle graphene_quad_alloc = Interop.downcallHandle(
+    private static final MethodHandle graphene_quad_alloc = Interop.downcallHandle(
         "graphene_quad_alloc",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -39,7 +40,7 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
         return new Quad(constructAlloc());
     }
     
-    static final MethodHandle graphene_quad_bounds = Interop.downcallHandle(
+    private static final MethodHandle graphene_quad_bounds = Interop.downcallHandle(
         "graphene_quad_bounds",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -47,15 +48,17 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Computes the bounding rectangle of @q and places it into @r.
      */
-    public void bounds(Rect r) {
+    public @NotNull void bounds(@NotNull Out<Rect> r) {
+        MemorySegment rPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_quad_bounds.invokeExact(handle(), r.handle());
+            graphene_quad_bounds.invokeExact(handle(), (Addressable) rPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        r.set(new Rect(Refcounted.get(rPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_quad_contains = Interop.downcallHandle(
+    private static final MethodHandle graphene_quad_contains = Interop.downcallHandle(
         "graphene_quad_contains",
         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -63,16 +66,17 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Checks if the given {@link Quad} contains the given {@link Point}.
      */
-    public boolean contains(Point p) {
+    public boolean contains(@NotNull Point p) {
+        boolean RESULT;
         try {
-            var RESULT = (boolean) graphene_quad_contains.invokeExact(handle(), p.handle());
-            return RESULT;
+            RESULT = (boolean) graphene_quad_contains.invokeExact(handle(), p.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_quad_free = Interop.downcallHandle(
+    private static final MethodHandle graphene_quad_free = Interop.downcallHandle(
         "graphene_quad_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -80,7 +84,7 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Frees the resources allocated by graphene_quad_alloc()
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             graphene_quad_free.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -88,7 +92,7 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle graphene_quad_get_point = Interop.downcallHandle(
+    private static final MethodHandle graphene_quad_get_point = Interop.downcallHandle(
         "graphene_quad_get_point",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -96,16 +100,17 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Retrieves the point of a {@link Quad} at the given index.
      */
-    public Point getPoint(int index) {
+    public @NotNull Point getPoint(@NotNull int index) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_quad_get_point.invokeExact(handle(), index);
-            return new Point(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_quad_get_point.invokeExact(handle(), index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Point(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_quad_init = Interop.downcallHandle(
+    private static final MethodHandle graphene_quad_init = Interop.downcallHandle(
         "graphene_quad_init",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -113,16 +118,17 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Initializes a {@link Quad} with the given points.
      */
-    public Quad init(Point p1, Point p2, Point p3, Point p4) {
+    public @NotNull Quad init(@NotNull Point p1, @NotNull Point p2, @NotNull Point p3, @NotNull Point p4) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_quad_init.invokeExact(handle(), p1.handle(), p2.handle(), p3.handle(), p4.handle());
-            return new Quad(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_quad_init.invokeExact(handle(), p1.handle(), p2.handle(), p3.handle(), p4.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Quad(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_quad_init_from_points = Interop.downcallHandle(
+    private static final MethodHandle graphene_quad_init_from_points = Interop.downcallHandle(
         "graphene_quad_init_from_points",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -130,16 +136,17 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Initializes a {@link Quad} using an array of points.
      */
-    public Quad initFromPoints(Point[] points) {
+    public @NotNull Quad initFromPoints(@NotNull Point[] points) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_quad_init_from_points.invokeExact(handle(), Interop.allocateNativeArray(points).handle());
-            return new Quad(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_quad_init_from_points.invokeExact(handle(), Interop.allocateNativeArray(points));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Quad(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_quad_init_from_rect = Interop.downcallHandle(
+    private static final MethodHandle graphene_quad_init_from_rect = Interop.downcallHandle(
         "graphene_quad_init_from_rect",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -148,13 +155,14 @@ public class Quad extends io.github.jwharm.javagi.ResourceBase {
      * Initializes a {@link Quad} using the four corners of the
      * given {@link Rect}.
      */
-    public Quad initFromRect(Rect r) {
+    public @NotNull Quad initFromRect(@NotNull Rect r) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_quad_init_from_rect.invokeExact(handle(), r.handle());
-            return new Quad(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_quad_init_from_rect.invokeExact(handle(), r.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Quad(Refcounted.get(RESULT, false));
     }
     
 }

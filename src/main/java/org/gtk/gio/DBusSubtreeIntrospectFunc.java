@@ -1,6 +1,7 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The type of the {@code introspect} function in {@link DBusSubtreeVTable}.
@@ -24,5 +25,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface DBusSubtreeIntrospectFunc {
-        void onDBusSubtreeIntrospectFunc(DBusConnection connection, java.lang.String sender, java.lang.String objectPath, java.lang.String node);
+        void onDBusSubtreeIntrospectFunc(@NotNull DBusConnection connection, @NotNull java.lang.String sender, @NotNull java.lang.String objectPath, @NotNull java.lang.String node);
 }

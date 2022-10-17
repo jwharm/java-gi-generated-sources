@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A GtkTreeIterCompareFunc should return a negative integer, zero, or a positive
@@ -18,5 +19,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface TreeIterCompareFunc {
-        int onTreeIterCompareFunc(TreeModel model, TreeIter a, TreeIter b);
+        int onTreeIterCompareFunc(@NotNull TreeModel model, @NotNull TreeIter a, @NotNull TreeIter b);
 }

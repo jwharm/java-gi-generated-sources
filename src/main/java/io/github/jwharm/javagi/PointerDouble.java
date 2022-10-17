@@ -38,7 +38,7 @@ public class PointerDouble extends Pointer<Double> {
     public void set(Double value) {
         address.set(ValueLayout.JAVA_DOUBLE, 0, value);
     }
-    
+
     /**
      * Use this method to retreive the value of the parameter after the
      * function call that set the value, has been executed.
@@ -46,7 +46,7 @@ public class PointerDouble extends Pointer<Double> {
     public Double get() {
         return get(0);
     }
-    
+
     /**
      * Treat the pointer as an array, and return the given element.
      * @param index The array index
@@ -54,7 +54,7 @@ public class PointerDouble extends Pointer<Double> {
      */
     public Double get(int index) {
         return address.get(
-                ValueLayout.JAVA_DOUBLE, 
+                ValueLayout.JAVA_DOUBLE,
                 ValueLayout.JAVA_DOUBLE.byteSize() * index
         );
     }

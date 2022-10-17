@@ -3,6 +3,7 @@ package org.gtk.gsk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A render node for a repeating linear gradient.
@@ -18,14 +19,14 @@ public class RepeatingLinearGradientNode extends RenderNode {
         return new RepeatingLinearGradientNode(gobject.refcounted());
     }
     
-    static final MethodHandle gsk_repeating_linear_gradient_node_new = Interop.downcallHandle(
+    private static final MethodHandle gsk_repeating_linear_gradient_node_new = Interop.downcallHandle(
         "gsk_repeating_linear_gradient_node_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
     
-    private static Refcounted constructNew(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point start, org.gtk.graphene.Point end, ColorStop[] colorStops, long nColorStops) {
+    private static Refcounted constructNew(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point start, @NotNull org.gtk.graphene.Point end, @NotNull ColorStop[] colorStops, @NotNull long nColorStops) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_repeating_linear_gradient_node_new.invokeExact(bounds.handle(), start.handle(), end.handle(), Interop.allocateNativeArray(colorStops).handle(), nColorStops), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_repeating_linear_gradient_node_new.invokeExact(bounds.handle(), start.handle(), end.handle(), Interop.allocateNativeArray(colorStops), nColorStops), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -37,7 +38,7 @@ public class RepeatingLinearGradientNode extends RenderNode {
      * from the given points and color stops, and render that into the area
      * given by {@code bounds}.
      */
-    public RepeatingLinearGradientNode(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point start, org.gtk.graphene.Point end, ColorStop[] colorStops, long nColorStops) {
+    public RepeatingLinearGradientNode(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point start, @NotNull org.gtk.graphene.Point end, @NotNull ColorStop[] colorStops, @NotNull long nColorStops) {
         super(constructNew(bounds, start, end, colorStops, nColorStops));
     }
     

@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Prototype of the function called to create new child models when
@@ -13,5 +14,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface TreeListModelCreateModelFunc {
-        org.gtk.gio.ListModel onTreeListModelCreateModelFunc(org.gtk.gobject.Object item);
+        org.gtk.gio.ListModel onTreeListModelCreateModelFunc(@NotNull org.gtk.gobject.Object item);
 }

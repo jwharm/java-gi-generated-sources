@@ -3,6 +3,7 @@ package org.pango;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code PangoLayoutLine} represents one of the lines resulting from laying
@@ -18,7 +19,7 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle pango_layout_line_get_extents = Interop.downcallHandle(
+    private static final MethodHandle pango_layout_line_get_extents = Interop.downcallHandle(
         "pango_layout_line_get_extents",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -29,15 +30,19 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
      * See {@link Font#getGlyphExtents} for details
      * about the interpretation of the rectangles.
      */
-    public void getExtents(Rectangle inkRect, Rectangle logicalRect) {
+    public @NotNull void getExtents(@NotNull Out<Rectangle> inkRect, @NotNull Out<Rectangle> logicalRect) {
+        MemorySegment inkRectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment logicalRectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            pango_layout_line_get_extents.invokeExact(handle(), inkRect.handle(), logicalRect.handle());
+            pango_layout_line_get_extents.invokeExact(handle(), (Addressable) inkRectPOINTER.address(), (Addressable) logicalRectPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        inkRect.set(new Rectangle(Refcounted.get(inkRectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        logicalRect.set(new Rectangle(Refcounted.get(logicalRectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle pango_layout_line_get_height = Interop.downcallHandle(
+    private static final MethodHandle pango_layout_line_get_height = Interop.downcallHandle(
         "pango_layout_line_get_height",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -51,15 +56,17 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
      * {@link Layout#setSpacing} and
      * {@link Layout#setLineSpacing}.
      */
-    public void getHeight(PointerInteger height) {
+    public @NotNull void getHeight(@NotNull Out<Integer> height) {
+        MemorySegment heightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            pango_layout_line_get_height.invokeExact(handle(), height.handle());
+            pango_layout_line_get_height.invokeExact(handle(), (Addressable) heightPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        height.set(heightPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    static final MethodHandle pango_layout_line_get_length = Interop.downcallHandle(
+    private static final MethodHandle pango_layout_line_get_length = Interop.downcallHandle(
         "pango_layout_line_get_length",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -68,15 +75,16 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
      * Returns the length of the line, in bytes.
      */
     public int getLength() {
+        int RESULT;
         try {
-            var RESULT = (int) pango_layout_line_get_length.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) pango_layout_line_get_length.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle pango_layout_line_get_pixel_extents = Interop.downcallHandle(
+    private static final MethodHandle pango_layout_line_get_pixel_extents = Interop.downcallHandle(
         "pango_layout_line_get_pixel_extents",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -89,15 +97,19 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
      * such that the rounded rectangles fully contain the unrounded one (that is,
      * passes them as first argument to [func@extents_to_pixels}).
      */
-    public void getPixelExtents(Rectangle inkRect, Rectangle logicalRect) {
+    public @NotNull void getPixelExtents(@NotNull Out<Rectangle> inkRect, @NotNull Out<Rectangle> logicalRect) {
+        MemorySegment inkRectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment logicalRectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            pango_layout_line_get_pixel_extents.invokeExact(handle(), inkRect.handle(), logicalRect.handle());
+            pango_layout_line_get_pixel_extents.invokeExact(handle(), (Addressable) inkRectPOINTER.address(), (Addressable) logicalRectPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        inkRect.set(new Rectangle(Refcounted.get(inkRectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        logicalRect.set(new Rectangle(Refcounted.get(logicalRectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle pango_layout_line_get_resolved_direction = Interop.downcallHandle(
+    private static final MethodHandle pango_layout_line_get_resolved_direction = Interop.downcallHandle(
         "pango_layout_line_get_resolved_direction",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -105,16 +117,17 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the resolved direction of the line.
      */
-    public Direction getResolvedDirection() {
+    public @NotNull Direction getResolvedDirection() {
+        int RESULT;
         try {
-            var RESULT = (int) pango_layout_line_get_resolved_direction.invokeExact(handle());
-            return new Direction(RESULT);
+            RESULT = (int) pango_layout_line_get_resolved_direction.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Direction(RESULT);
     }
     
-    static final MethodHandle pango_layout_line_get_start_index = Interop.downcallHandle(
+    private static final MethodHandle pango_layout_line_get_start_index = Interop.downcallHandle(
         "pango_layout_line_get_start_index",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -124,15 +137,16 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
      * into the text of the layout.
      */
     public int getStartIndex() {
+        int RESULT;
         try {
-            var RESULT = (int) pango_layout_line_get_start_index.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) pango_layout_line_get_start_index.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle pango_layout_line_get_x_ranges = Interop.downcallHandle(
+    private static final MethodHandle pango_layout_line_get_x_ranges = Interop.downcallHandle(
         "pango_layout_line_get_x_ranges",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -145,15 +159,19 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
      * right. The ranges are with respect to the left edge of the entire
      * layout, not with respect to the line.
      */
-    public void getXRanges(int startIndex, int endIndex, PointerInteger ranges, PointerInteger nRanges) {
+    public @NotNull void getXRanges(@NotNull int startIndex, @NotNull int endIndex, @NotNull Out<int[]> ranges, @NotNull Out<Integer> nRanges) {
+        MemorySegment rangesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment nRangesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            pango_layout_line_get_x_ranges.invokeExact(handle(), startIndex, endIndex, ranges.handle(), nRanges.handle());
+            pango_layout_line_get_x_ranges.invokeExact(handle(), startIndex, endIndex, (Addressable) rangesPOINTER.address(), (Addressable) nRangesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        nRanges.set(nRangesPOINTER.get(ValueLayout.JAVA_INT, 0));
+        ranges.set(MemorySegment.ofAddress(rangesPOINTER.get(ValueLayout.ADDRESS, 0), nRanges.get().intValue() * ValueLayout.JAVA_INT.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_INT));
     }
     
-    static final MethodHandle pango_layout_line_index_to_x = Interop.downcallHandle(
+    private static final MethodHandle pango_layout_line_index_to_x = Interop.downcallHandle(
         "pango_layout_line_index_to_x",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -161,15 +179,17 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Converts an index within a line to a X position.
      */
-    public void indexToX(int index, boolean trailing, PointerInteger xPos) {
+    public @NotNull void indexToX(@NotNull int index, @NotNull boolean trailing, @NotNull Out<Integer> xPos) {
+        MemorySegment xPosPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            pango_layout_line_index_to_x.invokeExact(handle(), index, trailing ? 1 : 0, xPos.handle());
+            pango_layout_line_index_to_x.invokeExact(handle(), index, trailing ? 1 : 0, (Addressable) xPosPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        xPos.set(xPosPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    static final MethodHandle pango_layout_line_is_paragraph_start = Interop.downcallHandle(
+    private static final MethodHandle pango_layout_line_is_paragraph_start = Interop.downcallHandle(
         "pango_layout_line_is_paragraph_start",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -178,15 +198,16 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
      * Returns whether this is the first line of the paragraph.
      */
     public boolean isParagraphStart() {
+        int RESULT;
         try {
-            var RESULT = (int) pango_layout_line_is_paragraph_start.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) pango_layout_line_is_paragraph_start.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle pango_layout_line_ref = Interop.downcallHandle(
+    private static final MethodHandle pango_layout_line_ref = Interop.downcallHandle(
         "pango_layout_line_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -194,16 +215,17 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Increase the reference count of a {@code PangoLayoutLine} by one.
      */
-    public LayoutLine ref() {
+    public @NotNull LayoutLine ref() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_layout_line_ref.invokeExact(handle());
-            return new LayoutLine(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_layout_line_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new LayoutLine(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle pango_layout_line_unref = Interop.downcallHandle(
+    private static final MethodHandle pango_layout_line_unref = Interop.downcallHandle(
         "pango_layout_line_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -214,7 +236,7 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
      * If the result is zero, the line and all associated memory
      * will be freed.
      */
-    public void unref() {
+    public @NotNull void unref() {
         try {
             pango_layout_line_unref.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -222,7 +244,7 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle pango_layout_line_x_to_index = Interop.downcallHandle(
+    private static final MethodHandle pango_layout_line_x_to_index = Interop.downcallHandle(
         "pango_layout_line_x_to_index",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -240,13 +262,18 @@ public class LayoutLine extends io.github.jwharm.javagi.ResourceBase {
      * in the line and {@code trailing} being set to the number of characters in that
      * grapheme. The reverse is true for a left-to-right line.
      */
-    public boolean xToIndex(int xPos, PointerInteger index, PointerInteger trailing) {
+    public boolean xToIndex(@NotNull int xPos, @NotNull Out<Integer> index, @NotNull Out<Integer> trailing) {
+        MemorySegment indexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment trailingPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        int RESULT;
         try {
-            var RESULT = (int) pango_layout_line_x_to_index.invokeExact(handle(), xPos, index.handle(), trailing.handle());
-            return RESULT != 0;
+            RESULT = (int) pango_layout_line_x_to_index.invokeExact(handle(), xPos, (Addressable) indexPOINTER.address(), (Addressable) trailingPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        index.set(indexPOINTER.get(ValueLayout.JAVA_INT, 0));
+        trailing.set(trailingPOINTER.get(ValueLayout.JAVA_INT, 0));
+        return RESULT != 0;
     }
     
 }

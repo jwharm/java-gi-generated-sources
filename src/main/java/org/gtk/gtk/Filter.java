@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GtkFilter} object describes the filtering to be performed by a
@@ -35,7 +36,7 @@ public class Filter extends org.gtk.gobject.Object {
         return new Filter(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_filter_changed = Interop.downcallHandle(
+    private static final MethodHandle gtk_filter_changed = Interop.downcallHandle(
         "gtk_filter_changed",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -54,7 +55,7 @@ public class Filter extends org.gtk.gobject.Object {
      * This function is intended for implementors of {@code GtkFilter}
      * subclasses and should not be called from other functions.
      */
-    public void changed(FilterChange change) {
+    public @NotNull void changed(@NotNull FilterChange change) {
         try {
             gtk_filter_changed.invokeExact(handle(), change.getValue());
         } catch (Throwable ERR) {
@@ -62,7 +63,7 @@ public class Filter extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_filter_get_strictness = Interop.downcallHandle(
+    private static final MethodHandle gtk_filter_get_strictness = Interop.downcallHandle(
         "gtk_filter_get_strictness",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -78,16 +79,17 @@ public class Filter extends org.gtk.gobject.Object {
      * This function is meant purely for optimization purposes, filters can
      * choose to omit implementing it, but {@code GtkFilterListModel} uses it.
      */
-    public FilterMatch getStrictness() {
+    public @NotNull FilterMatch getStrictness() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_filter_get_strictness.invokeExact(handle());
-            return new FilterMatch(RESULT);
+            RESULT = (int) gtk_filter_get_strictness.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new FilterMatch(RESULT);
     }
     
-    static final MethodHandle gtk_filter_match = Interop.downcallHandle(
+    private static final MethodHandle gtk_filter_match = Interop.downcallHandle(
         "gtk_filter_match",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -95,18 +97,19 @@ public class Filter extends org.gtk.gobject.Object {
     /**
      * Checks if the given {@code item} is matched by the filter or not.
      */
-    public boolean match(org.gtk.gobject.Object item) {
+    public boolean match(@NotNull org.gtk.gobject.Object item) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_filter_match.invokeExact(handle(), item.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_filter_match.invokeExact(handle(), item.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
     @FunctionalInterface
     public interface ChangedHandler {
-        void signalReceived(Filter source, FilterChange change);
+        void signalReceived(Filter source, @NotNull FilterChange change);
     }
     
     /**
@@ -125,13 +128,13 @@ public class Filter extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("changed").handle(),
+                Interop.allocateNativeString("changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Filter.Callbacks.class, "signalFilterChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

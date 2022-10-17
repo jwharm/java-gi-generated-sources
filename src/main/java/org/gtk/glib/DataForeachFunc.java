@@ -1,6 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Specifies the type of function passed to g_dataset_foreach(). It is
@@ -9,5 +10,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface DataForeachFunc {
-        void onDataForeachFunc(Quark keyId);
+        void onDataForeachFunc(@NotNull Quark keyId);
 }

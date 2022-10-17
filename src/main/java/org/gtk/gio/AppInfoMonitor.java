@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link AppInfoMonitor} is a very simple object used for monitoring the app
@@ -34,7 +35,7 @@ public class AppInfoMonitor extends org.gtk.gobject.Object {
         return new AppInfoMonitor(gobject.refcounted());
     }
     
-    static final MethodHandle g_app_info_monitor_get = Interop.downcallHandle(
+    private static final MethodHandle g_app_info_monitor_get = Interop.downcallHandle(
         "g_app_info_monitor_get",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -50,13 +51,14 @@ public class AppInfoMonitor extends org.gtk.gobject.Object {
      * You must only call g_object_unref() on the return value from under
      * the same main context as you created it.
      */
-    public static AppInfoMonitor get() {
+    public static @NotNull AppInfoMonitor get() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_app_info_monitor_get.invokeExact();
-            return new AppInfoMonitor(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_app_info_monitor_get.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new AppInfoMonitor(Refcounted.get(RESULT, true));
     }
     
     @FunctionalInterface
@@ -72,13 +74,13 @@ public class AppInfoMonitor extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("changed").handle(),
+                Interop.allocateNativeString("changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(AppInfoMonitor.Callbacks.class, "signalAppInfoMonitorChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

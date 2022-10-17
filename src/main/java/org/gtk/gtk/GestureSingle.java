@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkGestureSingle} is a {@code GtkGestures} subclass optimized for singe-touch
@@ -31,7 +32,7 @@ public class GestureSingle extends Gesture {
         return new GestureSingle(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_gesture_single_get_button = Interop.downcallHandle(
+    private static final MethodHandle gtk_gesture_single_get_button = Interop.downcallHandle(
         "gtk_gesture_single_get_button",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -42,15 +43,16 @@ public class GestureSingle extends Gesture {
      * If this is 0, the gesture reacts to any button press.
      */
     public int getButton() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_gesture_single_get_button.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_gesture_single_get_button.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_gesture_single_get_current_button = Interop.downcallHandle(
+    private static final MethodHandle gtk_gesture_single_get_current_button = Interop.downcallHandle(
         "gtk_gesture_single_get_current_button",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -60,15 +62,16 @@ public class GestureSingle extends Gesture {
      * with {@code gesture}, or 0 if there is none.
      */
     public int getCurrentButton() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_gesture_single_get_current_button.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_gesture_single_get_current_button.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_gesture_single_get_current_sequence = Interop.downcallHandle(
+    private static final MethodHandle gtk_gesture_single_get_current_sequence = Interop.downcallHandle(
         "gtk_gesture_single_get_current_sequence",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -79,16 +82,17 @@ public class GestureSingle extends Gesture {
      * This is only meaningful if {@link Gesture#isActive}
      * returns {@code true}.
      */
-    public org.gtk.gdk.EventSequence getCurrentSequence() {
+    public @Nullable org.gtk.gdk.EventSequence getCurrentSequence() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_gesture_single_get_current_sequence.invokeExact(handle());
-            return new org.gtk.gdk.EventSequence(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_gesture_single_get_current_sequence.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gdk.EventSequence(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_gesture_single_get_exclusive = Interop.downcallHandle(
+    private static final MethodHandle gtk_gesture_single_get_exclusive = Interop.downcallHandle(
         "gtk_gesture_single_get_exclusive",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -99,15 +103,16 @@ public class GestureSingle extends Gesture {
      * For more information, see {@link GestureSingle#setExclusive}.
      */
     public boolean getExclusive() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_gesture_single_get_exclusive.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_gesture_single_get_exclusive.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_gesture_single_get_touch_only = Interop.downcallHandle(
+    private static final MethodHandle gtk_gesture_single_get_touch_only = Interop.downcallHandle(
         "gtk_gesture_single_get_touch_only",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -116,15 +121,16 @@ public class GestureSingle extends Gesture {
      * Returns {@code true} if the gesture is only triggered by touch events.
      */
     public boolean getTouchOnly() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_gesture_single_get_touch_only.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_gesture_single_get_touch_only.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_gesture_single_set_button = Interop.downcallHandle(
+    private static final MethodHandle gtk_gesture_single_set_button = Interop.downcallHandle(
         "gtk_gesture_single_set_button",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -136,7 +142,7 @@ public class GestureSingle extends Gesture {
      * number will be ignored. Touch events implicitly match
      * with button 1.
      */
-    public void setButton(int button) {
+    public @NotNull void setButton(@NotNull int button) {
         try {
             gtk_gesture_single_set_button.invokeExact(handle(), button);
         } catch (Throwable ERR) {
@@ -144,7 +150,7 @@ public class GestureSingle extends Gesture {
         }
     }
     
-    static final MethodHandle gtk_gesture_single_set_exclusive = Interop.downcallHandle(
+    private static final MethodHandle gtk_gesture_single_set_exclusive = Interop.downcallHandle(
         "gtk_gesture_single_set_exclusive",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -156,7 +162,7 @@ public class GestureSingle extends Gesture {
      * touch events, so at any given time, there is only one sequence able
      * to interact with those.
      */
-    public void setExclusive(boolean exclusive) {
+    public @NotNull void setExclusive(@NotNull boolean exclusive) {
         try {
             gtk_gesture_single_set_exclusive.invokeExact(handle(), exclusive ? 1 : 0);
         } catch (Throwable ERR) {
@@ -164,7 +170,7 @@ public class GestureSingle extends Gesture {
         }
     }
     
-    static final MethodHandle gtk_gesture_single_set_touch_only = Interop.downcallHandle(
+    private static final MethodHandle gtk_gesture_single_set_touch_only = Interop.downcallHandle(
         "gtk_gesture_single_set_touch_only",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -176,7 +182,7 @@ public class GestureSingle extends Gesture {
      * {@link org.gtk.gdk.EventType#TOUCH_BEGIN}, {@link org.gtk.gdk.EventType#TOUCH_UPDATE} or {@link org.gtk.gdk.EventType#TOUCH_END}. If {@code false},
      * mouse events will be handled too.
      */
-    public void setTouchOnly(boolean touchOnly) {
+    public @NotNull void setTouchOnly(@NotNull boolean touchOnly) {
         try {
             gtk_gesture_single_set_touch_only.invokeExact(handle(), touchOnly ? 1 : 0);
         } catch (Throwable ERR) {

@@ -3,6 +3,7 @@ package org.gtk.gsk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A render node for an inset shadow.
@@ -18,12 +19,12 @@ public class InsetShadowNode extends RenderNode {
         return new InsetShadowNode(gobject.refcounted());
     }
     
-    static final MethodHandle gsk_inset_shadow_node_new = Interop.downcallHandle(
+    private static final MethodHandle gsk_inset_shadow_node_new = Interop.downcallHandle(
         "gsk_inset_shadow_node_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
     );
     
-    private static Refcounted constructNew(RoundedRect outline, org.gtk.gdk.RGBA color, float dx, float dy, float spread, float blurRadius) {
+    private static Refcounted constructNew(@NotNull RoundedRect outline, @NotNull org.gtk.gdk.RGBA color, @NotNull float dx, @NotNull float dy, @NotNull float spread, @NotNull float blurRadius) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_inset_shadow_node_new.invokeExact(outline.handle(), color.handle(), dx, dy, spread, blurRadius), true);
             return RESULT;
@@ -36,11 +37,11 @@ public class InsetShadowNode extends RenderNode {
      * Creates a {@code GskRenderNode} that will render an inset shadow
      * into the box given by {@code outline}.
      */
-    public InsetShadowNode(RoundedRect outline, org.gtk.gdk.RGBA color, float dx, float dy, float spread, float blurRadius) {
+    public InsetShadowNode(@NotNull RoundedRect outline, @NotNull org.gtk.gdk.RGBA color, @NotNull float dx, @NotNull float dy, @NotNull float spread, @NotNull float blurRadius) {
         super(constructNew(outline, color, dx, dy, spread, blurRadius));
     }
     
-    static final MethodHandle gsk_inset_shadow_node_get_blur_radius = Interop.downcallHandle(
+    private static final MethodHandle gsk_inset_shadow_node_get_blur_radius = Interop.downcallHandle(
         "gsk_inset_shadow_node_get_blur_radius",
         FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -49,15 +50,16 @@ public class InsetShadowNode extends RenderNode {
      * Retrieves the blur radius to apply to the shadow.
      */
     public float getBlurRadius() {
+        float RESULT;
         try {
-            var RESULT = (float) gsk_inset_shadow_node_get_blur_radius.invokeExact(handle());
-            return RESULT;
+            RESULT = (float) gsk_inset_shadow_node_get_blur_radius.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gsk_inset_shadow_node_get_color = Interop.downcallHandle(
+    private static final MethodHandle gsk_inset_shadow_node_get_color = Interop.downcallHandle(
         "gsk_inset_shadow_node_get_color",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -65,16 +67,17 @@ public class InsetShadowNode extends RenderNode {
     /**
      * Retrieves the color of the inset shadow.
      */
-    public org.gtk.gdk.RGBA getColor() {
+    public @NotNull org.gtk.gdk.RGBA getColor() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_inset_shadow_node_get_color.invokeExact(handle());
-            return new org.gtk.gdk.RGBA(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gsk_inset_shadow_node_get_color.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gdk.RGBA(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gsk_inset_shadow_node_get_dx = Interop.downcallHandle(
+    private static final MethodHandle gsk_inset_shadow_node_get_dx = Interop.downcallHandle(
         "gsk_inset_shadow_node_get_dx",
         FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -83,15 +86,16 @@ public class InsetShadowNode extends RenderNode {
      * Retrieves the horizontal offset of the inset shadow.
      */
     public float getDx() {
+        float RESULT;
         try {
-            var RESULT = (float) gsk_inset_shadow_node_get_dx.invokeExact(handle());
-            return RESULT;
+            RESULT = (float) gsk_inset_shadow_node_get_dx.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gsk_inset_shadow_node_get_dy = Interop.downcallHandle(
+    private static final MethodHandle gsk_inset_shadow_node_get_dy = Interop.downcallHandle(
         "gsk_inset_shadow_node_get_dy",
         FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -100,15 +104,16 @@ public class InsetShadowNode extends RenderNode {
      * Retrieves the vertical offset of the inset shadow.
      */
     public float getDy() {
+        float RESULT;
         try {
-            var RESULT = (float) gsk_inset_shadow_node_get_dy.invokeExact(handle());
-            return RESULT;
+            RESULT = (float) gsk_inset_shadow_node_get_dy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gsk_inset_shadow_node_get_outline = Interop.downcallHandle(
+    private static final MethodHandle gsk_inset_shadow_node_get_outline = Interop.downcallHandle(
         "gsk_inset_shadow_node_get_outline",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -116,16 +121,17 @@ public class InsetShadowNode extends RenderNode {
     /**
      * Retrieves the outline rectangle of the inset shadow.
      */
-    public RoundedRect getOutline() {
+    public @NotNull RoundedRect getOutline() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_inset_shadow_node_get_outline.invokeExact(handle());
-            return new RoundedRect(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gsk_inset_shadow_node_get_outline.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new RoundedRect(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gsk_inset_shadow_node_get_spread = Interop.downcallHandle(
+    private static final MethodHandle gsk_inset_shadow_node_get_spread = Interop.downcallHandle(
         "gsk_inset_shadow_node_get_spread",
         FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -134,12 +140,13 @@ public class InsetShadowNode extends RenderNode {
      * Retrieves how much the shadow spreads inwards.
      */
     public float getSpread() {
+        float RESULT;
         try {
-            var RESULT = (float) gsk_inset_shadow_node_get_spread.invokeExact(handle());
-            return RESULT;
+            RESULT = (float) gsk_inset_shadow_node_get_spread.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
 }

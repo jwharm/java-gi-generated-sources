@@ -1,6 +1,7 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * This function is provided by the user and should produce a copy
@@ -8,5 +9,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface BoxedCopyFunc {
-        java.lang.foreign.MemoryAddress onBoxedCopyFunc(java.lang.foreign.MemoryAddress boxed);
+        java.lang.foreign.MemoryAddress onBoxedCopyFunc(@NotNull java.lang.foreign.MemoryAddress boxed);
 }

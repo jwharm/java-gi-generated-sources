@@ -16,7 +16,7 @@ public class PointerInteger extends Pointer<Integer> {
     public PointerInteger() {
         super(ValueLayout.JAVA_INT);
     }
-    
+
     /**
      * Create a pointer to an existing memory address.
      */
@@ -38,7 +38,7 @@ public class PointerInteger extends Pointer<Integer> {
     public void set(Integer value) {
         address.set(ValueLayout.JAVA_INT, 0, value);
     }
-    
+
     /**
      * Use this method to retreive the value of the parameter after the
      * function call that set the value, has been executed.
@@ -46,7 +46,7 @@ public class PointerInteger extends Pointer<Integer> {
     public Integer get() {
         return get(0);
     }
-    
+
     /**
      * Treat the pointer as an array, and return the given element.
      * @param index The array index

@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@code GtkBox} widget arranges child widgets into a single row or column.
@@ -29,13 +30,11 @@ import java.lang.invoke.*;
  * <p>
  * Use {@link Box#reorderChildAfter} to move a child to a different
  * place in the box.
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * {@code GtkBox} uses a single CSS node with name box.
- * <p>
+ * 
  * <h1>Accessibility</h1>
- * <p>
  * {@code GtkBox} uses the {@link AccessibleRole#GROUP} role.
  */
 public class Box extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
@@ -49,12 +48,12 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
         return new Box(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_box_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_box_new = Interop.downcallHandle(
         "gtk_box_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNew(Orientation orientation, int spacing) {
+    private static Refcounted constructNew(@NotNull Orientation orientation, @NotNull int spacing) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_box_new.invokeExact(orientation.getValue(), spacing), false);
             return RESULT;
@@ -66,11 +65,11 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
     /**
      * Creates a new {@code GtkBox}.
      */
-    public Box(Orientation orientation, int spacing) {
+    public Box(@NotNull Orientation orientation, @NotNull int spacing) {
         super(constructNew(orientation, spacing));
     }
     
-    static final MethodHandle gtk_box_append = Interop.downcallHandle(
+    private static final MethodHandle gtk_box_append = Interop.downcallHandle(
         "gtk_box_append",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -78,7 +77,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
     /**
      * Adds {@code child} as the last child to {@code box}.
      */
-    public void append(Widget child) {
+    public @NotNull void append(@NotNull Widget child) {
         try {
             gtk_box_append.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -86,7 +85,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
         }
     }
     
-    static final MethodHandle gtk_box_get_baseline_position = Interop.downcallHandle(
+    private static final MethodHandle gtk_box_get_baseline_position = Interop.downcallHandle(
         "gtk_box_get_baseline_position",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -94,16 +93,17 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
     /**
      * Gets the value set by gtk_box_set_baseline_position().
      */
-    public BaselinePosition getBaselinePosition() {
+    public @NotNull BaselinePosition getBaselinePosition() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_box_get_baseline_position.invokeExact(handle());
-            return new BaselinePosition(RESULT);
+            RESULT = (int) gtk_box_get_baseline_position.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new BaselinePosition(RESULT);
     }
     
-    static final MethodHandle gtk_box_get_homogeneous = Interop.downcallHandle(
+    private static final MethodHandle gtk_box_get_homogeneous = Interop.downcallHandle(
         "gtk_box_get_homogeneous",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -113,15 +113,16 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * same size).
      */
     public boolean getHomogeneous() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_box_get_homogeneous.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_box_get_homogeneous.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_box_get_spacing = Interop.downcallHandle(
+    private static final MethodHandle gtk_box_get_spacing = Interop.downcallHandle(
         "gtk_box_get_spacing",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -130,15 +131,16 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * Gets the value set by gtk_box_set_spacing().
      */
     public int getSpacing() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_box_get_spacing.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_box_get_spacing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_box_insert_child_after = Interop.downcallHandle(
+    private static final MethodHandle gtk_box_insert_child_after = Interop.downcallHandle(
         "gtk_box_insert_child_after",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -149,7 +151,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * <p>
      * If {@code sibling} is {@code null}, insert {@code child} at the first position.
      */
-    public void insertChildAfter(Widget child, Widget sibling) {
+    public @NotNull void insertChildAfter(@NotNull Widget child, @Nullable Widget sibling) {
         try {
             gtk_box_insert_child_after.invokeExact(handle(), child.handle(), sibling.handle());
         } catch (Throwable ERR) {
@@ -157,7 +159,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
         }
     }
     
-    static final MethodHandle gtk_box_prepend = Interop.downcallHandle(
+    private static final MethodHandle gtk_box_prepend = Interop.downcallHandle(
         "gtk_box_prepend",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -165,7 +167,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
     /**
      * Adds {@code child} as the first child to {@code box}.
      */
-    public void prepend(Widget child) {
+    public @NotNull void prepend(@NotNull Widget child) {
         try {
             gtk_box_prepend.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -173,7 +175,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
         }
     }
     
-    static final MethodHandle gtk_box_remove = Interop.downcallHandle(
+    private static final MethodHandle gtk_box_remove = Interop.downcallHandle(
         "gtk_box_remove",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -185,7 +187,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * {@code Gtk.Box.prepend}, or
      * {@link Box#insertChildAfter}.
      */
-    public void remove(Widget child) {
+    public @NotNull void remove(@NotNull Widget child) {
         try {
             gtk_box_remove.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -193,7 +195,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
         }
     }
     
-    static final MethodHandle gtk_box_reorder_child_after = Interop.downcallHandle(
+    private static final MethodHandle gtk_box_reorder_child_after = Interop.downcallHandle(
         "gtk_box_reorder_child_after",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -204,7 +206,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * <p>
      * If {@code sibling} is {@code null}, move {@code child} to the first position.
      */
-    public void reorderChildAfter(Widget child, Widget sibling) {
+    public @NotNull void reorderChildAfter(@NotNull Widget child, @Nullable Widget sibling) {
         try {
             gtk_box_reorder_child_after.invokeExact(handle(), child.handle(), sibling.handle());
         } catch (Throwable ERR) {
@@ -212,7 +214,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
         }
     }
     
-    static final MethodHandle gtk_box_set_baseline_position = Interop.downcallHandle(
+    private static final MethodHandle gtk_box_set_baseline_position = Interop.downcallHandle(
         "gtk_box_set_baseline_position",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -226,7 +228,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * {@code position} is used to allocate the baseline with respect to the
      * extra space available.
      */
-    public void setBaselinePosition(BaselinePosition position) {
+    public @NotNull void setBaselinePosition(@NotNull BaselinePosition position) {
         try {
             gtk_box_set_baseline_position.invokeExact(handle(), position.getValue());
         } catch (Throwable ERR) {
@@ -234,7 +236,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
         }
     }
     
-    static final MethodHandle gtk_box_set_homogeneous = Interop.downcallHandle(
+    private static final MethodHandle gtk_box_set_homogeneous = Interop.downcallHandle(
         "gtk_box_set_homogeneous",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -243,7 +245,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * Sets whether or not all children of {@code box} are given equal space
      * in the box.
      */
-    public void setHomogeneous(boolean homogeneous) {
+    public @NotNull void setHomogeneous(@NotNull boolean homogeneous) {
         try {
             gtk_box_set_homogeneous.invokeExact(handle(), homogeneous ? 1 : 0);
         } catch (Throwable ERR) {
@@ -251,7 +253,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
         }
     }
     
-    static final MethodHandle gtk_box_set_spacing = Interop.downcallHandle(
+    private static final MethodHandle gtk_box_set_spacing = Interop.downcallHandle(
         "gtk_box_set_spacing",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -259,7 +261,7 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
     /**
      * Sets the number of pixels to place between children of {@code box}.
      */
-    public void setSpacing(int spacing) {
+    public @NotNull void setSpacing(@NotNull int spacing) {
         try {
             gtk_box_set_spacing.invokeExact(handle(), spacing);
         } catch (Throwable ERR) {

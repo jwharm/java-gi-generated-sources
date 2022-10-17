@@ -3,6 +3,7 @@ package org.pango;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code PangoFontsetSimple} is a implementation of the abstract
@@ -22,12 +23,12 @@ public class FontsetSimple extends Fontset {
         return new FontsetSimple(gobject.refcounted());
     }
     
-    static final MethodHandle pango_fontset_simple_new = Interop.downcallHandle(
+    private static final MethodHandle pango_fontset_simple_new = Interop.downcallHandle(
         "pango_fontset_simple_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(Language language) {
+    private static Refcounted constructNew(@NotNull Language language) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) pango_fontset_simple_new.invokeExact(language.handle()), true);
             return RESULT;
@@ -39,11 +40,11 @@ public class FontsetSimple extends Fontset {
     /**
      * Creates a new {@code PangoFontsetSimple} for the given language.
      */
-    public FontsetSimple(Language language) {
+    public FontsetSimple(@NotNull Language language) {
         super(constructNew(language));
     }
     
-    static final MethodHandle pango_fontset_simple_append = Interop.downcallHandle(
+    private static final MethodHandle pango_fontset_simple_append = Interop.downcallHandle(
         "pango_fontset_simple_append",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -53,7 +54,7 @@ public class FontsetSimple extends Fontset {
      * <p>
      * The fontset takes ownership of {@code font}.
      */
-    public void append(Font font) {
+    public @NotNull void append(@NotNull Font font) {
         try {
             pango_fontset_simple_append.invokeExact(handle(), font.refcounted().unowned().handle());
         } catch (Throwable ERR) {
@@ -61,7 +62,7 @@ public class FontsetSimple extends Fontset {
         }
     }
     
-    static final MethodHandle pango_fontset_simple_size = Interop.downcallHandle(
+    private static final MethodHandle pango_fontset_simple_size = Interop.downcallHandle(
         "pango_fontset_simple_size",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -70,12 +71,13 @@ public class FontsetSimple extends Fontset {
      * Returns the number of fonts in the fontset.
      */
     public int size() {
+        int RESULT;
         try {
-            var RESULT = (int) pango_fontset_simple_size.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) pango_fontset_simple_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
 }

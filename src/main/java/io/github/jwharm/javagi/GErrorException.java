@@ -1,6 +1,5 @@
 package io.github.jwharm.javagi;
 
-import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 
 public class GErrorException extends Exception {

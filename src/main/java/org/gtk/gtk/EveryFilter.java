@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkEveryFilter} matches an item when each of its filters matches.
@@ -20,7 +21,7 @@ public class EveryFilter extends MultiFilter implements org.gtk.gio.ListModel, B
         return new EveryFilter(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_every_filter_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_every_filter_new = Interop.downcallHandle(
         "gtk_every_filter_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );

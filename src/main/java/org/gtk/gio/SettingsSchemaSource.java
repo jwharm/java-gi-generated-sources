@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * This is an opaque structure type.  You may not access it directly.
@@ -13,15 +14,15 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_settings_schema_source_new_from_directory = Interop.downcallHandle(
+    private static final MethodHandle g_settings_schema_source_new_from_directory = Interop.downcallHandle(
         "g_settings_schema_source_new_from_directory",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewFromDirectory(java.lang.String directory, SettingsSchemaSource parent, boolean trusted) throws GErrorException {
+    private static Refcounted constructNewFromDirectory(@NotNull java.lang.String directory, @Nullable SettingsSchemaSource parent, @NotNull boolean trusted) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_settings_schema_source_new_from_directory.invokeExact(Interop.allocateNativeString(directory).handle(), parent.handle(), trusted ? 1 : 0, (Addressable) GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_settings_schema_source_new_from_directory.invokeExact(Interop.allocateNativeString(directory), parent.handle(), trusted ? 1 : 0, (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -64,38 +65,11 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
      * {@code parent} should probably be given as the default schema source, as
      * returned by g_settings_schema_source_get_default().
      */
-    public static SettingsSchemaSource newFromDirectory(java.lang.String directory, SettingsSchemaSource parent, boolean trusted) throws GErrorException {
+    public static SettingsSchemaSource newFromDirectory(@NotNull java.lang.String directory, @Nullable SettingsSchemaSource parent, @NotNull boolean trusted) throws GErrorException {
         return new SettingsSchemaSource(constructNewFromDirectory(directory, parent, trusted));
     }
     
-    static final MethodHandle g_settings_schema_source_list_schemas = Interop.downcallHandle(
-        "g_settings_schema_source_list_schemas",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    /**
-     * Lists the schemas in a given source.
-     * <p>
-     * If {@code recursive} is {@code true} then include parent sources.  If {@code false} then
-     * only include the schemas from one source (ie: one directory).  You
-     * probably want {@code true}.
-     * <p>
-     * Non-relocatable schemas are those for which you can call
-     * g_settings_new().  Relocatable schemas are those for which you must
-     * use g_settings_new_with_path().
-     * <p>
-     * Do not call this function from normal programs.  This is designed for
-     * use by database editors, commandline tools, etc.
-     */
-    public void listSchemas(boolean recursive, PointerString nonRelocatable, PointerString relocatable) {
-        try {
-            g_settings_schema_source_list_schemas.invokeExact(handle(), recursive ? 1 : 0, nonRelocatable.handle(), relocatable.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-    }
-    
-    static final MethodHandle g_settings_schema_source_lookup = Interop.downcallHandle(
+    private static final MethodHandle g_settings_schema_source_lookup = Interop.downcallHandle(
         "g_settings_schema_source_lookup",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -112,16 +86,17 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If the schema isn't found, {@code null} is returned.
      */
-    public SettingsSchema lookup(java.lang.String schemaId, boolean recursive) {
+    public @Nullable SettingsSchema lookup(@NotNull java.lang.String schemaId, @NotNull boolean recursive) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_settings_schema_source_lookup.invokeExact(handle(), Interop.allocateNativeString(schemaId).handle(), recursive ? 1 : 0);
-            return new SettingsSchema(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_settings_schema_source_lookup.invokeExact(handle(), Interop.allocateNativeString(schemaId), recursive ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SettingsSchema(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_settings_schema_source_ref = Interop.downcallHandle(
+    private static final MethodHandle g_settings_schema_source_ref = Interop.downcallHandle(
         "g_settings_schema_source_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -129,16 +104,17 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Increase the reference count of {@code source}, returning a new reference.
      */
-    public SettingsSchemaSource ref() {
+    public @NotNull SettingsSchemaSource ref() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_settings_schema_source_ref.invokeExact(handle());
-            return new SettingsSchemaSource(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_settings_schema_source_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SettingsSchemaSource(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_settings_schema_source_unref = Interop.downcallHandle(
+    private static final MethodHandle g_settings_schema_source_unref = Interop.downcallHandle(
         "g_settings_schema_source_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -146,7 +122,7 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Decrease the reference count of {@code source}, possibly freeing it.
      */
-    public void unref() {
+    public @NotNull void unref() {
         try {
             g_settings_schema_source_unref.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -154,7 +130,7 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_settings_schema_source_get_default = Interop.downcallHandle(
+    private static final MethodHandle g_settings_schema_source_get_default = Interop.downcallHandle(
         "g_settings_schema_source_get_default",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -174,13 +150,14 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
      * lookups performed against the default source should probably be done
      * recursively.
      */
-    public static SettingsSchemaSource getDefault() {
+    public static @Nullable SettingsSchemaSource getDefault() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_settings_schema_source_get_default.invokeExact();
-            return new SettingsSchemaSource(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_settings_schema_source_get_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SettingsSchemaSource(Refcounted.get(RESULT, false));
     }
     
 }

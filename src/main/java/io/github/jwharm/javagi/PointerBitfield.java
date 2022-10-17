@@ -5,9 +5,9 @@ import java.lang.foreign.ValueLayout;
 import java.lang.reflect.InvocationTargetException;
 
 public class PointerBitfield<T extends Bitfield> extends Pointer<T> {
-    
+
     private final Class<T> cls;
-    
+
     /**
      * Create a pointer to an existing bitfield.
      */
@@ -17,12 +17,12 @@ public class PointerBitfield<T extends Bitfield> extends Pointer<T> {
     }
 
     /**
-     * Use this mehod to set the value that the pointer points to.
+     * Use this method to set the value that the pointer points to.
      */
     public void set(T value) {
         address.set(ValueLayout.JAVA_INT, 0, value.getValue());
     }
-    
+
     /**
      * Use this method to retreive the value of the parameter after the
      * function call that set the value, has been executed.
@@ -30,7 +30,7 @@ public class PointerBitfield<T extends Bitfield> extends Pointer<T> {
     public T get() {
         return get(0);
     }
-    
+
     /**
      * Treat the pointer as an array, and return the given element.
      * <p>
@@ -40,7 +40,7 @@ public class PointerBitfield<T extends Bitfield> extends Pointer<T> {
      */
     public T get(int index) {
         int value = address.get(
-                ValueLayout.JAVA_INT, 
+                ValueLayout.JAVA_INT,
                 ValueLayout.JAVA_DOUBLE.byteSize() * index
         );
         try {

@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkAnyFilter} matches an item when at least one of its filters matches.
@@ -20,7 +21,7 @@ public class AnyFilter extends MultiFilter implements org.gtk.gio.ListModel, Bui
         return new AnyFilter(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_any_filter_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_any_filter_new = Interop.downcallHandle(
         "gtk_any_filter_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );

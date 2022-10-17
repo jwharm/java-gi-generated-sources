@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkLockButton} is a widget to obtain and revoke authorizations
@@ -54,12 +55,12 @@ public class LockButton extends Button implements Accessible, Actionable, Builda
         return new LockButton(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_lock_button_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_lock_button_new = Interop.downcallHandle(
         "gtk_lock_button_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(org.gtk.gio.Permission permission) {
+    private static Refcounted constructNew(@Nullable org.gtk.gio.Permission permission) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_lock_button_new.invokeExact(permission.handle()), false);
             return RESULT;
@@ -71,11 +72,11 @@ public class LockButton extends Button implements Accessible, Actionable, Builda
     /**
      * Creates a new lock button which reflects the {@code permission}.
      */
-    public LockButton(org.gtk.gio.Permission permission) {
+    public LockButton(@Nullable org.gtk.gio.Permission permission) {
         super(constructNew(permission));
     }
     
-    static final MethodHandle gtk_lock_button_get_permission = Interop.downcallHandle(
+    private static final MethodHandle gtk_lock_button_get_permission = Interop.downcallHandle(
         "gtk_lock_button_get_permission",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -83,16 +84,17 @@ public class LockButton extends Button implements Accessible, Actionable, Builda
     /**
      * Obtains the {@code GPermission} object that controls {@code button}.
      */
-    public org.gtk.gio.Permission getPermission() {
+    public @Nullable org.gtk.gio.Permission getPermission() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_lock_button_get_permission.invokeExact(handle());
-            return new org.gtk.gio.Permission(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_lock_button_get_permission.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.Permission(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_lock_button_set_permission = Interop.downcallHandle(
+    private static final MethodHandle gtk_lock_button_set_permission = Interop.downcallHandle(
         "gtk_lock_button_set_permission",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -100,7 +102,7 @@ public class LockButton extends Button implements Accessible, Actionable, Builda
     /**
      * Sets the {@code GPermission} object that controls {@code button}.
      */
-    public void setPermission(org.gtk.gio.Permission permission) {
+    public @NotNull void setPermission(@Nullable org.gtk.gio.Permission permission) {
         try {
             gtk_lock_button_set_permission.invokeExact(handle(), permission.handle());
         } catch (Throwable ERR) {

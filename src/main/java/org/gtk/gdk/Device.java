@@ -3,6 +3,7 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@code GdkDevice} object represents an input device, such
@@ -22,7 +23,7 @@ public class Device extends org.gtk.gobject.Object {
         return new Device(gobject.refcounted());
     }
     
-    static final MethodHandle gdk_device_get_caps_lock_state = Interop.downcallHandle(
+    private static final MethodHandle gdk_device_get_caps_lock_state = Interop.downcallHandle(
         "gdk_device_get_caps_lock_state",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -33,15 +34,16 @@ public class Device extends org.gtk.gobject.Object {
      * This is only relevant for keyboard devices.
      */
     public boolean getCapsLockState() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_device_get_caps_lock_state.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_device_get_caps_lock_state.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_device_get_device_tool = Interop.downcallHandle(
+    private static final MethodHandle gdk_device_get_device_tool = Interop.downcallHandle(
         "gdk_device_get_device_tool",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -49,16 +51,17 @@ public class Device extends org.gtk.gobject.Object {
     /**
      * Retrieves the current tool for {@code device}.
      */
-    public DeviceTool getDeviceTool() {
+    public @Nullable DeviceTool getDeviceTool() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_device_get_device_tool.invokeExact(handle());
-            return new DeviceTool(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_device_get_device_tool.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new DeviceTool(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_device_get_direction = Interop.downcallHandle(
+    private static final MethodHandle gdk_device_get_direction = Interop.downcallHandle(
         "gdk_device_get_direction",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -71,16 +74,17 @@ public class Device extends org.gtk.gobject.Object {
      * The direction of a layout is the direction of the majority
      * of its symbols. See {@link Pango#unicharDirection}.
      */
-    public org.pango.Direction getDirection() {
+    public @NotNull org.pango.Direction getDirection() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_device_get_direction.invokeExact(handle());
-            return new org.pango.Direction(RESULT);
+            RESULT = (int) gdk_device_get_direction.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.pango.Direction(RESULT);
     }
     
-    static final MethodHandle gdk_device_get_display = Interop.downcallHandle(
+    private static final MethodHandle gdk_device_get_display = Interop.downcallHandle(
         "gdk_device_get_display",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -88,16 +92,17 @@ public class Device extends org.gtk.gobject.Object {
     /**
      * Returns the {@code GdkDisplay} to which {@code device} pertains.
      */
-    public Display getDisplay() {
+    public @NotNull Display getDisplay() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_device_get_display.invokeExact(handle());
-            return new Display(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_device_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Display(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_device_get_has_cursor = Interop.downcallHandle(
+    private static final MethodHandle gdk_device_get_has_cursor = Interop.downcallHandle(
         "gdk_device_get_has_cursor",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -109,15 +114,16 @@ public class Device extends org.gtk.gobject.Object {
      * don't have a pointer.
      */
     public boolean getHasCursor() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_device_get_has_cursor.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_device_get_has_cursor.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_device_get_modifier_state = Interop.downcallHandle(
+    private static final MethodHandle gdk_device_get_modifier_state = Interop.downcallHandle(
         "gdk_device_get_modifier_state",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -127,16 +133,17 @@ public class Device extends org.gtk.gobject.Object {
      * <p>
      * This is only relevant for keyboard devices.
      */
-    public ModifierType getModifierState() {
+    public @NotNull ModifierType getModifierState() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_device_get_modifier_state.invokeExact(handle());
-            return new ModifierType(RESULT);
+            RESULT = (int) gdk_device_get_modifier_state.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ModifierType(RESULT);
     }
     
-    static final MethodHandle gdk_device_get_name = Interop.downcallHandle(
+    private static final MethodHandle gdk_device_get_name = Interop.downcallHandle(
         "gdk_device_get_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -144,16 +151,17 @@ public class Device extends org.gtk.gobject.Object {
     /**
      * The name of the device, suitable for showing in a user interface.
      */
-    public java.lang.String getName() {
+    public @NotNull java.lang.String getName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_device_get_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gdk_device_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gdk_device_get_num_lock_state = Interop.downcallHandle(
+    private static final MethodHandle gdk_device_get_num_lock_state = Interop.downcallHandle(
         "gdk_device_get_num_lock_state",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -164,15 +172,16 @@ public class Device extends org.gtk.gobject.Object {
      * This is only relevant for keyboard devices.
      */
     public boolean getNumLockState() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_device_get_num_lock_state.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_device_get_num_lock_state.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_device_get_num_touches = Interop.downcallHandle(
+    private static final MethodHandle gdk_device_get_num_touches = Interop.downcallHandle(
         "gdk_device_get_num_touches",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -181,15 +190,16 @@ public class Device extends org.gtk.gobject.Object {
      * Retrieves the number of touch points associated to {@code device}.
      */
     public int getNumTouches() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_device_get_num_touches.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gdk_device_get_num_touches.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gdk_device_get_product_id = Interop.downcallHandle(
+    private static final MethodHandle gdk_device_get_product_id = Interop.downcallHandle(
         "gdk_device_get_product_id",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -200,16 +210,17 @@ public class Device extends org.gtk.gobject.Object {
      * This ID is retrieved from the device, and does not change.
      * See {@link Device#getVendorId} for more information.
      */
-    public java.lang.String getProductId() {
+    public @Nullable java.lang.String getProductId() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_device_get_product_id.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gdk_device_get_product_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gdk_device_get_scroll_lock_state = Interop.downcallHandle(
+    private static final MethodHandle gdk_device_get_scroll_lock_state = Interop.downcallHandle(
         "gdk_device_get_scroll_lock_state",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -220,15 +231,16 @@ public class Device extends org.gtk.gobject.Object {
      * This is only relevant for keyboard devices.
      */
     public boolean getScrollLockState() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_device_get_scroll_lock_state.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_device_get_scroll_lock_state.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_device_get_seat = Interop.downcallHandle(
+    private static final MethodHandle gdk_device_get_seat = Interop.downcallHandle(
         "gdk_device_get_seat",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -236,16 +248,17 @@ public class Device extends org.gtk.gobject.Object {
     /**
      * Returns the {@code GdkSeat} the device belongs to.
      */
-    public Seat getSeat() {
+    public @NotNull Seat getSeat() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_device_get_seat.invokeExact(handle());
-            return new Seat(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_device_get_seat.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Seat(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_device_get_source = Interop.downcallHandle(
+    private static final MethodHandle gdk_device_get_source = Interop.downcallHandle(
         "gdk_device_get_source",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -253,16 +266,17 @@ public class Device extends org.gtk.gobject.Object {
     /**
      * Determines the type of the device.
      */
-    public InputSource getSource() {
+    public @NotNull InputSource getSource() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_device_get_source.invokeExact(handle());
-            return new InputSource(RESULT);
+            RESULT = (int) gdk_device_get_source.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new InputSource(RESULT);
     }
     
-    static final MethodHandle gdk_device_get_surface_at_position = Interop.downcallHandle(
+    private static final MethodHandle gdk_device_get_surface_at_position = Interop.downcallHandle(
         "gdk_device_get_surface_at_position",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -274,16 +288,21 @@ public class Device extends org.gtk.gobject.Object {
      * Returns {@code null} if the surface tree under {@code device} is not known to GDK
      * (for example, belongs to another application).
      */
-    public Surface getSurfaceAtPosition(PointerDouble winX, PointerDouble winY) {
+    public @Nullable Surface getSurfaceAtPosition(@NotNull Out<Double> winX, @NotNull Out<Double> winY) {
+        MemorySegment winXPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment winYPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_device_get_surface_at_position.invokeExact(handle(), winX.handle(), winY.handle());
-            return new Surface(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_device_get_surface_at_position.invokeExact(handle(), (Addressable) winXPOINTER.address(), (Addressable) winYPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        winX.set(winXPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        winY.set(winYPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        return new Surface(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_device_get_timestamp = Interop.downcallHandle(
+    private static final MethodHandle gdk_device_get_timestamp = Interop.downcallHandle(
         "gdk_device_get_timestamp",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -297,15 +316,16 @@ public class Device extends org.gtk.gobject.Object {
      * update the timestamp).
      */
     public int getTimestamp() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_device_get_timestamp.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gdk_device_get_timestamp.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gdk_device_get_vendor_id = Interop.downcallHandle(
+    private static final MethodHandle gdk_device_get_vendor_id = Interop.downcallHandle(
         "gdk_device_get_vendor_id",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -318,7 +338,7 @@ public class Device extends org.gtk.gobject.Object {
      * This function, together with {@link Device#getProductId},
      * can be used to eg. compose {@code GSettings} paths to store settings
      * for this device.
-     * <p>
+     * 
      * <pre>{@code c
      *  static GSettings *
      *  get_device_settings (GdkDevice *device)
@@ -339,16 +359,17 @@ public class Device extends org.gtk.gobject.Object {
      *  }
      * }</pre>
      */
-    public java.lang.String getVendorId() {
+    public @Nullable java.lang.String getVendorId() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_device_get_vendor_id.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gdk_device_get_vendor_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gdk_device_has_bidi_layouts = Interop.downcallHandle(
+    private static final MethodHandle gdk_device_has_bidi_layouts = Interop.downcallHandle(
         "gdk_device_has_bidi_layouts",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -360,12 +381,13 @@ public class Device extends org.gtk.gobject.Object {
      * This is only relevant for keyboard devices.
      */
     public boolean hasBidiLayouts() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_device_has_bidi_layouts.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_device_has_bidi_layouts.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
     @FunctionalInterface
@@ -386,13 +408,13 @@ public class Device extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("changed").handle(),
+                Interop.allocateNativeString("changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Device.Callbacks.class, "signalDeviceChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -402,7 +424,7 @@ public class Device extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ToolChangedHandler {
-        void signalReceived(Device source, DeviceTool tool);
+        void signalReceived(Device source, @NotNull DeviceTool tool);
     }
     
     /**
@@ -412,13 +434,13 @@ public class Device extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("tool-changed").handle(),
+                Interop.allocateNativeString("tool-changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Device.Callbacks.class, "signalDeviceToolChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

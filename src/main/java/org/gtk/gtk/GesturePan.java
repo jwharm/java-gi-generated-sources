@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkGesturePan} is a {@code GtkGesture} for pan gestures.
@@ -31,12 +32,12 @@ public class GesturePan extends GestureDrag {
         return new GesturePan(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_gesture_pan_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_gesture_pan_new = Interop.downcallHandle(
         "gtk_gesture_pan_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNew(Orientation orientation) {
+    private static Refcounted constructNew(@NotNull Orientation orientation) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_gesture_pan_new.invokeExact(orientation.getValue()), true);
             return RESULT;
@@ -48,11 +49,11 @@ public class GesturePan extends GestureDrag {
     /**
      * Returns a newly created {@code GtkGesture} that recognizes pan gestures.
      */
-    public GesturePan(Orientation orientation) {
+    public GesturePan(@NotNull Orientation orientation) {
         super(constructNew(orientation));
     }
     
-    static final MethodHandle gtk_gesture_pan_get_orientation = Interop.downcallHandle(
+    private static final MethodHandle gtk_gesture_pan_get_orientation = Interop.downcallHandle(
         "gtk_gesture_pan_get_orientation",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -60,16 +61,17 @@ public class GesturePan extends GestureDrag {
     /**
      * Returns the orientation of the pan gestures that this {@code gesture} expects.
      */
-    public Orientation getOrientation() {
+    public @NotNull Orientation getOrientation() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_gesture_pan_get_orientation.invokeExact(handle());
-            return new Orientation(RESULT);
+            RESULT = (int) gtk_gesture_pan_get_orientation.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Orientation(RESULT);
     }
     
-    static final MethodHandle gtk_gesture_pan_set_orientation = Interop.downcallHandle(
+    private static final MethodHandle gtk_gesture_pan_set_orientation = Interop.downcallHandle(
         "gtk_gesture_pan_set_orientation",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -77,7 +79,7 @@ public class GesturePan extends GestureDrag {
     /**
      * Sets the orientation to be expected on pan gestures.
      */
-    public void setOrientation(Orientation orientation) {
+    public @NotNull void setOrientation(@NotNull Orientation orientation) {
         try {
             gtk_gesture_pan_set_orientation.invokeExact(handle(), orientation.getValue());
         } catch (Throwable ERR) {
@@ -87,7 +89,7 @@ public class GesturePan extends GestureDrag {
     
     @FunctionalInterface
     public interface PanHandler {
-        void signalReceived(GesturePan source, PanDirection direction, double offset);
+        void signalReceived(GesturePan source, @NotNull PanDirection direction, @NotNull double offset);
     }
     
     /**
@@ -97,13 +99,13 @@ public class GesturePan extends GestureDrag {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("pan").handle(),
+                Interop.allocateNativeString("pan"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GesturePan.Callbacks.class, "signalGesturePanPan",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

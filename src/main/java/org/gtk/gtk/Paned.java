@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A widget with two panes, arranged either horizontally or vertically.
@@ -34,9 +35,8 @@ import java.lang.invoke.*;
  * <p>
  * The application can set the position of the slider as if it were set
  * by the user, by calling {@link Paned#setPosition}.
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * <pre>{@code 
  * paned
  * ├── <child>
@@ -52,9 +52,8 @@ import java.lang.invoke.*;
  * direction, so in left-to-right mode, :first-child will select the
  * leftmost child, while it will select the rightmost child in
  * RTL layouts.
- * <p>
+ * 
  * <h2>Creating a paned widget with minimum sizes.</h2>
- * <p>
  * <pre>{@code c
  * GtkWidget *hpaned = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
  * GtkWidget *frame1 = gtk_frame_new (NULL);
@@ -84,12 +83,12 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
         return new Paned(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_paned_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_paned_new = Interop.downcallHandle(
         "gtk_paned_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNew(Orientation orientation) {
+    private static Refcounted constructNew(@NotNull Orientation orientation) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_paned_new.invokeExact(orientation.getValue()), false);
             return RESULT;
@@ -101,11 +100,11 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Creates a new {@code GtkPaned} widget.
      */
-    public Paned(Orientation orientation) {
+    public Paned(@NotNull Orientation orientation) {
         super(constructNew(orientation));
     }
     
-    static final MethodHandle gtk_paned_get_end_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_paned_get_end_child = Interop.downcallHandle(
         "gtk_paned_get_end_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -113,16 +112,17 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Retrieves the end child of the given {@code GtkPaned}.
      */
-    public Widget getEndChild() {
+    public @Nullable Widget getEndChild() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_paned_get_end_child.invokeExact(handle());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_paned_get_end_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_paned_get_position = Interop.downcallHandle(
+    private static final MethodHandle gtk_paned_get_position = Interop.downcallHandle(
         "gtk_paned_get_position",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -131,15 +131,16 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      * Obtains the position of the divider between the two panes.
      */
     public int getPosition() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_paned_get_position.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_paned_get_position.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_paned_get_resize_end_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_paned_get_resize_end_child = Interop.downcallHandle(
         "gtk_paned_get_resize_end_child",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -148,15 +149,16 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      * Returns whether the {@code Gtk.Paned:end-child} can be resized.
      */
     public boolean getResizeEndChild() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_paned_get_resize_end_child.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_paned_get_resize_end_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_paned_get_resize_start_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_paned_get_resize_start_child = Interop.downcallHandle(
         "gtk_paned_get_resize_start_child",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -165,15 +167,16 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      * Returns whether the {@code Gtk.Paned:start-child} can be resized.
      */
     public boolean getResizeStartChild() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_paned_get_resize_start_child.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_paned_get_resize_start_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_paned_get_shrink_end_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_paned_get_shrink_end_child = Interop.downcallHandle(
         "gtk_paned_get_shrink_end_child",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -182,15 +185,16 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      * Returns whether the {@code Gtk.Paned:end-child} can shrink.
      */
     public boolean getShrinkEndChild() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_paned_get_shrink_end_child.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_paned_get_shrink_end_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_paned_get_shrink_start_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_paned_get_shrink_start_child = Interop.downcallHandle(
         "gtk_paned_get_shrink_start_child",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -199,15 +203,16 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      * Returns whether the {@code Gtk.Paned:start-child} can shrink.
      */
     public boolean getShrinkStartChild() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_paned_get_shrink_start_child.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_paned_get_shrink_start_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_paned_get_start_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_paned_get_start_child = Interop.downcallHandle(
         "gtk_paned_get_start_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -215,16 +220,17 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Retrieves the start child of the given {@code GtkPaned}.
      */
-    public Widget getStartChild() {
+    public @Nullable Widget getStartChild() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_paned_get_start_child.invokeExact(handle());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_paned_get_start_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_paned_get_wide_handle = Interop.downcallHandle(
+    private static final MethodHandle gtk_paned_get_wide_handle = Interop.downcallHandle(
         "gtk_paned_get_wide_handle",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -233,15 +239,16 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      * Gets whether the separator should be wide.
      */
     public boolean getWideHandle() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_paned_get_wide_handle.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_paned_get_wide_handle.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_paned_set_end_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_paned_set_end_child = Interop.downcallHandle(
         "gtk_paned_set_end_child",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -251,7 +258,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      * <p>
      * If {@code child} is {@code NULL}, the existing child will be removed.
      */
-    public void setEndChild(Widget child) {
+    public @NotNull void setEndChild(@Nullable Widget child) {
         try {
             gtk_paned_set_end_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -259,7 +266,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_paned_set_position = Interop.downcallHandle(
+    private static final MethodHandle gtk_paned_set_position = Interop.downcallHandle(
         "gtk_paned_set_position",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -267,7 +274,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Sets the position of the divider between the two panes.
      */
-    public void setPosition(int position) {
+    public @NotNull void setPosition(@NotNull int position) {
         try {
             gtk_paned_set_position.invokeExact(handle(), position);
         } catch (Throwable ERR) {
@@ -275,7 +282,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_paned_set_resize_end_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_paned_set_resize_end_child = Interop.downcallHandle(
         "gtk_paned_set_resize_end_child",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -283,7 +290,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Sets whether the {@code Gtk.Paned:end-child} can be resized.
      */
-    public void setResizeEndChild(boolean resize) {
+    public @NotNull void setResizeEndChild(@NotNull boolean resize) {
         try {
             gtk_paned_set_resize_end_child.invokeExact(handle(), resize ? 1 : 0);
         } catch (Throwable ERR) {
@@ -291,7 +298,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_paned_set_resize_start_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_paned_set_resize_start_child = Interop.downcallHandle(
         "gtk_paned_set_resize_start_child",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -299,7 +306,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Sets whether the {@code Gtk.Paned:start-child} can be resized.
      */
-    public void setResizeStartChild(boolean resize) {
+    public @NotNull void setResizeStartChild(@NotNull boolean resize) {
         try {
             gtk_paned_set_resize_start_child.invokeExact(handle(), resize ? 1 : 0);
         } catch (Throwable ERR) {
@@ -307,7 +314,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_paned_set_shrink_end_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_paned_set_shrink_end_child = Interop.downcallHandle(
         "gtk_paned_set_shrink_end_child",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -315,7 +322,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Sets whether the {@code Gtk.Paned:end-child} can shrink.
      */
-    public void setShrinkEndChild(boolean resize) {
+    public @NotNull void setShrinkEndChild(@NotNull boolean resize) {
         try {
             gtk_paned_set_shrink_end_child.invokeExact(handle(), resize ? 1 : 0);
         } catch (Throwable ERR) {
@@ -323,7 +330,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_paned_set_shrink_start_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_paned_set_shrink_start_child = Interop.downcallHandle(
         "gtk_paned_set_shrink_start_child",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -331,7 +338,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Sets whether the {@code Gtk.Paned:start-child} can shrink.
      */
-    public void setShrinkStartChild(boolean resize) {
+    public @NotNull void setShrinkStartChild(@NotNull boolean resize) {
         try {
             gtk_paned_set_shrink_start_child.invokeExact(handle(), resize ? 1 : 0);
         } catch (Throwable ERR) {
@@ -339,7 +346,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_paned_set_start_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_paned_set_start_child = Interop.downcallHandle(
         "gtk_paned_set_start_child",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -349,7 +356,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      * <p>
      * If {@code child} is {@code NULL}, the existing child will be removed.
      */
-    public void setStartChild(Widget child) {
+    public @NotNull void setStartChild(@Nullable Widget child) {
         try {
             gtk_paned_set_start_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -357,7 +364,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_paned_set_wide_handle = Interop.downcallHandle(
+    private static final MethodHandle gtk_paned_set_wide_handle = Interop.downcallHandle(
         "gtk_paned_set_wide_handle",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -365,7 +372,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Sets whether the separator should be wide.
      */
-    public void setWideHandle(boolean wide) {
+    public @NotNull void setWideHandle(@NotNull boolean wide) {
         try {
             gtk_paned_set_wide_handle.invokeExact(handle(), wide ? 1 : 0);
         } catch (Throwable ERR) {
@@ -384,20 +391,20 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      * <p>
      * This is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
-     * The default binding for this signal is &lt;kbd>Return</kbd&gt; or
-     * &lt;kbd>Space</kbd&gt;.
+     * The default binding for this signal is &lt;kbd&gt;Return&lt;/kbd&gt; or
+     * &lt;kbd&gt;Space&lt;/kbd&gt;.
      */
     public SignalHandle onAcceptPosition(AcceptPositionHandler handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("accept-position").handle(),
+                Interop.allocateNativeString("accept-position"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Paned.Callbacks.class, "signalPanedAcceptPosition",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -419,19 +426,19 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      * <p>
      * This is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
-     * The default binding for this signal is &lt;kbd>Escape</kbd&gt;.
+     * The default binding for this signal is &lt;kbd&gt;Escape&lt;/kbd&gt;.
      */
     public SignalHandle onCancelPosition(CancelPositionHandler handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("cancel-position").handle(),
+                Interop.allocateNativeString("cancel-position"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Paned.Callbacks.class, "signalPanedCancelPosition",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -441,7 +448,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     
     @FunctionalInterface
     public interface CycleChildFocusHandler {
-        boolean signalReceived(Paned source, boolean reversed);
+        boolean signalReceived(Paned source, @NotNull boolean reversed);
     }
     
     /**
@@ -449,19 +456,19 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      * <p>
      * This is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
-     * The default binding is &lt;kbd>F6</kbd&gt;.
+     * The default binding is &lt;kbd&gt;F6&lt;/kbd&gt;.
      */
     public SignalHandle onCycleChildFocus(CycleChildFocusHandler handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("cycle-child-focus").handle(),
+                Interop.allocateNativeString("cycle-child-focus"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Paned.Callbacks.class, "signalPanedCycleChildFocus",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -471,7 +478,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     
     @FunctionalInterface
     public interface CycleHandleFocusHandler {
-        boolean signalReceived(Paned source, boolean reversed);
+        boolean signalReceived(Paned source, @NotNull boolean reversed);
     }
     
     /**
@@ -480,19 +487,19 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      * <p>
      * This is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
-     * The default binding for this signal is &lt;kbd>F8</kbd&gt;.
+     * The default binding for this signal is &lt;kbd&gt;F8&lt;/kbd&gt;.
      */
     public SignalHandle onCycleHandleFocus(CycleHandleFocusHandler handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("cycle-handle-focus").handle(),
+                Interop.allocateNativeString("cycle-handle-focus"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Paned.Callbacks.class, "signalPanedCycleHandleFocus",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -502,7 +509,7 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
     
     @FunctionalInterface
     public interface MoveHandleHandler {
-        boolean signalReceived(Paned source, ScrollType scrollType);
+        boolean signalReceived(Paned source, @NotNull ScrollType scrollType);
     }
     
     /**
@@ -514,13 +521,13 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("move-handle").handle(),
+                Interop.allocateNativeString("move-handle"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Paned.Callbacks.class, "signalPanedMoveHandle",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -539,19 +546,19 @@ public class Paned extends Widget implements Accessible, Buildable, ConstraintTa
      * <p>
      * This is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
-     * The default binding is &lt;kbd>Tab</kbd&gt;.
+     * The default binding is &lt;kbd&gt;Tab&lt;/kbd&gt;.
      */
     public SignalHandle onToggleHandleFocus(ToggleHandleFocusHandler handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("toggle-handle-focus").handle(),
+                Interop.allocateNativeString("toggle-handle-focus"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Paned.Callbacks.class, "signalPanedToggleHandleFocus",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

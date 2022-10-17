@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GtkPrintSettings} object represents the settings of a print dialog in
@@ -29,7 +30,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         return new PrintSettings(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_print_settings_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_new = Interop.downcallHandle(
         "gtk_print_settings_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -50,15 +51,15 @@ public class PrintSettings extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
-    static final MethodHandle gtk_print_settings_new_from_file = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_new_from_file = Interop.downcallHandle(
         "gtk_print_settings_new_from_file",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewFromFile(java.lang.String fileName) throws GErrorException {
+    private static Refcounted constructNewFromFile(@NotNull java.lang.String fileName) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_print_settings_new_from_file.invokeExact(Interop.allocateNativeString(fileName).handle(), (Addressable) GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_print_settings_new_from_file.invokeExact(Interop.allocateNativeString(fileName), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -77,16 +78,16 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * <p>
      * See {@link PrintSettings#toFile}.
      */
-    public static PrintSettings newFromFile(java.lang.String fileName) throws GErrorException {
+    public static PrintSettings newFromFile(@NotNull java.lang.String fileName) throws GErrorException {
         return new PrintSettings(constructNewFromFile(fileName));
     }
     
-    static final MethodHandle gtk_print_settings_new_from_gvariant = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_new_from_gvariant = Interop.downcallHandle(
         "gtk_print_settings_new_from_gvariant",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewFromGvariant(org.gtk.glib.Variant variant) {
+    private static Refcounted constructNewFromGvariant(@NotNull org.gtk.glib.Variant variant) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_print_settings_new_from_gvariant.invokeExact(variant.handle()), true);
             return RESULT;
@@ -101,19 +102,19 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * The variant must be in the format produced by
      * {@link PrintSettings#toGvariant}.
      */
-    public static PrintSettings newFromGvariant(org.gtk.glib.Variant variant) {
+    public static PrintSettings newFromGvariant(@NotNull org.gtk.glib.Variant variant) {
         return new PrintSettings(constructNewFromGvariant(variant));
     }
     
-    static final MethodHandle gtk_print_settings_new_from_key_file = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_new_from_key_file = Interop.downcallHandle(
         "gtk_print_settings_new_from_key_file",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewFromKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
+    private static Refcounted constructNewFromKeyFile(@NotNull org.gtk.glib.KeyFile keyFile, @Nullable java.lang.String groupName) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_print_settings_new_from_key_file.invokeExact(keyFile.handle(), Interop.allocateNativeString(groupName).handle(), (Addressable) GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_print_settings_new_from_key_file.invokeExact(keyFile.handle(), Interop.allocateNativeString(groupName), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -130,11 +131,11 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * or {@code null} if an error occurred. If the file could not be loaded then
      * error is set to either {@code GFileError} or {@code GKeyFileError}.
      */
-    public static PrintSettings newFromKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
+    public static PrintSettings newFromKeyFile(@NotNull org.gtk.glib.KeyFile keyFile, @Nullable java.lang.String groupName) throws GErrorException {
         return new PrintSettings(constructNewFromKeyFile(keyFile, groupName));
     }
     
-    static final MethodHandle gtk_print_settings_copy = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_copy = Interop.downcallHandle(
         "gtk_print_settings_copy",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -142,16 +143,17 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Copies a {@code GtkPrintSettings} object.
      */
-    public PrintSettings copy() {
+    public @NotNull PrintSettings copy() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_print_settings_copy.invokeExact(handle());
-            return new PrintSettings(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_print_settings_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PrintSettings(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_print_settings_foreach = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_foreach = Interop.downcallHandle(
         "gtk_print_settings_foreach",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -159,7 +161,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Calls {@code func} for each key-value pair of {@code settings}.
      */
-    public void foreach(PrintSettingsFunc func) {
+    public @NotNull void foreach(@NotNull PrintSettingsFunc func) {
         try {
             gtk_print_settings_foreach.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -167,13 +169,13 @@ public class PrintSettings extends org.gtk.gobject.Object {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_print_settings_get = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get = Interop.downcallHandle(
         "gtk_print_settings_get",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -181,16 +183,17 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Looks up the string value associated with {@code key}.
      */
-    public java.lang.String get(java.lang.String key) {
+    public @Nullable java.lang.String get(@NotNull java.lang.String key) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_print_settings_get.invokeExact(handle(), Interop.allocateNativeString(key).handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_print_settings_get.invokeExact(handle(), Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_print_settings_get_bool = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_bool = Interop.downcallHandle(
         "gtk_print_settings_get_bool",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -202,16 +205,17 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * The string “true” represents {@code true}, any other
      * string {@code false}.
      */
-    public boolean getBool(java.lang.String key) {
+    public boolean getBool(@NotNull java.lang.String key) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_print_settings_get_bool.invokeExact(handle(), Interop.allocateNativeString(key).handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_print_settings_get_bool.invokeExact(handle(), Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_print_settings_get_collate = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_collate = Interop.downcallHandle(
         "gtk_print_settings_get_collate",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -220,15 +224,16 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of {@code GTK_PRINT_SETTINGS_COLLATE}.
      */
     public boolean getCollate() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_print_settings_get_collate.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_print_settings_get_collate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_print_settings_get_default_source = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_default_source = Interop.downcallHandle(
         "gtk_print_settings_get_default_source",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -236,16 +241,17 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Gets the value of {@code GTK_PRINT_SETTINGS_DEFAULT_SOURCE}.
      */
-    public java.lang.String getDefaultSource() {
+    public @Nullable java.lang.String getDefaultSource() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_print_settings_get_default_source.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_print_settings_get_default_source.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_print_settings_get_dither = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_dither = Interop.downcallHandle(
         "gtk_print_settings_get_dither",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -253,16 +259,17 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Gets the value of {@code GTK_PRINT_SETTINGS_DITHER}.
      */
-    public java.lang.String getDither() {
+    public @Nullable java.lang.String getDither() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_print_settings_get_dither.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_print_settings_get_dither.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_print_settings_get_double = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_double = Interop.downcallHandle(
         "gtk_print_settings_get_double",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -270,16 +277,17 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Returns the double value associated with {@code key}, or 0.
      */
-    public double getDouble(java.lang.String key) {
+    public double getDouble(@NotNull java.lang.String key) {
+        double RESULT;
         try {
-            var RESULT = (double) gtk_print_settings_get_double.invokeExact(handle(), Interop.allocateNativeString(key).handle());
-            return RESULT;
+            RESULT = (double) gtk_print_settings_get_double.invokeExact(handle(), Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_print_settings_get_double_with_default = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_double_with_default = Interop.downcallHandle(
         "gtk_print_settings_get_double_with_default",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
     );
@@ -291,16 +299,17 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * <p>
      * Floating point numbers are parsed with g_ascii_strtod().
      */
-    public double getDoubleWithDefault(java.lang.String key, double def) {
+    public double getDoubleWithDefault(@NotNull java.lang.String key, @NotNull double def) {
+        double RESULT;
         try {
-            var RESULT = (double) gtk_print_settings_get_double_with_default.invokeExact(handle(), Interop.allocateNativeString(key).handle(), def);
-            return RESULT;
+            RESULT = (double) gtk_print_settings_get_double_with_default.invokeExact(handle(), Interop.allocateNativeString(key), def);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_print_settings_get_duplex = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_duplex = Interop.downcallHandle(
         "gtk_print_settings_get_duplex",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -308,16 +317,17 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Gets the value of {@code GTK_PRINT_SETTINGS_DUPLEX}.
      */
-    public PrintDuplex getDuplex() {
+    public @NotNull PrintDuplex getDuplex() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_print_settings_get_duplex.invokeExact(handle());
-            return new PrintDuplex(RESULT);
+            RESULT = (int) gtk_print_settings_get_duplex.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PrintDuplex(RESULT);
     }
     
-    static final MethodHandle gtk_print_settings_get_finishings = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_finishings = Interop.downcallHandle(
         "gtk_print_settings_get_finishings",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -325,16 +335,17 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Gets the value of {@code GTK_PRINT_SETTINGS_FINISHINGS}.
      */
-    public java.lang.String getFinishings() {
+    public @Nullable java.lang.String getFinishings() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_print_settings_get_finishings.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_print_settings_get_finishings.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_print_settings_get_int = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_int = Interop.downcallHandle(
         "gtk_print_settings_get_int",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -342,16 +353,17 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Returns the integer value of {@code key}, or 0.
      */
-    public int getInt(java.lang.String key) {
+    public int getInt(@NotNull java.lang.String key) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_print_settings_get_int.invokeExact(handle(), Interop.allocateNativeString(key).handle());
-            return RESULT;
+            RESULT = (int) gtk_print_settings_get_int.invokeExact(handle(), Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_print_settings_get_int_with_default = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_int_with_default = Interop.downcallHandle(
         "gtk_print_settings_get_int_with_default",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -360,16 +372,17 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Returns the value of {@code key}, interpreted as
      * an integer, or the default value.
      */
-    public int getIntWithDefault(java.lang.String key, int def) {
+    public int getIntWithDefault(@NotNull java.lang.String key, @NotNull int def) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_print_settings_get_int_with_default.invokeExact(handle(), Interop.allocateNativeString(key).handle(), def);
-            return RESULT;
+            RESULT = (int) gtk_print_settings_get_int_with_default.invokeExact(handle(), Interop.allocateNativeString(key), def);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_print_settings_get_length = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_length = Interop.downcallHandle(
         "gtk_print_settings_get_length",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -380,16 +393,17 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * <p>
      * The returned value is converted to {@code units}.
      */
-    public double getLength(java.lang.String key, Unit unit) {
+    public double getLength(@NotNull java.lang.String key, @NotNull Unit unit) {
+        double RESULT;
         try {
-            var RESULT = (double) gtk_print_settings_get_length.invokeExact(handle(), Interop.allocateNativeString(key).handle(), unit.getValue());
-            return RESULT;
+            RESULT = (double) gtk_print_settings_get_length.invokeExact(handle(), Interop.allocateNativeString(key), unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_print_settings_get_media_type = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_media_type = Interop.downcallHandle(
         "gtk_print_settings_get_media_type",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -399,16 +413,17 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * <p>
      * The set of media types is defined in PWG 5101.1-2002 PWG.
      */
-    public java.lang.String getMediaType() {
+    public @Nullable java.lang.String getMediaType() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_print_settings_get_media_type.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_print_settings_get_media_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_print_settings_get_n_copies = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_n_copies = Interop.downcallHandle(
         "gtk_print_settings_get_n_copies",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -417,15 +432,16 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of {@code GTK_PRINT_SETTINGS_N_COPIES}.
      */
     public int getNCopies() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_print_settings_get_n_copies.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_print_settings_get_n_copies.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_print_settings_get_number_up = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_number_up = Interop.downcallHandle(
         "gtk_print_settings_get_number_up",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -434,15 +450,16 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of {@code GTK_PRINT_SETTINGS_NUMBER_UP}.
      */
     public int getNumberUp() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_print_settings_get_number_up.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_print_settings_get_number_up.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_print_settings_get_number_up_layout = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_number_up_layout = Interop.downcallHandle(
         "gtk_print_settings_get_number_up_layout",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -450,16 +467,17 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Gets the value of {@code GTK_PRINT_SETTINGS_NUMBER_UP_LAYOUT}.
      */
-    public NumberUpLayout getNumberUpLayout() {
+    public @NotNull NumberUpLayout getNumberUpLayout() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_print_settings_get_number_up_layout.invokeExact(handle());
-            return new NumberUpLayout(RESULT);
+            RESULT = (int) gtk_print_settings_get_number_up_layout.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new NumberUpLayout(RESULT);
     }
     
-    static final MethodHandle gtk_print_settings_get_orientation = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_orientation = Interop.downcallHandle(
         "gtk_print_settings_get_orientation",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -468,16 +486,17 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Get the value of {@code GTK_PRINT_SETTINGS_ORIENTATION},
      * converted to a {@code GtkPageOrientation}.
      */
-    public PageOrientation getOrientation() {
+    public @NotNull PageOrientation getOrientation() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_print_settings_get_orientation.invokeExact(handle());
-            return new PageOrientation(RESULT);
+            RESULT = (int) gtk_print_settings_get_orientation.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PageOrientation(RESULT);
     }
     
-    static final MethodHandle gtk_print_settings_get_output_bin = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_output_bin = Interop.downcallHandle(
         "gtk_print_settings_get_output_bin",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -485,16 +504,17 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Gets the value of {@code GTK_PRINT_SETTINGS_OUTPUT_BIN}.
      */
-    public java.lang.String getOutputBin() {
+    public @Nullable java.lang.String getOutputBin() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_print_settings_get_output_bin.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_print_settings_get_output_bin.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_print_settings_get_page_ranges = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_page_ranges = Interop.downcallHandle(
         "gtk_print_settings_get_page_ranges",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -502,16 +522,24 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Gets the value of {@code GTK_PRINT_SETTINGS_PAGE_RANGES}.
      */
-    public PointerProxy<PageRange> getPageRanges(PointerInteger numRanges) {
+    public PageRange[] getPageRanges(@NotNull Out<Integer> numRanges) {
+        MemorySegment numRangesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_print_settings_get_page_ranges.invokeExact(handle(), numRanges.handle());
-            return new PointerProxy<PageRange>(RESULT, PageRange.class);
+            RESULT = (MemoryAddress) gtk_print_settings_get_page_ranges.invokeExact(handle(), (Addressable) numRangesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        numRanges.set(numRangesPOINTER.get(ValueLayout.JAVA_INT, 0));
+        PageRange[] resultARRAY = new PageRange[numRanges.get().intValue()];
+        for (int I = 0; I < numRanges.get().intValue(); I++) {
+            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            resultARRAY[I] = new PageRange(Refcounted.get(OBJ, true));
+        }
+        return resultARRAY;
     }
     
-    static final MethodHandle gtk_print_settings_get_page_set = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_page_set = Interop.downcallHandle(
         "gtk_print_settings_get_page_set",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -519,16 +547,17 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Gets the value of {@code GTK_PRINT_SETTINGS_PAGE_SET}.
      */
-    public PageSet getPageSet() {
+    public @NotNull PageSet getPageSet() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_print_settings_get_page_set.invokeExact(handle());
-            return new PageSet(RESULT);
+            RESULT = (int) gtk_print_settings_get_page_set.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PageSet(RESULT);
     }
     
-    static final MethodHandle gtk_print_settings_get_paper_height = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_paper_height = Interop.downcallHandle(
         "gtk_print_settings_get_paper_height",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -537,16 +566,17 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of {@code GTK_PRINT_SETTINGS_PAPER_HEIGHT},
      * converted to {@code unit}.
      */
-    public double getPaperHeight(Unit unit) {
+    public double getPaperHeight(@NotNull Unit unit) {
+        double RESULT;
         try {
-            var RESULT = (double) gtk_print_settings_get_paper_height.invokeExact(handle(), unit.getValue());
-            return RESULT;
+            RESULT = (double) gtk_print_settings_get_paper_height.invokeExact(handle(), unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_print_settings_get_paper_size = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_paper_size = Interop.downcallHandle(
         "gtk_print_settings_get_paper_size",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -555,16 +585,17 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of {@code GTK_PRINT_SETTINGS_PAPER_FORMAT},
      * converted to a {@code GtkPaperSize}.
      */
-    public PaperSize getPaperSize() {
+    public @Nullable PaperSize getPaperSize() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_print_settings_get_paper_size.invokeExact(handle());
-            return new PaperSize(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_print_settings_get_paper_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PaperSize(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_print_settings_get_paper_width = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_paper_width = Interop.downcallHandle(
         "gtk_print_settings_get_paper_width",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -573,16 +604,17 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of {@code GTK_PRINT_SETTINGS_PAPER_WIDTH},
      * converted to {@code unit}.
      */
-    public double getPaperWidth(Unit unit) {
+    public double getPaperWidth(@NotNull Unit unit) {
+        double RESULT;
         try {
-            var RESULT = (double) gtk_print_settings_get_paper_width.invokeExact(handle(), unit.getValue());
-            return RESULT;
+            RESULT = (double) gtk_print_settings_get_paper_width.invokeExact(handle(), unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_print_settings_get_print_pages = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_print_pages = Interop.downcallHandle(
         "gtk_print_settings_get_print_pages",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -590,16 +622,17 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Gets the value of {@code GTK_PRINT_SETTINGS_PRINT_PAGES}.
      */
-    public PrintPages getPrintPages() {
+    public @NotNull PrintPages getPrintPages() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_print_settings_get_print_pages.invokeExact(handle());
-            return new PrintPages(RESULT);
+            RESULT = (int) gtk_print_settings_get_print_pages.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PrintPages(RESULT);
     }
     
-    static final MethodHandle gtk_print_settings_get_printer = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_printer = Interop.downcallHandle(
         "gtk_print_settings_get_printer",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -608,16 +641,17 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Convenience function to obtain the value of
      * {@code GTK_PRINT_SETTINGS_PRINTER}.
      */
-    public java.lang.String getPrinter() {
+    public @Nullable java.lang.String getPrinter() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_print_settings_get_printer.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_print_settings_get_printer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_print_settings_get_printer_lpi = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_printer_lpi = Interop.downcallHandle(
         "gtk_print_settings_get_printer_lpi",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -626,15 +660,16 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of {@code GTK_PRINT_SETTINGS_PRINTER_LPI}.
      */
     public double getPrinterLpi() {
+        double RESULT;
         try {
-            var RESULT = (double) gtk_print_settings_get_printer_lpi.invokeExact(handle());
-            return RESULT;
+            RESULT = (double) gtk_print_settings_get_printer_lpi.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_print_settings_get_quality = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_quality = Interop.downcallHandle(
         "gtk_print_settings_get_quality",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -642,16 +677,17 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Gets the value of {@code GTK_PRINT_SETTINGS_QUALITY}.
      */
-    public PrintQuality getQuality() {
+    public @NotNull PrintQuality getQuality() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_print_settings_get_quality.invokeExact(handle());
-            return new PrintQuality(RESULT);
+            RESULT = (int) gtk_print_settings_get_quality.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PrintQuality(RESULT);
     }
     
-    static final MethodHandle gtk_print_settings_get_resolution = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_resolution = Interop.downcallHandle(
         "gtk_print_settings_get_resolution",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -660,15 +696,16 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of {@code GTK_PRINT_SETTINGS_RESOLUTION}.
      */
     public int getResolution() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_print_settings_get_resolution.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_print_settings_get_resolution.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_print_settings_get_resolution_x = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_resolution_x = Interop.downcallHandle(
         "gtk_print_settings_get_resolution_x",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -677,15 +714,16 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of {@code GTK_PRINT_SETTINGS_RESOLUTION_X}.
      */
     public int getResolutionX() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_print_settings_get_resolution_x.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_print_settings_get_resolution_x.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_print_settings_get_resolution_y = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_resolution_y = Interop.downcallHandle(
         "gtk_print_settings_get_resolution_y",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -694,15 +732,16 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of {@code GTK_PRINT_SETTINGS_RESOLUTION_Y}.
      */
     public int getResolutionY() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_print_settings_get_resolution_y.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_print_settings_get_resolution_y.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_print_settings_get_reverse = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_reverse = Interop.downcallHandle(
         "gtk_print_settings_get_reverse",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -711,15 +750,16 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of {@code GTK_PRINT_SETTINGS_REVERSE}.
      */
     public boolean getReverse() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_print_settings_get_reverse.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_print_settings_get_reverse.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_print_settings_get_scale = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_scale = Interop.downcallHandle(
         "gtk_print_settings_get_scale",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -728,15 +768,16 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of {@code GTK_PRINT_SETTINGS_SCALE}.
      */
     public double getScale() {
+        double RESULT;
         try {
-            var RESULT = (double) gtk_print_settings_get_scale.invokeExact(handle());
-            return RESULT;
+            RESULT = (double) gtk_print_settings_get_scale.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_print_settings_get_use_color = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_get_use_color = Interop.downcallHandle(
         "gtk_print_settings_get_use_color",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -745,15 +786,16 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Gets the value of {@code GTK_PRINT_SETTINGS_USE_COLOR}.
      */
     public boolean getUseColor() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_print_settings_get_use_color.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_print_settings_get_use_color.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_print_settings_has_key = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_has_key = Interop.downcallHandle(
         "gtk_print_settings_has_key",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -761,16 +803,17 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Returns {@code true}, if a value is associated with {@code key}.
      */
-    public boolean hasKey(java.lang.String key) {
+    public boolean hasKey(@NotNull java.lang.String key) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_print_settings_has_key.invokeExact(handle(), Interop.allocateNativeString(key).handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_print_settings_has_key.invokeExact(handle(), Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_print_settings_load_file = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_load_file = Interop.downcallHandle(
         "gtk_print_settings_load_file",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -783,20 +826,21 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * <p>
      * See {@link PrintSettings#toFile}.
      */
-    public boolean loadFile(java.lang.String fileName) throws io.github.jwharm.javagi.GErrorException {
+    public boolean loadFile(@NotNull java.lang.String fileName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_print_settings_load_file.invokeExact(handle(), Interop.allocateNativeString(fileName).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gtk_print_settings_load_file.invokeExact(handle(), Interop.allocateNativeString(fileName), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_print_settings_load_key_file = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_load_key_file = Interop.downcallHandle(
         "gtk_print_settings_load_key_file",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -807,20 +851,21 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * If the file could not be loaded then error is set to either a
      * {@code GFileError} or {@code GKeyFileError}.
      */
-    public boolean loadKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws io.github.jwharm.javagi.GErrorException {
+    public boolean loadKeyFile(@NotNull org.gtk.glib.KeyFile keyFile, @Nullable java.lang.String groupName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_print_settings_load_key_file.invokeExact(handle(), keyFile.handle(), Interop.allocateNativeString(groupName).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gtk_print_settings_load_key_file.invokeExact(handle(), keyFile.handle(), Interop.allocateNativeString(groupName), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_print_settings_set = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set = Interop.downcallHandle(
         "gtk_print_settings_set",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -828,15 +873,15 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Associates {@code value} with {@code key}.
      */
-    public void set(java.lang.String key, java.lang.String value) {
+    public @NotNull void set(@NotNull java.lang.String key, @Nullable java.lang.String value) {
         try {
-            gtk_print_settings_set.invokeExact(handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeString(value).handle());
+            gtk_print_settings_set.invokeExact(handle(), Interop.allocateNativeString(key), Interop.allocateNativeString(value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_bool = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_bool = Interop.downcallHandle(
         "gtk_print_settings_set_bool",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -844,15 +889,15 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Sets {@code key} to a boolean value.
      */
-    public void setBool(java.lang.String key, boolean value) {
+    public @NotNull void setBool(@NotNull java.lang.String key, @NotNull boolean value) {
         try {
-            gtk_print_settings_set_bool.invokeExact(handle(), Interop.allocateNativeString(key).handle(), value ? 1 : 0);
+            gtk_print_settings_set_bool.invokeExact(handle(), Interop.allocateNativeString(key), value ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_collate = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_collate = Interop.downcallHandle(
         "gtk_print_settings_set_collate",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -860,7 +905,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Sets the value of {@code GTK_PRINT_SETTINGS_COLLATE}.
      */
-    public void setCollate(boolean collate) {
+    public @NotNull void setCollate(@NotNull boolean collate) {
         try {
             gtk_print_settings_set_collate.invokeExact(handle(), collate ? 1 : 0);
         } catch (Throwable ERR) {
@@ -868,7 +913,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_default_source = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_default_source = Interop.downcallHandle(
         "gtk_print_settings_set_default_source",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -876,15 +921,15 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Sets the value of {@code GTK_PRINT_SETTINGS_DEFAULT_SOURCE}.
      */
-    public void setDefaultSource(java.lang.String defaultSource) {
+    public @NotNull void setDefaultSource(@NotNull java.lang.String defaultSource) {
         try {
-            gtk_print_settings_set_default_source.invokeExact(handle(), Interop.allocateNativeString(defaultSource).handle());
+            gtk_print_settings_set_default_source.invokeExact(handle(), Interop.allocateNativeString(defaultSource));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_dither = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_dither = Interop.downcallHandle(
         "gtk_print_settings_set_dither",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -892,15 +937,15 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Sets the value of {@code GTK_PRINT_SETTINGS_DITHER}.
      */
-    public void setDither(java.lang.String dither) {
+    public @NotNull void setDither(@NotNull java.lang.String dither) {
         try {
-            gtk_print_settings_set_dither.invokeExact(handle(), Interop.allocateNativeString(dither).handle());
+            gtk_print_settings_set_dither.invokeExact(handle(), Interop.allocateNativeString(dither));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_double = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_double = Interop.downcallHandle(
         "gtk_print_settings_set_double",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
     );
@@ -908,15 +953,15 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Sets {@code key} to a double value.
      */
-    public void setDouble(java.lang.String key, double value) {
+    public @NotNull void setDouble(@NotNull java.lang.String key, @NotNull double value) {
         try {
-            gtk_print_settings_set_double.invokeExact(handle(), Interop.allocateNativeString(key).handle(), value);
+            gtk_print_settings_set_double.invokeExact(handle(), Interop.allocateNativeString(key), value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_duplex = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_duplex = Interop.downcallHandle(
         "gtk_print_settings_set_duplex",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -924,7 +969,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Sets the value of {@code GTK_PRINT_SETTINGS_DUPLEX}.
      */
-    public void setDuplex(PrintDuplex duplex) {
+    public @NotNull void setDuplex(@NotNull PrintDuplex duplex) {
         try {
             gtk_print_settings_set_duplex.invokeExact(handle(), duplex.getValue());
         } catch (Throwable ERR) {
@@ -932,7 +977,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_finishings = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_finishings = Interop.downcallHandle(
         "gtk_print_settings_set_finishings",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -940,15 +985,15 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Sets the value of {@code GTK_PRINT_SETTINGS_FINISHINGS}.
      */
-    public void setFinishings(java.lang.String finishings) {
+    public @NotNull void setFinishings(@NotNull java.lang.String finishings) {
         try {
-            gtk_print_settings_set_finishings.invokeExact(handle(), Interop.allocateNativeString(finishings).handle());
+            gtk_print_settings_set_finishings.invokeExact(handle(), Interop.allocateNativeString(finishings));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_int = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_int = Interop.downcallHandle(
         "gtk_print_settings_set_int",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -956,15 +1001,15 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Sets {@code key} to an integer value.
      */
-    public void setInt(java.lang.String key, int value) {
+    public @NotNull void setInt(@NotNull java.lang.String key, @NotNull int value) {
         try {
-            gtk_print_settings_set_int.invokeExact(handle(), Interop.allocateNativeString(key).handle(), value);
+            gtk_print_settings_set_int.invokeExact(handle(), Interop.allocateNativeString(key), value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_length = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_length = Interop.downcallHandle(
         "gtk_print_settings_set_length",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
     );
@@ -972,15 +1017,15 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Associates a length in units of {@code unit} with {@code key}.
      */
-    public void setLength(java.lang.String key, double value, Unit unit) {
+    public @NotNull void setLength(@NotNull java.lang.String key, @NotNull double value, @NotNull Unit unit) {
         try {
-            gtk_print_settings_set_length.invokeExact(handle(), Interop.allocateNativeString(key).handle(), value, unit.getValue());
+            gtk_print_settings_set_length.invokeExact(handle(), Interop.allocateNativeString(key), value, unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_media_type = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_media_type = Interop.downcallHandle(
         "gtk_print_settings_set_media_type",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -990,15 +1035,15 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * <p>
      * The set of media types is defined in PWG 5101.1-2002 PWG.
      */
-    public void setMediaType(java.lang.String mediaType) {
+    public @NotNull void setMediaType(@NotNull java.lang.String mediaType) {
         try {
-            gtk_print_settings_set_media_type.invokeExact(handle(), Interop.allocateNativeString(mediaType).handle());
+            gtk_print_settings_set_media_type.invokeExact(handle(), Interop.allocateNativeString(mediaType));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_n_copies = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_n_copies = Interop.downcallHandle(
         "gtk_print_settings_set_n_copies",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1006,7 +1051,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Sets the value of {@code GTK_PRINT_SETTINGS_N_COPIES}.
      */
-    public void setNCopies(int numCopies) {
+    public @NotNull void setNCopies(@NotNull int numCopies) {
         try {
             gtk_print_settings_set_n_copies.invokeExact(handle(), numCopies);
         } catch (Throwable ERR) {
@@ -1014,7 +1059,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_number_up = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_number_up = Interop.downcallHandle(
         "gtk_print_settings_set_number_up",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1022,7 +1067,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Sets the value of {@code GTK_PRINT_SETTINGS_NUMBER_UP}.
      */
-    public void setNumberUp(int numberUp) {
+    public @NotNull void setNumberUp(@NotNull int numberUp) {
         try {
             gtk_print_settings_set_number_up.invokeExact(handle(), numberUp);
         } catch (Throwable ERR) {
@@ -1030,7 +1075,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_number_up_layout = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_number_up_layout = Interop.downcallHandle(
         "gtk_print_settings_set_number_up_layout",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1038,7 +1083,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Sets the value of {@code GTK_PRINT_SETTINGS_NUMBER_UP_LAYOUT}.
      */
-    public void setNumberUpLayout(NumberUpLayout numberUpLayout) {
+    public @NotNull void setNumberUpLayout(@NotNull NumberUpLayout numberUpLayout) {
         try {
             gtk_print_settings_set_number_up_layout.invokeExact(handle(), numberUpLayout.getValue());
         } catch (Throwable ERR) {
@@ -1046,7 +1091,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_orientation = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_orientation = Interop.downcallHandle(
         "gtk_print_settings_set_orientation",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1054,7 +1099,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Sets the value of {@code GTK_PRINT_SETTINGS_ORIENTATION}.
      */
-    public void setOrientation(PageOrientation orientation) {
+    public @NotNull void setOrientation(@NotNull PageOrientation orientation) {
         try {
             gtk_print_settings_set_orientation.invokeExact(handle(), orientation.getValue());
         } catch (Throwable ERR) {
@@ -1062,7 +1107,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_output_bin = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_output_bin = Interop.downcallHandle(
         "gtk_print_settings_set_output_bin",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1070,15 +1115,15 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Sets the value of {@code GTK_PRINT_SETTINGS_OUTPUT_BIN}.
      */
-    public void setOutputBin(java.lang.String outputBin) {
+    public @NotNull void setOutputBin(@NotNull java.lang.String outputBin) {
         try {
-            gtk_print_settings_set_output_bin.invokeExact(handle(), Interop.allocateNativeString(outputBin).handle());
+            gtk_print_settings_set_output_bin.invokeExact(handle(), Interop.allocateNativeString(outputBin));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_page_ranges = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_page_ranges = Interop.downcallHandle(
         "gtk_print_settings_set_page_ranges",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1086,15 +1131,15 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Sets the value of {@code GTK_PRINT_SETTINGS_PAGE_RANGES}.
      */
-    public void setPageRanges(PageRange[] pageRanges, int numRanges) {
+    public @NotNull void setPageRanges(@NotNull PageRange[] pageRanges, @NotNull int numRanges) {
         try {
-            gtk_print_settings_set_page_ranges.invokeExact(handle(), Interop.allocateNativeArray(pageRanges).handle(), numRanges);
+            gtk_print_settings_set_page_ranges.invokeExact(handle(), Interop.allocateNativeArray(pageRanges), numRanges);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_page_set = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_page_set = Interop.downcallHandle(
         "gtk_print_settings_set_page_set",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1102,7 +1147,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Sets the value of {@code GTK_PRINT_SETTINGS_PAGE_SET}.
      */
-    public void setPageSet(PageSet pageSet) {
+    public @NotNull void setPageSet(@NotNull PageSet pageSet) {
         try {
             gtk_print_settings_set_page_set.invokeExact(handle(), pageSet.getValue());
         } catch (Throwable ERR) {
@@ -1110,7 +1155,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_paper_height = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_paper_height = Interop.downcallHandle(
         "gtk_print_settings_set_paper_height",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
     );
@@ -1118,7 +1163,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Sets the value of {@code GTK_PRINT_SETTINGS_PAPER_HEIGHT}.
      */
-    public void setPaperHeight(double height, Unit unit) {
+    public @NotNull void setPaperHeight(@NotNull double height, @NotNull Unit unit) {
         try {
             gtk_print_settings_set_paper_height.invokeExact(handle(), height, unit.getValue());
         } catch (Throwable ERR) {
@@ -1126,7 +1171,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_paper_size = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_paper_size = Interop.downcallHandle(
         "gtk_print_settings_set_paper_size",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1136,7 +1181,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * {@code GTK_PRINT_SETTINGS_PAPER_WIDTH} and
      * {@code GTK_PRINT_SETTINGS_PAPER_HEIGHT}.
      */
-    public void setPaperSize(PaperSize paperSize) {
+    public @NotNull void setPaperSize(@NotNull PaperSize paperSize) {
         try {
             gtk_print_settings_set_paper_size.invokeExact(handle(), paperSize.handle());
         } catch (Throwable ERR) {
@@ -1144,7 +1189,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_paper_width = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_paper_width = Interop.downcallHandle(
         "gtk_print_settings_set_paper_width",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
     );
@@ -1152,7 +1197,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Sets the value of {@code GTK_PRINT_SETTINGS_PAPER_WIDTH}.
      */
-    public void setPaperWidth(double width, Unit unit) {
+    public @NotNull void setPaperWidth(@NotNull double width, @NotNull Unit unit) {
         try {
             gtk_print_settings_set_paper_width.invokeExact(handle(), width, unit.getValue());
         } catch (Throwable ERR) {
@@ -1160,7 +1205,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_print_pages = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_print_pages = Interop.downcallHandle(
         "gtk_print_settings_set_print_pages",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1168,7 +1213,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Sets the value of {@code GTK_PRINT_SETTINGS_PRINT_PAGES}.
      */
-    public void setPrintPages(PrintPages pages) {
+    public @NotNull void setPrintPages(@NotNull PrintPages pages) {
         try {
             gtk_print_settings_set_print_pages.invokeExact(handle(), pages.getValue());
         } catch (Throwable ERR) {
@@ -1176,7 +1221,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_printer = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_printer = Interop.downcallHandle(
         "gtk_print_settings_set_printer",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1185,15 +1230,15 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * Convenience function to set {@code GTK_PRINT_SETTINGS_PRINTER}
      * to {@code printer}.
      */
-    public void setPrinter(java.lang.String printer) {
+    public @NotNull void setPrinter(@NotNull java.lang.String printer) {
         try {
-            gtk_print_settings_set_printer.invokeExact(handle(), Interop.allocateNativeString(printer).handle());
+            gtk_print_settings_set_printer.invokeExact(handle(), Interop.allocateNativeString(printer));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_printer_lpi = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_printer_lpi = Interop.downcallHandle(
         "gtk_print_settings_set_printer_lpi",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
     );
@@ -1201,7 +1246,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Sets the value of {@code GTK_PRINT_SETTINGS_PRINTER_LPI}.
      */
-    public void setPrinterLpi(double lpi) {
+    public @NotNull void setPrinterLpi(@NotNull double lpi) {
         try {
             gtk_print_settings_set_printer_lpi.invokeExact(handle(), lpi);
         } catch (Throwable ERR) {
@@ -1209,7 +1254,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_quality = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_quality = Interop.downcallHandle(
         "gtk_print_settings_set_quality",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1217,7 +1262,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Sets the value of {@code GTK_PRINT_SETTINGS_QUALITY}.
      */
-    public void setQuality(PrintQuality quality) {
+    public @NotNull void setQuality(@NotNull PrintQuality quality) {
         try {
             gtk_print_settings_set_quality.invokeExact(handle(), quality.getValue());
         } catch (Throwable ERR) {
@@ -1225,7 +1270,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_resolution = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_resolution = Interop.downcallHandle(
         "gtk_print_settings_set_resolution",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1235,7 +1280,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * {@code GTK_PRINT_SETTINGS_RESOLUTION_X} and
      * {@code GTK_PRINT_SETTINGS_RESOLUTION_Y}.
      */
-    public void setResolution(int resolution) {
+    public @NotNull void setResolution(@NotNull int resolution) {
         try {
             gtk_print_settings_set_resolution.invokeExact(handle(), resolution);
         } catch (Throwable ERR) {
@@ -1243,7 +1288,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_resolution_xy = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_resolution_xy = Interop.downcallHandle(
         "gtk_print_settings_set_resolution_xy",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -1253,7 +1298,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * {@code GTK_PRINT_SETTINGS_RESOLUTION_X} and
      * {@code GTK_PRINT_SETTINGS_RESOLUTION_Y}.
      */
-    public void setResolutionXy(int resolutionX, int resolutionY) {
+    public @NotNull void setResolutionXy(@NotNull int resolutionX, @NotNull int resolutionY) {
         try {
             gtk_print_settings_set_resolution_xy.invokeExact(handle(), resolutionX, resolutionY);
         } catch (Throwable ERR) {
@@ -1261,7 +1306,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_reverse = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_reverse = Interop.downcallHandle(
         "gtk_print_settings_set_reverse",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1269,7 +1314,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Sets the value of {@code GTK_PRINT_SETTINGS_REVERSE}.
      */
-    public void setReverse(boolean reverse) {
+    public @NotNull void setReverse(@NotNull boolean reverse) {
         try {
             gtk_print_settings_set_reverse.invokeExact(handle(), reverse ? 1 : 0);
         } catch (Throwable ERR) {
@@ -1277,7 +1322,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_scale = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_scale = Interop.downcallHandle(
         "gtk_print_settings_set_scale",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
     );
@@ -1285,7 +1330,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Sets the value of {@code GTK_PRINT_SETTINGS_SCALE}.
      */
-    public void setScale(double scale) {
+    public @NotNull void setScale(@NotNull double scale) {
         try {
             gtk_print_settings_set_scale.invokeExact(handle(), scale);
         } catch (Throwable ERR) {
@@ -1293,7 +1338,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_print_settings_set_use_color = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_set_use_color = Interop.downcallHandle(
         "gtk_print_settings_set_use_color",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1301,7 +1346,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Sets the value of {@code GTK_PRINT_SETTINGS_USE_COLOR}.
      */
-    public void setUseColor(boolean useColor) {
+    public @NotNull void setUseColor(@NotNull boolean useColor) {
         try {
             gtk_print_settings_set_use_color.invokeExact(handle(), useColor ? 1 : 0);
         } catch (Throwable ERR) {
@@ -1309,7 +1354,7 @@ public class PrintSettings extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_print_settings_to_file = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_to_file = Interop.downcallHandle(
         "gtk_print_settings_to_file",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1320,20 +1365,21 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * If the file could not be written then error is set to either a
      * {@code GFileError} or {@code GKeyFileError}.
      */
-    public boolean toFile(java.lang.String fileName) throws io.github.jwharm.javagi.GErrorException {
+    public boolean toFile(@NotNull java.lang.String fileName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_print_settings_to_file.invokeExact(handle(), Interop.allocateNativeString(fileName).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gtk_print_settings_to_file.invokeExact(handle(), Interop.allocateNativeString(fileName), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_print_settings_to_gvariant = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_to_gvariant = Interop.downcallHandle(
         "gtk_print_settings_to_gvariant",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1341,16 +1387,17 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * Serialize print settings to an a{sv} variant.
      */
-    public org.gtk.glib.Variant toGvariant() {
+    public @NotNull org.gtk.glib.Variant toGvariant() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_print_settings_to_gvariant.invokeExact(handle());
-            return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_print_settings_to_gvariant.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_print_settings_to_key_file = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_to_key_file = Interop.downcallHandle(
         "gtk_print_settings_to_key_file",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1358,15 +1405,15 @@ public class PrintSettings extends org.gtk.gobject.Object {
     /**
      * This function adds the print settings from {@code settings} to {@code key_file}.
      */
-    public void toKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) {
+    public @NotNull void toKeyFile(@NotNull org.gtk.glib.KeyFile keyFile, @Nullable java.lang.String groupName) {
         try {
-            gtk_print_settings_to_key_file.invokeExact(handle(), keyFile.handle(), Interop.allocateNativeString(groupName).handle());
+            gtk_print_settings_to_key_file.invokeExact(handle(), keyFile.handle(), Interop.allocateNativeString(groupName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_print_settings_unset = Interop.downcallHandle(
+    private static final MethodHandle gtk_print_settings_unset = Interop.downcallHandle(
         "gtk_print_settings_unset",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1376,9 +1423,9 @@ public class PrintSettings extends org.gtk.gobject.Object {
      * <p>
      * This has the same effect as setting the value to {@code null}.
      */
-    public void unset(java.lang.String key) {
+    public @NotNull void unset(@NotNull java.lang.String key) {
         try {
-            gtk_print_settings_unset.invokeExact(handle(), Interop.allocateNativeString(key).handle());
+            gtk_print_settings_unset.invokeExact(handle(), Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

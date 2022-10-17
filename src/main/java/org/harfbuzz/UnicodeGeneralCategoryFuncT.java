@@ -1,6 +1,7 @@
 package org.harfbuzz;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A virtual method for the {@link unicode_funcs_t} structure.
@@ -10,5 +11,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface UnicodeGeneralCategoryFuncT {
-        UnicodeGeneralCategoryT onUnicodeGeneralCategoryFuncT(UnicodeFuncsT ufuncs, CodepointT unicode, java.lang.foreign.MemoryAddress userData);
+        UnicodeGeneralCategoryT onUnicodeGeneralCategoryFuncT(@NotNull UnicodeFuncsT ufuncs, @NotNull CodepointT unicode, @Nullable java.lang.foreign.MemoryAddress userData);
 }

@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkBookmarkList} is a list model that wraps {@code GBookmarkFile}.
@@ -25,14 +26,14 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
         return new BookmarkList(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_bookmark_list_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_bookmark_list_new = Interop.downcallHandle(
         "gtk_bookmark_list_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(java.lang.String filename, java.lang.String attributes) {
+    private static Refcounted constructNew(@Nullable java.lang.String filename, @Nullable java.lang.String attributes) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_bookmark_list_new.invokeExact(Interop.allocateNativeString(filename).handle(), Interop.allocateNativeString(attributes).handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_bookmark_list_new.invokeExact(Interop.allocateNativeString(filename), Interop.allocateNativeString(attributes)), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -42,11 +43,11 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
     /**
      * Creates a new {@code GtkBookmarkList} with the given {@code attributes}.
      */
-    public BookmarkList(java.lang.String filename, java.lang.String attributes) {
+    public BookmarkList(@Nullable java.lang.String filename, @Nullable java.lang.String attributes) {
         super(constructNew(filename, attributes));
     }
     
-    static final MethodHandle gtk_bookmark_list_get_attributes = Interop.downcallHandle(
+    private static final MethodHandle gtk_bookmark_list_get_attributes = Interop.downcallHandle(
         "gtk_bookmark_list_get_attributes",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -54,16 +55,17 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
     /**
      * Gets the attributes queried on the children.
      */
-    public java.lang.String getAttributes() {
+    public @Nullable java.lang.String getAttributes() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_bookmark_list_get_attributes.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_bookmark_list_get_attributes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_bookmark_list_get_filename = Interop.downcallHandle(
+    private static final MethodHandle gtk_bookmark_list_get_filename = Interop.downcallHandle(
         "gtk_bookmark_list_get_filename",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -72,16 +74,17 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
      * Returns the filename of the bookmark file that
      * this list is loading.
      */
-    public java.lang.String getFilename() {
+    public @NotNull java.lang.String getFilename() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_bookmark_list_get_filename.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_bookmark_list_get_filename.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_bookmark_list_get_io_priority = Interop.downcallHandle(
+    private static final MethodHandle gtk_bookmark_list_get_io_priority = Interop.downcallHandle(
         "gtk_bookmark_list_get_io_priority",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -90,15 +93,16 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
      * Gets the IO priority to use while loading file.
      */
     public int getIoPriority() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_bookmark_list_get_io_priority.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_bookmark_list_get_io_priority.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_bookmark_list_is_loading = Interop.downcallHandle(
+    private static final MethodHandle gtk_bookmark_list_is_loading = Interop.downcallHandle(
         "gtk_bookmark_list_is_loading",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -111,15 +115,16 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
      * in between runs.
      */
     public boolean isLoading() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_bookmark_list_is_loading.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_bookmark_list_is_loading.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_bookmark_list_set_attributes = Interop.downcallHandle(
+    private static final MethodHandle gtk_bookmark_list_set_attributes = Interop.downcallHandle(
         "gtk_bookmark_list_set_attributes",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -130,15 +135,15 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
      * If {@code attributes} is {@code null}, no attributes will be queried, but a list
      * of {@code GFileInfo}s will still be created.
      */
-    public void setAttributes(java.lang.String attributes) {
+    public @NotNull void setAttributes(@Nullable java.lang.String attributes) {
         try {
-            gtk_bookmark_list_set_attributes.invokeExact(handle(), Interop.allocateNativeString(attributes).handle());
+            gtk_bookmark_list_set_attributes.invokeExact(handle(), Interop.allocateNativeString(attributes));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_bookmark_list_set_io_priority = Interop.downcallHandle(
+    private static final MethodHandle gtk_bookmark_list_set_io_priority = Interop.downcallHandle(
         "gtk_bookmark_list_set_io_priority",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -148,7 +153,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
      * <p>
      * The default IO priority is {@code G_PRIORITY_DEFAULT}.
      */
-    public void setIoPriority(int ioPriority) {
+    public @NotNull void setIoPriority(@NotNull int ioPriority) {
         try {
             gtk_bookmark_list_set_io_priority.invokeExact(handle(), ioPriority);
         } catch (Throwable ERR) {

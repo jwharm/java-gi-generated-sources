@@ -3,6 +3,7 @@ package org.gtk.gobject;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The class structure for the GObject type.
@@ -38,7 +39,7 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_object_class_find_property = Interop.downcallHandle(
+    private static final MethodHandle g_object_class_find_property = Interop.downcallHandle(
         "g_object_class_find_property",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -46,16 +47,17 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Looks up the {@link ParamSpec} for a property of a class.
      */
-    public ParamSpec findProperty(java.lang.String propertyName) {
+    public @NotNull ParamSpec findProperty(@NotNull java.lang.String propertyName) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_object_class_find_property.invokeExact(handle(), Interop.allocateNativeString(propertyName).handle());
-            return new ParamSpec(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_object_class_find_property.invokeExact(handle(), Interop.allocateNativeString(propertyName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_object_class_install_properties = Interop.downcallHandle(
+    private static final MethodHandle g_object_class_install_properties = Interop.downcallHandle(
         "g_object_class_install_properties",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -123,15 +125,15 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
      *  }
      * }</pre>
      */
-    public void installProperties(int nPspecs, ParamSpec[] pspecs) {
+    public @NotNull void installProperties(@NotNull int nPspecs, @NotNull ParamSpec[] pspecs) {
         try {
-            g_object_class_install_properties.invokeExact(handle(), nPspecs, Interop.allocateNativeArray(pspecs).handle());
+            g_object_class_install_properties.invokeExact(handle(), nPspecs, Interop.allocateNativeArray(pspecs));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_object_class_install_property = Interop.downcallHandle(
+    private static final MethodHandle g_object_class_install_property = Interop.downcallHandle(
         "g_object_class_install_property",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -148,7 +150,7 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
      * by installing a property with the same name. This can be useful at times,
      * e.g. to change the range of allowed values or the default value.
      */
-    public void installProperty(int propertyId, ParamSpec pspec) {
+    public @NotNull void installProperty(@NotNull int propertyId, @NotNull ParamSpec pspec) {
         try {
             g_object_class_install_property.invokeExact(handle(), propertyId, pspec.handle());
         } catch (Throwable ERR) {
@@ -156,7 +158,7 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_object_class_list_properties = Interop.downcallHandle(
+    private static final MethodHandle g_object_class_list_properties = Interop.downcallHandle(
         "g_object_class_list_properties",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -164,16 +166,24 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Get an array of {@link ParamSpec}* for all properties of a class.
      */
-    public PointerProxy<ParamSpec> listProperties(PointerInteger nProperties) {
+    public ParamSpec[] listProperties(@NotNull Out<Integer> nProperties) {
+        MemorySegment nPropertiesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_object_class_list_properties.invokeExact(handle(), nProperties.handle());
-            return new PointerProxy<ParamSpec>(RESULT, ParamSpec.class);
+            RESULT = (MemoryAddress) g_object_class_list_properties.invokeExact(handle(), (Addressable) nPropertiesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        nProperties.set(nPropertiesPOINTER.get(ValueLayout.JAVA_INT, 0));
+        ParamSpec[] resultARRAY = new ParamSpec[nProperties.get().intValue()];
+        for (int I = 0; I < nProperties.get().intValue(); I++) {
+            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            resultARRAY[I] = new ParamSpec(Refcounted.get(OBJ, false));
+        }
+        return resultARRAY;
     }
     
-    static final MethodHandle g_object_class_override_property = Interop.downcallHandle(
+    private static final MethodHandle g_object_class_override_property = Interop.downcallHandle(
         "g_object_class_override_property",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -196,9 +206,9 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
      * need to get the overridden property, you can call
      * g_param_spec_get_redirect_target().
      */
-    public void overrideProperty(int propertyId, java.lang.String name) {
+    public @NotNull void overrideProperty(@NotNull int propertyId, @NotNull java.lang.String name) {
         try {
-            g_object_class_override_property.invokeExact(handle(), propertyId, Interop.allocateNativeString(name).handle());
+            g_object_class_override_property.invokeExact(handle(), propertyId, Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

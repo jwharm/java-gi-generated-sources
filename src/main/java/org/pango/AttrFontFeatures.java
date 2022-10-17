@@ -3,6 +3,7 @@ package org.pango;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@code PangoAttrFontFeatures} structure is used to represent OpenType
@@ -14,7 +15,7 @@ public class AttrFontFeatures extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle pango_attr_font_features_new = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_font_features_new = Interop.downcallHandle(
         "pango_attr_font_features_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -25,13 +26,14 @@ public class AttrFontFeatures extends io.github.jwharm.javagi.ResourceBase {
      * You can use this attribute to select OpenType font features like small-caps,
      * alternative glyphs, ligatures, etc. for fonts that support them.
      */
-    public static Attribute new_(java.lang.String features) {
+    public static @NotNull Attribute new_(@NotNull java.lang.String features) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_attr_font_features_new.invokeExact(Interop.allocateNativeString(features).handle());
-            return new Attribute(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_attr_font_features_new.invokeExact(Interop.allocateNativeString(features));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
 }

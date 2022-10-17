@@ -3,21 +3,50 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 public final class Gdk {
     
+    /**
+     * Defines all possible DND actions.
+     * <p>
+     * This can be used in {@link Drop#status} messages when any drop
+     * can be accepted or a more specific drop method is not yet known.
+     */
     public static final int ACTION_ALL = 7;
 
+    /**
+     * The middle button.
+     */
     public static final int BUTTON_MIDDLE = 2;
 
+    /**
+     * The primary button. This is typically the left mouse button, or the
+     * right button in a left-handed setup.
+     */
     public static final int BUTTON_PRIMARY = 1;
 
+    /**
+     * The secondary button. This is typically the right mouse button, or the
+     * left button in a left-handed setup.
+     */
     public static final int BUTTON_SECONDARY = 3;
 
+    /**
+     * Represents the current time, and can be used anywhere a time is expected.
+     */
     public static final int CURRENT_TIME = 0;
 
+    /**
+     * Use this macro as the return value for continuing the propagation of
+     * an event handler.
+     */
     public static final boolean EVENT_PROPAGATE = false;
 
+    /**
+     * Use this macro as the return value for stopping the propagation of
+     * an event handler.
+     */
     public static final boolean EVENT_STOP = true;
 
     public static final int KEY_0 = 48;
@@ -4576,11 +4605,18 @@ public final class Gdk {
 
     public static final int KEY_zstroke = 16777654;
 
+    /**
+     * A mask covering all entries in {@code GdkModifierType}.
+     */
     public static final int MODIFIER_MASK = 469769999;
 
+    /**
+     * This is the priority that the idle handler processing surface updates
+     * is given in the main loop.
+     */
     public static final int PRIORITY_REDRAW = 120;
 
-    static final MethodHandle gdk_cairo_rectangle = Interop.downcallHandle(
+    private static final MethodHandle gdk_cairo_rectangle = Interop.downcallHandle(
         "gdk_cairo_rectangle",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -4588,7 +4624,7 @@ public final class Gdk {
     /**
      * Adds the given rectangle to the current path of {@code cr}.
      */
-    public static void cairoRectangle(org.cairographics.Context cr, Rectangle rectangle) {
+    public static @NotNull void cairoRectangle(@NotNull org.cairographics.Context cr, @NotNull Rectangle rectangle) {
         try {
             gdk_cairo_rectangle.invokeExact(cr.handle(), rectangle.handle());
         } catch (Throwable ERR) {
@@ -4596,7 +4632,7 @@ public final class Gdk {
         }
     }
     
-    static final MethodHandle gdk_cairo_region = Interop.downcallHandle(
+    private static final MethodHandle gdk_cairo_region = Interop.downcallHandle(
         "gdk_cairo_region",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -4604,7 +4640,7 @@ public final class Gdk {
     /**
      * Adds the given region to the current path of {@code cr}.
      */
-    public static void cairoRegion(org.cairographics.Context cr, org.cairographics.Region region) {
+    public static @NotNull void cairoRegion(@NotNull org.cairographics.Context cr, @NotNull org.cairographics.Region region) {
         try {
             gdk_cairo_region.invokeExact(cr.handle(), region.handle());
         } catch (Throwable ERR) {
@@ -4612,7 +4648,7 @@ public final class Gdk {
         }
     }
     
-    static final MethodHandle gdk_cairo_region_create_from_surface = Interop.downcallHandle(
+    private static final MethodHandle gdk_cairo_region_create_from_surface = Interop.downcallHandle(
         "gdk_cairo_region_create_from_surface",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -4624,16 +4660,17 @@ public final class Gdk {
      * This function takes into account device offsets that might be
      * set with cairo_surface_set_device_offset().
      */
-    public static org.cairographics.Region cairoRegionCreateFromSurface(org.cairographics.Surface surface) {
+    public static @NotNull org.cairographics.Region cairoRegionCreateFromSurface(@NotNull org.cairographics.Surface surface) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_cairo_region_create_from_surface.invokeExact(surface.handle());
-            return new org.cairographics.Region(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gdk_cairo_region_create_from_surface.invokeExact(surface.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.cairographics.Region(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gdk_cairo_set_source_pixbuf = Interop.downcallHandle(
+    private static final MethodHandle gdk_cairo_set_source_pixbuf = Interop.downcallHandle(
         "gdk_cairo_set_source_pixbuf",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
     );
@@ -4644,7 +4681,7 @@ public final class Gdk {
      * The pattern has an extend mode of {@link org.cairographics.Extend#NONE} and is aligned
      * so that the origin of {@code pixbuf} is {@code pixbuf_x}, {@code pixbuf_y}.
      */
-    public static void cairoSetSourcePixbuf(org.cairographics.Context cr, org.gtk.gdkpixbuf.Pixbuf pixbuf, double pixbufX, double pixbufY) {
+    public static @NotNull void cairoSetSourcePixbuf(@NotNull org.cairographics.Context cr, @NotNull org.gtk.gdkpixbuf.Pixbuf pixbuf, @NotNull double pixbufX, @NotNull double pixbufY) {
         try {
             gdk_cairo_set_source_pixbuf.invokeExact(cr.handle(), pixbuf.handle(), pixbufX, pixbufY);
         } catch (Throwable ERR) {
@@ -4652,7 +4689,7 @@ public final class Gdk {
         }
     }
     
-    static final MethodHandle gdk_cairo_set_source_rgba = Interop.downcallHandle(
+    private static final MethodHandle gdk_cairo_set_source_rgba = Interop.downcallHandle(
         "gdk_cairo_set_source_rgba",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -4660,7 +4697,7 @@ public final class Gdk {
     /**
      * Sets the specified {@code GdkRGBA} as the source color of {@code cr}.
      */
-    public static void cairoSetSourceRgba(org.cairographics.Context cr, RGBA rgba) {
+    public static @NotNull void cairoSetSourceRgba(@NotNull org.cairographics.Context cr, @NotNull RGBA rgba) {
         try {
             gdk_cairo_set_source_rgba.invokeExact(cr.handle(), rgba.handle());
         } catch (Throwable ERR) {
@@ -4668,7 +4705,7 @@ public final class Gdk {
         }
     }
     
-    static final MethodHandle gdk_content_deserialize_async = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_deserialize_async = Interop.downcallHandle(
         "gdk_content_deserialize_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -4682,21 +4719,21 @@ public final class Gdk {
      * When the operation is finished, {@code callback} will be called. You must then
      * call {@link Gdk#contentDeserializeFinish} to get the result of the operation.
      */
-    public static void contentDeserializeAsync(org.gtk.gio.InputStream stream, java.lang.String mimeType, org.gtk.gobject.Type type, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+    public static @NotNull void contentDeserializeAsync(@NotNull org.gtk.gio.InputStream stream, @NotNull java.lang.String mimeType, @NotNull org.gtk.gobject.Type type, @NotNull int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
-            gdk_content_deserialize_async.invokeExact(stream.handle(), Interop.allocateNativeString(mimeType).handle(), type.getValue(), ioPriority, cancellable.handle(), 
+            gdk_content_deserialize_async.invokeExact(stream.handle(), Interop.allocateNativeString(mimeType), type.getValue(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gdk.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gdk_content_deserialize_finish = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_deserialize_finish = Interop.downcallHandle(
         "gdk_content_deserialize_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -4704,20 +4741,23 @@ public final class Gdk {
     /**
      * Finishes a content deserialization operation.
      */
-    public static boolean contentDeserializeFinish(org.gtk.gio.AsyncResult result, org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean contentDeserializeFinish(@NotNull org.gtk.gio.AsyncResult result, @NotNull Out<org.gtk.gobject.Value> value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gdk_content_deserialize_finish.invokeExact(result.handle(), value.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gdk_content_deserialize_finish.invokeExact(result.handle(), (Addressable) valuePOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        value.set(new org.gtk.gobject.Value(Refcounted.get(valuePOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_content_formats_parse = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_formats_parse = Interop.downcallHandle(
         "gdk_content_formats_parse",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -4732,16 +4772,17 @@ public final class Gdk {
      * If {@code string} does not describe valid content formats, {@code null}
      * is returned.
      */
-    public static ContentFormats contentFormatsParse(java.lang.String string) {
+    public static @Nullable ContentFormats contentFormatsParse(@NotNull java.lang.String string) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_content_formats_parse.invokeExact(Interop.allocateNativeString(string).handle());
-            return new ContentFormats(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gdk_content_formats_parse.invokeExact(Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ContentFormats(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gdk_content_register_deserializer = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_register_deserializer = Interop.downcallHandle(
         "gdk_content_register_deserializer",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -4749,22 +4790,22 @@ public final class Gdk {
     /**
      * Registers a function to deserialize object of a given type.
      */
-    public static void contentRegisterDeserializer(java.lang.String mimeType, org.gtk.gobject.Type type, ContentDeserializeFunc deserialize) {
+    public static @NotNull void contentRegisterDeserializer(@NotNull java.lang.String mimeType, @NotNull org.gtk.gobject.Type type, @NotNull ContentDeserializeFunc deserialize) {
         try {
-            gdk_content_register_deserializer.invokeExact(Interop.allocateNativeString(mimeType).handle(), type.getValue(), 
+            gdk_content_register_deserializer.invokeExact(Interop.allocateNativeString(mimeType), type.getValue(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gdk.class, "__cbContentDeserializeFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(deserialize.hashCode(), deserialize)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(deserialize)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gdk_content_register_serializer = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_register_serializer = Interop.downcallHandle(
         "gdk_content_register_serializer",
         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -4772,22 +4813,22 @@ public final class Gdk {
     /**
      * Registers a function to serialize objects of a given type.
      */
-    public static void contentRegisterSerializer(org.gtk.gobject.Type type, java.lang.String mimeType, ContentSerializeFunc serialize) {
+    public static @NotNull void contentRegisterSerializer(@NotNull org.gtk.gobject.Type type, @NotNull java.lang.String mimeType, @NotNull ContentSerializeFunc serialize) {
         try {
-            gdk_content_register_serializer.invokeExact(type.getValue(), Interop.allocateNativeString(mimeType).handle(), 
+            gdk_content_register_serializer.invokeExact(type.getValue(), Interop.allocateNativeString(mimeType), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gdk.class, "__cbContentSerializeFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(serialize.hashCode(), serialize)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(serialize)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gdk_content_serialize_async = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_serialize_async = Interop.downcallHandle(
         "gdk_content_serialize_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -4801,21 +4842,21 @@ public final class Gdk {
      * When the operation is finished, {@code callback} will be called. You must then
      * call {@link Gdk#contentSerializeFinish} to get the result of the operation.
      */
-    public static void contentSerializeAsync(org.gtk.gio.OutputStream stream, java.lang.String mimeType, org.gtk.gobject.Value value, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+    public static @NotNull void contentSerializeAsync(@NotNull org.gtk.gio.OutputStream stream, @NotNull java.lang.String mimeType, @NotNull org.gtk.gobject.Value value, @NotNull int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
-            gdk_content_serialize_async.invokeExact(stream.handle(), Interop.allocateNativeString(mimeType).handle(), value.handle(), ioPriority, cancellable.handle(), 
+            gdk_content_serialize_async.invokeExact(stream.handle(), Interop.allocateNativeString(mimeType), value.handle(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gdk.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gdk_content_serialize_finish = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_serialize_finish = Interop.downcallHandle(
         "gdk_content_serialize_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -4823,20 +4864,21 @@ public final class Gdk {
     /**
      * Finishes a content serialization operation.
      */
-    public static boolean contentSerializeFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean contentSerializeFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gdk_content_serialize_finish.invokeExact(result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gdk_content_serialize_finish.invokeExact(result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_drag_action_is_unique = Interop.downcallHandle(
+    private static final MethodHandle gdk_drag_action_is_unique = Interop.downcallHandle(
         "gdk_drag_action_is_unique",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -4848,16 +4890,17 @@ public final class Gdk {
      * When {@code action} is 0 - ie no action was given, {@code true}
      * is returned.
      */
-    public static boolean dragActionIsUnique(DragAction action) {
+    public static boolean dragActionIsUnique(@NotNull DragAction action) {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_drag_action_is_unique.invokeExact(action.getValue());
-            return RESULT != 0;
+            RESULT = (int) gdk_drag_action_is_unique.invokeExact(action.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_events_get_angle = Interop.downcallHandle(
+    private static final MethodHandle gdk_events_get_angle = Interop.downcallHandle(
         "gdk_events_get_angle",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -4872,16 +4915,19 @@ public final class Gdk {
      * This assumes that both events have X/Y information.
      * If not, this function returns {@code false}.
      */
-    public static boolean eventsGetAngle(Event event1, Event event2, PointerDouble angle) {
+    public static boolean eventsGetAngle(@NotNull Event event1, @NotNull Event event2, @NotNull Out<Double> angle) {
+        MemorySegment anglePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        int RESULT;
         try {
-            var RESULT = (int) gdk_events_get_angle.invokeExact(event1.handle(), event2.handle(), angle.handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_events_get_angle.invokeExact(event1.handle(), event2.handle(), (Addressable) anglePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        angle.set(anglePOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_events_get_center = Interop.downcallHandle(
+    private static final MethodHandle gdk_events_get_center = Interop.downcallHandle(
         "gdk_events_get_center",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -4892,16 +4938,21 @@ public final class Gdk {
      * This assumes that both events have X/Y information.
      * If not, this function returns {@code false}.
      */
-    public static boolean eventsGetCenter(Event event1, Event event2, PointerDouble x, PointerDouble y) {
+    public static boolean eventsGetCenter(@NotNull Event event1, @NotNull Event event2, @NotNull Out<Double> x, @NotNull Out<Double> y) {
+        MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        int RESULT;
         try {
-            var RESULT = (int) gdk_events_get_center.invokeExact(event1.handle(), event2.handle(), x.handle(), y.handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_events_get_center.invokeExact(event1.handle(), event2.handle(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        x.set(xPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        y.set(yPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_events_get_distance = Interop.downcallHandle(
+    private static final MethodHandle gdk_events_get_distance = Interop.downcallHandle(
         "gdk_events_get_distance",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -4912,30 +4963,34 @@ public final class Gdk {
      * This assumes that both events have X/Y information.
      * If not, this function returns {@code false}.
      */
-    public static boolean eventsGetDistance(Event event1, Event event2, PointerDouble distance) {
+    public static boolean eventsGetDistance(@NotNull Event event1, @NotNull Event event2, @NotNull Out<Double> distance) {
+        MemorySegment distancePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        int RESULT;
         try {
-            var RESULT = (int) gdk_events_get_distance.invokeExact(event1.handle(), event2.handle(), distance.handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_events_get_distance.invokeExact(event1.handle(), event2.handle(), (Addressable) distancePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        distance.set(distancePOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_gl_error_quark = Interop.downcallHandle(
+    private static final MethodHandle gdk_gl_error_quark = Interop.downcallHandle(
         "gdk_gl_error_quark",
         FunctionDescriptor.of(ValueLayout.JAVA_INT)
     );
     
-    public static org.gtk.glib.Quark glErrorQuark() {
+    public static @NotNull org.gtk.glib.Quark glErrorQuark() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_gl_error_quark.invokeExact();
-            return new org.gtk.glib.Quark(RESULT);
+            RESULT = (int) gdk_gl_error_quark.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.Quark(RESULT);
     }
     
-    static final MethodHandle gdk_intern_mime_type = Interop.downcallHandle(
+    private static final MethodHandle gdk_intern_mime_type = Interop.downcallHandle(
         "gdk_intern_mime_type",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -4946,16 +5001,17 @@ public final class Gdk {
      * If {@code string} is not a valid mime type, {@code null} is returned instead.
      * See RFC 2048 for the syntax if mime types.
      */
-    public static java.lang.String internMimeType(java.lang.String string) {
+    public static @Nullable java.lang.String internMimeType(@NotNull java.lang.String string) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_intern_mime_type.invokeExact(Interop.allocateNativeString(string).handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gdk_intern_mime_type.invokeExact(Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gdk_keyval_convert_case = Interop.downcallHandle(
+    private static final MethodHandle gdk_keyval_convert_case = Interop.downcallHandle(
         "gdk_keyval_convert_case",
         FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -4965,15 +5021,19 @@ public final class Gdk {
      * <p>
      * Examples of keyvals are {@code GDK_KEY_a}, {@code GDK_KEY_Enter}, {@code GDK_KEY_F1}, etc.
      */
-    public static void keyvalConvertCase(int symbol, PointerInteger lower, PointerInteger upper) {
+    public static @NotNull void keyvalConvertCase(@NotNull int symbol, @NotNull Out<Integer> lower, @NotNull Out<Integer> upper) {
+        MemorySegment lowerPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment upperPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gdk_keyval_convert_case.invokeExact(symbol, lower.handle(), upper.handle());
+            gdk_keyval_convert_case.invokeExact(symbol, (Addressable) lowerPOINTER.address(), (Addressable) upperPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        lower.set(lowerPOINTER.get(ValueLayout.JAVA_INT, 0));
+        upper.set(upperPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    static final MethodHandle gdk_keyval_from_name = Interop.downcallHandle(
+    private static final MethodHandle gdk_keyval_from_name = Interop.downcallHandle(
         "gdk_keyval_from_name",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -4985,16 +5045,17 @@ public final class Gdk {
      * {@code gdk/gdkkeysyms.h} header file
      * but without the leading “GDK_KEY_”.
      */
-    public static int keyvalFromName(java.lang.String keyvalName) {
+    public static int keyvalFromName(@NotNull java.lang.String keyvalName) {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_keyval_from_name.invokeExact(Interop.allocateNativeString(keyvalName).handle());
-            return RESULT;
+            RESULT = (int) gdk_keyval_from_name.invokeExact(Interop.allocateNativeString(keyvalName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gdk_keyval_is_lower = Interop.downcallHandle(
+    private static final MethodHandle gdk_keyval_is_lower = Interop.downcallHandle(
         "gdk_keyval_is_lower",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -5002,16 +5063,17 @@ public final class Gdk {
     /**
      * Returns {@code true} if the given key value is in lower case.
      */
-    public static boolean keyvalIsLower(int keyval) {
+    public static boolean keyvalIsLower(@NotNull int keyval) {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_keyval_is_lower.invokeExact(keyval);
-            return RESULT != 0;
+            RESULT = (int) gdk_keyval_is_lower.invokeExact(keyval);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_keyval_is_upper = Interop.downcallHandle(
+    private static final MethodHandle gdk_keyval_is_upper = Interop.downcallHandle(
         "gdk_keyval_is_upper",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -5019,16 +5081,17 @@ public final class Gdk {
     /**
      * Returns {@code true} if the given key value is in upper case.
      */
-    public static boolean keyvalIsUpper(int keyval) {
+    public static boolean keyvalIsUpper(@NotNull int keyval) {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_keyval_is_upper.invokeExact(keyval);
-            return RESULT != 0;
+            RESULT = (int) gdk_keyval_is_upper.invokeExact(keyval);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_keyval_name = Interop.downcallHandle(
+    private static final MethodHandle gdk_keyval_name = Interop.downcallHandle(
         "gdk_keyval_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -5040,16 +5103,17 @@ public final class Gdk {
      * {@code gdk/gdkkeysyms.h} header file
      * but without the leading “GDK_KEY_”.
      */
-    public static java.lang.String keyvalName(int keyval) {
+    public static @Nullable java.lang.String keyvalName(@NotNull int keyval) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_keyval_name.invokeExact(keyval);
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gdk_keyval_name.invokeExact(keyval);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gdk_keyval_to_lower = Interop.downcallHandle(
+    private static final MethodHandle gdk_keyval_to_lower = Interop.downcallHandle(
         "gdk_keyval_to_lower",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -5057,16 +5121,17 @@ public final class Gdk {
     /**
      * Converts a key value to lower case, if applicable.
      */
-    public static int keyvalToLower(int keyval) {
+    public static int keyvalToLower(@NotNull int keyval) {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_keyval_to_lower.invokeExact(keyval);
-            return RESULT;
+            RESULT = (int) gdk_keyval_to_lower.invokeExact(keyval);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gdk_keyval_to_unicode = Interop.downcallHandle(
+    private static final MethodHandle gdk_keyval_to_unicode = Interop.downcallHandle(
         "gdk_keyval_to_unicode",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -5079,16 +5144,17 @@ public final class Gdk {
      * into consideration, which might be expected for particular
      * keyvals, such as {@code GDK_KEY_KP_Decimal}.
      */
-    public static int keyvalToUnicode(int keyval) {
+    public static int keyvalToUnicode(@NotNull int keyval) {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_keyval_to_unicode.invokeExact(keyval);
-            return RESULT;
+            RESULT = (int) gdk_keyval_to_unicode.invokeExact(keyval);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gdk_keyval_to_upper = Interop.downcallHandle(
+    private static final MethodHandle gdk_keyval_to_upper = Interop.downcallHandle(
         "gdk_keyval_to_upper",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -5096,16 +5162,17 @@ public final class Gdk {
     /**
      * Converts a key value to upper case, if applicable.
      */
-    public static int keyvalToUpper(int keyval) {
+    public static int keyvalToUpper(@NotNull int keyval) {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_keyval_to_upper.invokeExact(keyval);
-            return RESULT;
+            RESULT = (int) gdk_keyval_to_upper.invokeExact(keyval);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gdk_paintable_new_empty = Interop.downcallHandle(
+    private static final MethodHandle gdk_paintable_new_empty = Interop.downcallHandle(
         "gdk_paintable_new_empty",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -5118,16 +5185,17 @@ public final class Gdk {
      * when the paintable is in an incomplete state (like a
      * {@link org.gtk.gtk.MediaStream} before receiving the first frame).
      */
-    public static Paintable paintableNewEmpty(int intrinsicWidth, int intrinsicHeight) {
+    public static @NotNull Paintable paintableNewEmpty(@NotNull int intrinsicWidth, @NotNull int intrinsicHeight) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_paintable_new_empty.invokeExact(intrinsicWidth, intrinsicHeight);
-            return new Paintable.PaintableImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gdk_paintable_new_empty.invokeExact(intrinsicWidth, intrinsicHeight);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Paintable.PaintableImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gdk_pango_layout_get_clip_region = Interop.downcallHandle(
+    private static final MethodHandle gdk_pango_layout_get_clip_region = Interop.downcallHandle(
         "gdk_pango_layout_get_clip_region",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -5144,16 +5212,17 @@ public final class Gdk {
      * the clip region.  The clip region is mainly useful for highlightling parts
      * of text, such as when text is selected.
      */
-    public static org.cairographics.Region pangoLayoutGetClipRegion(org.pango.Layout layout, int xOrigin, int yOrigin, PointerInteger indexRanges, int nRanges) {
+    public static @NotNull org.cairographics.Region pangoLayoutGetClipRegion(@NotNull org.pango.Layout layout, @NotNull int xOrigin, @NotNull int yOrigin, @NotNull PointerInteger indexRanges, @NotNull int nRanges) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_pango_layout_get_clip_region.invokeExact(layout.handle(), xOrigin, yOrigin, indexRanges.handle(), nRanges);
-            return new org.cairographics.Region(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gdk_pango_layout_get_clip_region.invokeExact(layout.handle(), xOrigin, yOrigin, indexRanges.handle(), nRanges);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.cairographics.Region(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gdk_pango_layout_line_get_clip_region = Interop.downcallHandle(
+    private static final MethodHandle gdk_pango_layout_line_get_clip_region = Interop.downcallHandle(
         "gdk_pango_layout_line_get_clip_region",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -5175,16 +5244,17 @@ public final class Gdk {
      * the clip region.  The clip region is mainly useful for highlightling parts
      * of text, such as when text is selected.
      */
-    public static org.cairographics.Region pangoLayoutLineGetClipRegion(org.pango.LayoutLine line, int xOrigin, int yOrigin, int[] indexRanges, int nRanges) {
+    public static @NotNull org.cairographics.Region pangoLayoutLineGetClipRegion(@NotNull org.pango.LayoutLine line, @NotNull int xOrigin, @NotNull int yOrigin, @NotNull int[] indexRanges, @NotNull int nRanges) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_pango_layout_line_get_clip_region.invokeExact(line.handle(), xOrigin, yOrigin, Interop.allocateNativeArray(indexRanges).handle(), nRanges);
-            return new org.cairographics.Region(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gdk_pango_layout_line_get_clip_region.invokeExact(line.handle(), xOrigin, yOrigin, Interop.allocateNativeArray(indexRanges), nRanges);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.cairographics.Region(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gdk_pixbuf_get_from_surface = Interop.downcallHandle(
+    private static final MethodHandle gdk_pixbuf_get_from_surface = Interop.downcallHandle(
         "gdk_pixbuf_get_from_surface",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -5198,16 +5268,17 @@ public final class Gdk {
      * This function will create an RGB pixbuf with 8 bits per channel.
      * The pixbuf will contain an alpha channel if the {@code surface} contains one.
      */
-    public static org.gtk.gdkpixbuf.Pixbuf pixbufGetFromSurface(org.cairographics.Surface surface, int srcX, int srcY, int width, int height) {
+    public static @Nullable org.gtk.gdkpixbuf.Pixbuf pixbufGetFromSurface(@NotNull org.cairographics.Surface surface, @NotNull int srcX, @NotNull int srcY, @NotNull int width, @NotNull int height) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_pixbuf_get_from_surface.invokeExact(surface.handle(), srcX, srcY, width, height);
-            return new org.gtk.gdkpixbuf.Pixbuf(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gdk_pixbuf_get_from_surface.invokeExact(surface.handle(), srcX, srcY, width, height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gdkpixbuf.Pixbuf(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gdk_pixbuf_get_from_texture = Interop.downcallHandle(
+    private static final MethodHandle gdk_pixbuf_get_from_texture = Interop.downcallHandle(
         "gdk_pixbuf_get_from_texture",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -5219,16 +5290,17 @@ public final class Gdk {
      * stages will almost certainly convert the pixbuf back into a texture
      * to draw it on screen.
      */
-    public static org.gtk.gdkpixbuf.Pixbuf pixbufGetFromTexture(Texture texture) {
+    public static @Nullable org.gtk.gdkpixbuf.Pixbuf pixbufGetFromTexture(@NotNull Texture texture) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_pixbuf_get_from_texture.invokeExact(texture.handle());
-            return new org.gtk.gdkpixbuf.Pixbuf(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gdk_pixbuf_get_from_texture.invokeExact(texture.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gdkpixbuf.Pixbuf(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gdk_set_allowed_backends = Interop.downcallHandle(
+    private static final MethodHandle gdk_set_allowed_backends = Interop.downcallHandle(
         "gdk_set_allowed_backends",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -5242,7 +5314,7 @@ public final class Gdk {
      * By default, GDK tries all included backends.
      * <p>
      * For example:
-     * <p>
+     * 
      * <pre>{@code c
      * gdk_set_allowed_backends ("wayland,macos,*");
      * }</pre>
@@ -5270,43 +5342,45 @@ public final class Gdk {
      * as {@link Gdk#Display}, {@code gtk_init()}, or {@code gtk_init_check()}
      * in order to take effect.
      */
-    public static void setAllowedBackends(java.lang.String backends) {
+    public static @NotNull void setAllowedBackends(@NotNull java.lang.String backends) {
         try {
-            gdk_set_allowed_backends.invokeExact(Interop.allocateNativeString(backends).handle());
+            gdk_set_allowed_backends.invokeExact(Interop.allocateNativeString(backends));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gdk_texture_error_quark = Interop.downcallHandle(
+    private static final MethodHandle gdk_texture_error_quark = Interop.downcallHandle(
         "gdk_texture_error_quark",
         FunctionDescriptor.of(ValueLayout.JAVA_INT)
     );
     
-    public static org.gtk.glib.Quark textureErrorQuark() {
+    public static @NotNull org.gtk.glib.Quark textureErrorQuark() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_texture_error_quark.invokeExact();
-            return new org.gtk.glib.Quark(RESULT);
+            RESULT = (int) gdk_texture_error_quark.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.Quark(RESULT);
     }
     
-    static final MethodHandle gdk_toplevel_size_get_type = Interop.downcallHandle(
+    private static final MethodHandle gdk_toplevel_size_get_type = Interop.downcallHandle(
         "gdk_toplevel_size_get_type",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG)
     );
     
-    public static org.gtk.gobject.Type toplevelSizeGetType() {
+    public static @NotNull org.gtk.gobject.Type toplevelSizeGetType() {
+        long RESULT;
         try {
-            var RESULT = (long) gdk_toplevel_size_get_type.invokeExact();
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) gdk_toplevel_size_get_type.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle gdk_unicode_to_keyval = Interop.downcallHandle(
+    private static final MethodHandle gdk_unicode_to_keyval = Interop.downcallHandle(
         "gdk_unicode_to_keyval",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -5314,27 +5388,29 @@ public final class Gdk {
     /**
      * Convert from a Unicode character to a key symbol.
      */
-    public static int unicodeToKeyval(int wc) {
+    public static int unicodeToKeyval(@NotNull int wc) {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_unicode_to_keyval.invokeExact(wc);
-            return RESULT;
+            RESULT = (int) gdk_unicode_to_keyval.invokeExact(wc);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gdk_vulkan_error_quark = Interop.downcallHandle(
+    private static final MethodHandle gdk_vulkan_error_quark = Interop.downcallHandle(
         "gdk_vulkan_error_quark",
         FunctionDescriptor.of(ValueLayout.JAVA_INT)
     );
     
-    public static org.gtk.glib.Quark vulkanErrorQuark() {
+    public static @NotNull org.gtk.glib.Quark vulkanErrorQuark() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_vulkan_error_quark.invokeExact();
-            return new org.gtk.glib.Quark(RESULT);
+            RESULT = (int) gdk_vulkan_error_quark.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.Quark(RESULT);
     }
     
 }

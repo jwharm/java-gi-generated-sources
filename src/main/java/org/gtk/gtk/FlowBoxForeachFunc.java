@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A function used by gtk_flow_box_selected_foreach().
@@ -9,5 +10,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface FlowBoxForeachFunc {
-        void onFlowBoxForeachFunc(FlowBox box, FlowBoxChild child);
+        void onFlowBoxForeachFunc(@NotNull FlowBox box, @NotNull FlowBoxChild child);
 }

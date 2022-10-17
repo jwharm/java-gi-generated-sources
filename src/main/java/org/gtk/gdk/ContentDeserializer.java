@@ -3,6 +3,7 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GdkContentDeserializer} is used to deserialize content received via
@@ -28,7 +29,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
         return new ContentDeserializer(gobject.refcounted());
     }
     
-    static final MethodHandle gdk_content_deserializer_get_cancellable = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_deserializer_get_cancellable = Interop.downcallHandle(
         "gdk_content_deserializer_get_cancellable",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -38,16 +39,17 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      * <p>
      * This is the {@code GCancellable} that was passed to {@link Gdk#contentDeserializeAsync}.
      */
-    public org.gtk.gio.Cancellable getCancellable() {
+    public @Nullable org.gtk.gio.Cancellable getCancellable() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_content_deserializer_get_cancellable.invokeExact(handle());
-            return new org.gtk.gio.Cancellable(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_content_deserializer_get_cancellable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.Cancellable(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_content_deserializer_get_gtype = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_deserializer_get_gtype = Interop.downcallHandle(
         "gdk_content_deserializer_get_gtype",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -55,16 +57,17 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
     /**
      * Gets the {@code GType} to create an instance of.
      */
-    public org.gtk.gobject.Type getGtype() {
+    public @NotNull org.gtk.gobject.Type getGtype() {
+        long RESULT;
         try {
-            var RESULT = (long) gdk_content_deserializer_get_gtype.invokeExact(handle());
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) gdk_content_deserializer_get_gtype.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle gdk_content_deserializer_get_input_stream = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_deserializer_get_input_stream = Interop.downcallHandle(
         "gdk_content_deserializer_get_input_stream",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -74,16 +77,17 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      * <p>
      * This is the stream that was passed to {@link Gdk#contentDeserializeAsync}.
      */
-    public org.gtk.gio.InputStream getInputStream() {
+    public @NotNull org.gtk.gio.InputStream getInputStream() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_content_deserializer_get_input_stream.invokeExact(handle());
-            return new org.gtk.gio.InputStream(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_content_deserializer_get_input_stream.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.InputStream(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_content_deserializer_get_mime_type = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_deserializer_get_mime_type = Interop.downcallHandle(
         "gdk_content_deserializer_get_mime_type",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -91,16 +95,17 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
     /**
      * Gets the mime type to deserialize from.
      */
-    public java.lang.String getMimeType() {
+    public @NotNull java.lang.String getMimeType() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_content_deserializer_get_mime_type.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gdk_content_deserializer_get_mime_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gdk_content_deserializer_get_priority = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_deserializer_get_priority = Interop.downcallHandle(
         "gdk_content_deserializer_get_priority",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -111,15 +116,16 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      * This is the priority that was passed to {@link Gdk#contentDeserializeAsync}.
      */
     public int getPriority() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_content_deserializer_get_priority.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gdk_content_deserializer_get_priority.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gdk_content_deserializer_get_task_data = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_deserializer_get_task_data = Interop.downcallHandle(
         "gdk_content_deserializer_get_task_data",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -129,16 +135,17 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      * <p>
      * See {@link ContentDeserializer#setTaskData}.
      */
-    public java.lang.foreign.MemoryAddress getTaskData() {
+    public @Nullable java.lang.foreign.MemoryAddress getTaskData() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_content_deserializer_get_task_data.invokeExact(handle());
-            return RESULT;
+            RESULT = (MemoryAddress) gdk_content_deserializer_get_task_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gdk_content_deserializer_get_user_data = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_deserializer_get_user_data = Interop.downcallHandle(
         "gdk_content_deserializer_get_user_data",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -146,16 +153,17 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
     /**
      * Gets the user data that was passed when the deserializer was registered.
      */
-    public java.lang.foreign.MemoryAddress getUserData() {
+    public @Nullable java.lang.foreign.MemoryAddress getUserData() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_content_deserializer_get_user_data.invokeExact(handle());
-            return RESULT;
+            RESULT = (MemoryAddress) gdk_content_deserializer_get_user_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gdk_content_deserializer_get_value = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_deserializer_get_value = Interop.downcallHandle(
         "gdk_content_deserializer_get_value",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -163,16 +171,17 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
     /**
      * Gets the {@code GValue} to store the deserialized object in.
      */
-    public org.gtk.gobject.Value getValue() {
+    public @NotNull org.gtk.gobject.Value getValue() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_content_deserializer_get_value.invokeExact(handle());
-            return new org.gtk.gobject.Value(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_content_deserializer_get_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Value(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_content_deserializer_return_error = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_deserializer_return_error = Interop.downcallHandle(
         "gdk_content_deserializer_return_error",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -182,7 +191,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      * <p>
      * This function consumes {@code error}.
      */
-    public void returnError(org.gtk.glib.Error error) {
+    public @NotNull void returnError(@NotNull org.gtk.glib.Error error) {
         try {
             gdk_content_deserializer_return_error.invokeExact(handle(), error.refcounted().unowned().handle());
         } catch (Throwable ERR) {
@@ -190,7 +199,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
         }
     }
     
-    static final MethodHandle gdk_content_deserializer_return_success = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_deserializer_return_success = Interop.downcallHandle(
         "gdk_content_deserializer_return_success",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -198,7 +207,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
     /**
      * Indicate that the deserialization has been successfully completed.
      */
-    public void returnSuccess() {
+    public @NotNull void returnSuccess() {
         try {
             gdk_content_deserializer_return_success.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -206,7 +215,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
         }
     }
     
-    static final MethodHandle gdk_content_deserializer_set_task_data = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_deserializer_set_task_data = Interop.downcallHandle(
         "gdk_content_deserializer_set_task_data",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -214,7 +223,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
     /**
      * Associate data with the current deserialization operation.
      */
-    public void setTaskData(java.lang.foreign.MemoryAddress data, org.gtk.glib.DestroyNotify notify) {
+    public @NotNull void setTaskData(@Nullable java.lang.foreign.MemoryAddress data, @NotNull org.gtk.glib.DestroyNotify notify) {
         try {
             gdk_content_deserializer_set_task_data.invokeExact(handle(), data, 
                     Interop.cbDestroyNotifySymbol());

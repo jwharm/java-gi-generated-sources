@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The GActionMap interface is implemented by {@link ActionGroup}
@@ -17,7 +18,7 @@ import java.lang.invoke.*;
  */
 public interface ActionMap extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle g_action_map_add_action = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_action_map_add_action = Interop.downcallHandle(
         "g_action_map_add_action",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -30,7 +31,7 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
      * <p>
      * The action map takes its own reference on {@code action}.
      */
-    public default void addAction(Action action) {
+    default @NotNull void addAction(@NotNull Action action) {
         try {
             g_action_map_add_action.invokeExact(handle(), action.handle());
         } catch (Throwable ERR) {
@@ -38,7 +39,7 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle g_action_map_add_action_entries = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_action_map_add_action_entries = Interop.downcallHandle(
         "g_action_map_add_action_entries",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -82,15 +83,15 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
      * }
      * }</pre>
      */
-    public default void addActionEntries(ActionEntry[] entries, int nEntries, java.lang.foreign.MemoryAddress userData) {
+    default @NotNull void addActionEntries(@NotNull ActionEntry[] entries, @NotNull int nEntries, @Nullable java.lang.foreign.MemoryAddress userData) {
         try {
-            g_action_map_add_action_entries.invokeExact(handle(), Interop.allocateNativeArray(entries).handle(), nEntries, userData);
+            g_action_map_add_action_entries.invokeExact(handle(), Interop.allocateNativeArray(entries), nEntries, userData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_action_map_lookup_action = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_action_map_lookup_action = Interop.downcallHandle(
         "g_action_map_lookup_action",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -100,16 +101,17 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
      * <p>
      * If no such action exists, returns {@code null}.
      */
-    public default Action lookupAction(java.lang.String actionName) {
+    default @Nullable Action lookupAction(@NotNull java.lang.String actionName) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_action_map_lookup_action.invokeExact(handle(), Interop.allocateNativeString(actionName).handle());
-            return new Action.ActionImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_action_map_lookup_action.invokeExact(handle(), Interop.allocateNativeString(actionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Action.ActionImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_action_map_remove_action = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_action_map_remove_action = Interop.downcallHandle(
         "g_action_map_remove_action",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -119,9 +121,9 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
      * <p>
      * If no action of this name is in the map then nothing happens.
      */
-    public default void removeAction(java.lang.String actionName) {
+    default @NotNull void removeAction(@NotNull java.lang.String actionName) {
         try {
-            g_action_map_remove_action.invokeExact(handle(), Interop.allocateNativeString(actionName).handle());
+            g_action_map_remove_action.invokeExact(handle(), Interop.allocateNativeString(actionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

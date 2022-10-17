@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GtkMapListModel} maps the items in a list model to different items.
@@ -44,12 +45,12 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
         return new MapListModel(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_map_list_model_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_map_list_model_new = Interop.downcallHandle(
         "gtk_map_list_model_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(org.gtk.gio.ListModel model, MapListModelMapFunc mapFunc) {
+    private static Refcounted constructNew(@Nullable org.gtk.gio.ListModel model, @Nullable MapListModelMapFunc mapFunc) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_map_list_model_new.invokeExact(model.refcounted().unowned().handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -57,7 +58,7 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(mapFunc.hashCode(), mapFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(mapFunc)), 
                     Interop.cbDestroyNotifySymbol()), true);
             return RESULT;
         } catch (Throwable ERR) {
@@ -68,11 +69,11 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
     /**
      * Creates a new {@code GtkMapListModel} for the given arguments.
      */
-    public MapListModel(org.gtk.gio.ListModel model, MapListModelMapFunc mapFunc) {
+    public MapListModel(@Nullable org.gtk.gio.ListModel model, @Nullable MapListModelMapFunc mapFunc) {
         super(constructNew(model, mapFunc));
     }
     
-    static final MethodHandle gtk_map_list_model_get_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_map_list_model_get_model = Interop.downcallHandle(
         "gtk_map_list_model_get_model",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -80,16 +81,17 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
     /**
      * Gets the model that is currently being mapped or {@code null} if none.
      */
-    public org.gtk.gio.ListModel getModel() {
+    public @Nullable org.gtk.gio.ListModel getModel() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_map_list_model_get_model.invokeExact(handle());
-            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_map_list_model_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_map_list_model_has_map = Interop.downcallHandle(
+    private static final MethodHandle gtk_map_list_model_has_map = Interop.downcallHandle(
         "gtk_map_list_model_has_map",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -98,15 +100,16 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
      * Checks if a map function is currently set on {@code self}.
      */
     public boolean hasMap() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_map_list_model_has_map.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_map_list_model_has_map.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_map_list_model_set_map_func = Interop.downcallHandle(
+    private static final MethodHandle gtk_map_list_model_set_map_func = Interop.downcallHandle(
         "gtk_map_list_model_set_map_func",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -124,7 +127,7 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
      * of {@code self}. It assumes that the caller knows what they are doing and the map
      * function returns items of the appropriate type.
      */
-    public void setMapFunc(MapListModelMapFunc mapFunc) {
+    public @NotNull void setMapFunc(@Nullable MapListModelMapFunc mapFunc) {
         try {
             gtk_map_list_model_set_map_func.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -132,14 +135,14 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(mapFunc.hashCode(), mapFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(mapFunc)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_map_list_model_set_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_map_list_model_set_model = Interop.downcallHandle(
         "gtk_map_list_model_set_model",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -151,7 +154,7 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
      * expected by the map function. It assumes that the caller knows what
      * they are doing and have set up an appropriate map function.
      */
-    public void setModel(org.gtk.gio.ListModel model) {
+    public @NotNull void setModel(@Nullable org.gtk.gio.ListModel model) {
         try {
             gtk_map_list_model_set_model.invokeExact(handle(), model.handle());
         } catch (Throwable ERR) {

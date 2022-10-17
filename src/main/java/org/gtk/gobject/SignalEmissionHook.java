@@ -1,6 +1,7 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A simple function pointer to get invoked when the signal is emitted.
@@ -12,5 +13,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface SignalEmissionHook {
-        boolean onSignalEmissionHook(SignalInvocationHint ihint, int nParamValues, PointerProxy<Value> paramValues);
+        boolean onSignalEmissionHook(@NotNull SignalInvocationHint ihint, @NotNull int nParamValues, @NotNull PointerProxy<Value> paramValues);
 }

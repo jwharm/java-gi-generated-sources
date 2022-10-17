@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A function which calculates display values from raw values in the model.
@@ -12,5 +13,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface TreeModelFilterModifyFunc {
-        void onTreeModelFilterModifyFunc(TreeModel model, TreeIter iter, org.gtk.gobject.Value value, int column);
+        void onTreeModelFilterModifyFunc(@NotNull TreeModel model, @NotNull TreeIter iter, @NotNull Out<org.gtk.gobject.Value> value, @NotNull int column);
 }

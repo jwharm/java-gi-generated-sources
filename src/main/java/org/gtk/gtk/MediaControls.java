@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkMediaControls} is a widget to show controls for a video.
@@ -22,12 +23,12 @@ public class MediaControls extends Widget implements Accessible, Buildable, Cons
         return new MediaControls(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_media_controls_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_controls_new = Interop.downcallHandle(
         "gtk_media_controls_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(MediaStream stream) {
+    private static Refcounted constructNew(@Nullable MediaStream stream) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_media_controls_new.invokeExact(stream.handle()), false);
             return RESULT;
@@ -39,11 +40,11 @@ public class MediaControls extends Widget implements Accessible, Buildable, Cons
     /**
      * Creates a new {@code GtkMediaControls} managing the {@code stream} passed to it.
      */
-    public MediaControls(MediaStream stream) {
+    public MediaControls(@Nullable MediaStream stream) {
         super(constructNew(stream));
     }
     
-    static final MethodHandle gtk_media_controls_get_media_stream = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_controls_get_media_stream = Interop.downcallHandle(
         "gtk_media_controls_get_media_stream",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -51,16 +52,17 @@ public class MediaControls extends Widget implements Accessible, Buildable, Cons
     /**
      * Gets the media stream managed by {@code controls} or {@code null} if none.
      */
-    public MediaStream getMediaStream() {
+    public @Nullable MediaStream getMediaStream() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_media_controls_get_media_stream.invokeExact(handle());
-            return new MediaStream(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_media_controls_get_media_stream.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new MediaStream(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_media_controls_set_media_stream = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_controls_set_media_stream = Interop.downcallHandle(
         "gtk_media_controls_set_media_stream",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -68,7 +70,7 @@ public class MediaControls extends Widget implements Accessible, Buildable, Cons
     /**
      * Sets the stream that is controlled by {@code controls}.
      */
-    public void setMediaStream(MediaStream stream) {
+    public @NotNull void setMediaStream(@Nullable MediaStream stream) {
         try {
             gtk_media_controls_set_media_stream.invokeExact(handle(), stream.handle());
         } catch (Throwable ERR) {

@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * User function that is called to determine if the {@code item} should be matched.
@@ -10,5 +11,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface CustomFilterFunc {
-        boolean onCustomFilterFunc(org.gtk.gobject.Object item);
+        boolean onCustomFilterFunc(@NotNull org.gtk.gobject.Object item);
 }

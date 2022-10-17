@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@link List} struct is used for each element in a doubly-linked list.
@@ -13,7 +14,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_list_alloc = Interop.downcallHandle(
+    private static final MethodHandle g_list_alloc = Interop.downcallHandle(
         "g_list_alloc",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -23,16 +24,17 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * g_list_append(), g_list_prepend(), g_list_insert() and
      * g_list_insert_sorted() and so is rarely used on its own.
      */
-    public static org.gtk.glib.List alloc() {
+    public static @NotNull org.gtk.glib.List alloc() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_alloc.invokeExact();
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_list_alloc.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_list_append = Interop.downcallHandle(
+    private static final MethodHandle g_list_append = Interop.downcallHandle(
         "g_list_append",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -61,16 +63,17 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * number_list = g_list_append (number_list, GINT_TO_POINTER (14));
      * }</pre>
      */
-    public static org.gtk.glib.List append(org.gtk.glib.List list, java.lang.foreign.MemoryAddress data) {
+    public static @NotNull org.gtk.glib.List append(@NotNull org.gtk.glib.List list, @Nullable java.lang.foreign.MemoryAddress data) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_append.invokeExact(list.handle(), data);
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_list_append.invokeExact(list.handle(), data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_list_concat = Interop.downcallHandle(
+    private static final MethodHandle g_list_concat = Interop.downcallHandle(
         "g_list_concat",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -87,16 +90,17 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * list = g_list_concat (llink, list);
      * }</pre>
      */
-    public static org.gtk.glib.List concat(org.gtk.glib.List list1, org.gtk.glib.List list2) {
+    public static @NotNull org.gtk.glib.List concat(@NotNull org.gtk.glib.List list1, @NotNull org.gtk.glib.List list2) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_concat.invokeExact(list1.handle(), list2.handle());
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_list_concat.invokeExact(list1.handle(), list2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_list_copy = Interop.downcallHandle(
+    private static final MethodHandle g_list_copy = Interop.downcallHandle(
         "g_list_copy",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -109,16 +113,17 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * the actual data is not. See g_list_copy_deep() if you need
      * to copy the data as well.
      */
-    public static org.gtk.glib.List copy(org.gtk.glib.List list) {
+    public static @NotNull org.gtk.glib.List copy(@NotNull org.gtk.glib.List list) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_copy.invokeExact(list.handle());
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_list_copy.invokeExact(list.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_list_copy_deep = Interop.downcallHandle(
+    private static final MethodHandle g_list_copy_deep = Interop.downcallHandle(
         "g_list_copy_deep",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -146,22 +151,23 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * g_list_free_full (another_list, g_object_unref);
      * }</pre>
      */
-    public static org.gtk.glib.List copyDeep(org.gtk.glib.List list, CopyFunc func) {
+    public static @NotNull org.gtk.glib.List copyDeep(@NotNull org.gtk.glib.List list, @NotNull CopyFunc func) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_copy_deep.invokeExact(list.handle(), 
+            RESULT = (MemoryAddress) g_list_copy_deep.invokeExact(list.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCopyFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_list_delete_link = Interop.downcallHandle(
+    private static final MethodHandle g_list_delete_link = Interop.downcallHandle(
         "g_list_delete_link",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -171,16 +177,17 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * Compare this to g_list_remove_link() which removes the node
      * without freeing it.
      */
-    public static org.gtk.glib.List deleteLink(org.gtk.glib.List list, org.gtk.glib.List link) {
+    public static @NotNull org.gtk.glib.List deleteLink(@NotNull org.gtk.glib.List list, @NotNull org.gtk.glib.List link) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_delete_link.invokeExact(list.handle(), link.handle());
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_list_delete_link.invokeExact(list.handle(), link.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_list_find = Interop.downcallHandle(
+    private static final MethodHandle g_list_find = Interop.downcallHandle(
         "g_list_find",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -188,16 +195,17 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Finds the element in a {@link List} which contains the given data.
      */
-    public static org.gtk.glib.List find(org.gtk.glib.List list, java.lang.foreign.MemoryAddress data) {
+    public static @NotNull org.gtk.glib.List find(@NotNull org.gtk.glib.List list, @Nullable java.lang.foreign.MemoryAddress data) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_find.invokeExact(list.handle(), data);
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_list_find.invokeExact(list.handle(), data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_list_find_custom = Interop.downcallHandle(
+    private static final MethodHandle g_list_find_custom = Interop.downcallHandle(
         "g_list_find_custom",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -210,22 +218,23 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * the {@link List} element's data as the first argument and the
      * given user data.
      */
-    public static org.gtk.glib.List findCustom(org.gtk.glib.List list, CompareFunc func) {
+    public static @NotNull org.gtk.glib.List findCustom(@NotNull org.gtk.glib.List list, @NotNull CompareFunc func) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_find_custom.invokeExact(list.handle(), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
+            RESULT = (MemoryAddress) g_list_find_custom.invokeExact(list.handle(), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_list_first = Interop.downcallHandle(
+    private static final MethodHandle g_list_first = Interop.downcallHandle(
         "g_list_first",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -233,16 +242,17 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the first element in a {@link List}.
      */
-    public static org.gtk.glib.List first(org.gtk.glib.List list) {
+    public static @NotNull org.gtk.glib.List first(@NotNull org.gtk.glib.List list) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_first.invokeExact(list.handle());
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_list_first.invokeExact(list.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_list_foreach = Interop.downcallHandle(
+    private static final MethodHandle g_list_foreach = Interop.downcallHandle(
         "g_list_foreach",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -253,7 +263,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * It is safe for {@code func} to remove the element from {@code list}, but it must
      * not modify any part of the list after that element.
      */
-    public static void foreach(org.gtk.glib.List list, Func func) {
+    public static @NotNull void foreach(@NotNull org.gtk.glib.List list, @NotNull Func func) {
         try {
             g_list_foreach.invokeExact(list.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -261,13 +271,13 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_list_free = Interop.downcallHandle(
+    private static final MethodHandle g_list_free = Interop.downcallHandle(
         "g_list_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -286,7 +296,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * g_list_free (g_steal_pointer (&list_of_borrowed_things));
      * }</pre>
      */
-    public static void free(org.gtk.glib.List list) {
+    public static @NotNull void free(@NotNull org.gtk.glib.List list) {
         try {
             g_list_free.invokeExact(list.handle());
         } catch (Throwable ERR) {
@@ -294,7 +304,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_list_free_1 = Interop.downcallHandle(
+    private static final MethodHandle g_list_free_1 = Interop.downcallHandle(
         "g_list_free_1",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -306,7 +316,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * It is usually used after g_list_remove_link().
      */
-    public static void free1(org.gtk.glib.List list) {
+    public static @NotNull void free1(@NotNull org.gtk.glib.List list) {
         try {
             g_list_free_1.invokeExact(list.handle());
         } catch (Throwable ERR) {
@@ -314,7 +324,7 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_list_index = Interop.downcallHandle(
+    private static final MethodHandle g_list_index = Interop.downcallHandle(
         "g_list_index",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -323,16 +333,17 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * Gets the position of the element containing
      * the given data (starting from 0).
      */
-    public static int index(org.gtk.glib.List list, java.lang.foreign.MemoryAddress data) {
+    public static int index(@NotNull org.gtk.glib.List list, @Nullable java.lang.foreign.MemoryAddress data) {
+        int RESULT;
         try {
-            var RESULT = (int) g_list_index.invokeExact(list.handle(), data);
-            return RESULT;
+            RESULT = (int) g_list_index.invokeExact(list.handle(), data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_list_insert = Interop.downcallHandle(
+    private static final MethodHandle g_list_insert = Interop.downcallHandle(
         "g_list_insert",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -340,16 +351,17 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Inserts a new element into the list at the given position.
      */
-    public static org.gtk.glib.List insert(org.gtk.glib.List list, java.lang.foreign.MemoryAddress data, int position) {
+    public static @NotNull org.gtk.glib.List insert(@NotNull org.gtk.glib.List list, @Nullable java.lang.foreign.MemoryAddress data, @NotNull int position) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_insert.invokeExact(list.handle(), data, position);
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_list_insert.invokeExact(list.handle(), data, position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_list_insert_before = Interop.downcallHandle(
+    private static final MethodHandle g_list_insert_before = Interop.downcallHandle(
         "g_list_insert_before",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -357,16 +369,17 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Inserts a new element into the list before the given position.
      */
-    public static org.gtk.glib.List insertBefore(org.gtk.glib.List list, org.gtk.glib.List sibling, java.lang.foreign.MemoryAddress data) {
+    public static @NotNull org.gtk.glib.List insertBefore(@NotNull org.gtk.glib.List list, @NotNull org.gtk.glib.List sibling, @Nullable java.lang.foreign.MemoryAddress data) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_insert_before.invokeExact(list.handle(), sibling.handle(), data);
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_list_insert_before.invokeExact(list.handle(), sibling.handle(), data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_list_insert_before_link = Interop.downcallHandle(
+    private static final MethodHandle g_list_insert_before_link = Interop.downcallHandle(
         "g_list_insert_before_link",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -374,16 +387,17 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Inserts {@code link_} into the list before the given position.
      */
-    public static org.gtk.glib.List insertBeforeLink(org.gtk.glib.List list, org.gtk.glib.List sibling, org.gtk.glib.List link) {
+    public static @NotNull org.gtk.glib.List insertBeforeLink(@NotNull org.gtk.glib.List list, @Nullable org.gtk.glib.List sibling, @NotNull org.gtk.glib.List link) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_insert_before_link.invokeExact(list.handle(), sibling.handle(), link.handle());
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_list_insert_before_link.invokeExact(list.handle(), sibling.handle(), link.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_list_insert_sorted = Interop.downcallHandle(
+    private static final MethodHandle g_list_insert_sorted = Interop.downcallHandle(
         "g_list_insert_sorted",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -397,22 +411,23 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * g_list_prepend() to add the new items and sort the list afterwards
      * with g_list_sort().
      */
-    public static org.gtk.glib.List insertSorted(org.gtk.glib.List list, CompareFunc func) {
+    public static @NotNull org.gtk.glib.List insertSorted(@NotNull org.gtk.glib.List list, @NotNull CompareFunc func) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_insert_sorted.invokeExact(list.handle(), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
+            RESULT = (MemoryAddress) g_list_insert_sorted.invokeExact(list.handle(), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()));
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_list_insert_sorted_with_data = Interop.downcallHandle(
+    private static final MethodHandle g_list_insert_sorted_with_data = Interop.downcallHandle(
         "g_list_insert_sorted_with_data",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -426,23 +441,24 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * g_list_prepend() to add the new items and sort the list afterwards
      * with g_list_sort().
      */
-    public static org.gtk.glib.List insertSortedWithData(org.gtk.glib.List list, CompareDataFunc func) {
+    public static @NotNull org.gtk.glib.List insertSortedWithData(@NotNull org.gtk.glib.List list, @NotNull CompareDataFunc func) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_insert_sorted_with_data.invokeExact(list.handle(), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
+            RESULT = (MemoryAddress) g_list_insert_sorted_with_data.invokeExact(list.handle(), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_list_last = Interop.downcallHandle(
+    private static final MethodHandle g_list_last = Interop.downcallHandle(
         "g_list_last",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -450,16 +466,17 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the last element in a {@link List}.
      */
-    public static org.gtk.glib.List last(org.gtk.glib.List list) {
+    public static @NotNull org.gtk.glib.List last(@NotNull org.gtk.glib.List list) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_last.invokeExact(list.handle());
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_list_last.invokeExact(list.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_list_length = Interop.downcallHandle(
+    private static final MethodHandle g_list_length = Interop.downcallHandle(
         "g_list_length",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -472,16 +489,17 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * of items. To check whether the list is non-empty, it is faster to check
      * {@code list} against {@code null}.
      */
-    public static int length(org.gtk.glib.List list) {
+    public static int length(@NotNull org.gtk.glib.List list) {
+        int RESULT;
         try {
-            var RESULT = (int) g_list_length.invokeExact(list.handle());
-            return RESULT;
+            RESULT = (int) g_list_length.invokeExact(list.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_list_nth = Interop.downcallHandle(
+    private static final MethodHandle g_list_nth = Interop.downcallHandle(
         "g_list_nth",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -493,16 +511,17 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * intend to iterate over every element, it is better to use a for-loop as
      * described in the {@link List} introduction.
      */
-    public static org.gtk.glib.List nth(org.gtk.glib.List list, int n) {
+    public static @NotNull org.gtk.glib.List nth(@NotNull org.gtk.glib.List list, @NotNull int n) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_nth.invokeExact(list.handle(), n);
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_list_nth.invokeExact(list.handle(), n);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_list_nth_data = Interop.downcallHandle(
+    private static final MethodHandle g_list_nth_data = Interop.downcallHandle(
         "g_list_nth_data",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -514,16 +533,17 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * intend to iterate over every element, it is better to use a for-loop as
      * described in the {@link List} introduction.
      */
-    public static java.lang.foreign.MemoryAddress nthData(org.gtk.glib.List list, int n) {
+    public static @Nullable java.lang.foreign.MemoryAddress nthData(@NotNull org.gtk.glib.List list, @NotNull int n) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_nth_data.invokeExact(list.handle(), n);
-            return RESULT;
+            RESULT = (MemoryAddress) g_list_nth_data.invokeExact(list.handle(), n);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_list_nth_prev = Interop.downcallHandle(
+    private static final MethodHandle g_list_nth_prev = Interop.downcallHandle(
         "g_list_nth_prev",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -531,16 +551,17 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the element @n places before {@code list}.
      */
-    public static org.gtk.glib.List nthPrev(org.gtk.glib.List list, int n) {
+    public static @NotNull org.gtk.glib.List nthPrev(@NotNull org.gtk.glib.List list, @NotNull int n) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_nth_prev.invokeExact(list.handle(), n);
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_list_nth_prev.invokeExact(list.handle(), n);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_list_position = Interop.downcallHandle(
+    private static final MethodHandle g_list_position = Interop.downcallHandle(
         "g_list_position",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -549,16 +570,17 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * Gets the position of the given element
      * in the {@link List} (starting from 0).
      */
-    public static int position(org.gtk.glib.List list, org.gtk.glib.List llink) {
+    public static int position(@NotNull org.gtk.glib.List list, @NotNull org.gtk.glib.List llink) {
+        int RESULT;
         try {
-            var RESULT = (int) g_list_position.invokeExact(list.handle(), llink.handle());
-            return RESULT;
+            RESULT = (int) g_list_position.invokeExact(list.handle(), llink.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_list_prepend = Interop.downcallHandle(
+    private static final MethodHandle g_list_prepend = Interop.downcallHandle(
         "g_list_prepend",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -580,16 +602,17 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * Do not use this function to prepend a new element to a different
      * element than the start of the list. Use g_list_insert_before() instead.
      */
-    public static org.gtk.glib.List prepend(org.gtk.glib.List list, java.lang.foreign.MemoryAddress data) {
+    public static @NotNull org.gtk.glib.List prepend(@NotNull org.gtk.glib.List list, @Nullable java.lang.foreign.MemoryAddress data) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_prepend.invokeExact(list.handle(), data);
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_list_prepend.invokeExact(list.handle(), data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_list_remove = Interop.downcallHandle(
+    private static final MethodHandle g_list_remove = Interop.downcallHandle(
         "g_list_remove",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -599,16 +622,17 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * If two elements contain the same data, only the first is removed.
      * If none of the elements contain the data, the {@link List} is unchanged.
      */
-    public static org.gtk.glib.List remove(org.gtk.glib.List list, java.lang.foreign.MemoryAddress data) {
+    public static @NotNull org.gtk.glib.List remove(@NotNull org.gtk.glib.List list, @Nullable java.lang.foreign.MemoryAddress data) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_remove.invokeExact(list.handle(), data);
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_list_remove.invokeExact(list.handle(), data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_list_remove_all = Interop.downcallHandle(
+    private static final MethodHandle g_list_remove_all = Interop.downcallHandle(
         "g_list_remove_all",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -619,16 +643,17 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * g_list_remove() which removes only the first node
      * matching the given data.
      */
-    public static org.gtk.glib.List removeAll(org.gtk.glib.List list, java.lang.foreign.MemoryAddress data) {
+    public static @NotNull org.gtk.glib.List removeAll(@NotNull org.gtk.glib.List list, @Nullable java.lang.foreign.MemoryAddress data) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_remove_all.invokeExact(list.handle(), data);
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_list_remove_all.invokeExact(list.handle(), data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_list_remove_link = Interop.downcallHandle(
+    private static final MethodHandle g_list_remove_link = Interop.downcallHandle(
         "g_list_remove_link",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -647,16 +672,17 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * g_list_free (llink);
      * }</pre>
      */
-    public static org.gtk.glib.List removeLink(org.gtk.glib.List list, org.gtk.glib.List llink) {
+    public static @NotNull org.gtk.glib.List removeLink(@NotNull org.gtk.glib.List list, @NotNull org.gtk.glib.List llink) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_remove_link.invokeExact(list.handle(), llink.handle());
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_list_remove_link.invokeExact(list.handle(), llink.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_list_reverse = Interop.downcallHandle(
+    private static final MethodHandle g_list_reverse = Interop.downcallHandle(
         "g_list_reverse",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -665,16 +691,17 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * Reverses a {@link List}.
      * It simply switches the next and prev pointers of each element.
      */
-    public static org.gtk.glib.List reverse(org.gtk.glib.List list) {
+    public static @NotNull org.gtk.glib.List reverse(@NotNull org.gtk.glib.List list) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_reverse.invokeExact(list.handle());
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_list_reverse.invokeExact(list.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_list_sort_with_data = Interop.downcallHandle(
+    private static final MethodHandle g_list_sort_with_data = Interop.downcallHandle(
         "g_list_sort_with_data",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -683,19 +710,20 @@ public class List extends io.github.jwharm.javagi.ResourceBase {
      * Like g_list_sort(), but the comparison function accepts
      * a user data argument.
      */
-    public static org.gtk.glib.List sortWithData(org.gtk.glib.List list, CompareDataFunc compareFunc) {
+    public static @NotNull org.gtk.glib.List sortWithData(@NotNull org.gtk.glib.List list, @NotNull CompareDataFunc compareFunc) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_list_sort_with_data.invokeExact(list.handle(), 
+            RESULT = (MemoryAddress) g_list_sort_with_data.invokeExact(list.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(compareFunc.hashCode(), compareFunc)));
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(compareFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
 }

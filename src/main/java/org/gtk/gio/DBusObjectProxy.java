@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@link DBusObjectProxy} is an object used to represent a remote object
@@ -21,14 +22,14 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements DBusObjec
         return new DBusObjectProxy(gobject.refcounted());
     }
     
-    static final MethodHandle g_dbus_object_proxy_new = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_object_proxy_new = Interop.downcallHandle(
         "g_dbus_object_proxy_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(DBusConnection connection, java.lang.String objectPath) {
+    private static Refcounted constructNew(@NotNull DBusConnection connection, @NotNull java.lang.String objectPath) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_object_proxy_new.invokeExact(connection.handle(), Interop.allocateNativeString(objectPath).handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_object_proxy_new.invokeExact(connection.handle(), Interop.allocateNativeString(objectPath)), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -39,11 +40,11 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements DBusObjec
      * Creates a new {@link DBusObjectProxy} for the given connection and
      * object path.
      */
-    public DBusObjectProxy(DBusConnection connection, java.lang.String objectPath) {
+    public DBusObjectProxy(@NotNull DBusConnection connection, @NotNull java.lang.String objectPath) {
         super(constructNew(connection, objectPath));
     }
     
-    static final MethodHandle g_dbus_object_proxy_get_connection = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_object_proxy_get_connection = Interop.downcallHandle(
         "g_dbus_object_proxy_get_connection",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -51,13 +52,14 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements DBusObjec
     /**
      * Gets the connection that {@code proxy} is for.
      */
-    public DBusConnection getConnection() {
+    public @NotNull DBusConnection getConnection() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_dbus_object_proxy_get_connection.invokeExact(handle());
-            return new DBusConnection(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_dbus_object_proxy_get_connection.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new DBusConnection(Refcounted.get(RESULT, false));
     }
     
 }

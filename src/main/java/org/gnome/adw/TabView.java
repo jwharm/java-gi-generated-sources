@@ -3,6 +3,7 @@ package org.gnome.adw;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A dynamic tabbed container.
@@ -26,26 +27,25 @@ import java.lang.invoke.*;
  * <p>
  * {@code AdwTabView} adds the following shortcuts in the managed scope:
  * <p>
- * * &lt;kbd>Ctrl</kbd>+<kbd>Page Up</kbd&gt; - switch to the previous page
- * * &lt;kbd>Ctrl</kbd>+<kbd>Page Down</kbd&gt; - switch to the next page
- * * &lt;kbd>Ctrl</kbd>+<kbd>Home</kbd&gt; - switch to the first page
- * * &lt;kbd>Ctrl</kbd>+<kbd>End</kbd&gt; - switch to the last page
- * * &lt;kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Page Up</kbd&gt; - move the current page
+ * * &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Page Up&lt;/kbd&gt; - switch to the previous page
+ * * &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Page Down&lt;/kbd&gt; - switch to the next page
+ * * &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Home&lt;/kbd&gt; - switch to the first page
+ * * &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;End&lt;/kbd&gt; - switch to the last page
+ * * &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;Page Up&lt;/kbd&gt; - move the current page
  *     backward
- * * &lt;kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Page Down</kbd&gt; - move the current
+ * * &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;Page Down&lt;/kbd&gt; - move the current
  *     page forward
- * * &lt;kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Home</kbd&gt; - move the current page at
+ * * &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;Home&lt;/kbd&gt; - move the current page at
  *     the start
- * * &lt;kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>End</kbd&gt; - move the current page at
+ * * &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;End&lt;/kbd&gt; - move the current page at
  *      the end
- * * &lt;kbd>Ctrl</kbd>+<kbd>Tab</kbd&gt; - switch to the next page, with looping
- * * &lt;kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Tab</kbd&gt; - switch to the previous
+ * * &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Tab&lt;/kbd&gt; - switch to the next page, with looping
+ * * &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;Tab&lt;/kbd&gt; - switch to the previous
  *     page, with looping
- * * &lt;kbd>Alt</kbd>+<kbd>1</kbd>⋯<kbd>9</kbd&gt; - switch to pages 1-9
- * * &lt;kbd>Alt</kbd>+<kbd>0</kbd&gt; - switch to page 10
- * <p>
+ * * &lt;kbd&gt;Alt&lt;/kbd&gt;+&lt;kbd&gt;1&lt;/kbd&gt;⋯&lt;kbd&gt;9&lt;/kbd&gt; - switch to pages 1-9
+ * * &lt;kbd&gt;Alt&lt;/kbd&gt;+&lt;kbd&gt;0&lt;/kbd&gt; - switch to page 10
+ * 
  * <h2>CSS nodes</h2>
- * <p>
  * {@code AdwTabView} has a main CSS node with the name {@code tabview}.
  */
 public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
@@ -59,7 +59,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         return new TabView(gobject.refcounted());
     }
     
-    static final MethodHandle adw_tab_view_new = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_new = Interop.downcallHandle(
         "adw_tab_view_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -80,7 +80,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         super(constructNew());
     }
     
-    static final MethodHandle adw_tab_view_add_page = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_add_page = Interop.downcallHandle(
         "adw_tab_view_add_page",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -94,16 +94,17 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * <p>
      * If {@code parent} is {@code NULL}, this function is equivalent to {@link TabView#append}.
      */
-    public TabPage addPage(org.gtk.gtk.Widget child, TabPage parent) {
+    public @NotNull TabPage addPage(@NotNull org.gtk.gtk.Widget child, @Nullable TabPage parent) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_tab_view_add_page.invokeExact(handle(), child.handle(), parent.handle());
-            return new TabPage(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_tab_view_add_page.invokeExact(handle(), child.handle(), parent.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TabPage(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_tab_view_append = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_append = Interop.downcallHandle(
         "adw_tab_view_append",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -111,16 +112,17 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     /**
      * Inserts {@code child} as the last non-pinned page.
      */
-    public TabPage append(org.gtk.gtk.Widget child) {
+    public @NotNull TabPage append(@NotNull org.gtk.gtk.Widget child) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_tab_view_append.invokeExact(handle(), child.handle());
-            return new TabPage(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_tab_view_append.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TabPage(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_tab_view_append_pinned = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_append_pinned = Interop.downcallHandle(
         "adw_tab_view_append_pinned",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -128,16 +130,17 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     /**
      * Inserts {@code child} as the last pinned page.
      */
-    public TabPage appendPinned(org.gtk.gtk.Widget child) {
+    public @NotNull TabPage appendPinned(@NotNull org.gtk.gtk.Widget child) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_tab_view_append_pinned.invokeExact(handle(), child.handle());
-            return new TabPage(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_tab_view_append_pinned.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TabPage(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_tab_view_close_other_pages = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_close_other_pages = Interop.downcallHandle(
         "adw_tab_view_close_other_pages",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -145,7 +148,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     /**
      * Requests to close all pages other than {@code page}.
      */
-    public void closeOtherPages(TabPage page) {
+    public @NotNull void closeOtherPages(@NotNull TabPage page) {
         try {
             adw_tab_view_close_other_pages.invokeExact(handle(), page.handle());
         } catch (Throwable ERR) {
@@ -153,7 +156,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         }
     }
     
-    static final MethodHandle adw_tab_view_close_page = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_close_page = Interop.downcallHandle(
         "adw_tab_view_close_page",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -182,7 +185,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * (possibly indirect) of the parent. If both the previous page and the parent
      * are pinned, the parent will be selected instead.
      */
-    public void closePage(TabPage page) {
+    public @NotNull void closePage(@NotNull TabPage page) {
         try {
             adw_tab_view_close_page.invokeExact(handle(), page.handle());
         } catch (Throwable ERR) {
@@ -190,7 +193,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         }
     }
     
-    static final MethodHandle adw_tab_view_close_page_finish = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_close_page_finish = Interop.downcallHandle(
         "adw_tab_view_close_page_finish",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -205,7 +208,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * This function should not be called unless a custom handler for
      * {@code TabView::close-page} is used.
      */
-    public void closePageFinish(TabPage page, boolean confirm) {
+    public @NotNull void closePageFinish(@NotNull TabPage page, @NotNull boolean confirm) {
         try {
             adw_tab_view_close_page_finish.invokeExact(handle(), page.handle(), confirm ? 1 : 0);
         } catch (Throwable ERR) {
@@ -213,7 +216,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         }
     }
     
-    static final MethodHandle adw_tab_view_close_pages_after = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_close_pages_after = Interop.downcallHandle(
         "adw_tab_view_close_pages_after",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -221,7 +224,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     /**
      * Requests to close all pages after {@code page}.
      */
-    public void closePagesAfter(TabPage page) {
+    public @NotNull void closePagesAfter(@NotNull TabPage page) {
         try {
             adw_tab_view_close_pages_after.invokeExact(handle(), page.handle());
         } catch (Throwable ERR) {
@@ -229,7 +232,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         }
     }
     
-    static final MethodHandle adw_tab_view_close_pages_before = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_close_pages_before = Interop.downcallHandle(
         "adw_tab_view_close_pages_before",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -237,7 +240,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     /**
      * Requests to close all pages before {@code page}.
      */
-    public void closePagesBefore(TabPage page) {
+    public @NotNull void closePagesBefore(@NotNull TabPage page) {
         try {
             adw_tab_view_close_pages_before.invokeExact(handle(), page.handle());
         } catch (Throwable ERR) {
@@ -245,7 +248,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         }
     }
     
-    static final MethodHandle adw_tab_view_get_default_icon = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_get_default_icon = Interop.downcallHandle(
         "adw_tab_view_get_default_icon",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -253,16 +256,17 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     /**
      * Gets the default icon of {@code self}.
      */
-    public org.gtk.gio.Icon getDefaultIcon() {
+    public @NotNull org.gtk.gio.Icon getDefaultIcon() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_tab_view_get_default_icon.invokeExact(handle());
-            return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_tab_view_get_default_icon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_tab_view_get_is_transferring_page = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_get_is_transferring_page = Interop.downcallHandle(
         "adw_tab_view_get_is_transferring_page",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -271,15 +275,16 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * Whether a page is being transferred.
      */
     public boolean getIsTransferringPage() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_tab_view_get_is_transferring_page.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) adw_tab_view_get_is_transferring_page.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_tab_view_get_menu_model = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_get_menu_model = Interop.downcallHandle(
         "adw_tab_view_get_menu_model",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -287,16 +292,17 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     /**
      * Gets the tab context menu model for {@code self}.
      */
-    public org.gtk.gio.MenuModel getMenuModel() {
+    public @Nullable org.gtk.gio.MenuModel getMenuModel() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_tab_view_get_menu_model.invokeExact(handle());
-            return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_tab_view_get_menu_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_tab_view_get_n_pages = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_get_n_pages = Interop.downcallHandle(
         "adw_tab_view_get_n_pages",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -305,15 +311,16 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * Gets the number of pages in {@code self}.
      */
     public int getNPages() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_tab_view_get_n_pages.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) adw_tab_view_get_n_pages.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle adw_tab_view_get_n_pinned_pages = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_get_n_pinned_pages = Interop.downcallHandle(
         "adw_tab_view_get_n_pinned_pages",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -322,15 +329,16 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * Gets the number of pinned pages in {@code self}.
      */
     public int getNPinnedPages() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_tab_view_get_n_pinned_pages.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) adw_tab_view_get_n_pinned_pages.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle adw_tab_view_get_nth_page = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_get_nth_page = Interop.downcallHandle(
         "adw_tab_view_get_nth_page",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -338,16 +346,17 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     /**
      * Gets the {@link TabPage} representing the child at {@code position}.
      */
-    public TabPage getNthPage(int position) {
+    public @NotNull TabPage getNthPage(@NotNull int position) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_tab_view_get_nth_page.invokeExact(handle(), position);
-            return new TabPage(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_tab_view_get_nth_page.invokeExact(handle(), position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TabPage(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_tab_view_get_page = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_get_page = Interop.downcallHandle(
         "adw_tab_view_get_page",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -355,16 +364,17 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     /**
      * Gets the {@link TabPage} object representing {@code child}.
      */
-    public TabPage getPage(org.gtk.gtk.Widget child) {
+    public @NotNull TabPage getPage(@NotNull org.gtk.gtk.Widget child) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_tab_view_get_page.invokeExact(handle(), child.handle());
-            return new TabPage(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_tab_view_get_page.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TabPage(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_tab_view_get_page_position = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_get_page_position = Interop.downcallHandle(
         "adw_tab_view_get_page_position",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -372,16 +382,17 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     /**
      * Finds the position of {@code page} in {@code self}, starting from 0.
      */
-    public int getPagePosition(TabPage page) {
+    public int getPagePosition(@NotNull TabPage page) {
+        int RESULT;
         try {
-            var RESULT = (int) adw_tab_view_get_page_position.invokeExact(handle(), page.handle());
-            return RESULT;
+            RESULT = (int) adw_tab_view_get_page_position.invokeExact(handle(), page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle adw_tab_view_get_pages = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_get_pages = Interop.downcallHandle(
         "adw_tab_view_get_pages",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -393,16 +404,17 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * {@code Gtk.SelectionModel} and can be used to track and change the selected
      * page.
      */
-    public org.gtk.gtk.SelectionModel getPages() {
+    public @NotNull org.gtk.gtk.SelectionModel getPages() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_tab_view_get_pages.invokeExact(handle());
-            return new org.gtk.gtk.SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) adw_tab_view_get_pages.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle adw_tab_view_get_selected_page = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_get_selected_page = Interop.downcallHandle(
         "adw_tab_view_get_selected_page",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -410,16 +422,17 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     /**
      * Gets the currently selected page in {@code self}.
      */
-    public TabPage getSelectedPage() {
+    public @Nullable TabPage getSelectedPage() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_tab_view_get_selected_page.invokeExact(handle());
-            return new TabPage(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_tab_view_get_selected_page.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TabPage(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_tab_view_insert = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_insert = Interop.downcallHandle(
         "adw_tab_view_insert",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -430,16 +443,17 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * It's an error to try to insert a page before a pinned page, in that case
      * {@link TabView#insertPinned} should be used instead.
      */
-    public TabPage insert(org.gtk.gtk.Widget child, int position) {
+    public @NotNull TabPage insert(@NotNull org.gtk.gtk.Widget child, @NotNull int position) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_tab_view_insert.invokeExact(handle(), child.handle(), position);
-            return new TabPage(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_tab_view_insert.invokeExact(handle(), child.handle(), position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TabPage(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_tab_view_insert_pinned = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_insert_pinned = Interop.downcallHandle(
         "adw_tab_view_insert_pinned",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -450,16 +464,17 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * It's an error to try to insert a pinned page after a non-pinned page, in
      * that case {@link TabView#insert} should be used instead.
      */
-    public TabPage insertPinned(org.gtk.gtk.Widget child, int position) {
+    public @NotNull TabPage insertPinned(@NotNull org.gtk.gtk.Widget child, @NotNull int position) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_tab_view_insert_pinned.invokeExact(handle(), child.handle(), position);
-            return new TabPage(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_tab_view_insert_pinned.invokeExact(handle(), child.handle(), position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TabPage(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_tab_view_prepend = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_prepend = Interop.downcallHandle(
         "adw_tab_view_prepend",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -467,16 +482,17 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     /**
      * Inserts {@code child} as the first non-pinned page.
      */
-    public TabPage prepend(org.gtk.gtk.Widget child) {
+    public @NotNull TabPage prepend(@NotNull org.gtk.gtk.Widget child) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_tab_view_prepend.invokeExact(handle(), child.handle());
-            return new TabPage(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_tab_view_prepend.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TabPage(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_tab_view_prepend_pinned = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_prepend_pinned = Interop.downcallHandle(
         "adw_tab_view_prepend_pinned",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -484,16 +500,17 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     /**
      * Inserts {@code child} as the first pinned page.
      */
-    public TabPage prependPinned(org.gtk.gtk.Widget child) {
+    public @NotNull TabPage prependPinned(@NotNull org.gtk.gtk.Widget child) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_tab_view_prepend_pinned.invokeExact(handle(), child.handle());
-            return new TabPage(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_tab_view_prepend_pinned.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TabPage(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_tab_view_reorder_backward = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_reorder_backward = Interop.downcallHandle(
         "adw_tab_view_reorder_backward",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -501,16 +518,17 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     /**
      * Reorders {@code page} to before its previous page if possible.
      */
-    public boolean reorderBackward(TabPage page) {
+    public boolean reorderBackward(@NotNull TabPage page) {
+        int RESULT;
         try {
-            var RESULT = (int) adw_tab_view_reorder_backward.invokeExact(handle(), page.handle());
-            return RESULT != 0;
+            RESULT = (int) adw_tab_view_reorder_backward.invokeExact(handle(), page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_tab_view_reorder_first = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_reorder_first = Interop.downcallHandle(
         "adw_tab_view_reorder_first",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -518,16 +536,17 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     /**
      * Reorders {@code page} to the first possible position.
      */
-    public boolean reorderFirst(TabPage page) {
+    public boolean reorderFirst(@NotNull TabPage page) {
+        int RESULT;
         try {
-            var RESULT = (int) adw_tab_view_reorder_first.invokeExact(handle(), page.handle());
-            return RESULT != 0;
+            RESULT = (int) adw_tab_view_reorder_first.invokeExact(handle(), page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_tab_view_reorder_forward = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_reorder_forward = Interop.downcallHandle(
         "adw_tab_view_reorder_forward",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -535,16 +554,17 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     /**
      * Reorders {@code page} to after its next page if possible.
      */
-    public boolean reorderForward(TabPage page) {
+    public boolean reorderForward(@NotNull TabPage page) {
+        int RESULT;
         try {
-            var RESULT = (int) adw_tab_view_reorder_forward.invokeExact(handle(), page.handle());
-            return RESULT != 0;
+            RESULT = (int) adw_tab_view_reorder_forward.invokeExact(handle(), page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_tab_view_reorder_last = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_reorder_last = Interop.downcallHandle(
         "adw_tab_view_reorder_last",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -552,16 +572,17 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     /**
      * Reorders {@code page} to the last possible position.
      */
-    public boolean reorderLast(TabPage page) {
+    public boolean reorderLast(@NotNull TabPage page) {
+        int RESULT;
         try {
-            var RESULT = (int) adw_tab_view_reorder_last.invokeExact(handle(), page.handle());
-            return RESULT != 0;
+            RESULT = (int) adw_tab_view_reorder_last.invokeExact(handle(), page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_tab_view_reorder_page = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_reorder_page = Interop.downcallHandle(
         "adw_tab_view_reorder_page",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -572,16 +593,17 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * It's a programmer error to try to reorder a pinned page after a non-pinned
      * one, or a non-pinned page before a pinned one.
      */
-    public boolean reorderPage(TabPage page, int position) {
+    public boolean reorderPage(@NotNull TabPage page, @NotNull int position) {
+        int RESULT;
         try {
-            var RESULT = (int) adw_tab_view_reorder_page.invokeExact(handle(), page.handle(), position);
-            return RESULT != 0;
+            RESULT = (int) adw_tab_view_reorder_page.invokeExact(handle(), page.handle(), position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_tab_view_select_next_page = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_select_next_page = Interop.downcallHandle(
         "adw_tab_view_select_next_page",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -592,15 +614,16 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * If the last page was already selected, this function does nothing.
      */
     public boolean selectNextPage() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_tab_view_select_next_page.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) adw_tab_view_select_next_page.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_tab_view_select_previous_page = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_select_previous_page = Interop.downcallHandle(
         "adw_tab_view_select_previous_page",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -611,15 +634,16 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * If the first page was already selected, this function does nothing.
      */
     public boolean selectPreviousPage() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_tab_view_select_previous_page.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) adw_tab_view_select_previous_page.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_tab_view_set_default_icon = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_set_default_icon = Interop.downcallHandle(
         "adw_tab_view_set_default_icon",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -627,7 +651,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     /**
      * Sets the default page icon for {@code self}.
      */
-    public void setDefaultIcon(org.gtk.gio.Icon defaultIcon) {
+    public @NotNull void setDefaultIcon(@NotNull org.gtk.gio.Icon defaultIcon) {
         try {
             adw_tab_view_set_default_icon.invokeExact(handle(), defaultIcon.handle());
         } catch (Throwable ERR) {
@@ -635,7 +659,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         }
     }
     
-    static final MethodHandle adw_tab_view_set_menu_model = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_set_menu_model = Interop.downcallHandle(
         "adw_tab_view_set_menu_model",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -643,7 +667,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     /**
      * Sets the tab context menu model for {@code self}.
      */
-    public void setMenuModel(org.gtk.gio.MenuModel menuModel) {
+    public @NotNull void setMenuModel(@Nullable org.gtk.gio.MenuModel menuModel) {
         try {
             adw_tab_view_set_menu_model.invokeExact(handle(), menuModel.handle());
         } catch (Throwable ERR) {
@@ -651,7 +675,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         }
     }
     
-    static final MethodHandle adw_tab_view_set_page_pinned = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_set_page_pinned = Interop.downcallHandle(
         "adw_tab_view_set_page_pinned",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -683,7 +707,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * <p>
      * Changes the value of the {@code TabPage:pinned} property.
      */
-    public void setPagePinned(TabPage page, boolean pinned) {
+    public @NotNull void setPagePinned(@NotNull TabPage page, @NotNull boolean pinned) {
         try {
             adw_tab_view_set_page_pinned.invokeExact(handle(), page.handle(), pinned ? 1 : 0);
         } catch (Throwable ERR) {
@@ -691,7 +715,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         }
     }
     
-    static final MethodHandle adw_tab_view_set_selected_page = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_set_selected_page = Interop.downcallHandle(
         "adw_tab_view_set_selected_page",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -699,7 +723,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     /**
      * Sets the currently selected page in {@code self}.
      */
-    public void setSelectedPage(TabPage selectedPage) {
+    public @NotNull void setSelectedPage(@NotNull TabPage selectedPage) {
         try {
             adw_tab_view_set_selected_page.invokeExact(handle(), selectedPage.handle());
         } catch (Throwable ERR) {
@@ -707,7 +731,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         }
     }
     
-    static final MethodHandle adw_tab_view_transfer_page = Interop.downcallHandle(
+    private static final MethodHandle adw_tab_view_transfer_page = Interop.downcallHandle(
         "adw_tab_view_transfer_page",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -720,7 +744,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * It's a programmer error to try to insert a pinned page after a non-pinned
      * one, or a non-pinned page before a pinned one.
      */
-    public void transferPage(TabPage page, TabView otherView, int position) {
+    public @NotNull void transferPage(@NotNull TabPage page, @NotNull TabView otherView, @NotNull int position) {
         try {
             adw_tab_view_transfer_page.invokeExact(handle(), page.handle(), otherView.handle(), position);
         } catch (Throwable ERR) {
@@ -730,7 +754,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface ClosePageHandler {
-        boolean signalReceived(TabView source, TabPage page);
+        boolean signalReceived(TabView source, @NotNull TabPage page);
     }
     
     /**
@@ -741,7 +765,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * <p>
      * The default handler will immediately confirm closing for non-pinned pages,
      * or reject it for pinned pages, equivalent to the following example:
-     * <p>
+     * 
      * <pre>{@code c
      * static gboolean
      * close_page_cb (AdwTabView *view,
@@ -765,13 +789,13 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("close-page").handle(),
+                Interop.allocateNativeString("close-page"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TabView.Callbacks.class, "signalTabViewClosePage",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -796,13 +820,13 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("create-window").handle(),
+                Interop.allocateNativeString("create-window"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TabView.Callbacks.class, "signalTabViewCreateWindow",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -812,7 +836,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface IndicatorActivatedHandler {
-        void signalReceived(TabView source, TabPage page);
+        void signalReceived(TabView source, @NotNull TabPage page);
     }
     
     /**
@@ -825,13 +849,13 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("indicator-activated").handle(),
+                Interop.allocateNativeString("indicator-activated"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TabView.Callbacks.class, "signalTabViewIndicatorActivated",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -841,7 +865,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface PageAttachedHandler {
-        void signalReceived(TabView source, TabPage page, int position);
+        void signalReceived(TabView source, @NotNull TabPage page, @NotNull int position);
     }
     
     /**
@@ -854,13 +878,13 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("page-attached").handle(),
+                Interop.allocateNativeString("page-attached"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TabView.Callbacks.class, "signalTabViewPageAttached",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -870,7 +894,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface PageDetachedHandler {
-        void signalReceived(TabView source, TabPage page, int position);
+        void signalReceived(TabView source, @NotNull TabPage page, @NotNull int position);
     }
     
     /**
@@ -888,13 +912,13 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("page-detached").handle(),
+                Interop.allocateNativeString("page-detached"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TabView.Callbacks.class, "signalTabViewPageDetached",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -904,7 +928,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface PageReorderedHandler {
-        void signalReceived(TabView source, TabPage page, int position);
+        void signalReceived(TabView source, @NotNull TabPage page, @NotNull int position);
     }
     
     /**
@@ -914,13 +938,13 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("page-reordered").handle(),
+                Interop.allocateNativeString("page-reordered"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TabView.Callbacks.class, "signalTabViewPageReordered",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -930,7 +954,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface SetupMenuHandler {
-        void signalReceived(TabView source, TabPage page);
+        void signalReceived(TabView source, @Nullable TabPage page);
     }
     
     /**
@@ -945,13 +969,13 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("setup-menu").handle(),
+                Interop.allocateNativeString("setup-menu"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TabView.Callbacks.class, "signalTabViewSetupMenu",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

@@ -1,6 +1,7 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The signal accumulator is a special callback function that can be used
@@ -14,5 +15,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface SignalAccumulator {
-        boolean onSignalAccumulator(SignalInvocationHint ihint, Value returnAccu, Value handlerReturn);
+        boolean onSignalAccumulator(@NotNull SignalInvocationHint ihint, @NotNull Value returnAccu, @NotNull Value handlerReturn);
 }

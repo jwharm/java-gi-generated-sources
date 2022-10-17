@@ -1,6 +1,7 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A callback function used by the type system to do base initialization
@@ -17,5 +18,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface BaseInitFunc {
-        void onBaseInitFunc(TypeClass gClass);
+        void onBaseInitFunc(@NotNull TypeClass gClass);
 }

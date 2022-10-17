@@ -1,6 +1,7 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A function to be called to transform {@code from_value} to {@code to_value}.
@@ -13,5 +14,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface BindingTransformFunc {
-        boolean onBindingTransformFunc(Binding binding, Value fromValue, Value toValue);
+        boolean onBindingTransformFunc(@NotNull Binding binding, @NotNull Value fromValue, @NotNull Value toValue);
 }

@@ -38,14 +38,14 @@ public class PointerBoolean extends Pointer<Boolean> {
     public void set(Boolean value) {
         address.set(ValueLayout.JAVA_INT, 0, value ? 1 : 0);
     }
-    
+
     /**
      * Use this method to retreive the value that the pointer points to.
      */
     public Boolean get() {
         return get(0);
     }
-    
+
     /**
      * Treat the pointer as an array, and return the given element.
      * @param index The array index
@@ -53,7 +53,7 @@ public class PointerBoolean extends Pointer<Boolean> {
      */
     public Boolean get(int index) {
         return address.get(
-                ValueLayout.JAVA_INT, 
+                ValueLayout.JAVA_INT,
                 ValueLayout.JAVA_INT.byteSize() * index
         ) != 0;
     }

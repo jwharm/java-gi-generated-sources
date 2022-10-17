@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkStringObject} is the type of items in a {@code GtkStringList}.
@@ -21,14 +22,14 @@ public class StringObject extends org.gtk.gobject.Object {
         return new StringObject(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_string_object_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_string_object_new = Interop.downcallHandle(
         "gtk_string_object_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(java.lang.String string) {
+    private static Refcounted constructNew(@NotNull java.lang.String string) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_string_object_new.invokeExact(Interop.allocateNativeString(string).handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_string_object_new.invokeExact(Interop.allocateNativeString(string)), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -38,11 +39,11 @@ public class StringObject extends org.gtk.gobject.Object {
     /**
      * Wraps a string in an object for use with {@code GListModel}.
      */
-    public StringObject(java.lang.String string) {
+    public StringObject(@NotNull java.lang.String string) {
         super(constructNew(string));
     }
     
-    static final MethodHandle gtk_string_object_get_string = Interop.downcallHandle(
+    private static final MethodHandle gtk_string_object_get_string = Interop.downcallHandle(
         "gtk_string_object_get_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -50,13 +51,14 @@ public class StringObject extends org.gtk.gobject.Object {
     /**
      * Returns the string contained in a {@code GtkStringObject}.
      */
-    public java.lang.String getString() {
+    public @NotNull java.lang.String getString() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_string_object_get_string.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_string_object_get_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
 }

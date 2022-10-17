@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The GKeyFile struct contains only private data
@@ -14,7 +15,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_key_file_new = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_new = Interop.downcallHandle(
         "g_key_file_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -38,7 +39,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew());
     }
     
-    static final MethodHandle g_key_file_free = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_free = Interop.downcallHandle(
         "g_key_file_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -48,7 +49,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * reference count by 1. If the reference count reaches zero,
      * frees the key file and all its allocated memory.
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             g_key_file_free.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -56,7 +57,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_key_file_get_boolean = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_get_boolean = Interop.downcallHandle(
         "g_key_file_get_boolean",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -70,20 +71,21 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * associated with {@code key} cannot be interpreted as a boolean then {@code false}
      * is returned and {@code error} is set to {@link KeyFileError#INVALID_VALUE}.
      */
-    public boolean getBoolean(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
+    public boolean getBoolean(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_key_file_get_boolean.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_key_file_get_boolean.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_key_file_get_boolean_list = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_get_boolean_list = Interop.downcallHandle(
         "g_key_file_get_boolean_list",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -97,20 +99,28 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * with {@code key} cannot be interpreted as booleans then {@code null} is returned
      * and {@code error} is set to {@link KeyFileError#INVALID_VALUE}.
      */
-    public PointerBoolean getBooleanList(java.lang.String groupName, java.lang.String key, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+    public boolean[] getBooleanList(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @NotNull Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_key_file_get_boolean_list.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), length.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new PointerBoolean(RESULT);
+            RESULT = (MemoryAddress) g_key_file_get_boolean_list.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        boolean[] resultARRAY = new boolean[length.get().intValue()];
+        for (int I = 0; I < length.get().intValue(); I++) {
+            var OBJ = RESULT.get(ValueLayout.JAVA_INT, I);
+            resultARRAY[I] = OBJ != 0;
+        }
+        return resultARRAY;
     }
     
-    static final MethodHandle g_key_file_get_comment = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_get_comment = Interop.downcallHandle(
         "g_key_file_get_comment",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -125,20 +135,21 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * but does include any whitespace after them (on each line). It includes
      * the line breaks between lines, but does not include the final line break.
      */
-    public java.lang.String getComment(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull java.lang.String getComment(@Nullable java.lang.String groupName, @Nullable java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_key_file_get_comment.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_key_file_get_comment.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_key_file_get_double = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_get_double = Interop.downcallHandle(
         "g_key_file_get_double",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -152,20 +163,21 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * with {@code key} cannot be interpreted as a double then 0.0 is returned
      * and {@code error} is set to {@link KeyFileError#INVALID_VALUE}.
      */
-    public double getDouble(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
+    public double getDouble(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        double RESULT;
         try {
-            var RESULT = (double) g_key_file_get_double.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = (double) g_key_file_get_double.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
-    static final MethodHandle g_key_file_get_double_list = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_get_double_list = Interop.downcallHandle(
         "g_key_file_get_double_list",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -179,20 +191,23 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * with {@code key} cannot be interpreted as doubles then {@code null} is returned
      * and {@code error} is set to {@link KeyFileError#INVALID_VALUE}.
      */
-    public PointerDouble getDoubleList(java.lang.String groupName, java.lang.String key, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+    public double[] getDoubleList(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @NotNull Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_key_file_get_double_list.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), length.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new PointerDouble(RESULT);
+            RESULT = (MemoryAddress) g_key_file_get_double_list.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return MemorySegment.ofAddress(RESULT.get(ValueLayout.ADDRESS, 0), length.get().intValue() * ValueLayout.JAVA_DOUBLE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_DOUBLE);
     }
     
-    static final MethodHandle g_key_file_get_groups = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_get_groups = Interop.downcallHandle(
         "g_key_file_get_groups",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -202,16 +217,19 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * The array of returned groups will be {@code null}-terminated, so
      * {@code length} may optionally be {@code null}.
      */
-    public PointerString getGroups(PointerLong length) {
+    public PointerString getGroups(@NotNull Out<Long> length) {
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_key_file_get_groups.invokeExact(handle(), length.handle());
-            return new PointerString(RESULT);
+            RESULT = (MemoryAddress) g_key_file_get_groups.invokeExact(handle(), (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        return new PointerString(RESULT);
     }
     
-    static final MethodHandle g_key_file_get_int64 = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_get_int64 = Interop.downcallHandle(
         "g_key_file_get_int64",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -221,20 +239,21 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * 64-bit integer. This is similar to g_key_file_get_integer() but can return
      * 64-bit results without truncation.
      */
-    public long getInt64(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
+    public long getInt64(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        long RESULT;
         try {
-            var RESULT = (long) g_key_file_get_int64.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = (long) g_key_file_get_int64.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
-    static final MethodHandle g_key_file_get_integer = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_get_integer = Interop.downcallHandle(
         "g_key_file_get_integer",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -249,20 +268,21 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * for a {@code gint}, then 0 is returned
      * and {@code error} is set to {@link KeyFileError#INVALID_VALUE}.
      */
-    public int getInteger(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
+    public int getInteger(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_key_file_get_integer.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = (int) g_key_file_get_integer.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
-    static final MethodHandle g_key_file_get_integer_list = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_get_integer_list = Interop.downcallHandle(
         "g_key_file_get_integer_list",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -277,20 +297,23 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * {@code gint}, then {@code null} is returned
      * and {@code error} is set to {@link KeyFileError#INVALID_VALUE}.
      */
-    public PointerInteger getIntegerList(java.lang.String groupName, java.lang.String key, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+    public int[] getIntegerList(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @NotNull Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_key_file_get_integer_list.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), length.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new PointerInteger(RESULT);
+            RESULT = (MemoryAddress) g_key_file_get_integer_list.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return MemorySegment.ofAddress(RESULT.get(ValueLayout.ADDRESS, 0), length.get().intValue() * ValueLayout.JAVA_INT.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_INT);
     }
     
-    static final MethodHandle g_key_file_get_keys = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_get_keys = Interop.downcallHandle(
         "g_key_file_get_keys",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -302,20 +325,23 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * be found, {@code null} is returned and {@code error} is set to
      * {@link KeyFileError#GROUP_NOT_FOUND}.
      */
-    public PointerString getKeys(java.lang.String groupName, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+    public PointerString getKeys(@NotNull java.lang.String groupName, @NotNull Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_key_file_get_keys.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), length.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new PointerString(RESULT);
+            RESULT = (MemoryAddress) g_key_file_get_keys.invokeExact(handle(), Interop.allocateNativeString(groupName), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerString(RESULT);
     }
     
-    static final MethodHandle g_key_file_get_locale_for_key = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_get_locale_for_key = Interop.downcallHandle(
         "g_key_file_get_locale_for_key",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -331,16 +357,17 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * have originally been tagged with the locale that is the result of
      * this function.
      */
-    public java.lang.String getLocaleForKey(java.lang.String groupName, java.lang.String key, java.lang.String locale) {
+    public @Nullable java.lang.String getLocaleForKey(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @Nullable java.lang.String locale) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_key_file_get_locale_for_key.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeString(locale).handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_key_file_get_locale_for_key.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), Interop.allocateNativeString(locale));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_key_file_get_locale_string = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_get_locale_string = Interop.downcallHandle(
         "g_key_file_get_locale_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -359,20 +386,21 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * with {@code key} cannot be interpreted or no suitable translation can
      * be found then the untranslated value is returned.
      */
-    public java.lang.String getLocaleString(java.lang.String groupName, java.lang.String key, java.lang.String locale) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull java.lang.String getLocaleString(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @Nullable java.lang.String locale) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_key_file_get_locale_string.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeString(locale).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_key_file_get_locale_string.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), Interop.allocateNativeString(locale), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_key_file_get_locale_string_list = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_get_locale_string_list = Interop.downcallHandle(
         "g_key_file_get_locale_string_list",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -393,20 +421,28 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * returned array is {@code null}-terminated, so {@code length} may optionally
      * be {@code null}.
      */
-    public PointerString getLocaleStringList(java.lang.String groupName, java.lang.String key, java.lang.String locale, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+    public java.lang.String[] getLocaleStringList(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @Nullable java.lang.String locale, @NotNull Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_key_file_get_locale_string_list.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeString(locale).handle(), length.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new PointerString(RESULT);
+            RESULT = (MemoryAddress) g_key_file_get_locale_string_list.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), Interop.allocateNativeString(locale), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
+        for (int I = 0; I < length.get().intValue(); I++) {
+            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            resultARRAY[I] = OBJ.getUtf8String(0);
+        }
+        return resultARRAY;
     }
     
-    static final MethodHandle g_key_file_get_start_group = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_get_start_group = Interop.downcallHandle(
         "g_key_file_get_start_group",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -414,16 +450,17 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the name of the start group of the file.
      */
-    public java.lang.String getStartGroup() {
+    public @Nullable java.lang.String getStartGroup() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_key_file_get_start_group.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_key_file_get_start_group.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_key_file_get_string = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_get_string = Interop.downcallHandle(
         "g_key_file_get_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -438,20 +475,21 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * event that the {@code group_name} cannot be found, {@code null} is returned
      * and {@code error} is set to {@link KeyFileError#GROUP_NOT_FOUND}.
      */
-    public java.lang.String getString(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull java.lang.String getString(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_key_file_get_string.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_key_file_get_string.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_key_file_get_string_list = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_get_string_list = Interop.downcallHandle(
         "g_key_file_get_string_list",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -464,20 +502,28 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * event that the {@code group_name} cannot be found, {@code null} is returned
      * and {@code error} is set to {@link KeyFileError#GROUP_NOT_FOUND}.
      */
-    public PointerString getStringList(java.lang.String groupName, java.lang.String key, PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+    public java.lang.String[] getStringList(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @NotNull Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_key_file_get_string_list.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), length.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new PointerString(RESULT);
+            RESULT = (MemoryAddress) g_key_file_get_string_list.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
+        for (int I = 0; I < length.get().intValue(); I++) {
+            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            resultARRAY[I] = OBJ.getUtf8String(0);
+        }
+        return resultARRAY;
     }
     
-    static final MethodHandle g_key_file_get_uint64 = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_get_uint64 = Interop.downcallHandle(
         "g_key_file_get_uint64",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -487,20 +533,21 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * 64-bit integer. This is similar to g_key_file_get_integer() but can return
      * large positive results without truncation.
      */
-    public long getUint64(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
+    public long getUint64(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        long RESULT;
         try {
-            var RESULT = (long) g_key_file_get_uint64.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = (long) g_key_file_get_uint64.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
-    static final MethodHandle g_key_file_get_value = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_get_value = Interop.downcallHandle(
         "g_key_file_get_value",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -514,20 +561,21 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * event that the {@code group_name} cannot be found, {@code null} is returned
      * and {@code error} is set to {@link KeyFileError#GROUP_NOT_FOUND}.
      */
-    public java.lang.String getValue(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull java.lang.String getValue(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_key_file_get_value.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_key_file_get_value.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_key_file_has_group = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_has_group = Interop.downcallHandle(
         "g_key_file_has_group",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -535,16 +583,17 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Looks whether the key file has the group {@code group_name}.
      */
-    public boolean hasGroup(java.lang.String groupName) {
+    public boolean hasGroup(@NotNull java.lang.String groupName) {
+        int RESULT;
         try {
-            var RESULT = (int) g_key_file_has_group.invokeExact(handle(), Interop.allocateNativeString(groupName).handle());
-            return RESULT != 0;
+            RESULT = (int) g_key_file_has_group.invokeExact(handle(), Interop.allocateNativeString(groupName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_key_file_has_key = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_has_key = Interop.downcallHandle(
         "g_key_file_has_key",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -561,20 +610,21 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * Language bindings should use g_key_file_get_value() to test whether
      * or not a key exists.
      */
-    public boolean hasKey(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
+    public boolean hasKey(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_key_file_has_key.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_key_file_has_key.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_key_file_load_from_bytes = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_load_from_bytes = Interop.downcallHandle(
         "g_key_file_load_from_bytes",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -583,20 +633,21 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * Loads a key file from the data in {@code bytes} into an empty {@link KeyFile} structure.
      * If the object cannot be created then {@code error} is set to a {@link KeyFileError}.
      */
-    public boolean loadFromBytes(Bytes bytes, KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
+    public boolean loadFromBytes(@NotNull Bytes bytes, @NotNull KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_key_file_load_from_bytes.invokeExact(handle(), bytes.handle(), flags.getValue(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_key_file_load_from_bytes.invokeExact(handle(), bytes.handle(), flags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_key_file_load_from_data = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_load_from_data = Interop.downcallHandle(
         "g_key_file_load_from_data",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -605,20 +656,21 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * Loads a key file from memory into an empty {@link KeyFile} structure.
      * If the object cannot be created then {@code error} is set to a {@link KeyFileError}.
      */
-    public boolean loadFromData(java.lang.String data, long length, KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
+    public boolean loadFromData(@NotNull java.lang.String data, @NotNull long length, @NotNull KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_key_file_load_from_data.invokeExact(handle(), Interop.allocateNativeString(data).handle(), length, flags.getValue(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_key_file_load_from_data.invokeExact(handle(), Interop.allocateNativeString(data), length, flags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_key_file_load_from_data_dirs = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_load_from_data_dirs = Interop.downcallHandle(
         "g_key_file_load_from_data_dirs",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -630,20 +682,23 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * {@code full_path}.  If the file could not be loaded then an {@code error} is
      * set to either a {@link FileError} or {@link KeyFileError}.
      */
-    public boolean loadFromDataDirs(java.lang.String file, PointerString fullPath, KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
+    public boolean loadFromDataDirs(@NotNull java.lang.String file, @NotNull Out<java.lang.String> fullPath, @NotNull KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment fullPathPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_key_file_load_from_data_dirs.invokeExact(handle(), Interop.allocateNativeString(file).handle(), fullPath.handle(), flags.getValue(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_key_file_load_from_data_dirs.invokeExact(handle(), Interop.allocateNativeString(file), (Addressable) fullPathPOINTER.address(), flags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        fullPath.set(fullPathPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_key_file_load_from_dirs = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_load_from_dirs = Interop.downcallHandle(
         "g_key_file_load_from_dirs",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -659,20 +714,23 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * file, a {@code G_FILE_ERROR} is returned. If there is a problem parsing the file, a
      * {@code G_KEY_FILE_ERROR} is returned.
      */
-    public boolean loadFromDirs(java.lang.String file, java.lang.String[] searchDirs, PointerString fullPath, KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
+    public boolean loadFromDirs(@NotNull java.lang.String file, @NotNull java.lang.String[] searchDirs, @NotNull Out<java.lang.String> fullPath, @NotNull KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment fullPathPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_key_file_load_from_dirs.invokeExact(handle(), Interop.allocateNativeString(file).handle(), Interop.allocateNativeArray(searchDirs).handle(), fullPath.handle(), flags.getValue(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_key_file_load_from_dirs.invokeExact(handle(), Interop.allocateNativeString(file), Interop.allocateNativeArray(searchDirs), (Addressable) fullPathPOINTER.address(), flags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        fullPath.set(fullPathPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_key_file_load_from_file = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_load_from_file = Interop.downcallHandle(
         "g_key_file_load_from_file",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -687,20 +745,21 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * This function will never return a {@link KeyFileError#NOT_FOUND} error. If the
      * {@code file} is not found, {@link FileError#NOENT} is returned.
      */
-    public boolean loadFromFile(java.lang.String file, KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
+    public boolean loadFromFile(@NotNull java.lang.String file, @NotNull KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_key_file_load_from_file.invokeExact(handle(), Interop.allocateNativeString(file).handle(), flags.getValue(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_key_file_load_from_file.invokeExact(handle(), Interop.allocateNativeString(file), flags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_key_file_ref = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_ref = Interop.downcallHandle(
         "g_key_file_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -708,16 +767,17 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Increases the reference count of {@code key_file}.
      */
-    public KeyFile ref() {
+    public @NotNull KeyFile ref() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_key_file_ref.invokeExact(handle());
-            return new KeyFile(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_key_file_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new KeyFile(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_key_file_remove_comment = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_remove_comment = Interop.downcallHandle(
         "g_key_file_remove_comment",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -728,20 +788,21 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * If both {@code key} and {@code group_name} are {@code null}, then {@code comment} will
      * be removed above the first group in the file.
      */
-    public boolean removeComment(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
+    public boolean removeComment(@Nullable java.lang.String groupName, @Nullable java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_key_file_remove_comment.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_key_file_remove_comment.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_key_file_remove_group = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_remove_group = Interop.downcallHandle(
         "g_key_file_remove_group",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -750,20 +811,21 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * Removes the specified group, {@code group_name},
      * from the key file.
      */
-    public boolean removeGroup(java.lang.String groupName) throws io.github.jwharm.javagi.GErrorException {
+    public boolean removeGroup(@NotNull java.lang.String groupName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_key_file_remove_group.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_key_file_remove_group.invokeExact(handle(), Interop.allocateNativeString(groupName), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_key_file_remove_key = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_remove_key = Interop.downcallHandle(
         "g_key_file_remove_key",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -771,20 +833,21 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Removes {@code key} in {@code group_name} from the key file.
      */
-    public boolean removeKey(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
+    public boolean removeKey(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_key_file_remove_key.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_key_file_remove_key.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_key_file_save_to_file = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_save_to_file = Interop.downcallHandle(
         "g_key_file_save_to_file",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -798,20 +861,21 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * This function can fail for any of the reasons that
      * g_file_set_contents() may fail.
      */
-    public boolean saveToFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
+    public boolean saveToFile(@NotNull java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_key_file_save_to_file.invokeExact(handle(), Interop.allocateNativeString(filename).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_key_file_save_to_file.invokeExact(handle(), Interop.allocateNativeString(filename), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_key_file_set_boolean = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_set_boolean = Interop.downcallHandle(
         "g_key_file_set_boolean",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -820,15 +884,15 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * Associates a new boolean value with {@code key} under {@code group_name}.
      * If {@code key} cannot be found then it is created.
      */
-    public void setBoolean(java.lang.String groupName, java.lang.String key, boolean value) {
+    public @NotNull void setBoolean(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @NotNull boolean value) {
         try {
-            g_key_file_set_boolean.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), value ? 1 : 0);
+            g_key_file_set_boolean.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), value ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_key_file_set_boolean_list = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_set_boolean_list = Interop.downcallHandle(
         "g_key_file_set_boolean_list",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -838,15 +902,15 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * If {@code key} cannot be found then it is created.
      * If {@code group_name} is {@code null}, the start_group is used.
      */
-    public void setBooleanList(java.lang.String groupName, java.lang.String key, boolean[] list, long length) {
+    public @NotNull void setBooleanList(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @NotNull boolean[] list, @NotNull long length) {
         try {
-            g_key_file_set_boolean_list.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeArray(list).handle(), length);
+            g_key_file_set_boolean_list.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), Interop.allocateNativeArray(list), length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_key_file_set_comment = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_set_comment = Interop.downcallHandle(
         "g_key_file_set_comment",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -861,20 +925,21 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * Note that this function prepends a '#' comment marker to
      * each line of {@code comment}.
      */
-    public boolean setComment(java.lang.String groupName, java.lang.String key, java.lang.String comment) throws io.github.jwharm.javagi.GErrorException {
+    public boolean setComment(@Nullable java.lang.String groupName, @Nullable java.lang.String key, @NotNull java.lang.String comment) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_key_file_set_comment.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeString(comment).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_key_file_set_comment.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), Interop.allocateNativeString(comment), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_key_file_set_double = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_set_double = Interop.downcallHandle(
         "g_key_file_set_double",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
     );
@@ -883,15 +948,15 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * Associates a new double value with {@code key} under {@code group_name}.
      * If {@code key} cannot be found then it is created.
      */
-    public void setDouble(java.lang.String groupName, java.lang.String key, double value) {
+    public @NotNull void setDouble(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @NotNull double value) {
         try {
-            g_key_file_set_double.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), value);
+            g_key_file_set_double.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_key_file_set_double_list = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_set_double_list = Interop.downcallHandle(
         "g_key_file_set_double_list",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -900,15 +965,15 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * Associates a list of double values with {@code key} under
      * {@code group_name}.  If {@code key} cannot be found then it is created.
      */
-    public void setDoubleList(java.lang.String groupName, java.lang.String key, double[] list, long length) {
+    public @NotNull void setDoubleList(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @NotNull double[] list, @NotNull long length) {
         try {
-            g_key_file_set_double_list.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeArray(list).handle(), length);
+            g_key_file_set_double_list.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), Interop.allocateNativeArray(list), length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_key_file_set_int64 = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_set_int64 = Interop.downcallHandle(
         "g_key_file_set_int64",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -917,15 +982,15 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * Associates a new integer value with {@code key} under {@code group_name}.
      * If {@code key} cannot be found then it is created.
      */
-    public void setInt64(java.lang.String groupName, java.lang.String key, long value) {
+    public @NotNull void setInt64(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @NotNull long value) {
         try {
-            g_key_file_set_int64.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), value);
+            g_key_file_set_int64.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_key_file_set_integer = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_set_integer = Interop.downcallHandle(
         "g_key_file_set_integer",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -934,15 +999,15 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * Associates a new integer value with {@code key} under {@code group_name}.
      * If {@code key} cannot be found then it is created.
      */
-    public void setInteger(java.lang.String groupName, java.lang.String key, int value) {
+    public @NotNull void setInteger(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @NotNull int value) {
         try {
-            g_key_file_set_integer.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), value);
+            g_key_file_set_integer.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_key_file_set_integer_list = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_set_integer_list = Interop.downcallHandle(
         "g_key_file_set_integer_list",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -951,15 +1016,15 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * Associates a list of integer values with {@code key} under {@code group_name}.
      * If {@code key} cannot be found then it is created.
      */
-    public void setIntegerList(java.lang.String groupName, java.lang.String key, int[] list, long length) {
+    public @NotNull void setIntegerList(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @NotNull int[] list, @NotNull long length) {
         try {
-            g_key_file_set_integer_list.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeArray(list).handle(), length);
+            g_key_file_set_integer_list.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), Interop.allocateNativeArray(list), length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_key_file_set_list_separator = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_set_list_separator = Interop.downcallHandle(
         "g_key_file_set_list_separator",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE)
     );
@@ -969,7 +1034,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * values in lists. Typically ';' or ',' are used
      * as separators. The default list separator is ';'.
      */
-    public void setListSeparator(byte separator) {
+    public @NotNull void setListSeparator(@NotNull byte separator) {
         try {
             g_key_file_set_list_separator.invokeExact(handle(), separator);
         } catch (Throwable ERR) {
@@ -977,7 +1042,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_key_file_set_locale_string = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_set_locale_string = Interop.downcallHandle(
         "g_key_file_set_locale_string",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -986,15 +1051,15 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * Associates a string value for {@code key} and {@code locale} under {@code group_name}.
      * If the translation for {@code key} cannot be found then it is created.
      */
-    public void setLocaleString(java.lang.String groupName, java.lang.String key, java.lang.String locale, java.lang.String string) {
+    public @NotNull void setLocaleString(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @NotNull java.lang.String locale, @NotNull java.lang.String string) {
         try {
-            g_key_file_set_locale_string.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeString(locale).handle(), Interop.allocateNativeString(string).handle());
+            g_key_file_set_locale_string.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), Interop.allocateNativeString(locale), Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_key_file_set_locale_string_list = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_set_locale_string_list = Interop.downcallHandle(
         "g_key_file_set_locale_string_list",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -1004,15 +1069,15 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * {@code group_name}.  If the translation for {@code key} cannot be found then
      * it is created.
      */
-    public void setLocaleStringList(java.lang.String groupName, java.lang.String key, java.lang.String locale, java.lang.String[] list, long length) {
+    public @NotNull void setLocaleStringList(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @NotNull java.lang.String locale, @NotNull java.lang.String[] list, @NotNull long length) {
         try {
-            g_key_file_set_locale_string_list.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeString(locale).handle(), Interop.allocateNativeArray(list).handle(), length);
+            g_key_file_set_locale_string_list.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), Interop.allocateNativeString(locale), Interop.allocateNativeArray(list), length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_key_file_set_string = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_set_string = Interop.downcallHandle(
         "g_key_file_set_string",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1024,15 +1089,15 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * Unlike g_key_file_set_value(), this function handles characters
      * that need escaping, such as newlines.
      */
-    public void setString(java.lang.String groupName, java.lang.String key, java.lang.String string) {
+    public @NotNull void setString(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @NotNull java.lang.String string) {
         try {
-            g_key_file_set_string.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeString(string).handle());
+            g_key_file_set_string.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_key_file_set_string_list = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_set_string_list = Interop.downcallHandle(
         "g_key_file_set_string_list",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -1042,15 +1107,15 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * If {@code key} cannot be found then it is created.
      * If {@code group_name} cannot be found then it is created.
      */
-    public void setStringList(java.lang.String groupName, java.lang.String key, java.lang.String[] list, long length) {
+    public @NotNull void setStringList(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @NotNull java.lang.String[] list, @NotNull long length) {
         try {
-            g_key_file_set_string_list.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeArray(list).handle(), length);
+            g_key_file_set_string_list.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), Interop.allocateNativeArray(list), length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_key_file_set_uint64 = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_set_uint64 = Interop.downcallHandle(
         "g_key_file_set_uint64",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -1059,15 +1124,15 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * Associates a new integer value with {@code key} under {@code group_name}.
      * If {@code key} cannot be found then it is created.
      */
-    public void setUint64(java.lang.String groupName, java.lang.String key, long value) {
+    public @NotNull void setUint64(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @NotNull long value) {
         try {
-            g_key_file_set_uint64.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), value);
+            g_key_file_set_uint64.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_key_file_set_value = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_set_value = Interop.downcallHandle(
         "g_key_file_set_value",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1080,15 +1145,15 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * characters that need escaping (such as newlines or spaces), use
      * g_key_file_set_string().
      */
-    public void setValue(java.lang.String groupName, java.lang.String key, java.lang.String value) {
+    public @NotNull void setValue(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @NotNull java.lang.String value) {
         try {
-            g_key_file_set_value.invokeExact(handle(), Interop.allocateNativeString(groupName).handle(), Interop.allocateNativeString(key).handle(), Interop.allocateNativeString(value).handle());
+            g_key_file_set_value.invokeExact(handle(), Interop.allocateNativeString(groupName), Interop.allocateNativeString(key), Interop.allocateNativeString(value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_key_file_to_data = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_to_data = Interop.downcallHandle(
         "g_key_file_to_data",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1099,20 +1164,23 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * Note that this function never reports an error,
      * so it is safe to pass {@code null} as {@code error}.
      */
-    public java.lang.String toData(PointerLong length) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull java.lang.String toData(@NotNull Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_key_file_to_data.invokeExact(handle(), length.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_key_file_to_data.invokeExact(handle(), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_key_file_unref = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_unref = Interop.downcallHandle(
         "g_key_file_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -1121,7 +1189,7 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
      * Decreases the reference count of {@code key_file} by 1. If the reference count
      * reaches zero, frees the key file and all its allocated memory.
      */
-    public void unref() {
+    public @NotNull void unref() {
         try {
             g_key_file_unref.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -1129,18 +1197,19 @@ public class KeyFile extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_key_file_error_quark = Interop.downcallHandle(
+    private static final MethodHandle g_key_file_error_quark = Interop.downcallHandle(
         "g_key_file_error_quark",
         FunctionDescriptor.of(ValueLayout.JAVA_INT)
     );
     
-    public static Quark errorQuark() {
+    public static @NotNull Quark errorQuark() {
+        int RESULT;
         try {
-            var RESULT = (int) g_key_file_error_quark.invokeExact();
-            return new Quark(RESULT);
+            RESULT = (int) g_key_file_error_quark.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Quark(RESULT);
     }
     
 }

@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The type of function that is passed to
@@ -11,5 +12,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface PageSetupDoneFunc {
-        void onPageSetupDoneFunc(PageSetup pageSetup);
+        void onPageSetupDoneFunc(@NotNull PageSetup pageSetup);
 }

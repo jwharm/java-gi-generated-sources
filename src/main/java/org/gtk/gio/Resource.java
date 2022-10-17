@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Applications and libraries often contain binary or textual data that is
@@ -148,12 +149,12 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_resource_new_from_data = Interop.downcallHandle(
+    private static final MethodHandle g_resource_new_from_data = Interop.downcallHandle(
         "g_resource_new_from_data",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewFromData(org.gtk.glib.Bytes data) throws GErrorException {
+    private static Refcounted constructNewFromData(@NotNull org.gtk.glib.Bytes data) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_resource_new_from_data.invokeExact(data.handle(), (Addressable) GERROR), true);
@@ -180,11 +181,11 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If {@code data} is empty or corrupt, {@link ResourceError#INTERNAL} will be returned.
      */
-    public static Resource newFromData(org.gtk.glib.Bytes data) throws GErrorException {
+    public static Resource newFromData(@NotNull org.gtk.glib.Bytes data) throws GErrorException {
         return new Resource(constructNewFromData(data));
     }
     
-    static final MethodHandle g_resources_register = Interop.downcallHandle(
+    private static final MethodHandle g_resources_register = Interop.downcallHandle(
         "g_resources_register",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -194,7 +195,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      * Once a resource is registered the files in it can be accessed
      * with the global resource lookup functions like g_resources_lookup_data().
      */
-    public void Register() {
+    public @NotNull void Register() {
         try {
             g_resources_register.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -202,7 +203,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_resources_unregister = Interop.downcallHandle(
+    private static final MethodHandle g_resources_unregister = Interop.downcallHandle(
         "g_resources_unregister",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -210,7 +211,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Unregisters the resource from the process-global set of resources.
      */
-    public void Unregister() {
+    public @NotNull void Unregister() {
         try {
             g_resources_unregister.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -218,7 +219,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_resource_enumerate_children = Interop.downcallHandle(
+    private static final MethodHandle g_resource_enumerate_children = Interop.downcallHandle(
         "g_resource_enumerate_children",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -233,20 +234,21 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * {@code lookup_flags} controls the behaviour of the lookup.
      */
-    public PointerString enumerateChildren(java.lang.String path, ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
+    public PointerString enumerateChildren(@NotNull java.lang.String path, @NotNull ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_resource_enumerate_children.invokeExact(handle(), Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new PointerString(RESULT);
+            RESULT = (MemoryAddress) g_resource_enumerate_children.invokeExact(handle(), Interop.allocateNativeString(path), lookupFlags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new PointerString(RESULT);
     }
     
-    static final MethodHandle g_resource_get_info = Interop.downcallHandle(
+    private static final MethodHandle g_resource_get_info = Interop.downcallHandle(
         "g_resource_get_info",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -257,20 +259,25 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * {@code lookup_flags} controls the behaviour of the lookup.
      */
-    public boolean getInfo(java.lang.String path, ResourceLookupFlags lookupFlags, PointerLong size, PointerInteger flags) throws io.github.jwharm.javagi.GErrorException {
+    public boolean getInfo(@NotNull java.lang.String path, @NotNull ResourceLookupFlags lookupFlags, @NotNull Out<Long> size, @NotNull Out<Integer> flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment flagsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        int RESULT;
         try {
-            var RESULT = (int) g_resource_get_info.invokeExact(handle(), Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), size.handle(), flags.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_resource_get_info.invokeExact(handle(), Interop.allocateNativeString(path), lookupFlags.getValue(), (Addressable) sizePOINTER.address(), (Addressable) flagsPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        size.set(sizePOINTER.get(ValueLayout.JAVA_LONG, 0));
+        flags.set(flagsPOINTER.get(ValueLayout.JAVA_INT, 0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_resource_lookup_data = Interop.downcallHandle(
+    private static final MethodHandle g_resource_lookup_data = Interop.downcallHandle(
         "g_resource_lookup_data",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -291,20 +298,21 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * {@code lookup_flags} controls the behaviour of the lookup.
      */
-    public org.gtk.glib.Bytes lookupData(java.lang.String path, ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.glib.Bytes lookupData(@NotNull java.lang.String path, @NotNull ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_resource_lookup_data.invokeExact(handle(), Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_resource_lookup_data.invokeExact(handle(), Interop.allocateNativeString(path), lookupFlags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_resource_open_stream = Interop.downcallHandle(
+    private static final MethodHandle g_resource_open_stream = Interop.downcallHandle(
         "g_resource_open_stream",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -315,20 +323,21 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * {@code lookup_flags} controls the behaviour of the lookup.
      */
-    public InputStream openStream(java.lang.String path, ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull InputStream openStream(@NotNull java.lang.String path, @NotNull ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_resource_open_stream.invokeExact(handle(), Interop.allocateNativeString(path).handle(), lookupFlags.getValue(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new InputStream(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_resource_open_stream.invokeExact(handle(), Interop.allocateNativeString(path), lookupFlags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new InputStream(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_resource_ref = Interop.downcallHandle(
+    private static final MethodHandle g_resource_ref = Interop.downcallHandle(
         "g_resource_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -337,16 +346,17 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      * Atomically increments the reference count of {@code resource} by one. This
      * function is MT-safe and may be called from any thread.
      */
-    public Resource ref() {
+    public @NotNull Resource ref() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_resource_ref.invokeExact(handle());
-            return new Resource(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_resource_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Resource(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_resource_unref = Interop.downcallHandle(
+    private static final MethodHandle g_resource_unref = Interop.downcallHandle(
         "g_resource_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -357,7 +367,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      * released. This function is MT-safe and may be called from any
      * thread.
      */
-    public void unref() {
+    public @NotNull void unref() {
         try {
             g_resource_unref.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -365,7 +375,7 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_resource_load = Interop.downcallHandle(
+    private static final MethodHandle g_resource_load = Interop.downcallHandle(
         "g_resource_load",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -382,17 +392,18 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      * there is an error in reading it, an error from g_mapped_file_new() will be
      * returned.
      */
-    public static Resource load(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
+    public static @NotNull Resource load(@NotNull java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_resource_load.invokeExact(Interop.allocateNativeString(filename).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new Resource(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_resource_load.invokeExact(Interop.allocateNativeString(filename), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new Resource(Refcounted.get(RESULT, true));
     }
     
 }

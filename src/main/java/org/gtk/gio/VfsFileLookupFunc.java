@@ -1,6 +1,7 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * This function type is used by g_vfs_register_uri_scheme() to make it
@@ -12,5 +13,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface VfsFileLookupFunc {
-        File onVfsFileLookupFunc(Vfs vfs, java.lang.String identifier);
+        File onVfsFileLookupFunc(@NotNull Vfs vfs, @NotNull java.lang.String identifier);
 }

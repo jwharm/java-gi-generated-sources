@@ -1,6 +1,7 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A callback function used by the type system to initialize a new
@@ -14,5 +15,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface InterfaceInitFunc {
-        void onInterfaceInitFunc(TypeInterface gIface);
+        void onInterfaceInitFunc(@NotNull TypeInterface gIface);
 }

@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GtkComboBoxText} is a simple variant of {@code GtkComboBox} for text-only
@@ -27,11 +28,10 @@ import java.lang.invoke.*;
  * <p>
  * You should not call {@link ComboBox#setModel} or attempt to pack more
  * cells into this combo box via its {@code Gtk.CellLayout} interface.
- * <p>
+ * 
  * <h1>GtkComboBoxText as GtkBuildable</h1>
- * <p>
  * The {@code GtkComboBoxText} implementation of the {@code GtkBuildable} interface supports
- * adding items directly using the &lt;items> element and specifying <item&gt;
+ * adding items directly using the &lt;items&gt; element and specifying &lt;item&gt;
  * elements for each item. Each &lt;item&gt; element can specify the “id”
  * corresponding to the appended text and also supports the regular
  * translation attributes “translatable”, “context” and “comments”.
@@ -46,9 +46,8 @@ import java.lang.invoke.*;
  *   </items>
  * </object>
  * }</pre>
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * <pre>{@code 
  * combobox
  * ╰── box.linked
@@ -72,7 +71,7 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
         return new ComboBoxText(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_combo_box_text_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_text_new = Interop.downcallHandle(
         "gtk_combo_box_text_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -93,7 +92,7 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
         super(constructNew());
     }
     
-    static final MethodHandle gtk_combo_box_text_new_with_entry = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_text_new_with_entry = Interop.downcallHandle(
         "gtk_combo_box_text_new_with_entry",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -114,7 +113,7 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
         return new ComboBoxText(constructNewWithEntry());
     }
     
-    static final MethodHandle gtk_combo_box_text_append = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_text_append = Interop.downcallHandle(
         "gtk_combo_box_text_append",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -127,15 +126,15 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
      * This is the same as calling {@link ComboBoxText#insert}
      * with a position of -1.
      */
-    public void append(java.lang.String id, java.lang.String text) {
+    public @NotNull void append(@Nullable java.lang.String id, @NotNull java.lang.String text) {
         try {
-            gtk_combo_box_text_append.invokeExact(handle(), Interop.allocateNativeString(id).handle(), Interop.allocateNativeString(text).handle());
+            gtk_combo_box_text_append.invokeExact(handle(), Interop.allocateNativeString(id), Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_combo_box_text_append_text = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_text_append_text = Interop.downcallHandle(
         "gtk_combo_box_text_append_text",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -146,15 +145,15 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
      * This is the same as calling {@link ComboBoxText#insertText}
      * with a position of -1.
      */
-    public void appendText(java.lang.String text) {
+    public @NotNull void appendText(@NotNull java.lang.String text) {
         try {
-            gtk_combo_box_text_append_text.invokeExact(handle(), Interop.allocateNativeString(text).handle());
+            gtk_combo_box_text_append_text.invokeExact(handle(), Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_combo_box_text_get_active_text = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_text_get_active_text = Interop.downcallHandle(
         "gtk_combo_box_text_get_active_text",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -167,16 +166,17 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
      * return its contents (which will not necessarily
      * be an item from the list).
      */
-    public java.lang.String getActiveText() {
+    public @Nullable java.lang.String getActiveText() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_combo_box_text_get_active_text.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_combo_box_text_get_active_text.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_combo_box_text_insert = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_text_insert = Interop.downcallHandle(
         "gtk_combo_box_text_insert",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -189,15 +189,15 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
      * <p>
      * If {@code position} is negative then {@code text} is appended.
      */
-    public void insert(int position, java.lang.String id, java.lang.String text) {
+    public @NotNull void insert(@NotNull int position, @Nullable java.lang.String id, @NotNull java.lang.String text) {
         try {
-            gtk_combo_box_text_insert.invokeExact(handle(), position, Interop.allocateNativeString(id).handle(), Interop.allocateNativeString(text).handle());
+            gtk_combo_box_text_insert.invokeExact(handle(), position, Interop.allocateNativeString(id), Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_combo_box_text_insert_text = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_text_insert_text = Interop.downcallHandle(
         "gtk_combo_box_text_insert_text",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -210,15 +210,15 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
      * This is the same as calling {@link ComboBoxText#insert}
      * with a {@code null} ID string.
      */
-    public void insertText(int position, java.lang.String text) {
+    public @NotNull void insertText(@NotNull int position, @NotNull java.lang.String text) {
         try {
-            gtk_combo_box_text_insert_text.invokeExact(handle(), position, Interop.allocateNativeString(text).handle());
+            gtk_combo_box_text_insert_text.invokeExact(handle(), position, Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_combo_box_text_prepend = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_text_prepend = Interop.downcallHandle(
         "gtk_combo_box_text_prepend",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -231,15 +231,15 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
      * This is the same as calling {@link ComboBoxText#insert}
      * with a position of 0.
      */
-    public void prepend(java.lang.String id, java.lang.String text) {
+    public @NotNull void prepend(@Nullable java.lang.String id, @NotNull java.lang.String text) {
         try {
-            gtk_combo_box_text_prepend.invokeExact(handle(), Interop.allocateNativeString(id).handle(), Interop.allocateNativeString(text).handle());
+            gtk_combo_box_text_prepend.invokeExact(handle(), Interop.allocateNativeString(id), Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_combo_box_text_prepend_text = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_text_prepend_text = Interop.downcallHandle(
         "gtk_combo_box_text_prepend_text",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -250,15 +250,15 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
      * This is the same as calling {@link ComboBoxText#insertText}
      * with a position of 0.
      */
-    public void prependText(java.lang.String text) {
+    public @NotNull void prependText(@NotNull java.lang.String text) {
         try {
-            gtk_combo_box_text_prepend_text.invokeExact(handle(), Interop.allocateNativeString(text).handle());
+            gtk_combo_box_text_prepend_text.invokeExact(handle(), Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_combo_box_text_remove = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_text_remove = Interop.downcallHandle(
         "gtk_combo_box_text_remove",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -266,7 +266,7 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
     /**
      * Removes the string at {@code position} from {@code combo_box}.
      */
-    public void remove(int position) {
+    public @NotNull void remove(@NotNull int position) {
         try {
             gtk_combo_box_text_remove.invokeExact(handle(), position);
         } catch (Throwable ERR) {
@@ -274,7 +274,7 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
         }
     }
     
-    static final MethodHandle gtk_combo_box_text_remove_all = Interop.downcallHandle(
+    private static final MethodHandle gtk_combo_box_text_remove_all = Interop.downcallHandle(
         "gtk_combo_box_text_remove_all",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -282,7 +282,7 @@ public class ComboBoxText extends ComboBox implements Accessible, Buildable, Cel
     /**
      * Removes all the text entries from the combo box.
      */
-    public void removeAll() {
+    public @NotNull void removeAll() {
         try {
             gtk_combo_box_text_remove_all.invokeExact(handle());
         } catch (Throwable ERR) {

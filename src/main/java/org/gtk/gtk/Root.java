@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkRoot} is the interface implemented by all widgets that can act as a toplevel
@@ -21,7 +22,7 @@ import java.lang.invoke.*;
  */
 public interface Root extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle gtk_root_get_display = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_root_get_display = Interop.downcallHandle(
         "gtk_root_get_display",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -29,16 +30,17 @@ public interface Root extends io.github.jwharm.javagi.Proxy {
     /**
      * Returns the display that this {@code GtkRoot} is on.
      */
-    public default org.gtk.gdk.Display getDisplay() {
+    default @NotNull org.gtk.gdk.Display getDisplay() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_root_get_display.invokeExact(handle());
-            return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_root_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_root_get_focus = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_root_get_focus = Interop.downcallHandle(
         "gtk_root_get_focus",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -51,16 +53,17 @@ public interface Root extends io.github.jwharm.javagi.Proxy {
      * {@code gtk_widget_has_focus (widget)} will be {@code false} for the
      * widget.
      */
-    public default Widget getFocus() {
+    default @Nullable Widget getFocus() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_root_get_focus.invokeExact(handle());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_root_get_focus.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_root_set_focus = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_root_set_focus = Interop.downcallHandle(
         "gtk_root_set_focus",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -75,7 +78,7 @@ public interface Root extends io.github.jwharm.javagi.Proxy {
      * more convenient to use {@link Widget#grabFocus} instead of
      * this function.
      */
-    public default void setFocus(Widget focus) {
+    default @NotNull void setFocus(@Nullable Widget focus) {
         try {
             gtk_root_set_focus.invokeExact(handle(), focus.handle());
         } catch (Throwable ERR) {

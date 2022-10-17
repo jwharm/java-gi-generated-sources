@@ -3,6 +3,7 @@ package org.gtk.gsk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A render node using a GL shader when drawing its children nodes.
@@ -18,14 +19,14 @@ public class GLShaderNode extends RenderNode {
         return new GLShaderNode(gobject.refcounted());
     }
     
-    static final MethodHandle gsk_gl_shader_node_new = Interop.downcallHandle(
+    private static final MethodHandle gsk_gl_shader_node_new = Interop.downcallHandle(
         "gsk_gl_shader_node_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNew(GLShader shader, org.gtk.graphene.Rect bounds, org.gtk.glib.Bytes args, RenderNode[] children, int nChildren) {
+    private static Refcounted constructNew(@NotNull GLShader shader, @NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.glib.Bytes args, @Nullable RenderNode[] children, @NotNull int nChildren) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_gl_shader_node_new.invokeExact(shader.handle(), bounds.handle(), args.handle(), Interop.allocateNativeArray(children).handle(), nChildren), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_gl_shader_node_new.invokeExact(shader.handle(), bounds.handle(), args.handle(), Interop.allocateNativeArray(children), nChildren), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -51,11 +52,11 @@ public class GLShaderNode extends RenderNode {
      * {@link GLShader#compile} to ensure the {@code shader} will work for the
      * renderer before using it.
      */
-    public GLShaderNode(GLShader shader, org.gtk.graphene.Rect bounds, org.gtk.glib.Bytes args, RenderNode[] children, int nChildren) {
+    public GLShaderNode(@NotNull GLShader shader, @NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.glib.Bytes args, @Nullable RenderNode[] children, @NotNull int nChildren) {
         super(constructNew(shader, bounds, args, children, nChildren));
     }
     
-    static final MethodHandle gsk_gl_shader_node_get_args = Interop.downcallHandle(
+    private static final MethodHandle gsk_gl_shader_node_get_args = Interop.downcallHandle(
         "gsk_gl_shader_node_get_args",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -63,16 +64,17 @@ public class GLShaderNode extends RenderNode {
     /**
      * Gets args for the node.
      */
-    public org.gtk.glib.Bytes getArgs() {
+    public @NotNull org.gtk.glib.Bytes getArgs() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_gl_shader_node_get_args.invokeExact(handle());
-            return new org.gtk.glib.Bytes(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gsk_gl_shader_node_get_args.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gsk_gl_shader_node_get_child = Interop.downcallHandle(
+    private static final MethodHandle gsk_gl_shader_node_get_child = Interop.downcallHandle(
         "gsk_gl_shader_node_get_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -80,16 +82,17 @@ public class GLShaderNode extends RenderNode {
     /**
      * Gets one of the children.
      */
-    public RenderNode getChild(int idx) {
+    public @NotNull RenderNode getChild(@NotNull int idx) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_gl_shader_node_get_child.invokeExact(handle(), idx);
-            return new RenderNode(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gsk_gl_shader_node_get_child.invokeExact(handle(), idx);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new RenderNode(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gsk_gl_shader_node_get_n_children = Interop.downcallHandle(
+    private static final MethodHandle gsk_gl_shader_node_get_n_children = Interop.downcallHandle(
         "gsk_gl_shader_node_get_n_children",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -98,15 +101,16 @@ public class GLShaderNode extends RenderNode {
      * Returns the number of children
      */
     public int getNChildren() {
+        int RESULT;
         try {
-            var RESULT = (int) gsk_gl_shader_node_get_n_children.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gsk_gl_shader_node_get_n_children.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gsk_gl_shader_node_get_shader = Interop.downcallHandle(
+    private static final MethodHandle gsk_gl_shader_node_get_shader = Interop.downcallHandle(
         "gsk_gl_shader_node_get_shader",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -114,13 +118,14 @@ public class GLShaderNode extends RenderNode {
     /**
      * Gets shader code for the node.
      */
-    public GLShader getShader() {
+    public @NotNull GLShader getShader() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_gl_shader_node_get_shader.invokeExact(handle());
-            return new GLShader(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gsk_gl_shader_node_get_shader.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new GLShader(Refcounted.get(RESULT, false));
     }
     
 }

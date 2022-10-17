@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@link TcpWrapperConnection} can be used to wrap a {@link IOStream} that is
@@ -22,12 +23,12 @@ public class TcpWrapperConnection extends TcpConnection {
         return new TcpWrapperConnection(gobject.refcounted());
     }
     
-    static final MethodHandle g_tcp_wrapper_connection_new = Interop.downcallHandle(
+    private static final MethodHandle g_tcp_wrapper_connection_new = Interop.downcallHandle(
         "g_tcp_wrapper_connection_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(IOStream baseIoStream, Socket socket) {
+    private static Refcounted constructNew(@NotNull IOStream baseIoStream, @NotNull Socket socket) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_tcp_wrapper_connection_new.invokeExact(baseIoStream.handle(), socket.handle()), true);
             return RESULT;
@@ -39,11 +40,11 @@ public class TcpWrapperConnection extends TcpConnection {
     /**
      * Wraps {@code base_io_stream} and {@code socket} together as a {@link SocketConnection}.
      */
-    public TcpWrapperConnection(IOStream baseIoStream, Socket socket) {
+    public TcpWrapperConnection(@NotNull IOStream baseIoStream, @NotNull Socket socket) {
         super(constructNew(baseIoStream, socket));
     }
     
-    static final MethodHandle g_tcp_wrapper_connection_get_base_io_stream = Interop.downcallHandle(
+    private static final MethodHandle g_tcp_wrapper_connection_get_base_io_stream = Interop.downcallHandle(
         "g_tcp_wrapper_connection_get_base_io_stream",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -51,13 +52,14 @@ public class TcpWrapperConnection extends TcpConnection {
     /**
      * Gets {@code conn}'s base {@link IOStream}
      */
-    public IOStream getBaseIoStream() {
+    public @NotNull IOStream getBaseIoStream() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_tcp_wrapper_connection_get_base_io_stream.invokeExact(handle());
-            return new IOStream(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_tcp_wrapper_connection_get_base_io_stream.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new IOStream(Refcounted.get(RESULT, false));
     }
     
 }

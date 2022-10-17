@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Many URI schemes include one or more attribute/value pairs as part of the URI
@@ -21,7 +22,7 @@ public class UriParamsIter extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_uri_params_iter_init = Interop.downcallHandle(
+    private static final MethodHandle g_uri_params_iter_init = Interop.downcallHandle(
         "g_uri_params_iter_init",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -61,15 +62,15 @@ public class UriParamsIter extends io.github.jwharm.javagi.ResourceBase {
      *   // handle parsing error
      * }</pre>
      */
-    public void init(java.lang.String params, long length, java.lang.String separators, UriParamsFlags flags) {
+    public @NotNull void init(@NotNull java.lang.String params, @NotNull long length, @NotNull java.lang.String separators, @NotNull UriParamsFlags flags) {
         try {
-            g_uri_params_iter_init.invokeExact(handle(), Interop.allocateNativeString(params).handle(), length, Interop.allocateNativeString(separators).handle(), flags.getValue());
+            g_uri_params_iter_init.invokeExact(handle(), Interop.allocateNativeString(params), length, Interop.allocateNativeString(separators), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_uri_params_iter_next = Interop.downcallHandle(
+    private static final MethodHandle g_uri_params_iter_next = Interop.downcallHandle(
         "g_uri_params_iter_next",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -85,17 +86,22 @@ public class UriParamsIter extends io.github.jwharm.javagi.ResourceBase {
      * Note that the same {@code attribute} may be returned multiple times, since URIs
      * allow repeated attributes.
      */
-    public boolean next(PointerString attribute, PointerString value) throws io.github.jwharm.javagi.GErrorException {
+    public boolean next(@Nullable Out<java.lang.String> attribute, @Nullable Out<java.lang.String> value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment attributePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_uri_params_iter_next.invokeExact(handle(), attribute.handle(), value.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_uri_params_iter_next.invokeExact(handle(), (Addressable) attributePOINTER.address(), (Addressable) valuePOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        attribute.set(attributePOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        value.set(valuePOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
 }

@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@link SocketService} is an object that represents a service that
@@ -43,7 +44,7 @@ public class SocketService extends SocketListener {
         return new SocketService(gobject.refcounted());
     }
     
-    static final MethodHandle g_socket_service_new = Interop.downcallHandle(
+    private static final MethodHandle g_socket_service_new = Interop.downcallHandle(
         "g_socket_service_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -70,7 +71,7 @@ public class SocketService extends SocketListener {
         super(constructNew());
     }
     
-    static final MethodHandle g_socket_service_is_active = Interop.downcallHandle(
+    private static final MethodHandle g_socket_service_is_active = Interop.downcallHandle(
         "g_socket_service_is_active",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -82,15 +83,16 @@ public class SocketService extends SocketListener {
      * up until the service is started.
      */
     public boolean isActive() {
+        int RESULT;
         try {
-            var RESULT = (int) g_socket_service_is_active.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_socket_service_is_active.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_socket_service_start = Interop.downcallHandle(
+    private static final MethodHandle g_socket_service_start = Interop.downcallHandle(
         "g_socket_service_start",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -104,7 +106,7 @@ public class SocketService extends SocketListener {
      * This call is thread-safe, so it may be called from a thread
      * handling an incoming client request.
      */
-    public void start() {
+    public @NotNull void start() {
         try {
             g_socket_service_start.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -112,7 +114,7 @@ public class SocketService extends SocketListener {
         }
     }
     
-    static final MethodHandle g_socket_service_stop = Interop.downcallHandle(
+    private static final MethodHandle g_socket_service_stop = Interop.downcallHandle(
         "g_socket_service_stop",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -134,7 +136,7 @@ public class SocketService extends SocketListener {
      * the socket service will start accepting connections immediately
      * when a new socket is added.
      */
-    public void stop() {
+    public @NotNull void stop() {
         try {
             g_socket_service_stop.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -144,7 +146,7 @@ public class SocketService extends SocketListener {
     
     @FunctionalInterface
     public interface IncomingHandler {
-        boolean signalReceived(SocketService source, SocketConnection connection, org.gtk.gobject.Object sourceObject);
+        boolean signalReceived(SocketService source, @NotNull SocketConnection connection, @Nullable org.gtk.gobject.Object sourceObject);
     }
     
     /**
@@ -160,13 +162,13 @@ public class SocketService extends SocketListener {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("incoming").handle(),
+                Interop.allocateNativeString("incoming"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SocketService.Callbacks.class, "signalSocketServiceIncoming",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

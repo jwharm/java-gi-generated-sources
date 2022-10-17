@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkPrintOperationPreview} is the interface that is used to
@@ -14,7 +15,7 @@ import java.lang.invoke.*;
  */
 public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle gtk_print_operation_preview_end_preview = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_print_operation_preview_end_preview = Interop.downcallHandle(
         "gtk_print_operation_preview_end_preview",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -24,7 +25,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
      * <p>
      * This function must be called to finish a custom print preview.
      */
-    public default void endPreview() {
+    default @NotNull void endPreview() {
         try {
             gtk_print_operation_preview_end_preview.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -32,7 +33,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_print_operation_preview_is_selected = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_print_operation_preview_is_selected = Interop.downcallHandle(
         "gtk_print_operation_preview_is_selected",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -41,16 +42,17 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
      * Returns whether the given page is included in the set of pages that
      * have been selected for printing.
      */
-    public default boolean isSelected(int pageNr) {
+    default boolean isSelected(@NotNull int pageNr) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_print_operation_preview_is_selected.invokeExact(handle(), pageNr);
-            return RESULT != 0;
+            RESULT = (int) gtk_print_operation_preview_is_selected.invokeExact(handle(), pageNr);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_print_operation_preview_render_page = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_print_operation_preview_render_page = Interop.downcallHandle(
         "gtk_print_operation_preview_render_page",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -68,7 +70,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
      * Note that this function requires a suitable cairo context to
      * be associated with the print context.
      */
-    public default void renderPage(int pageNr) {
+    default @NotNull void renderPage(@NotNull int pageNr) {
         try {
             gtk_print_operation_preview_render_page.invokeExact(handle(), pageNr);
         } catch (Throwable ERR) {
@@ -78,7 +80,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface GotPageSizeHandler {
-        void signalReceived(PrintOperationPreview source, PrintContext context, PageSetup pageSetup);
+        void signalReceived(PrintOperationPreview source, @NotNull PrintContext context, @NotNull PageSetup pageSetup);
     }
     
     /**
@@ -92,13 +94,13 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("got-page-size").handle(),
+                Interop.allocateNativeString("got-page-size"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperationPreview.Callbacks.class, "signalPrintOperationPreviewGotPageSize",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -108,7 +110,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface ReadyHandler {
-        void signalReceived(PrintOperationPreview source, PrintContext context);
+        void signalReceived(PrintOperationPreview source, @NotNull PrintContext context);
     }
     
     /**
@@ -121,13 +123,13 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("ready").handle(),
+                Interop.allocateNativeString("ready"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PrintOperationPreview.Callbacks.class, "signalPrintOperationPreviewReady",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

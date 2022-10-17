@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkEditable} is an interface for text editing widgets.
@@ -16,9 +17,8 @@ import java.lang.invoke.*;
  * As an example of the latter usage, by connecting the following handler to
  * {@code Gtk.Editable::insert-text}, an application can convert all entry
  * into a widget into uppercase.
- * <p>
+ * 
  * <h2>Forcing entry to uppercase.</h2>
- * <p>
  * <pre>{@code c
  * #include <ctype.h>
  * 
@@ -42,9 +42,8 @@ import java.lang.invoke.*;
  *   g_free (result);
  * }
  * }</pre>
- * <p>
+ * 
  * <h2>Implementing GtkEditable</h2>
- * <p>
  * The most likely scenario for implementing {@code GtkEditable} on your own widget
  * is that you will embed a {@code GtkText} inside a complex widget, and want to
  * delegate the editable functionality to that text widget. {@code GtkEditable}
@@ -52,7 +51,7 @@ import java.lang.invoke.*;
  * <p>
  * In your class_init function, call {@link Gtk#Editable},
  * passing the first available property ID:
- * <p>
+ * 
  * <pre>{@code c
  * static void
  * my_class_init (MyClass *class)
@@ -66,7 +65,7 @@ import java.lang.invoke.*;
  * <p>
  * In your interface_init function for the {@code GtkEditable} interface, provide
  * an implementation for the get_delegate vfunc that returns your text widget:
- * <p>
+ * 
  * <pre>{@code c
  * GtkEditable *
  * get_editable_delegate (GtkEditable *editable)
@@ -87,7 +86,7 @@ import java.lang.invoke.*;
  * <p>
  * In your instance_init function, create your text widget, and then call
  * {@link Editable#initDelegate}:
- * <p>
+ * 
  * <pre>{@code c
  * static void
  * my_widget_init (MyWidget *self)
@@ -101,7 +100,7 @@ import java.lang.invoke.*;
  * <p>
  * In your dispose function, call {@link Editable#finishDelegate} before
  * destroying your text widget:
- * <p>
+ * 
  * <pre>{@code c
  * static void
  * my_widget_dispose (GObject *object)
@@ -115,7 +114,7 @@ import java.lang.invoke.*;
  * <p>
  * Finally, use {@link Gtk#Editable} in your {@code set_property}
  * function (and similar for {@code get_property}), to set the editable properties:
- * <p>
+ * 
  * <pre>{@code c
  *   ...
  *   if (gtk_editable_delegate_set_property (object, prop_id, value, pspec))
@@ -136,7 +135,7 @@ import java.lang.invoke.*;
  */
 public interface Editable extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle gtk_editable_delete_selection = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_delete_selection = Interop.downcallHandle(
         "gtk_editable_delete_selection",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -146,7 +145,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * <p>
      * This call doesn’t do anything if there is no selected text.
      */
-    public default void deleteSelection() {
+    default @NotNull void deleteSelection() {
         try {
             gtk_editable_delete_selection.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -154,7 +153,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_editable_delete_text = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_delete_text = Interop.downcallHandle(
         "gtk_editable_delete_text",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -169,7 +168,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * <p>
      * Note that the positions are specified in characters, not bytes.
      */
-    public default void deleteText(int startPos, int endPos) {
+    default @NotNull void deleteText(@NotNull int startPos, @NotNull int endPos) {
         try {
             gtk_editable_delete_text.invokeExact(handle(), startPos, endPos);
         } catch (Throwable ERR) {
@@ -177,7 +176,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_editable_finish_delegate = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_finish_delegate = Interop.downcallHandle(
         "gtk_editable_finish_delegate",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -188,7 +187,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * This is a helper function that should be called from dispose,
      * before removing the delegate object.
      */
-    public default void finishDelegate() {
+    default @NotNull void finishDelegate() {
         try {
             gtk_editable_finish_delegate.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -196,7 +195,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_editable_get_alignment = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_get_alignment = Interop.downcallHandle(
         "gtk_editable_get_alignment",
         FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -204,16 +203,17 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets the alignment of the editable.
      */
-    public default float getAlignment() {
+    default float getAlignment() {
+        float RESULT;
         try {
-            var RESULT = (float) gtk_editable_get_alignment.invokeExact(handle());
-            return RESULT;
+            RESULT = (float) gtk_editable_get_alignment.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_editable_get_chars = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_get_chars = Interop.downcallHandle(
         "gtk_editable_get_chars",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -228,16 +228,17 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * <p>
      * Note that positions are specified in characters, not bytes.
      */
-    public default java.lang.String getChars(int startPos, int endPos) {
+    default @NotNull java.lang.String getChars(@NotNull int startPos, @NotNull int endPos) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_editable_get_chars.invokeExact(handle(), startPos, endPos);
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_editable_get_chars.invokeExact(handle(), startPos, endPos);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_editable_get_delegate = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_get_delegate = Interop.downcallHandle(
         "gtk_editable_get_delegate",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -248,16 +249,17 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * <p>
      * Typically, the delegate is a {@link Text} widget.
      */
-    public default Editable getDelegate() {
+    default @Nullable Editable getDelegate() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_editable_get_delegate.invokeExact(handle());
-            return new Editable.EditableImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_editable_get_delegate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Editable.EditableImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_editable_get_editable = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_get_editable = Interop.downcallHandle(
         "gtk_editable_get_editable",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -265,16 +267,17 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     /**
      * Retrieves whether {@code editable} is editable.
      */
-    public default boolean getEditable() {
+    default boolean getEditable() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_editable_get_editable.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_editable_get_editable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_editable_get_enable_undo = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_get_enable_undo = Interop.downcallHandle(
         "gtk_editable_get_enable_undo",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -282,16 +285,17 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets if undo/redo actions are enabled for {@code editable}
      */
-    public default boolean getEnableUndo() {
+    default boolean getEnableUndo() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_editable_get_enable_undo.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_editable_get_enable_undo.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_editable_get_max_width_chars = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_get_max_width_chars = Interop.downcallHandle(
         "gtk_editable_get_max_width_chars",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -299,16 +303,17 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     /**
      * Retrieves the desired maximum width of {@code editable}, in characters.
      */
-    public default int getMaxWidthChars() {
+    default int getMaxWidthChars() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_editable_get_max_width_chars.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_editable_get_max_width_chars.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_editable_get_position = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_get_position = Interop.downcallHandle(
         "gtk_editable_get_position",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -319,16 +324,17 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * <p>
      * Note that this position is in characters, not in bytes.
      */
-    public default int getPosition() {
+    default int getPosition() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_editable_get_position.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_editable_get_position.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_editable_get_selection_bounds = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_get_selection_bounds = Interop.downcallHandle(
         "gtk_editable_get_selection_bounds",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -342,16 +348,21 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * <p>
      * Note that positions are specified in characters, not bytes.
      */
-    public default boolean getSelectionBounds(PointerInteger startPos, PointerInteger endPos) {
+    default boolean getSelectionBounds(@NotNull Out<Integer> startPos, @NotNull Out<Integer> endPos) {
+        MemorySegment startPosPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment endPosPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_editable_get_selection_bounds.invokeExact(handle(), startPos.handle(), endPos.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_editable_get_selection_bounds.invokeExact(handle(), (Addressable) startPosPOINTER.address(), (Addressable) endPosPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        startPos.set(startPosPOINTER.get(ValueLayout.JAVA_INT, 0));
+        endPos.set(endPosPOINTER.get(ValueLayout.JAVA_INT, 0));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_editable_get_text = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_get_text = Interop.downcallHandle(
         "gtk_editable_get_text",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -361,16 +372,17 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * <p>
      * The returned string is owned by GTK and must not be modified or freed.
      */
-    public default java.lang.String getText() {
+    default @NotNull java.lang.String getText() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_editable_get_text.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_editable_get_text.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_editable_get_width_chars = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_get_width_chars = Interop.downcallHandle(
         "gtk_editable_get_width_chars",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -379,16 +391,17 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * Gets the number of characters of space reserved
      * for the contents of the editable.
      */
-    public default int getWidthChars() {
+    default int getWidthChars() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_editable_get_width_chars.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_editable_get_width_chars.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_editable_init_delegate = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_init_delegate = Interop.downcallHandle(
         "gtk_editable_init_delegate",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -402,7 +415,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * This is a helper function that should be called in instance init,
      * after creating the delegate object.
      */
-    public default void initDelegate() {
+    default @NotNull void initDelegate() {
         try {
             gtk_editable_init_delegate.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -410,7 +423,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_editable_insert_text = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_insert_text = Interop.downcallHandle(
         "gtk_editable_insert_text",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -423,15 +436,17 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * The function updates {@code position} to point after the newly
      * inserted text.
      */
-    public default void insertText(java.lang.String text, int length, PointerInteger position) {
+    default @NotNull void insertText(@NotNull java.lang.String text, @NotNull int length, @NotNull Out<Integer> position) {
+        MemorySegment positionPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gtk_editable_insert_text.invokeExact(handle(), Interop.allocateNativeString(text).handle(), length, position.handle());
+            gtk_editable_insert_text.invokeExact(handle(), Interop.allocateNativeString(text), length, (Addressable) positionPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        position.set(positionPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    static final MethodHandle gtk_editable_select_region = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_select_region = Interop.downcallHandle(
         "gtk_editable_select_region",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -446,7 +461,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * <p>
      * Note that positions are specified in characters, not bytes.
      */
-    public default void selectRegion(int startPos, int endPos) {
+    default @NotNull void selectRegion(@NotNull int startPos, @NotNull int endPos) {
         try {
             gtk_editable_select_region.invokeExact(handle(), startPos, endPos);
         } catch (Throwable ERR) {
@@ -454,7 +469,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_editable_set_alignment = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_set_alignment = Interop.downcallHandle(
         "gtk_editable_set_alignment",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
     );
@@ -465,7 +480,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * This controls the horizontal positioning of the contents when
      * the displayed text is shorter than the width of the editable.
      */
-    public default void setAlignment(float xalign) {
+    default @NotNull void setAlignment(@NotNull float xalign) {
         try {
             gtk_editable_set_alignment.invokeExact(handle(), xalign);
         } catch (Throwable ERR) {
@@ -473,7 +488,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_editable_set_editable = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_set_editable = Interop.downcallHandle(
         "gtk_editable_set_editable",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -481,7 +496,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     /**
      * Determines if the user can edit the text in the editable widget.
      */
-    public default void setEditable(boolean isEditable) {
+    default @NotNull void setEditable(@NotNull boolean isEditable) {
         try {
             gtk_editable_set_editable.invokeExact(handle(), isEditable ? 1 : 0);
         } catch (Throwable ERR) {
@@ -489,7 +504,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_editable_set_enable_undo = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_set_enable_undo = Interop.downcallHandle(
         "gtk_editable_set_enable_undo",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -502,7 +517,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * stored in secure memory. As such, undo is forcefully disabled
      * when {@code Gtk.Text:visibility} is set to {@code false}.
      */
-    public default void setEnableUndo(boolean enableUndo) {
+    default @NotNull void setEnableUndo(@NotNull boolean enableUndo) {
         try {
             gtk_editable_set_enable_undo.invokeExact(handle(), enableUndo ? 1 : 0);
         } catch (Throwable ERR) {
@@ -510,7 +525,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_editable_set_max_width_chars = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_set_max_width_chars = Interop.downcallHandle(
         "gtk_editable_set_max_width_chars",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -518,7 +533,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     /**
      * Sets the desired maximum width in characters of {@code editable}.
      */
-    public default void setMaxWidthChars(int nChars) {
+    default @NotNull void setMaxWidthChars(@NotNull int nChars) {
         try {
             gtk_editable_set_max_width_chars.invokeExact(handle(), nChars);
         } catch (Throwable ERR) {
@@ -526,7 +541,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_editable_set_position = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_set_position = Interop.downcallHandle(
         "gtk_editable_set_position",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -540,7 +555,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * indicates that the position should be set after the last character
      * of the editable. Note that {@code position} is in characters, not in bytes.
      */
-    public default void setPosition(int position) {
+    default @NotNull void setPosition(@NotNull int position) {
         try {
             gtk_editable_set_position.invokeExact(handle(), position);
         } catch (Throwable ERR) {
@@ -548,7 +563,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_editable_set_text = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_set_text = Interop.downcallHandle(
         "gtk_editable_set_text",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -558,15 +573,15 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * <p>
      * This is replacing the current contents.
      */
-    public default void setText(java.lang.String text) {
+    default @NotNull void setText(@NotNull java.lang.String text) {
         try {
-            gtk_editable_set_text.invokeExact(handle(), Interop.allocateNativeString(text).handle());
+            gtk_editable_set_text.invokeExact(handle(), Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_editable_set_width_chars = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_set_width_chars = Interop.downcallHandle(
         "gtk_editable_set_width_chars",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -579,7 +594,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * be affected by how you pack the widget into containers.
      * If {@code n_chars} is -1, the size reverts to the default size.
      */
-    public default void setWidthChars(int nChars) {
+    default @NotNull void setWidthChars(@NotNull int nChars) {
         try {
             gtk_editable_set_width_chars.invokeExact(handle(), nChars);
         } catch (Throwable ERR) {
@@ -587,7 +602,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_editable_delegate_get_property = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_delegate_get_property = Interop.downcallHandle(
         "gtk_editable_delegate_get_property",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -599,16 +614,17 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * function of your {@code GtkEditable} implementation, before handling your
      * own properties.
      */
-    public static boolean delegateGetProperty(org.gtk.gobject.Object object, int propId, org.gtk.gobject.Value value, org.gtk.gobject.ParamSpec pspec) {
+    public static boolean delegateGetProperty(@NotNull org.gtk.gobject.Object object, @NotNull int propId, @NotNull org.gtk.gobject.Value value, @NotNull org.gtk.gobject.ParamSpec pspec) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_editable_delegate_get_property.invokeExact(object.handle(), propId, value.handle(), pspec.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_editable_delegate_get_property.invokeExact(object.handle(), propId, value.handle(), pspec.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_editable_delegate_set_property = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_delegate_set_property = Interop.downcallHandle(
         "gtk_editable_delegate_set_property",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -620,16 +636,17 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * function of your {@code GtkEditable} implementation, before handling your
      * own properties.
      */
-    public static boolean delegateSetProperty(org.gtk.gobject.Object object, int propId, org.gtk.gobject.Value value, org.gtk.gobject.ParamSpec pspec) {
+    public static boolean delegateSetProperty(@NotNull org.gtk.gobject.Object object, @NotNull int propId, @NotNull org.gtk.gobject.Value value, @NotNull org.gtk.gobject.ParamSpec pspec) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_editable_delegate_set_property.invokeExact(object.handle(), propId, value.handle(), pspec.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_editable_delegate_set_property.invokeExact(object.handle(), propId, value.handle(), pspec.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_editable_install_properties = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_editable_install_properties = Interop.downcallHandle(
         "gtk_editable_install_properties",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -651,13 +668,14 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * values in the {@code Gtk.EditableProperties} enumeration to get the
      * property IDs for these properties.
      */
-    public static int installProperties(org.gtk.gobject.ObjectClass objectClass, int firstProp) {
+    public static int installProperties(@NotNull org.gtk.gobject.ObjectClass objectClass, @NotNull int firstProp) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_editable_install_properties.invokeExact(objectClass.handle(), firstProp);
-            return RESULT;
+            RESULT = (int) gtk_editable_install_properties.invokeExact(objectClass.handle(), firstProp);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     @FunctionalInterface
@@ -679,13 +697,13 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("changed").handle(),
+                Interop.allocateNativeString("changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Editable.Callbacks.class, "signalEditableChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -695,7 +713,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface DeleteTextHandler {
-        void signalReceived(Editable source, int startPos, int endPos);
+        void signalReceived(Editable source, @NotNull int startPos, @NotNull int endPos);
     }
     
     /**
@@ -713,44 +731,13 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("delete-text").handle(),
+                Interop.allocateNativeString("delete-text"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Editable.Callbacks.class, "signalEditableDeleteText",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-    }
-    
-    @FunctionalInterface
-    public interface InsertTextHandler {
-        void signalReceived(Editable source, java.lang.String text, int length, int position);
-    }
-    
-    /**
-     * Emitted when text is inserted into the widget by the user.
-     * <p>
-     * The default handler for this signal will normally be responsible
-     * for inserting the text, so by connecting to this signal and then
-     * stopping the signal with g_signal_stop_emission(), it is possible
-     * to modify the inserted text, or prevent it from being inserted entirely.
-     */
-    public default SignalHandle onInsertText(InsertTextHandler handler) {
-        try {
-            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("insert-text").handle(),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Editable.Callbacks.class, "signalEditableInsertText",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
-                    Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -770,12 +757,6 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (Editable.DeleteTextHandler) Interop.signalRegistry.get(hash);
             handler.signalReceived(new Editable.EditableImpl(Refcounted.get(source)), startPos, endPos);
-        }
-        
-        public static void signalEditableInsertText(MemoryAddress source, MemoryAddress text, int length, int position, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (Editable.InsertTextHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Editable.EditableImpl(Refcounted.get(source)), text.getUtf8String(0), length, position);
         }
         
     }

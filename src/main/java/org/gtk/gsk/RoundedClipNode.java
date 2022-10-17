@@ -3,6 +3,7 @@ package org.gtk.gsk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A render node applying a rounded rectangle clip to its single child.
@@ -18,12 +19,12 @@ public class RoundedClipNode extends RenderNode {
         return new RoundedClipNode(gobject.refcounted());
     }
     
-    static final MethodHandle gsk_rounded_clip_node_new = Interop.downcallHandle(
+    private static final MethodHandle gsk_rounded_clip_node_new = Interop.downcallHandle(
         "gsk_rounded_clip_node_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(RenderNode child, RoundedRect clip) {
+    private static Refcounted constructNew(@NotNull RenderNode child, @NotNull RoundedRect clip) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_rounded_clip_node_new.invokeExact(child.handle(), clip.handle()), false);
             return RESULT;
@@ -36,11 +37,11 @@ public class RoundedClipNode extends RenderNode {
      * Creates a {@code GskRenderNode} that will clip the {@code child} to the area
      * given by {@code clip}.
      */
-    public RoundedClipNode(RenderNode child, RoundedRect clip) {
+    public RoundedClipNode(@NotNull RenderNode child, @NotNull RoundedRect clip) {
         super(constructNew(child, clip));
     }
     
-    static final MethodHandle gsk_rounded_clip_node_get_child = Interop.downcallHandle(
+    private static final MethodHandle gsk_rounded_clip_node_get_child = Interop.downcallHandle(
         "gsk_rounded_clip_node_get_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -48,16 +49,17 @@ public class RoundedClipNode extends RenderNode {
     /**
      * Gets the child node that is getting clipped by the given {@code node}.
      */
-    public RenderNode getChild() {
+    public @NotNull RenderNode getChild() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_rounded_clip_node_get_child.invokeExact(handle());
-            return new RenderNode(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gsk_rounded_clip_node_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new RenderNode(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gsk_rounded_clip_node_get_clip = Interop.downcallHandle(
+    private static final MethodHandle gsk_rounded_clip_node_get_clip = Interop.downcallHandle(
         "gsk_rounded_clip_node_get_clip",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -65,13 +67,14 @@ public class RoundedClipNode extends RenderNode {
     /**
      * Retrieves the rounded rectangle used to clip the contents of the {@code node}.
      */
-    public RoundedRect getClip() {
+    public @NotNull RoundedRect getClip() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_rounded_clip_node_get_clip.invokeExact(handle());
-            return new RoundedRect(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gsk_rounded_clip_node_get_clip.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new RoundedRect(Refcounted.get(RESULT, false));
     }
     
 }

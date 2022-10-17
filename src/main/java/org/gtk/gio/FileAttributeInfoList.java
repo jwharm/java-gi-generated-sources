@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Acts as a lightweight registry for possible valid file attributes.
@@ -14,7 +15,7 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
         super(ref);
     }
     
-    static final MethodHandle g_file_attribute_info_list_new = Interop.downcallHandle(
+    private static final MethodHandle g_file_attribute_info_list_new = Interop.downcallHandle(
         "g_file_attribute_info_list_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -35,7 +36,7 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
         super(constructNew());
     }
     
-    static final MethodHandle g_file_attribute_info_list_add = Interop.downcallHandle(
+    private static final MethodHandle g_file_attribute_info_list_add = Interop.downcallHandle(
         "g_file_attribute_info_list_add",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -44,15 +45,15 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
      * Adds a new attribute with {@code name} to the {@code list}, setting
      * its {@code type} and {@code flags}.
      */
-    public void add(java.lang.String name, FileAttributeType type, FileAttributeInfoFlags flags) {
+    public @NotNull void add(@NotNull java.lang.String name, @NotNull FileAttributeType type, @NotNull FileAttributeInfoFlags flags) {
         try {
-            g_file_attribute_info_list_add.invokeExact(handle(), Interop.allocateNativeString(name).handle(), type.getValue(), flags.getValue());
+            g_file_attribute_info_list_add.invokeExact(handle(), Interop.allocateNativeString(name), type.getValue(), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_attribute_info_list_dup = Interop.downcallHandle(
+    private static final MethodHandle g_file_attribute_info_list_dup = Interop.downcallHandle(
         "g_file_attribute_info_list_dup",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -60,16 +61,17 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
     /**
      * Makes a duplicate of a file attribute info list.
      */
-    public FileAttributeInfoList dup() {
+    public @NotNull FileAttributeInfoList dup() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_attribute_info_list_dup.invokeExact(handle());
-            return new FileAttributeInfoList(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_attribute_info_list_dup.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new FileAttributeInfoList(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_attribute_info_list_lookup = Interop.downcallHandle(
+    private static final MethodHandle g_file_attribute_info_list_lookup = Interop.downcallHandle(
         "g_file_attribute_info_list_lookup",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -77,16 +79,17 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
     /**
      * Gets the file attribute with the name {@code name} from {@code list}.
      */
-    public FileAttributeInfo lookup(java.lang.String name) {
+    public @NotNull FileAttributeInfo lookup(@NotNull java.lang.String name) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_attribute_info_list_lookup.invokeExact(handle(), Interop.allocateNativeString(name).handle());
-            return new FileAttributeInfo(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_file_attribute_info_list_lookup.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new FileAttributeInfo(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_file_attribute_info_list_ref = Interop.downcallHandle(
+    private static final MethodHandle g_file_attribute_info_list_ref = Interop.downcallHandle(
         "g_file_attribute_info_list_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -94,16 +97,17 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
     /**
      * References a file attribute info list.
      */
-    public FileAttributeInfoList ref() {
+    public @NotNull FileAttributeInfoList ref() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_attribute_info_list_ref.invokeExact(handle());
-            return new FileAttributeInfoList(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_attribute_info_list_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new FileAttributeInfoList(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_attribute_info_list_unref = Interop.downcallHandle(
+    private static final MethodHandle g_file_attribute_info_list_unref = Interop.downcallHandle(
         "g_file_attribute_info_list_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -112,7 +116,7 @@ public class FileAttributeInfoList extends io.github.jwharm.javagi.ResourceBase 
      * Removes a reference from the given {@code list}. If the reference count
      * falls to zero, the {@code list} is deleted.
      */
-    public void unref() {
+    public @NotNull void unref() {
         try {
             g_file_attribute_info_list_unref.invokeExact(handle());
         } catch (Throwable ERR) {

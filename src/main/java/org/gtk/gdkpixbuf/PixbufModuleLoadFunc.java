@@ -1,6 +1,7 @@
 package org.gtk.gdkpixbuf;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Loads a file from a standard C file stream into a new {@code GdkPixbuf}.
@@ -9,5 +10,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface PixbufModuleLoadFunc {
-        Pixbuf onPixbufModuleLoadFunc(java.lang.foreign.MemoryAddress f);
+        Pixbuf onPixbufModuleLoadFunc(@Nullable java.lang.foreign.MemoryAddress f);
 }

@@ -3,6 +3,7 @@ package org.gtk.gobject;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * An opaque structure used as the base of all classes.
@@ -13,7 +14,7 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_type_class_get_instance_private_offset = Interop.downcallHandle(
+    private static final MethodHandle g_type_class_get_instance_private_offset = Interop.downcallHandle(
         "g_type_class_get_instance_private_offset",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -29,29 +30,31 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
      * data area for {@code g_class} using g_type_class_add_private().
      */
     public int getInstancePrivateOffset() {
+        int RESULT;
         try {
-            var RESULT = (int) g_type_class_get_instance_private_offset.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_type_class_get_instance_private_offset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_type_class_get_private = Interop.downcallHandle(
+    private static final MethodHandle g_type_class_get_private = Interop.downcallHandle(
         "g_type_class_get_private",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
     
-    public java.lang.foreign.MemoryAddress getPrivate(org.gtk.gobject.Type privateType) {
+    public @Nullable java.lang.foreign.MemoryAddress getPrivate(@NotNull org.gtk.gobject.Type privateType) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_class_get_private.invokeExact(handle(), privateType.getValue());
-            return RESULT;
+            RESULT = (MemoryAddress) g_type_class_get_private.invokeExact(handle(), privateType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_type_class_peek_parent = Interop.downcallHandle(
+    private static final MethodHandle g_type_class_peek_parent = Interop.downcallHandle(
         "g_type_class_peek_parent",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -66,16 +69,17 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
      * This function is essentially equivalent to:
      * g_type_class_peek (g_type_parent (G_TYPE_FROM_CLASS (g_class)))
      */
-    public TypeClass peekParent() {
+    public @NotNull TypeClass peekParent() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_class_peek_parent.invokeExact(handle());
-            return new TypeClass(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_type_class_peek_parent.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TypeClass(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_type_class_unref = Interop.downcallHandle(
+    private static final MethodHandle g_type_class_unref = Interop.downcallHandle(
         "g_type_class_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -86,7 +90,7 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
      * may be finalized by the type system, so further dereferencing of a
      * class pointer after g_type_class_unref() are invalid.
      */
-    public void unref() {
+    public @NotNull void unref() {
         try {
             g_type_class_unref.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -94,7 +98,7 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_type_class_unref_uncached = Interop.downcallHandle(
+    private static final MethodHandle g_type_class_unref_uncached = Interop.downcallHandle(
         "g_type_class_unref_uncached",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -105,7 +109,7 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
      * of {@code GTypeClassCacheFuncs}, avoiding the recursion which would occur
      * otherwise.
      */
-    public void unrefUncached() {
+    public @NotNull void unrefUncached() {
         try {
             g_type_class_unref_uncached.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -113,12 +117,12 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_type_class_adjust_private_offset = Interop.downcallHandle(
+    private static final MethodHandle g_type_class_adjust_private_offset = Interop.downcallHandle(
         "g_type_class_adjust_private_offset",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    public static void adjustPrivateOffset(java.lang.foreign.MemoryAddress gClass, PointerInteger privateSizeOrOffset) {
+    public static @NotNull void adjustPrivateOffset(@Nullable java.lang.foreign.MemoryAddress gClass, @NotNull PointerInteger privateSizeOrOffset) {
         try {
             g_type_class_adjust_private_offset.invokeExact(gClass, privateSizeOrOffset.handle());
         } catch (Throwable ERR) {
@@ -126,7 +130,7 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_type_class_peek = Interop.downcallHandle(
+    private static final MethodHandle g_type_class_peek = Interop.downcallHandle(
         "g_type_class_peek",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -138,16 +142,17 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
      * of the type passed in does not currently exist (hasn't been
      * referenced before).
      */
-    public static TypeClass peek(org.gtk.gobject.Type type) {
+    public static @NotNull TypeClass peek(@NotNull org.gtk.gobject.Type type) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_class_peek.invokeExact(type.getValue());
-            return new TypeClass(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_type_class_peek.invokeExact(type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TypeClass(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_type_class_peek_static = Interop.downcallHandle(
+    private static final MethodHandle g_type_class_peek_static = Interop.downcallHandle(
         "g_type_class_peek_static",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -156,16 +161,17 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
      * A more efficient version of g_type_class_peek() which works only for
      * static types.
      */
-    public static TypeClass peekStatic(org.gtk.gobject.Type type) {
+    public static @NotNull TypeClass peekStatic(@NotNull org.gtk.gobject.Type type) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_class_peek_static.invokeExact(type.getValue());
-            return new TypeClass(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_type_class_peek_static.invokeExact(type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TypeClass(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_type_class_ref = Interop.downcallHandle(
+    private static final MethodHandle g_type_class_ref = Interop.downcallHandle(
         "g_type_class_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -175,13 +181,14 @@ public class TypeClass extends io.github.jwharm.javagi.ResourceBase {
      * {@code type}. This function will demand-create the class if it doesn't
      * exist already.
      */
-    public static TypeClass ref(org.gtk.gobject.Type type) {
+    public static @NotNull TypeClass ref(@NotNull org.gtk.gobject.Type type) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_class_ref.invokeExact(type.getValue());
-            return new TypeClass(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_type_class_ref.invokeExact(type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TypeClass(Refcounted.get(RESULT, false));
     }
     
 }

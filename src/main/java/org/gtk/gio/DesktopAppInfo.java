@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link DesktopAppInfo} is an implementation of {@link AppInfo} based on
@@ -23,14 +24,14 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
         return new DesktopAppInfo(gobject.refcounted());
     }
     
-    static final MethodHandle g_desktop_app_info_new = Interop.downcallHandle(
+    private static final MethodHandle g_desktop_app_info_new = Interop.downcallHandle(
         "g_desktop_app_info_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(java.lang.String desktopId) {
+    private static Refcounted constructNew(@NotNull java.lang.String desktopId) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_desktop_app_info_new.invokeExact(Interop.allocateNativeString(desktopId).handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_desktop_app_info_new.invokeExact(Interop.allocateNativeString(desktopId)), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -50,18 +51,18 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * (i.e. a desktop id of kde-foo.desktop will match
      * {@code /usr/share/applications/kde/foo.desktop}).
      */
-    public DesktopAppInfo(java.lang.String desktopId) {
+    public DesktopAppInfo(@NotNull java.lang.String desktopId) {
         super(constructNew(desktopId));
     }
     
-    static final MethodHandle g_desktop_app_info_new_from_filename = Interop.downcallHandle(
+    private static final MethodHandle g_desktop_app_info_new_from_filename = Interop.downcallHandle(
         "g_desktop_app_info_new_from_filename",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewFromFilename(java.lang.String filename) {
+    private static Refcounted constructNewFromFilename(@NotNull java.lang.String filename) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_desktop_app_info_new_from_filename.invokeExact(Interop.allocateNativeString(filename).handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_desktop_app_info_new_from_filename.invokeExact(Interop.allocateNativeString(filename)), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -71,16 +72,16 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     /**
      * Creates a new {@link DesktopAppInfo}.
      */
-    public static DesktopAppInfo newFromFilename(java.lang.String filename) {
+    public static DesktopAppInfo newFromFilename(@NotNull java.lang.String filename) {
         return new DesktopAppInfo(constructNewFromFilename(filename));
     }
     
-    static final MethodHandle g_desktop_app_info_new_from_keyfile = Interop.downcallHandle(
+    private static final MethodHandle g_desktop_app_info_new_from_keyfile = Interop.downcallHandle(
         "g_desktop_app_info_new_from_keyfile",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewFromKeyfile(org.gtk.glib.KeyFile keyFile) {
+    private static Refcounted constructNewFromKeyfile(@NotNull org.gtk.glib.KeyFile keyFile) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_desktop_app_info_new_from_keyfile.invokeExact(keyFile.handle()), true);
             return RESULT;
@@ -92,11 +93,11 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     /**
      * Creates a new {@link DesktopAppInfo}.
      */
-    public static DesktopAppInfo newFromKeyfile(org.gtk.glib.KeyFile keyFile) {
+    public static DesktopAppInfo newFromKeyfile(@NotNull org.gtk.glib.KeyFile keyFile) {
         return new DesktopAppInfo(constructNewFromKeyfile(keyFile));
     }
     
-    static final MethodHandle g_desktop_app_info_get_action_name = Interop.downcallHandle(
+    private static final MethodHandle g_desktop_app_info_get_action_name = Interop.downcallHandle(
         "g_desktop_app_info_get_action_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -108,16 +109,17 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * This corresponds to the "Name" key within the keyfile group for the
      * action.
      */
-    public java.lang.String getActionName(java.lang.String actionName) {
+    public @NotNull java.lang.String getActionName(@NotNull java.lang.String actionName) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_desktop_app_info_get_action_name.invokeExact(handle(), Interop.allocateNativeString(actionName).handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_desktop_app_info_get_action_name.invokeExact(handle(), Interop.allocateNativeString(actionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_desktop_app_info_get_boolean = Interop.downcallHandle(
+    private static final MethodHandle g_desktop_app_info_get_boolean = Interop.downcallHandle(
         "g_desktop_app_info_get_boolean",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -127,16 +129,17 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * <p>
      * The {@code key} is looked up in the "Desktop Entry" group.
      */
-    public boolean getBoolean(java.lang.String key) {
+    public boolean getBoolean(@NotNull java.lang.String key) {
+        int RESULT;
         try {
-            var RESULT = (int) g_desktop_app_info_get_boolean.invokeExact(handle(), Interop.allocateNativeString(key).handle());
-            return RESULT != 0;
+            RESULT = (int) g_desktop_app_info_get_boolean.invokeExact(handle(), Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_desktop_app_info_get_categories = Interop.downcallHandle(
+    private static final MethodHandle g_desktop_app_info_get_categories = Interop.downcallHandle(
         "g_desktop_app_info_get_categories",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -144,16 +147,17 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     /**
      * Gets the categories from the desktop file.
      */
-    public java.lang.String getCategories() {
+    public @Nullable java.lang.String getCategories() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_desktop_app_info_get_categories.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_desktop_app_info_get_categories.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_desktop_app_info_get_filename = Interop.downcallHandle(
+    private static final MethodHandle g_desktop_app_info_get_filename = Interop.downcallHandle(
         "g_desktop_app_info_get_filename",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -163,16 +167,17 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * situations such as the {@link DesktopAppInfo} returned from
      * g_desktop_app_info_new_from_keyfile(), this function will return {@code null}.
      */
-    public java.lang.String getFilename() {
+    public @Nullable java.lang.String getFilename() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_desktop_app_info_get_filename.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_desktop_app_info_get_filename.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_desktop_app_info_get_generic_name = Interop.downcallHandle(
+    private static final MethodHandle g_desktop_app_info_get_generic_name = Interop.downcallHandle(
         "g_desktop_app_info_get_generic_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -180,16 +185,17 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
     /**
      * Gets the generic name from the desktop file.
      */
-    public java.lang.String getGenericName() {
+    public @Nullable java.lang.String getGenericName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_desktop_app_info_get_generic_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_desktop_app_info_get_generic_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_desktop_app_info_get_is_hidden = Interop.downcallHandle(
+    private static final MethodHandle g_desktop_app_info_get_is_hidden = Interop.downcallHandle(
         "g_desktop_app_info_get_is_hidden",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -199,15 +205,16 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * set to True.
      */
     public boolean getIsHidden() {
+        int RESULT;
         try {
-            var RESULT = (int) g_desktop_app_info_get_is_hidden.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_desktop_app_info_get_is_hidden.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_desktop_app_info_get_keywords = Interop.downcallHandle(
+    private static final MethodHandle g_desktop_app_info_get_keywords = Interop.downcallHandle(
         "g_desktop_app_info_get_keywords",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -216,15 +223,16 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * Gets the keywords from the desktop file.
      */
     public PointerString getKeywords() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_desktop_app_info_get_keywords.invokeExact(handle());
-            return new PointerString(RESULT);
+            RESULT = (MemoryAddress) g_desktop_app_info_get_keywords.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PointerString(RESULT);
     }
     
-    static final MethodHandle g_desktop_app_info_get_locale_string = Interop.downcallHandle(
+    private static final MethodHandle g_desktop_app_info_get_locale_string = Interop.downcallHandle(
         "g_desktop_app_info_get_locale_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -235,16 +243,17 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * <p>
      * The {@code key} is looked up in the "Desktop Entry" group.
      */
-    public java.lang.String getLocaleString(java.lang.String key) {
+    public @Nullable java.lang.String getLocaleString(@NotNull java.lang.String key) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_desktop_app_info_get_locale_string.invokeExact(handle(), Interop.allocateNativeString(key).handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_desktop_app_info_get_locale_string.invokeExact(handle(), Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_desktop_app_info_get_nodisplay = Interop.downcallHandle(
+    private static final MethodHandle g_desktop_app_info_get_nodisplay = Interop.downcallHandle(
         "g_desktop_app_info_get_nodisplay",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -255,15 +264,16 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * {@code G_KEY_FILE_DESKTOP_KEY_NO_DISPLAY} and g_app_info_should_show().
      */
     public boolean getNodisplay() {
+        int RESULT;
         try {
-            var RESULT = (int) g_desktop_app_info_get_nodisplay.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_desktop_app_info_get_nodisplay.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_desktop_app_info_get_show_in = Interop.downcallHandle(
+    private static final MethodHandle g_desktop_app_info_get_show_in = Interop.downcallHandle(
         "g_desktop_app_info_get_show_in",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -281,16 +291,17 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * Note that g_app_info_should_show() for {@code info} will include this check (with
      * {@code null} for {@code desktop_env}) as well as additional checks.
      */
-    public boolean getShowIn(java.lang.String desktopEnv) {
+    public boolean getShowIn(@Nullable java.lang.String desktopEnv) {
+        int RESULT;
         try {
-            var RESULT = (int) g_desktop_app_info_get_show_in.invokeExact(handle(), Interop.allocateNativeString(desktopEnv).handle());
-            return RESULT != 0;
+            RESULT = (int) g_desktop_app_info_get_show_in.invokeExact(handle(), Interop.allocateNativeString(desktopEnv));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_desktop_app_info_get_startup_wm_class = Interop.downcallHandle(
+    private static final MethodHandle g_desktop_app_info_get_startup_wm_class = Interop.downcallHandle(
         "g_desktop_app_info_get_startup_wm_class",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -300,16 +311,17 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * WM_CLASS property of the main window of the application, if launched
      * through {@code info}.
      */
-    public java.lang.String getStartupWmClass() {
+    public @Nullable java.lang.String getStartupWmClass() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_desktop_app_info_get_startup_wm_class.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_desktop_app_info_get_startup_wm_class.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_desktop_app_info_get_string = Interop.downcallHandle(
+    private static final MethodHandle g_desktop_app_info_get_string = Interop.downcallHandle(
         "g_desktop_app_info_get_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -319,16 +331,17 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * <p>
      * The {@code key} is looked up in the "Desktop Entry" group.
      */
-    public java.lang.String getString(java.lang.String key) {
+    public @Nullable java.lang.String getString(@NotNull java.lang.String key) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_desktop_app_info_get_string.invokeExact(handle(), Interop.allocateNativeString(key).handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_desktop_app_info_get_string.invokeExact(handle(), Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_desktop_app_info_get_string_list = Interop.downcallHandle(
+    private static final MethodHandle g_desktop_app_info_get_string_list = Interop.downcallHandle(
         "g_desktop_app_info_get_string_list",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -338,16 +351,24 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * <p>
      * The {@code key} is looked up in the "Desktop Entry" group.
      */
-    public PointerString getStringList(java.lang.String key, PointerLong length) {
+    public java.lang.String[] getStringList(@NotNull java.lang.String key, @NotNull Out<Long> length) {
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_desktop_app_info_get_string_list.invokeExact(handle(), Interop.allocateNativeString(key).handle(), length.handle());
-            return new PointerString(RESULT);
+            RESULT = (MemoryAddress) g_desktop_app_info_get_string_list.invokeExact(handle(), Interop.allocateNativeString(key), (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
+        for (int I = 0; I < length.get().intValue(); I++) {
+            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            resultARRAY[I] = OBJ.getUtf8String(0);
+        }
+        return resultARRAY;
     }
     
-    static final MethodHandle g_desktop_app_info_has_key = Interop.downcallHandle(
+    private static final MethodHandle g_desktop_app_info_has_key = Interop.downcallHandle(
         "g_desktop_app_info_has_key",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -356,16 +377,17 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * Returns whether {@code key} exists in the "Desktop Entry" group
      * of the keyfile backing {@code info}.
      */
-    public boolean hasKey(java.lang.String key) {
+    public boolean hasKey(@NotNull java.lang.String key) {
+        int RESULT;
         try {
-            var RESULT = (int) g_desktop_app_info_has_key.invokeExact(handle(), Interop.allocateNativeString(key).handle());
-            return RESULT != 0;
+            RESULT = (int) g_desktop_app_info_has_key.invokeExact(handle(), Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_desktop_app_info_launch_action = Interop.downcallHandle(
+    private static final MethodHandle g_desktop_app_info_launch_action = Interop.downcallHandle(
         "g_desktop_app_info_launch_action",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -387,15 +409,15 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * As with g_app_info_launch() there is no way to detect failures that
      * occur while using this function.
      */
-    public void launchAction(java.lang.String actionName, AppLaunchContext launchContext) {
+    public @NotNull void launchAction(@NotNull java.lang.String actionName, @Nullable AppLaunchContext launchContext) {
         try {
-            g_desktop_app_info_launch_action.invokeExact(handle(), Interop.allocateNativeString(actionName).handle(), launchContext.handle());
+            g_desktop_app_info_launch_action.invokeExact(handle(), Interop.allocateNativeString(actionName), launchContext.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_desktop_app_info_launch_uris_as_manager = Interop.downcallHandle(
+    private static final MethodHandle g_desktop_app_info_launch_uris_as_manager = Interop.downcallHandle(
         "g_desktop_app_info_launch_uris_as_manager",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -417,32 +439,33 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * activation) then {@code spawn_flags}, {@code user_setup}, {@code user_setup_data},
      * {@code pid_callback} and {@code pid_callback_data} are ignored.
      */
-    public boolean launchUrisAsManager(org.gtk.glib.List uris, AppLaunchContext launchContext, org.gtk.glib.SpawnFlags spawnFlags, org.gtk.glib.SpawnChildSetupFunc userSetup, DesktopAppLaunchCallback pidCallback) throws io.github.jwharm.javagi.GErrorException {
+    public boolean launchUrisAsManager(@NotNull org.gtk.glib.List uris, @Nullable AppLaunchContext launchContext, @NotNull org.gtk.glib.SpawnFlags spawnFlags, @Nullable org.gtk.glib.SpawnChildSetupFunc userSetup, @Nullable DesktopAppLaunchCallback pidCallback) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_desktop_app_info_launch_uris_as_manager.invokeExact(handle(), uris.handle(), launchContext.handle(), spawnFlags.getValue(), 
+            RESULT = (int) g_desktop_app_info_launch_uris_as_manager.invokeExact(handle(), uris.handle(), launchContext.handle(), spawnFlags.getValue(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbSpawnChildSetupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(userSetup.hashCode(), userSetup)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(userSetup)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbDesktopAppLaunchCallback",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(userSetup.hashCode(), userSetup)), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(userSetup)), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_desktop_app_info_launch_uris_as_manager_with_fds = Interop.downcallHandle(
+    private static final MethodHandle g_desktop_app_info_launch_uris_as_manager_with_fds = Interop.downcallHandle(
         "g_desktop_app_info_launch_uris_as_manager_with_fds",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -455,32 +478,33 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * If application launching occurs via some non-spawn mechanism (e.g. D-Bus
      * activation) then {@code stdin_fd}, {@code stdout_fd} and {@code stderr_fd} are ignored.
      */
-    public boolean launchUrisAsManagerWithFds(org.gtk.glib.List uris, AppLaunchContext launchContext, org.gtk.glib.SpawnFlags spawnFlags, org.gtk.glib.SpawnChildSetupFunc userSetup, DesktopAppLaunchCallback pidCallback, int stdinFd, int stdoutFd, int stderrFd) throws io.github.jwharm.javagi.GErrorException {
+    public boolean launchUrisAsManagerWithFds(@NotNull org.gtk.glib.List uris, @Nullable AppLaunchContext launchContext, @NotNull org.gtk.glib.SpawnFlags spawnFlags, @Nullable org.gtk.glib.SpawnChildSetupFunc userSetup, @Nullable DesktopAppLaunchCallback pidCallback, @NotNull int stdinFd, @NotNull int stdoutFd, @NotNull int stderrFd) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_desktop_app_info_launch_uris_as_manager_with_fds.invokeExact(handle(), uris.handle(), launchContext.handle(), spawnFlags.getValue(), 
+            RESULT = (int) g_desktop_app_info_launch_uris_as_manager_with_fds.invokeExact(handle(), uris.handle(), launchContext.handle(), spawnFlags.getValue(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbSpawnChildSetupFunc",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(userSetup.hashCode(), userSetup)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(userSetup)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbDesktopAppLaunchCallback",
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(userSetup.hashCode(), userSetup)), stdinFd, stdoutFd, stderrFd, (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(userSetup)), stdinFd, stdoutFd, stderrFd, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_desktop_app_info_list_actions = Interop.downcallHandle(
+    private static final MethodHandle g_desktop_app_info_list_actions = Interop.downcallHandle(
         "g_desktop_app_info_list_actions",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -493,15 +517,16 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * explicitly listed in the "Actions" key of the [Desktop Entry] group.
      */
     public PointerString listActions() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_desktop_app_info_list_actions.invokeExact(handle());
-            return new PointerString(RESULT);
+            RESULT = (MemoryAddress) g_desktop_app_info_list_actions.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PointerString(RESULT);
     }
     
-    static final MethodHandle g_desktop_app_info_get_implementations = Interop.downcallHandle(
+    private static final MethodHandle g_desktop_app_info_get_implementations = Interop.downcallHandle(
         "g_desktop_app_info_get_implementations",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -512,16 +537,17 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * An application implements an interface if that interface is listed in
      * the Implements= line of the desktop file of the application.
      */
-    public static org.gtk.glib.List getImplementations(java.lang.String interface_) {
+    public static @NotNull org.gtk.glib.List getImplementations(@NotNull java.lang.String interface_) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_desktop_app_info_get_implementations.invokeExact(Interop.allocateNativeString(interface_).handle());
-            return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_desktop_app_info_get_implementations.invokeExact(Interop.allocateNativeString(interface_));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_desktop_app_info_search = Interop.downcallHandle(
+    private static final MethodHandle g_desktop_app_info_search = Interop.downcallHandle(
         "g_desktop_app_info_search",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -543,13 +569,14 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements AppInfo {
      * this function. It is expected that calling code will do this when
      * subsequently creating a {@link DesktopAppInfo} for each result.
      */
-    public static void search(java.lang.String searchString) {
+    public static void search(@NotNull java.lang.String searchString) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_desktop_app_info_search.invokeExact(Interop.allocateNativeString(searchString).handle());
-            return ;
+            RESULT = (MemoryAddress) g_desktop_app_info_search.invokeExact(Interop.allocateNativeString(searchString));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return ;
     }
     
 }

@@ -1,6 +1,7 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * I/O Job function.
@@ -10,5 +11,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface IOSchedulerJobFunc {
-        boolean onIOSchedulerJobFunc(IOSchedulerJob job, Cancellable cancellable);
+        boolean onIOSchedulerJobFunc(@NotNull IOSchedulerJob job, @Nullable Cancellable cancellable);
 }

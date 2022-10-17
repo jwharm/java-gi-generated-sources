@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkActionBar} is designed to present contextual actions.
@@ -16,9 +17,8 @@ import java.lang.invoke.*;
  * contains an internal centered box which is centered with respect to
  * the full width of the box, even if the children at either side take
  * up different amounts of space.
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * <pre>{@code 
  * actionbar
  * ╰── revealer
@@ -48,7 +48,7 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
         return new ActionBar(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_action_bar_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_action_bar_new = Interop.downcallHandle(
         "gtk_action_bar_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -69,7 +69,7 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
         super(constructNew());
     }
     
-    static final MethodHandle gtk_action_bar_get_center_widget = Interop.downcallHandle(
+    private static final MethodHandle gtk_action_bar_get_center_widget = Interop.downcallHandle(
         "gtk_action_bar_get_center_widget",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -77,16 +77,17 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
     /**
      * Retrieves the center bar widget of the bar.
      */
-    public Widget getCenterWidget() {
+    public @Nullable Widget getCenterWidget() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_action_bar_get_center_widget.invokeExact(handle());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_action_bar_get_center_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_action_bar_get_revealed = Interop.downcallHandle(
+    private static final MethodHandle gtk_action_bar_get_revealed = Interop.downcallHandle(
         "gtk_action_bar_get_revealed",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -95,15 +96,16 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
      * Gets whether the contents of the action bar are revealed.
      */
     public boolean getRevealed() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_action_bar_get_revealed.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_action_bar_get_revealed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_action_bar_pack_end = Interop.downcallHandle(
+    private static final MethodHandle gtk_action_bar_pack_end = Interop.downcallHandle(
         "gtk_action_bar_pack_end",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -112,7 +114,7 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
      * Adds {@code child} to {@code action_bar}, packed with reference to the
      * end of the {@code action_bar}.
      */
-    public void packEnd(Widget child) {
+    public @NotNull void packEnd(@NotNull Widget child) {
         try {
             gtk_action_bar_pack_end.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -120,7 +122,7 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
         }
     }
     
-    static final MethodHandle gtk_action_bar_pack_start = Interop.downcallHandle(
+    private static final MethodHandle gtk_action_bar_pack_start = Interop.downcallHandle(
         "gtk_action_bar_pack_start",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -129,7 +131,7 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
      * Adds {@code child} to {@code action_bar}, packed with reference to the
      * start of the {@code action_bar}.
      */
-    public void packStart(Widget child) {
+    public @NotNull void packStart(@NotNull Widget child) {
         try {
             gtk_action_bar_pack_start.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -137,7 +139,7 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
         }
     }
     
-    static final MethodHandle gtk_action_bar_remove = Interop.downcallHandle(
+    private static final MethodHandle gtk_action_bar_remove = Interop.downcallHandle(
         "gtk_action_bar_remove",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -145,7 +147,7 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
     /**
      * Removes a child from {@code action_bar}.
      */
-    public void remove(Widget child) {
+    public @NotNull void remove(@NotNull Widget child) {
         try {
             gtk_action_bar_remove.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -153,7 +155,7 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
         }
     }
     
-    static final MethodHandle gtk_action_bar_set_center_widget = Interop.downcallHandle(
+    private static final MethodHandle gtk_action_bar_set_center_widget = Interop.downcallHandle(
         "gtk_action_bar_set_center_widget",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -161,7 +163,7 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
     /**
      * Sets the center widget for the {@code GtkActionBar}.
      */
-    public void setCenterWidget(Widget centerWidget) {
+    public @NotNull void setCenterWidget(@Nullable Widget centerWidget) {
         try {
             gtk_action_bar_set_center_widget.invokeExact(handle(), centerWidget.handle());
         } catch (Throwable ERR) {
@@ -169,7 +171,7 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
         }
     }
     
-    static final MethodHandle gtk_action_bar_set_revealed = Interop.downcallHandle(
+    private static final MethodHandle gtk_action_bar_set_revealed = Interop.downcallHandle(
         "gtk_action_bar_set_revealed",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -181,7 +183,7 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
      * {@code Gtk.Widget:visible} sense, so revealing has
      * no effect if the action bar is hidden.
      */
-    public void setRevealed(boolean revealed) {
+    public @NotNull void setRevealed(@NotNull boolean revealed) {
         try {
             gtk_action_bar_set_revealed.invokeExact(handle(), revealed ? 1 : 0);
         } catch (Throwable ERR) {

@@ -3,6 +3,7 @@ package org.pango;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code PangoFontFace} is used to represent a group of fonts with
@@ -19,7 +20,7 @@ public class FontFace extends org.gtk.gobject.Object {
         return new FontFace(gobject.refcounted());
     }
     
-    static final MethodHandle pango_font_face_describe = Interop.downcallHandle(
+    private static final MethodHandle pango_font_face_describe = Interop.downcallHandle(
         "pango_font_face_describe",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -31,16 +32,17 @@ public class FontFace extends org.gtk.gobject.Object {
      * variant, weight and stretch of the face, but its size field
      * will be unset.
      */
-    public FontDescription describe() {
+    public @NotNull FontDescription describe() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_font_face_describe.invokeExact(handle());
-            return new FontDescription(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_font_face_describe.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new FontDescription(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle pango_font_face_get_face_name = Interop.downcallHandle(
+    private static final MethodHandle pango_font_face_get_face_name = Interop.downcallHandle(
         "pango_font_face_get_face_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -52,16 +54,17 @@ public class FontFace extends org.gtk.gobject.Object {
      * with the same name (e.g. a variable and a non-variable
      * face for the same style).
      */
-    public java.lang.String getFaceName() {
+    public @NotNull java.lang.String getFaceName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_font_face_get_face_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) pango_font_face_get_face_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle pango_font_face_get_family = Interop.downcallHandle(
+    private static final MethodHandle pango_font_face_get_family = Interop.downcallHandle(
         "pango_font_face_get_family",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -69,16 +72,17 @@ public class FontFace extends org.gtk.gobject.Object {
     /**
      * Gets the {@code PangoFontFamily} that {@code face} belongs to.
      */
-    public FontFamily getFamily() {
+    public @NotNull FontFamily getFamily() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_font_face_get_family.invokeExact(handle());
-            return new FontFamily(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) pango_font_face_get_family.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new FontFamily(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle pango_font_face_is_synthesized = Interop.downcallHandle(
+    private static final MethodHandle pango_font_face_is_synthesized = Interop.downcallHandle(
         "pango_font_face_is_synthesized",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -91,15 +95,16 @@ public class FontFace extends org.gtk.gobject.Object {
      * lightening or modifying it in some other way.
      */
     public boolean isSynthesized() {
+        int RESULT;
         try {
-            var RESULT = (int) pango_font_face_is_synthesized.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) pango_font_face_is_synthesized.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle pango_font_face_list_sizes = Interop.downcallHandle(
+    private static final MethodHandle pango_font_face_list_sizes = Interop.downcallHandle(
         "pango_font_face_list_sizes",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -112,12 +117,16 @@ public class FontFace extends org.gtk.gobject.Object {
      * to by {@code n_sizes}. The sizes returned are in Pango units and are sorted
      * in ascending order.
      */
-    public void listSizes(PointerInteger sizes, PointerInteger nSizes) {
+    public @NotNull void listSizes(@Nullable Out<int[]> sizes, @NotNull Out<Integer> nSizes) {
+        MemorySegment sizesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment nSizesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            pango_font_face_list_sizes.invokeExact(handle(), sizes.handle(), nSizes.handle());
+            pango_font_face_list_sizes.invokeExact(handle(), (Addressable) sizesPOINTER.address(), (Addressable) nSizesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        nSizes.set(nSizesPOINTER.get(ValueLayout.JAVA_INT, 0));
+        sizes.set(MemorySegment.ofAddress(sizesPOINTER.get(ValueLayout.ADDRESS, 0), nSizes.get().intValue() * ValueLayout.JAVA_INT.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_INT));
     }
     
 }

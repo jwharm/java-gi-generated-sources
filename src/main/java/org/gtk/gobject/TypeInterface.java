@@ -3,6 +3,7 @@ package org.gtk.gobject;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * An opaque structure used as the base of all interface types.
@@ -13,7 +14,7 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_type_interface_peek_parent = Interop.downcallHandle(
+    private static final MethodHandle g_type_interface_peek_parent = Interop.downcallHandle(
         "g_type_interface_peek_parent",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -24,16 +25,17 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
      * deriving the implementation of an interface from the parent type and
      * then possibly overriding some methods.
      */
-    public TypeInterface peekParent() {
+    public @NotNull TypeInterface peekParent() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_interface_peek_parent.invokeExact(handle());
-            return new TypeInterface(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_type_interface_peek_parent.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TypeInterface(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_type_interface_add_prerequisite = Interop.downcallHandle(
+    private static final MethodHandle g_type_interface_add_prerequisite = Interop.downcallHandle(
         "g_type_interface_add_prerequisite",
         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
     );
@@ -45,7 +47,7 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
      * interface derivation (which GType doesn't support). An interface can have
      * at most one instantiatable prerequisite type.
      */
-    public static void addPrerequisite(org.gtk.gobject.Type interfaceType, org.gtk.gobject.Type prerequisiteType) {
+    public static @NotNull void addPrerequisite(@NotNull org.gtk.gobject.Type interfaceType, @NotNull org.gtk.gobject.Type prerequisiteType) {
         try {
             g_type_interface_add_prerequisite.invokeExact(interfaceType.getValue(), prerequisiteType.getValue());
         } catch (Throwable ERR) {
@@ -53,7 +55,7 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_type_interface_get_plugin = Interop.downcallHandle(
+    private static final MethodHandle g_type_interface_get_plugin = Interop.downcallHandle(
         "g_type_interface_get_plugin",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
     );
@@ -64,16 +66,17 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
      * if {@code interface_type} has not been added to {@code instance_type} or does
      * not have a {@link TypePlugin} structure. See g_type_add_interface_dynamic().
      */
-    public static TypePlugin getPlugin(org.gtk.gobject.Type instanceType, org.gtk.gobject.Type interfaceType) {
+    public static @NotNull TypePlugin getPlugin(@NotNull org.gtk.gobject.Type instanceType, @NotNull org.gtk.gobject.Type interfaceType) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_interface_get_plugin.invokeExact(instanceType.getValue(), interfaceType.getValue());
-            return new TypePlugin.TypePluginImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_type_interface_get_plugin.invokeExact(instanceType.getValue(), interfaceType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TypePlugin.TypePluginImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_type_interface_instantiatable_prerequisite = Interop.downcallHandle(
+    private static final MethodHandle g_type_interface_instantiatable_prerequisite = Interop.downcallHandle(
         "g_type_interface_instantiatable_prerequisite",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
     );
@@ -86,16 +89,17 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
      * See g_type_interface_add_prerequisite() for more information
      * about prerequisites.
      */
-    public static org.gtk.gobject.Type instantiatablePrerequisite(org.gtk.gobject.Type interfaceType) {
+    public static @NotNull org.gtk.gobject.Type instantiatablePrerequisite(@NotNull org.gtk.gobject.Type interfaceType) {
+        long RESULT;
         try {
-            var RESULT = (long) g_type_interface_instantiatable_prerequisite.invokeExact(interfaceType.getValue());
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) g_type_interface_instantiatable_prerequisite.invokeExact(interfaceType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle g_type_interface_peek = Interop.downcallHandle(
+    private static final MethodHandle g_type_interface_peek = Interop.downcallHandle(
         "g_type_interface_peek",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -104,16 +108,17 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
      * Returns the {@link TypeInterface} structure of an interface to which the
      * passed in class conforms.
      */
-    public static TypeInterface peek(TypeClass instanceClass, org.gtk.gobject.Type ifaceType) {
+    public static @NotNull TypeInterface peek(@NotNull TypeClass instanceClass, @NotNull org.gtk.gobject.Type ifaceType) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_interface_peek.invokeExact(instanceClass.handle(), ifaceType.getValue());
-            return new TypeInterface(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_type_interface_peek.invokeExact(instanceClass.handle(), ifaceType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TypeInterface(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_type_interface_prerequisites = Interop.downcallHandle(
+    private static final MethodHandle g_type_interface_prerequisites = Interop.downcallHandle(
         "g_type_interface_prerequisites",
         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -121,13 +126,21 @@ public class TypeInterface extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the prerequisites of an interfaces type.
      */
-    public static PointerLong prerequisites(org.gtk.gobject.Type interfaceType, PointerInteger nPrerequisites) {
+    public static org.gtk.gobject.Type[] prerequisites(@NotNull org.gtk.gobject.Type interfaceType, @NotNull Out<Integer> nPrerequisites) {
+        MemorySegment nPrerequisitesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_interface_prerequisites.invokeExact(interfaceType.getValue(), nPrerequisites.handle());
-            return new PointerLong(RESULT);
+            RESULT = (MemoryAddress) g_type_interface_prerequisites.invokeExact(interfaceType.getValue(), (Addressable) nPrerequisitesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        nPrerequisites.set(nPrerequisitesPOINTER.get(ValueLayout.JAVA_INT, 0));
+        org.gtk.gobject.Type[] resultARRAY = new org.gtk.gobject.Type[nPrerequisites.get().intValue()];
+        for (int I = 0; I < nPrerequisites.get().intValue(); I++) {
+            var OBJ = RESULT.get(ValueLayout.JAVA_LONG, I);
+            resultARRAY[I] = new org.gtk.gobject.Type(OBJ);
+        }
+        return resultARRAY;
     }
     
 }

@@ -3,6 +3,7 @@ package org.gtk.gsk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A render node applying a rectangular clip to its single child node.
@@ -18,12 +19,12 @@ public class ClipNode extends RenderNode {
         return new ClipNode(gobject.refcounted());
     }
     
-    static final MethodHandle gsk_clip_node_new = Interop.downcallHandle(
+    private static final MethodHandle gsk_clip_node_new = Interop.downcallHandle(
         "gsk_clip_node_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(RenderNode child, org.gtk.graphene.Rect clip) {
+    private static Refcounted constructNew(@NotNull RenderNode child, @NotNull org.gtk.graphene.Rect clip) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_clip_node_new.invokeExact(child.handle(), clip.handle()), true);
             return RESULT;
@@ -36,11 +37,11 @@ public class ClipNode extends RenderNode {
      * Creates a {@code GskRenderNode} that will clip the {@code child} to the area
      * given by {@code clip}.
      */
-    public ClipNode(RenderNode child, org.gtk.graphene.Rect clip) {
+    public ClipNode(@NotNull RenderNode child, @NotNull org.gtk.graphene.Rect clip) {
         super(constructNew(child, clip));
     }
     
-    static final MethodHandle gsk_clip_node_get_child = Interop.downcallHandle(
+    private static final MethodHandle gsk_clip_node_get_child = Interop.downcallHandle(
         "gsk_clip_node_get_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -48,16 +49,17 @@ public class ClipNode extends RenderNode {
     /**
      * Gets the child node that is getting clipped by the given {@code node}.
      */
-    public RenderNode getChild() {
+    public @NotNull RenderNode getChild() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_clip_node_get_child.invokeExact(handle());
-            return new RenderNode(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gsk_clip_node_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new RenderNode(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gsk_clip_node_get_clip = Interop.downcallHandle(
+    private static final MethodHandle gsk_clip_node_get_clip = Interop.downcallHandle(
         "gsk_clip_node_get_clip",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -65,13 +67,14 @@ public class ClipNode extends RenderNode {
     /**
      * Retrieves the clip rectangle for {@code node}.
      */
-    public org.gtk.graphene.Rect getClip() {
+    public @NotNull org.gtk.graphene.Rect getClip() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_clip_node_get_clip.invokeExact(handle());
-            return new org.gtk.graphene.Rect(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gsk_clip_node_get_clip.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.graphene.Rect(Refcounted.get(RESULT, false));
     }
     
 }

@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkAssistant} is used to represent a complex as a series of steps.
@@ -25,9 +26,8 @@ import java.lang.invoke.*;
  * {@code GtkAssistant} maintains a {@code GtkAssistantPage} object for each added
  * child, which holds additional per-child properties. You
  * obtain the {@code GtkAssistantPage} for a child with {@link Assistant#getPage}.
- * <p>
+ * 
  * <h1>GtkAssistant as GtkBuildable</h1>
- * <p>
  * The {@code GtkAssistant} implementation of the {@code GtkBuildable} interface
  * exposes the {@code action_area} as internal children with the name
  * “action_area”.
@@ -36,9 +36,8 @@ import java.lang.invoke.*;
  * child to the {@code GtkAssistant} object. If you need to set per-object
  * properties, create a {@code GtkAssistantPage} object explicitly, and
  * set the child widget as a property on it.
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * {@code GtkAssistant} has a single CSS node with the name window and style
  * class .assistant.
  */
@@ -53,7 +52,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         return new Assistant(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_assistant_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_assistant_new = Interop.downcallHandle(
         "gtk_assistant_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -74,7 +73,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         super(constructNew());
     }
     
-    static final MethodHandle gtk_assistant_add_action_widget = Interop.downcallHandle(
+    private static final MethodHandle gtk_assistant_add_action_widget = Interop.downcallHandle(
         "gtk_assistant_add_action_widget",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -82,7 +81,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
     /**
      * Adds a widget to the action area of a {@code GtkAssistant}.
      */
-    public void addActionWidget(Widget child) {
+    public @NotNull void addActionWidget(@NotNull Widget child) {
         try {
             gtk_assistant_add_action_widget.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -90,7 +89,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         }
     }
     
-    static final MethodHandle gtk_assistant_append_page = Interop.downcallHandle(
+    private static final MethodHandle gtk_assistant_append_page = Interop.downcallHandle(
         "gtk_assistant_append_page",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -98,16 +97,17 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
     /**
      * Appends a page to the {@code assistant}.
      */
-    public int appendPage(Widget page) {
+    public int appendPage(@NotNull Widget page) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_assistant_append_page.invokeExact(handle(), page.handle());
-            return RESULT;
+            RESULT = (int) gtk_assistant_append_page.invokeExact(handle(), page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_assistant_commit = Interop.downcallHandle(
+    private static final MethodHandle gtk_assistant_commit = Interop.downcallHandle(
         "gtk_assistant_commit",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -124,7 +124,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * a long-running, unreversible operation after the user has
      * clicked apply on a confirmation page.
      */
-    public void commit() {
+    public @NotNull void commit() {
         try {
             gtk_assistant_commit.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -132,7 +132,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         }
     }
     
-    static final MethodHandle gtk_assistant_get_current_page = Interop.downcallHandle(
+    private static final MethodHandle gtk_assistant_get_current_page = Interop.downcallHandle(
         "gtk_assistant_get_current_page",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -141,15 +141,16 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * Returns the page number of the current page.
      */
     public int getCurrentPage() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_assistant_get_current_page.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_assistant_get_current_page.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_assistant_get_n_pages = Interop.downcallHandle(
+    private static final MethodHandle gtk_assistant_get_n_pages = Interop.downcallHandle(
         "gtk_assistant_get_n_pages",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -158,15 +159,16 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * Returns the number of pages in the {@code assistant}
      */
     public int getNPages() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_assistant_get_n_pages.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_assistant_get_n_pages.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_assistant_get_nth_page = Interop.downcallHandle(
+    private static final MethodHandle gtk_assistant_get_nth_page = Interop.downcallHandle(
         "gtk_assistant_get_nth_page",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -174,16 +176,17 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
     /**
      * Returns the child widget contained in page number {@code page_num}.
      */
-    public Widget getNthPage(int pageNum) {
+    public @Nullable Widget getNthPage(@NotNull int pageNum) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_assistant_get_nth_page.invokeExact(handle(), pageNum);
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_assistant_get_nth_page.invokeExact(handle(), pageNum);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_assistant_get_page = Interop.downcallHandle(
+    private static final MethodHandle gtk_assistant_get_page = Interop.downcallHandle(
         "gtk_assistant_get_page",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -191,16 +194,17 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
     /**
      * Returns the {@code GtkAssistantPage} object for {@code child}.
      */
-    public AssistantPage getPage(Widget child) {
+    public @NotNull AssistantPage getPage(@NotNull Widget child) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_assistant_get_page.invokeExact(handle(), child.handle());
-            return new AssistantPage(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_assistant_get_page.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new AssistantPage(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_assistant_get_page_complete = Interop.downcallHandle(
+    private static final MethodHandle gtk_assistant_get_page_complete = Interop.downcallHandle(
         "gtk_assistant_get_page_complete",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -208,16 +212,17 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
     /**
      * Gets whether {@code page} is complete.
      */
-    public boolean getPageComplete(Widget page) {
+    public boolean getPageComplete(@NotNull Widget page) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_assistant_get_page_complete.invokeExact(handle(), page.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_assistant_get_page_complete.invokeExact(handle(), page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_assistant_get_page_title = Interop.downcallHandle(
+    private static final MethodHandle gtk_assistant_get_page_title = Interop.downcallHandle(
         "gtk_assistant_get_page_title",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -225,16 +230,17 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
     /**
      * Gets the title for {@code page}.
      */
-    public java.lang.String getPageTitle(Widget page) {
+    public @NotNull java.lang.String getPageTitle(@NotNull Widget page) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_assistant_get_page_title.invokeExact(handle(), page.handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_assistant_get_page_title.invokeExact(handle(), page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_assistant_get_page_type = Interop.downcallHandle(
+    private static final MethodHandle gtk_assistant_get_page_type = Interop.downcallHandle(
         "gtk_assistant_get_page_type",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -242,16 +248,17 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
     /**
      * Gets the page type of {@code page}.
      */
-    public AssistantPageType getPageType(Widget page) {
+    public @NotNull AssistantPageType getPageType(@NotNull Widget page) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_assistant_get_page_type.invokeExact(handle(), page.handle());
-            return new AssistantPageType(RESULT);
+            RESULT = (int) gtk_assistant_get_page_type.invokeExact(handle(), page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new AssistantPageType(RESULT);
     }
     
-    static final MethodHandle gtk_assistant_get_pages = Interop.downcallHandle(
+    private static final MethodHandle gtk_assistant_get_pages = Interop.downcallHandle(
         "gtk_assistant_get_pages",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -259,16 +266,17 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
     /**
      * Gets a list model of the assistant pages.
      */
-    public org.gtk.gio.ListModel getPages() {
+    public @NotNull org.gtk.gio.ListModel getPages() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_assistant_get_pages.invokeExact(handle());
-            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_assistant_get_pages.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_assistant_insert_page = Interop.downcallHandle(
+    private static final MethodHandle gtk_assistant_insert_page = Interop.downcallHandle(
         "gtk_assistant_insert_page",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -276,16 +284,17 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
     /**
      * Inserts a page in the {@code assistant} at a given position.
      */
-    public int insertPage(Widget page, int position) {
+    public int insertPage(@NotNull Widget page, @NotNull int position) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_assistant_insert_page.invokeExact(handle(), page.handle(), position);
-            return RESULT;
+            RESULT = (int) gtk_assistant_insert_page.invokeExact(handle(), page.handle(), position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_assistant_next_page = Interop.downcallHandle(
+    private static final MethodHandle gtk_assistant_next_page = Interop.downcallHandle(
         "gtk_assistant_next_page",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -299,7 +308,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * This function is for use when creating pages of the
      * {@link AssistantPageType#CUSTOM} type.
      */
-    public void nextPage() {
+    public @NotNull void nextPage() {
         try {
             gtk_assistant_next_page.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -307,7 +316,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         }
     }
     
-    static final MethodHandle gtk_assistant_prepend_page = Interop.downcallHandle(
+    private static final MethodHandle gtk_assistant_prepend_page = Interop.downcallHandle(
         "gtk_assistant_prepend_page",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -315,16 +324,17 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
     /**
      * Prepends a page to the {@code assistant}.
      */
-    public int prependPage(Widget page) {
+    public int prependPage(@NotNull Widget page) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_assistant_prepend_page.invokeExact(handle(), page.handle());
-            return RESULT;
+            RESULT = (int) gtk_assistant_prepend_page.invokeExact(handle(), page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_assistant_previous_page = Interop.downcallHandle(
+    private static final MethodHandle gtk_assistant_previous_page = Interop.downcallHandle(
         "gtk_assistant_previous_page",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -338,7 +348,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * This function is for use when creating pages of the
      * {@link AssistantPageType#CUSTOM} type.
      */
-    public void previousPage() {
+    public @NotNull void previousPage() {
         try {
             gtk_assistant_previous_page.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -346,7 +356,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         }
     }
     
-    static final MethodHandle gtk_assistant_remove_action_widget = Interop.downcallHandle(
+    private static final MethodHandle gtk_assistant_remove_action_widget = Interop.downcallHandle(
         "gtk_assistant_remove_action_widget",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -354,7 +364,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
     /**
      * Removes a widget from the action area of a {@code GtkAssistant}.
      */
-    public void removeActionWidget(Widget child) {
+    public @NotNull void removeActionWidget(@NotNull Widget child) {
         try {
             gtk_assistant_remove_action_widget.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -362,7 +372,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         }
     }
     
-    static final MethodHandle gtk_assistant_remove_page = Interop.downcallHandle(
+    private static final MethodHandle gtk_assistant_remove_page = Interop.downcallHandle(
         "gtk_assistant_remove_page",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -370,7 +380,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
     /**
      * Removes the {@code page_num}’s page from {@code assistant}.
      */
-    public void removePage(int pageNum) {
+    public @NotNull void removePage(@NotNull int pageNum) {
         try {
             gtk_assistant_remove_page.invokeExact(handle(), pageNum);
         } catch (Throwable ERR) {
@@ -378,7 +388,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         }
     }
     
-    static final MethodHandle gtk_assistant_set_current_page = Interop.downcallHandle(
+    private static final MethodHandle gtk_assistant_set_current_page = Interop.downcallHandle(
         "gtk_assistant_set_current_page",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -390,7 +400,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * as the {@code assistant} flow can be set with
      * gtk_assistant_set_forward_page_func().
      */
-    public void setCurrentPage(int pageNum) {
+    public @NotNull void setCurrentPage(@NotNull int pageNum) {
         try {
             gtk_assistant_set_current_page.invokeExact(handle(), pageNum);
         } catch (Throwable ERR) {
@@ -398,7 +408,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         }
     }
     
-    static final MethodHandle gtk_assistant_set_forward_page_func = Interop.downcallHandle(
+    private static final MethodHandle gtk_assistant_set_forward_page_func = Interop.downcallHandle(
         "gtk_assistant_set_forward_page_func",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -412,7 +422,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * use the default forward function, which just goes to the
      * next visible page.
      */
-    public void setForwardPageFunc(AssistantPageFunc pageFunc) {
+    public @NotNull void setForwardPageFunc(@Nullable AssistantPageFunc pageFunc) {
         try {
             gtk_assistant_set_forward_page_func.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -420,14 +430,14 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
                             MethodType.methodType(int.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(pageFunc.hashCode(), pageFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(pageFunc)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_assistant_set_page_complete = Interop.downcallHandle(
+    private static final MethodHandle gtk_assistant_set_page_complete = Interop.downcallHandle(
         "gtk_assistant_set_page_complete",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -438,7 +448,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * This will make {@code assistant} update the buttons state
      * to be able to continue the task.
      */
-    public void setPageComplete(Widget page, boolean complete) {
+    public @NotNull void setPageComplete(@NotNull Widget page, @NotNull boolean complete) {
         try {
             gtk_assistant_set_page_complete.invokeExact(handle(), page.handle(), complete ? 1 : 0);
         } catch (Throwable ERR) {
@@ -446,7 +456,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         }
     }
     
-    static final MethodHandle gtk_assistant_set_page_title = Interop.downcallHandle(
+    private static final MethodHandle gtk_assistant_set_page_title = Interop.downcallHandle(
         "gtk_assistant_set_page_title",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -457,15 +467,15 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * The title is displayed in the header area of the assistant
      * when {@code page} is the current page.
      */
-    public void setPageTitle(Widget page, java.lang.String title) {
+    public @NotNull void setPageTitle(@NotNull Widget page, @NotNull java.lang.String title) {
         try {
-            gtk_assistant_set_page_title.invokeExact(handle(), page.handle(), Interop.allocateNativeString(title).handle());
+            gtk_assistant_set_page_title.invokeExact(handle(), page.handle(), Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_assistant_set_page_type = Interop.downcallHandle(
+    private static final MethodHandle gtk_assistant_set_page_type = Interop.downcallHandle(
         "gtk_assistant_set_page_type",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -475,7 +485,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * <p>
      * The page type determines the page behavior in the {@code assistant}.
      */
-    public void setPageType(Widget page, AssistantPageType type) {
+    public @NotNull void setPageType(@NotNull Widget page, @NotNull AssistantPageType type) {
         try {
             gtk_assistant_set_page_type.invokeExact(handle(), page.handle(), type.getValue());
         } catch (Throwable ERR) {
@@ -483,7 +493,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         }
     }
     
-    static final MethodHandle gtk_assistant_update_buttons_state = Interop.downcallHandle(
+    private static final MethodHandle gtk_assistant_update_buttons_state = Interop.downcallHandle(
         "gtk_assistant_update_buttons_state",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -499,7 +509,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * function is when changing a value on the current page
      * affects the future page flow of the assistant.
      */
-    public void updateButtonsState() {
+    public @NotNull void updateButtonsState() {
         try {
             gtk_assistant_update_buttons_state.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -529,13 +539,13 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("apply").handle(),
+                Interop.allocateNativeString("apply"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Assistant.Callbacks.class, "signalAssistantApply",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -555,13 +565,13 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("cancel").handle(),
+                Interop.allocateNativeString("cancel"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Assistant.Callbacks.class, "signalAssistantCancel",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -583,13 +593,13 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("close").handle(),
+                Interop.allocateNativeString("close"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Assistant.Callbacks.class, "signalAssistantClose",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -609,13 +619,13 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("escape").handle(),
+                Interop.allocateNativeString("escape"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Assistant.Callbacks.class, "signalAssistantEscape",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -625,7 +635,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
     
     @FunctionalInterface
     public interface PrepareHandler {
-        void signalReceived(Assistant source, Widget page);
+        void signalReceived(Assistant source, @NotNull Widget page);
     }
     
     /**
@@ -639,13 +649,13 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("prepare").handle(),
+                Interop.allocateNativeString("prepare"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Assistant.Callbacks.class, "signalAssistantPrepare",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

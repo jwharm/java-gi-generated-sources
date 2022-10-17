@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@link DBusObjectSkeleton} instance is essentially a group of D-Bus
@@ -22,14 +23,14 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
         return new DBusObjectSkeleton(gobject.refcounted());
     }
     
-    static final MethodHandle g_dbus_object_skeleton_new = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_object_skeleton_new = Interop.downcallHandle(
         "g_dbus_object_skeleton_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(java.lang.String objectPath) {
+    private static Refcounted constructNew(@NotNull java.lang.String objectPath) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_object_skeleton_new.invokeExact(Interop.allocateNativeString(objectPath).handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_object_skeleton_new.invokeExact(Interop.allocateNativeString(objectPath)), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -39,11 +40,11 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
     /**
      * Creates a new {@link DBusObjectSkeleton}.
      */
-    public DBusObjectSkeleton(java.lang.String objectPath) {
+    public DBusObjectSkeleton(@NotNull java.lang.String objectPath) {
         super(constructNew(objectPath));
     }
     
-    static final MethodHandle g_dbus_object_skeleton_add_interface = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_object_skeleton_add_interface = Interop.downcallHandle(
         "g_dbus_object_skeleton_add_interface",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -57,7 +58,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
      * Note that {@code object} takes its own reference on {@code interface_} and holds
      * it until removed.
      */
-    public void addInterface(DBusInterfaceSkeleton interface_) {
+    public @NotNull void addInterface(@NotNull DBusInterfaceSkeleton interface_) {
         try {
             g_dbus_object_skeleton_add_interface.invokeExact(handle(), interface_.handle());
         } catch (Throwable ERR) {
@@ -65,7 +66,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
         }
     }
     
-    static final MethodHandle g_dbus_object_skeleton_flush = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_object_skeleton_flush = Interop.downcallHandle(
         "g_dbus_object_skeleton_flush",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -75,7 +76,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
      * interfaces belonging to {@code object}. See that method for when flushing
      * is useful.
      */
-    public void flush() {
+    public @NotNull void flush() {
         try {
             g_dbus_object_skeleton_flush.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -83,7 +84,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
         }
     }
     
-    static final MethodHandle g_dbus_object_skeleton_remove_interface = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_object_skeleton_remove_interface = Interop.downcallHandle(
         "g_dbus_object_skeleton_remove_interface",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -91,7 +92,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
     /**
      * Removes {@code interface_} from {@code object}.
      */
-    public void removeInterface(DBusInterfaceSkeleton interface_) {
+    public @NotNull void removeInterface(@NotNull DBusInterfaceSkeleton interface_) {
         try {
             g_dbus_object_skeleton_remove_interface.invokeExact(handle(), interface_.handle());
         } catch (Throwable ERR) {
@@ -99,7 +100,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
         }
     }
     
-    static final MethodHandle g_dbus_object_skeleton_remove_interface_by_name = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_object_skeleton_remove_interface_by_name = Interop.downcallHandle(
         "g_dbus_object_skeleton_remove_interface_by_name",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -110,15 +111,15 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
      * If no D-Bus interface of the given interface exists, this function
      * does nothing.
      */
-    public void removeInterfaceByName(java.lang.String interfaceName) {
+    public @NotNull void removeInterfaceByName(@NotNull java.lang.String interfaceName) {
         try {
-            g_dbus_object_skeleton_remove_interface_by_name.invokeExact(handle(), Interop.allocateNativeString(interfaceName).handle());
+            g_dbus_object_skeleton_remove_interface_by_name.invokeExact(handle(), Interop.allocateNativeString(interfaceName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_dbus_object_skeleton_set_object_path = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_object_skeleton_set_object_path = Interop.downcallHandle(
         "g_dbus_object_skeleton_set_object_path",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -126,9 +127,9 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
     /**
      * Sets the object path for {@code object}.
      */
-    public void setObjectPath(java.lang.String objectPath) {
+    public @NotNull void setObjectPath(@NotNull java.lang.String objectPath) {
         try {
-            g_dbus_object_skeleton_set_object_path.invokeExact(handle(), Interop.allocateNativeString(objectPath).handle());
+            g_dbus_object_skeleton_set_object_path.invokeExact(handle(), Interop.allocateNativeString(objectPath));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,7 +137,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
     
     @FunctionalInterface
     public interface AuthorizeMethodHandler {
-        boolean signalReceived(DBusObjectSkeleton source, DBusInterfaceSkeleton interface_, DBusMethodInvocation invocation);
+        boolean signalReceived(DBusObjectSkeleton source, @NotNull DBusInterfaceSkeleton interface_, @NotNull DBusMethodInvocation invocation);
     }
     
     /**
@@ -153,13 +154,13 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements DBusOb
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("authorize-method").handle(),
+                Interop.allocateNativeString("authorize-method"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DBusObjectSkeleton.Callbacks.class, "signalDBusObjectSkeletonAuthorizeMethod",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

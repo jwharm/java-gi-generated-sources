@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Renders a keyboard accelerator in a cell
@@ -22,7 +23,7 @@ public class CellRendererAccel extends CellRendererText {
         return new CellRendererAccel(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_cell_renderer_accel_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_renderer_accel_new = Interop.downcallHandle(
         "gtk_cell_renderer_accel_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -45,7 +46,7 @@ public class CellRendererAccel extends CellRendererText {
     
     @FunctionalInterface
     public interface AccelClearedHandler {
-        void signalReceived(CellRendererAccel source, java.lang.String pathString);
+        void signalReceived(CellRendererAccel source, @NotNull java.lang.String pathString);
     }
     
     /**
@@ -55,13 +56,13 @@ public class CellRendererAccel extends CellRendererText {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("accel-cleared").handle(),
+                Interop.allocateNativeString("accel-cleared"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(CellRendererAccel.Callbacks.class, "signalCellRendererAccelAccelCleared",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -71,7 +72,7 @@ public class CellRendererAccel extends CellRendererText {
     
     @FunctionalInterface
     public interface AccelEditedHandler {
-        void signalReceived(CellRendererAccel source, java.lang.String pathString, int accelKey, org.gtk.gdk.ModifierType accelMods, int hardwareKeycode);
+        void signalReceived(CellRendererAccel source, @NotNull java.lang.String pathString, @NotNull int accelKey, @NotNull org.gtk.gdk.ModifierType accelMods, @NotNull int hardwareKeycode);
     }
     
     /**
@@ -81,13 +82,13 @@ public class CellRendererAccel extends CellRendererText {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("accel-edited").handle(),
+                Interop.allocateNativeString("accel-edited"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(CellRendererAccel.Callbacks.class, "signalCellRendererAccelAccelEdited",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

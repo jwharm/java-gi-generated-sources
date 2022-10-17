@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GtkStackSidebar} uses a sidebar to switch between {@code GtkStack} pages.
@@ -11,9 +12,8 @@ import java.lang.invoke.*;
  * organize your UI flow, and add the sidebar to your sidebar area. You
  * can use {@link StackSidebar#setStack} to connect the {@code GtkStackSidebar}
  * to the {@code GtkStack}.
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * {@code GtkStackSidebar} has a single CSS node with name stacksidebar and
  * style class .sidebar.
  * <p>
@@ -32,7 +32,7 @@ public class StackSidebar extends Widget implements Accessible, Buildable, Const
         return new StackSidebar(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_stack_sidebar_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_stack_sidebar_new = Interop.downcallHandle(
         "gtk_stack_sidebar_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -53,7 +53,7 @@ public class StackSidebar extends Widget implements Accessible, Buildable, Const
         super(constructNew());
     }
     
-    static final MethodHandle gtk_stack_sidebar_get_stack = Interop.downcallHandle(
+    private static final MethodHandle gtk_stack_sidebar_get_stack = Interop.downcallHandle(
         "gtk_stack_sidebar_get_stack",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -61,16 +61,17 @@ public class StackSidebar extends Widget implements Accessible, Buildable, Const
     /**
      * Retrieves the stack.
      */
-    public Stack getStack() {
+    public @Nullable Stack getStack() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_stack_sidebar_get_stack.invokeExact(handle());
-            return new Stack(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_stack_sidebar_get_stack.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Stack(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_stack_sidebar_set_stack = Interop.downcallHandle(
+    private static final MethodHandle gtk_stack_sidebar_set_stack = Interop.downcallHandle(
         "gtk_stack_sidebar_set_stack",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -81,7 +82,7 @@ public class StackSidebar extends Widget implements Accessible, Buildable, Const
      * The sidebar widget will automatically update according to
      * the order and items within the given {@code GtkStack}.
      */
-    public void setStack(Stack stack) {
+    public @NotNull void setStack(@NotNull Stack stack) {
         try {
             gtk_stack_sidebar_set_stack.invokeExact(handle(), stack.handle());
         } catch (Throwable ERR) {

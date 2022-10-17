@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@code GtkStackSwitcher} shows a row of buttons to switch between {@code GtkStack}
@@ -18,23 +19,20 @@ import java.lang.invoke.*;
  * <p>
  * It is possible to associate multiple {@code GtkStackSwitcher} widgets
  * with the same {@code GtkStack} widget.
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * {@code GtkStackSwitcher} has a single CSS node named stackswitcher and
  * style class .stack-switcher.
  * <p>
  * When circumstances require it, {@code GtkStackSwitcher} adds the
  * .needs-attention style class to the widgets representing the
  * stack pages.
- * <p>
+ * 
  * <h1>Accessibility</h1>
- * <p>
  * {@code GtkStackSwitcher} uses the {@link AccessibleRole#TAB_LIST} role
  * and uses the {@link AccessibleRole#TAB} for its buttons.
- * <p>
+ * 
  * <h1>Orientable</h1>
- * <p>
  * Since GTK 4.4, {@code GtkStackSwitcher} implements {@code GtkOrientable} allowing
  * the stack switcher to be made vertical with
  * {@code gtk_orientable_set_orientation()}.
@@ -50,7 +48,7 @@ public class StackSwitcher extends Widget implements Accessible, Buildable, Cons
         return new StackSwitcher(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_stack_switcher_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_stack_switcher_new = Interop.downcallHandle(
         "gtk_stack_switcher_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -71,7 +69,7 @@ public class StackSwitcher extends Widget implements Accessible, Buildable, Cons
         super(constructNew());
     }
     
-    static final MethodHandle gtk_stack_switcher_get_stack = Interop.downcallHandle(
+    private static final MethodHandle gtk_stack_switcher_get_stack = Interop.downcallHandle(
         "gtk_stack_switcher_get_stack",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -79,16 +77,17 @@ public class StackSwitcher extends Widget implements Accessible, Buildable, Cons
     /**
      * Retrieves the stack.
      */
-    public Stack getStack() {
+    public @Nullable Stack getStack() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_stack_switcher_get_stack.invokeExact(handle());
-            return new Stack(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_stack_switcher_get_stack.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Stack(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_stack_switcher_set_stack = Interop.downcallHandle(
+    private static final MethodHandle gtk_stack_switcher_set_stack = Interop.downcallHandle(
         "gtk_stack_switcher_set_stack",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -96,7 +95,7 @@ public class StackSwitcher extends Widget implements Accessible, Buildable, Cons
     /**
      * Sets the stack to control.
      */
-    public void setStack(Stack stack) {
+    public @NotNull void setStack(@Nullable Stack stack) {
         try {
             gtk_stack_switcher_set_stack.invokeExact(handle(), stack.handle());
         } catch (Throwable ERR) {

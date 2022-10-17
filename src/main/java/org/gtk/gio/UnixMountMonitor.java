@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Watches {@code GUnixMounts} for changes.
@@ -18,7 +19,7 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
         return new UnixMountMonitor(gobject.refcounted());
     }
     
-    static final MethodHandle g_unix_mount_monitor_get = Interop.downcallHandle(
+    private static final MethodHandle g_unix_mount_monitor_get = Interop.downcallHandle(
         "g_unix_mount_monitor_get",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -34,13 +35,14 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
      * You must only call g_object_unref() on the return value from under
      * the same main context as you called this function.
      */
-    public static UnixMountMonitor get() {
+    public static @NotNull UnixMountMonitor get() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_unix_mount_monitor_get.invokeExact();
-            return new UnixMountMonitor(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_unix_mount_monitor_get.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new UnixMountMonitor(Refcounted.get(RESULT, true));
     }
     
     @FunctionalInterface
@@ -55,13 +57,13 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("mountpoints-changed").handle(),
+                Interop.allocateNativeString("mountpoints-changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(UnixMountMonitor.Callbacks.class, "signalUnixMountMonitorMountpointsChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -81,13 +83,13 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("mounts-changed").handle(),
+                Interop.allocateNativeString("mounts-changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(UnixMountMonitor.Callbacks.class, "signalUnixMountMonitorMountsChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

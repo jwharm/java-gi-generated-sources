@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkSeparator} is a horizontal or vertical separator widget.
@@ -12,14 +13,12 @@ import java.lang.invoke.*;
  * A {@code GtkSeparator} can be used to group the widgets within a window.
  * It displays a line with a shadow to make it appear sunken into the
  * interface.
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * {@code GtkSeparator} has a single CSS node with name separator. The node
  * gets one of the .horizontal or .vertical style classes.
- * <p>
+ * 
  * <h1>Accessibility</h1>
- * <p>
  * {@code GtkSeparator} uses the {@link AccessibleRole#SEPARATOR} role.
  */
 public class Separator extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
@@ -33,12 +32,12 @@ public class Separator extends Widget implements Accessible, Buildable, Constrai
         return new Separator(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_separator_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_separator_new = Interop.downcallHandle(
         "gtk_separator_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNew(Orientation orientation) {
+    private static Refcounted constructNew(@NotNull Orientation orientation) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_separator_new.invokeExact(orientation.getValue()), false);
             return RESULT;
@@ -50,7 +49,7 @@ public class Separator extends Widget implements Accessible, Buildable, Constrai
     /**
      * Creates a new {@code GtkSeparator} with the given orientation.
      */
-    public Separator(Orientation orientation) {
+    public Separator(@NotNull Orientation orientation) {
         super(constructNew(orientation));
     }
     

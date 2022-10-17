@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkShortcutTrigger} tracks how a {@code GtkShortcut} should be activated.
@@ -28,14 +29,14 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
         return new ShortcutTrigger(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_shortcut_trigger_parse_string = Interop.downcallHandle(
+    private static final MethodHandle gtk_shortcut_trigger_parse_string = Interop.downcallHandle(
         "gtk_shortcut_trigger_parse_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructParseString(java.lang.String string) {
+    private static Refcounted constructParseString(@NotNull java.lang.String string) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_shortcut_trigger_parse_string.invokeExact(Interop.allocateNativeString(string).handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_shortcut_trigger_parse_string.invokeExact(Interop.allocateNativeString(string)), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -62,11 +63,11 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * triggers in XML files, such as GtkBuilder ui files. Use {@code &lt;} instead of
      * {@code <} and {@code &gt;} instead of {@code >}.
      */
-    public static ShortcutTrigger parseString(java.lang.String string) {
+    public static ShortcutTrigger parseString(@NotNull java.lang.String string) {
         return new ShortcutTrigger(constructParseString(string));
     }
     
-    static final MethodHandle gtk_shortcut_trigger_compare = Interop.downcallHandle(
+    private static final MethodHandle gtk_shortcut_trigger_compare = Interop.downcallHandle(
         "gtk_shortcut_trigger_compare",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -77,16 +78,17 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * <p>
      * They must each be a {@code GtkShortcutTrigger}.
      */
-    public int compare(ShortcutTrigger trigger2) {
+    public int compare(@NotNull ShortcutTrigger trigger2) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_shortcut_trigger_compare.invokeExact(handle(), trigger2.handle());
-            return RESULT;
+            RESULT = (int) gtk_shortcut_trigger_compare.invokeExact(handle(), trigger2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_shortcut_trigger_equal = Interop.downcallHandle(
+    private static final MethodHandle gtk_shortcut_trigger_equal = Interop.downcallHandle(
         "gtk_shortcut_trigger_equal",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -97,16 +99,17 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * The types of {@code one} and {@code two} are {@code gconstpointer} only to allow use of this
      * function with {@code GHashTable}. They must each be a {@code GtkShortcutTrigger}.
      */
-    public boolean equal(ShortcutTrigger trigger2) {
+    public boolean equal(@NotNull ShortcutTrigger trigger2) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_shortcut_trigger_equal.invokeExact(handle(), trigger2.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_shortcut_trigger_equal.invokeExact(handle(), trigger2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_shortcut_trigger_hash = Interop.downcallHandle(
+    private static final MethodHandle gtk_shortcut_trigger_hash = Interop.downcallHandle(
         "gtk_shortcut_trigger_hash",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -123,15 +126,16 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * function with {@code GHashTable}. They must each be a {@code GtkShortcutTrigger}.
      */
     public int hash() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_shortcut_trigger_hash.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_shortcut_trigger_hash.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_shortcut_trigger_print = Interop.downcallHandle(
+    private static final MethodHandle gtk_shortcut_trigger_print = Interop.downcallHandle(
         "gtk_shortcut_trigger_print",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -143,7 +147,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * The form of the representation may change at any time
      * and is not guaranteed to stay identical.
      */
-    public void print(org.gtk.glib.String string) {
+    public @NotNull void print(@NotNull org.gtk.glib.String string) {
         try {
             gtk_shortcut_trigger_print.invokeExact(handle(), string.handle());
         } catch (Throwable ERR) {
@@ -151,7 +155,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_shortcut_trigger_print_label = Interop.downcallHandle(
+    private static final MethodHandle gtk_shortcut_trigger_print_label = Interop.downcallHandle(
         "gtk_shortcut_trigger_print_label",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -169,16 +173,17 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * The form of the representation may change at any time and is
      * not guaranteed to stay identical.
      */
-    public boolean printLabel(org.gtk.gdk.Display display, org.gtk.glib.String string) {
+    public boolean printLabel(@NotNull org.gtk.gdk.Display display, @NotNull org.gtk.glib.String string) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_shortcut_trigger_print_label.invokeExact(handle(), display.handle(), string.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_shortcut_trigger_print_label.invokeExact(handle(), display.handle(), string.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_shortcut_trigger_to_label = Interop.downcallHandle(
+    private static final MethodHandle gtk_shortcut_trigger_to_label = Interop.downcallHandle(
         "gtk_shortcut_trigger_to_label",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -197,16 +202,17 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * The form of the representation may change at any time and is
      * not guaranteed to stay identical.
      */
-    public java.lang.String toLabel(org.gtk.gdk.Display display) {
+    public @NotNull java.lang.String toLabel(@NotNull org.gtk.gdk.Display display) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_shortcut_trigger_to_label.invokeExact(handle(), display.handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_shortcut_trigger_to_label.invokeExact(handle(), display.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_shortcut_trigger_to_string = Interop.downcallHandle(
+    private static final MethodHandle gtk_shortcut_trigger_to_string = Interop.downcallHandle(
         "gtk_shortcut_trigger_to_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -217,16 +223,17 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * This is a small wrapper around {@link ShortcutTrigger#print}
      * to help when debugging.
      */
-    public java.lang.String toString() {
+    public @NotNull java.lang.String toString() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_shortcut_trigger_to_string.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_shortcut_trigger_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_shortcut_trigger_trigger = Interop.downcallHandle(
+    private static final MethodHandle gtk_shortcut_trigger_trigger = Interop.downcallHandle(
         "gtk_shortcut_trigger_trigger",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -234,13 +241,14 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
     /**
      * Checks if the given {@code event} triggers {@code self}.
      */
-    public org.gtk.gdk.KeyMatch trigger(org.gtk.gdk.Event event, boolean enableMnemonics) {
+    public @NotNull org.gtk.gdk.KeyMatch trigger(@NotNull org.gtk.gdk.Event event, @NotNull boolean enableMnemonics) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_shortcut_trigger_trigger.invokeExact(handle(), event.handle(), enableMnemonics ? 1 : 0);
-            return new org.gtk.gdk.KeyMatch(RESULT);
+            RESULT = (int) gtk_shortcut_trigger_trigger.invokeExact(handle(), event.handle(), enableMnemonics ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gdk.KeyMatch(RESULT);
     }
     
 }

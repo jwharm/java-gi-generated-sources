@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkWindowGroup} makes group of windows behave like separate applications.
@@ -33,7 +34,7 @@ public class WindowGroup extends org.gtk.gobject.Object {
         return new WindowGroup(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_window_group_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_window_group_new = Interop.downcallHandle(
         "gtk_window_group_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -57,7 +58,7 @@ public class WindowGroup extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
-    static final MethodHandle gtk_window_group_add_window = Interop.downcallHandle(
+    private static final MethodHandle gtk_window_group_add_window = Interop.downcallHandle(
         "gtk_window_group_add_window",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -65,7 +66,7 @@ public class WindowGroup extends org.gtk.gobject.Object {
     /**
      * Adds a window to a {@code GtkWindowGroup}.
      */
-    public void addWindow(Window window) {
+    public @NotNull void addWindow(@NotNull Window window) {
         try {
             gtk_window_group_add_window.invokeExact(handle(), window.handle());
         } catch (Throwable ERR) {
@@ -73,7 +74,7 @@ public class WindowGroup extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_window_group_list_windows = Interop.downcallHandle(
+    private static final MethodHandle gtk_window_group_list_windows = Interop.downcallHandle(
         "gtk_window_group_list_windows",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -81,16 +82,17 @@ public class WindowGroup extends org.gtk.gobject.Object {
     /**
      * Returns a list of the {@code GtkWindows} that belong to {@code window_group}.
      */
-    public org.gtk.glib.List listWindows() {
+    public @NotNull org.gtk.glib.List listWindows() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_window_group_list_windows.invokeExact(handle());
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_window_group_list_windows.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_window_group_remove_window = Interop.downcallHandle(
+    private static final MethodHandle gtk_window_group_remove_window = Interop.downcallHandle(
         "gtk_window_group_remove_window",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -98,7 +100,7 @@ public class WindowGroup extends org.gtk.gobject.Object {
     /**
      * Removes a window from a {@code GtkWindowGroup}.
      */
-    public void removeWindow(Window window) {
+    public @NotNull void removeWindow(@NotNull Window window) {
         try {
             gtk_window_group_remove_window.invokeExact(handle(), window.handle());
         } catch (Throwable ERR) {

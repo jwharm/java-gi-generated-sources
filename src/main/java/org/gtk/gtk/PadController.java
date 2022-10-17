@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkPadController} is an event controller for the pads found in drawing
@@ -33,7 +34,7 @@ import java.lang.invoke.*;
  * <p>
  * A simple example of {@code GtkPadController} usage: Assigning button 1 in all
  * modes and pad devices to an "invert-selection" action:
- * <p>
+ * 
  * <pre>{@code c
  * GtkPadActionEntry *pad_actions[] = {
  *   { GTK_PAD_ACTION_BUTTON, 1, -1, "Invert selection", "pad-actions.invert-selection" },
@@ -64,12 +65,12 @@ public class PadController extends EventController {
         return new PadController(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_pad_controller_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_pad_controller_new = Interop.downcallHandle(
         "gtk_pad_controller_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(org.gtk.gio.ActionGroup group, org.gtk.gdk.Device pad) {
+    private static Refcounted constructNew(@NotNull org.gtk.gio.ActionGroup group, @Nullable org.gtk.gdk.Device pad) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_pad_controller_new.invokeExact(group.handle(), pad.handle()), true);
             return RESULT;
@@ -94,11 +95,11 @@ public class PadController extends EventController {
      * Be aware that pad events will only be delivered to {@code GtkWindow}s, so adding
      * a pad controller to any other type of widget will not have an effect.
      */
-    public PadController(org.gtk.gio.ActionGroup group, org.gtk.gdk.Device pad) {
+    public PadController(@NotNull org.gtk.gio.ActionGroup group, @Nullable org.gtk.gdk.Device pad) {
         super(constructNew(group, pad));
     }
     
-    static final MethodHandle gtk_pad_controller_set_action = Interop.downcallHandle(
+    private static final MethodHandle gtk_pad_controller_set_action = Interop.downcallHandle(
         "gtk_pad_controller_set_action",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -114,15 +115,15 @@ public class PadController extends EventController {
      * rules apply. Some windowing systems may be able to use those for user
      * feedback.
      */
-    public void setAction(PadActionType type, int index, int mode, java.lang.String label, java.lang.String actionName) {
+    public @NotNull void setAction(@NotNull PadActionType type, @NotNull int index, @NotNull int mode, @NotNull java.lang.String label, @NotNull java.lang.String actionName) {
         try {
-            gtk_pad_controller_set_action.invokeExact(handle(), type.getValue(), index, mode, Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(actionName).handle());
+            gtk_pad_controller_set_action.invokeExact(handle(), type.getValue(), index, mode, Interop.allocateNativeString(label), Interop.allocateNativeString(actionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_pad_controller_set_action_entries = Interop.downcallHandle(
+    private static final MethodHandle gtk_pad_controller_set_action_entries = Interop.downcallHandle(
         "gtk_pad_controller_set_action_entries",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -133,9 +134,9 @@ public class PadController extends EventController {
      * <p>
      * See {@code Gtk.PadController.set_action}.
      */
-    public void setActionEntries(PadActionEntry[] entries, int nEntries) {
+    public @NotNull void setActionEntries(@NotNull PadActionEntry[] entries, @NotNull int nEntries) {
         try {
-            gtk_pad_controller_set_action_entries.invokeExact(handle(), Interop.allocateNativeArray(entries).handle(), nEntries);
+            gtk_pad_controller_set_action_entries.invokeExact(handle(), Interop.allocateNativeArray(entries), nEntries);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

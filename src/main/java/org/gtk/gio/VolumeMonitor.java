@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link VolumeMonitor} is for listing the user interesting devices and volumes
@@ -28,7 +29,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         return new VolumeMonitor(gobject.refcounted());
     }
     
-    static final MethodHandle g_volume_monitor_get_connected_drives = Interop.downcallHandle(
+    private static final MethodHandle g_volume_monitor_get_connected_drives = Interop.downcallHandle(
         "g_volume_monitor_get_connected_drives",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -39,16 +40,17 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
      * The returned list should be freed with g_list_free(), after
      * its elements have been unreffed with g_object_unref().
      */
-    public org.gtk.glib.List getConnectedDrives() {
+    public @NotNull org.gtk.glib.List getConnectedDrives() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_volume_monitor_get_connected_drives.invokeExact(handle());
-            return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_volume_monitor_get_connected_drives.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_volume_monitor_get_mount_for_uuid = Interop.downcallHandle(
+    private static final MethodHandle g_volume_monitor_get_mount_for_uuid = Interop.downcallHandle(
         "g_volume_monitor_get_mount_for_uuid",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -56,16 +58,17 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     /**
      * Finds a {@link Mount} object by its UUID (see g_mount_get_uuid())
      */
-    public Mount getMountForUuid(java.lang.String uuid) {
+    public @Nullable Mount getMountForUuid(@NotNull java.lang.String uuid) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_volume_monitor_get_mount_for_uuid.invokeExact(handle(), Interop.allocateNativeString(uuid).handle());
-            return new Mount.MountImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_volume_monitor_get_mount_for_uuid.invokeExact(handle(), Interop.allocateNativeString(uuid));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Mount.MountImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_volume_monitor_get_mounts = Interop.downcallHandle(
+    private static final MethodHandle g_volume_monitor_get_mounts = Interop.downcallHandle(
         "g_volume_monitor_get_mounts",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -76,16 +79,17 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
      * The returned list should be freed with g_list_free(), after
      * its elements have been unreffed with g_object_unref().
      */
-    public org.gtk.glib.List getMounts() {
+    public @NotNull org.gtk.glib.List getMounts() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_volume_monitor_get_mounts.invokeExact(handle());
-            return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_volume_monitor_get_mounts.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_volume_monitor_get_volume_for_uuid = Interop.downcallHandle(
+    private static final MethodHandle g_volume_monitor_get_volume_for_uuid = Interop.downcallHandle(
         "g_volume_monitor_get_volume_for_uuid",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -93,16 +97,17 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     /**
      * Finds a {@link Volume} object by its UUID (see g_volume_get_uuid())
      */
-    public Volume getVolumeForUuid(java.lang.String uuid) {
+    public @Nullable Volume getVolumeForUuid(@NotNull java.lang.String uuid) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_volume_monitor_get_volume_for_uuid.invokeExact(handle(), Interop.allocateNativeString(uuid).handle());
-            return new Volume.VolumeImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_volume_monitor_get_volume_for_uuid.invokeExact(handle(), Interop.allocateNativeString(uuid));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Volume.VolumeImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_volume_monitor_get_volumes = Interop.downcallHandle(
+    private static final MethodHandle g_volume_monitor_get_volumes = Interop.downcallHandle(
         "g_volume_monitor_get_volumes",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -113,16 +118,17 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
      * The returned list should be freed with g_list_free(), after
      * its elements have been unreffed with g_object_unref().
      */
-    public org.gtk.glib.List getVolumes() {
+    public @NotNull org.gtk.glib.List getVolumes() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_volume_monitor_get_volumes.invokeExact(handle());
-            return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_volume_monitor_get_volumes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_volume_monitor_get = Interop.downcallHandle(
+    private static final MethodHandle g_volume_monitor_get = Interop.downcallHandle(
         "g_volume_monitor_get",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -130,18 +136,19 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     /**
      * Gets the volume monitor used by gio.
      */
-    public static VolumeMonitor get() {
+    public static @NotNull VolumeMonitor get() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_volume_monitor_get.invokeExact();
-            return new VolumeMonitor(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_volume_monitor_get.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new VolumeMonitor(Refcounted.get(RESULT, true));
     }
     
     @FunctionalInterface
     public interface DriveChangedHandler {
-        void signalReceived(VolumeMonitor source, Drive drive);
+        void signalReceived(VolumeMonitor source, @NotNull Drive drive);
     }
     
     /**
@@ -151,13 +158,13 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("drive-changed").handle(),
+                Interop.allocateNativeString("drive-changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(VolumeMonitor.Callbacks.class, "signalVolumeMonitorDriveChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -167,7 +174,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DriveConnectedHandler {
-        void signalReceived(VolumeMonitor source, Drive drive);
+        void signalReceived(VolumeMonitor source, @NotNull Drive drive);
     }
     
     /**
@@ -177,13 +184,13 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("drive-connected").handle(),
+                Interop.allocateNativeString("drive-connected"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(VolumeMonitor.Callbacks.class, "signalVolumeMonitorDriveConnected",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -193,7 +200,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DriveDisconnectedHandler {
-        void signalReceived(VolumeMonitor source, Drive drive);
+        void signalReceived(VolumeMonitor source, @NotNull Drive drive);
     }
     
     /**
@@ -203,13 +210,13 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("drive-disconnected").handle(),
+                Interop.allocateNativeString("drive-disconnected"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(VolumeMonitor.Callbacks.class, "signalVolumeMonitorDriveDisconnected",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -219,7 +226,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DriveEjectButtonHandler {
-        void signalReceived(VolumeMonitor source, Drive drive);
+        void signalReceived(VolumeMonitor source, @NotNull Drive drive);
     }
     
     /**
@@ -229,13 +236,13 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("drive-eject-button").handle(),
+                Interop.allocateNativeString("drive-eject-button"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(VolumeMonitor.Callbacks.class, "signalVolumeMonitorDriveEjectButton",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -245,7 +252,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DriveStopButtonHandler {
-        void signalReceived(VolumeMonitor source, Drive drive);
+        void signalReceived(VolumeMonitor source, @NotNull Drive drive);
     }
     
     /**
@@ -255,13 +262,13 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("drive-stop-button").handle(),
+                Interop.allocateNativeString("drive-stop-button"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(VolumeMonitor.Callbacks.class, "signalVolumeMonitorDriveStopButton",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -271,7 +278,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface MountAddedHandler {
-        void signalReceived(VolumeMonitor source, Mount mount);
+        void signalReceived(VolumeMonitor source, @NotNull Mount mount);
     }
     
     /**
@@ -281,13 +288,13 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("mount-added").handle(),
+                Interop.allocateNativeString("mount-added"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(VolumeMonitor.Callbacks.class, "signalVolumeMonitorMountAdded",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -297,7 +304,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface MountChangedHandler {
-        void signalReceived(VolumeMonitor source, Mount mount);
+        void signalReceived(VolumeMonitor source, @NotNull Mount mount);
     }
     
     /**
@@ -307,13 +314,13 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("mount-changed").handle(),
+                Interop.allocateNativeString("mount-changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(VolumeMonitor.Callbacks.class, "signalVolumeMonitorMountChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -323,7 +330,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface MountPreUnmountHandler {
-        void signalReceived(VolumeMonitor source, Mount mount);
+        void signalReceived(VolumeMonitor source, @NotNull Mount mount);
     }
     
     /**
@@ -336,13 +343,13 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("mount-pre-unmount").handle(),
+                Interop.allocateNativeString("mount-pre-unmount"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(VolumeMonitor.Callbacks.class, "signalVolumeMonitorMountPreUnmount",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -352,7 +359,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface MountRemovedHandler {
-        void signalReceived(VolumeMonitor source, Mount mount);
+        void signalReceived(VolumeMonitor source, @NotNull Mount mount);
     }
     
     /**
@@ -362,13 +369,13 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("mount-removed").handle(),
+                Interop.allocateNativeString("mount-removed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(VolumeMonitor.Callbacks.class, "signalVolumeMonitorMountRemoved",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -378,7 +385,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface VolumeAddedHandler {
-        void signalReceived(VolumeMonitor source, Volume volume);
+        void signalReceived(VolumeMonitor source, @NotNull Volume volume);
     }
     
     /**
@@ -388,13 +395,13 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("volume-added").handle(),
+                Interop.allocateNativeString("volume-added"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(VolumeMonitor.Callbacks.class, "signalVolumeMonitorVolumeAdded",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -404,7 +411,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface VolumeChangedHandler {
-        void signalReceived(VolumeMonitor source, Volume volume);
+        void signalReceived(VolumeMonitor source, @NotNull Volume volume);
     }
     
     /**
@@ -414,13 +421,13 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("volume-changed").handle(),
+                Interop.allocateNativeString("volume-changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(VolumeMonitor.Callbacks.class, "signalVolumeMonitorVolumeChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -430,7 +437,7 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface VolumeRemovedHandler {
-        void signalReceived(VolumeMonitor source, Volume volume);
+        void signalReceived(VolumeMonitor source, @NotNull Volume volume);
     }
     
     /**
@@ -440,13 +447,13 @@ public class VolumeMonitor extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("volume-removed").handle(),
+                Interop.allocateNativeString("volume-removed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(VolumeMonitor.Callbacks.class, "signalVolumeMonitorVolumeRemoved",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

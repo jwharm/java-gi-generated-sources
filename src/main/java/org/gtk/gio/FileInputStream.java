@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * GFileInputStream provides input streams that take their
@@ -26,7 +27,7 @@ public class FileInputStream extends InputStream implements Seekable {
         return new FileInputStream(gobject.refcounted());
     }
     
-    static final MethodHandle g_file_input_stream_query_info = Interop.downcallHandle(
+    private static final MethodHandle g_file_input_stream_query_info = Interop.downcallHandle(
         "g_file_input_stream_query_info",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -38,20 +39,21 @@ public class FileInputStream extends InputStream implements Seekable {
      * stream is blocked, the stream will set the pending flag internally, and
      * any other operations on the stream will fail with {@link IOErrorEnum#PENDING}.
      */
-    public FileInfo queryInfo(java.lang.String attributes, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull FileInfo queryInfo(@NotNull java.lang.String attributes, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_input_stream_query_info.invokeExact(handle(), Interop.allocateNativeString(attributes).handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileInfo(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_input_stream_query_info.invokeExact(handle(), Interop.allocateNativeString(attributes), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileInfo(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_input_stream_query_info_async = Interop.downcallHandle(
+    private static final MethodHandle g_file_input_stream_query_info_async = Interop.downcallHandle(
         "g_file_input_stream_query_info_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -69,21 +71,21 @@ public class FileInputStream extends InputStream implements Seekable {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be set
      */
-    public void queryInfoAsync(java.lang.String attributes, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public @NotNull void queryInfoAsync(@NotNull java.lang.String attributes, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
-            g_file_input_stream_query_info_async.invokeExact(handle(), Interop.allocateNativeString(attributes).handle(), ioPriority, cancellable.handle(), 
+            g_file_input_stream_query_info_async.invokeExact(handle(), Interop.allocateNativeString(attributes), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_input_stream_query_info_finish = Interop.downcallHandle(
+    private static final MethodHandle g_file_input_stream_query_info_finish = Interop.downcallHandle(
         "g_file_input_stream_query_info_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -91,17 +93,18 @@ public class FileInputStream extends InputStream implements Seekable {
     /**
      * Finishes an asynchronous info query operation.
      */
-    public FileInfo queryInfoFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull FileInfo queryInfoFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_input_stream_query_info_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileInfo(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_input_stream_query_info_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileInfo(Refcounted.get(RESULT, true));
     }
     
 }

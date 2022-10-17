@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkSnapshot} assists in creating {@link org.gtk.gsk.RenderNode}s for widgets.
@@ -29,7 +30,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         return new Snapshot(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_snapshot_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_new = Interop.downcallHandle(
         "gtk_snapshot_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -50,7 +51,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         super(constructNew());
     }
     
-    static final MethodHandle gtk_snapshot_append_border = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_append_border = Interop.downcallHandle(
         "gtk_snapshot_append_border",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -60,15 +61,15 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * <p>
      * The four sides of the border can have different widths and colors.
      */
-    public void appendBorder(org.gtk.gsk.RoundedRect outline, float[] borderWidth, org.gtk.gdk.RGBA[] borderColor) {
+    public @NotNull void appendBorder(@NotNull org.gtk.gsk.RoundedRect outline, @NotNull float[] borderWidth, @NotNull org.gtk.gdk.RGBA[] borderColor) {
         try {
-            gtk_snapshot_append_border.invokeExact(handle(), outline.handle(), Interop.allocateNativeArray(borderWidth).handle(), Interop.allocateNativeArray(borderColor).handle());
+            gtk_snapshot_append_border.invokeExact(handle(), outline.handle(), Interop.allocateNativeArray(borderWidth), Interop.allocateNativeArray(borderColor));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_snapshot_append_cairo = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_append_cairo = Interop.downcallHandle(
         "gtk_snapshot_append_cairo",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -77,16 +78,17 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * Creates a new {@link org.gtk.gsk.CairoNode} and appends it to the current
      * render node of {@code snapshot}, without changing the current node.
      */
-    public org.cairographics.Context appendCairo(org.gtk.graphene.Rect bounds) {
+    public @NotNull org.cairographics.Context appendCairo(@NotNull org.gtk.graphene.Rect bounds) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_snapshot_append_cairo.invokeExact(handle(), bounds.handle());
-            return new org.cairographics.Context(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_snapshot_append_cairo.invokeExact(handle(), bounds.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.cairographics.Context(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_snapshot_append_color = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_append_color = Interop.downcallHandle(
         "gtk_snapshot_append_color",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -99,7 +101,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * You should try to avoid calling this function if
      * {@code color} is transparent.
      */
-    public void appendColor(org.gtk.gdk.RGBA color, org.gtk.graphene.Rect bounds) {
+    public @NotNull void appendColor(@NotNull org.gtk.gdk.RGBA color, @NotNull org.gtk.graphene.Rect bounds) {
         try {
             gtk_snapshot_append_color.invokeExact(handle(), color.handle(), bounds.handle());
         } catch (Throwable ERR) {
@@ -107,7 +109,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_append_conic_gradient = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_append_conic_gradient = Interop.downcallHandle(
         "gtk_snapshot_append_conic_gradient",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -115,15 +117,15 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     /**
      * Appends a conic gradient node with the given stops to {@code snapshot}.
      */
-    public void appendConicGradient(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float rotation, org.gtk.gsk.ColorStop[] stops, long nStops) {
+    public @NotNull void appendConicGradient(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point center, @NotNull float rotation, @NotNull org.gtk.gsk.ColorStop[] stops, @NotNull long nStops) {
         try {
-            gtk_snapshot_append_conic_gradient.invokeExact(handle(), bounds.handle(), center.handle(), rotation, Interop.allocateNativeArray(stops).handle(), nStops);
+            gtk_snapshot_append_conic_gradient.invokeExact(handle(), bounds.handle(), center.handle(), rotation, Interop.allocateNativeArray(stops), nStops);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_snapshot_append_inset_shadow = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_append_inset_shadow = Interop.downcallHandle(
         "gtk_snapshot_append_inset_shadow",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
     );
@@ -131,7 +133,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     /**
      * Appends an inset shadow into the box given by {@code outline}.
      */
-    public void appendInsetShadow(org.gtk.gsk.RoundedRect outline, org.gtk.gdk.RGBA color, float dx, float dy, float spread, float blurRadius) {
+    public @NotNull void appendInsetShadow(@NotNull org.gtk.gsk.RoundedRect outline, @NotNull org.gtk.gdk.RGBA color, @NotNull float dx, @NotNull float dy, @NotNull float spread, @NotNull float blurRadius) {
         try {
             gtk_snapshot_append_inset_shadow.invokeExact(handle(), outline.handle(), color.handle(), dx, dy, spread, blurRadius);
         } catch (Throwable ERR) {
@@ -139,12 +141,12 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_append_layout = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_append_layout = Interop.downcallHandle(
         "gtk_snapshot_append_layout",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    public void appendLayout(org.pango.Layout layout, org.gtk.gdk.RGBA color) {
+    public @NotNull void appendLayout(@NotNull org.pango.Layout layout, @NotNull org.gtk.gdk.RGBA color) {
         try {
             gtk_snapshot_append_layout.invokeExact(handle(), layout.handle(), color.handle());
         } catch (Throwable ERR) {
@@ -152,7 +154,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_append_linear_gradient = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_append_linear_gradient = Interop.downcallHandle(
         "gtk_snapshot_append_linear_gradient",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -160,15 +162,15 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     /**
      * Appends a linear gradient node with the given stops to {@code snapshot}.
      */
-    public void appendLinearGradient(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point startPoint, org.gtk.graphene.Point endPoint, org.gtk.gsk.ColorStop[] stops, long nStops) {
+    public @NotNull void appendLinearGradient(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point startPoint, @NotNull org.gtk.graphene.Point endPoint, @NotNull org.gtk.gsk.ColorStop[] stops, @NotNull long nStops) {
         try {
-            gtk_snapshot_append_linear_gradient.invokeExact(handle(), bounds.handle(), startPoint.handle(), endPoint.handle(), Interop.allocateNativeArray(stops).handle(), nStops);
+            gtk_snapshot_append_linear_gradient.invokeExact(handle(), bounds.handle(), startPoint.handle(), endPoint.handle(), Interop.allocateNativeArray(stops), nStops);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_snapshot_append_node = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_append_node = Interop.downcallHandle(
         "gtk_snapshot_append_node",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -180,7 +182,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * If {@code snapshot} does not have a current node yet, {@code node}
      * will become the initial node.
      */
-    public void appendNode(org.gtk.gsk.RenderNode node) {
+    public @NotNull void appendNode(@NotNull org.gtk.gsk.RenderNode node) {
         try {
             gtk_snapshot_append_node.invokeExact(handle(), node.handle());
         } catch (Throwable ERR) {
@@ -188,7 +190,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_append_outset_shadow = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_append_outset_shadow = Interop.downcallHandle(
         "gtk_snapshot_append_outset_shadow",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
     );
@@ -196,7 +198,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     /**
      * Appends an outset shadow node around the box given by {@code outline}.
      */
-    public void appendOutsetShadow(org.gtk.gsk.RoundedRect outline, org.gtk.gdk.RGBA color, float dx, float dy, float spread, float blurRadius) {
+    public @NotNull void appendOutsetShadow(@NotNull org.gtk.gsk.RoundedRect outline, @NotNull org.gtk.gdk.RGBA color, @NotNull float dx, @NotNull float dy, @NotNull float spread, @NotNull float blurRadius) {
         try {
             gtk_snapshot_append_outset_shadow.invokeExact(handle(), outline.handle(), color.handle(), dx, dy, spread, blurRadius);
         } catch (Throwable ERR) {
@@ -204,7 +206,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_append_radial_gradient = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_append_radial_gradient = Interop.downcallHandle(
         "gtk_snapshot_append_radial_gradient",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -212,15 +214,15 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     /**
      * Appends a radial gradient node with the given stops to {@code snapshot}.
      */
-    public void appendRadialGradient(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float hradius, float vradius, float start, float end, org.gtk.gsk.ColorStop[] stops, long nStops) {
+    public @NotNull void appendRadialGradient(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point center, @NotNull float hradius, @NotNull float vradius, @NotNull float start, @NotNull float end, @NotNull org.gtk.gsk.ColorStop[] stops, @NotNull long nStops) {
         try {
-            gtk_snapshot_append_radial_gradient.invokeExact(handle(), bounds.handle(), center.handle(), hradius, vradius, start, end, Interop.allocateNativeArray(stops).handle(), nStops);
+            gtk_snapshot_append_radial_gradient.invokeExact(handle(), bounds.handle(), center.handle(), hradius, vradius, start, end, Interop.allocateNativeArray(stops), nStops);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_snapshot_append_repeating_linear_gradient = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_append_repeating_linear_gradient = Interop.downcallHandle(
         "gtk_snapshot_append_repeating_linear_gradient",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -228,15 +230,15 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     /**
      * Appends a repeating linear gradient node with the given stops to {@code snapshot}.
      */
-    public void appendRepeatingLinearGradient(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point startPoint, org.gtk.graphene.Point endPoint, org.gtk.gsk.ColorStop[] stops, long nStops) {
+    public @NotNull void appendRepeatingLinearGradient(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point startPoint, @NotNull org.gtk.graphene.Point endPoint, @NotNull org.gtk.gsk.ColorStop[] stops, @NotNull long nStops) {
         try {
-            gtk_snapshot_append_repeating_linear_gradient.invokeExact(handle(), bounds.handle(), startPoint.handle(), endPoint.handle(), Interop.allocateNativeArray(stops).handle(), nStops);
+            gtk_snapshot_append_repeating_linear_gradient.invokeExact(handle(), bounds.handle(), startPoint.handle(), endPoint.handle(), Interop.allocateNativeArray(stops), nStops);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_snapshot_append_repeating_radial_gradient = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_append_repeating_radial_gradient = Interop.downcallHandle(
         "gtk_snapshot_append_repeating_radial_gradient",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -244,15 +246,15 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     /**
      * Appends a repeating radial gradient node with the given stops to {@code snapshot}.
      */
-    public void appendRepeatingRadialGradient(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float hradius, float vradius, float start, float end, org.gtk.gsk.ColorStop[] stops, long nStops) {
+    public @NotNull void appendRepeatingRadialGradient(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point center, @NotNull float hradius, @NotNull float vradius, @NotNull float start, @NotNull float end, @NotNull org.gtk.gsk.ColorStop[] stops, @NotNull long nStops) {
         try {
-            gtk_snapshot_append_repeating_radial_gradient.invokeExact(handle(), bounds.handle(), center.handle(), hradius, vradius, start, end, Interop.allocateNativeArray(stops).handle(), nStops);
+            gtk_snapshot_append_repeating_radial_gradient.invokeExact(handle(), bounds.handle(), center.handle(), hradius, vradius, start, end, Interop.allocateNativeArray(stops), nStops);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_snapshot_append_texture = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_append_texture = Interop.downcallHandle(
         "gtk_snapshot_append_texture",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -262,7 +264,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * into the given {@code bounds} and appends it to the
      * current render node of {@code snapshot}.
      */
-    public void appendTexture(org.gtk.gdk.Texture texture, org.gtk.graphene.Rect bounds) {
+    public @NotNull void appendTexture(@NotNull org.gtk.gdk.Texture texture, @NotNull org.gtk.graphene.Rect bounds) {
         try {
             gtk_snapshot_append_texture.invokeExact(handle(), texture.handle(), bounds.handle());
         } catch (Throwable ERR) {
@@ -270,7 +272,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_free_to_node = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_free_to_node = Interop.downcallHandle(
         "gtk_snapshot_free_to_node",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -279,16 +281,17 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * Returns the node that was constructed by {@code snapshot}
      * and frees {@code snapshot}.
      */
-    public org.gtk.gsk.RenderNode freeToNode() {
+    public @Nullable org.gtk.gsk.RenderNode freeToNode() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_snapshot_free_to_node.invokeExact(handle());
-            return new org.gtk.gsk.RenderNode(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_snapshot_free_to_node.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gsk.RenderNode(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_snapshot_free_to_paintable = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_free_to_paintable = Interop.downcallHandle(
         "gtk_snapshot_free_to_paintable",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -297,16 +300,17 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * Returns a paintable for the node that was
      * constructed by {@code snapshot} and frees {@code snapshot}.
      */
-    public org.gtk.gdk.Paintable freeToPaintable(org.gtk.graphene.Size size) {
+    public @Nullable org.gtk.gdk.Paintable freeToPaintable(@Nullable org.gtk.graphene.Size size) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_snapshot_free_to_paintable.invokeExact(handle(), size.handle());
-            return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_snapshot_free_to_paintable.invokeExact(handle(), size.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_snapshot_gl_shader_pop_texture = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_gl_shader_pop_texture = Interop.downcallHandle(
         "gtk_snapshot_gl_shader_pop_texture",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -319,7 +323,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * of textures is needed for the shader in
      * {@link Snapshot#pushGlShader}.
      */
-    public void glShaderPopTexture() {
+    public @NotNull void glShaderPopTexture() {
         try {
             gtk_snapshot_gl_shader_pop_texture.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -327,7 +331,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_perspective = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_perspective = Interop.downcallHandle(
         "gtk_snapshot_perspective",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
     );
@@ -337,7 +341,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * <p>
      * See {@link org.gtk.gsk.Transform#perspective} for a discussion on the details.
      */
-    public void perspective(float depth) {
+    public @NotNull void perspective(@NotNull float depth) {
         try {
             gtk_snapshot_perspective.invokeExact(handle(), depth);
         } catch (Throwable ERR) {
@@ -345,7 +349,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_pop = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_pop = Interop.downcallHandle(
         "gtk_snapshot_pop",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -354,7 +358,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * Removes the top element from the stack of render nodes,
      * and appends it to the node underneath it.
      */
-    public void pop() {
+    public @NotNull void pop() {
         try {
             gtk_snapshot_pop.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -362,7 +366,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_push_blend = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_push_blend = Interop.downcallHandle(
         "gtk_snapshot_push_blend",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -378,7 +382,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * Calling this function requires two subsequent calls
      * to {@link Snapshot#pop}.
      */
-    public void pushBlend(org.gtk.gsk.BlendMode blendMode) {
+    public @NotNull void pushBlend(@NotNull org.gtk.gsk.BlendMode blendMode) {
         try {
             gtk_snapshot_push_blend.invokeExact(handle(), blendMode.getValue());
         } catch (Throwable ERR) {
@@ -386,7 +390,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_push_blur = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_push_blur = Interop.downcallHandle(
         "gtk_snapshot_push_blur",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
     );
@@ -396,7 +400,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * <p>
      * The image is recorded until the next call to {@link Snapshot#pop}.
      */
-    public void pushBlur(double radius) {
+    public @NotNull void pushBlur(@NotNull double radius) {
         try {
             gtk_snapshot_push_blur.invokeExact(handle(), radius);
         } catch (Throwable ERR) {
@@ -404,7 +408,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_push_clip = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_push_clip = Interop.downcallHandle(
         "gtk_snapshot_push_clip",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -414,7 +418,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * <p>
      * The image is recorded until the next call to {@link Snapshot#pop}.
      */
-    public void pushClip(org.gtk.graphene.Rect bounds) {
+    public @NotNull void pushClip(@NotNull org.gtk.graphene.Rect bounds) {
         try {
             gtk_snapshot_push_clip.invokeExact(handle(), bounds.handle());
         } catch (Throwable ERR) {
@@ -422,7 +426,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_push_color_matrix = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_push_color_matrix = Interop.downcallHandle(
         "gtk_snapshot_push_color_matrix",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -433,7 +437,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * <p>
      * The image is recorded until the next call to {@link Snapshot#pop}.
      */
-    public void pushColorMatrix(org.gtk.graphene.Matrix colorMatrix, org.gtk.graphene.Vec4 colorOffset) {
+    public @NotNull void pushColorMatrix(@NotNull org.gtk.graphene.Matrix colorMatrix, @NotNull org.gtk.graphene.Vec4 colorOffset) {
         try {
             gtk_snapshot_push_color_matrix.invokeExact(handle(), colorMatrix.handle(), colorOffset.handle());
         } catch (Throwable ERR) {
@@ -441,7 +445,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_push_cross_fade = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_push_cross_fade = Interop.downcallHandle(
         "gtk_snapshot_push_cross_fade",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
     );
@@ -457,7 +461,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * Calling this function requires two subsequent calls
      * to {@link Snapshot#pop}.
      */
-    public void pushCrossFade(double progress) {
+    public @NotNull void pushCrossFade(@NotNull double progress) {
         try {
             gtk_snapshot_push_cross_fade.invokeExact(handle(), progress);
         } catch (Throwable ERR) {
@@ -465,7 +469,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_push_gl_shader = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_push_gl_shader = Interop.downcallHandle(
         "gtk_snapshot_push_gl_shader",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -506,7 +510,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * <p>
      * For details on how to write shaders, see {@link org.gtk.gsk.GLShader}.
      */
-    public void pushGlShader(org.gtk.gsk.GLShader shader, org.gtk.graphene.Rect bounds, org.gtk.glib.Bytes takeArgs) {
+    public @NotNull void pushGlShader(@NotNull org.gtk.gsk.GLShader shader, @NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.glib.Bytes takeArgs) {
         try {
             gtk_snapshot_push_gl_shader.invokeExact(handle(), shader.handle(), bounds.handle(), takeArgs.refcounted().unowned().handle());
         } catch (Throwable ERR) {
@@ -514,7 +518,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_push_opacity = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_push_opacity = Interop.downcallHandle(
         "gtk_snapshot_push_opacity",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
     );
@@ -524,7 +528,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * <p>
      * The image is recorded until the next call to {@link Snapshot#pop}.
      */
-    public void pushOpacity(double opacity) {
+    public @NotNull void pushOpacity(@NotNull double opacity) {
         try {
             gtk_snapshot_push_opacity.invokeExact(handle(), opacity);
         } catch (Throwable ERR) {
@@ -532,7 +536,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_push_repeat = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_push_repeat = Interop.downcallHandle(
         "gtk_snapshot_push_repeat",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -542,7 +546,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * <p>
      * The child is recorded until the next call to {@link Snapshot#pop}.
      */
-    public void pushRepeat(org.gtk.graphene.Rect bounds, org.gtk.graphene.Rect childBounds) {
+    public @NotNull void pushRepeat(@NotNull org.gtk.graphene.Rect bounds, @Nullable org.gtk.graphene.Rect childBounds) {
         try {
             gtk_snapshot_push_repeat.invokeExact(handle(), bounds.handle(), childBounds.handle());
         } catch (Throwable ERR) {
@@ -550,7 +554,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_push_rounded_clip = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_push_rounded_clip = Interop.downcallHandle(
         "gtk_snapshot_push_rounded_clip",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -560,7 +564,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * <p>
      * The image is recorded until the next call to {@link Snapshot#pop}.
      */
-    public void pushRoundedClip(org.gtk.gsk.RoundedRect bounds) {
+    public @NotNull void pushRoundedClip(@NotNull org.gtk.gsk.RoundedRect bounds) {
         try {
             gtk_snapshot_push_rounded_clip.invokeExact(handle(), bounds.handle());
         } catch (Throwable ERR) {
@@ -568,7 +572,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_push_shadow = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_push_shadow = Interop.downcallHandle(
         "gtk_snapshot_push_shadow",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -578,15 +582,15 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * <p>
      * The image is recorded until the next call to {@link Snapshot#pop}.
      */
-    public void pushShadow(org.gtk.gsk.Shadow[] shadow, long nShadows) {
+    public @NotNull void pushShadow(@NotNull org.gtk.gsk.Shadow[] shadow, @NotNull long nShadows) {
         try {
-            gtk_snapshot_push_shadow.invokeExact(handle(), Interop.allocateNativeArray(shadow).handle(), nShadows);
+            gtk_snapshot_push_shadow.invokeExact(handle(), Interop.allocateNativeArray(shadow), nShadows);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_snapshot_render_background = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_render_background = Interop.downcallHandle(
         "gtk_snapshot_render_background",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
     );
@@ -596,7 +600,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * and appends it to the current node of {@code snapshot}, without changing
      * the current node.
      */
-    public void renderBackground(StyleContext context, double x, double y, double width, double height) {
+    public @NotNull void renderBackground(@NotNull StyleContext context, @NotNull double x, @NotNull double y, @NotNull double width, @NotNull double height) {
         try {
             gtk_snapshot_render_background.invokeExact(handle(), context.handle(), x, y, width, height);
         } catch (Throwable ERR) {
@@ -604,7 +608,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_render_focus = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_render_focus = Interop.downcallHandle(
         "gtk_snapshot_render_focus",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
     );
@@ -614,7 +618,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * and appends it to the current node of {@code snapshot}, without changing
      * the current node.
      */
-    public void renderFocus(StyleContext context, double x, double y, double width, double height) {
+    public @NotNull void renderFocus(@NotNull StyleContext context, @NotNull double x, @NotNull double y, @NotNull double width, @NotNull double height) {
         try {
             gtk_snapshot_render_focus.invokeExact(handle(), context.handle(), x, y, width, height);
         } catch (Throwable ERR) {
@@ -622,7 +626,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_render_frame = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_render_frame = Interop.downcallHandle(
         "gtk_snapshot_render_frame",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
     );
@@ -632,7 +636,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * and appends it to the current node of {@code snapshot}, without changing
      * the current node.
      */
-    public void renderFrame(StyleContext context, double x, double y, double width, double height) {
+    public @NotNull void renderFrame(@NotNull StyleContext context, @NotNull double x, @NotNull double y, @NotNull double width, @NotNull double height) {
         try {
             gtk_snapshot_render_frame.invokeExact(handle(), context.handle(), x, y, width, height);
         } catch (Throwable ERR) {
@@ -640,7 +644,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_render_insertion_cursor = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_render_insertion_cursor = Interop.downcallHandle(
         "gtk_snapshot_render_insertion_cursor",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -648,7 +652,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     /**
      * Draws a text caret using {@code snapshot} at the specified index of {@code layout}.
      */
-    public void renderInsertionCursor(StyleContext context, double x, double y, org.pango.Layout layout, int index, org.pango.Direction direction) {
+    public @NotNull void renderInsertionCursor(@NotNull StyleContext context, @NotNull double x, @NotNull double y, @NotNull org.pango.Layout layout, @NotNull int index, @NotNull org.pango.Direction direction) {
         try {
             gtk_snapshot_render_insertion_cursor.invokeExact(handle(), context.handle(), x, y, layout.handle(), index, direction.getValue());
         } catch (Throwable ERR) {
@@ -656,7 +660,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_render_layout = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_render_layout = Interop.downcallHandle(
         "gtk_snapshot_render_layout",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -666,7 +670,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * information in {@code context}, and appends it to the current node of {@code snapshot},
      * without changing the current node.
      */
-    public void renderLayout(StyleContext context, double x, double y, org.pango.Layout layout) {
+    public @NotNull void renderLayout(@NotNull StyleContext context, @NotNull double x, @NotNull double y, @NotNull org.pango.Layout layout) {
         try {
             gtk_snapshot_render_layout.invokeExact(handle(), context.handle(), x, y, layout.handle());
         } catch (Throwable ERR) {
@@ -674,7 +678,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_restore = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_restore = Interop.downcallHandle(
         "gtk_snapshot_restore",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -684,7 +688,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * {@link Snapshot#save} and removes that state from the stack of
      * saved states.
      */
-    public void restore() {
+    public @NotNull void restore() {
         try {
             gtk_snapshot_restore.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -692,7 +696,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_rotate = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_rotate = Interop.downcallHandle(
         "gtk_snapshot_rotate",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
     );
@@ -703,7 +707,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * <p>
      * To rotate around other axes, use {@link org.gtk.gsk.Transform#rotate3d}.
      */
-    public void rotate(float angle) {
+    public @NotNull void rotate(@NotNull float angle) {
         try {
             gtk_snapshot_rotate.invokeExact(handle(), angle);
         } catch (Throwable ERR) {
@@ -711,7 +715,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_rotate_3d = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_rotate_3d = Interop.downcallHandle(
         "gtk_snapshot_rotate_3d",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -721,7 +725,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * <p>
      * For a rotation in 2D space, use {@link org.gtk.gsk.Transform#rotate}.
      */
-    public void rotate3d(float angle, org.gtk.graphene.Vec3 axis) {
+    public @NotNull void rotate3d(@NotNull float angle, @NotNull org.gtk.graphene.Vec3 axis) {
         try {
             gtk_snapshot_rotate_3d.invokeExact(handle(), angle, axis.handle());
         } catch (Throwable ERR) {
@@ -729,7 +733,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_save = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_save = Interop.downcallHandle(
         "gtk_snapshot_save",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -747,7 +751,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * It is necessary to clear all saved states with corresponding
      * calls to {@code gtk_snapshot_restore()}.
      */
-    public void save() {
+    public @NotNull void save() {
         try {
             gtk_snapshot_save.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -755,7 +759,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_scale = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_scale = Interop.downcallHandle(
         "gtk_snapshot_scale",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
     );
@@ -766,7 +770,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * <p>
      * Use {@link Snapshot#scale3d} to scale in all 3 dimensions.
      */
-    public void scale(float factorX, float factorY) {
+    public @NotNull void scale(@NotNull float factorX, @NotNull float factorY) {
         try {
             gtk_snapshot_scale.invokeExact(handle(), factorX, factorY);
         } catch (Throwable ERR) {
@@ -774,7 +778,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_scale_3d = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_scale_3d = Interop.downcallHandle(
         "gtk_snapshot_scale_3d",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
     );
@@ -782,7 +786,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     /**
      * Scales {@code snapshot}'s coordinate system by the given factors.
      */
-    public void scale3d(float factorX, float factorY, float factorZ) {
+    public @NotNull void scale3d(@NotNull float factorX, @NotNull float factorY, @NotNull float factorZ) {
         try {
             gtk_snapshot_scale_3d.invokeExact(handle(), factorX, factorY, factorZ);
         } catch (Throwable ERR) {
@@ -790,7 +794,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_to_node = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_to_node = Interop.downcallHandle(
         "gtk_snapshot_to_node",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -803,16 +807,17 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * add more nodes to {@code snapshot}. The only function that should
      * be called after this is {@link org.gtk.gobject.Object#unref}.
      */
-    public org.gtk.gsk.RenderNode toNode() {
+    public @Nullable org.gtk.gsk.RenderNode toNode() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_snapshot_to_node.invokeExact(handle());
-            return new org.gtk.gsk.RenderNode(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_snapshot_to_node.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gsk.RenderNode(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_snapshot_to_paintable = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_to_paintable = Interop.downcallHandle(
         "gtk_snapshot_to_paintable",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -825,16 +830,17 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * add more nodes to {@code snapshot}. The only function that should
      * be called after this is {@link org.gtk.gobject.Object#unref}.
      */
-    public org.gtk.gdk.Paintable toPaintable(org.gtk.graphene.Size size) {
+    public @Nullable org.gtk.gdk.Paintable toPaintable(@Nullable org.gtk.graphene.Size size) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_snapshot_to_paintable.invokeExact(handle(), size.handle());
-            return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_snapshot_to_paintable.invokeExact(handle(), size.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_snapshot_transform = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_transform = Interop.downcallHandle(
         "gtk_snapshot_transform",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -842,7 +848,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     /**
      * Transforms {@code snapshot}'s coordinate system with the given {@code transform}.
      */
-    public void transform(org.gtk.gsk.Transform transform) {
+    public @NotNull void transform(@Nullable org.gtk.gsk.Transform transform) {
         try {
             gtk_snapshot_transform.invokeExact(handle(), transform.handle());
         } catch (Throwable ERR) {
@@ -850,7 +856,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_transform_matrix = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_transform_matrix = Interop.downcallHandle(
         "gtk_snapshot_transform_matrix",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -858,7 +864,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     /**
      * Transforms {@code snapshot}'s coordinate system with the given {@code matrix}.
      */
-    public void transformMatrix(org.gtk.graphene.Matrix matrix) {
+    public @NotNull void transformMatrix(@NotNull org.gtk.graphene.Matrix matrix) {
         try {
             gtk_snapshot_transform_matrix.invokeExact(handle(), matrix.handle());
         } catch (Throwable ERR) {
@@ -866,7 +872,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_translate = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_translate = Interop.downcallHandle(
         "gtk_snapshot_translate",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -874,7 +880,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     /**
      * Translates {@code snapshot}'s coordinate system by {@code point} in 2-dimensional space.
      */
-    public void translate(org.gtk.graphene.Point point) {
+    public @NotNull void translate(@NotNull org.gtk.graphene.Point point) {
         try {
             gtk_snapshot_translate.invokeExact(handle(), point.handle());
         } catch (Throwable ERR) {
@@ -882,7 +888,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    static final MethodHandle gtk_snapshot_translate_3d = Interop.downcallHandle(
+    private static final MethodHandle gtk_snapshot_translate_3d = Interop.downcallHandle(
         "gtk_snapshot_translate_3d",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -890,7 +896,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
     /**
      * Translates {@code snapshot}'s coordinate system by {@code point}.
      */
-    public void translate3d(org.gtk.graphene.Point3D point) {
+    public @NotNull void translate3d(@NotNull org.gtk.graphene.Point3D point) {
         try {
             gtk_snapshot_translate_3d.invokeExact(handle(), point.handle());
         } catch (Throwable ERR) {

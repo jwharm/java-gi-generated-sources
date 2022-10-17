@@ -3,13 +3,14 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Interface for Drag-and-Drop destinations in {@code GtkTreeView}.
  */
 public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle gtk_tree_drag_source_drag_data_delete = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_drag_source_drag_data_delete = Interop.downcallHandle(
         "gtk_tree_drag_source_drag_data_delete",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -21,16 +22,17 @@ public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
      * some model-specific reason. Should robustly handle a {@code path} no
      * longer found in the model!
      */
-    public default boolean dragDataDelete(TreePath path) {
+    default boolean dragDataDelete(@NotNull TreePath path) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_drag_source_drag_data_delete.invokeExact(handle(), path.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_tree_drag_source_drag_data_delete.invokeExact(handle(), path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_tree_drag_source_drag_data_get = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_drag_source_drag_data_get = Interop.downcallHandle(
         "gtk_tree_drag_source_drag_data_get",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -40,16 +42,17 @@ public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
      * the row at {@code path}. Should robustly handle a {@code path} no
      * longer found in the model!
      */
-    public default org.gtk.gdk.ContentProvider dragDataGet(TreePath path) {
+    default @Nullable org.gtk.gdk.ContentProvider dragDataGet(@NotNull TreePath path) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_tree_drag_source_drag_data_get.invokeExact(handle(), path.handle());
-            return new org.gtk.gdk.ContentProvider(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_tree_drag_source_drag_data_get.invokeExact(handle(), path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gdk.ContentProvider(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_tree_drag_source_row_draggable = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_drag_source_row_draggable = Interop.downcallHandle(
         "gtk_tree_drag_source_row_draggable",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -59,13 +62,14 @@ public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
      * the source of a DND operation. If the source doesn’t implement
      * this interface, the row is assumed draggable.
      */
-    public default boolean rowDraggable(TreePath path) {
+    default boolean rowDraggable(@NotNull TreePath path) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_drag_source_row_draggable.invokeExact(handle(), path.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_tree_drag_source_row_draggable.invokeExact(handle(), path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
     class TreeDragSourceImpl extends org.gtk.gobject.Object implements TreeDragSource {

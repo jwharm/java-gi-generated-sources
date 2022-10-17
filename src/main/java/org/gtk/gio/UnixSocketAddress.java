@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Support for UNIX-domain (also known as local) sockets.
@@ -35,14 +36,14 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
         return new UnixSocketAddress(gobject.refcounted());
     }
     
-    static final MethodHandle g_unix_socket_address_new = Interop.downcallHandle(
+    private static final MethodHandle g_unix_socket_address_new = Interop.downcallHandle(
         "g_unix_socket_address_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(java.lang.String path) {
+    private static Refcounted constructNew(@NotNull java.lang.String path) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_unix_socket_address_new.invokeExact(Interop.allocateNativeString(path).handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_unix_socket_address_new.invokeExact(Interop.allocateNativeString(path)), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -55,18 +56,18 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
      * To create abstract socket addresses, on systems that support that,
      * use g_unix_socket_address_new_abstract().
      */
-    public UnixSocketAddress(java.lang.String path) {
+    public UnixSocketAddress(@NotNull java.lang.String path) {
         super(constructNew(path));
     }
     
-    static final MethodHandle g_unix_socket_address_new_abstract = Interop.downcallHandle(
+    private static final MethodHandle g_unix_socket_address_new_abstract = Interop.downcallHandle(
         "g_unix_socket_address_new_abstract",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNewAbstract(byte[] path, int pathLen) {
+    private static Refcounted constructNewAbstract(@NotNull byte[] path, @NotNull int pathLen) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_unix_socket_address_new_abstract.invokeExact(Interop.allocateNativeArray(path).handle(), pathLen), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_unix_socket_address_new_abstract.invokeExact(Interop.allocateNativeArray(path), pathLen), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -77,18 +78,18 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
      * Creates a new {@link UnixSocketAddressType#ABSTRACT_PADDED}
      * {@link UnixSocketAddress} for {@code path}.
      */
-    public static UnixSocketAddress newAbstract(byte[] path, int pathLen) {
+    public static UnixSocketAddress newAbstract(@NotNull byte[] path, @NotNull int pathLen) {
         return new UnixSocketAddress(constructNewAbstract(path, pathLen));
     }
     
-    static final MethodHandle g_unix_socket_address_new_with_type = Interop.downcallHandle(
+    private static final MethodHandle g_unix_socket_address_new_with_type = Interop.downcallHandle(
         "g_unix_socket_address_new_with_type",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNewWithType(byte[] path, int pathLen, UnixSocketAddressType type) {
+    private static Refcounted constructNewWithType(@NotNull byte[] path, @NotNull int pathLen, @NotNull UnixSocketAddressType type) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_unix_socket_address_new_with_type.invokeExact(Interop.allocateNativeArray(path).handle(), pathLen, type.getValue()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_unix_socket_address_new_with_type.invokeExact(Interop.allocateNativeArray(path), pathLen, type.getValue()), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -128,11 +129,11 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
      * use the appropriate type corresponding to how that process created
      * its listening socket.
      */
-    public static UnixSocketAddress newWithType(byte[] path, int pathLen, UnixSocketAddressType type) {
+    public static UnixSocketAddress newWithType(@NotNull byte[] path, @NotNull int pathLen, @NotNull UnixSocketAddressType type) {
         return new UnixSocketAddress(constructNewWithType(path, pathLen, type));
     }
     
-    static final MethodHandle g_unix_socket_address_get_address_type = Interop.downcallHandle(
+    private static final MethodHandle g_unix_socket_address_get_address_type = Interop.downcallHandle(
         "g_unix_socket_address_get_address_type",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -140,16 +141,17 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
     /**
      * Gets {@code address}'s type.
      */
-    public UnixSocketAddressType getAddressType() {
+    public @NotNull UnixSocketAddressType getAddressType() {
+        int RESULT;
         try {
-            var RESULT = (int) g_unix_socket_address_get_address_type.invokeExact(handle());
-            return new UnixSocketAddressType(RESULT);
+            RESULT = (int) g_unix_socket_address_get_address_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new UnixSocketAddressType(RESULT);
     }
     
-    static final MethodHandle g_unix_socket_address_get_path = Interop.downcallHandle(
+    private static final MethodHandle g_unix_socket_address_get_path = Interop.downcallHandle(
         "g_unix_socket_address_get_path",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -162,16 +164,17 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
      * g_unix_socket_address_get_path_len() to get the true length
      * of this string.
      */
-    public java.lang.String getPath() {
+    public @NotNull java.lang.String getPath() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_unix_socket_address_get_path.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_unix_socket_address_get_path.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_unix_socket_address_get_path_len = Interop.downcallHandle(
+    private static final MethodHandle g_unix_socket_address_get_path_len = Interop.downcallHandle(
         "g_unix_socket_address_get_path_len",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -182,15 +185,16 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
      * For details, see g_unix_socket_address_get_path().
      */
     public long getPathLen() {
+        long RESULT;
         try {
-            var RESULT = (long) g_unix_socket_address_get_path_len.invokeExact(handle());
-            return RESULT;
+            RESULT = (long) g_unix_socket_address_get_path_len.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_unix_socket_address_abstract_names_supported = Interop.downcallHandle(
+    private static final MethodHandle g_unix_socket_address_abstract_names_supported = Interop.downcallHandle(
         "g_unix_socket_address_abstract_names_supported",
         FunctionDescriptor.of(ValueLayout.JAVA_INT)
     );
@@ -199,12 +203,13 @@ public class UnixSocketAddress extends SocketAddress implements SocketConnectabl
      * Checks if abstract UNIX domain socket names are supported.
      */
     public static boolean abstractNamesSupported() {
+        int RESULT;
         try {
-            var RESULT = (int) g_unix_socket_address_abstract_names_supported.invokeExact();
-            return RESULT != 0;
+            RESULT = (int) g_unix_socket_address_abstract_names_supported.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
 }

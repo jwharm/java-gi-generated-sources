@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GObject} property value in a {@code GtkExpression}.
@@ -18,14 +19,14 @@ public class PropertyExpression extends Expression {
         return new PropertyExpression(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_property_expression_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_property_expression_new = Interop.downcallHandle(
         "gtk_property_expression_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(org.gtk.gobject.Type thisType, Expression expression, java.lang.String propertyName) {
+    private static Refcounted constructNew(@NotNull org.gtk.gobject.Type thisType, @Nullable Expression expression, @NotNull java.lang.String propertyName) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_property_expression_new.invokeExact(thisType.getValue(), expression.refcounted().unowned().handle(), Interop.allocateNativeString(propertyName).handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_property_expression_new.invokeExact(thisType.getValue(), expression.refcounted().unowned().handle(), Interop.allocateNativeString(propertyName)), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -44,16 +45,16 @@ public class PropertyExpression extends Expression {
      * <p>
      * The given {@code this_type} must have a property with {@code property_name}.
      */
-    public PropertyExpression(org.gtk.gobject.Type thisType, Expression expression, java.lang.String propertyName) {
+    public PropertyExpression(@NotNull org.gtk.gobject.Type thisType, @Nullable Expression expression, @NotNull java.lang.String propertyName) {
         super(constructNew(thisType, expression, propertyName));
     }
     
-    static final MethodHandle gtk_property_expression_new_for_pspec = Interop.downcallHandle(
+    private static final MethodHandle gtk_property_expression_new_for_pspec = Interop.downcallHandle(
         "gtk_property_expression_new_for_pspec",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewForPspec(Expression expression, org.gtk.gobject.ParamSpec pspec) {
+    private static Refcounted constructNewForPspec(@Nullable Expression expression, @NotNull org.gtk.gobject.ParamSpec pspec) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_property_expression_new_for_pspec.invokeExact(expression.refcounted().unowned().handle(), pspec.handle()), true);
             return RESULT;
@@ -72,11 +73,11 @@ public class PropertyExpression extends Expression {
      * property specified by {@code pspec} will be queried.
      * Otherwise, this expression's evaluation will fail.
      */
-    public static PropertyExpression newForPspec(Expression expression, org.gtk.gobject.ParamSpec pspec) {
+    public static PropertyExpression newForPspec(@Nullable Expression expression, @NotNull org.gtk.gobject.ParamSpec pspec) {
         return new PropertyExpression(constructNewForPspec(expression, pspec));
     }
     
-    static final MethodHandle gtk_property_expression_get_expression = Interop.downcallHandle(
+    private static final MethodHandle gtk_property_expression_get_expression = Interop.downcallHandle(
         "gtk_property_expression_get_expression",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -85,16 +86,17 @@ public class PropertyExpression extends Expression {
      * Gets the expression specifying the object of
      * a property expression.
      */
-    public Expression getExpression() {
+    public @Nullable Expression getExpression() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_property_expression_get_expression.invokeExact(handle());
-            return new Expression(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_property_expression_get_expression.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Expression(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_property_expression_get_pspec = Interop.downcallHandle(
+    private static final MethodHandle gtk_property_expression_get_pspec = Interop.downcallHandle(
         "gtk_property_expression_get_pspec",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -103,13 +105,14 @@ public class PropertyExpression extends Expression {
      * Gets the {@code GParamSpec} specifying the property of
      * a property expression.
      */
-    public org.gtk.gobject.ParamSpec getPspec() {
+    public @NotNull org.gtk.gobject.ParamSpec getPspec() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_property_expression_get_pspec.invokeExact(handle());
-            return new org.gtk.gobject.ParamSpec(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_property_expression_get_pspec.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.ParamSpec(Refcounted.get(RESULT, false));
     }
     
 }

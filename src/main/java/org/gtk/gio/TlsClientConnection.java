@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link TlsClientConnection} is the client-side subclass of
@@ -10,7 +11,7 @@ import java.lang.invoke.*;
  */
 public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle g_tls_client_connection_copy_session_state = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_tls_client_connection_copy_session_state = Interop.downcallHandle(
         "g_tls_client_connection_copy_session_state",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -45,7 +46,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
      * reuse would be a privacy weakness. Using this function causes the
      * ticket to be copied without regard for privacy considerations.
      */
-    public default void copySessionState(TlsClientConnection source) {
+    default @NotNull void copySessionState(@NotNull TlsClientConnection source) {
         try {
             g_tls_client_connection_copy_session_state.invokeExact(handle(), source.handle());
         } catch (Throwable ERR) {
@@ -53,7 +54,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle g_tls_client_connection_get_accepted_cas = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_tls_client_connection_get_accepted_cas = Interop.downcallHandle(
         "g_tls_client_connection_get_accepted_cas",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -67,16 +68,17 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
      * Each item in the list is a {@link org.gtk.glib.ByteArray} which contains the complete
      * subject DN of the certificate authority.
      */
-    public default org.gtk.glib.List getAcceptedCas() {
+    default @NotNull org.gtk.glib.List getAcceptedCas() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_tls_client_connection_get_accepted_cas.invokeExact(handle());
-            return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_tls_client_connection_get_accepted_cas.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_tls_client_connection_get_server_identity = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_tls_client_connection_get_server_identity = Interop.downcallHandle(
         "g_tls_client_connection_get_server_identity",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -84,16 +86,17 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets {@code conn}'s expected server identity
      */
-    public default SocketConnectable getServerIdentity() {
+    default @Nullable SocketConnectable getServerIdentity() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_tls_client_connection_get_server_identity.invokeExact(handle());
-            return new SocketConnectable.SocketConnectableImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_tls_client_connection_get_server_identity.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SocketConnectable.SocketConnectableImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_tls_client_connection_set_server_identity = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_tls_client_connection_set_server_identity = Interop.downcallHandle(
         "g_tls_client_connection_set_server_identity",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -104,7 +107,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
      * to let {@code conn} know what name to look for in the certificate when
      * performing {@link TlsCertificateFlags#BAD_IDENTITY} validation, if enabled.
      */
-    public default void setServerIdentity(SocketConnectable identity) {
+    default @NotNull void setServerIdentity(@NotNull SocketConnectable identity) {
         try {
             g_tls_client_connection_set_server_identity.invokeExact(handle(), identity.handle());
         } catch (Throwable ERR) {
@@ -112,7 +115,7 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle g_tls_client_connection_new = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_tls_client_connection_new = Interop.downcallHandle(
         "g_tls_client_connection_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -126,17 +129,18 @@ public interface TlsClientConnection extends io.github.jwharm.javagi.Proxy {
      * on when application code can run operations on the {@code base_io_stream} after
      * this function has returned.
      */
-    public static TlsClientConnection new_(IOStream baseIoStream, SocketConnectable serverIdentity) throws io.github.jwharm.javagi.GErrorException {
+    public static @NotNull TlsClientConnection new_(@NotNull IOStream baseIoStream, @Nullable SocketConnectable serverIdentity) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_tls_client_connection_new.invokeExact(baseIoStream.handle(), serverIdentity.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new TlsClientConnection.TlsClientConnectionImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_tls_client_connection_new.invokeExact(baseIoStream.handle(), serverIdentity.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new TlsClientConnection.TlsClientConnectionImpl(Refcounted.get(RESULT, true));
     }
     
     class TlsClientConnectionImpl extends org.gtk.gobject.Object implements TlsClientConnection {

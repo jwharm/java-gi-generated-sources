@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Renders text in a cell
@@ -25,7 +26,7 @@ public class CellRendererText extends CellRenderer {
         return new CellRendererText(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_cell_renderer_text_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_renderer_text_new = Interop.downcallHandle(
         "gtk_cell_renderer_text_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -52,7 +53,7 @@ public class CellRendererText extends CellRenderer {
         super(constructNew());
     }
     
-    static final MethodHandle gtk_cell_renderer_text_set_fixed_height_from_font = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_renderer_text_set_fixed_height_from_font = Interop.downcallHandle(
         "gtk_cell_renderer_text_set_fixed_height_from_font",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -66,7 +67,7 @@ public class CellRendererText extends CellRenderer {
      * displayed).  If {@code number_of_rows} is -1, then the fixed height is unset, and
      * the height is determined by the properties again.
      */
-    public void setFixedHeightFromFont(int numberOfRows) {
+    public @NotNull void setFixedHeightFromFont(@NotNull int numberOfRows) {
         try {
             gtk_cell_renderer_text_set_fixed_height_from_font.invokeExact(handle(), numberOfRows);
         } catch (Throwable ERR) {
@@ -76,7 +77,7 @@ public class CellRendererText extends CellRenderer {
     
     @FunctionalInterface
     public interface EditedHandler {
-        void signalReceived(CellRendererText source, java.lang.String path, java.lang.String newText);
+        void signalReceived(CellRendererText source, @NotNull java.lang.String path, @NotNull java.lang.String newText);
     }
     
     /**
@@ -89,13 +90,13 @@ public class CellRendererText extends CellRenderer {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("edited").handle(),
+                Interop.allocateNativeString("edited"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(CellRendererText.Callbacks.class, "signalCellRendererTextEdited",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

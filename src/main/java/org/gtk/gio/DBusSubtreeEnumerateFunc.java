@@ -1,6 +1,7 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The type of the {@code enumerate} function in {@link DBusSubtreeVTable}.
@@ -17,5 +18,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface DBusSubtreeEnumerateFunc {
-        void onDBusSubtreeEnumerateFunc(DBusConnection connection, java.lang.String sender, java.lang.String objectPath);
+        void onDBusSubtreeEnumerateFunc(@NotNull DBusConnection connection, @NotNull java.lang.String sender, @NotNull java.lang.String objectPath);
 }

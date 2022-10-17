@@ -1,11 +1,12 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The type of the {@code set_property} function in {@link DBusInterfaceVTable}.
  */
 @FunctionalInterface
 public interface DBusInterfaceSetPropertyFunc {
-        boolean onDBusInterfaceSetPropertyFunc(DBusConnection connection, java.lang.String sender, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String propertyName, org.gtk.glib.Variant value);
+        boolean onDBusInterfaceSetPropertyFunc(@NotNull DBusConnection connection, @NotNull java.lang.String sender, @NotNull java.lang.String objectPath, @NotNull java.lang.String interfaceName, @NotNull java.lang.String propertyName, @NotNull org.gtk.glib.Variant value);
 }

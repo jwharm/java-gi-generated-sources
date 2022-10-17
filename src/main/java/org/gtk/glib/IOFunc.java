@@ -1,6 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Specifies the type of function passed to g_io_add_watch() or
@@ -9,5 +10,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface IOFunc {
-        boolean onIOFunc(IOChannel source, IOCondition condition);
+        boolean onIOFunc(@NotNull IOChannel source, @NotNull IOCondition condition);
 }

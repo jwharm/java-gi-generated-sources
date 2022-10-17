@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkWidgetPaintable} is a {@code GdkPaintable} that displays the contents
@@ -37,12 +38,12 @@ public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.g
         return new WidgetPaintable(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_widget_paintable_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_widget_paintable_new = Interop.downcallHandle(
         "gtk_widget_paintable_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(Widget widget) {
+    private static Refcounted constructNew(@Nullable Widget widget) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_widget_paintable_new.invokeExact(widget.handle()), true);
             return RESULT;
@@ -54,11 +55,11 @@ public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.g
     /**
      * Creates a new widget paintable observing the given widget.
      */
-    public WidgetPaintable(Widget widget) {
+    public WidgetPaintable(@Nullable Widget widget) {
         super(constructNew(widget));
     }
     
-    static final MethodHandle gtk_widget_paintable_get_widget = Interop.downcallHandle(
+    private static final MethodHandle gtk_widget_paintable_get_widget = Interop.downcallHandle(
         "gtk_widget_paintable_get_widget",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -66,16 +67,17 @@ public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.g
     /**
      * Returns the widget that is observed or {@code null} if none.
      */
-    public Widget getWidget() {
+    public @Nullable Widget getWidget() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_widget_paintable_get_widget.invokeExact(handle());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_widget_paintable_get_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_widget_paintable_set_widget = Interop.downcallHandle(
+    private static final MethodHandle gtk_widget_paintable_set_widget = Interop.downcallHandle(
         "gtk_widget_paintable_set_widget",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -83,7 +85,7 @@ public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.g
     /**
      * Sets the widget that should be observed.
      */
-    public void setWidget(Widget widget) {
+    public @NotNull void setWidget(@Nullable Widget widget) {
         try {
             gtk_widget_paintable_set_widget.invokeExact(handle(), widget.handle());
         } catch (Throwable ERR) {

@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkSingleSelection} is a {@code GtkSelectionModel} that allows selecting a single
@@ -24,12 +25,12 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
         return new SingleSelection(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_single_selection_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_single_selection_new = Interop.downcallHandle(
         "gtk_single_selection_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(org.gtk.gio.ListModel model) {
+    private static Refcounted constructNew(@Nullable org.gtk.gio.ListModel model) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_single_selection_new.invokeExact(model.refcounted().unowned().handle()), true);
             return RESULT;
@@ -41,11 +42,11 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
     /**
      * Creates a new selection to handle {@code model}.
      */
-    public SingleSelection(org.gtk.gio.ListModel model) {
+    public SingleSelection(@Nullable org.gtk.gio.ListModel model) {
         super(constructNew(model));
     }
     
-    static final MethodHandle gtk_single_selection_get_autoselect = Interop.downcallHandle(
+    private static final MethodHandle gtk_single_selection_get_autoselect = Interop.downcallHandle(
         "gtk_single_selection_get_autoselect",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -55,15 +56,16 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * gtk_single_selection_set_autoselect().
      */
     public boolean getAutoselect() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_single_selection_get_autoselect.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_single_selection_get_autoselect.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_single_selection_get_can_unselect = Interop.downcallHandle(
+    private static final MethodHandle gtk_single_selection_get_can_unselect = Interop.downcallHandle(
         "gtk_single_selection_get_can_unselect",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -73,15 +75,16 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * unselecting the selected item.
      */
     public boolean getCanUnselect() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_single_selection_get_can_unselect.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_single_selection_get_can_unselect.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_single_selection_get_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_single_selection_get_model = Interop.downcallHandle(
         "gtk_single_selection_get_model",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -89,16 +92,17 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
     /**
      * Gets the model that {@code self} is wrapping.
      */
-    public org.gtk.gio.ListModel getModel() {
+    public @Nullable org.gtk.gio.ListModel getModel() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_single_selection_get_model.invokeExact(handle());
-            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_single_selection_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_single_selection_get_selected = Interop.downcallHandle(
+    private static final MethodHandle gtk_single_selection_get_selected = Interop.downcallHandle(
         "gtk_single_selection_get_selected",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -109,15 +113,16 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * If no item is selected, {@code GTK_INVALID_LIST_POSITION} is returned.
      */
     public int getSelected() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_single_selection_get_selected.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_single_selection_get_selected.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_single_selection_get_selected_item = Interop.downcallHandle(
+    private static final MethodHandle gtk_single_selection_get_selected_item = Interop.downcallHandle(
         "gtk_single_selection_get_selected_item",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -127,16 +132,17 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * <p>
      * If no item is selected, {@code null} is returned.
      */
-    public org.gtk.gobject.Object getSelectedItem() {
+    public @Nullable org.gtk.gobject.Object getSelectedItem() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_single_selection_get_selected_item.invokeExact(handle());
-            return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_single_selection_get_selected_item.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_single_selection_set_autoselect = Interop.downcallHandle(
+    private static final MethodHandle gtk_single_selection_set_autoselect = Interop.downcallHandle(
         "gtk_single_selection_set_autoselect",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -148,7 +154,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * selected. It will select a new item when the currently selected
      * item is deleted and it will disallow unselecting the current item.
      */
-    public void setAutoselect(boolean autoselect) {
+    public @NotNull void setAutoselect(@NotNull boolean autoselect) {
         try {
             gtk_single_selection_set_autoselect.invokeExact(handle(), autoselect ? 1 : 0);
         } catch (Throwable ERR) {
@@ -156,7 +162,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
         }
     }
     
-    static final MethodHandle gtk_single_selection_set_can_unselect = Interop.downcallHandle(
+    private static final MethodHandle gtk_single_selection_set_can_unselect = Interop.downcallHandle(
         "gtk_single_selection_set_can_unselect",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -169,7 +175,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * cause unselecting to not work, so it practically makes no sense
      * to set both at the same time the same time.
      */
-    public void setCanUnselect(boolean canUnselect) {
+    public @NotNull void setCanUnselect(@NotNull boolean canUnselect) {
         try {
             gtk_single_selection_set_can_unselect.invokeExact(handle(), canUnselect ? 1 : 0);
         } catch (Throwable ERR) {
@@ -177,7 +183,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
         }
     }
     
-    static final MethodHandle gtk_single_selection_set_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_single_selection_set_model = Interop.downcallHandle(
         "gtk_single_selection_set_model",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -187,7 +193,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * <p>
      * If {@code model} is {@code null}, {@code self} will be empty.
      */
-    public void setModel(org.gtk.gio.ListModel model) {
+    public @NotNull void setModel(@Nullable org.gtk.gio.ListModel model) {
         try {
             gtk_single_selection_set_model.invokeExact(handle(), model.handle());
         } catch (Throwable ERR) {
@@ -195,7 +201,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
         }
     }
     
-    static final MethodHandle gtk_single_selection_set_selected = Interop.downcallHandle(
+    private static final MethodHandle gtk_single_selection_set_selected = Interop.downcallHandle(
         "gtk_single_selection_set_selected",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -210,7 +216,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * selected. If it is unset, the selection will be unset and no item
      * will be selected.
      */
-    public void setSelected(int position) {
+    public @NotNull void setSelected(@NotNull int position) {
         try {
             gtk_single_selection_set_selected.invokeExact(handle(), position);
         } catch (Throwable ERR) {

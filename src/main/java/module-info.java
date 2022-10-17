@@ -1,4 +1,5 @@
 module org.gtk {
+    requires org.jetbrains.annotations;
     exports io.github.jwharm.javagi;
     exports org.cairographics;
     exports org.gnome.adw;
@@ -13,4 +14,3 @@ module org.gtk {
     exports org.harfbuzz;
     exports org.pango;
 }
-

@@ -3,6 +3,7 @@ package org.gnome.adw;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A view switcher action bar.
@@ -24,7 +25,7 @@ import java.lang.invoke.*;
  * to {@code ViewSwitcherTitle:title-visible} to automatically reveal the
  * view switcher bar when the title label is displayed in place of the view
  * switcher, as follows:
- * <p>
+ * 
  * <pre>{@code xml
  * <object class="GtkWindow">
  *   <child type="titlebar">
@@ -55,9 +56,8 @@ import java.lang.invoke.*;
  *   </child>
  * </object>
  * }</pre>
- * <p>
+ * 
  * <h2>CSS nodes</h2>
- * <p>
  * {@code AdwViewSwitcherBar} has a single CSS node with name{@code  viewswitcherbar}.
  */
 public class ViewSwitcherBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
@@ -71,7 +71,7 @@ public class ViewSwitcherBar extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         return new ViewSwitcherBar(gobject.refcounted());
     }
     
-    static final MethodHandle adw_view_switcher_bar_new = Interop.downcallHandle(
+    private static final MethodHandle adw_view_switcher_bar_new = Interop.downcallHandle(
         "adw_view_switcher_bar_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -92,7 +92,7 @@ public class ViewSwitcherBar extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         super(constructNew());
     }
     
-    static final MethodHandle adw_view_switcher_bar_get_reveal = Interop.downcallHandle(
+    private static final MethodHandle adw_view_switcher_bar_get_reveal = Interop.downcallHandle(
         "adw_view_switcher_bar_get_reveal",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -101,15 +101,16 @@ public class ViewSwitcherBar extends org.gtk.gtk.Widget implements org.gtk.gtk.A
      * Gets whether {@code self} should be revealed or hidden.
      */
     public boolean getReveal() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_view_switcher_bar_get_reveal.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) adw_view_switcher_bar_get_reveal.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_view_switcher_bar_get_stack = Interop.downcallHandle(
+    private static final MethodHandle adw_view_switcher_bar_get_stack = Interop.downcallHandle(
         "adw_view_switcher_bar_get_stack",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -117,16 +118,17 @@ public class ViewSwitcherBar extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     /**
      * Gets the stack controlled by {@code self}.
      */
-    public ViewStack getStack() {
+    public @Nullable ViewStack getStack() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_view_switcher_bar_get_stack.invokeExact(handle());
-            return new ViewStack(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_view_switcher_bar_get_stack.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ViewStack(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_view_switcher_bar_set_reveal = Interop.downcallHandle(
+    private static final MethodHandle adw_view_switcher_bar_set_reveal = Interop.downcallHandle(
         "adw_view_switcher_bar_set_reveal",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -134,7 +136,7 @@ public class ViewSwitcherBar extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     /**
      * Sets whether {@code self} should be revealed or hidden.
      */
-    public void setReveal(boolean reveal) {
+    public @NotNull void setReveal(@NotNull boolean reveal) {
         try {
             adw_view_switcher_bar_set_reveal.invokeExact(handle(), reveal ? 1 : 0);
         } catch (Throwable ERR) {
@@ -142,7 +144,7 @@ public class ViewSwitcherBar extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         }
     }
     
-    static final MethodHandle adw_view_switcher_bar_set_stack = Interop.downcallHandle(
+    private static final MethodHandle adw_view_switcher_bar_set_stack = Interop.downcallHandle(
         "adw_view_switcher_bar_set_stack",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -150,7 +152,7 @@ public class ViewSwitcherBar extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     /**
      * Sets the stack controlled by {@code self}.
      */
-    public void setStack(ViewStack stack) {
+    public @NotNull void setStack(@Nullable ViewStack stack) {
         try {
             adw_view_switcher_bar_set_stack.invokeExact(handle(), stack.handle());
         } catch (Throwable ERR) {

@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkMediaStream} is the integration point for media playback inside GTK.
@@ -34,7 +35,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         return new MediaStream(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_media_stream_error_valist = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_error_valist = Interop.downcallHandle(
         "gtk_media_stream_error_valist",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -45,15 +46,15 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * This is a utility function that calls {@link MediaStream#gerror}.
      * See that function for details.
      */
-    public void errorValist(org.gtk.glib.Quark domain, int code, java.lang.String format, VaList args) {
+    public @NotNull void errorValist(@NotNull org.gtk.glib.Quark domain, @NotNull int code, @NotNull java.lang.String format, @NotNull VaList args) {
         try {
-            gtk_media_stream_error_valist.invokeExact(handle(), domain.getValue(), code, Interop.allocateNativeString(format).handle(), args);
+            gtk_media_stream_error_valist.invokeExact(handle(), domain.getValue(), code, Interop.allocateNativeString(format), args);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_media_stream_gerror = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_gerror = Interop.downcallHandle(
         "gtk_media_stream_gerror",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -72,7 +73,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * To unset an error, the stream must be reset via a call to
      * {@link MediaStream#unprepared}.
      */
-    public void gerror(org.gtk.glib.Error error) {
+    public @NotNull void gerror(@NotNull org.gtk.glib.Error error) {
         try {
             gtk_media_stream_gerror.invokeExact(handle(), error.refcounted().unowned().handle());
         } catch (Throwable ERR) {
@@ -80,7 +81,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         }
     }
     
-    static final MethodHandle gtk_media_stream_get_duration = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_get_duration = Interop.downcallHandle(
         "gtk_media_stream_get_duration",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -91,15 +92,16 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * If the duration is not known, 0 will be returned.
      */
     public long getDuration() {
+        long RESULT;
         try {
-            var RESULT = (long) gtk_media_stream_get_duration.invokeExact(handle());
-            return RESULT;
+            RESULT = (long) gtk_media_stream_get_duration.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_media_stream_get_ended = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_get_ended = Interop.downcallHandle(
         "gtk_media_stream_get_ended",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -108,15 +110,16 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * Returns whether the streams playback is finished.
      */
     public boolean getEnded() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_media_stream_get_ended.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_media_stream_get_ended.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_media_stream_get_error = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_get_error = Interop.downcallHandle(
         "gtk_media_stream_get_error",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -137,16 +140,17 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * a {@link MediaFile} will unset errors when a new source is
      * set, e.g. with {@link MediaFile#setFile}.
      */
-    public org.gtk.glib.Error getError() {
+    public @Nullable org.gtk.glib.Error getError() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_media_stream_get_error.invokeExact(handle());
-            return new org.gtk.glib.Error(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_media_stream_get_error.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.Error(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_media_stream_get_loop = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_get_loop = Interop.downcallHandle(
         "gtk_media_stream_get_loop",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -157,15 +161,16 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * See {@link MediaStream#setLoop} for details.
      */
     public boolean getLoop() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_media_stream_get_loop.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_media_stream_get_loop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_media_stream_get_muted = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_get_muted = Interop.downcallHandle(
         "gtk_media_stream_get_muted",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -176,15 +181,16 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * See {@link MediaStream#setMuted} for details.
      */
     public boolean getMuted() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_media_stream_get_muted.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_media_stream_get_muted.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_media_stream_get_playing = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_get_playing = Interop.downcallHandle(
         "gtk_media_stream_get_playing",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -193,15 +199,16 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * Return whether the stream is currently playing.
      */
     public boolean getPlaying() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_media_stream_get_playing.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_media_stream_get_playing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_media_stream_get_timestamp = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_get_timestamp = Interop.downcallHandle(
         "gtk_media_stream_get_timestamp",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -210,15 +217,16 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * Returns the current presentation timestamp in microseconds.
      */
     public long getTimestamp() {
+        long RESULT;
         try {
-            var RESULT = (long) gtk_media_stream_get_timestamp.invokeExact(handle());
-            return RESULT;
+            RESULT = (long) gtk_media_stream_get_timestamp.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_media_stream_get_volume = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_get_volume = Interop.downcallHandle(
         "gtk_media_stream_get_volume",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -229,15 +237,16 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * See {@link MediaStream#setVolume} for details.
      */
     public double getVolume() {
+        double RESULT;
         try {
-            var RESULT = (double) gtk_media_stream_get_volume.invokeExact(handle());
-            return RESULT;
+            RESULT = (double) gtk_media_stream_get_volume.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_media_stream_has_audio = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_has_audio = Interop.downcallHandle(
         "gtk_media_stream_has_audio",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -246,15 +255,16 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * Returns whether the stream has audio.
      */
     public boolean hasAudio() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_media_stream_has_audio.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_media_stream_has_audio.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_media_stream_has_video = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_has_video = Interop.downcallHandle(
         "gtk_media_stream_has_video",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -263,15 +273,16 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * Returns whether the stream has video.
      */
     public boolean hasVideo() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_media_stream_has_video.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_media_stream_has_video.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_media_stream_is_prepared = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_is_prepared = Interop.downcallHandle(
         "gtk_media_stream_is_prepared",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -282,15 +293,16 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * At this point the existence of audio and video is known.
      */
     public boolean isPrepared() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_media_stream_is_prepared.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_media_stream_is_prepared.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_media_stream_is_seekable = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_is_seekable = Interop.downcallHandle(
         "gtk_media_stream_is_seekable",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -307,15 +319,16 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * stream, though it will not do anything.
      */
     public boolean isSeekable() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_media_stream_is_seekable.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_media_stream_is_seekable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_media_stream_is_seeking = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_is_seeking = Interop.downcallHandle(
         "gtk_media_stream_is_seeking",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -324,15 +337,16 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * Checks if there is currently a seek operation going on.
      */
     public boolean isSeeking() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_media_stream_is_seeking.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_media_stream_is_seeking.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_media_stream_pause = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_pause = Interop.downcallHandle(
         "gtk_media_stream_pause",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -342,7 +356,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * <p>
      * If the stream is not playing, do nothing.
      */
-    public void pause() {
+    public @NotNull void pause() {
         try {
             gtk_media_stream_pause.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -350,7 +364,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         }
     }
     
-    static final MethodHandle gtk_media_stream_play = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_play = Interop.downcallHandle(
         "gtk_media_stream_play",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -360,7 +374,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * <p>
      * If the stream is in error or already playing, do nothing.
      */
-    public void play() {
+    public @NotNull void play() {
         try {
             gtk_media_stream_play.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -368,7 +382,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         }
     }
     
-    static final MethodHandle gtk_media_stream_realize = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_realize = Interop.downcallHandle(
         "gtk_media_stream_realize",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -391,7 +405,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * <p>
      * It is not required to call this function to make a media stream work.
      */
-    public void realize(org.gtk.gdk.Surface surface) {
+    public @NotNull void realize(@NotNull org.gtk.gdk.Surface surface) {
         try {
             gtk_media_stream_realize.invokeExact(handle(), surface.handle());
         } catch (Throwable ERR) {
@@ -399,7 +413,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         }
     }
     
-    static final MethodHandle gtk_media_stream_seek = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_seek = Interop.downcallHandle(
         "gtk_media_stream_seek",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -417,7 +431,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * ongoing seek operation, the new seek will override
      * any pending seek.
      */
-    public void seek(long timestamp) {
+    public @NotNull void seek(@NotNull long timestamp) {
         try {
             gtk_media_stream_seek.invokeExact(handle(), timestamp);
         } catch (Throwable ERR) {
@@ -425,7 +439,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         }
     }
     
-    static final MethodHandle gtk_media_stream_seek_failed = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_seek_failed = Interop.downcallHandle(
         "gtk_media_stream_seek_failed",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -439,7 +453,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * See {@link MediaStream#seekSuccess} for the other way of
      * ending a seek.
      */
-    public void seekFailed() {
+    public @NotNull void seekFailed() {
         try {
             gtk_media_stream_seek_failed.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -447,7 +461,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         }
     }
     
-    static final MethodHandle gtk_media_stream_seek_success = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_seek_success = Interop.downcallHandle(
         "gtk_media_stream_seek_success",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -461,7 +475,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * See {@link MediaStream#seekFailed} for the other way of
      * ending a seek.
      */
-    public void seekSuccess() {
+    public @NotNull void seekSuccess() {
         try {
             gtk_media_stream_seek_success.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -469,7 +483,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         }
     }
     
-    static final MethodHandle gtk_media_stream_set_loop = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_set_loop = Interop.downcallHandle(
         "gtk_media_stream_set_loop",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -484,7 +498,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * non-seekable streams. Those streams will ignore the
      * loop setting and just end.
      */
-    public void setLoop(boolean loop) {
+    public @NotNull void setLoop(@NotNull boolean loop) {
         try {
             gtk_media_stream_set_loop.invokeExact(handle(), loop ? 1 : 0);
         } catch (Throwable ERR) {
@@ -492,7 +506,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         }
     }
     
-    static final MethodHandle gtk_media_stream_set_muted = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_set_muted = Interop.downcallHandle(
         "gtk_media_stream_set_muted",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -507,7 +521,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * If the stream has no audio, calling this function will
      * still work but it will not have an audible effect.
      */
-    public void setMuted(boolean muted) {
+    public @NotNull void setMuted(@NotNull boolean muted) {
         try {
             gtk_media_stream_set_muted.invokeExact(handle(), muted ? 1 : 0);
         } catch (Throwable ERR) {
@@ -515,7 +529,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         }
     }
     
-    static final MethodHandle gtk_media_stream_set_playing = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_set_playing = Interop.downcallHandle(
         "gtk_media_stream_set_playing",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -523,7 +537,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     /**
      * Starts or pauses playback of the stream.
      */
-    public void setPlaying(boolean playing) {
+    public @NotNull void setPlaying(@NotNull boolean playing) {
         try {
             gtk_media_stream_set_playing.invokeExact(handle(), playing ? 1 : 0);
         } catch (Throwable ERR) {
@@ -531,7 +545,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         }
     }
     
-    static final MethodHandle gtk_media_stream_set_volume = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_set_volume = Interop.downcallHandle(
         "gtk_media_stream_set_volume",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
     );
@@ -549,7 +563,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * will still work but it will not have an immediate audible effect.
      * When the stream is unmuted, the new volume setting will take effect.
      */
-    public void setVolume(double volume) {
+    public @NotNull void setVolume(@NotNull double volume) {
         try {
             gtk_media_stream_set_volume.invokeExact(handle(), volume);
         } catch (Throwable ERR) {
@@ -557,7 +571,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         }
     }
     
-    static final MethodHandle gtk_media_stream_stream_ended = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_stream_ended = Interop.downcallHandle(
         "gtk_media_stream_stream_ended",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -570,7 +584,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * <p>
      * The media stream must be prepared when this function is called.
      */
-    public void streamEnded() {
+    public @NotNull void streamEnded() {
         try {
             gtk_media_stream_stream_ended.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -578,7 +592,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         }
     }
     
-    static final MethodHandle gtk_media_stream_stream_prepared = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_stream_prepared = Interop.downcallHandle(
         "gtk_media_stream_stream_prepared",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG)
     );
@@ -595,7 +609,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * This function may not be called again until the stream has been
      * reset via {@link MediaStream#streamUnprepared}.
      */
-    public void streamPrepared(boolean hasAudio, boolean hasVideo, boolean seekable, long duration) {
+    public @NotNull void streamPrepared(@NotNull boolean hasAudio, @NotNull boolean hasVideo, @NotNull boolean seekable, @NotNull long duration) {
         try {
             gtk_media_stream_stream_prepared.invokeExact(handle(), hasAudio ? 1 : 0, hasVideo ? 1 : 0, seekable ? 1 : 0, duration);
         } catch (Throwable ERR) {
@@ -603,7 +617,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         }
     }
     
-    static final MethodHandle gtk_media_stream_stream_unprepared = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_stream_unprepared = Interop.downcallHandle(
         "gtk_media_stream_stream_unprepared",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -615,7 +629,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * <p>
      * This function will also reset any error state the stream was in.
      */
-    public void streamUnprepared() {
+    public @NotNull void streamUnprepared() {
         try {
             gtk_media_stream_stream_unprepared.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -623,7 +637,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         }
     }
     
-    static final MethodHandle gtk_media_stream_unrealize = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_unrealize = Interop.downcallHandle(
         "gtk_media_stream_unrealize",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -634,7 +648,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * This causes the stream to release all resources it had
      * allocated from {@code surface}.
      */
-    public void unrealize(org.gtk.gdk.Surface surface) {
+    public @NotNull void unrealize(@NotNull org.gtk.gdk.Surface surface) {
         try {
             gtk_media_stream_unrealize.invokeExact(handle(), surface.handle());
         } catch (Throwable ERR) {
@@ -642,7 +656,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         }
     }
     
-    static final MethodHandle gtk_media_stream_update = Interop.downcallHandle(
+    private static final MethodHandle gtk_media_stream_update = Interop.downcallHandle(
         "gtk_media_stream_update",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -656,7 +670,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * <p>
      * The media stream must be prepared when this function is called.
      */
-    public void update(long timestamp) {
+    public @NotNull void update(@NotNull long timestamp) {
         try {
             gtk_media_stream_update.invokeExact(handle(), timestamp);
         } catch (Throwable ERR) {

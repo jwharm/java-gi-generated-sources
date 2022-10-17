@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link DBusActionGroup} is an implementation of the {@link ActionGroup}
@@ -20,7 +21,7 @@ public class DBusActionGroup extends org.gtk.gobject.Object implements ActionGro
         return new DBusActionGroup(gobject.refcounted());
     }
     
-    static final MethodHandle g_dbus_action_group_get = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_action_group_get = Interop.downcallHandle(
         "g_dbus_action_group_get",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -40,13 +41,14 @@ public class DBusActionGroup extends org.gtk.gobject.Object implements ActionGro
      * for the action group to monitor for changes and then to call
      * g_action_group_list_actions() to get the initial list.
      */
-    public static DBusActionGroup get(DBusConnection connection, java.lang.String busName, java.lang.String objectPath) {
+    public static @NotNull DBusActionGroup get(@NotNull DBusConnection connection, @Nullable java.lang.String busName, @NotNull java.lang.String objectPath) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_dbus_action_group_get.invokeExact(connection.handle(), Interop.allocateNativeString(busName).handle(), Interop.allocateNativeString(objectPath).handle());
-            return new DBusActionGroup(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_dbus_action_group_get.invokeExact(connection.handle(), Interop.allocateNativeString(busName), Interop.allocateNativeString(objectPath));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new DBusActionGroup(Refcounted.get(RESULT, true));
     }
     
 }

@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkTreeListRowSorter} is a special-purpose sorter that will apply a given
@@ -10,7 +11,7 @@ import java.lang.invoke.*;
  * <p>
  * Here is an example for setting up a column view with a tree model and
  * a {@code GtkTreeListSorter}:
- * <p>
+ * 
  * <pre>{@code c
  * column_sorter = gtk_column_view_get_sorter (view);
  * sorter = gtk_tree_list_row_sorter_new (g_object_ref (column_sorter));
@@ -30,12 +31,12 @@ public class TreeListRowSorter extends Sorter {
         return new TreeListRowSorter(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_tree_list_row_sorter_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_list_row_sorter_new = Interop.downcallHandle(
         "gtk_tree_list_row_sorter_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(Sorter sorter) {
+    private static Refcounted constructNew(@Nullable Sorter sorter) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_tree_list_row_sorter_new.invokeExact(sorter.refcounted().unowned().handle()), true);
             return RESULT;
@@ -51,11 +52,11 @@ public class TreeListRowSorter extends Sorter {
      * Note that this sorter relies on {@code Gtk.TreeListModel:passthrough}
      * being {@code false} as it can only sort {@link TreeListRow}s.
      */
-    public TreeListRowSorter(Sorter sorter) {
+    public TreeListRowSorter(@Nullable Sorter sorter) {
         super(constructNew(sorter));
     }
     
-    static final MethodHandle gtk_tree_list_row_sorter_get_sorter = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_list_row_sorter_get_sorter = Interop.downcallHandle(
         "gtk_tree_list_row_sorter_get_sorter",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -63,16 +64,17 @@ public class TreeListRowSorter extends Sorter {
     /**
      * Returns the sorter used by {@code self}.
      */
-    public Sorter getSorter() {
+    public @Nullable Sorter getSorter() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_tree_list_row_sorter_get_sorter.invokeExact(handle());
-            return new Sorter(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_tree_list_row_sorter_get_sorter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Sorter(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_tree_list_row_sorter_set_sorter = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_list_row_sorter_set_sorter = Interop.downcallHandle(
         "gtk_tree_list_row_sorter_set_sorter",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -83,7 +85,7 @@ public class TreeListRowSorter extends Sorter {
      * This sorter will be passed the {@code Gtk.TreeListRow:item} of
      * the tree list rows passed to {@code self}.
      */
-    public void setSorter(Sorter sorter) {
+    public @NotNull void setSorter(@Nullable Sorter sorter) {
         try {
             gtk_tree_list_row_sorter_set_sorter.invokeExact(handle(), sorter.handle());
         } catch (Throwable ERR) {

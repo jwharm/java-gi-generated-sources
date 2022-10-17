@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkOverlayLayout} is the layout manager used by {@code GtkOverlay}.
@@ -24,7 +25,7 @@ public class OverlayLayout extends LayoutManager {
         return new OverlayLayout(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_overlay_layout_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_overlay_layout_new = Interop.downcallHandle(
         "gtk_overlay_layout_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );

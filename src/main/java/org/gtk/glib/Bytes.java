@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A simple refcounted data type representing an immutable sequence of zero or
@@ -36,14 +37,14 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_bytes_new = Interop.downcallHandle(
+    private static final MethodHandle g_bytes_new = Interop.downcallHandle(
         "g_bytes_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
     
-    private static Refcounted constructNew(byte[] data, long size) {
+    private static Refcounted constructNew(@Nullable byte[] data, @NotNull long size) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_bytes_new.invokeExact(Interop.allocateNativeArray(data).handle(), size), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_bytes_new.invokeExact(Interop.allocateNativeArray(data), size), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -55,18 +56,18 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * {@code data} is copied. If {@code size} is 0, {@code data} may be {@code null}.
      */
-    public Bytes(byte[] data, long size) {
+    public Bytes(@Nullable byte[] data, @NotNull long size) {
         super(constructNew(data, size));
     }
     
-    static final MethodHandle g_bytes_new_static = Interop.downcallHandle(
+    private static final MethodHandle g_bytes_new_static = Interop.downcallHandle(
         "g_bytes_new_static",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
     
-    private static Refcounted constructNewStatic(byte[] data, long size) {
+    private static Refcounted constructNewStatic(@Nullable byte[] data, @NotNull long size) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_bytes_new_static.invokeExact(Interop.allocateNativeArray(data).handle(), size), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_bytes_new_static.invokeExact(Interop.allocateNativeArray(data), size), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -79,18 +80,18 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * {@code data} must be static (ie: never modified or freed). It may be {@code null} if {@code size}
      * is 0.
      */
-    public static Bytes newStatic(byte[] data, long size) {
+    public static Bytes newStatic(@Nullable byte[] data, @NotNull long size) {
         return new Bytes(constructNewStatic(data, size));
     }
     
-    static final MethodHandle g_bytes_new_take = Interop.downcallHandle(
+    private static final MethodHandle g_bytes_new_take = Interop.downcallHandle(
         "g_bytes_new_take",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
     
-    private static Refcounted constructNewTake(byte[] data, long size) {
+    private static Refcounted constructNewTake(@Nullable byte[] data, @NotNull long size) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_bytes_new_take.invokeExact(Interop.allocateNativeArray(data).handle(), size), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_bytes_new_take.invokeExact(Interop.allocateNativeArray(data), size), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -111,18 +112,18 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * {@code data} may be {@code null} if {@code size} is 0.
      */
-    public static Bytes newTake(byte[] data, long size) {
+    public static Bytes newTake(@Nullable byte[] data, @NotNull long size) {
         return new Bytes(constructNewTake(data, size));
     }
     
-    static final MethodHandle g_bytes_new_with_free_func = Interop.downcallHandle(
+    private static final MethodHandle g_bytes_new_with_free_func = Interop.downcallHandle(
         "g_bytes_new_with_free_func",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewWithFreeFunc(byte[] data, long size, DestroyNotify freeFunc, java.lang.foreign.MemoryAddress userData) {
+    private static Refcounted constructNewWithFreeFunc(@Nullable byte[] data, @NotNull long size, @NotNull DestroyNotify freeFunc, @Nullable java.lang.foreign.MemoryAddress userData) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_bytes_new_with_free_func.invokeExact(Interop.allocateNativeArray(data).handle(), size, 
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_bytes_new_with_free_func.invokeExact(Interop.allocateNativeArray(data), size, 
                     Interop.cbDestroyNotifySymbol(), userData), true);
             return RESULT;
         } catch (Throwable ERR) {
@@ -141,11 +142,11 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * {@code data} may be {@code null} if {@code size} is 0.
      */
-    public static Bytes newWithFreeFunc(byte[] data, long size, DestroyNotify freeFunc, java.lang.foreign.MemoryAddress userData) {
+    public static Bytes newWithFreeFunc(@Nullable byte[] data, @NotNull long size, @NotNull DestroyNotify freeFunc, @Nullable java.lang.foreign.MemoryAddress userData) {
         return new Bytes(constructNewWithFreeFunc(data, size, freeFunc, userData));
     }
     
-    static final MethodHandle g_bytes_compare = Interop.downcallHandle(
+    private static final MethodHandle g_bytes_compare = Interop.downcallHandle(
         "g_bytes_compare",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -161,16 +162,17 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * comparison. If {@code bytes1} has a smaller value at that position it is
      * considered less, otherwise greater than {@code bytes2}.
      */
-    public int compare(Bytes bytes2) {
+    public int compare(@NotNull Bytes bytes2) {
+        int RESULT;
         try {
-            var RESULT = (int) g_bytes_compare.invokeExact(handle(), bytes2.handle());
-            return RESULT;
+            RESULT = (int) g_bytes_compare.invokeExact(handle(), bytes2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_bytes_equal = Interop.downcallHandle(
+    private static final MethodHandle g_bytes_equal = Interop.downcallHandle(
         "g_bytes_equal",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -182,16 +184,17 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * This function can be passed to g_hash_table_new() as the {@code key_equal_func}
      * parameter, when using non-{@code null} {@link Bytes} pointers as keys in a {@link HashTable}.
      */
-    public boolean equal(Bytes bytes2) {
+    public boolean equal(@NotNull Bytes bytes2) {
+        int RESULT;
         try {
-            var RESULT = (int) g_bytes_equal.invokeExact(handle(), bytes2.handle());
-            return RESULT != 0;
+            RESULT = (int) g_bytes_equal.invokeExact(handle(), bytes2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_bytes_get_data = Interop.downcallHandle(
+    private static final MethodHandle g_bytes_get_data = Interop.downcallHandle(
         "g_bytes_get_data",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -205,16 +208,19 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * may represent an empty string with {@code data} non-{@code null} and {@code size} as 0. {@code null} will
      * not be returned if {@code size} is non-zero.
      */
-    public PointerByte getData(PointerLong size) {
+    public byte[] getData(@NotNull Out<Long> size) {
+        MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_bytes_get_data.invokeExact(handle(), size.handle());
-            return new PointerByte(RESULT);
+            RESULT = (MemoryAddress) g_bytes_get_data.invokeExact(handle(), (Addressable) sizePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        size.set(sizePOINTER.get(ValueLayout.JAVA_LONG, 0));
+        return MemorySegment.ofAddress(RESULT.get(ValueLayout.ADDRESS, 0), size.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE);
     }
     
-    static final MethodHandle g_bytes_get_region = Interop.downcallHandle(
+    private static final MethodHandle g_bytes_get_region = Interop.downcallHandle(
         "g_bytes_get_region",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
     );
@@ -241,16 +247,17 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * that you will be using this function to check for a zero-sized region
      * in a zero-sized {@code bytes}, {@code null} effectively always means "error".
      */
-    public java.lang.foreign.MemoryAddress getRegion(long elementSize, long offset, long nElements) {
+    public @Nullable java.lang.foreign.MemoryAddress getRegion(@NotNull long elementSize, @NotNull long offset, @NotNull long nElements) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_bytes_get_region.invokeExact(handle(), elementSize, offset, nElements);
-            return RESULT;
+            RESULT = (MemoryAddress) g_bytes_get_region.invokeExact(handle(), elementSize, offset, nElements);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_bytes_get_size = Interop.downcallHandle(
+    private static final MethodHandle g_bytes_get_size = Interop.downcallHandle(
         "g_bytes_get_size",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -261,15 +268,16 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * This function will always return the same value for a given {@link Bytes}.
      */
     public long getSize() {
+        long RESULT;
         try {
-            var RESULT = (long) g_bytes_get_size.invokeExact(handle());
-            return RESULT;
+            RESULT = (long) g_bytes_get_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_bytes_hash = Interop.downcallHandle(
+    private static final MethodHandle g_bytes_hash = Interop.downcallHandle(
         "g_bytes_hash",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -281,15 +289,16 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * parameter, when using non-{@code null} {@link Bytes} pointers as keys in a {@link HashTable}.
      */
     public int hash() {
+        int RESULT;
         try {
-            var RESULT = (int) g_bytes_hash.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_bytes_hash.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_bytes_new_from_bytes = Interop.downcallHandle(
+    private static final MethodHandle g_bytes_new_from_bytes = Interop.downcallHandle(
         "g_bytes_new_from_bytes",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
     );
@@ -307,16 +316,17 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * the same {@link Bytes} instead of {@code bytes}. This allows consumers to simplify the
      * usage of {@link Bytes} when asynchronously writing to streams.
      */
-    public Bytes newFromBytes(long offset, long length) {
+    public @NotNull Bytes newFromBytes(@NotNull long offset, @NotNull long length) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_bytes_new_from_bytes.invokeExact(handle(), offset, length);
-            return new Bytes(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_bytes_new_from_bytes.invokeExact(handle(), offset, length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Bytes(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_bytes_ref = Interop.downcallHandle(
+    private static final MethodHandle g_bytes_ref = Interop.downcallHandle(
         "g_bytes_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -324,16 +334,17 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Increase the reference count on {@code bytes}.
      */
-    public Bytes ref() {
+    public @NotNull Bytes ref() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_bytes_ref.invokeExact(handle());
-            return new Bytes(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_bytes_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Bytes(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_bytes_unref = Interop.downcallHandle(
+    private static final MethodHandle g_bytes_unref = Interop.downcallHandle(
         "g_bytes_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -342,7 +353,7 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * Releases a reference on {@code bytes}.  This may result in the bytes being
      * freed. If {@code bytes} is {@code null}, it will return immediately.
      */
-    public void unref() {
+    public @NotNull void unref() {
         try {
             g_bytes_unref.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -350,7 +361,7 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_bytes_unref_to_array = Interop.downcallHandle(
+    private static final MethodHandle g_bytes_unref_to_array = Interop.downcallHandle(
         "g_bytes_unref_to_array",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -369,15 +380,16 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * may be shorter than {@code gsize}, that {@code bytes} is using.
      */
     public PointerByte unrefToArray() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_bytes_unref_to_array.invokeExact(handle());
-            return new PointerByte(RESULT);
+            RESULT = (MemoryAddress) g_bytes_unref_to_array.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PointerByte(RESULT);
     }
     
-    static final MethodHandle g_bytes_unref_to_data = Interop.downcallHandle(
+    private static final MethodHandle g_bytes_unref_to_data = Interop.downcallHandle(
         "g_bytes_unref_to_data",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -391,13 +403,16 @@ public class Bytes extends io.github.jwharm.javagi.ResourceBase {
      * g_bytes_new_take() or g_byte_array_free_to_bytes(). In all other cases the
      * data is copied.
      */
-    public PointerByte unrefToData(PointerLong size) {
+    public byte[] unrefToData(@NotNull Out<Long> size) {
+        MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_bytes_unref_to_data.invokeExact(handle(), size.handle());
-            return new PointerByte(RESULT);
+            RESULT = (MemoryAddress) g_bytes_unref_to_data.invokeExact(handle(), (Addressable) sizePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        size.set(sizePOINTER.get(ValueLayout.JAVA_LONG, 0));
+        return MemorySegment.ofAddress(RESULT.get(ValueLayout.ADDRESS, 0), size.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE);
     }
     
 }

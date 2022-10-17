@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkNoSelection} is a {@code GtkSelectionModel} that does not allow selecting
@@ -22,12 +23,12 @@ public class NoSelection extends org.gtk.gobject.Object implements org.gtk.gio.L
         return new NoSelection(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_no_selection_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_no_selection_new = Interop.downcallHandle(
         "gtk_no_selection_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(org.gtk.gio.ListModel model) {
+    private static Refcounted constructNew(@Nullable org.gtk.gio.ListModel model) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_no_selection_new.invokeExact(model.refcounted().unowned().handle()), true);
             return RESULT;
@@ -39,11 +40,11 @@ public class NoSelection extends org.gtk.gobject.Object implements org.gtk.gio.L
     /**
      * Creates a new selection to handle {@code model}.
      */
-    public NoSelection(org.gtk.gio.ListModel model) {
+    public NoSelection(@Nullable org.gtk.gio.ListModel model) {
         super(constructNew(model));
     }
     
-    static final MethodHandle gtk_no_selection_get_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_no_selection_get_model = Interop.downcallHandle(
         "gtk_no_selection_get_model",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -51,16 +52,17 @@ public class NoSelection extends org.gtk.gobject.Object implements org.gtk.gio.L
     /**
      * Gets the model that {@code self} is wrapping.
      */
-    public org.gtk.gio.ListModel getModel() {
+    public @Nullable org.gtk.gio.ListModel getModel() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_no_selection_get_model.invokeExact(handle());
-            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_no_selection_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_no_selection_set_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_no_selection_set_model = Interop.downcallHandle(
         "gtk_no_selection_set_model",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -70,7 +72,7 @@ public class NoSelection extends org.gtk.gobject.Object implements org.gtk.gio.L
      * <p>
      * If {@code model} is {@code null}, this model will be empty.
      */
-    public void setModel(org.gtk.gio.ListModel model) {
+    public @NotNull void setModel(@Nullable org.gtk.gio.ListModel model) {
         try {
             gtk_no_selection_set_model.invokeExact(handle(), model.handle());
         } catch (Throwable ERR) {

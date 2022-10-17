@@ -3,6 +3,7 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GdkGLContext} is an object representing a platform-specific
@@ -24,9 +25,8 @@ import java.lang.invoke.*;
  * <p>
  * A {@code GdkGLContext} has to be made "current" in order to start using
  * it, otherwise any OpenGL call will be ignored.
- * <p>
+ * 
  * <h2>Creating a new OpenGL context</h2>
- * <p>
  * In order to create a new {@code GdkGLContext} instance you need a {@code GdkSurface},
  * which you typically get during the realize call of a widget.
  * <p>
@@ -37,14 +37,13 @@ import java.lang.invoke.*;
  * {@code Gdk.GLContext.realize}.
  * If the realization fails you have the option to change the settings of
  * the {@code GdkGLContext} and try again.
- * <p>
+ * 
  * <h2>Using a GdkGLContext</h2>
- * <p>
  * You will need to make the {@code GdkGLContext} the current context before issuing
  * OpenGL calls; the system sends OpenGL commands to whichever context is current.
  * It is possible to have multiple contexts, so you always need to ensure that
  * the one which you want to draw with is the current one before issuing commands:
- * <p>
+ * 
  * <pre>{@code c
  * gdk_gl_context_make_current (context);
  * }</pre>
@@ -66,7 +65,7 @@ public class GLContext extends DrawContext {
         return new GLContext(gobject.refcounted());
     }
     
-    static final MethodHandle gdk_gl_context_get_allowed_apis = Interop.downcallHandle(
+    private static final MethodHandle gdk_gl_context_get_allowed_apis = Interop.downcallHandle(
         "gdk_gl_context_get_allowed_apis",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -74,16 +73,17 @@ public class GLContext extends DrawContext {
     /**
      * Gets the allowed APIs set via gdk_gl_context_set_allowed_apis().
      */
-    public GLAPI getAllowedApis() {
+    public @NotNull GLAPI getAllowedApis() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_gl_context_get_allowed_apis.invokeExact(handle());
-            return new GLAPI(RESULT);
+            RESULT = (int) gdk_gl_context_get_allowed_apis.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new GLAPI(RESULT);
     }
     
-    static final MethodHandle gdk_gl_context_get_api = Interop.downcallHandle(
+    private static final MethodHandle gdk_gl_context_get_api = Interop.downcallHandle(
         "gdk_gl_context_get_api",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -93,16 +93,17 @@ public class GLContext extends DrawContext {
      * <p>
      * If the renderer has not been realized yet, 0 is returned.
      */
-    public GLAPI getApi() {
+    public @NotNull GLAPI getApi() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_gl_context_get_api.invokeExact(handle());
-            return new GLAPI(RESULT);
+            RESULT = (int) gdk_gl_context_get_api.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new GLAPI(RESULT);
     }
     
-    static final MethodHandle gdk_gl_context_get_debug_enabled = Interop.downcallHandle(
+    private static final MethodHandle gdk_gl_context_get_debug_enabled = Interop.downcallHandle(
         "gdk_gl_context_get_debug_enabled",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -113,15 +114,16 @@ public class GLContext extends DrawContext {
      * See {@link GLContext#setDebugEnabled}.
      */
     public boolean getDebugEnabled() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_gl_context_get_debug_enabled.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_gl_context_get_debug_enabled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_gl_context_get_display = Interop.downcallHandle(
+    private static final MethodHandle gdk_gl_context_get_display = Interop.downcallHandle(
         "gdk_gl_context_get_display",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -129,16 +131,17 @@ public class GLContext extends DrawContext {
     /**
      * Retrieves the display the {@code context} is created for
      */
-    public Display getDisplay() {
+    public @Nullable Display getDisplay() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_gl_context_get_display.invokeExact(handle());
-            return new Display(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_gl_context_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Display(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_gl_context_get_forward_compatible = Interop.downcallHandle(
+    private static final MethodHandle gdk_gl_context_get_forward_compatible = Interop.downcallHandle(
         "gdk_gl_context_get_forward_compatible",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -149,15 +152,16 @@ public class GLContext extends DrawContext {
      * See {@link GLContext#setForwardCompatible}.
      */
     public boolean getForwardCompatible() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_gl_context_get_forward_compatible.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_gl_context_get_forward_compatible.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_gl_context_get_required_version = Interop.downcallHandle(
+    private static final MethodHandle gdk_gl_context_get_required_version = Interop.downcallHandle(
         "gdk_gl_context_get_required_version",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -167,15 +171,19 @@ public class GLContext extends DrawContext {
      * <p>
      * See {@link GLContext#setRequiredVersion}.
      */
-    public void getRequiredVersion(PointerInteger major, PointerInteger minor) {
+    public @NotNull void getRequiredVersion(@Nullable Out<Integer> major, @Nullable Out<Integer> minor) {
+        MemorySegment majorPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment minorPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gdk_gl_context_get_required_version.invokeExact(handle(), major.handle(), minor.handle());
+            gdk_gl_context_get_required_version.invokeExact(handle(), (Addressable) majorPOINTER.address(), (Addressable) minorPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        major.set(majorPOINTER.get(ValueLayout.JAVA_INT, 0));
+        minor.set(minorPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    static final MethodHandle gdk_gl_context_get_surface = Interop.downcallHandle(
+    private static final MethodHandle gdk_gl_context_get_surface = Interop.downcallHandle(
         "gdk_gl_context_get_surface",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -183,16 +191,17 @@ public class GLContext extends DrawContext {
     /**
      * Retrieves the surface used by the {@code context}.
      */
-    public Surface getSurface() {
+    public @Nullable Surface getSurface() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_gl_context_get_surface.invokeExact(handle());
-            return new Surface(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_gl_context_get_surface.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Surface(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_gl_context_get_use_es = Interop.downcallHandle(
+    private static final MethodHandle gdk_gl_context_get_use_es = Interop.downcallHandle(
         "gdk_gl_context_get_use_es",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -201,15 +210,16 @@ public class GLContext extends DrawContext {
      * Checks whether the {@code context} is using an OpenGL or OpenGL ES profile.
      */
     public boolean getUseEs() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_gl_context_get_use_es.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_gl_context_get_use_es.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_gl_context_get_version = Interop.downcallHandle(
+    private static final MethodHandle gdk_gl_context_get_version = Interop.downcallHandle(
         "gdk_gl_context_get_version",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -219,15 +229,19 @@ public class GLContext extends DrawContext {
      * <p>
      * The {@code context} must be realized prior to calling this function.
      */
-    public void getVersion(PointerInteger major, PointerInteger minor) {
+    public @NotNull void getVersion(@NotNull Out<Integer> major, @NotNull Out<Integer> minor) {
+        MemorySegment majorPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment minorPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gdk_gl_context_get_version.invokeExact(handle(), major.handle(), minor.handle());
+            gdk_gl_context_get_version.invokeExact(handle(), (Addressable) majorPOINTER.address(), (Addressable) minorPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        major.set(majorPOINTER.get(ValueLayout.JAVA_INT, 0));
+        minor.set(minorPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    static final MethodHandle gdk_gl_context_is_legacy = Interop.downcallHandle(
+    private static final MethodHandle gdk_gl_context_is_legacy = Interop.downcallHandle(
         "gdk_gl_context_is_legacy",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -251,15 +265,16 @@ public class GLContext extends DrawContext {
      * kind of shader programs to load.
      */
     public boolean isLegacy() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_gl_context_is_legacy.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_gl_context_is_legacy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_gl_context_is_shared = Interop.downcallHandle(
+    private static final MethodHandle gdk_gl_context_is_shared = Interop.downcallHandle(
         "gdk_gl_context_is_shared",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -278,16 +293,17 @@ public class GLContext extends DrawContext {
      * Both contexts must be realized for this check to succeed. If either one
      * is not, this function will return {@code false}.
      */
-    public boolean isShared(GLContext other) {
+    public boolean isShared(@NotNull GLContext other) {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_gl_context_is_shared.invokeExact(handle(), other.handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_gl_context_is_shared.invokeExact(handle(), other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_gl_context_make_current = Interop.downcallHandle(
+    private static final MethodHandle gdk_gl_context_make_current = Interop.downcallHandle(
         "gdk_gl_context_make_current",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -295,7 +311,7 @@ public class GLContext extends DrawContext {
     /**
      * Makes the {@code context} the current one.
      */
-    public void makeCurrent() {
+    public @NotNull void makeCurrent() {
         try {
             gdk_gl_context_make_current.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -303,7 +319,7 @@ public class GLContext extends DrawContext {
         }
     }
     
-    static final MethodHandle gdk_gl_context_realize = Interop.downcallHandle(
+    private static final MethodHandle gdk_gl_context_realize = Interop.downcallHandle(
         "gdk_gl_context_realize",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -315,18 +331,19 @@ public class GLContext extends DrawContext {
      */
     public boolean realize() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gdk_gl_context_realize.invokeExact(handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gdk_gl_context_realize.invokeExact(handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_gl_context_set_allowed_apis = Interop.downcallHandle(
+    private static final MethodHandle gdk_gl_context_set_allowed_apis = Interop.downcallHandle(
         "gdk_gl_context_set_allowed_apis",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -340,7 +357,7 @@ public class GLContext extends DrawContext {
      * <p>
      * By default, all APIs are allowed.
      */
-    public void setAllowedApis(GLAPI apis) {
+    public @NotNull void setAllowedApis(@NotNull GLAPI apis) {
         try {
             gdk_gl_context_set_allowed_apis.invokeExact(handle(), apis.getValue());
         } catch (Throwable ERR) {
@@ -348,7 +365,7 @@ public class GLContext extends DrawContext {
         }
     }
     
-    static final MethodHandle gdk_gl_context_set_debug_enabled = Interop.downcallHandle(
+    private static final MethodHandle gdk_gl_context_set_debug_enabled = Interop.downcallHandle(
         "gdk_gl_context_set_debug_enabled",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -362,7 +379,7 @@ public class GLContext extends DrawContext {
      * The {@code GdkGLContext} must not be realized or made current prior to
      * calling this function.
      */
-    public void setDebugEnabled(boolean enabled) {
+    public @NotNull void setDebugEnabled(@NotNull boolean enabled) {
         try {
             gdk_gl_context_set_debug_enabled.invokeExact(handle(), enabled ? 1 : 0);
         } catch (Throwable ERR) {
@@ -370,7 +387,7 @@ public class GLContext extends DrawContext {
         }
     }
     
-    static final MethodHandle gdk_gl_context_set_forward_compatible = Interop.downcallHandle(
+    private static final MethodHandle gdk_gl_context_set_forward_compatible = Interop.downcallHandle(
         "gdk_gl_context_set_forward_compatible",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -386,7 +403,7 @@ public class GLContext extends DrawContext {
      * The {@code GdkGLContext} must not be realized or made current prior to calling
      * this function.
      */
-    public void setForwardCompatible(boolean compatible) {
+    public @NotNull void setForwardCompatible(@NotNull boolean compatible) {
         try {
             gdk_gl_context_set_forward_compatible.invokeExact(handle(), compatible ? 1 : 0);
         } catch (Throwable ERR) {
@@ -394,7 +411,7 @@ public class GLContext extends DrawContext {
         }
     }
     
-    static final MethodHandle gdk_gl_context_set_required_version = Interop.downcallHandle(
+    private static final MethodHandle gdk_gl_context_set_required_version = Interop.downcallHandle(
         "gdk_gl_context_set_required_version",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -407,7 +424,7 @@ public class GLContext extends DrawContext {
      * The {@code GdkGLContext} must not be realized or made current prior to calling
      * this function.
      */
-    public void setRequiredVersion(int major, int minor) {
+    public @NotNull void setRequiredVersion(@NotNull int major, @NotNull int minor) {
         try {
             gdk_gl_context_set_required_version.invokeExact(handle(), major, minor);
         } catch (Throwable ERR) {
@@ -415,7 +432,7 @@ public class GLContext extends DrawContext {
         }
     }
     
-    static final MethodHandle gdk_gl_context_set_use_es = Interop.downcallHandle(
+    private static final MethodHandle gdk_gl_context_set_use_es = Interop.downcallHandle(
         "gdk_gl_context_set_use_es",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -435,7 +452,7 @@ public class GLContext extends DrawContext {
      * after calling {@link GLContext#realize} to decide whether to use
      * the OpenGL or OpenGL ES API, extensions, or shaders.
      */
-    public void setUseEs(int useEs) {
+    public @NotNull void setUseEs(@NotNull int useEs) {
         try {
             gdk_gl_context_set_use_es.invokeExact(handle(), useEs);
         } catch (Throwable ERR) {
@@ -443,7 +460,7 @@ public class GLContext extends DrawContext {
         }
     }
     
-    static final MethodHandle gdk_gl_context_clear_current = Interop.downcallHandle(
+    private static final MethodHandle gdk_gl_context_clear_current = Interop.downcallHandle(
         "gdk_gl_context_clear_current",
         FunctionDescriptor.ofVoid()
     );
@@ -454,7 +471,7 @@ public class GLContext extends DrawContext {
      * Any OpenGL call after this function returns will be ignored
      * until {@link GLContext#makeCurrent} is called.
      */
-    public static void clearCurrent() {
+    public static @NotNull void clearCurrent() {
         try {
             gdk_gl_context_clear_current.invokeExact();
         } catch (Throwable ERR) {
@@ -462,7 +479,7 @@ public class GLContext extends DrawContext {
         }
     }
     
-    static final MethodHandle gdk_gl_context_get_current = Interop.downcallHandle(
+    private static final MethodHandle gdk_gl_context_get_current = Interop.downcallHandle(
         "gdk_gl_context_get_current",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -470,13 +487,14 @@ public class GLContext extends DrawContext {
     /**
      * Retrieves the current {@code GdkGLContext}.
      */
-    public static GLContext getCurrent() {
+    public static @Nullable GLContext getCurrent() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_gl_context_get_current.invokeExact();
-            return new GLContext(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_gl_context_get_current.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new GLContext(Refcounted.get(RESULT, false));
     }
     
 }

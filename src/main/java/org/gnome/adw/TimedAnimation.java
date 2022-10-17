@@ -3,6 +3,7 @@ package org.gnome.adw;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A time-based {@link Animation}.
@@ -33,12 +34,12 @@ public class TimedAnimation extends Animation {
         return new TimedAnimation(gobject.refcounted());
     }
     
-    static final MethodHandle adw_timed_animation_new = Interop.downcallHandle(
+    private static final MethodHandle adw_timed_animation_new = Interop.downcallHandle(
         "adw_timed_animation_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(org.gtk.gtk.Widget widget, double from, double to, int duration, AnimationTarget target) {
+    private static Refcounted constructNew(@NotNull org.gtk.gtk.Widget widget, @NotNull double from, @NotNull double to, @NotNull int duration, @NotNull AnimationTarget target) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) adw_timed_animation_new.invokeExact(widget.handle(), from, to, duration, target.refcounted().unowned().handle()), false);
             return RESULT;
@@ -51,11 +52,11 @@ public class TimedAnimation extends Animation {
      * Creates a new {@code AdwTimedAnimation} on {@code widget} to animate {@code target} from {@code from}
      * to {@code to}.
      */
-    public TimedAnimation(org.gtk.gtk.Widget widget, double from, double to, int duration, AnimationTarget target) {
+    public TimedAnimation(@NotNull org.gtk.gtk.Widget widget, @NotNull double from, @NotNull double to, @NotNull int duration, @NotNull AnimationTarget target) {
         super(constructNew(widget, from, to, duration, target));
     }
     
-    static final MethodHandle adw_timed_animation_get_alternate = Interop.downcallHandle(
+    private static final MethodHandle adw_timed_animation_get_alternate = Interop.downcallHandle(
         "adw_timed_animation_get_alternate",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -64,15 +65,16 @@ public class TimedAnimation extends Animation {
      * Gets whether {@code self} changes direction on every iteration.
      */
     public boolean getAlternate() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_timed_animation_get_alternate.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) adw_timed_animation_get_alternate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_timed_animation_get_duration = Interop.downcallHandle(
+    private static final MethodHandle adw_timed_animation_get_duration = Interop.downcallHandle(
         "adw_timed_animation_get_duration",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -81,15 +83,16 @@ public class TimedAnimation extends Animation {
      * Gets the duration of {@code self}.
      */
     public int getDuration() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_timed_animation_get_duration.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) adw_timed_animation_get_duration.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle adw_timed_animation_get_easing = Interop.downcallHandle(
+    private static final MethodHandle adw_timed_animation_get_easing = Interop.downcallHandle(
         "adw_timed_animation_get_easing",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -97,16 +100,17 @@ public class TimedAnimation extends Animation {
     /**
      * Gets the easing function {@code self} uses.
      */
-    public Easing getEasing() {
+    public @NotNull Easing getEasing() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_timed_animation_get_easing.invokeExact(handle());
-            return new Easing(RESULT);
+            RESULT = (int) adw_timed_animation_get_easing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Easing(RESULT);
     }
     
-    static final MethodHandle adw_timed_animation_get_repeat_count = Interop.downcallHandle(
+    private static final MethodHandle adw_timed_animation_get_repeat_count = Interop.downcallHandle(
         "adw_timed_animation_get_repeat_count",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -115,15 +119,16 @@ public class TimedAnimation extends Animation {
      * Gets the number of times {@code self} will play.
      */
     public int getRepeatCount() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_timed_animation_get_repeat_count.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) adw_timed_animation_get_repeat_count.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle adw_timed_animation_get_reverse = Interop.downcallHandle(
+    private static final MethodHandle adw_timed_animation_get_reverse = Interop.downcallHandle(
         "adw_timed_animation_get_reverse",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -132,15 +137,16 @@ public class TimedAnimation extends Animation {
      * Gets whether {@code self} plays backwards.
      */
     public boolean getReverse() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_timed_animation_get_reverse.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) adw_timed_animation_get_reverse.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_timed_animation_get_value_from = Interop.downcallHandle(
+    private static final MethodHandle adw_timed_animation_get_value_from = Interop.downcallHandle(
         "adw_timed_animation_get_value_from",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -149,15 +155,16 @@ public class TimedAnimation extends Animation {
      * Gets the value {@code self} will animate from.
      */
     public double getValueFrom() {
+        double RESULT;
         try {
-            var RESULT = (double) adw_timed_animation_get_value_from.invokeExact(handle());
-            return RESULT;
+            RESULT = (double) adw_timed_animation_get_value_from.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle adw_timed_animation_get_value_to = Interop.downcallHandle(
+    private static final MethodHandle adw_timed_animation_get_value_to = Interop.downcallHandle(
         "adw_timed_animation_get_value_to",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -166,15 +173,16 @@ public class TimedAnimation extends Animation {
      * Gets the value {@code self} will animate to.
      */
     public double getValueTo() {
+        double RESULT;
         try {
-            var RESULT = (double) adw_timed_animation_get_value_to.invokeExact(handle());
-            return RESULT;
+            RESULT = (double) adw_timed_animation_get_value_to.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle adw_timed_animation_set_alternate = Interop.downcallHandle(
+    private static final MethodHandle adw_timed_animation_set_alternate = Interop.downcallHandle(
         "adw_timed_animation_set_alternate",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -182,7 +190,7 @@ public class TimedAnimation extends Animation {
     /**
      * Sets whether {@code self} changes direction on every iteration.
      */
-    public void setAlternate(boolean alternate) {
+    public @NotNull void setAlternate(@NotNull boolean alternate) {
         try {
             adw_timed_animation_set_alternate.invokeExact(handle(), alternate ? 1 : 0);
         } catch (Throwable ERR) {
@@ -190,7 +198,7 @@ public class TimedAnimation extends Animation {
         }
     }
     
-    static final MethodHandle adw_timed_animation_set_duration = Interop.downcallHandle(
+    private static final MethodHandle adw_timed_animation_set_duration = Interop.downcallHandle(
         "adw_timed_animation_set_duration",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -200,7 +208,7 @@ public class TimedAnimation extends Animation {
      * <p>
      * If the animation repeats more than once, sets the duration of one iteration.
      */
-    public void setDuration(int duration) {
+    public @NotNull void setDuration(@NotNull int duration) {
         try {
             adw_timed_animation_set_duration.invokeExact(handle(), duration);
         } catch (Throwable ERR) {
@@ -208,7 +216,7 @@ public class TimedAnimation extends Animation {
         }
     }
     
-    static final MethodHandle adw_timed_animation_set_easing = Interop.downcallHandle(
+    private static final MethodHandle adw_timed_animation_set_easing = Interop.downcallHandle(
         "adw_timed_animation_set_easing",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -218,7 +226,7 @@ public class TimedAnimation extends Animation {
      * <p>
      * See {@code Easing} for the description of specific easing functions.
      */
-    public void setEasing(Easing easing) {
+    public @NotNull void setEasing(@NotNull Easing easing) {
         try {
             adw_timed_animation_set_easing.invokeExact(handle(), easing.getValue());
         } catch (Throwable ERR) {
@@ -226,7 +234,7 @@ public class TimedAnimation extends Animation {
         }
     }
     
-    static final MethodHandle adw_timed_animation_set_repeat_count = Interop.downcallHandle(
+    private static final MethodHandle adw_timed_animation_set_repeat_count = Interop.downcallHandle(
         "adw_timed_animation_set_repeat_count",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -236,7 +244,7 @@ public class TimedAnimation extends Animation {
      * <p>
      * If set to 0, {@code self} will repeat endlessly.
      */
-    public void setRepeatCount(int repeatCount) {
+    public @NotNull void setRepeatCount(@NotNull int repeatCount) {
         try {
             adw_timed_animation_set_repeat_count.invokeExact(handle(), repeatCount);
         } catch (Throwable ERR) {
@@ -244,7 +252,7 @@ public class TimedAnimation extends Animation {
         }
     }
     
-    static final MethodHandle adw_timed_animation_set_reverse = Interop.downcallHandle(
+    private static final MethodHandle adw_timed_animation_set_reverse = Interop.downcallHandle(
         "adw_timed_animation_set_reverse",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -252,7 +260,7 @@ public class TimedAnimation extends Animation {
     /**
      * Sets whether {@code self} plays backwards.
      */
-    public void setReverse(boolean reverse) {
+    public @NotNull void setReverse(@NotNull boolean reverse) {
         try {
             adw_timed_animation_set_reverse.invokeExact(handle(), reverse ? 1 : 0);
         } catch (Throwable ERR) {
@@ -260,7 +268,7 @@ public class TimedAnimation extends Animation {
         }
     }
     
-    static final MethodHandle adw_timed_animation_set_value_from = Interop.downcallHandle(
+    private static final MethodHandle adw_timed_animation_set_value_from = Interop.downcallHandle(
         "adw_timed_animation_set_value_from",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
     );
@@ -268,7 +276,7 @@ public class TimedAnimation extends Animation {
     /**
      * Sets the value {@code self} will animate from.
      */
-    public void setValueFrom(double value) {
+    public @NotNull void setValueFrom(@NotNull double value) {
         try {
             adw_timed_animation_set_value_from.invokeExact(handle(), value);
         } catch (Throwable ERR) {
@@ -276,7 +284,7 @@ public class TimedAnimation extends Animation {
         }
     }
     
-    static final MethodHandle adw_timed_animation_set_value_to = Interop.downcallHandle(
+    private static final MethodHandle adw_timed_animation_set_value_to = Interop.downcallHandle(
         "adw_timed_animation_set_value_to",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
     );
@@ -284,7 +292,7 @@ public class TimedAnimation extends Animation {
     /**
      * Sets the value {@code self} will animate to.
      */
-    public void setValueTo(double value) {
+    public @NotNull void setValueTo(@NotNull double value) {
         try {
             adw_timed_animation_set_value_to.invokeExact(handle(), value);
         } catch (Throwable ERR) {

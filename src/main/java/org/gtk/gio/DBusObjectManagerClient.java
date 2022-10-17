@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link DBusObjectManagerClient} is used to create, monitor and delete object
@@ -92,12 +93,12 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
         return new DBusObjectManagerClient(gobject.refcounted());
     }
     
-    static final MethodHandle g_dbus_object_manager_client_new_finish = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_object_manager_client_new_finish = Interop.downcallHandle(
         "g_dbus_object_manager_client_new_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewFinish(AsyncResult res) throws GErrorException {
+    private static Refcounted constructNewFinish(@NotNull AsyncResult res) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_object_manager_client_new_finish.invokeExact(res.handle(), (Addressable) GERROR), true);
@@ -113,16 +114,16 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
     /**
      * Finishes an operation started with g_dbus_object_manager_client_new().
      */
-    public static DBusObjectManagerClient newFinish(AsyncResult res) throws GErrorException {
+    public static DBusObjectManagerClient newFinish(@NotNull AsyncResult res) throws GErrorException {
         return new DBusObjectManagerClient(constructNewFinish(res));
     }
     
-    static final MethodHandle g_dbus_object_manager_client_new_for_bus_finish = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_object_manager_client_new_for_bus_finish = Interop.downcallHandle(
         "g_dbus_object_manager_client_new_for_bus_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewForBusFinish(AsyncResult res) throws GErrorException {
+    private static Refcounted constructNewForBusFinish(@NotNull AsyncResult res) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_object_manager_client_new_for_bus_finish.invokeExact(res.handle(), (Addressable) GERROR), true);
@@ -138,25 +139,25 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
     /**
      * Finishes an operation started with g_dbus_object_manager_client_new_for_bus().
      */
-    public static DBusObjectManagerClient newForBusFinish(AsyncResult res) throws GErrorException {
+    public static DBusObjectManagerClient newForBusFinish(@NotNull AsyncResult res) throws GErrorException {
         return new DBusObjectManagerClient(constructNewForBusFinish(res));
     }
     
-    static final MethodHandle g_dbus_object_manager_client_new_for_bus_sync = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_object_manager_client_new_for_bus_sync = Interop.downcallHandle(
         "g_dbus_object_manager_client_new_for_bus_sync",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewForBusSync(BusType busType, DBusObjectManagerClientFlags flags, java.lang.String name, java.lang.String objectPath, DBusProxyTypeFunc getProxyTypeFunc, Cancellable cancellable) throws GErrorException {
+    private static Refcounted constructNewForBusSync(@NotNull BusType busType, @NotNull DBusObjectManagerClientFlags flags, @NotNull java.lang.String name, @NotNull java.lang.String objectPath, @Nullable DBusProxyTypeFunc getProxyTypeFunc, @Nullable Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_object_manager_client_new_for_bus_sync.invokeExact(busType.getValue(), flags.getValue(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(objectPath).handle(), 
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_object_manager_client_new_for_bus_sync.invokeExact(busType.getValue(), flags.getValue(), Interop.allocateNativeString(name), Interop.allocateNativeString(objectPath), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbDBusProxyTypeFunc",
                             MethodType.methodType(long.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(getProxyTypeFunc.hashCode(), getProxyTypeFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(getProxyTypeFunc)), 
                     Interop.cbDestroyNotifySymbol(), cancellable.handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
@@ -175,25 +176,25 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
      * blocked until a reply is received. See g_dbus_object_manager_client_new_for_bus()
      * for the asynchronous version.
      */
-    public static DBusObjectManagerClient newForBusSync(BusType busType, DBusObjectManagerClientFlags flags, java.lang.String name, java.lang.String objectPath, DBusProxyTypeFunc getProxyTypeFunc, Cancellable cancellable) throws GErrorException {
+    public static DBusObjectManagerClient newForBusSync(@NotNull BusType busType, @NotNull DBusObjectManagerClientFlags flags, @NotNull java.lang.String name, @NotNull java.lang.String objectPath, @Nullable DBusProxyTypeFunc getProxyTypeFunc, @Nullable Cancellable cancellable) throws GErrorException {
         return new DBusObjectManagerClient(constructNewForBusSync(busType, flags, name, objectPath, getProxyTypeFunc, cancellable));
     }
     
-    static final MethodHandle g_dbus_object_manager_client_new_sync = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_object_manager_client_new_sync = Interop.downcallHandle(
         "g_dbus_object_manager_client_new_sync",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewSync(DBusConnection connection, DBusObjectManagerClientFlags flags, java.lang.String name, java.lang.String objectPath, DBusProxyTypeFunc getProxyTypeFunc, Cancellable cancellable) throws GErrorException {
+    private static Refcounted constructNewSync(@NotNull DBusConnection connection, @NotNull DBusObjectManagerClientFlags flags, @Nullable java.lang.String name, @NotNull java.lang.String objectPath, @Nullable DBusProxyTypeFunc getProxyTypeFunc, @Nullable Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_object_manager_client_new_sync.invokeExact(connection.handle(), flags.getValue(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(objectPath).handle(), 
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_object_manager_client_new_sync.invokeExact(connection.handle(), flags.getValue(), Interop.allocateNativeString(name), Interop.allocateNativeString(objectPath), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbDBusProxyTypeFunc",
                             MethodType.methodType(long.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(getProxyTypeFunc.hashCode(), getProxyTypeFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(getProxyTypeFunc)), 
                     Interop.cbDestroyNotifySymbol(), cancellable.handle(), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
@@ -211,11 +212,11 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
      * blocked until a reply is received. See g_dbus_object_manager_client_new()
      * for the asynchronous version.
      */
-    public static DBusObjectManagerClient newSync(DBusConnection connection, DBusObjectManagerClientFlags flags, java.lang.String name, java.lang.String objectPath, DBusProxyTypeFunc getProxyTypeFunc, Cancellable cancellable) throws GErrorException {
+    public static DBusObjectManagerClient newSync(@NotNull DBusConnection connection, @NotNull DBusObjectManagerClientFlags flags, @Nullable java.lang.String name, @NotNull java.lang.String objectPath, @Nullable DBusProxyTypeFunc getProxyTypeFunc, @Nullable Cancellable cancellable) throws GErrorException {
         return new DBusObjectManagerClient(constructNewSync(connection, flags, name, objectPath, getProxyTypeFunc, cancellable));
     }
     
-    static final MethodHandle g_dbus_object_manager_client_get_connection = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_object_manager_client_get_connection = Interop.downcallHandle(
         "g_dbus_object_manager_client_get_connection",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -223,16 +224,17 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
     /**
      * Gets the {@link DBusConnection} used by {@code manager}.
      */
-    public DBusConnection getConnection() {
+    public @NotNull DBusConnection getConnection() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_dbus_object_manager_client_get_connection.invokeExact(handle());
-            return new DBusConnection(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_dbus_object_manager_client_get_connection.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new DBusConnection(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_dbus_object_manager_client_get_flags = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_object_manager_client_get_flags = Interop.downcallHandle(
         "g_dbus_object_manager_client_get_flags",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -240,16 +242,17 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
     /**
      * Gets the flags that {@code manager} was constructed with.
      */
-    public DBusObjectManagerClientFlags getFlags() {
+    public @NotNull DBusObjectManagerClientFlags getFlags() {
+        int RESULT;
         try {
-            var RESULT = (int) g_dbus_object_manager_client_get_flags.invokeExact(handle());
-            return new DBusObjectManagerClientFlags(RESULT);
+            RESULT = (int) g_dbus_object_manager_client_get_flags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new DBusObjectManagerClientFlags(RESULT);
     }
     
-    static final MethodHandle g_dbus_object_manager_client_get_name = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_object_manager_client_get_name = Interop.downcallHandle(
         "g_dbus_object_manager_client_get_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -258,16 +261,17 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
      * Gets the name that {@code manager} is for, or {@code null} if not a message bus
      * connection.
      */
-    public java.lang.String getName() {
+    public @NotNull java.lang.String getName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_dbus_object_manager_client_get_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_dbus_object_manager_client_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_dbus_object_manager_client_get_name_owner = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_object_manager_client_get_name_owner = Interop.downcallHandle(
         "g_dbus_object_manager_client_get_name_owner",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -278,16 +282,17 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
      * {@link org.gtk.gobject.Object}::notify signal to track changes to the
      * {@link DBusObjectManagerClient}:name-owner property.
      */
-    public java.lang.String getNameOwner() {
+    public @Nullable java.lang.String getNameOwner() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_dbus_object_manager_client_get_name_owner.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_dbus_object_manager_client_get_name_owner.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_dbus_object_manager_client_new = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_object_manager_client_new = Interop.downcallHandle(
         "g_dbus_object_manager_client_new",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -302,28 +307,28 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
      * then call g_dbus_object_manager_client_new_finish() to get the result. See
      * g_dbus_object_manager_client_new_sync() for the synchronous version.
      */
-    public static void new_(DBusConnection connection, DBusObjectManagerClientFlags flags, java.lang.String name, java.lang.String objectPath, DBusProxyTypeFunc getProxyTypeFunc, Cancellable cancellable, AsyncReadyCallback callback) {
+    public static @NotNull void new_(@NotNull DBusConnection connection, @NotNull DBusObjectManagerClientFlags flags, @NotNull java.lang.String name, @NotNull java.lang.String objectPath, @Nullable DBusProxyTypeFunc getProxyTypeFunc, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
-            g_dbus_object_manager_client_new.invokeExact(connection.handle(), flags.getValue(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(objectPath).handle(), 
+            g_dbus_object_manager_client_new.invokeExact(connection.handle(), flags.getValue(), Interop.allocateNativeString(name), Interop.allocateNativeString(objectPath), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbDBusProxyTypeFunc",
                             MethodType.methodType(long.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(getProxyTypeFunc.hashCode(), getProxyTypeFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(getProxyTypeFunc)), 
                     Interop.cbDestroyNotifySymbol(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(long.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(getProxyTypeFunc.hashCode(), getProxyTypeFunc)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(getProxyTypeFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_dbus_object_manager_client_new_for_bus = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_object_manager_client_new_for_bus = Interop.downcallHandle(
         "g_dbus_object_manager_client_new_for_bus",
         FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -339,58 +344,22 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
      * then call g_dbus_object_manager_client_new_for_bus_finish() to get the result. See
      * g_dbus_object_manager_client_new_for_bus_sync() for the synchronous version.
      */
-    public static void newForBus(BusType busType, DBusObjectManagerClientFlags flags, java.lang.String name, java.lang.String objectPath, DBusProxyTypeFunc getProxyTypeFunc, Cancellable cancellable, AsyncReadyCallback callback) {
+    public static @NotNull void newForBus(@NotNull BusType busType, @NotNull DBusObjectManagerClientFlags flags, @NotNull java.lang.String name, @NotNull java.lang.String objectPath, @Nullable DBusProxyTypeFunc getProxyTypeFunc, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
-            g_dbus_object_manager_client_new_for_bus.invokeExact(busType.getValue(), flags.getValue(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(objectPath).handle(), 
+            g_dbus_object_manager_client_new_for_bus.invokeExact(busType.getValue(), flags.getValue(), Interop.allocateNativeString(name), Interop.allocateNativeString(objectPath), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbDBusProxyTypeFunc",
                             MethodType.methodType(long.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(getProxyTypeFunc.hashCode(), getProxyTypeFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(getProxyTypeFunc)), 
                     Interop.cbDestroyNotifySymbol(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(long.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(getProxyTypeFunc.hashCode(), getProxyTypeFunc)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-    }
-    
-    @FunctionalInterface
-    public interface InterfaceProxyPropertiesChangedHandler {
-        void signalReceived(DBusObjectManagerClient source, DBusObjectProxy objectProxy, DBusProxy interfaceProxy, org.gtk.glib.Variant changedProperties, PointerString invalidatedProperties);
-    }
-    
-    /**
-     * Emitted when one or more D-Bus properties on proxy changes. The
-     * local cache has already been updated when this signal fires. Note
-     * that both {@code changed_properties} and {@code invalidated_properties} are
-     * guaranteed to never be {@code null} (either may be empty though).
-     * <p>
-     * This signal exists purely as a convenience to avoid having to
-     * connect signals to all interface proxies managed by {@code manager}.
-     * <p>
-     * This signal is emitted in the
-     * [thread-default main context][g-main-context-push-thread-default]
-     * that {@code manager} was constructed in.
-     */
-    public SignalHandle onInterfaceProxyPropertiesChanged(InterfaceProxyPropertiesChangedHandler handler) {
-        try {
-            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("interface-proxy-properties-changed").handle(),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DBusObjectManagerClient.Callbacks.class, "signalDBusObjectManagerClientInterfaceProxyPropertiesChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                    Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(getProxyTypeFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -398,7 +367,7 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
     
     @FunctionalInterface
     public interface InterfaceProxySignalHandler {
-        void signalReceived(DBusObjectManagerClient source, DBusObjectProxy objectProxy, DBusProxy interfaceProxy, java.lang.String senderName, java.lang.String signalName, org.gtk.glib.Variant parameters);
+        void signalReceived(DBusObjectManagerClient source, @NotNull DBusObjectProxy objectProxy, @NotNull DBusProxy interfaceProxy, @NotNull java.lang.String senderName, @NotNull java.lang.String signalName, @NotNull org.gtk.glib.Variant parameters);
     }
     
     /**
@@ -415,13 +384,13 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("interface-proxy-signal").handle(),
+                Interop.allocateNativeString("interface-proxy-signal"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DBusObjectManagerClient.Callbacks.class, "signalDBusObjectManagerClientInterfaceProxySignal",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -431,12 +400,6 @@ public class DBusObjectManagerClient extends org.gtk.gobject.Object implements A
     
     public static class Callbacks {
     
-        public static void signalDBusObjectManagerClientInterfaceProxyPropertiesChanged(MemoryAddress source, MemoryAddress objectProxy, MemoryAddress interfaceProxy, MemoryAddress changedProperties, MemoryAddress invalidatedProperties, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (DBusObjectManagerClient.InterfaceProxyPropertiesChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DBusObjectManagerClient(Refcounted.get(source)), new DBusObjectProxy(Refcounted.get(objectProxy, false)), new DBusProxy(Refcounted.get(interfaceProxy, false)), new org.gtk.glib.Variant(Refcounted.get(changedProperties, false)), new PointerString(invalidatedProperties));
-        }
-        
         public static void signalDBusObjectManagerClientInterfaceProxySignal(MemoryAddress source, MemoryAddress objectProxy, MemoryAddress interfaceProxy, MemoryAddress senderName, MemoryAddress signalName, MemoryAddress parameters, MemoryAddress data) {
             int hash = data.get(ValueLayout.JAVA_INT, 0);
             var handler = (DBusObjectManagerClient.InterfaceProxySignalHandler) Interop.signalRegistry.get(hash);

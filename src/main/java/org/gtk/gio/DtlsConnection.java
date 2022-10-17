@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link DtlsConnection} is the base DTLS connection class type, which wraps
@@ -27,7 +28,7 @@ import java.lang.invoke.*;
  */
 public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle g_dtls_connection_close = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dtls_connection_close = Interop.downcallHandle(
         "g_dtls_connection_close",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -53,20 +54,21 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * partially-closed and any pending untransmitted data may be lost. Call
      * g_dtls_connection_close() again to complete closing the {@link DtlsConnection}.
      */
-    public default boolean close(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default boolean close(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_dtls_connection_close.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_dtls_connection_close.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_dtls_connection_close_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dtls_connection_close_async = Interop.downcallHandle(
         "g_dtls_connection_close_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -75,7 +77,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * Asynchronously close the DTLS connection. See g_dtls_connection_close() for
      * more information.
      */
-    public default void closeAsync(int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void closeAsync(@NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_dtls_connection_close_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -83,13 +85,13 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_dtls_connection_close_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dtls_connection_close_finish = Interop.downcallHandle(
         "g_dtls_connection_close_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -98,20 +100,21 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * Finish an asynchronous TLS close operation. See g_dtls_connection_close()
      * for more information.
      */
-    public default boolean closeFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    default boolean closeFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_dtls_connection_close_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_dtls_connection_close_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_dtls_connection_emit_accept_certificate = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dtls_connection_emit_accept_certificate = Interop.downcallHandle(
         "g_dtls_connection_emit_accept_certificate",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -120,16 +123,17 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * Used by {@link DtlsConnection} implementations to emit the
      * {@link DtlsConnection}::accept-certificate signal.
      */
-    public default boolean emitAcceptCertificate(TlsCertificate peerCert, TlsCertificateFlags errors) {
+    default boolean emitAcceptCertificate(@NotNull TlsCertificate peerCert, @NotNull TlsCertificateFlags errors) {
+        int RESULT;
         try {
-            var RESULT = (int) g_dtls_connection_emit_accept_certificate.invokeExact(handle(), peerCert.handle(), errors.getValue());
-            return RESULT != 0;
+            RESULT = (int) g_dtls_connection_emit_accept_certificate.invokeExact(handle(), peerCert.handle(), errors.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_dtls_connection_get_certificate = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dtls_connection_get_certificate = Interop.downcallHandle(
         "g_dtls_connection_get_certificate",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -138,49 +142,17 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * Gets {@code conn}'s certificate, as set by
      * g_dtls_connection_set_certificate().
      */
-    public default TlsCertificate getCertificate() {
+    default @Nullable TlsCertificate getCertificate() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_dtls_connection_get_certificate.invokeExact(handle());
-            return new TlsCertificate(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_dtls_connection_get_certificate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TlsCertificate(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_dtls_connection_get_channel_binding_data = Interop.downcallHandle(
-        "g_dtls_connection_get_channel_binding_data",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    /**
-     * Query the TLS backend for TLS channel binding data of {@code type} for {@code conn}.
-     * <p>
-     * This call retrieves TLS channel binding data as specified in RFC
-     * <a href="https://tools.ietf.org/html/rfc5056">5056</a>, RFC
-     * <a href="https://tools.ietf.org/html/rfc5929">5929</a>, and related RFCs.  The
-     * binding data is returned in {@code data}.  The {@code data} is resized by the callee
-     * using {@link org.gtk.glib.ByteArray} buffer management and will be freed when the {@code data}
-     * is destroyed by g_byte_array_unref(). If {@code data} is {@code null}, it will only
-     * check whether TLS backend is able to fetch the data (e.g. whether {@code type}
-     * is supported by the TLS backend). It does not guarantee that the data
-     * will be available though.  That could happen if TLS connection does not
-     * support {@code type} or the binding data is not available yet due to additional
-     * negotiation or input required.
-     */
-    public default boolean getChannelBindingData(TlsChannelBindingType type, PointerByte data) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        try {
-            var RESULT = (int) g_dtls_connection_get_channel_binding_data.invokeExact(handle(), type.getValue(), data.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-    }
-    
-    static final MethodHandle g_dtls_connection_get_ciphersuite_name = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dtls_connection_get_ciphersuite_name = Interop.downcallHandle(
         "g_dtls_connection_get_ciphersuite_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -195,16 +167,17 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * displayed to the user for informative purposes only, and parsing it
      * is not recommended.
      */
-    public default java.lang.String getCiphersuiteName() {
+    default @Nullable java.lang.String getCiphersuiteName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_dtls_connection_get_ciphersuite_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_dtls_connection_get_ciphersuite_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_dtls_connection_get_database = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dtls_connection_get_database = Interop.downcallHandle(
         "g_dtls_connection_get_database",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -213,16 +186,17 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * Gets the certificate database that {@code conn} uses to verify
      * peer certificates. See g_dtls_connection_set_database().
      */
-    public default TlsDatabase getDatabase() {
+    default @Nullable TlsDatabase getDatabase() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_dtls_connection_get_database.invokeExact(handle());
-            return new TlsDatabase(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_dtls_connection_get_database.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TlsDatabase(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_dtls_connection_get_interaction = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dtls_connection_get_interaction = Interop.downcallHandle(
         "g_dtls_connection_get_interaction",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -232,16 +206,17 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * for things like prompting the user for passwords. If {@code null} is returned, then
      * no user interaction will occur for this connection.
      */
-    public default TlsInteraction getInteraction() {
+    default @Nullable TlsInteraction getInteraction() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_dtls_connection_get_interaction.invokeExact(handle());
-            return new TlsInteraction(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_dtls_connection_get_interaction.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TlsInteraction(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_dtls_connection_get_negotiated_protocol = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dtls_connection_get_negotiated_protocol = Interop.downcallHandle(
         "g_dtls_connection_get_negotiated_protocol",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -255,16 +230,17 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * does not support ALPN, then this will be {@code null}. See
      * g_dtls_connection_set_advertised_protocols().
      */
-    public default java.lang.String getNegotiatedProtocol() {
+    default @Nullable java.lang.String getNegotiatedProtocol() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_dtls_connection_get_negotiated_protocol.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_dtls_connection_get_negotiated_protocol.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_dtls_connection_get_peer_certificate = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dtls_connection_get_peer_certificate = Interop.downcallHandle(
         "g_dtls_connection_get_peer_certificate",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -274,16 +250,17 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * or failed. (It is not set during the emission of
      * {@link DtlsConnection}::accept-certificate.)
      */
-    public default TlsCertificate getPeerCertificate() {
+    default @Nullable TlsCertificate getPeerCertificate() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_dtls_connection_get_peer_certificate.invokeExact(handle());
-            return new TlsCertificate(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_dtls_connection_get_peer_certificate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TlsCertificate(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_dtls_connection_get_peer_certificate_errors = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dtls_connection_get_peer_certificate_errors = Interop.downcallHandle(
         "g_dtls_connection_get_peer_certificate_errors",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -293,16 +270,17 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * certificate, after the handshake has completed or failed. (It is
      * not set during the emission of {@link DtlsConnection}::accept-certificate.)
      */
-    public default TlsCertificateFlags getPeerCertificateErrors() {
+    default @NotNull TlsCertificateFlags getPeerCertificateErrors() {
+        int RESULT;
         try {
-            var RESULT = (int) g_dtls_connection_get_peer_certificate_errors.invokeExact(handle());
-            return new TlsCertificateFlags(RESULT);
+            RESULT = (int) g_dtls_connection_get_peer_certificate_errors.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TlsCertificateFlags(RESULT);
     }
     
-    static final MethodHandle g_dtls_connection_get_protocol_version = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dtls_connection_get_protocol_version = Interop.downcallHandle(
         "g_dtls_connection_get_protocol_version",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -313,16 +291,17 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * has been closed, or if the TLS backend has implemented a protocol version
      * that is not a recognized {@link TlsProtocolVersion}.
      */
-    public default TlsProtocolVersion getProtocolVersion() {
+    default @NotNull TlsProtocolVersion getProtocolVersion() {
+        int RESULT;
         try {
-            var RESULT = (int) g_dtls_connection_get_protocol_version.invokeExact(handle());
-            return new TlsProtocolVersion(RESULT);
+            RESULT = (int) g_dtls_connection_get_protocol_version.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TlsProtocolVersion(RESULT);
     }
     
-    static final MethodHandle g_dtls_connection_get_require_close_notify = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dtls_connection_get_require_close_notify = Interop.downcallHandle(
         "g_dtls_connection_get_require_close_notify",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -332,16 +311,17 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * when the connection is closed. See
      * g_dtls_connection_set_require_close_notify() for details.
      */
-    public default boolean getRequireCloseNotify() {
+    default boolean getRequireCloseNotify() {
+        int RESULT;
         try {
-            var RESULT = (int) g_dtls_connection_get_require_close_notify.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_dtls_connection_get_require_close_notify.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_dtls_connection_handshake = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dtls_connection_handshake = Interop.downcallHandle(
         "g_dtls_connection_handshake",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -374,20 +354,21 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * {@link DtlsConnection}::accept_certificate may be emitted during the
      * handshake.
      */
-    public default boolean handshake(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default boolean handshake(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_dtls_connection_handshake.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_dtls_connection_handshake.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_dtls_connection_handshake_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dtls_connection_handshake_async = Interop.downcallHandle(
         "g_dtls_connection_handshake_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -396,7 +377,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * Asynchronously performs a TLS handshake on {@code conn}. See
      * g_dtls_connection_handshake() for more information.
      */
-    public default void handshakeAsync(int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void handshakeAsync(@NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_dtls_connection_handshake_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -404,13 +385,13 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_dtls_connection_handshake_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dtls_connection_handshake_finish = Interop.downcallHandle(
         "g_dtls_connection_handshake_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -419,20 +400,21 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * Finish an asynchronous TLS handshake operation. See
      * g_dtls_connection_handshake() for more information.
      */
-    public default boolean handshakeFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    default boolean handshakeFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_dtls_connection_handshake_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_dtls_connection_handshake_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_dtls_connection_set_advertised_protocols = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dtls_connection_set_advertised_protocols = Interop.downcallHandle(
         "g_dtls_connection_set_advertised_protocols",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -449,15 +431,15 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * See <a href="https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.xhtml#alpn-protocol-ids">IANA TLS ALPN Protocol IDs</a>
      * for a list of registered protocol IDs.
      */
-    public default void setAdvertisedProtocols(java.lang.String[] protocols) {
+    default @NotNull void setAdvertisedProtocols(@Nullable java.lang.String[] protocols) {
         try {
-            g_dtls_connection_set_advertised_protocols.invokeExact(handle(), Interop.allocateNativeArray(protocols).handle());
+            g_dtls_connection_set_advertised_protocols.invokeExact(handle(), Interop.allocateNativeArray(protocols));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_dtls_connection_set_certificate = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dtls_connection_set_certificate = Interop.downcallHandle(
         "g_dtls_connection_set_certificate",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -482,7 +464,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * that g_dtls_client_connection_get_accepted_cas() will return
      * non-{@code null}.)
      */
-    public default void setCertificate(TlsCertificate certificate) {
+    default @NotNull void setCertificate(@NotNull TlsCertificate certificate) {
         try {
             g_dtls_connection_set_certificate.invokeExact(handle(), certificate.handle());
         } catch (Throwable ERR) {
@@ -490,7 +472,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle g_dtls_connection_set_database = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dtls_connection_set_database = Interop.downcallHandle(
         "g_dtls_connection_set_database",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -508,7 +490,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * There are nonintuitive security implications when using a non-default
      * database. See {@link DtlsConnection}:database for details.
      */
-    public default void setDatabase(TlsDatabase database) {
+    default @NotNull void setDatabase(@Nullable TlsDatabase database) {
         try {
             g_dtls_connection_set_database.invokeExact(handle(), database.handle());
         } catch (Throwable ERR) {
@@ -516,7 +498,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle g_dtls_connection_set_interaction = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dtls_connection_set_interaction = Interop.downcallHandle(
         "g_dtls_connection_set_interaction",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -529,7 +511,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * {@link TlsInteraction}. {@code null} can also be provided if no user interaction
      * should occur for this connection.
      */
-    public default void setInteraction(TlsInteraction interaction) {
+    default @NotNull void setInteraction(@Nullable TlsInteraction interaction) {
         try {
             g_dtls_connection_set_interaction.invokeExact(handle(), interaction.handle());
         } catch (Throwable ERR) {
@@ -537,7 +519,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle g_dtls_connection_set_require_close_notify = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dtls_connection_set_require_close_notify = Interop.downcallHandle(
         "g_dtls_connection_set_require_close_notify",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -569,7 +551,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * close, you can close {@code conn}'s {@link DtlsConnection}:base-socket rather
      * than closing {@code conn} itself.
      */
-    public default void setRequireCloseNotify(boolean requireCloseNotify) {
+    default @NotNull void setRequireCloseNotify(@NotNull boolean requireCloseNotify) {
         try {
             g_dtls_connection_set_require_close_notify.invokeExact(handle(), requireCloseNotify ? 1 : 0);
         } catch (Throwable ERR) {
@@ -577,7 +559,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle g_dtls_connection_shutdown = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dtls_connection_shutdown = Interop.downcallHandle(
         "g_dtls_connection_shutdown",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -600,20 +582,21 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * partially-closed and any pending untransmitted data may be lost. Call
      * g_dtls_connection_shutdown() again to complete closing the {@link DtlsConnection}.
      */
-    public default boolean shutdown(boolean shutdownRead, boolean shutdownWrite, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default boolean shutdown(@NotNull boolean shutdownRead, @NotNull boolean shutdownWrite, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_dtls_connection_shutdown.invokeExact(handle(), shutdownRead ? 1 : 0, shutdownWrite ? 1 : 0, cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_dtls_connection_shutdown.invokeExact(handle(), shutdownRead ? 1 : 0, shutdownWrite ? 1 : 0, cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_dtls_connection_shutdown_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dtls_connection_shutdown_async = Interop.downcallHandle(
         "g_dtls_connection_shutdown_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -622,7 +605,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * Asynchronously shut down part or all of the DTLS connection. See
      * g_dtls_connection_shutdown() for more information.
      */
-    public default void shutdownAsync(boolean shutdownRead, boolean shutdownWrite, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void shutdownAsync(@NotNull boolean shutdownRead, @NotNull boolean shutdownWrite, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_dtls_connection_shutdown_async.invokeExact(handle(), shutdownRead ? 1 : 0, shutdownWrite ? 1 : 0, ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -630,13 +613,13 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_dtls_connection_shutdown_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_dtls_connection_shutdown_finish = Interop.downcallHandle(
         "g_dtls_connection_shutdown_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -645,22 +628,23 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * Finish an asynchronous TLS shutdown operation. See
      * g_dtls_connection_shutdown() for more information.
      */
-    public default boolean shutdownFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    default boolean shutdownFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_dtls_connection_shutdown_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_dtls_connection_shutdown_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
     @FunctionalInterface
     public interface AcceptCertificateHandler {
-        boolean signalReceived(DtlsConnection source, TlsCertificate peerCert, TlsCertificateFlags errors);
+        boolean signalReceived(DtlsConnection source, @NotNull TlsCertificate peerCert, @NotNull TlsCertificateFlags errors);
     }
     
     /**
@@ -711,13 +695,13 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("accept-certificate").handle(),
+                Interop.allocateNativeString("accept-certificate"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DtlsConnection.Callbacks.class, "signalDtlsConnectionAcceptCertificate",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

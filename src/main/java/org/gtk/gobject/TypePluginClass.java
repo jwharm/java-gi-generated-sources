@@ -3,6 +3,7 @@ package org.gtk.gobject;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@link TypePlugin} interface is used by the type system in order to handle

@@ -1,6 +1,7 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A callback called after an interface vtable is initialized.
@@ -9,5 +10,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface TypeInterfaceCheckFunc {
-        void onTypeInterfaceCheckFunc(TypeInterface gIface);
+        void onTypeInterfaceCheckFunc(@NotNull TypeInterface gIface);
 }

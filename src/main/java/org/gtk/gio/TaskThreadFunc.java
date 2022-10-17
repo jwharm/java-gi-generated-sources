@@ -1,6 +1,7 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The prototype for a task function to be run in a thread via
@@ -21,5 +22,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface TaskThreadFunc {
-        void onTaskThreadFunc(Task task, org.gtk.gobject.Object sourceObject, Cancellable cancellable);
+        void onTaskThreadFunc(@NotNull Task task, @NotNull org.gtk.gobject.Object sourceObject, @Nullable Cancellable cancellable);
 }

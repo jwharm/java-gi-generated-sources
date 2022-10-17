@@ -3,6 +3,7 @@ package org.gnome.adw;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A helper widget for setting a window's title and subtitle.
@@ -14,9 +15,8 @@ import java.lang.invoke.*;
  * <p>
  * {@code AdwWindowTitle} shows a title and subtitle. It's intended to be used as the
  * title child of {@code HeaderBar}.
- * <p>
+ * 
  * <h2>CSS nodes</h2>
- * <p>
  * {@code AdwWindowTitle} has a single CSS node with name {@code windowtitle}.
  */
 public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
@@ -30,14 +30,14 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         return new WindowTitle(gobject.refcounted());
     }
     
-    static final MethodHandle adw_window_title_new = Interop.downcallHandle(
+    private static final MethodHandle adw_window_title_new = Interop.downcallHandle(
         "adw_window_title_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(java.lang.String title, java.lang.String subtitle) {
+    private static Refcounted constructNew(@NotNull java.lang.String title, @NotNull java.lang.String subtitle) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_window_title_new.invokeExact(Interop.allocateNativeString(title).handle(), Interop.allocateNativeString(subtitle).handle()), false);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_window_title_new.invokeExact(Interop.allocateNativeString(title), Interop.allocateNativeString(subtitle)), false);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -47,11 +47,11 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     /**
      * Creates a new {@code AdwWindowTitle}.
      */
-    public WindowTitle(java.lang.String title, java.lang.String subtitle) {
+    public WindowTitle(@NotNull java.lang.String title, @NotNull java.lang.String subtitle) {
         super(constructNew(title, subtitle));
     }
     
-    static final MethodHandle adw_window_title_get_subtitle = Interop.downcallHandle(
+    private static final MethodHandle adw_window_title_get_subtitle = Interop.downcallHandle(
         "adw_window_title_get_subtitle",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -59,16 +59,17 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     /**
      * Gets the subtitle of {@code self}.
      */
-    public java.lang.String getSubtitle() {
+    public @NotNull java.lang.String getSubtitle() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_window_title_get_subtitle.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) adw_window_title_get_subtitle.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle adw_window_title_get_title = Interop.downcallHandle(
+    private static final MethodHandle adw_window_title_get_title = Interop.downcallHandle(
         "adw_window_title_get_title",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -76,16 +77,17 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     /**
      * Gets the title of {@code self}.
      */
-    public java.lang.String getTitle() {
+    public @NotNull java.lang.String getTitle() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_window_title_get_title.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) adw_window_title_get_title.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle adw_window_title_set_subtitle = Interop.downcallHandle(
+    private static final MethodHandle adw_window_title_set_subtitle = Interop.downcallHandle(
         "adw_window_title_set_subtitle",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -93,15 +95,15 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     /**
      * Sets the subtitle of {@code self}.
      */
-    public void setSubtitle(java.lang.String subtitle) {
+    public @NotNull void setSubtitle(@NotNull java.lang.String subtitle) {
         try {
-            adw_window_title_set_subtitle.invokeExact(handle(), Interop.allocateNativeString(subtitle).handle());
+            adw_window_title_set_subtitle.invokeExact(handle(), Interop.allocateNativeString(subtitle));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle adw_window_title_set_title = Interop.downcallHandle(
+    private static final MethodHandle adw_window_title_set_title = Interop.downcallHandle(
         "adw_window_title_set_title",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -109,9 +111,9 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     /**
      * Sets the title of {@code self}.
      */
-    public void setTitle(java.lang.String title) {
+    public @NotNull void setTitle(@NotNull java.lang.String title) {
         try {
-            adw_window_title_set_title.invokeExact(handle(), Interop.allocateNativeString(title).handle());
+            adw_window_title_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

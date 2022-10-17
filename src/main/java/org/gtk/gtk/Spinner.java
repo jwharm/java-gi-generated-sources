@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GtkSpinner} widget displays an icon-size spinning animation.
@@ -14,9 +15,8 @@ import java.lang.invoke.*;
  * <p>
  * To start the animation, use {@link Spinner#start}, to stop it
  * use {@link Spinner#stop}.
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * {@code GtkSpinner} has a single CSS node with the name spinner.
  * When the animation is active, the :checked pseudoclass is
  * added to this node.
@@ -32,7 +32,7 @@ public class Spinner extends Widget implements Accessible, Buildable, Constraint
         return new Spinner(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_spinner_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_spinner_new = Interop.downcallHandle(
         "gtk_spinner_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -53,7 +53,7 @@ public class Spinner extends Widget implements Accessible, Buildable, Constraint
         super(constructNew());
     }
     
-    static final MethodHandle gtk_spinner_get_spinning = Interop.downcallHandle(
+    private static final MethodHandle gtk_spinner_get_spinning = Interop.downcallHandle(
         "gtk_spinner_get_spinning",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -62,15 +62,16 @@ public class Spinner extends Widget implements Accessible, Buildable, Constraint
      * Returns whether the spinner is spinning.
      */
     public boolean getSpinning() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_spinner_get_spinning.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_spinner_get_spinning.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_spinner_set_spinning = Interop.downcallHandle(
+    private static final MethodHandle gtk_spinner_set_spinning = Interop.downcallHandle(
         "gtk_spinner_set_spinning",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -78,7 +79,7 @@ public class Spinner extends Widget implements Accessible, Buildable, Constraint
     /**
      * Sets the activity of the spinner.
      */
-    public void setSpinning(boolean spinning) {
+    public @NotNull void setSpinning(@NotNull boolean spinning) {
         try {
             gtk_spinner_set_spinning.invokeExact(handle(), spinning ? 1 : 0);
         } catch (Throwable ERR) {
@@ -86,7 +87,7 @@ public class Spinner extends Widget implements Accessible, Buildable, Constraint
         }
     }
     
-    static final MethodHandle gtk_spinner_start = Interop.downcallHandle(
+    private static final MethodHandle gtk_spinner_start = Interop.downcallHandle(
         "gtk_spinner_start",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -94,7 +95,7 @@ public class Spinner extends Widget implements Accessible, Buildable, Constraint
     /**
      * Starts the animation of the spinner.
      */
-    public void start() {
+    public @NotNull void start() {
         try {
             gtk_spinner_start.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -102,7 +103,7 @@ public class Spinner extends Widget implements Accessible, Buildable, Constraint
         }
     }
     
-    static final MethodHandle gtk_spinner_stop = Interop.downcallHandle(
+    private static final MethodHandle gtk_spinner_stop = Interop.downcallHandle(
         "gtk_spinner_stop",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -110,7 +111,7 @@ public class Spinner extends Widget implements Accessible, Buildable, Constraint
     /**
      * Stops the animation of the spinner.
      */
-    public void stop() {
+    public @NotNull void stop() {
         try {
             gtk_spinner_stop.invokeExact(handle());
         } catch (Throwable ERR) {

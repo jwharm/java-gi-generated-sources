@@ -3,6 +3,7 @@ package org.gtk.graphene;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A quaternion.
@@ -16,7 +17,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle graphene_quaternion_alloc = Interop.downcallHandle(
+    private static final MethodHandle graphene_quaternion_alloc = Interop.downcallHandle(
         "graphene_quaternion_alloc",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -39,7 +40,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
         return new Quaternion(constructAlloc());
     }
     
-    static final MethodHandle graphene_quaternion_add = Interop.downcallHandle(
+    private static final MethodHandle graphene_quaternion_add = Interop.downcallHandle(
         "graphene_quaternion_add",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -47,15 +48,17 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Adds two {@link Quaternion} @a and @b.
      */
-    public void add(Quaternion b, Quaternion res) {
+    public @NotNull void add(@NotNull Quaternion b, @NotNull Out<Quaternion> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_quaternion_add.invokeExact(handle(), b.handle(), res.handle());
+            graphene_quaternion_add.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Quaternion(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_quaternion_dot = Interop.downcallHandle(
+    private static final MethodHandle graphene_quaternion_dot = Interop.downcallHandle(
         "graphene_quaternion_dot",
         FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -63,16 +66,17 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Computes the dot product of two {@link Quaternion}.
      */
-    public float dot(Quaternion b) {
+    public float dot(@NotNull Quaternion b) {
+        float RESULT;
         try {
-            var RESULT = (float) graphene_quaternion_dot.invokeExact(handle(), b.handle());
-            return RESULT;
+            RESULT = (float) graphene_quaternion_dot.invokeExact(handle(), b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_quaternion_equal = Interop.downcallHandle(
+    private static final MethodHandle graphene_quaternion_equal = Interop.downcallHandle(
         "graphene_quaternion_equal",
         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -80,16 +84,17 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Checks whether the given quaternions are equal.
      */
-    public boolean equal(Quaternion b) {
+    public boolean equal(@NotNull Quaternion b) {
+        boolean RESULT;
         try {
-            var RESULT = (boolean) graphene_quaternion_equal.invokeExact(handle(), b.handle());
-            return RESULT;
+            RESULT = (boolean) graphene_quaternion_equal.invokeExact(handle(), b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_quaternion_free = Interop.downcallHandle(
+    private static final MethodHandle graphene_quaternion_free = Interop.downcallHandle(
         "graphene_quaternion_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -97,7 +102,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Releases the resources allocated by graphene_quaternion_alloc().
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             graphene_quaternion_free.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -105,7 +110,7 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle graphene_quaternion_init = Interop.downcallHandle(
+    private static final MethodHandle graphene_quaternion_init = Interop.downcallHandle(
         "graphene_quaternion_init",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
     );
@@ -113,16 +118,17 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Initializes a {@link Quaternion} using the given four values.
      */
-    public Quaternion init(float x, float y, float z, float w) {
+    public @NotNull Quaternion init(@NotNull float x, @NotNull float y, @NotNull float z, @NotNull float w) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_quaternion_init.invokeExact(handle(), x, y, z, w);
-            return new Quaternion(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_quaternion_init.invokeExact(handle(), x, y, z, w);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Quaternion(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_quaternion_init_from_angle_vec3 = Interop.downcallHandle(
+    private static final MethodHandle graphene_quaternion_init_from_angle_vec3 = Interop.downcallHandle(
         "graphene_quaternion_init_from_angle_vec3",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -131,16 +137,17 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      * Initializes a {@link Quaternion} using an {@code angle} on a
      * specific {@code axis}.
      */
-    public Quaternion initFromAngleVec3(float angle, Vec3 axis) {
+    public @NotNull Quaternion initFromAngleVec3(@NotNull float angle, @NotNull Vec3 axis) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_quaternion_init_from_angle_vec3.invokeExact(handle(), angle, axis.handle());
-            return new Quaternion(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_quaternion_init_from_angle_vec3.invokeExact(handle(), angle, axis.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Quaternion(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_quaternion_init_from_angles = Interop.downcallHandle(
+    private static final MethodHandle graphene_quaternion_init_from_angles = Interop.downcallHandle(
         "graphene_quaternion_init_from_angles",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
     );
@@ -152,16 +159,17 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * See also: graphene_quaternion_init_from_euler()
      */
-    public Quaternion initFromAngles(float degX, float degY, float degZ) {
+    public @NotNull Quaternion initFromAngles(@NotNull float degX, @NotNull float degY, @NotNull float degZ) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_quaternion_init_from_angles.invokeExact(handle(), degX, degY, degZ);
-            return new Quaternion(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_quaternion_init_from_angles.invokeExact(handle(), degX, degY, degZ);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Quaternion(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_quaternion_init_from_euler = Interop.downcallHandle(
+    private static final MethodHandle graphene_quaternion_init_from_euler = Interop.downcallHandle(
         "graphene_quaternion_init_from_euler",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -169,16 +177,17 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Initializes a {@link Quaternion} using the given {@link Euler}.
      */
-    public Quaternion initFromEuler(Euler e) {
+    public @NotNull Quaternion initFromEuler(@NotNull Euler e) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_quaternion_init_from_euler.invokeExact(handle(), e.handle());
-            return new Quaternion(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_quaternion_init_from_euler.invokeExact(handle(), e.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Quaternion(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_quaternion_init_from_matrix = Interop.downcallHandle(
+    private static final MethodHandle graphene_quaternion_init_from_matrix = Interop.downcallHandle(
         "graphene_quaternion_init_from_matrix",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -187,16 +196,17 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      * Initializes a {@link Quaternion} using the rotation components
      * of a transformation matrix.
      */
-    public Quaternion initFromMatrix(Matrix m) {
+    public @NotNull Quaternion initFromMatrix(@NotNull Matrix m) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_quaternion_init_from_matrix.invokeExact(handle(), m.handle());
-            return new Quaternion(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_quaternion_init_from_matrix.invokeExact(handle(), m.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Quaternion(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_quaternion_init_from_quaternion = Interop.downcallHandle(
+    private static final MethodHandle graphene_quaternion_init_from_quaternion = Interop.downcallHandle(
         "graphene_quaternion_init_from_quaternion",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -204,16 +214,17 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Initializes a {@link Quaternion} with the values from {@code src}.
      */
-    public Quaternion initFromQuaternion(Quaternion src) {
+    public @NotNull Quaternion initFromQuaternion(@NotNull Quaternion src) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_quaternion_init_from_quaternion.invokeExact(handle(), src.handle());
-            return new Quaternion(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_quaternion_init_from_quaternion.invokeExact(handle(), src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Quaternion(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_quaternion_init_from_radians = Interop.downcallHandle(
+    private static final MethodHandle graphene_quaternion_init_from_radians = Interop.downcallHandle(
         "graphene_quaternion_init_from_radians",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
     );
@@ -225,16 +236,17 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * See also: graphene_quaternion_init_from_euler()
      */
-    public Quaternion initFromRadians(float radX, float radY, float radZ) {
+    public @NotNull Quaternion initFromRadians(@NotNull float radX, @NotNull float radY, @NotNull float radZ) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_quaternion_init_from_radians.invokeExact(handle(), radX, radY, radZ);
-            return new Quaternion(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_quaternion_init_from_radians.invokeExact(handle(), radX, radY, radZ);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Quaternion(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_quaternion_init_from_vec4 = Interop.downcallHandle(
+    private static final MethodHandle graphene_quaternion_init_from_vec4 = Interop.downcallHandle(
         "graphene_quaternion_init_from_vec4",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -242,16 +254,17 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Initializes a {@link Quaternion} with the values from {@code src}.
      */
-    public Quaternion initFromVec4(Vec4 src) {
+    public @NotNull Quaternion initFromVec4(@NotNull Vec4 src) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_quaternion_init_from_vec4.invokeExact(handle(), src.handle());
-            return new Quaternion(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_quaternion_init_from_vec4.invokeExact(handle(), src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Quaternion(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_quaternion_init_identity = Interop.downcallHandle(
+    private static final MethodHandle graphene_quaternion_init_identity = Interop.downcallHandle(
         "graphene_quaternion_init_identity",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -260,16 +273,17 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      * Initializes a {@link Quaternion} using the identity
      * transformation.
      */
-    public Quaternion initIdentity() {
+    public @NotNull Quaternion initIdentity() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_quaternion_init_identity.invokeExact(handle());
-            return new Quaternion(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_quaternion_init_identity.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Quaternion(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_quaternion_invert = Interop.downcallHandle(
+    private static final MethodHandle graphene_quaternion_invert = Interop.downcallHandle(
         "graphene_quaternion_invert",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -278,15 +292,17 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      * Inverts a {@link Quaternion}, and returns the conjugate
      * quaternion of @q.
      */
-    public void invert(Quaternion res) {
+    public @NotNull void invert(@NotNull Out<Quaternion> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_quaternion_invert.invokeExact(handle(), res.handle());
+            graphene_quaternion_invert.invokeExact(handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Quaternion(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_quaternion_multiply = Interop.downcallHandle(
+    private static final MethodHandle graphene_quaternion_multiply = Interop.downcallHandle(
         "graphene_quaternion_multiply",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -294,15 +310,17 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Multiplies two {@link Quaternion} @a and @b.
      */
-    public void multiply(Quaternion b, Quaternion res) {
+    public @NotNull void multiply(@NotNull Quaternion b, @NotNull Out<Quaternion> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_quaternion_multiply.invokeExact(handle(), b.handle(), res.handle());
+            graphene_quaternion_multiply.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Quaternion(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_quaternion_normalize = Interop.downcallHandle(
+    private static final MethodHandle graphene_quaternion_normalize = Interop.downcallHandle(
         "graphene_quaternion_normalize",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -310,15 +328,17 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Normalizes a {@link Quaternion}.
      */
-    public void normalize(Quaternion res) {
+    public @NotNull void normalize(@NotNull Out<Quaternion> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_quaternion_normalize.invokeExact(handle(), res.handle());
+            graphene_quaternion_normalize.invokeExact(handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Quaternion(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_quaternion_scale = Interop.downcallHandle(
+    private static final MethodHandle graphene_quaternion_scale = Interop.downcallHandle(
         "graphene_quaternion_scale",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -327,15 +347,17 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      * Scales all the elements of a {@link Quaternion} @q using
      * the given scalar factor.
      */
-    public void scale(float factor, Quaternion res) {
+    public @NotNull void scale(@NotNull float factor, @NotNull Out<Quaternion> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_quaternion_scale.invokeExact(handle(), factor, res.handle());
+            graphene_quaternion_scale.invokeExact(handle(), factor, (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Quaternion(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_quaternion_slerp = Interop.downcallHandle(
+    private static final MethodHandle graphene_quaternion_slerp = Interop.downcallHandle(
         "graphene_quaternion_slerp",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -345,15 +367,17 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      * linear interpolation, or <a href="http://en.wikipedia.org/wiki/Slerp">SLERP</a>,
      * using the given interpolation {@code factor}.
      */
-    public void slerp(Quaternion b, float factor, Quaternion res) {
+    public @NotNull void slerp(@NotNull Quaternion b, @NotNull float factor, @NotNull Out<Quaternion> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_quaternion_slerp.invokeExact(handle(), b.handle(), factor, res.handle());
+            graphene_quaternion_slerp.invokeExact(handle(), b.handle(), factor, (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Quaternion(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_quaternion_to_angle_vec3 = Interop.downcallHandle(
+    private static final MethodHandle graphene_quaternion_to_angle_vec3 = Interop.downcallHandle(
         "graphene_quaternion_to_angle_vec3",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -361,15 +385,19 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Converts a quaternion into an {@code angle}, {@code axis} pair.
      */
-    public void toAngleVec3(PointerFloat angle, Vec3 axis) {
+    public @NotNull void toAngleVec3(@NotNull Out<Float> angle, @NotNull Out<Vec3> axis) {
+        MemorySegment anglePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment axisPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_quaternion_to_angle_vec3.invokeExact(handle(), angle.handle(), axis.handle());
+            graphene_quaternion_to_angle_vec3.invokeExact(handle(), (Addressable) anglePOINTER.address(), (Addressable) axisPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        angle.set(anglePOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        axis.set(new Vec3(Refcounted.get(axisPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_quaternion_to_angles = Interop.downcallHandle(
+    private static final MethodHandle graphene_quaternion_to_angles = Interop.downcallHandle(
         "graphene_quaternion_to_angles",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -379,15 +407,21 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      * on the <a href="http://en.wikipedia.org/wiki/Euler_angles">Euler angles</a>
      * on each axis.
      */
-    public void toAngles(PointerFloat degX, PointerFloat degY, PointerFloat degZ) {
+    public @NotNull void toAngles(@NotNull Out<Float> degX, @NotNull Out<Float> degY, @NotNull Out<Float> degZ) {
+        MemorySegment degXPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment degYPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment degZPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
         try {
-            graphene_quaternion_to_angles.invokeExact(handle(), degX.handle(), degY.handle(), degZ.handle());
+            graphene_quaternion_to_angles.invokeExact(handle(), (Addressable) degXPOINTER.address(), (Addressable) degYPOINTER.address(), (Addressable) degZPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        degX.set(degXPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        degY.set(degYPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        degZ.set(degZPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
     }
     
-    static final MethodHandle graphene_quaternion_to_matrix = Interop.downcallHandle(
+    private static final MethodHandle graphene_quaternion_to_matrix = Interop.downcallHandle(
         "graphene_quaternion_to_matrix",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -396,15 +430,17 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      * Converts a quaternion into a transformation matrix expressing
      * the rotation defined by the {@link Quaternion}.
      */
-    public void toMatrix(Matrix m) {
+    public @NotNull void toMatrix(@NotNull Out<Matrix> m) {
+        MemorySegment mPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_quaternion_to_matrix.invokeExact(handle(), m.handle());
+            graphene_quaternion_to_matrix.invokeExact(handle(), (Addressable) mPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        m.set(new Matrix(Refcounted.get(mPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_quaternion_to_radians = Interop.downcallHandle(
+    private static final MethodHandle graphene_quaternion_to_radians = Interop.downcallHandle(
         "graphene_quaternion_to_radians",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -414,15 +450,21 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      * on the <a href="http://en.wikipedia.org/wiki/Euler_angles">Euler angles</a>
      * on each axis.
      */
-    public void toRadians(PointerFloat radX, PointerFloat radY, PointerFloat radZ) {
+    public @NotNull void toRadians(@NotNull Out<Float> radX, @NotNull Out<Float> radY, @NotNull Out<Float> radZ) {
+        MemorySegment radXPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment radYPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment radZPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
         try {
-            graphene_quaternion_to_radians.invokeExact(handle(), radX.handle(), radY.handle(), radZ.handle());
+            graphene_quaternion_to_radians.invokeExact(handle(), (Addressable) radXPOINTER.address(), (Addressable) radYPOINTER.address(), (Addressable) radZPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        radX.set(radXPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        radY.set(radYPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        radZ.set(radZPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
     }
     
-    static final MethodHandle graphene_quaternion_to_vec4 = Interop.downcallHandle(
+    private static final MethodHandle graphene_quaternion_to_vec4 = Interop.downcallHandle(
         "graphene_quaternion_to_vec4",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -431,12 +473,14 @@ public class Quaternion extends io.github.jwharm.javagi.ResourceBase {
      * Copies the components of a {@link Quaternion} into a
      * {@link Vec4}.
      */
-    public void toVec4(Vec4 res) {
+    public @NotNull void toVec4(@NotNull Out<Vec4> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_quaternion_to_vec4.invokeExact(handle(), res.handle());
+            graphene_quaternion_to_vec4.invokeExact(handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
 }

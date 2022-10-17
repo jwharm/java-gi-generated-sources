@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A function that will be called whenever a child changes
@@ -10,5 +11,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface FlowBoxFilterFunc {
-        boolean onFlowBoxFilterFunc(FlowBoxChild child);
+        boolean onFlowBoxFilterFunc(@NotNull FlowBoxChild child);
 }

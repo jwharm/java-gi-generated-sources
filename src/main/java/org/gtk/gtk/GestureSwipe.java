@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkGestureSwipe} is a {@code GtkGesture} for swipe gestures.
@@ -29,7 +30,7 @@ public class GestureSwipe extends GestureSingle {
         return new GestureSwipe(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_gesture_swipe_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_gesture_swipe_new = Interop.downcallHandle(
         "gtk_gesture_swipe_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -50,7 +51,7 @@ public class GestureSwipe extends GestureSingle {
         super(constructNew());
     }
     
-    static final MethodHandle gtk_gesture_swipe_get_velocity = Interop.downcallHandle(
+    private static final MethodHandle gtk_gesture_swipe_get_velocity = Interop.downcallHandle(
         "gtk_gesture_swipe_get_velocity",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -62,18 +63,23 @@ public class GestureSwipe extends GestureSingle {
      * in {@code velocity_x} and {@code velocity_y} with the recorded velocity, as per the
      * last events processed.
      */
-    public boolean getVelocity(PointerDouble velocityX, PointerDouble velocityY) {
+    public boolean getVelocity(@NotNull Out<Double> velocityX, @NotNull Out<Double> velocityY) {
+        MemorySegment velocityXPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        MemorySegment velocityYPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_gesture_swipe_get_velocity.invokeExact(handle(), velocityX.handle(), velocityY.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_gesture_swipe_get_velocity.invokeExact(handle(), (Addressable) velocityXPOINTER.address(), (Addressable) velocityYPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        velocityX.set(velocityXPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        velocityY.set(velocityYPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        return RESULT != 0;
     }
     
     @FunctionalInterface
     public interface SwipeHandler {
-        void signalReceived(GestureSwipe source, double velocityX, double velocityY);
+        void signalReceived(GestureSwipe source, @NotNull double velocityX, @NotNull double velocityY);
     }
     
     /**
@@ -85,13 +91,13 @@ public class GestureSwipe extends GestureSingle {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("swipe").handle(),
+                Interop.allocateNativeString("swipe"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureSwipe.Callbacks.class, "signalGestureSwipeSwipe",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

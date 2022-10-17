@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkSymbolicPaintable} is an interface that support symbolic colors in
@@ -20,7 +21,7 @@ import java.lang.invoke.*;
  */
 public interface SymbolicPaintable extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle gtk_symbolic_paintable_snapshot_symbolic = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_symbolic_paintable_snapshot_symbolic = Interop.downcallHandle(
         "gtk_symbolic_paintable_snapshot_symbolic",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -31,9 +32,9 @@ public interface SymbolicPaintable extends io.github.jwharm.javagi.Proxy {
      * If less than 4 colors are provided, GTK will pad the array with default
      * colors.
      */
-    public default void snapshotSymbolic(org.gtk.gdk.Snapshot snapshot, double width, double height, org.gtk.gdk.RGBA[] colors, long nColors) {
+    default @NotNull void snapshotSymbolic(@NotNull org.gtk.gdk.Snapshot snapshot, @NotNull double width, @NotNull double height, @NotNull org.gtk.gdk.RGBA[] colors, @NotNull long nColors) {
         try {
-            gtk_symbolic_paintable_snapshot_symbolic.invokeExact(handle(), snapshot.handle(), width, height, Interop.allocateNativeArray(colors).handle(), nColors);
+            gtk_symbolic_paintable_snapshot_symbolic.invokeExact(handle(), snapshot.handle(), width, height, Interop.allocateNativeArray(colors), nColors);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

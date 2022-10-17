@@ -1,6 +1,7 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Function signature for a function used to determine the {@link org.gtk.glib.Type} to
@@ -13,5 +14,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface DBusProxyTypeFunc {
-        org.gtk.gobject.Type onDBusProxyTypeFunc(DBusObjectManagerClient manager, java.lang.String objectPath, java.lang.String interfaceName);
+        org.gtk.gobject.Type onDBusProxyTypeFunc(@NotNull DBusObjectManagerClient manager, @NotNull java.lang.String objectPath, @Nullable java.lang.String interfaceName);
 }

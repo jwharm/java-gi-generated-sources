@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkSwitch} is a "light switch" that has two states: on or off.
@@ -14,9 +15,8 @@ import java.lang.invoke.*;
  * <p>
  * {@code GtkSwitch} can also handle situations where the underlying state
  * changes with a delay. See {@code GtkSwitch::state-set} for details.
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * <pre>{@code 
  * switch
  * ├── label
@@ -27,9 +27,8 @@ import java.lang.invoke.*;
  * {@code GtkSwitch} has four css nodes, the main node with the name switch and
  * subnodes for the slider and the on and off labels. Neither of them is
  * using any style classes.
- * <p>
+ * 
  * <h1>Accessibility</h1>
- * <p>
  * {@code GtkSwitch} uses the {@link AccessibleRole#SWITCH} role.
  */
 public class Switch extends Widget implements Accessible, Actionable, Buildable, ConstraintTarget {
@@ -43,7 +42,7 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
         return new Switch(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_switch_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_switch_new = Interop.downcallHandle(
         "gtk_switch_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -64,7 +63,7 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
         super(constructNew());
     }
     
-    static final MethodHandle gtk_switch_get_active = Interop.downcallHandle(
+    private static final MethodHandle gtk_switch_get_active = Interop.downcallHandle(
         "gtk_switch_get_active",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -73,15 +72,16 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
      * Gets whether the {@code GtkSwitch} is in its “on” or “off” state.
      */
     public boolean getActive() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_switch_get_active.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_switch_get_active.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_switch_get_state = Interop.downcallHandle(
+    private static final MethodHandle gtk_switch_get_state = Interop.downcallHandle(
         "gtk_switch_get_state",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -90,15 +90,16 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
      * Gets the underlying state of the {@code GtkSwitch}.
      */
     public boolean getState() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_switch_get_state.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_switch_get_state.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_switch_set_active = Interop.downcallHandle(
+    private static final MethodHandle gtk_switch_set_active = Interop.downcallHandle(
         "gtk_switch_set_active",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -106,7 +107,7 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
     /**
      * Changes the state of {@code self} to the desired one.
      */
-    public void setActive(boolean isActive) {
+    public @NotNull void setActive(@NotNull boolean isActive) {
         try {
             gtk_switch_set_active.invokeExact(handle(), isActive ? 1 : 0);
         } catch (Throwable ERR) {
@@ -114,7 +115,7 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
         }
     }
     
-    static final MethodHandle gtk_switch_set_state = Interop.downcallHandle(
+    private static final MethodHandle gtk_switch_set_state = Interop.downcallHandle(
         "gtk_switch_set_state",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -128,7 +129,7 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
      * <p>
      * See {@code Gtk.Switch::state-set} for details.
      */
-    public void setState(boolean state) {
+    public @NotNull void setState(@NotNull boolean state) {
         try {
             gtk_switch_set_state.invokeExact(handle(), state ? 1 : 0);
         } catch (Throwable ERR) {
@@ -151,13 +152,13 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("activate").handle(),
+                Interop.allocateNativeString("activate"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Switch.Callbacks.class, "signalSwitchActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -167,7 +168,7 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
     
     @FunctionalInterface
     public interface StateSetHandler {
-        boolean signalReceived(Switch source, boolean state);
+        boolean signalReceived(Switch source, @NotNull boolean state);
     }
     
     /**
@@ -191,13 +192,13 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("state-set").handle(),
+                Interop.allocateNativeString("state-set"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Switch.Callbacks.class, "signalSwitchStateSet",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

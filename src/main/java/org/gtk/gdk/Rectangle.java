@@ -3,6 +3,7 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GdkRectangle} data type for representing rectangles.
@@ -27,7 +28,7 @@ public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle gdk_rectangle_contains_point = Interop.downcallHandle(
+    private static final MethodHandle gdk_rectangle_contains_point = Interop.downcallHandle(
         "gdk_rectangle_contains_point",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -35,16 +36,17 @@ public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns {@code true} if {@code rect} contains the point described by @x and @y.
      */
-    public boolean containsPoint(int x, int y) {
+    public boolean containsPoint(@NotNull int x, @NotNull int y) {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_rectangle_contains_point.invokeExact(handle(), x, y);
-            return RESULT != 0;
+            RESULT = (int) gdk_rectangle_contains_point.invokeExact(handle(), x, y);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_rectangle_equal = Interop.downcallHandle(
+    private static final MethodHandle gdk_rectangle_equal = Interop.downcallHandle(
         "gdk_rectangle_equal",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -52,16 +54,17 @@ public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Checks if the two given rectangles are equal.
      */
-    public boolean equal(Rectangle rect2) {
+    public boolean equal(@NotNull Rectangle rect2) {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_rectangle_equal.invokeExact(handle(), rect2.handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_rectangle_equal.invokeExact(handle(), rect2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_rectangle_intersect = Interop.downcallHandle(
+    private static final MethodHandle gdk_rectangle_intersect = Interop.downcallHandle(
         "gdk_rectangle_intersect",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -75,16 +78,19 @@ public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
      * in whether the rectangles intersect, but not in the intersecting area
      * itself, pass {@code null} for {@code dest}.
      */
-    public boolean intersect(Rectangle src2, Rectangle dest) {
+    public boolean intersect(@NotNull Rectangle src2, @NotNull Out<Rectangle> dest) {
+        MemorySegment destPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gdk_rectangle_intersect.invokeExact(handle(), src2.handle(), dest.handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_rectangle_intersect.invokeExact(handle(), src2.handle(), (Addressable) destPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        dest.set(new Rectangle(Refcounted.get(destPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_rectangle_union = Interop.downcallHandle(
+    private static final MethodHandle gdk_rectangle_union = Interop.downcallHandle(
         "gdk_rectangle_union",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -99,12 +105,14 @@ public class Rectangle extends io.github.jwharm.javagi.ResourceBase {
      * Note that this function does not ignore 'empty' rectangles (ie. with
      * zero width or height).
      */
-    public void union(Rectangle src2, Rectangle dest) {
+    public @NotNull void union(@NotNull Rectangle src2, @NotNull Out<Rectangle> dest) {
+        MemorySegment destPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gdk_rectangle_union.invokeExact(handle(), src2.handle(), dest.handle());
+            gdk_rectangle_union.invokeExact(handle(), src2.handle(), (Addressable) destPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        dest.set(new Rectangle(Refcounted.get(destPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
 }

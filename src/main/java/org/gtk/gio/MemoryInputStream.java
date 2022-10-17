@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link MemoryInputStream} is a class for using arbitrary
@@ -22,7 +23,7 @@ public class MemoryInputStream extends InputStream implements PollableInputStrea
         return new MemoryInputStream(gobject.refcounted());
     }
     
-    static final MethodHandle g_memory_input_stream_new = Interop.downcallHandle(
+    private static final MethodHandle g_memory_input_stream_new = Interop.downcallHandle(
         "g_memory_input_stream_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -43,12 +44,12 @@ public class MemoryInputStream extends InputStream implements PollableInputStrea
         super(constructNew());
     }
     
-    static final MethodHandle g_memory_input_stream_new_from_bytes = Interop.downcallHandle(
+    private static final MethodHandle g_memory_input_stream_new_from_bytes = Interop.downcallHandle(
         "g_memory_input_stream_new_from_bytes",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewFromBytes(org.gtk.glib.Bytes bytes) {
+    private static Refcounted constructNewFromBytes(@NotNull org.gtk.glib.Bytes bytes) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_memory_input_stream_new_from_bytes.invokeExact(bytes.handle()), true);
             return RESULT;
@@ -60,11 +61,11 @@ public class MemoryInputStream extends InputStream implements PollableInputStrea
     /**
      * Creates a new {@link MemoryInputStream} with data from the given {@code bytes}.
      */
-    public static MemoryInputStream newFromBytes(org.gtk.glib.Bytes bytes) {
+    public static MemoryInputStream newFromBytes(@NotNull org.gtk.glib.Bytes bytes) {
         return new MemoryInputStream(constructNewFromBytes(bytes));
     }
     
-    static final MethodHandle g_memory_input_stream_add_bytes = Interop.downcallHandle(
+    private static final MethodHandle g_memory_input_stream_add_bytes = Interop.downcallHandle(
         "g_memory_input_stream_add_bytes",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -72,7 +73,7 @@ public class MemoryInputStream extends InputStream implements PollableInputStrea
     /**
      * Appends {@code bytes} to data that can be read from the input stream.
      */
-    public void addBytes(org.gtk.glib.Bytes bytes) {
+    public @NotNull void addBytes(@NotNull org.gtk.glib.Bytes bytes) {
         try {
             g_memory_input_stream_add_bytes.invokeExact(handle(), bytes.handle());
         } catch (Throwable ERR) {

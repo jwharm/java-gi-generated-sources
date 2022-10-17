@@ -3,6 +3,7 @@ package org.gtk.gobject;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@link BindingGroup} can be used to bind multiple properties
@@ -24,7 +25,7 @@ public class BindingGroup extends Object {
         return new BindingGroup(gobject.refcounted());
     }
     
-    static final MethodHandle g_binding_group_new = Interop.downcallHandle(
+    private static final MethodHandle g_binding_group_new = Interop.downcallHandle(
         "g_binding_group_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -45,7 +46,7 @@ public class BindingGroup extends Object {
         super(constructNew());
     }
     
-    static final MethodHandle g_binding_group_bind = Interop.downcallHandle(
+    private static final MethodHandle g_binding_group_bind = Interop.downcallHandle(
         "g_binding_group_bind",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -58,15 +59,15 @@ public class BindingGroup extends Object {
      * <p>
      * See g_object_bind_property() for more information.
      */
-    public void bind(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, BindingFlags flags) {
+    public @NotNull void bind(@NotNull java.lang.String sourceProperty, @NotNull Object target, @NotNull java.lang.String targetProperty, @NotNull BindingFlags flags) {
         try {
-            g_binding_group_bind.invokeExact(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags.getValue());
+            g_binding_group_bind.invokeExact(handle(), Interop.allocateNativeString(sourceProperty), target.handle(), Interop.allocateNativeString(targetProperty), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_binding_group_bind_full = Interop.downcallHandle(
+    private static final MethodHandle g_binding_group_bind_full = Interop.downcallHandle(
         "g_binding_group_bind_full",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -79,9 +80,9 @@ public class BindingGroup extends Object {
      * <p>
      * See g_object_bind_property_full() for more information.
      */
-    public void bindFull(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, BindingFlags flags, BindingTransformFunc transformTo, BindingTransformFunc transformFrom) {
+    public @NotNull void bindFull(@NotNull java.lang.String sourceProperty, @NotNull Object target, @NotNull java.lang.String targetProperty, @NotNull BindingFlags flags, @Nullable BindingTransformFunc transformTo, @Nullable BindingTransformFunc transformFrom) {
         try {
-            g_binding_group_bind_full.invokeExact(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags.getValue(), 
+            g_binding_group_bind_full.invokeExact(handle(), Interop.allocateNativeString(sourceProperty), target.handle(), Interop.allocateNativeString(targetProperty), flags.getValue(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbBindingTransformFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -92,14 +93,14 @@ public class BindingGroup extends Object {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(transformTo.hashCode(), transformTo)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(transformTo)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_binding_group_bind_with_closures = Interop.downcallHandle(
+    private static final MethodHandle g_binding_group_bind_with_closures = Interop.downcallHandle(
         "g_binding_group_bind_with_closures",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -116,15 +117,15 @@ public class BindingGroup extends Object {
      * <p>
      * See g_object_bind_property_with_closures() for more information.
      */
-    public void bindWithClosures(java.lang.String sourceProperty, Object target, java.lang.String targetProperty, BindingFlags flags, Closure transformTo, Closure transformFrom) {
+    public @NotNull void bindWithClosures(@NotNull java.lang.String sourceProperty, @NotNull Object target, @NotNull java.lang.String targetProperty, @NotNull BindingFlags flags, @Nullable Closure transformTo, @Nullable Closure transformFrom) {
         try {
-            g_binding_group_bind_with_closures.invokeExact(handle(), Interop.allocateNativeString(sourceProperty).handle(), target.handle(), Interop.allocateNativeString(targetProperty).handle(), flags.getValue(), transformTo.handle(), transformFrom.handle());
+            g_binding_group_bind_with_closures.invokeExact(handle(), Interop.allocateNativeString(sourceProperty), target.handle(), Interop.allocateNativeString(targetProperty), flags.getValue(), transformTo.handle(), transformFrom.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_binding_group_dup_source = Interop.downcallHandle(
+    private static final MethodHandle g_binding_group_dup_source = Interop.downcallHandle(
         "g_binding_group_dup_source",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -132,16 +133,17 @@ public class BindingGroup extends Object {
     /**
      * Gets the source object used for binding properties.
      */
-    public Object dupSource() {
+    public @Nullable Object dupSource() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_binding_group_dup_source.invokeExact(handle());
-            return new Object(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_binding_group_dup_source.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Object(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_binding_group_set_source = Interop.downcallHandle(
+    private static final MethodHandle g_binding_group_set_source = Interop.downcallHandle(
         "g_binding_group_set_source",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -153,7 +155,7 @@ public class BindingGroup extends Object {
      * <p>
      * Note that all properties that have been bound must exist on {@code source}.
      */
-    public void setSource(Object source) {
+    public @NotNull void setSource(@Nullable Object source) {
         try {
             g_binding_group_set_source.invokeExact(handle(), source.handle());
         } catch (Throwable ERR) {

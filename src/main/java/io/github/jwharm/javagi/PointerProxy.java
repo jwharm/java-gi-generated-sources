@@ -5,9 +5,9 @@ import java.lang.foreign.ValueLayout;
 import java.lang.reflect.InvocationTargetException;
 
 public class PointerProxy<T extends Proxy> extends Pointer<T> {
-    
+
     private final Class<T> cls;
-    
+
     /**
      * Create a pointer to an existing memory address.
      */
@@ -22,7 +22,7 @@ public class PointerProxy<T extends Proxy> extends Pointer<T> {
     public void set(T value) {
         address.set(ValueLayout.ADDRESS, 0, value.handle());
     }
-    
+
     /**
      * Use this method to retreive the value of the parameter after the
      * function call that set the value, has been executed.
@@ -30,7 +30,7 @@ public class PointerProxy<T extends Proxy> extends Pointer<T> {
     public T get() {
         return get(0);
     }
-    
+
     /**
      * Treat the pointer as an array, and return the given element.
      * <p>
@@ -40,7 +40,7 @@ public class PointerProxy<T extends Proxy> extends Pointer<T> {
      */
     public T get(int index) {
         Refcounted ref = Refcounted.get(address.get(
-                ValueLayout.ADDRESS, 
+                ValueLayout.ADDRESS,
                 ValueLayout.ADDRESS.byteSize() * index
         ));
         try {

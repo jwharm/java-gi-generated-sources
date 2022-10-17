@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkBuildable} allows objects to extend and customize their deserialization
@@ -21,7 +22,7 @@ import java.lang.invoke.*;
  */
 public interface Buildable extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle gtk_buildable_get_buildable_id = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_buildable_get_buildable_id = Interop.downcallHandle(
         "gtk_buildable_get_buildable_id",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -32,13 +33,14 @@ public interface Buildable extends io.github.jwharm.javagi.Proxy {
      * {@code GtkBuilder} sets the name based on the ID attribute
      * of the &lt;object&gt; tag used to construct the {@code buildable}.
      */
-    public default java.lang.String getBuildableId() {
+    default @Nullable java.lang.String getBuildableId() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_buildable_get_buildable_id.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_buildable_get_buildable_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
     class BuildableImpl extends org.gtk.gobject.Object implements Buildable {

@@ -1,6 +1,7 @@
 package org.harfbuzz;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * This method should retrieve the kerning-adjustment value for a glyph-pair in
@@ -8,5 +9,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface FontGetGlyphKerningFuncT {
-        PositionT onFontGetGlyphKerningFuncT(FontT font, java.lang.foreign.MemoryAddress fontData, CodepointT firstGlyph, CodepointT secondGlyph, java.lang.foreign.MemoryAddress userData);
+        PositionT onFontGetGlyphKerningFuncT(@NotNull FontT font, @Nullable java.lang.foreign.MemoryAddress fontData, @NotNull CodepointT firstGlyph, @NotNull CodepointT secondGlyph, @Nullable java.lang.foreign.MemoryAddress userData);
 }

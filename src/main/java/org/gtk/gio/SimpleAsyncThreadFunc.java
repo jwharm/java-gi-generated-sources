@@ -1,6 +1,7 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Simple thread function that runs an asynchronous operation and
@@ -8,5 +9,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface SimpleAsyncThreadFunc {
-        void onSimpleAsyncThreadFunc(SimpleAsyncResult res, org.gtk.gobject.Object object, Cancellable cancellable);
+        void onSimpleAsyncThreadFunc(@NotNull SimpleAsyncResult res, @NotNull org.gtk.gobject.Object object, @Nullable Cancellable cancellable);
 }

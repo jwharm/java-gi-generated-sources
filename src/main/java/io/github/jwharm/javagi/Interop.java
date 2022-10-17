@@ -1,10 +1,7 @@
 package io.github.jwharm.javagi;
 
 import java.lang.foreign.*;
-
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
+import java.lang.invoke.*;
 import java.util.HashMap;
 
 public class Interop {
@@ -17,32 +14,32 @@ public class Interop {
     private final static Linker linker = Linker.nativeLinker();
 
     public final static HashMap<Integer, Object> signalRegistry = new HashMap<>();
-    
+
     static {
-		System.loadLibrary("adwaita-1");
-		System.loadLibrary("gtk-4");
-		System.loadLibrary("pangocairo-1.0");
-		System.loadLibrary("pango-1.0");
-		System.loadLibrary("harfbuzz");
-		System.loadLibrary("gdk_pixbuf-2.0");
-		System.loadLibrary("cairo-gobject");
-		System.loadLibrary("cairo");
-		System.loadLibrary("graphene-1.0");
-		System.loadLibrary("gio-2.0");
-		System.loadLibrary("gobject-2.0");
-		System.loadLibrary("glib-2.0");
+        System.loadLibrary("adwaita-1");
+        System.loadLibrary("gtk-4");
+        System.loadLibrary("pangocairo-1.0");
+        System.loadLibrary("pango-1.0");
+        System.loadLibrary("harfbuzz");
+        System.loadLibrary("gdk_pixbuf-2.0");
+        System.loadLibrary("cairo-gobject");
+        System.loadLibrary("cairo");
+        System.loadLibrary("graphene-1.0");
+        System.loadLibrary("gio-2.0");
+        System.loadLibrary("gobject-2.0");
+        System.loadLibrary("glib-2.0");
         SymbolLookup loaderLookup = SymbolLookup.loaderLookup();
         symbolLookup = name -> loaderLookup.lookup(name).or(() -> linker.defaultLookup().lookup(name));
     }
-    
+
     public static final MethodHandle g_signal_connect_data = Interop.downcallHandle(
-        "g_signal_connect_data",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+            "g_signal_connect_data",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
-    
+
     private static void initialize() {
         session = MemorySession.openConfined();
-        allocator = SegmentAllocator.newNativeArena(session);
+        allocator = SegmentAllocator.implicitAllocator();
         initialized = true;
 
         // Initialize upcall stub for DestroyNotify callback
@@ -76,9 +73,14 @@ public class Interop {
                 orElse(null);
     }
 
-    public static int registerCallback(int hash, Object callback) {
+    public static int registerCallback(Object callback) {
+    	int hash = callback.hashCode();
         signalRegistry.put(hash, callback);
         return hash;
+    }
+    
+    public static MemoryAddress dereference(MemorySegment pointer) {
+    	return pointer.get(ValueLayout.ADDRESS, 0);
     }
 
     public static void cbDestroyNotify(MemoryAddress data) {
@@ -93,17 +95,17 @@ public class Interop {
         return cbDestroyNotify_nativeSymbol;
     }
 
-    public static MemorySegmentReference allocateNativeString(String string) {
+    public static Addressable allocateNativeString(String string) {
         if (!initialized) {
             initialize();
         }
-        return new MemorySegmentReference(allocator.allocateUtf8String(string));
+        return allocator.allocateUtf8String(string);
     }
 
     /**
      * Allocates and initializes a NULL-terminated array of strings (NUL-terminated utf8 char*).
      */
-    public static MemorySegmentReference allocateNativeArray(String[] strings) {
+    public static Addressable allocateNativeArray(String[] strings) {
         if (!initialized) {
             initialize();
         }
@@ -113,10 +115,10 @@ public class Interop {
             memorySegment.setAtIndex(ValueLayout.ADDRESS, i, cString);
         }
         memorySegment.setAtIndex(ValueLayout.ADDRESS, strings.length, MemoryAddress.NULL);
-        return new MemorySegmentReference(memorySegment);
+        return memorySegment;
     }
 
-    public static MemorySegmentReference allocateNativeArray(boolean[] array) {
+    public static Addressable allocateNativeArray(boolean[] array) {
         int[] intArray = new int[array.length];
         for (int i = 0; i < array.length; i++) {
             intArray[i] = array[i] ? 1 : 0;
@@ -124,94 +126,80 @@ public class Interop {
         return allocateNativeArray(intArray);
     }
 
-    public static MemorySegmentReference allocateNativeArray(byte[] array) {
+    public static Addressable allocateNativeArray(byte[] array) {
         if (!initialized) {
             initialize();
         }
         if (array == null || array.length == 0) {
             return null;
         }
-        return new MemorySegmentReference(
-                allocator.allocateArray(ValueLayout.JAVA_BYTE, array)
-        );
+        return allocator.allocateArray(ValueLayout.JAVA_BYTE, array);
     }
 
-    public static MemorySegmentReference allocateNativeArray(char[] array) {
+    public static Addressable allocateNativeArray(char[] array) {
         if (!initialized) {
             initialize();
         }
         if (array == null || array.length == 0) {
             return null;
         }
-        return new MemorySegmentReference(
-                allocator.allocateArray(ValueLayout.JAVA_CHAR, array)
-        );
+        return allocator.allocateArray(ValueLayout.JAVA_CHAR, array);
     }
 
-    public static MemorySegmentReference allocateNativeArray(double[] array) {
+    public static Addressable allocateNativeArray(double[] array) {
         if (!initialized) {
             initialize();
         }
         if (array == null || array.length == 0) {
             return null;
         }
-        return new MemorySegmentReference(
-                allocator.allocateArray(ValueLayout.JAVA_DOUBLE, array)
-        );
+        return allocator.allocateArray(ValueLayout.JAVA_DOUBLE, array);
     }
 
-    public static MemorySegmentReference allocateNativeArray(float[] array) {
+    public static Addressable allocateNativeArray(float[] array) {
         if (!initialized) {
             initialize();
         }
         if (array == null || array.length == 0) {
             return null;
         }
-        return new MemorySegmentReference(
-                allocator.allocateArray(ValueLayout.JAVA_FLOAT, array)
-        );
+        return allocator.allocateArray(ValueLayout.JAVA_FLOAT, array);
     }
 
-    public static MemorySegmentReference allocateNativeArray(int[] array) {
+    public static Addressable allocateNativeArray(int[] array) {
         if (!initialized) {
             initialize();
         }
         if (array == null || array.length == 0) {
             return null;
         }
-        return new MemorySegmentReference(
-                allocator.allocateArray(ValueLayout.JAVA_INT, array)
-        );
+        return allocator.allocateArray(ValueLayout.JAVA_INT, array);
     }
 
-    public static MemorySegmentReference allocateNativeArray(long[] array) {
+    public static Addressable allocateNativeArray(long[] array) {
         if (!initialized) {
             initialize();
         }
         if (array == null || array.length == 0) {
             return null;
         }
-        return new MemorySegmentReference(
-                allocator.allocateArray(ValueLayout.JAVA_LONG, array)
-        );
+        return allocator.allocateArray(ValueLayout.JAVA_LONG, array);
     }
 
-    public static MemorySegmentReference allocateNativeArray(short[] array) {
+    public static Addressable allocateNativeArray(short[] array) {
         if (!initialized) {
             initialize();
         }
         if (array == null || array.length == 0) {
             return null;
         }
-        return new MemorySegmentReference(
-                allocator.allocateArray(ValueLayout.JAVA_SHORT, array)
-        );
+        return allocator.allocateArray(ValueLayout.JAVA_SHORT, array);
     }
 
     /**
      * Allocates and initializes a NULL-terminated array of pointers (from NativeAddress instances).
      */
-    public static MemorySegmentReference allocateNativeArray(Proxy[] array) {
+    public static Addressable allocateNativeArray(Proxy[] array) {
         if (!initialized) {
             initialize();
         }
@@ -220,13 +208,13 @@ public class Interop {
             memorySegment.setAtIndex(ValueLayout.ADDRESS, i, array[i].handle());
         }
         memorySegment.setAtIndex(ValueLayout.ADDRESS, array.length, MemoryAddress.NULL);
-        return new MemorySegmentReference(memorySegment);
+        return memorySegment;
     }
 
     /**
      * Allocates and initializes a NULL-terminated array of pointers (MemoryAddress instances).
      */
-    public static MemorySegmentReference allocateNativeArray(MemoryAddress[] array) {
+    public static Addressable allocateNativeArray(MemoryAddress[] array) {
         if (!initialized) {
             initialize();
         }
@@ -235,6 +223,6 @@ public class Interop {
             memorySegment.setAtIndex(ValueLayout.ADDRESS, i, array[i]);
         }
         memorySegment.setAtIndex(ValueLayout.ADDRESS, array.length, MemoryAddress.NULL);
-        return new MemorySegmentReference(memorySegment);
+        return memorySegment;
     }
 }

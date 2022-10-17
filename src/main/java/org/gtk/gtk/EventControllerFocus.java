@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkEventControllerFocus} is an event controller to keep track of
@@ -26,7 +27,7 @@ public class EventControllerFocus extends EventController {
         return new EventControllerFocus(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_event_controller_focus_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_event_controller_focus_new = Interop.downcallHandle(
         "gtk_event_controller_focus_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -47,7 +48,7 @@ public class EventControllerFocus extends EventController {
         super(constructNew());
     }
     
-    static final MethodHandle gtk_event_controller_focus_contains_focus = Interop.downcallHandle(
+    private static final MethodHandle gtk_event_controller_focus_contains_focus = Interop.downcallHandle(
         "gtk_event_controller_focus_contains_focus",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -56,15 +57,16 @@ public class EventControllerFocus extends EventController {
      * Returns {@code true} if focus is within {@code self} or one of its children.
      */
     public boolean containsFocus() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_event_controller_focus_contains_focus.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_event_controller_focus_contains_focus.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_event_controller_focus_is_focus = Interop.downcallHandle(
+    private static final MethodHandle gtk_event_controller_focus_is_focus = Interop.downcallHandle(
         "gtk_event_controller_focus_is_focus",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -73,12 +75,13 @@ public class EventControllerFocus extends EventController {
      * Returns {@code true} if focus is within {@code self}, but not one of its children.
      */
     public boolean isFocus() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_event_controller_focus_is_focus.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_event_controller_focus_is_focus.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
     @FunctionalInterface
@@ -102,13 +105,13 @@ public class EventControllerFocus extends EventController {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("enter").handle(),
+                Interop.allocateNativeString("enter"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EventControllerFocus.Callbacks.class, "signalEventControllerFocusEnter",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -136,13 +139,13 @@ public class EventControllerFocus extends EventController {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("leave").handle(),
+                Interop.allocateNativeString("leave"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EventControllerFocus.Callbacks.class, "signalEventControllerFocusLeave",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

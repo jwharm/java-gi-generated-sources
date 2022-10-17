@@ -1,6 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Prototype of a {@code GChildWatchSource} callback, called when a child
@@ -13,5 +14,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface ChildWatchFunc {
-        void onChildWatchFunc(Pid pid, int waitStatus);
+        void onChildWatchFunc(@NotNull Pid pid, @NotNull int waitStatus);
 }

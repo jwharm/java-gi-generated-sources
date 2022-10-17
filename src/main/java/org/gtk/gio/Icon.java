@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link Icon} is a very minimal interface for icons. It provides functions
@@ -36,7 +37,7 @@ import java.lang.invoke.*;
  */
 public interface Icon extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle g_icon_equal = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_icon_equal = Interop.downcallHandle(
         "g_icon_equal",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -44,16 +45,17 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
     /**
      * Checks if two icons are equal.
      */
-    public default boolean equal(Icon icon2) {
+    default boolean equal(@Nullable Icon icon2) {
+        int RESULT;
         try {
-            var RESULT = (int) g_icon_equal.invokeExact(handle(), icon2.handle());
-            return RESULT != 0;
+            RESULT = (int) g_icon_equal.invokeExact(handle(), icon2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_icon_serialize = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_icon_serialize = Interop.downcallHandle(
         "g_icon_serialize",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -65,16 +67,17 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
      * makes sense to transfer the {@link org.gtk.glib.Variant} between processes on the same machine,
      * (as opposed to over the network), and within the same file system namespace.
      */
-    public default org.gtk.glib.Variant serialize() {
+    default @Nullable org.gtk.glib.Variant serialize() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_icon_serialize.invokeExact(handle());
-            return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_icon_serialize.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_icon_to_string = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_icon_to_string = Interop.downcallHandle(
         "g_icon_to_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -87,29 +90,26 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
      * <p>
      * The encoding of the returned string is proprietary to {@link Icon} except
      * in the following two cases
-     * <p>
      * <ul>
      * <li>If {@code icon} is a {@link FileIcon}, the returned string is a native path
      *   (such as {@code /path/to/my icon.png}) without escaping
      *   if the {@link File} for {@code icon} is a native file.  If the file is not
      *   native, the returned string is the result of g_file_get_uri()
      *   (such as {@code sftp://path/to/my%20icon.png}).
-     * </ul>
-     * <p>
-     * <ul>
      * <li>If {@code icon} is a {@link ThemedIcon} with exactly one name and no fallbacks,
      *   the encoding is simply the name (such as {@code network-server}).
      */
-    public default java.lang.String toString_() {
+    default @Nullable java.lang.String toString_() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_icon_to_string.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_icon_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_icon_deserialize = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_icon_deserialize = Interop.downcallHandle(
         "g_icon_deserialize",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -117,16 +117,17 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
     /**
      * Deserializes a {@link Icon} previously serialized using g_icon_serialize().
      */
-    public static Icon deserialize(org.gtk.glib.Variant value) {
+    public static @Nullable Icon deserialize(@NotNull org.gtk.glib.Variant value) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_icon_deserialize.invokeExact(value.handle());
-            return new Icon.IconImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_icon_deserialize.invokeExact(value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Icon.IconImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_icon_hash = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_icon_hash = Interop.downcallHandle(
         "g_icon_hash",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -134,16 +135,17 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets a hash for an icon.
      */
-    public static int hash(java.lang.foreign.MemoryAddress icon) {
+    public static int hash(@NotNull java.lang.foreign.MemoryAddress icon) {
+        int RESULT;
         try {
-            var RESULT = (int) g_icon_hash.invokeExact(icon);
-            return RESULT;
+            RESULT = (int) g_icon_hash.invokeExact(icon);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_icon_new_for_string = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_icon_new_for_string = Interop.downcallHandle(
         "g_icon_new_for_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -156,17 +158,18 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
      * implementations you need to ensure that each {@link org.gtk.glib.Type} is registered
      * with the type system prior to calling g_icon_new_for_string().
      */
-    public static Icon newForString(java.lang.String str) throws io.github.jwharm.javagi.GErrorException {
+    public static @NotNull Icon newForString(@NotNull java.lang.String str) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_icon_new_for_string.invokeExact(Interop.allocateNativeString(str).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new Icon.IconImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_icon_new_for_string.invokeExact(Interop.allocateNativeString(str), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new Icon.IconImpl(Refcounted.get(RESULT, true));
     }
     
     class IconImpl extends org.gtk.gobject.Object implements Icon {

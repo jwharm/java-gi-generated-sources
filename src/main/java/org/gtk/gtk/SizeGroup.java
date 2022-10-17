@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkSizeGroup} groups widgets together so they all request the same size.
@@ -50,9 +51,8 @@ import java.lang.invoke.*;
  * width by way of {@code Gtk.Label:width-chars} for instance. Widgets with
  * static sizes as well as widgets that grow (such as ellipsizing text) need no
  * such considerations.
- * <p>
+ * 
  * <h1>GtkSizeGroup as GtkBuildable</h1>
- * <p>
  * Size groups can be specified in a UI definition by placing an &lt;object&gt;
  * element with {@code class="GtkSizeGroup"} somewhere in the UI definition. The
  * widgets that belong to the size group are specified by a &lt;widgets&gt; element
@@ -81,12 +81,12 @@ public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
         return new SizeGroup(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_size_group_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_size_group_new = Interop.downcallHandle(
         "gtk_size_group_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNew(SizeGroupMode mode) {
+    private static Refcounted constructNew(@NotNull SizeGroupMode mode) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_size_group_new.invokeExact(mode.getValue()), true);
             return RESULT;
@@ -98,11 +98,11 @@ public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
     /**
      * Create a new {@code GtkSizeGroup}.
      */
-    public SizeGroup(SizeGroupMode mode) {
+    public SizeGroup(@NotNull SizeGroupMode mode) {
         super(constructNew(mode));
     }
     
-    static final MethodHandle gtk_size_group_add_widget = Interop.downcallHandle(
+    private static final MethodHandle gtk_size_group_add_widget = Interop.downcallHandle(
         "gtk_size_group_add_widget",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -120,7 +120,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
      * When the widget is destroyed or no longer referenced elsewhere, it
      * will be removed from the size group.
      */
-    public void addWidget(Widget widget) {
+    public @NotNull void addWidget(@NotNull Widget widget) {
         try {
             gtk_size_group_add_widget.invokeExact(handle(), widget.handle());
         } catch (Throwable ERR) {
@@ -128,7 +128,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
         }
     }
     
-    static final MethodHandle gtk_size_group_get_mode = Interop.downcallHandle(
+    private static final MethodHandle gtk_size_group_get_mode = Interop.downcallHandle(
         "gtk_size_group_get_mode",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -136,16 +136,17 @@ public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
     /**
      * Gets the current mode of the size group.
      */
-    public SizeGroupMode getMode() {
+    public @NotNull SizeGroupMode getMode() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_size_group_get_mode.invokeExact(handle());
-            return new SizeGroupMode(RESULT);
+            RESULT = (int) gtk_size_group_get_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SizeGroupMode(RESULT);
     }
     
-    static final MethodHandle gtk_size_group_get_widgets = Interop.downcallHandle(
+    private static final MethodHandle gtk_size_group_get_widgets = Interop.downcallHandle(
         "gtk_size_group_get_widgets",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -153,16 +154,17 @@ public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
     /**
      * Returns the list of widgets associated with {@code size_group}.
      */
-    public org.gtk.glib.SList getWidgets() {
+    public @NotNull org.gtk.glib.SList getWidgets() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_size_group_get_widgets.invokeExact(handle());
-            return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_size_group_get_widgets.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_size_group_remove_widget = Interop.downcallHandle(
+    private static final MethodHandle gtk_size_group_remove_widget = Interop.downcallHandle(
         "gtk_size_group_remove_widget",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -170,7 +172,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
     /**
      * Removes a widget from a {@code GtkSizeGroup}.
      */
-    public void removeWidget(Widget widget) {
+    public @NotNull void removeWidget(@NotNull Widget widget) {
         try {
             gtk_size_group_remove_widget.invokeExact(handle(), widget.handle());
         } catch (Throwable ERR) {
@@ -178,7 +180,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
         }
     }
     
-    static final MethodHandle gtk_size_group_set_mode = Interop.downcallHandle(
+    private static final MethodHandle gtk_size_group_set_mode = Interop.downcallHandle(
         "gtk_size_group_set_mode",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -192,7 +194,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements Buildable {
      * ({@link SizeGroupMode#VERTICAL}), or should all have the same requisition
      * in both directions ({@link SizeGroupMode#BOTH}).
      */
-    public void setMode(SizeGroupMode mode) {
+    public @NotNull void setMode(@NotNull SizeGroupMode mode) {
         try {
             gtk_size_group_set_mode.invokeExact(handle(), mode.getValue());
         } catch (Throwable ERR) {

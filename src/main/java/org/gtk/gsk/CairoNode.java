@@ -3,6 +3,7 @@ package org.gtk.gsk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A render node for a Cairo surface.
@@ -18,12 +19,12 @@ public class CairoNode extends RenderNode {
         return new CairoNode(gobject.refcounted());
     }
     
-    static final MethodHandle gsk_cairo_node_new = Interop.downcallHandle(
+    private static final MethodHandle gsk_cairo_node_new = Interop.downcallHandle(
         "gsk_cairo_node_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(org.gtk.graphene.Rect bounds) {
+    private static Refcounted constructNew(@NotNull org.gtk.graphene.Rect bounds) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_cairo_node_new.invokeExact(bounds.handle()), true);
             return RESULT;
@@ -38,11 +39,11 @@ public class CairoNode extends RenderNode {
      * <p>
      * You can draw to the cairo surface using {@link CairoNode#getDrawContext}.
      */
-    public CairoNode(org.gtk.graphene.Rect bounds) {
+    public CairoNode(@NotNull org.gtk.graphene.Rect bounds) {
         super(constructNew(bounds));
     }
     
-    static final MethodHandle gsk_cairo_node_get_draw_context = Interop.downcallHandle(
+    private static final MethodHandle gsk_cairo_node_get_draw_context = Interop.downcallHandle(
         "gsk_cairo_node_get_draw_context",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -54,16 +55,17 @@ public class CairoNode extends RenderNode {
      * If no surface exists yet, a surface will be created optimized for
      * rendering to {@code renderer}.
      */
-    public org.cairographics.Context getDrawContext() {
+    public @NotNull org.cairographics.Context getDrawContext() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_cairo_node_get_draw_context.invokeExact(handle());
-            return new org.cairographics.Context(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gsk_cairo_node_get_draw_context.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.cairographics.Context(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gsk_cairo_node_get_surface = Interop.downcallHandle(
+    private static final MethodHandle gsk_cairo_node_get_surface = Interop.downcallHandle(
         "gsk_cairo_node_get_surface",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -71,13 +73,14 @@ public class CairoNode extends RenderNode {
     /**
      * Retrieves the Cairo surface used by the render node.
      */
-    public org.cairographics.Surface getSurface() {
+    public @NotNull org.cairographics.Surface getSurface() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_cairo_node_get_surface.invokeExact(handle());
-            return new org.cairographics.Surface(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gsk_cairo_node_get_surface.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.cairographics.Surface(Refcounted.get(RESULT, false));
     }
     
 }

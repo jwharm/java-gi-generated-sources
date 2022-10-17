@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * An abstract class for laying out {@code GtkCellRenderer}s
@@ -17,9 +18,8 @@ import java.lang.invoke.*;
  * <p>
  * Usually users dont have to interact with the {@code GtkCellArea} directly
  * unless they are implementing a cell-layouting widget themselves.
- * <p>
+ * 
  * <h1>Requesting area sizes</h1>
- * <p>
  * As outlined in
  * <a href="class.Widget.html#height-for-width-geometry-management">GtkWidget’s geometry management section</a>,
  * GTK uses a height-for-width
@@ -56,7 +56,7 @@ import java.lang.invoke.*;
  * <p>
  * In order to request the width of all the rows at the root level
  * of a {@code GtkTreeModel} one would do the following:
- * <p>
+ * 
  * <pre>{@code c
  * GtkTreeIter iter;
  * int minimum_width;
@@ -92,7 +92,7 @@ import java.lang.invoke.*;
  * <p>
  * A simple example where rows are rendered from top to bottom and
  * take up the full width of the layouting widget would look like:
- * <p>
+ * 
  * <pre>{@code c
  * static void
  * foo_get_preferred_width (GtkWidget *widget,
@@ -123,7 +123,7 @@ import java.lang.invoke.*;
  * <p>
  * In order to request the height for width of all the rows at the
  * root level of a {@code GtkTreeModel} one would do the following:
- * <p>
+ * 
  * <pre>{@code c
  * GtkTreeIter iter;
  * int minimum_height;
@@ -168,16 +168,15 @@ import java.lang.invoke.*;
  * from a scrolled window it simply continues to drive the scrollbar
  * values while more and more height is required for the row heights
  * that are calculated in the background.
- * <p>
+ * 
  * <h1>Rendering Areas</h1>
- * <p>
  * Once area sizes have been acquired at least for the rows in the
  * visible area of the layouting widget they can be rendered at
  * {@link Widget#snapshot} time.
  * <p>
  * A crude example of how to render all the rows at the root level
  * runs as follows:
- * <p>
+ * 
  * <pre>{@code c
  * GtkAllocation allocation;
  * GdkRectangle cell_area = { 0, };
@@ -209,9 +208,8 @@ import java.lang.invoke.*;
  * is expected to fit inside the layouting widget without scrolling, it
  * would make sense to calculate the allocation for each row at
  * the time the widget is allocated using {@link Gtk#distributeNaturalAllocation}.
- * <p>
+ * 
  * <h1>Handling Events and Driving Keyboard Focus</h1>
- * <p>
  * Passing events to the area is as simple as handling events on any
  * normal widget and then passing them to the {@link CellArea#event}
  * API as they come in. Usually {@code GtkCellArea} is only interested in
@@ -239,7 +237,7 @@ import java.lang.invoke.*;
  * <p>
  * A basic example of how the {@link Widget#focus} virtual method
  * should be implemented:
- * <p>
+ * 
  * <pre>{@code 
  * static gboolean
  * foo_focus (GtkWidget       *widget,
@@ -298,9 +296,8 @@ import java.lang.invoke.*;
  * <p>
  * Note that the layouting widget is responsible for matching the
  * {@code GtkDirectionType} values to the way it lays out its cells.
- * <p>
+ * 
  * <h1>Cell Properties</h1>
- * <p>
  * The {@code GtkCellArea} introduces cell properties for {@code GtkCellRenderer}s.
  * This provides some general interfaces for defining the relationship
  * cell areas have with their cells. For instance in a {@link CellAreaBox}
@@ -330,7 +327,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
         return new CellArea(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_cell_area_activate = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_activate = Interop.downcallHandle(
         "gtk_cell_area_activate",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -340,16 +337,17 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * cell, however some subclasses which embed widgets in the area
      * can also activate a widget if it currently has the focus.
      */
-    public boolean activate(CellAreaContext context, Widget widget, org.gtk.gdk.Rectangle cellArea, CellRendererState flags, boolean editOnly) {
+    public boolean activate(@NotNull CellAreaContext context, @NotNull Widget widget, @NotNull org.gtk.gdk.Rectangle cellArea, @NotNull CellRendererState flags, @NotNull boolean editOnly) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_cell_area_activate.invokeExact(handle(), context.handle(), widget.handle(), cellArea.handle(), flags.getValue(), editOnly ? 1 : 0);
-            return RESULT != 0;
+            RESULT = (int) gtk_cell_area_activate.invokeExact(handle(), context.handle(), widget.handle(), cellArea.handle(), flags.getValue(), editOnly ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_cell_area_activate_cell = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_activate_cell = Interop.downcallHandle(
         "gtk_cell_area_activate_cell",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -360,16 +358,17 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * for keyboard events for free in its own GtkCellArea->activate()
      * implementation.
      */
-    public boolean activateCell(Widget widget, CellRenderer renderer, org.gtk.gdk.Event event, org.gtk.gdk.Rectangle cellArea, CellRendererState flags) {
+    public boolean activateCell(@NotNull Widget widget, @NotNull CellRenderer renderer, @NotNull org.gtk.gdk.Event event, @NotNull org.gtk.gdk.Rectangle cellArea, @NotNull CellRendererState flags) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_cell_area_activate_cell.invokeExact(handle(), widget.handle(), renderer.handle(), event.handle(), cellArea.handle(), flags.getValue());
-            return RESULT != 0;
+            RESULT = (int) gtk_cell_area_activate_cell.invokeExact(handle(), widget.handle(), renderer.handle(), event.handle(), cellArea.handle(), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_cell_area_add = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_add = Interop.downcallHandle(
         "gtk_cell_area_add",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -377,7 +376,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     /**
      * Adds {@code renderer} to {@code area} with the default child cell properties.
      */
-    public void add(CellRenderer renderer) {
+    public @NotNull void add(@NotNull CellRenderer renderer) {
         try {
             gtk_cell_area_add.invokeExact(handle(), renderer.handle());
         } catch (Throwable ERR) {
@@ -385,7 +384,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
         }
     }
     
-    static final MethodHandle gtk_cell_area_add_focus_sibling = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_add_focus_sibling = Interop.downcallHandle(
         "gtk_cell_area_add_focus_sibling",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -398,7 +397,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * Events handled by focus siblings can also activate the given
      * focusable {@code renderer}.
      */
-    public void addFocusSibling(CellRenderer renderer, CellRenderer sibling) {
+    public @NotNull void addFocusSibling(@NotNull CellRenderer renderer, @NotNull CellRenderer sibling) {
         try {
             gtk_cell_area_add_focus_sibling.invokeExact(handle(), renderer.handle(), sibling.handle());
         } catch (Throwable ERR) {
@@ -406,7 +405,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
         }
     }
     
-    static final MethodHandle gtk_cell_area_apply_attributes = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_apply_attributes = Interop.downcallHandle(
         "gtk_cell_area_apply_attributes",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -415,7 +414,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * Applies any connected attributes to the renderers in
      * {@code area} by pulling the values from {@code tree_model}.
      */
-    public void applyAttributes(TreeModel treeModel, TreeIter iter, boolean isExpander, boolean isExpanded) {
+    public @NotNull void applyAttributes(@NotNull TreeModel treeModel, @NotNull TreeIter iter, @NotNull boolean isExpander, @NotNull boolean isExpanded) {
         try {
             gtk_cell_area_apply_attributes.invokeExact(handle(), treeModel.handle(), iter.handle(), isExpander ? 1 : 0, isExpanded ? 1 : 0);
         } catch (Throwable ERR) {
@@ -423,7 +422,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
         }
     }
     
-    static final MethodHandle gtk_cell_area_attribute_connect = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_attribute_connect = Interop.downcallHandle(
         "gtk_cell_area_attribute_connect",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -432,15 +431,15 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * Connects an {@code attribute} to apply values from {@code column} for the
      * {@code GtkTreeModel} in use.
      */
-    public void attributeConnect(CellRenderer renderer, java.lang.String attribute, int column) {
+    public @NotNull void attributeConnect(@NotNull CellRenderer renderer, @NotNull java.lang.String attribute, @NotNull int column) {
         try {
-            gtk_cell_area_attribute_connect.invokeExact(handle(), renderer.handle(), Interop.allocateNativeString(attribute).handle(), column);
+            gtk_cell_area_attribute_connect.invokeExact(handle(), renderer.handle(), Interop.allocateNativeString(attribute), column);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_cell_area_attribute_disconnect = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_attribute_disconnect = Interop.downcallHandle(
         "gtk_cell_area_attribute_disconnect",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -450,15 +449,15 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * attribute will no longer be updated with values from the
      * model.
      */
-    public void attributeDisconnect(CellRenderer renderer, java.lang.String attribute) {
+    public @NotNull void attributeDisconnect(@NotNull CellRenderer renderer, @NotNull java.lang.String attribute) {
         try {
-            gtk_cell_area_attribute_disconnect.invokeExact(handle(), renderer.handle(), Interop.allocateNativeString(attribute).handle());
+            gtk_cell_area_attribute_disconnect.invokeExact(handle(), renderer.handle(), Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_cell_area_attribute_get_column = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_attribute_get_column = Interop.downcallHandle(
         "gtk_cell_area_attribute_get_column",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -467,16 +466,17 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * Returns the model column that an attribute has been mapped to,
      * or -1 if the attribute is not mapped.
      */
-    public int attributeGetColumn(CellRenderer renderer, java.lang.String attribute) {
+    public int attributeGetColumn(@NotNull CellRenderer renderer, @NotNull java.lang.String attribute) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_cell_area_attribute_get_column.invokeExact(handle(), renderer.handle(), Interop.allocateNativeString(attribute).handle());
-            return RESULT;
+            RESULT = (int) gtk_cell_area_attribute_get_column.invokeExact(handle(), renderer.handle(), Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_cell_area_cell_get_property = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_cell_get_property = Interop.downcallHandle(
         "gtk_cell_area_cell_get_property",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -484,15 +484,15 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     /**
      * Gets the value of a cell property for {@code renderer} in {@code area}.
      */
-    public void cellGetProperty(CellRenderer renderer, java.lang.String propertyName, org.gtk.gobject.Value value) {
+    public @NotNull void cellGetProperty(@NotNull CellRenderer renderer, @NotNull java.lang.String propertyName, @NotNull org.gtk.gobject.Value value) {
         try {
-            gtk_cell_area_cell_get_property.invokeExact(handle(), renderer.handle(), Interop.allocateNativeString(propertyName).handle(), value.handle());
+            gtk_cell_area_cell_get_property.invokeExact(handle(), renderer.handle(), Interop.allocateNativeString(propertyName), value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_cell_area_cell_get_valist = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_cell_get_valist = Interop.downcallHandle(
         "gtk_cell_area_cell_get_valist",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -500,15 +500,15 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     /**
      * Gets the values of one or more cell properties for {@code renderer} in {@code area}.
      */
-    public void cellGetValist(CellRenderer renderer, java.lang.String firstPropertyName, VaList varArgs) {
+    public @NotNull void cellGetValist(@NotNull CellRenderer renderer, @NotNull java.lang.String firstPropertyName, @NotNull VaList varArgs) {
         try {
-            gtk_cell_area_cell_get_valist.invokeExact(handle(), renderer.handle(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs);
+            gtk_cell_area_cell_get_valist.invokeExact(handle(), renderer.handle(), Interop.allocateNativeString(firstPropertyName), varArgs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_cell_area_cell_set_property = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_cell_set_property = Interop.downcallHandle(
         "gtk_cell_area_cell_set_property",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -516,15 +516,15 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     /**
      * Sets a cell property for {@code renderer} in {@code area}.
      */
-    public void cellSetProperty(CellRenderer renderer, java.lang.String propertyName, org.gtk.gobject.Value value) {
+    public @NotNull void cellSetProperty(@NotNull CellRenderer renderer, @NotNull java.lang.String propertyName, @NotNull org.gtk.gobject.Value value) {
         try {
-            gtk_cell_area_cell_set_property.invokeExact(handle(), renderer.handle(), Interop.allocateNativeString(propertyName).handle(), value.handle());
+            gtk_cell_area_cell_set_property.invokeExact(handle(), renderer.handle(), Interop.allocateNativeString(propertyName), value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_cell_area_cell_set_valist = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_cell_set_valist = Interop.downcallHandle(
         "gtk_cell_area_cell_set_valist",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -532,15 +532,15 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     /**
      * Sets one or more cell properties for {@code renderer} in {@code area}.
      */
-    public void cellSetValist(CellRenderer renderer, java.lang.String firstPropertyName, VaList varArgs) {
+    public @NotNull void cellSetValist(@NotNull CellRenderer renderer, @NotNull java.lang.String firstPropertyName, @NotNull VaList varArgs) {
         try {
-            gtk_cell_area_cell_set_valist.invokeExact(handle(), renderer.handle(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs);
+            gtk_cell_area_cell_set_valist.invokeExact(handle(), renderer.handle(), Interop.allocateNativeString(firstPropertyName), varArgs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_cell_area_copy_context = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_copy_context = Interop.downcallHandle(
         "gtk_cell_area_copy_context",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -558,16 +558,17 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * was already used to request all the row widths that are
      * to be displayed.
      */
-    public CellAreaContext copyContext(CellAreaContext context) {
+    public @NotNull CellAreaContext copyContext(@NotNull CellAreaContext context) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_cell_area_copy_context.invokeExact(handle(), context.handle());
-            return new CellAreaContext(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_cell_area_copy_context.invokeExact(handle(), context.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new CellAreaContext(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_cell_area_create_context = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_create_context = Interop.downcallHandle(
         "gtk_cell_area_create_context",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -580,16 +581,17 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * one should render and handle events with the same {@code GtkCellArea}Context
      * which was used to request the size of those rows of data).
      */
-    public CellAreaContext createContext() {
+    public @NotNull CellAreaContext createContext() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_cell_area_create_context.invokeExact(handle());
-            return new CellAreaContext(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_cell_area_create_context.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new CellAreaContext(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_cell_area_event = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_event = Interop.downcallHandle(
         "gtk_cell_area_event",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -597,16 +599,17 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     /**
      * Delegates event handling to a {@code GtkCellArea}.
      */
-    public int event(CellAreaContext context, Widget widget, org.gtk.gdk.Event event, org.gtk.gdk.Rectangle cellArea, CellRendererState flags) {
+    public int event(@NotNull CellAreaContext context, @NotNull Widget widget, @NotNull org.gtk.gdk.Event event, @NotNull org.gtk.gdk.Rectangle cellArea, @NotNull CellRendererState flags) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_cell_area_event.invokeExact(handle(), context.handle(), widget.handle(), event.handle(), cellArea.handle(), flags.getValue());
-            return RESULT;
+            RESULT = (int) gtk_cell_area_event.invokeExact(handle(), context.handle(), widget.handle(), event.handle(), cellArea.handle(), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_cell_area_focus = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_focus = Interop.downcallHandle(
         "gtk_cell_area_focus",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -620,16 +623,17 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * method to receive and navigate focus in its own way particular
      * to how it lays out cells.
      */
-    public boolean focus(DirectionType direction) {
+    public boolean focus(@NotNull DirectionType direction) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_cell_area_focus.invokeExact(handle(), direction.getValue());
-            return RESULT != 0;
+            RESULT = (int) gtk_cell_area_focus.invokeExact(handle(), direction.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_cell_area_foreach = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_foreach = Interop.downcallHandle(
         "gtk_cell_area_foreach",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -637,7 +641,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     /**
      * Calls {@code callback} for every {@code GtkCellRenderer} in {@code area}.
      */
-    public void foreach(CellCallback callback) {
+    public @NotNull void foreach(@NotNull CellCallback callback) {
         try {
             gtk_cell_area_foreach.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -645,13 +649,13 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_cell_area_foreach_alloc = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_foreach_alloc = Interop.downcallHandle(
         "gtk_cell_area_foreach_alloc",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -660,7 +664,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * Calls {@code callback} for every {@code GtkCellRenderer} in {@code area} with the
      * allocated rectangle inside {@code cell_area}.
      */
-    public void foreachAlloc(CellAreaContext context, Widget widget, org.gtk.gdk.Rectangle cellArea, org.gtk.gdk.Rectangle backgroundArea, CellAllocCallback callback) {
+    public @NotNull void foreachAlloc(@NotNull CellAreaContext context, @NotNull Widget widget, @NotNull org.gtk.gdk.Rectangle cellArea, @NotNull org.gtk.gdk.Rectangle backgroundArea, @NotNull CellAllocCallback callback) {
         try {
             gtk_cell_area_foreach_alloc.invokeExact(handle(), context.handle(), widget.handle(), cellArea.handle(), backgroundArea.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -668,13 +672,13 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_cell_area_get_cell_allocation = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_get_cell_allocation = Interop.downcallHandle(
         "gtk_cell_area_get_cell_allocation",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -683,15 +687,17 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * Derives the allocation of {@code renderer} inside {@code area} if {@code area}
      * were to be renderered in {@code cell_area}.
      */
-    public void getCellAllocation(CellAreaContext context, Widget widget, CellRenderer renderer, org.gtk.gdk.Rectangle cellArea, org.gtk.gdk.Rectangle allocation) {
+    public @NotNull void getCellAllocation(@NotNull CellAreaContext context, @NotNull Widget widget, @NotNull CellRenderer renderer, @NotNull org.gtk.gdk.Rectangle cellArea, @NotNull Out<org.gtk.gdk.Rectangle> allocation) {
+        MemorySegment allocationPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_cell_area_get_cell_allocation.invokeExact(handle(), context.handle(), widget.handle(), renderer.handle(), cellArea.handle(), allocation.handle());
+            gtk_cell_area_get_cell_allocation.invokeExact(handle(), context.handle(), widget.handle(), renderer.handle(), cellArea.handle(), (Addressable) allocationPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        allocation.set(new org.gtk.gdk.Rectangle(Refcounted.get(allocationPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle gtk_cell_area_get_cell_at_position = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_get_cell_at_position = Interop.downcallHandle(
         "gtk_cell_area_get_cell_at_position",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -700,16 +706,19 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * Gets the {@code GtkCellRenderer} at @x and @y coordinates inside {@code area} and optionally
      * returns the full cell allocation for it inside {@code cell_area}.
      */
-    public CellRenderer getCellAtPosition(CellAreaContext context, Widget widget, org.gtk.gdk.Rectangle cellArea, int x, int y, org.gtk.gdk.Rectangle allocArea) {
+    public @NotNull CellRenderer getCellAtPosition(@NotNull CellAreaContext context, @NotNull Widget widget, @NotNull org.gtk.gdk.Rectangle cellArea, @NotNull int x, @NotNull int y, @NotNull Out<org.gtk.gdk.Rectangle> allocArea) {
+        MemorySegment allocAreaPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_cell_area_get_cell_at_position.invokeExact(handle(), context.handle(), widget.handle(), cellArea.handle(), x, y, allocArea.handle());
-            return new CellRenderer(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_cell_area_get_cell_at_position.invokeExact(handle(), context.handle(), widget.handle(), cellArea.handle(), x, y, (Addressable) allocAreaPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        allocArea.set(new org.gtk.gdk.Rectangle(Refcounted.get(allocAreaPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return new CellRenderer(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_cell_area_get_current_path_string = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_get_current_path_string = Interop.downcallHandle(
         "gtk_cell_area_get_current_path_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -721,16 +730,17 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * used to interact with renderers from {@code GtkCellArea}
      * subclasses.
      */
-    public java.lang.String getCurrentPathString() {
+    public @NotNull java.lang.String getCurrentPathString() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_cell_area_get_current_path_string.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_cell_area_get_current_path_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_cell_area_get_edit_widget = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_get_edit_widget = Interop.downcallHandle(
         "gtk_cell_area_get_edit_widget",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -739,16 +749,17 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * Gets the {@code GtkCellEditable} widget currently used
      * to edit the currently edited cell.
      */
-    public CellEditable getEditWidget() {
+    public @Nullable CellEditable getEditWidget() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_cell_area_get_edit_widget.invokeExact(handle());
-            return new CellEditable.CellEditableImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_cell_area_get_edit_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new CellEditable.CellEditableImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_cell_area_get_edited_cell = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_get_edited_cell = Interop.downcallHandle(
         "gtk_cell_area_get_edited_cell",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -757,16 +768,17 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * Gets the {@code GtkCellRenderer} in {@code area} that is currently
      * being edited.
      */
-    public CellRenderer getEditedCell() {
+    public @Nullable CellRenderer getEditedCell() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_cell_area_get_edited_cell.invokeExact(handle());
-            return new CellRenderer(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_cell_area_get_edited_cell.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new CellRenderer(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_cell_area_get_focus_cell = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_get_focus_cell = Interop.downcallHandle(
         "gtk_cell_area_get_focus_cell",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -774,16 +786,17 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     /**
      * Retrieves the currently focused cell for {@code area}
      */
-    public CellRenderer getFocusCell() {
+    public @Nullable CellRenderer getFocusCell() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_cell_area_get_focus_cell.invokeExact(handle());
-            return new CellRenderer(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_cell_area_get_focus_cell.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new CellRenderer(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_cell_area_get_focus_from_sibling = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_get_focus_from_sibling = Interop.downcallHandle(
         "gtk_cell_area_get_focus_from_sibling",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -797,16 +810,17 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * then chose to activate the focus cell for which the event
      * cell may have been a sibling.
      */
-    public CellRenderer getFocusFromSibling(CellRenderer renderer) {
+    public @Nullable CellRenderer getFocusFromSibling(@NotNull CellRenderer renderer) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_cell_area_get_focus_from_sibling.invokeExact(handle(), renderer.handle());
-            return new CellRenderer(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_cell_area_get_focus_from_sibling.invokeExact(handle(), renderer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new CellRenderer(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_cell_area_get_focus_siblings = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_get_focus_siblings = Interop.downcallHandle(
         "gtk_cell_area_get_focus_siblings",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -814,16 +828,17 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     /**
      * Gets the focus sibling cell renderers for {@code renderer}.
      */
-    public org.gtk.glib.List getFocusSiblings(CellRenderer renderer) {
+    public @NotNull org.gtk.glib.List getFocusSiblings(@NotNull CellRenderer renderer) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_cell_area_get_focus_siblings.invokeExact(handle(), renderer.handle());
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_cell_area_get_focus_siblings.invokeExact(handle(), renderer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_cell_area_get_preferred_height = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_get_preferred_height = Interop.downcallHandle(
         "gtk_cell_area_get_preferred_height",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -837,15 +852,19 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * consult gtk_cell_area_context_get_preferred_height() after a series of
      * requests.
      */
-    public void getPreferredHeight(CellAreaContext context, Widget widget, PointerInteger minimumHeight, PointerInteger naturalHeight) {
+    public @NotNull void getPreferredHeight(@NotNull CellAreaContext context, @NotNull Widget widget, @NotNull Out<Integer> minimumHeight, @NotNull Out<Integer> naturalHeight) {
+        MemorySegment minimumHeightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment naturalHeightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gtk_cell_area_get_preferred_height.invokeExact(handle(), context.handle(), widget.handle(), minimumHeight.handle(), naturalHeight.handle());
+            gtk_cell_area_get_preferred_height.invokeExact(handle(), context.handle(), widget.handle(), (Addressable) minimumHeightPOINTER.address(), (Addressable) naturalHeightPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        minimumHeight.set(minimumHeightPOINTER.get(ValueLayout.JAVA_INT, 0));
+        naturalHeight.set(naturalHeightPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    static final MethodHandle gtk_cell_area_get_preferred_height_for_width = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_get_preferred_height_for_width = Interop.downcallHandle(
         "gtk_cell_area_get_preferred_height_for_width",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -866,15 +885,19 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * the full width of the requested rows checked again with
      * gtk_cell_area_context_get_preferred_width().
      */
-    public void getPreferredHeightForWidth(CellAreaContext context, Widget widget, int width, PointerInteger minimumHeight, PointerInteger naturalHeight) {
+    public @NotNull void getPreferredHeightForWidth(@NotNull CellAreaContext context, @NotNull Widget widget, @NotNull int width, @NotNull Out<Integer> minimumHeight, @NotNull Out<Integer> naturalHeight) {
+        MemorySegment minimumHeightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment naturalHeightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gtk_cell_area_get_preferred_height_for_width.invokeExact(handle(), context.handle(), widget.handle(), width, minimumHeight.handle(), naturalHeight.handle());
+            gtk_cell_area_get_preferred_height_for_width.invokeExact(handle(), context.handle(), widget.handle(), width, (Addressable) minimumHeightPOINTER.address(), (Addressable) naturalHeightPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        minimumHeight.set(minimumHeightPOINTER.get(ValueLayout.JAVA_INT, 0));
+        naturalHeight.set(naturalHeightPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    static final MethodHandle gtk_cell_area_get_preferred_width = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_get_preferred_width = Interop.downcallHandle(
         "gtk_cell_area_get_preferred_width",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -888,15 +911,19 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * consult gtk_cell_area_context_get_preferred_width() after a series of
      * requests.
      */
-    public void getPreferredWidth(CellAreaContext context, Widget widget, PointerInteger minimumWidth, PointerInteger naturalWidth) {
+    public @NotNull void getPreferredWidth(@NotNull CellAreaContext context, @NotNull Widget widget, @NotNull Out<Integer> minimumWidth, @NotNull Out<Integer> naturalWidth) {
+        MemorySegment minimumWidthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment naturalWidthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gtk_cell_area_get_preferred_width.invokeExact(handle(), context.handle(), widget.handle(), minimumWidth.handle(), naturalWidth.handle());
+            gtk_cell_area_get_preferred_width.invokeExact(handle(), context.handle(), widget.handle(), (Addressable) minimumWidthPOINTER.address(), (Addressable) naturalWidthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        minimumWidth.set(minimumWidthPOINTER.get(ValueLayout.JAVA_INT, 0));
+        naturalWidth.set(naturalWidthPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    static final MethodHandle gtk_cell_area_get_preferred_width_for_height = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_get_preferred_width_for_height = Interop.downcallHandle(
         "gtk_cell_area_get_preferred_width_for_height",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -917,15 +944,19 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * the full height of the requested rows checked again with
      * gtk_cell_area_context_get_preferred_height().
      */
-    public void getPreferredWidthForHeight(CellAreaContext context, Widget widget, int height, PointerInteger minimumWidth, PointerInteger naturalWidth) {
+    public @NotNull void getPreferredWidthForHeight(@NotNull CellAreaContext context, @NotNull Widget widget, @NotNull int height, @NotNull Out<Integer> minimumWidth, @NotNull Out<Integer> naturalWidth) {
+        MemorySegment minimumWidthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment naturalWidthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gtk_cell_area_get_preferred_width_for_height.invokeExact(handle(), context.handle(), widget.handle(), height, minimumWidth.handle(), naturalWidth.handle());
+            gtk_cell_area_get_preferred_width_for_height.invokeExact(handle(), context.handle(), widget.handle(), height, (Addressable) minimumWidthPOINTER.address(), (Addressable) naturalWidthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        minimumWidth.set(minimumWidthPOINTER.get(ValueLayout.JAVA_INT, 0));
+        naturalWidth.set(naturalWidthPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    static final MethodHandle gtk_cell_area_get_request_mode = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_get_request_mode = Interop.downcallHandle(
         "gtk_cell_area_get_request_mode",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -934,16 +965,17 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * Gets whether the area prefers a height-for-width layout
      * or a width-for-height layout.
      */
-    public SizeRequestMode getRequestMode() {
+    public @NotNull SizeRequestMode getRequestMode() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_cell_area_get_request_mode.invokeExact(handle());
-            return new SizeRequestMode(RESULT);
+            RESULT = (int) gtk_cell_area_get_request_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SizeRequestMode(RESULT);
     }
     
-    static final MethodHandle gtk_cell_area_has_renderer = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_has_renderer = Interop.downcallHandle(
         "gtk_cell_area_has_renderer",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -951,16 +983,17 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     /**
      * Checks if {@code area} contains {@code renderer}.
      */
-    public boolean hasRenderer(CellRenderer renderer) {
+    public boolean hasRenderer(@NotNull CellRenderer renderer) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_cell_area_has_renderer.invokeExact(handle(), renderer.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_cell_area_has_renderer.invokeExact(handle(), renderer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_cell_area_inner_cell_area = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_inner_cell_area = Interop.downcallHandle(
         "gtk_cell_area_inner_cell_area",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -970,15 +1003,17 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * to get the inner area where a given {@code GtkCellRenderer} will be
      * rendered. It removes any padding previously added by gtk_cell_area_request_renderer().
      */
-    public void innerCellArea(Widget widget, org.gtk.gdk.Rectangle cellArea, org.gtk.gdk.Rectangle innerArea) {
+    public @NotNull void innerCellArea(@NotNull Widget widget, @NotNull org.gtk.gdk.Rectangle cellArea, @NotNull Out<org.gtk.gdk.Rectangle> innerArea) {
+        MemorySegment innerAreaPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_cell_area_inner_cell_area.invokeExact(handle(), widget.handle(), cellArea.handle(), innerArea.handle());
+            gtk_cell_area_inner_cell_area.invokeExact(handle(), widget.handle(), cellArea.handle(), (Addressable) innerAreaPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        innerArea.set(new org.gtk.gdk.Rectangle(Refcounted.get(innerAreaPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle gtk_cell_area_is_activatable = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_is_activatable = Interop.downcallHandle(
         "gtk_cell_area_is_activatable",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -988,15 +1023,16 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * after applying new attributes to {@code area}.
      */
     public boolean isActivatable() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_cell_area_is_activatable.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_cell_area_is_activatable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_cell_area_is_focus_sibling = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_is_focus_sibling = Interop.downcallHandle(
         "gtk_cell_area_is_focus_sibling",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1005,16 +1041,17 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * Returns whether {@code sibling} is one of {@code renderer}’s focus siblings
      * (see gtk_cell_area_add_focus_sibling()).
      */
-    public boolean isFocusSibling(CellRenderer renderer, CellRenderer sibling) {
+    public boolean isFocusSibling(@NotNull CellRenderer renderer, @NotNull CellRenderer sibling) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_cell_area_is_focus_sibling.invokeExact(handle(), renderer.handle(), sibling.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_cell_area_is_focus_sibling.invokeExact(handle(), renderer.handle(), sibling.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_cell_area_remove = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_remove = Interop.downcallHandle(
         "gtk_cell_area_remove",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1022,7 +1059,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     /**
      * Removes {@code renderer} from {@code area}.
      */
-    public void remove(CellRenderer renderer) {
+    public @NotNull void remove(@NotNull CellRenderer renderer) {
         try {
             gtk_cell_area_remove.invokeExact(handle(), renderer.handle());
         } catch (Throwable ERR) {
@@ -1030,7 +1067,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
         }
     }
     
-    static final MethodHandle gtk_cell_area_remove_focus_sibling = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_remove_focus_sibling = Interop.downcallHandle(
         "gtk_cell_area_remove_focus_sibling",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1039,7 +1076,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * Removes {@code sibling} from {@code renderer}’s focus sibling list
      * (see gtk_cell_area_add_focus_sibling()).
      */
-    public void removeFocusSibling(CellRenderer renderer, CellRenderer sibling) {
+    public @NotNull void removeFocusSibling(@NotNull CellRenderer renderer, @NotNull CellRenderer sibling) {
         try {
             gtk_cell_area_remove_focus_sibling.invokeExact(handle(), renderer.handle(), sibling.handle());
         } catch (Throwable ERR) {
@@ -1047,7 +1084,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
         }
     }
     
-    static final MethodHandle gtk_cell_area_request_renderer = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_request_renderer = Interop.downcallHandle(
         "gtk_cell_area_request_renderer",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1059,15 +1096,19 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * at render and event time since this function will add padding
      * around the cell for focus painting.
      */
-    public void requestRenderer(CellRenderer renderer, Orientation orientation, Widget widget, int forSize, PointerInteger minimumSize, PointerInteger naturalSize) {
+    public @NotNull void requestRenderer(@NotNull CellRenderer renderer, @NotNull Orientation orientation, @NotNull Widget widget, @NotNull int forSize, @NotNull Out<Integer> minimumSize, @NotNull Out<Integer> naturalSize) {
+        MemorySegment minimumSizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment naturalSizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gtk_cell_area_request_renderer.invokeExact(handle(), renderer.handle(), orientation.getValue(), widget.handle(), forSize, minimumSize.handle(), naturalSize.handle());
+            gtk_cell_area_request_renderer.invokeExact(handle(), renderer.handle(), orientation.getValue(), widget.handle(), forSize, (Addressable) minimumSizePOINTER.address(), (Addressable) naturalSizePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        minimumSize.set(minimumSizePOINTER.get(ValueLayout.JAVA_INT, 0));
+        naturalSize.set(naturalSizePOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    static final MethodHandle gtk_cell_area_set_focus_cell = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_set_focus_cell = Interop.downcallHandle(
         "gtk_cell_area_set_focus_cell",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1080,7 +1121,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * however it can also be used to implement functions such
      * as gtk_tree_view_set_cursor_on_cell().
      */
-    public void setFocusCell(CellRenderer renderer) {
+    public @NotNull void setFocusCell(@Nullable CellRenderer renderer) {
         try {
             gtk_cell_area_set_focus_cell.invokeExact(handle(), renderer.handle());
         } catch (Throwable ERR) {
@@ -1088,7 +1129,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
         }
     }
     
-    static final MethodHandle gtk_cell_area_snapshot = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_snapshot = Interop.downcallHandle(
         "gtk_cell_area_snapshot",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -1097,7 +1138,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * Snapshots {@code area}’s cells according to {@code area}’s layout onto at
      * the given coordinates.
      */
-    public void snapshot(CellAreaContext context, Widget widget, Snapshot snapshot, org.gtk.gdk.Rectangle backgroundArea, org.gtk.gdk.Rectangle cellArea, CellRendererState flags, boolean paintFocus) {
+    public @NotNull void snapshot(@NotNull CellAreaContext context, @NotNull Widget widget, @NotNull Snapshot snapshot, @NotNull org.gtk.gdk.Rectangle backgroundArea, @NotNull org.gtk.gdk.Rectangle cellArea, @NotNull CellRendererState flags, @NotNull boolean paintFocus) {
         try {
             gtk_cell_area_snapshot.invokeExact(handle(), context.handle(), widget.handle(), snapshot.handle(), backgroundArea.handle(), cellArea.handle(), flags.getValue(), paintFocus ? 1 : 0);
         } catch (Throwable ERR) {
@@ -1105,7 +1146,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
         }
     }
     
-    static final MethodHandle gtk_cell_area_stop_editing = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_stop_editing = Interop.downcallHandle(
         "gtk_cell_area_stop_editing",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1120,7 +1161,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
      * <p>
      * See gtk_cell_area_get_edited_cell() and gtk_cell_area_get_edit_widget().
      */
-    public void stopEditing(boolean canceled) {
+    public @NotNull void stopEditing(@NotNull boolean canceled) {
         try {
             gtk_cell_area_stop_editing.invokeExact(handle(), canceled ? 1 : 0);
         } catch (Throwable ERR) {
@@ -1130,7 +1171,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     
     @FunctionalInterface
     public interface AddEditableHandler {
-        void signalReceived(CellArea source, CellRenderer renderer, CellEditable editable, org.gtk.gdk.Rectangle cellArea, java.lang.String path);
+        void signalReceived(CellArea source, @NotNull CellRenderer renderer, @NotNull CellEditable editable, @NotNull org.gtk.gdk.Rectangle cellArea, @NotNull java.lang.String path);
     }
     
     /**
@@ -1141,13 +1182,13 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("add-editable").handle(),
+                Interop.allocateNativeString("add-editable"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(CellArea.Callbacks.class, "signalCellAreaAddEditable",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1157,7 +1198,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     
     @FunctionalInterface
     public interface ApplyAttributesHandler {
-        void signalReceived(CellArea source, TreeModel model, TreeIter iter, boolean isExpander, boolean isExpanded);
+        void signalReceived(CellArea source, @NotNull TreeModel model, @NotNull TreeIter iter, @NotNull boolean isExpander, @NotNull boolean isExpanded);
     }
     
     /**
@@ -1167,13 +1208,13 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("apply-attributes").handle(),
+                Interop.allocateNativeString("apply-attributes"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(CellArea.Callbacks.class, "signalCellAreaApplyAttributes",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1183,7 +1224,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     
     @FunctionalInterface
     public interface FocusChangedHandler {
-        void signalReceived(CellArea source, CellRenderer renderer, java.lang.String path);
+        void signalReceived(CellArea source, @NotNull CellRenderer renderer, @NotNull java.lang.String path);
     }
     
     /**
@@ -1200,13 +1241,13 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("focus-changed").handle(),
+                Interop.allocateNativeString("focus-changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(CellArea.Callbacks.class, "signalCellAreaFocusChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1216,7 +1257,7 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
     
     @FunctionalInterface
     public interface RemoveEditableHandler {
-        void signalReceived(CellArea source, CellRenderer renderer, CellEditable editable);
+        void signalReceived(CellArea source, @NotNull CellRenderer renderer, @NotNull CellEditable editable);
     }
     
     /**
@@ -1227,13 +1268,13 @@ public class CellArea extends org.gtk.gobject.InitiallyUnowned implements Builda
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("remove-editable").handle(),
+                Interop.allocateNativeString("remove-editable"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(CellArea.Callbacks.class, "signalCellAreaRemoveEditable",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

@@ -3,6 +3,7 @@ package org.gtk.gobject;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@link Closure} represents a callback supplied by the programmer.
@@ -38,20 +39,13 @@ import java.lang.invoke.*;
  * <p>
  * Using closures has a number of important advantages over a simple
  * callback function/data pointer combination:
- * <p>
  * <ul>
  * <li>Closures allow the callee to get the types of the callback parameters,
  *   which means that language bindings don't have to write individual glue
  *   for each callback type.
- * </ul>
- * <p>
- * <ul>
  * <li>The reference counting of {@link Closure} makes it easy to handle reentrancy
  *   right; if a callback is removed while it is being invoked, the closure
  *   and its parameters won't be freed until the invocation finishes.
- * </ul>
- * <p>
- * <ul>
  * <li>g_closure_invalidate() and invalidation notifiers allow callbacks to be
  *   automatically removed when the objects they point to go away.
  */
@@ -61,12 +55,12 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_closure_new_object = Interop.downcallHandle(
+    private static final MethodHandle g_closure_new_object = Interop.downcallHandle(
         "g_closure_new_object",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewObject(int sizeofClosure, Object object) {
+    private static Refcounted constructNewObject(@NotNull int sizeofClosure, @NotNull Object object) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_closure_new_object.invokeExact(sizeofClosure, object.handle()), true);
             return RESULT;
@@ -81,16 +75,16 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      * {@code object} and the created closure. This function is mainly useful
      * when implementing new types of closures.
      */
-    public static Closure newObject(int sizeofClosure, Object object) {
+    public static Closure newObject(@NotNull int sizeofClosure, @NotNull Object object) {
         return new Closure(constructNewObject(sizeofClosure, object));
     }
     
-    static final MethodHandle g_closure_new_simple = Interop.downcallHandle(
+    private static final MethodHandle g_closure_new_simple = Interop.downcallHandle(
         "g_closure_new_simple",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewSimple(int sizeofClosure, java.lang.foreign.MemoryAddress data) {
+    private static Refcounted constructNewSimple(@NotNull int sizeofClosure, @Nullable java.lang.foreign.MemoryAddress data) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_closure_new_simple.invokeExact(sizeofClosure, data), false);
             return RESULT;
@@ -138,11 +132,11 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      * }
      * }</pre>
      */
-    public static Closure newSimple(int sizeofClosure, java.lang.foreign.MemoryAddress data) {
+    public static Closure newSimple(@NotNull int sizeofClosure, @Nullable java.lang.foreign.MemoryAddress data) {
         return new Closure(constructNewSimple(sizeofClosure, data));
     }
     
-    static final MethodHandle g_closure_add_finalize_notifier = Interop.downcallHandle(
+    private static final MethodHandle g_closure_add_finalize_notifier = Interop.downcallHandle(
         "g_closure_add_finalize_notifier",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -156,10 +150,10 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      * the closure being both invalidated and finalized, then the invalidate
      * notifiers will be run before the finalize notifiers.
      */
-    public void addFinalizeNotifier(ClosureNotify notifyFunc) {
+    public @NotNull void addFinalizeNotifier(@Nullable ClosureNotify notifyFunc) {
         try {
             g_closure_add_finalize_notifier.invokeExact(handle(), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notifyFunc)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
@@ -170,7 +164,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_closure_add_invalidate_notifier = Interop.downcallHandle(
+    private static final MethodHandle g_closure_add_invalidate_notifier = Interop.downcallHandle(
         "g_closure_add_invalidate_notifier",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -182,10 +176,10 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      * Invalidation notifiers are invoked before finalization notifiers,
      * in an unspecified order.
      */
-    public void addInvalidateNotifier(ClosureNotify notifyFunc) {
+    public @NotNull void addInvalidateNotifier(@Nullable ClosureNotify notifyFunc) {
         try {
             g_closure_add_invalidate_notifier.invokeExact(handle(), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notifyFunc)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
@@ -196,7 +190,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_closure_add_marshal_guards = Interop.downcallHandle(
+    private static final MethodHandle g_closure_add_marshal_guards = Interop.downcallHandle(
         "g_closure_add_marshal_guards",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -209,16 +203,16 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      * duration of the callback. See g_object_watch_closure() for an
      * example of marshal guards.
      */
-    public void addMarshalGuards(ClosureNotify preMarshalNotify, ClosureNotify postMarshalNotify) {
+    public @NotNull void addMarshalGuards(@Nullable ClosureNotify preMarshalNotify, @Nullable ClosureNotify postMarshalNotify) {
         try {
             g_closure_add_marshal_guards.invokeExact(handle(), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(preMarshalNotify.hashCode(), preMarshalNotify)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(preMarshalNotify)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(preMarshalNotify.hashCode(), preMarshalNotify)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(preMarshalNotify)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
@@ -229,7 +223,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_closure_invalidate = Interop.downcallHandle(
+    private static final MethodHandle g_closure_invalidate = Interop.downcallHandle(
         "g_closure_invalidate",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -251,7 +245,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      * reference count of a closure drops to zero (unless it has already
      * been invalidated before).
      */
-    public void invalidate() {
+    public @NotNull void invalidate() {
         try {
             g_closure_invalidate.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -259,7 +253,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_closure_invoke = Interop.downcallHandle(
+    private static final MethodHandle g_closure_invoke = Interop.downcallHandle(
         "g_closure_invoke",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -267,15 +261,17 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Invokes the closure, i.e. executes the callback represented by the {@code closure}.
      */
-    public void invoke(Value returnValue, int nParamValues, Value[] paramValues, java.lang.foreign.MemoryAddress invocationHint) {
+    public @NotNull void invoke(@NotNull Out<Value> returnValue, @NotNull int nParamValues, @NotNull Value[] paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
+        MemorySegment returnValuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            g_closure_invoke.invokeExact(handle(), returnValue.handle(), nParamValues, Interop.allocateNativeArray(paramValues).handle(), invocationHint);
+            g_closure_invoke.invokeExact(handle(), (Addressable) returnValuePOINTER.address(), nParamValues, Interop.allocateNativeArray(paramValues), invocationHint);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        returnValue.set(new Value(Refcounted.get(returnValuePOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle g_closure_ref = Interop.downcallHandle(
+    private static final MethodHandle g_closure_ref = Interop.downcallHandle(
         "g_closure_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -284,16 +280,17 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      * Increments the reference count on a closure to force it staying
      * alive while the caller holds a pointer to it.
      */
-    public Closure ref() {
+    public @NotNull Closure ref() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_closure_ref.invokeExact(handle());
-            return new Closure(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_closure_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Closure(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_closure_remove_finalize_notifier = Interop.downcallHandle(
+    private static final MethodHandle g_closure_remove_finalize_notifier = Interop.downcallHandle(
         "g_closure_remove_finalize_notifier",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -303,10 +300,10 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Notice that notifiers are automatically removed after they are run.
      */
-    public void removeFinalizeNotifier(ClosureNotify notifyFunc) {
+    public @NotNull void removeFinalizeNotifier(@NotNull ClosureNotify notifyFunc) {
         try {
             g_closure_remove_finalize_notifier.invokeExact(handle(), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notifyFunc)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
@@ -317,7 +314,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_closure_remove_invalidate_notifier = Interop.downcallHandle(
+    private static final MethodHandle g_closure_remove_invalidate_notifier = Interop.downcallHandle(
         "g_closure_remove_invalidate_notifier",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -327,10 +324,10 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Notice that notifiers are automatically removed after they are run.
      */
-    public void removeInvalidateNotifier(ClosureNotify notifyFunc) {
+    public @NotNull void removeInvalidateNotifier(@NotNull ClosureNotify notifyFunc) {
         try {
             g_closure_remove_invalidate_notifier.invokeExact(handle(), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notifyFunc.hashCode(), notifyFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(notifyFunc)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
@@ -341,7 +338,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_closure_set_meta_marshal = Interop.downcallHandle(
+    private static final MethodHandle g_closure_set_meta_marshal = Interop.downcallHandle(
         "g_closure_set_meta_marshal",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -365,10 +362,10 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      * the right callback and passes it to the marshaller as the
      * {@code marshal_data} argument.
      */
-    public void setMetaMarshal(ClosureMarshal metaMarshal) {
+    public @NotNull void setMetaMarshal(@Nullable ClosureMarshal metaMarshal) {
         try {
             g_closure_set_meta_marshal.invokeExact(handle(), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(metaMarshal.hashCode(), metaMarshal)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(metaMarshal)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureMarshal",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -379,7 +376,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_closure_sink = Interop.downcallHandle(
+    private static final MethodHandle g_closure_sink = Interop.downcallHandle(
         "g_closure_sink",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -433,7 +430,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      * (if it hasn't been called on {@code closure} yet) just like g_closure_unref(),
      * g_closure_ref() should be called prior to this function.
      */
-    public void sink() {
+    public @NotNull void sink() {
         try {
             g_closure_sink.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -441,7 +438,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_closure_unref = Interop.downcallHandle(
+    private static final MethodHandle g_closure_unref = Interop.downcallHandle(
         "g_closure_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -453,7 +450,7 @@ public class Closure extends io.github.jwharm.javagi.ResourceBase {
      * If no other callers are using the closure, then the closure will be
      * destroyed and freed.
      */
-    public void unref() {
+    public @NotNull void unref() {
         try {
             g_closure_unref.invokeExact(handle());
         } catch (Throwable ERR) {

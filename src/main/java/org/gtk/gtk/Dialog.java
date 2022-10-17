@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Dialogs are a convenient way to prompt the user for a small amount
@@ -53,7 +54,7 @@ import java.lang.invoke.*;
  * if you had more than a simple message in the dialog.
  * <p>
  * An example for simple {@code GtkDialog} usage:
- * <p>
+ * 
  * <pre>{@code c
  * // Function to open a dialog box with a message
  * void
@@ -86,9 +87,8 @@ import java.lang.invoke.*;
  *  gtk_widget_show (dialog);
  * }
  * }</pre>
- * <p>
+ * 
  * <h1>GtkDialog as GtkBuildable</h1>
- * <p>
  * The {@code GtkDialog} implementation of the {@code GtkBuildable} interface exposes the
  * {@code content_area} as an internal child with the name “content_area”.
  * <p>
@@ -106,7 +106,7 @@ import java.lang.invoke.*;
  * with the action widget using the {@code <action-widgets>} element.
  * <p>
  * An example of a {@code GtkDialog} UI definition fragment:
- * <p>
+ * 
  * <pre>{@code xml
  * <object class="GtkDialog" id="dialog1">
  *   <child type="action">
@@ -122,9 +122,8 @@ import java.lang.invoke.*;
  *   </action-widgets>
  * </object>
  * }</pre>
- * <p>
+ * 
  * <h1>Accessibility</h1>
- * <p>
  * {@code GtkDialog} uses the {@link AccessibleRole#DIALOG} role.
  */
 public class Dialog extends Window implements Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
@@ -138,7 +137,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
         return new Dialog(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_dialog_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_dialog_new = Interop.downcallHandle(
         "gtk_dialog_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -163,7 +162,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
         super(constructNew());
     }
     
-    static final MethodHandle gtk_dialog_add_action_widget = Interop.downcallHandle(
+    private static final MethodHandle gtk_dialog_add_action_widget = Interop.downcallHandle(
         "gtk_dialog_add_action_widget",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -179,7 +178,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * If you want to add a non-activatable widget, simply pack it into
      * the {@code action_area} field of the {@code GtkDialog} struct.
      */
-    public void addActionWidget(Widget child, int responseId) {
+    public @NotNull void addActionWidget(@NotNull Widget child, @NotNull int responseId) {
         try {
             gtk_dialog_add_action_widget.invokeExact(handle(), child.handle(), responseId);
         } catch (Throwable ERR) {
@@ -187,7 +186,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
         }
     }
     
-    static final MethodHandle gtk_dialog_add_button = Interop.downcallHandle(
+    private static final MethodHandle gtk_dialog_add_button = Interop.downcallHandle(
         "gtk_dialog_add_button",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -200,16 +199,17 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * The button is appended to the end of the dialog’s action area.
      * The button widget is returned, but usually you don’t need it.
      */
-    public Widget addButton(java.lang.String buttonText, int responseId) {
+    public @NotNull Widget addButton(@NotNull java.lang.String buttonText, @NotNull int responseId) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_dialog_add_button.invokeExact(handle(), Interop.allocateNativeString(buttonText).handle(), responseId);
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_dialog_add_button.invokeExact(handle(), Interop.allocateNativeString(buttonText), responseId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_dialog_get_content_area = Interop.downcallHandle(
+    private static final MethodHandle gtk_dialog_get_content_area = Interop.downcallHandle(
         "gtk_dialog_get_content_area",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -217,16 +217,17 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
     /**
      * Returns the content area of {@code dialog}.
      */
-    public Box getContentArea() {
+    public @NotNull Box getContentArea() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_dialog_get_content_area.invokeExact(handle());
-            return new Box(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_dialog_get_content_area.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Box(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_dialog_get_header_bar = Interop.downcallHandle(
+    private static final MethodHandle gtk_dialog_get_header_bar = Interop.downcallHandle(
         "gtk_dialog_get_header_bar",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -237,16 +238,17 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * Note that the headerbar is only used by the dialog if the
      * {@code Gtk.Dialog:use-header-bar} property is {@code true}.
      */
-    public HeaderBar getHeaderBar() {
+    public @NotNull HeaderBar getHeaderBar() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_dialog_get_header_bar.invokeExact(handle());
-            return new HeaderBar(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_dialog_get_header_bar.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new HeaderBar(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_dialog_get_response_for_widget = Interop.downcallHandle(
+    private static final MethodHandle gtk_dialog_get_response_for_widget = Interop.downcallHandle(
         "gtk_dialog_get_response_for_widget",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -255,16 +257,17 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * Gets the response id of a widget in the action area
      * of a dialog.
      */
-    public int getResponseForWidget(Widget widget) {
+    public int getResponseForWidget(@NotNull Widget widget) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_dialog_get_response_for_widget.invokeExact(handle(), widget.handle());
-            return RESULT;
+            RESULT = (int) gtk_dialog_get_response_for_widget.invokeExact(handle(), widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_dialog_get_widget_for_response = Interop.downcallHandle(
+    private static final MethodHandle gtk_dialog_get_widget_for_response = Interop.downcallHandle(
         "gtk_dialog_get_widget_for_response",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -273,16 +276,17 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * Gets the widget button that uses the given response ID in the action area
      * of a dialog.
      */
-    public Widget getWidgetForResponse(int responseId) {
+    public @Nullable Widget getWidgetForResponse(@NotNull int responseId) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_dialog_get_widget_for_response.invokeExact(handle(), responseId);
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_dialog_get_widget_for_response.invokeExact(handle(), responseId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_dialog_response = Interop.downcallHandle(
+    private static final MethodHandle gtk_dialog_response = Interop.downcallHandle(
         "gtk_dialog_response",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -292,7 +296,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * <p>
      * Used to indicate that the user has responded to the dialog in some way.
      */
-    public void response(int responseId) {
+    public @NotNull void response(@NotNull int responseId) {
         try {
             gtk_dialog_response.invokeExact(handle(), responseId);
         } catch (Throwable ERR) {
@@ -300,7 +304,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
         }
     }
     
-    static final MethodHandle gtk_dialog_set_default_response = Interop.downcallHandle(
+    private static final MethodHandle gtk_dialog_set_default_response = Interop.downcallHandle(
         "gtk_dialog_set_default_response",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -310,7 +314,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * <p>
      * Pressing “Enter” normally activates the default widget.
      */
-    public void setDefaultResponse(int responseId) {
+    public @NotNull void setDefaultResponse(@NotNull int responseId) {
         try {
             gtk_dialog_set_default_response.invokeExact(handle(), responseId);
         } catch (Throwable ERR) {
@@ -318,7 +322,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
         }
     }
     
-    static final MethodHandle gtk_dialog_set_response_sensitive = Interop.downcallHandle(
+    private static final MethodHandle gtk_dialog_set_response_sensitive = Interop.downcallHandle(
         "gtk_dialog_set_response_sensitive",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -329,7 +333,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
      * Calls {@code gtk_widget_set_sensitive (widget, @setting)}
      * for each widget in the dialog’s action area with the given {@code response_id}.
      */
-    public void setResponseSensitive(int responseId, boolean setting) {
+    public @NotNull void setResponseSensitive(@NotNull int responseId, @NotNull boolean setting) {
         try {
             gtk_dialog_set_response_sensitive.invokeExact(handle(), responseId, setting ? 1 : 0);
         } catch (Throwable ERR) {
@@ -353,13 +357,13 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("close").handle(),
+                Interop.allocateNativeString("close"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Dialog.Callbacks.class, "signalDialogClose",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -369,7 +373,7 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
     
     @FunctionalInterface
     public interface ResponseHandler {
-        void signalReceived(Dialog source, int responseId);
+        void signalReceived(Dialog source, @NotNull int responseId);
     }
     
     /**
@@ -384,13 +388,13 @@ public class Dialog extends Window implements Accessible, Buildable, ConstraintT
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("response").handle(),
+                Interop.allocateNativeString("response"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Dialog.Callbacks.class, "signalDialogResponse",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

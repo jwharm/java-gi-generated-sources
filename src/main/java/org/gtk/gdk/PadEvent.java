@@ -3,6 +3,7 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * An event related to a pad-based device.
@@ -18,7 +19,7 @@ public class PadEvent extends Event {
         return new PadEvent(gobject.refcounted());
     }
     
-    static final MethodHandle gdk_pad_event_get_axis_value = Interop.downcallHandle(
+    private static final MethodHandle gdk_pad_event_get_axis_value = Interop.downcallHandle(
         "gdk_pad_event_get_axis_value",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -26,15 +27,19 @@ public class PadEvent extends Event {
     /**
      * Extracts the information from a pad strip or ring event.
      */
-    public void getAxisValue(PointerInteger index, PointerDouble value) {
+    public @NotNull void getAxisValue(@NotNull Out<Integer> index, @NotNull Out<Double> value) {
+        MemorySegment indexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         try {
-            gdk_pad_event_get_axis_value.invokeExact(handle(), index.handle(), value.handle());
+            gdk_pad_event_get_axis_value.invokeExact(handle(), (Addressable) indexPOINTER.address(), (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        index.set(indexPOINTER.get(ValueLayout.JAVA_INT, 0));
+        value.set(valuePOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
     }
     
-    static final MethodHandle gdk_pad_event_get_button = Interop.downcallHandle(
+    private static final MethodHandle gdk_pad_event_get_button = Interop.downcallHandle(
         "gdk_pad_event_get_button",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -44,15 +49,16 @@ public class PadEvent extends Event {
      * a pad event.
      */
     public int getButton() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_pad_event_get_button.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gdk_pad_event_get_button.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gdk_pad_event_get_group_mode = Interop.downcallHandle(
+    private static final MethodHandle gdk_pad_event_get_group_mode = Interop.downcallHandle(
         "gdk_pad_event_get_group_mode",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -60,12 +66,16 @@ public class PadEvent extends Event {
     /**
      * Extracts group and mode information from a pad event.
      */
-    public void getGroupMode(PointerInteger group, PointerInteger mode) {
+    public @NotNull void getGroupMode(@NotNull Out<Integer> group, @NotNull Out<Integer> mode) {
+        MemorySegment groupPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment modePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gdk_pad_event_get_group_mode.invokeExact(handle(), group.handle(), mode.handle());
+            gdk_pad_event_get_group_mode.invokeExact(handle(), (Addressable) groupPOINTER.address(), (Addressable) modePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        group.set(groupPOINTER.get(ValueLayout.JAVA_INT, 0));
+        mode.set(modePOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
 }

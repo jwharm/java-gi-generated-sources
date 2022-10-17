@@ -3,13 +3,14 @@ package org.gnome.adw;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A helper object for {@link ToastOverlay}.
  * <p>
  * Toasts are meant to be passed into {@link ToastOverlay#addToast} as
  * follows:
- * <p>
+ * 
  * <pre>{@code c
  * adw_toast_overlay_add_toast (overlay, adw_toast_new (_("Simple Toast")));
  * }</pre>
@@ -25,12 +26,11 @@ import java.lang.invoke.*;
  * {@code Toast:timeout} determines how long the toast stays on screen, while
  * {@code Toast:priority} determines how it behaves if another toast is
  * already being displayed.
- * <p>
+ * 
  * <h2>Actions</h2>
- * <p>
  * Toasts can have one button on them, with a label and an attached
  * {@code Gio.Action}.
- * <p>
+ * 
  * <pre>{@code c
  * AdwToast *toast = adw_toast_new (_("Toast with Action"));
  * 
@@ -44,15 +44,14 @@ import java.lang.invoke.*;
  *   &lt;source srcset="toast-action-dark.png" media="(prefers-color-scheme: dark)"&gt;
  *   &lt;img src="toast-action.png" alt="toast-action"&gt;
  * &lt;/picture&gt;
- * <p>
+ * 
  * <h2>Modifying toasts</h2>
- * <p>
  * Toasts can be modified after they have been shown. For this, an {@code AdwToast}
  * reference must be kept around while the toast is visible.
  * <p>
  * A common use case for this is using toasts as undo prompts that stack with
  * each other, allowing to batch undo the last deleted items:
- * <p>
+ * 
  * <pre>{@code c
  * 
  * static void
@@ -131,14 +130,14 @@ public class Toast extends org.gtk.gobject.Object {
         return new Toast(gobject.refcounted());
     }
     
-    static final MethodHandle adw_toast_new = Interop.downcallHandle(
+    private static final MethodHandle adw_toast_new = Interop.downcallHandle(
         "adw_toast_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(java.lang.String title) {
+    private static Refcounted constructNew(@NotNull java.lang.String title) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_toast_new.invokeExact(Interop.allocateNativeString(title).handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_toast_new.invokeExact(Interop.allocateNativeString(title)), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -152,11 +151,11 @@ public class Toast extends org.gtk.gobject.Object {
      * <p>
      * {@code title} can be marked up with the Pango text markup language.
      */
-    public Toast(java.lang.String title) {
+    public Toast(@NotNull java.lang.String title) {
         super(constructNew(title));
     }
     
-    static final MethodHandle adw_toast_dismiss = Interop.downcallHandle(
+    private static final MethodHandle adw_toast_dismiss = Interop.downcallHandle(
         "adw_toast_dismiss",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -164,7 +163,7 @@ public class Toast extends org.gtk.gobject.Object {
     /**
      * Dismisses {@code self}.
      */
-    public void dismiss() {
+    public @NotNull void dismiss() {
         try {
             adw_toast_dismiss.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -172,7 +171,7 @@ public class Toast extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle adw_toast_get_action_name = Interop.downcallHandle(
+    private static final MethodHandle adw_toast_get_action_name = Interop.downcallHandle(
         "adw_toast_get_action_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -180,16 +179,17 @@ public class Toast extends org.gtk.gobject.Object {
     /**
      * Gets the name of the associated action.
      */
-    public java.lang.String getActionName() {
+    public @Nullable java.lang.String getActionName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_toast_get_action_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) adw_toast_get_action_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle adw_toast_get_action_target_value = Interop.downcallHandle(
+    private static final MethodHandle adw_toast_get_action_target_value = Interop.downcallHandle(
         "adw_toast_get_action_target_value",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -197,16 +197,17 @@ public class Toast extends org.gtk.gobject.Object {
     /**
      * Gets the parameter for action invocations.
      */
-    public org.gtk.glib.Variant getActionTargetValue() {
+    public @Nullable org.gtk.glib.Variant getActionTargetValue() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_toast_get_action_target_value.invokeExact(handle());
-            return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_toast_get_action_target_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_toast_get_button_label = Interop.downcallHandle(
+    private static final MethodHandle adw_toast_get_button_label = Interop.downcallHandle(
         "adw_toast_get_button_label",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -214,16 +215,17 @@ public class Toast extends org.gtk.gobject.Object {
     /**
      * Gets the label to show on the button.
      */
-    public java.lang.String getButtonLabel() {
+    public @Nullable java.lang.String getButtonLabel() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_toast_get_button_label.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) adw_toast_get_button_label.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle adw_toast_get_priority = Interop.downcallHandle(
+    private static final MethodHandle adw_toast_get_priority = Interop.downcallHandle(
         "adw_toast_get_priority",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -231,16 +233,17 @@ public class Toast extends org.gtk.gobject.Object {
     /**
      * Gets priority for {@code self}.
      */
-    public ToastPriority getPriority() {
+    public @NotNull ToastPriority getPriority() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_toast_get_priority.invokeExact(handle());
-            return new ToastPriority(RESULT);
+            RESULT = (int) adw_toast_get_priority.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ToastPriority(RESULT);
     }
     
-    static final MethodHandle adw_toast_get_timeout = Interop.downcallHandle(
+    private static final MethodHandle adw_toast_get_timeout = Interop.downcallHandle(
         "adw_toast_get_timeout",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -249,15 +252,16 @@ public class Toast extends org.gtk.gobject.Object {
      * Gets timeout for {@code self}.
      */
     public int getTimeout() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_toast_get_timeout.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) adw_toast_get_timeout.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle adw_toast_get_title = Interop.downcallHandle(
+    private static final MethodHandle adw_toast_get_title = Interop.downcallHandle(
         "adw_toast_get_title",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -265,16 +269,17 @@ public class Toast extends org.gtk.gobject.Object {
     /**
      * Gets the title that will be displayed on the toast.
      */
-    public java.lang.String getTitle() {
+    public @NotNull java.lang.String getTitle() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_toast_get_title.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) adw_toast_get_title.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle adw_toast_set_action_name = Interop.downcallHandle(
+    private static final MethodHandle adw_toast_set_action_name = Interop.downcallHandle(
         "adw_toast_set_action_name",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -282,15 +287,15 @@ public class Toast extends org.gtk.gobject.Object {
     /**
      * Sets the name of the associated action.
      */
-    public void setActionName(java.lang.String actionName) {
+    public @NotNull void setActionName(@Nullable java.lang.String actionName) {
         try {
-            adw_toast_set_action_name.invokeExact(handle(), Interop.allocateNativeString(actionName).handle());
+            adw_toast_set_action_name.invokeExact(handle(), Interop.allocateNativeString(actionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle adw_toast_set_action_target_value = Interop.downcallHandle(
+    private static final MethodHandle adw_toast_set_action_target_value = Interop.downcallHandle(
         "adw_toast_set_action_target_value",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -301,7 +306,7 @@ public class Toast extends org.gtk.gobject.Object {
      * If the {@code action_target} variant has a floating reference this function
      * will sink it.
      */
-    public void setActionTargetValue(org.gtk.glib.Variant actionTarget) {
+    public @NotNull void setActionTargetValue(@Nullable org.gtk.glib.Variant actionTarget) {
         try {
             adw_toast_set_action_target_value.invokeExact(handle(), actionTarget.handle());
         } catch (Throwable ERR) {
@@ -309,7 +314,7 @@ public class Toast extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle adw_toast_set_button_label = Interop.downcallHandle(
+    private static final MethodHandle adw_toast_set_button_label = Interop.downcallHandle(
         "adw_toast_set_button_label",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -319,15 +324,15 @@ public class Toast extends org.gtk.gobject.Object {
      * <p>
      * It set to {@code NULL}, the button won't be shown.
      */
-    public void setButtonLabel(java.lang.String buttonLabel) {
+    public @NotNull void setButtonLabel(@Nullable java.lang.String buttonLabel) {
         try {
-            adw_toast_set_button_label.invokeExact(handle(), Interop.allocateNativeString(buttonLabel).handle());
+            adw_toast_set_button_label.invokeExact(handle(), Interop.allocateNativeString(buttonLabel));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle adw_toast_set_detailed_action_name = Interop.downcallHandle(
+    private static final MethodHandle adw_toast_set_detailed_action_name = Interop.downcallHandle(
         "adw_toast_set_detailed_action_name",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -338,15 +343,15 @@ public class Toast extends org.gtk.gobject.Object {
      * {@code detailed_action_name} is a string in the format accepted by
      * {@link Gio#Action}.
      */
-    public void setDetailedActionName(java.lang.String detailedActionName) {
+    public @NotNull void setDetailedActionName(@Nullable java.lang.String detailedActionName) {
         try {
-            adw_toast_set_detailed_action_name.invokeExact(handle(), Interop.allocateNativeString(detailedActionName).handle());
+            adw_toast_set_detailed_action_name.invokeExact(handle(), Interop.allocateNativeString(detailedActionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle adw_toast_set_priority = Interop.downcallHandle(
+    private static final MethodHandle adw_toast_set_priority = Interop.downcallHandle(
         "adw_toast_set_priority",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -362,7 +367,7 @@ public class Toast extends org.gtk.gobject.Object {
      * If {@code priority} is {@code ADW_TOAST_PRIORITY_HIGH}, the toast will be displayed immediately,
      * pushing the previous toast into the queue instead.
      */
-    public void setPriority(ToastPriority priority) {
+    public @NotNull void setPriority(@NotNull ToastPriority priority) {
         try {
             adw_toast_set_priority.invokeExact(handle(), priority.getValue());
         } catch (Throwable ERR) {
@@ -370,7 +375,7 @@ public class Toast extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle adw_toast_set_timeout = Interop.downcallHandle(
+    private static final MethodHandle adw_toast_set_timeout = Interop.downcallHandle(
         "adw_toast_set_timeout",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -384,7 +389,7 @@ public class Toast extends org.gtk.gobject.Object {
      * Toasts cannot disappear while being hovered, pressed (on touchscreen), or
      * have keyboard focus inside them.
      */
-    public void setTimeout(int timeout) {
+    public @NotNull void setTimeout(@NotNull int timeout) {
         try {
             adw_toast_set_timeout.invokeExact(handle(), timeout);
         } catch (Throwable ERR) {
@@ -392,7 +397,7 @@ public class Toast extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle adw_toast_set_title = Interop.downcallHandle(
+    private static final MethodHandle adw_toast_set_title = Interop.downcallHandle(
         "adw_toast_set_title",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -400,9 +405,9 @@ public class Toast extends org.gtk.gobject.Object {
     /**
      * Sets the title that will be displayed on the toast.
      */
-    public void setTitle(java.lang.String title) {
+    public @NotNull void setTitle(@NotNull java.lang.String title) {
         try {
-            adw_toast_set_title.invokeExact(handle(), Interop.allocateNativeString(title).handle());
+            adw_toast_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -420,13 +425,13 @@ public class Toast extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("dismissed").handle(),
+                Interop.allocateNativeString("dismissed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Toast.Callbacks.class, "signalToastDismissed",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

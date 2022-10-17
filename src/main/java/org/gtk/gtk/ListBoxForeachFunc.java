@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A function used by gtk_list_box_selected_foreach().
@@ -9,5 +10,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface ListBoxForeachFunc {
-        void onListBoxForeachFunc(ListBox box, ListBoxRow row);
+        void onListBoxForeachFunc(@NotNull ListBox box, @NotNull ListBoxRow row);
 }

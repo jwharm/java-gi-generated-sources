@@ -1,6 +1,7 @@
 package org.gtk.gdkpixbuf;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Defines the type of the function used to fill a
@@ -8,5 +9,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface PixbufModuleFillInfoFunc {
-        void onPixbufModuleFillInfoFunc(PixbufFormat info);
+        void onPixbufModuleFillInfoFunc(@NotNull PixbufFormat info);
 }

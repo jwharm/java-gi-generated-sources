@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * An opaque data structure which represents an asynchronous queue.
@@ -15,7 +16,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_async_queue_length = Interop.downcallHandle(
+    private static final MethodHandle g_async_queue_length = Interop.downcallHandle(
         "g_async_queue_length",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -31,15 +32,16 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * of the queue or due to scheduling.
      */
     public int length() {
+        int RESULT;
         try {
-            var RESULT = (int) g_async_queue_length.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_async_queue_length.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_async_queue_length_unlocked = Interop.downcallHandle(
+    private static final MethodHandle g_async_queue_length_unlocked = Interop.downcallHandle(
         "g_async_queue_length_unlocked",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -57,15 +59,16 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * This function must be called while holding the {@code queue}'s lock.
      */
     public int lengthUnlocked() {
+        int RESULT;
         try {
-            var RESULT = (int) g_async_queue_length_unlocked.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_async_queue_length_unlocked.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_async_queue_lock = Interop.downcallHandle(
+    private static final MethodHandle g_async_queue_lock = Interop.downcallHandle(
         "g_async_queue_lock",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -81,7 +84,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * g_async_queue_*_unlocked() functions on {@code queue}. Otherwise,
      * deadlock may occur.
      */
-    public void lock() {
+    public @NotNull void lock() {
         try {
             g_async_queue_lock.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -89,7 +92,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_async_queue_pop = Interop.downcallHandle(
+    private static final MethodHandle g_async_queue_pop = Interop.downcallHandle(
         "g_async_queue_pop",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -98,16 +101,17 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * Pops data from the {@code queue}. If {@code queue} is empty, this function
      * blocks until data becomes available.
      */
-    public java.lang.foreign.MemoryAddress pop() {
+    public @Nullable java.lang.foreign.MemoryAddress pop() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_async_queue_pop.invokeExact(handle());
-            return RESULT;
+            RESULT = (MemoryAddress) g_async_queue_pop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_async_queue_pop_unlocked = Interop.downcallHandle(
+    private static final MethodHandle g_async_queue_pop_unlocked = Interop.downcallHandle(
         "g_async_queue_pop_unlocked",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -118,16 +122,17 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function must be called while holding the {@code queue}'s lock.
      */
-    public java.lang.foreign.MemoryAddress popUnlocked() {
+    public @Nullable java.lang.foreign.MemoryAddress popUnlocked() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_async_queue_pop_unlocked.invokeExact(handle());
-            return RESULT;
+            RESULT = (MemoryAddress) g_async_queue_pop_unlocked.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_async_queue_push = Interop.downcallHandle(
+    private static final MethodHandle g_async_queue_push = Interop.downcallHandle(
         "g_async_queue_push",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -135,7 +140,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Pushes the {@code data} into the {@code queue}. {@code data} must not be {@code null}.
      */
-    public void push(java.lang.foreign.MemoryAddress data) {
+    public @NotNull void push(@Nullable java.lang.foreign.MemoryAddress data) {
         try {
             g_async_queue_push.invokeExact(handle(), data);
         } catch (Throwable ERR) {
@@ -143,7 +148,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_async_queue_push_front = Interop.downcallHandle(
+    private static final MethodHandle g_async_queue_push_front = Interop.downcallHandle(
         "g_async_queue_push_front",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -154,7 +159,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * pushes the new item ahead of the items already in the queue,
      * so that it will be the next one to be popped off the queue.
      */
-    public void pushFront(java.lang.foreign.MemoryAddress item) {
+    public @NotNull void pushFront(@Nullable java.lang.foreign.MemoryAddress item) {
         try {
             g_async_queue_push_front.invokeExact(handle(), item);
         } catch (Throwable ERR) {
@@ -162,7 +167,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_async_queue_push_front_unlocked = Interop.downcallHandle(
+    private static final MethodHandle g_async_queue_push_front_unlocked = Interop.downcallHandle(
         "g_async_queue_push_front_unlocked",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -175,7 +180,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function must be called while holding the {@code queue}'s lock.
      */
-    public void pushFrontUnlocked(java.lang.foreign.MemoryAddress item) {
+    public @NotNull void pushFrontUnlocked(@Nullable java.lang.foreign.MemoryAddress item) {
         try {
             g_async_queue_push_front_unlocked.invokeExact(handle(), item);
         } catch (Throwable ERR) {
@@ -183,7 +188,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_async_queue_push_sorted = Interop.downcallHandle(
+    private static final MethodHandle g_async_queue_push_sorted = Interop.downcallHandle(
         "g_async_queue_push_sorted",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -200,22 +205,22 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * For an example of {@code func} see g_async_queue_sort().
      */
-    public void pushSorted(CompareDataFunc func) {
+    public @NotNull void pushSorted(@NotNull CompareDataFunc func) {
         try {
             g_async_queue_push_sorted.invokeExact(handle(), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_async_queue_push_sorted_unlocked = Interop.downcallHandle(
+    private static final MethodHandle g_async_queue_push_sorted_unlocked = Interop.downcallHandle(
         "g_async_queue_push_sorted_unlocked",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -237,22 +242,22 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * For an example of {@code func} see g_async_queue_sort().
      */
-    public void pushSortedUnlocked(CompareDataFunc func) {
+    public @NotNull void pushSortedUnlocked(@NotNull CompareDataFunc func) {
         try {
             g_async_queue_push_sorted_unlocked.invokeExact(handle(), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_async_queue_push_unlocked = Interop.downcallHandle(
+    private static final MethodHandle g_async_queue_push_unlocked = Interop.downcallHandle(
         "g_async_queue_push_unlocked",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -262,7 +267,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function must be called while holding the {@code queue}'s lock.
      */
-    public void pushUnlocked(java.lang.foreign.MemoryAddress data) {
+    public @NotNull void pushUnlocked(@Nullable java.lang.foreign.MemoryAddress data) {
         try {
             g_async_queue_push_unlocked.invokeExact(handle(), data);
         } catch (Throwable ERR) {
@@ -270,7 +275,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_async_queue_ref = Interop.downcallHandle(
+    private static final MethodHandle g_async_queue_ref = Interop.downcallHandle(
         "g_async_queue_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -279,16 +284,17 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * Increases the reference count of the asynchronous {@code queue} by 1.
      * You do not need to hold the lock to call this function.
      */
-    public AsyncQueue ref() {
+    public @NotNull AsyncQueue ref() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_async_queue_ref.invokeExact(handle());
-            return new AsyncQueue(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_async_queue_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new AsyncQueue(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_async_queue_remove = Interop.downcallHandle(
+    private static final MethodHandle g_async_queue_remove = Interop.downcallHandle(
         "g_async_queue_remove",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -296,16 +302,17 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Remove an item from the queue.
      */
-    public boolean remove(java.lang.foreign.MemoryAddress item) {
+    public boolean remove(@Nullable java.lang.foreign.MemoryAddress item) {
+        int RESULT;
         try {
-            var RESULT = (int) g_async_queue_remove.invokeExact(handle(), item);
-            return RESULT != 0;
+            RESULT = (int) g_async_queue_remove.invokeExact(handle(), item);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_async_queue_remove_unlocked = Interop.downcallHandle(
+    private static final MethodHandle g_async_queue_remove_unlocked = Interop.downcallHandle(
         "g_async_queue_remove_unlocked",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -315,16 +322,17 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function must be called while holding the {@code queue}'s lock.
      */
-    public boolean removeUnlocked(java.lang.foreign.MemoryAddress item) {
+    public boolean removeUnlocked(@Nullable java.lang.foreign.MemoryAddress item) {
+        int RESULT;
         try {
-            var RESULT = (int) g_async_queue_remove_unlocked.invokeExact(handle(), item);
-            return RESULT != 0;
+            RESULT = (int) g_async_queue_remove_unlocked.invokeExact(handle(), item);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_async_queue_sort = Interop.downcallHandle(
+    private static final MethodHandle g_async_queue_sort = Interop.downcallHandle(
         "g_async_queue_sort",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -353,7 +361,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      *  return (id1 > id2 ? +1 : id1 == id2 ? 0 : -1);
      * }</pre>
      */
-    public void sort(CompareDataFunc func) {
+    public @NotNull void sort(@NotNull CompareDataFunc func) {
         try {
             g_async_queue_sort.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -361,13 +369,13 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_async_queue_sort_unlocked = Interop.downcallHandle(
+    private static final MethodHandle g_async_queue_sort_unlocked = Interop.downcallHandle(
         "g_async_queue_sort_unlocked",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -383,7 +391,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function must be called while holding the {@code queue}'s lock.
      */
-    public void sortUnlocked(CompareDataFunc func) {
+    public @NotNull void sortUnlocked(@NotNull CompareDataFunc func) {
         try {
             g_async_queue_sort_unlocked.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -391,13 +399,13 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_async_queue_timeout_pop = Interop.downcallHandle(
+    private static final MethodHandle g_async_queue_timeout_pop = Interop.downcallHandle(
         "g_async_queue_timeout_pop",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -408,16 +416,17 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If no data is received before the timeout, {@code null} is returned.
      */
-    public java.lang.foreign.MemoryAddress timeoutPop(long timeout) {
+    public @Nullable java.lang.foreign.MemoryAddress timeoutPop(@NotNull long timeout) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_async_queue_timeout_pop.invokeExact(handle(), timeout);
-            return RESULT;
+            RESULT = (MemoryAddress) g_async_queue_timeout_pop.invokeExact(handle(), timeout);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_async_queue_timeout_pop_unlocked = Interop.downcallHandle(
+    private static final MethodHandle g_async_queue_timeout_pop_unlocked = Interop.downcallHandle(
         "g_async_queue_timeout_pop_unlocked",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -430,16 +439,17 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function must be called while holding the {@code queue}'s lock.
      */
-    public java.lang.foreign.MemoryAddress timeoutPopUnlocked(long timeout) {
+    public @Nullable java.lang.foreign.MemoryAddress timeoutPopUnlocked(@NotNull long timeout) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_async_queue_timeout_pop_unlocked.invokeExact(handle(), timeout);
-            return RESULT;
+            RESULT = (MemoryAddress) g_async_queue_timeout_pop_unlocked.invokeExact(handle(), timeout);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_async_queue_try_pop = Interop.downcallHandle(
+    private static final MethodHandle g_async_queue_try_pop = Interop.downcallHandle(
         "g_async_queue_try_pop",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -448,16 +458,17 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * Tries to pop data from the {@code queue}. If no data is available,
      * {@code null} is returned.
      */
-    public java.lang.foreign.MemoryAddress tryPop() {
+    public @Nullable java.lang.foreign.MemoryAddress tryPop() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_async_queue_try_pop.invokeExact(handle());
-            return RESULT;
+            RESULT = (MemoryAddress) g_async_queue_try_pop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_async_queue_try_pop_unlocked = Interop.downcallHandle(
+    private static final MethodHandle g_async_queue_try_pop_unlocked = Interop.downcallHandle(
         "g_async_queue_try_pop_unlocked",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -468,16 +479,17 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function must be called while holding the {@code queue}'s lock.
      */
-    public java.lang.foreign.MemoryAddress tryPopUnlocked() {
+    public @Nullable java.lang.foreign.MemoryAddress tryPopUnlocked() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_async_queue_try_pop_unlocked.invokeExact(handle());
-            return RESULT;
+            RESULT = (MemoryAddress) g_async_queue_try_pop_unlocked.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_async_queue_unlock = Interop.downcallHandle(
+    private static final MethodHandle g_async_queue_unlock = Interop.downcallHandle(
         "g_async_queue_unlock",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -489,7 +501,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * the with g_async_queue_lock() leads to undefined
      * behaviour.
      */
-    public void unlock() {
+    public @NotNull void unlock() {
         try {
             g_async_queue_unlock.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -497,7 +509,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_async_queue_unref = Interop.downcallHandle(
+    private static final MethodHandle g_async_queue_unref = Interop.downcallHandle(
         "g_async_queue_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -510,7 +522,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
      * to use the {@code queue} afterwards, as it might have disappeared.
      * You do not need to hold the lock to call this function.
      */
-    public void unref() {
+    public @NotNull void unref() {
         try {
             g_async_queue_unref.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -518,7 +530,7 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_async_queue_new = Interop.downcallHandle(
+    private static final MethodHandle g_async_queue_new = Interop.downcallHandle(
         "g_async_queue_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -526,13 +538,14 @@ public class AsyncQueue extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new asynchronous queue.
      */
-    public static AsyncQueue new_() {
+    public static @NotNull AsyncQueue new_() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_async_queue_new.invokeExact();
-            return new AsyncQueue(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_async_queue_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new AsyncQueue(Refcounted.get(RESULT, false));
     }
     
 }

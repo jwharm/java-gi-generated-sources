@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Renders numbers as progress bars
@@ -21,7 +22,7 @@ public class CellRendererProgress extends CellRenderer implements Orientable {
         return new CellRendererProgress(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_cell_renderer_progress_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_renderer_progress_new = Interop.downcallHandle(
         "gtk_cell_renderer_progress_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );

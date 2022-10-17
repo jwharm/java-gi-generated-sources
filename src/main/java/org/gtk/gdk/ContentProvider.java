@@ -3,6 +3,7 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GdkContentProvider} is used to provide content for the clipboard or
@@ -26,14 +27,14 @@ public class ContentProvider extends org.gtk.gobject.Object {
         return new ContentProvider(gobject.refcounted());
     }
     
-    static final MethodHandle gdk_content_provider_new_for_bytes = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_provider_new_for_bytes = Interop.downcallHandle(
         "gdk_content_provider_new_for_bytes",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewForBytes(java.lang.String mimeType, org.gtk.glib.Bytes bytes) {
+    private static Refcounted constructNewForBytes(@NotNull java.lang.String mimeType, @NotNull org.gtk.glib.Bytes bytes) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_content_provider_new_for_bytes.invokeExact(Interop.allocateNativeString(mimeType).handle(), bytes.handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_content_provider_new_for_bytes.invokeExact(Interop.allocateNativeString(mimeType), bytes.handle()), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -44,16 +45,16 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * Create a content provider that provides the given {@code bytes} as data for
      * the given {@code mime_type}.
      */
-    public static ContentProvider newForBytes(java.lang.String mimeType, org.gtk.glib.Bytes bytes) {
+    public static ContentProvider newForBytes(@NotNull java.lang.String mimeType, @NotNull org.gtk.glib.Bytes bytes) {
         return new ContentProvider(constructNewForBytes(mimeType, bytes));
     }
     
-    static final MethodHandle gdk_content_provider_new_for_value = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_provider_new_for_value = Interop.downcallHandle(
         "gdk_content_provider_new_for_value",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewForValue(org.gtk.gobject.Value value) {
+    private static Refcounted constructNewForValue(@NotNull org.gtk.gobject.Value value) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_content_provider_new_for_value.invokeExact(value.handle()), true);
             return RESULT;
@@ -65,18 +66,18 @@ public class ContentProvider extends org.gtk.gobject.Object {
     /**
      * Create a content provider that provides the given {@code value}.
      */
-    public static ContentProvider newForValue(org.gtk.gobject.Value value) {
+    public static ContentProvider newForValue(@NotNull org.gtk.gobject.Value value) {
         return new ContentProvider(constructNewForValue(value));
     }
     
-    static final MethodHandle gdk_content_provider_new_union = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_provider_new_union = Interop.downcallHandle(
         "gdk_content_provider_new_union",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
     
-    private static Refcounted constructNewUnion(ContentProvider[] providers, long nProviders) {
+    private static Refcounted constructNewUnion(@Nullable ContentProvider[] providers, @NotNull long nProviders) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_content_provider_new_union.invokeExact(Interop.allocateNativeArray(providers).handle(), nProviders), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_content_provider_new_union.invokeExact(Interop.allocateNativeArray(providers), nProviders), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -100,11 +101,11 @@ public class ContentProvider extends org.gtk.gobject.Object {
      *                                 }, 2);
      * }</pre>
      */
-    public static ContentProvider newUnion(ContentProvider[] providers, long nProviders) {
+    public static ContentProvider newUnion(@Nullable ContentProvider[] providers, @NotNull long nProviders) {
         return new ContentProvider(constructNewUnion(providers, nProviders));
     }
     
-    static final MethodHandle gdk_content_provider_content_changed = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_provider_content_changed = Interop.downcallHandle(
         "gdk_content_provider_content_changed",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -112,7 +113,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
     /**
      * Emits the ::content-changed signal.
      */
-    public void contentChanged() {
+    public @NotNull void contentChanged() {
         try {
             gdk_content_provider_content_changed.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -120,7 +121,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gdk_content_provider_get_value = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_provider_get_value = Interop.downcallHandle(
         "gdk_content_provider_get_value",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -134,20 +135,23 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * given {@code GType} is not supported, this operation can fail and
      * {@code G_IO_ERROR_NOT_SUPPORTED} will be reported.
      */
-    public boolean getValue(org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
+    public boolean getValue(@NotNull Out<org.gtk.gobject.Value> value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gdk_content_provider_get_value.invokeExact(handle(), value.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gdk_content_provider_get_value.invokeExact(handle(), (Addressable) valuePOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        value.set(new org.gtk.gobject.Value(Refcounted.get(valuePOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_content_provider_ref_formats = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_provider_ref_formats = Interop.downcallHandle(
         "gdk_content_provider_ref_formats",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -155,16 +159,17 @@ public class ContentProvider extends org.gtk.gobject.Object {
     /**
      * Gets the formats that the provider can provide its current contents in.
      */
-    public ContentFormats refFormats() {
+    public @NotNull ContentFormats refFormats() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_content_provider_ref_formats.invokeExact(handle());
-            return new ContentFormats(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gdk_content_provider_ref_formats.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ContentFormats(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gdk_content_provider_ref_storable_formats = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_provider_ref_storable_formats = Interop.downcallHandle(
         "gdk_content_provider_ref_storable_formats",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -177,16 +182,17 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * <p>
      * This can be assumed to be a subset of {@link ContentProvider#refFormats}.
      */
-    public ContentFormats refStorableFormats() {
+    public @NotNull ContentFormats refStorableFormats() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_content_provider_ref_storable_formats.invokeExact(handle());
-            return new ContentFormats(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gdk_content_provider_ref_storable_formats.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ContentFormats(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gdk_content_provider_write_mime_type_async = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_provider_write_mime_type_async = Interop.downcallHandle(
         "gdk_content_provider_write_mime_type_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -205,21 +211,21 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * <p>
      * The given {@code stream} will not be closed.
      */
-    public void writeMimeTypeAsync(java.lang.String mimeType, org.gtk.gio.OutputStream stream, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+    public @NotNull void writeMimeTypeAsync(@NotNull java.lang.String mimeType, @NotNull org.gtk.gio.OutputStream stream, @NotNull int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
-            gdk_content_provider_write_mime_type_async.invokeExact(handle(), Interop.allocateNativeString(mimeType).handle(), stream.handle(), ioPriority, cancellable.handle(), 
+            gdk_content_provider_write_mime_type_async.invokeExact(handle(), Interop.allocateNativeString(mimeType), stream.handle(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gdk.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gdk_content_provider_write_mime_type_finish = Interop.downcallHandle(
+    private static final MethodHandle gdk_content_provider_write_mime_type_finish = Interop.downcallHandle(
         "gdk_content_provider_write_mime_type_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -229,17 +235,18 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * <p>
      * See {@link ContentProvider#writeMimeTypeAsync}.
      */
-    public boolean writeMimeTypeFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public boolean writeMimeTypeFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gdk_content_provider_write_mime_type_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gdk_content_provider_write_mime_type_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
     @FunctionalInterface
@@ -254,13 +261,13 @@ public class ContentProvider extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("content-changed").handle(),
+                Interop.allocateNativeString("content-changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ContentProvider.Callbacks.class, "signalContentProviderContentChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

@@ -3,6 +3,7 @@ package org.pango;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code PangoGlyphItem} is a pair of a {@code PangoItem} and the glyphs
@@ -18,7 +19,7 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle pango_glyph_item_apply_attrs = Interop.downcallHandle(
+    private static final MethodHandle pango_glyph_item_apply_attrs = Interop.downcallHandle(
         "pango_glyph_item_apply_attrs",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -42,16 +43,17 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
      * This function takes ownership of {@code glyph_item}; it will be reused
      * as one of the elements in the list.
      */
-    public org.gtk.glib.SList applyAttrs(java.lang.String text, AttrList list) {
+    public @NotNull org.gtk.glib.SList applyAttrs(@NotNull java.lang.String text, @NotNull AttrList list) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_glyph_item_apply_attrs.invokeExact(handle(), Interop.allocateNativeString(text).handle(), list.handle());
-            return new org.gtk.glib.SList(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_glyph_item_apply_attrs.invokeExact(handle(), Interop.allocateNativeString(text), list.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle pango_glyph_item_copy = Interop.downcallHandle(
+    private static final MethodHandle pango_glyph_item_copy = Interop.downcallHandle(
         "pango_glyph_item_copy",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -59,16 +61,17 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Make a deep copy of an existing {@code PangoGlyphItem} structure.
      */
-    public GlyphItem copy() {
+    public @Nullable GlyphItem copy() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_glyph_item_copy.invokeExact(handle());
-            return new GlyphItem(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_glyph_item_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new GlyphItem(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle pango_glyph_item_free = Interop.downcallHandle(
+    private static final MethodHandle pango_glyph_item_free = Interop.downcallHandle(
         "pango_glyph_item_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -76,7 +79,7 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Frees a {@code PangoGlyphItem} and resources to which it points.
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             pango_glyph_item_free.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -84,7 +87,7 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle pango_glyph_item_get_logical_widths = Interop.downcallHandle(
+    private static final MethodHandle pango_glyph_item_get_logical_widths = Interop.downcallHandle(
         "pango_glyph_item_get_logical_widths",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -98,15 +101,15 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * See also {@link GlyphString#getLogicalWidths}.
      */
-    public void getLogicalWidths(java.lang.String text, int[] logicalWidths) {
+    public @NotNull void getLogicalWidths(@NotNull java.lang.String text, @NotNull int[] logicalWidths) {
         try {
-            pango_glyph_item_get_logical_widths.invokeExact(handle(), Interop.allocateNativeString(text).handle(), Interop.allocateNativeArray(logicalWidths).handle());
+            pango_glyph_item_get_logical_widths.invokeExact(handle(), Interop.allocateNativeString(text), Interop.allocateNativeArray(logicalWidths));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle pango_glyph_item_letter_space = Interop.downcallHandle(
+    private static final MethodHandle pango_glyph_item_letter_space = Interop.downcallHandle(
         "pango_glyph_item_letter_space",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -115,15 +118,15 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
      * Adds spacing between the graphemes of {@code glyph_item} to
      * give the effect of typographic letter spacing.
      */
-    public void letterSpace(java.lang.String text, LogAttr[] logAttrs, int letterSpacing) {
+    public @NotNull void letterSpace(@NotNull java.lang.String text, @NotNull LogAttr[] logAttrs, @NotNull int letterSpacing) {
         try {
-            pango_glyph_item_letter_space.invokeExact(handle(), Interop.allocateNativeString(text).handle(), Interop.allocateNativeArray(logAttrs).handle(), letterSpacing);
+            pango_glyph_item_letter_space.invokeExact(handle(), Interop.allocateNativeString(text), Interop.allocateNativeArray(logAttrs), letterSpacing);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle pango_glyph_item_split = Interop.downcallHandle(
+    private static final MethodHandle pango_glyph_item_split = Interop.downcallHandle(
         "pango_glyph_item_split",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -141,13 +144,14 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
      * This function is similar in function to pango_item_split() (and uses
      * it internally.)
      */
-    public GlyphItem split(java.lang.String text, int splitIndex) {
+    public @NotNull GlyphItem split(@NotNull java.lang.String text, @NotNull int splitIndex) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_glyph_item_split.invokeExact(handle(), Interop.allocateNativeString(text).handle(), splitIndex);
-            return new GlyphItem(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_glyph_item_split.invokeExact(handle(), Interop.allocateNativeString(text), splitIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new GlyphItem(Refcounted.get(RESULT, true));
     }
     
 }

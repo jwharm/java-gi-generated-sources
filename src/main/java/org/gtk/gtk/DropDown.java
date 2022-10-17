@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkDropDown} is a widget that allows the user to choose an item
@@ -23,14 +24,12 @@ import java.lang.invoke.*;
  * {@code GtkDropDown} can optionally allow search in the popup, which is
  * useful if the list of options is long. To enable the search entry,
  * use {@link DropDown#setEnableSearch}.
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * {@code GtkDropDown} has a single CSS node with name dropdown,
  * with the button and popover nodes as children.
- * <p>
+ * 
  * <h1>Accessibility</h1>
- * <p>
  * {@code GtkDropDown} uses the {@link AccessibleRole#COMBO_BOX} role.
  */
 public class DropDown extends Widget implements Accessible, Buildable, ConstraintTarget {
@@ -44,12 +43,12 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
         return new DropDown(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_drop_down_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_drop_down_new = Interop.downcallHandle(
         "gtk_drop_down_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(org.gtk.gio.ListModel model, Expression expression) {
+    private static Refcounted constructNew(@Nullable org.gtk.gio.ListModel model, @Nullable Expression expression) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_drop_down_new.invokeExact(model.refcounted().unowned().handle(), expression.refcounted().unowned().handle()), false);
             return RESULT;
@@ -64,18 +63,18 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      * You may want to call {@link DropDown#setFactory}
      * to set up a way to map its items to widgets.
      */
-    public DropDown(org.gtk.gio.ListModel model, Expression expression) {
+    public DropDown(@Nullable org.gtk.gio.ListModel model, @Nullable Expression expression) {
         super(constructNew(model, expression));
     }
     
-    static final MethodHandle gtk_drop_down_new_from_strings = Interop.downcallHandle(
+    private static final MethodHandle gtk_drop_down_new_from_strings = Interop.downcallHandle(
         "gtk_drop_down_new_from_strings",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewFromStrings(java.lang.String[] strings) {
+    private static Refcounted constructNewFromStrings(@NotNull java.lang.String[] strings) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_drop_down_new_from_strings.invokeExact(Interop.allocateNativeArray(strings).handle()), false);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_drop_down_new_from_strings.invokeExact(Interop.allocateNativeArray(strings)), false);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -86,11 +85,11 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      * Creates a new {@code GtkDropDown} that is populated with
      * the strings.
      */
-    public static DropDown newFromStrings(java.lang.String[] strings) {
+    public static DropDown newFromStrings(@NotNull java.lang.String[] strings) {
         return new DropDown(constructNewFromStrings(strings));
     }
     
-    static final MethodHandle gtk_drop_down_get_enable_search = Interop.downcallHandle(
+    private static final MethodHandle gtk_drop_down_get_enable_search = Interop.downcallHandle(
         "gtk_drop_down_get_enable_search",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -99,15 +98,16 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      * Returns whether search is enabled.
      */
     public boolean getEnableSearch() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_drop_down_get_enable_search.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_drop_down_get_enable_search.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_drop_down_get_expression = Interop.downcallHandle(
+    private static final MethodHandle gtk_drop_down_get_expression = Interop.downcallHandle(
         "gtk_drop_down_get_expression",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -117,16 +117,17 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      * <p>
      * See {@link DropDown#setExpression}.
      */
-    public Expression getExpression() {
+    public @Nullable Expression getExpression() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_drop_down_get_expression.invokeExact(handle());
-            return new Expression(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_drop_down_get_expression.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Expression(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_drop_down_get_factory = Interop.downcallHandle(
+    private static final MethodHandle gtk_drop_down_get_factory = Interop.downcallHandle(
         "gtk_drop_down_get_factory",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -138,16 +139,17 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      * item in the button. It is also used for items in the popup
      * if {@code Gtk.DropDown:list-factory} is not set.
      */
-    public ListItemFactory getFactory() {
+    public @Nullable ListItemFactory getFactory() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_drop_down_get_factory.invokeExact(handle());
-            return new ListItemFactory(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_drop_down_get_factory.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ListItemFactory(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_drop_down_get_list_factory = Interop.downcallHandle(
+    private static final MethodHandle gtk_drop_down_get_list_factory = Interop.downcallHandle(
         "gtk_drop_down_get_list_factory",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -155,16 +157,17 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
     /**
      * Gets the factory that's currently used to populate list items in the popup.
      */
-    public ListItemFactory getListFactory() {
+    public @Nullable ListItemFactory getListFactory() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_drop_down_get_list_factory.invokeExact(handle());
-            return new ListItemFactory(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_drop_down_get_list_factory.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ListItemFactory(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_drop_down_get_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_drop_down_get_model = Interop.downcallHandle(
         "gtk_drop_down_get_model",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -172,16 +175,17 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
     /**
      * Gets the model that provides the displayed items.
      */
-    public org.gtk.gio.ListModel getModel() {
+    public @Nullable org.gtk.gio.ListModel getModel() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_drop_down_get_model.invokeExact(handle());
-            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_drop_down_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_drop_down_get_selected = Interop.downcallHandle(
+    private static final MethodHandle gtk_drop_down_get_selected = Interop.downcallHandle(
         "gtk_drop_down_get_selected",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -190,15 +194,16 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      * Gets the position of the selected item.
      */
     public int getSelected() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_drop_down_get_selected.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_drop_down_get_selected.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_drop_down_get_selected_item = Interop.downcallHandle(
+    private static final MethodHandle gtk_drop_down_get_selected_item = Interop.downcallHandle(
         "gtk_drop_down_get_selected_item",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -206,16 +211,17 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
     /**
      * Gets the selected item. If no item is selected, {@code null} is returned.
      */
-    public org.gtk.gobject.Object getSelectedItem() {
+    public @Nullable org.gtk.gobject.Object getSelectedItem() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_drop_down_get_selected_item.invokeExact(handle());
-            return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_drop_down_get_selected_item.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_drop_down_get_show_arrow = Interop.downcallHandle(
+    private static final MethodHandle gtk_drop_down_get_show_arrow = Interop.downcallHandle(
         "gtk_drop_down_get_show_arrow",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -224,15 +230,16 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      * Returns whether to show an arrow within the widget.
      */
     public boolean getShowArrow() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_drop_down_get_show_arrow.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_drop_down_get_show_arrow.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_drop_down_set_enable_search = Interop.downcallHandle(
+    private static final MethodHandle gtk_drop_down_set_enable_search = Interop.downcallHandle(
         "gtk_drop_down_set_enable_search",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -244,7 +251,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      * Note that {@code Gtk.DropDown:expression} must be set for
      * search to work.
      */
-    public void setEnableSearch(boolean enableSearch) {
+    public @NotNull void setEnableSearch(@NotNull boolean enableSearch) {
         try {
             gtk_drop_down_set_enable_search.invokeExact(handle(), enableSearch ? 1 : 0);
         } catch (Throwable ERR) {
@@ -252,7 +259,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_drop_down_set_expression = Interop.downcallHandle(
+    private static final MethodHandle gtk_drop_down_set_expression = Interop.downcallHandle(
         "gtk_drop_down_set_expression",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -263,7 +270,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
      * This is used for search in the popup. The expression must have
      * a value type of {@code G_TYPE_STRING}.
      */
-    public void setExpression(Expression expression) {
+    public @NotNull void setExpression(@Nullable Expression expression) {
         try {
             gtk_drop_down_set_expression.invokeExact(handle(), expression.handle());
         } catch (Throwable ERR) {
@@ -271,7 +278,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_drop_down_set_factory = Interop.downcallHandle(
+    private static final MethodHandle gtk_drop_down_set_factory = Interop.downcallHandle(
         "gtk_drop_down_set_factory",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -279,7 +286,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
     /**
      * Sets the {@code GtkListItemFactory} to use for populating list items.
      */
-    public void setFactory(ListItemFactory factory) {
+    public @NotNull void setFactory(@Nullable ListItemFactory factory) {
         try {
             gtk_drop_down_set_factory.invokeExact(handle(), factory.handle());
         } catch (Throwable ERR) {
@@ -287,7 +294,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_drop_down_set_list_factory = Interop.downcallHandle(
+    private static final MethodHandle gtk_drop_down_set_list_factory = Interop.downcallHandle(
         "gtk_drop_down_set_list_factory",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -295,7 +302,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
     /**
      * Sets the {@code GtkListItemFactory} to use for populating list items in the popup.
      */
-    public void setListFactory(ListItemFactory factory) {
+    public @NotNull void setListFactory(@Nullable ListItemFactory factory) {
         try {
             gtk_drop_down_set_list_factory.invokeExact(handle(), factory.handle());
         } catch (Throwable ERR) {
@@ -303,7 +310,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_drop_down_set_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_drop_down_set_model = Interop.downcallHandle(
         "gtk_drop_down_set_model",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -311,7 +318,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
     /**
      * Sets the {@code GListModel} to use.
      */
-    public void setModel(org.gtk.gio.ListModel model) {
+    public @NotNull void setModel(@Nullable org.gtk.gio.ListModel model) {
         try {
             gtk_drop_down_set_model.invokeExact(handle(), model.handle());
         } catch (Throwable ERR) {
@@ -319,7 +326,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_drop_down_set_selected = Interop.downcallHandle(
+    private static final MethodHandle gtk_drop_down_set_selected = Interop.downcallHandle(
         "gtk_drop_down_set_selected",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -327,7 +334,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
     /**
      * Selects the item at the given position.
      */
-    public void setSelected(int position) {
+    public @NotNull void setSelected(@NotNull int position) {
         try {
             gtk_drop_down_set_selected.invokeExact(handle(), position);
         } catch (Throwable ERR) {
@@ -335,7 +342,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_drop_down_set_show_arrow = Interop.downcallHandle(
+    private static final MethodHandle gtk_drop_down_set_show_arrow = Interop.downcallHandle(
         "gtk_drop_down_set_show_arrow",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -343,7 +350,7 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
     /**
      * Sets whether an arrow will be displayed within the widget.
      */
-    public void setShowArrow(boolean showArrow) {
+    public @NotNull void setShowArrow(@NotNull boolean showArrow) {
         try {
             gtk_drop_down_set_show_arrow.invokeExact(handle(), showArrow ? 1 : 0);
         } catch (Throwable ERR) {
@@ -366,13 +373,13 @@ public class DropDown extends Widget implements Accessible, Buildable, Constrain
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("activate").handle(),
+                Interop.allocateNativeString("activate"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DropDown.Callbacks.class, "signalDropDownActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

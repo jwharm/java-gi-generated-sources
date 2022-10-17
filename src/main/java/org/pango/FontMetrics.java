@@ -3,6 +3,7 @@ package org.pango;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code PangoFontMetrics} structure holds the overall metric information
@@ -26,7 +27,7 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle pango_font_metrics_get_approximate_char_width = Interop.downcallHandle(
+    private static final MethodHandle pango_font_metrics_get_approximate_char_width = Interop.downcallHandle(
         "pango_font_metrics_get_approximate_char_width",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -39,15 +40,16 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
      * text will be wider and narrower than this.
      */
     public int getApproximateCharWidth() {
+        int RESULT;
         try {
-            var RESULT = (int) pango_font_metrics_get_approximate_char_width.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) pango_font_metrics_get_approximate_char_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle pango_font_metrics_get_approximate_digit_width = Interop.downcallHandle(
+    private static final MethodHandle pango_font_metrics_get_approximate_digit_width = Interop.downcallHandle(
         "pango_font_metrics_get_approximate_digit_width",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -62,15 +64,16 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
      * pango_font_metrics_get_approximate_char_width() for digits.
      */
     public int getApproximateDigitWidth() {
+        int RESULT;
         try {
-            var RESULT = (int) pango_font_metrics_get_approximate_digit_width.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) pango_font_metrics_get_approximate_digit_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle pango_font_metrics_get_ascent = Interop.downcallHandle(
+    private static final MethodHandle pango_font_metrics_get_ascent = Interop.downcallHandle(
         "pango_font_metrics_get_ascent",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -84,15 +87,16 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
      * figure where the ink will be.)
      */
     public int getAscent() {
+        int RESULT;
         try {
-            var RESULT = (int) pango_font_metrics_get_ascent.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) pango_font_metrics_get_ascent.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle pango_font_metrics_get_descent = Interop.downcallHandle(
+    private static final MethodHandle pango_font_metrics_get_descent = Interop.downcallHandle(
         "pango_font_metrics_get_descent",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -106,15 +110,16 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
      * to figure where the ink will be.)
      */
     public int getDescent() {
+        int RESULT;
         try {
-            var RESULT = (int) pango_font_metrics_get_descent.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) pango_font_metrics_get_descent.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle pango_font_metrics_get_height = Interop.downcallHandle(
+    private static final MethodHandle pango_font_metrics_get_height = Interop.downcallHandle(
         "pango_font_metrics_get_height",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -128,15 +133,16 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
      * If the line height is not available, 0 is returned.
      */
     public int getHeight() {
+        int RESULT;
         try {
-            var RESULT = (int) pango_font_metrics_get_height.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) pango_font_metrics_get_height.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle pango_font_metrics_get_strikethrough_position = Interop.downcallHandle(
+    private static final MethodHandle pango_font_metrics_get_strikethrough_position = Interop.downcallHandle(
         "pango_font_metrics_get_strikethrough_position",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -148,15 +154,16 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
      * baseline of the top of the strikethrough.
      */
     public int getStrikethroughPosition() {
+        int RESULT;
         try {
-            var RESULT = (int) pango_font_metrics_get_strikethrough_position.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) pango_font_metrics_get_strikethrough_position.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle pango_font_metrics_get_strikethrough_thickness = Interop.downcallHandle(
+    private static final MethodHandle pango_font_metrics_get_strikethrough_thickness = Interop.downcallHandle(
         "pango_font_metrics_get_strikethrough_thickness",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -165,15 +172,16 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
      * Gets the suggested thickness to draw for the strikethrough.
      */
     public int getStrikethroughThickness() {
+        int RESULT;
         try {
-            var RESULT = (int) pango_font_metrics_get_strikethrough_thickness.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) pango_font_metrics_get_strikethrough_thickness.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle pango_font_metrics_get_underline_position = Interop.downcallHandle(
+    private static final MethodHandle pango_font_metrics_get_underline_position = Interop.downcallHandle(
         "pango_font_metrics_get_underline_position",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -186,15 +194,16 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
      * the baseline, this value is typically negative.
      */
     public int getUnderlinePosition() {
+        int RESULT;
         try {
-            var RESULT = (int) pango_font_metrics_get_underline_position.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) pango_font_metrics_get_underline_position.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle pango_font_metrics_get_underline_thickness = Interop.downcallHandle(
+    private static final MethodHandle pango_font_metrics_get_underline_thickness = Interop.downcallHandle(
         "pango_font_metrics_get_underline_thickness",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -203,15 +212,16 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
      * Gets the suggested thickness to draw for the underline.
      */
     public int getUnderlineThickness() {
+        int RESULT;
         try {
-            var RESULT = (int) pango_font_metrics_get_underline_thickness.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) pango_font_metrics_get_underline_thickness.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle pango_font_metrics_ref = Interop.downcallHandle(
+    private static final MethodHandle pango_font_metrics_ref = Interop.downcallHandle(
         "pango_font_metrics_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -219,16 +229,17 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Increase the reference count of a font metrics structure by one.
      */
-    public FontMetrics ref() {
+    public @Nullable FontMetrics ref() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_font_metrics_ref.invokeExact(handle());
-            return new FontMetrics(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_font_metrics_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new FontMetrics(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle pango_font_metrics_unref = Interop.downcallHandle(
+    private static final MethodHandle pango_font_metrics_unref = Interop.downcallHandle(
         "pango_font_metrics_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -238,7 +249,7 @@ public class FontMetrics extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If the result is zero, frees the structure and any associated memory.
      */
-    public void unref() {
+    public @NotNull void unref() {
         try {
             pango_font_metrics_unref.invokeExact(handle());
         } catch (Throwable ERR) {

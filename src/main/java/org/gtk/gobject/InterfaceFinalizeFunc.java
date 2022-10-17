@@ -1,6 +1,7 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A callback function used by the type system to finalize an interface.
@@ -10,5 +11,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface InterfaceFinalizeFunc {
-        void onInterfaceFinalizeFunc(TypeInterface gIface);
+        void onInterfaceFinalizeFunc(@NotNull TypeInterface gIface);
 }

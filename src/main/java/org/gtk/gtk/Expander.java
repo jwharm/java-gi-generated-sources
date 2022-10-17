@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkExpander} allows the user to reveal its child by clicking
@@ -16,9 +17,8 @@ import java.lang.invoke.*;
  * the child widget and use {@link Expander#setChild} to add it
  * to the expander. When the expander is toggled, it will take care of
  * showing and hiding the child automatically.
- * <p>
+ * 
  * <h1>Special Usage</h1>
- * <p>
  * There are situations in which you may prefer to show and hide the
  * expanded widget yourself, such as when you want to actually create
  * the widget at expansion time. In this case, create a {@code GtkExpander}
@@ -26,7 +26,7 @@ import java.lang.invoke.*;
  * [property{@code Gtk}.Expander:expanded[ property which can be used to
  * monitor its expansion state. You should watch this property with
  * a signal connection as follows:
- * <p>
+ * 
  * <pre>{@code c
  * static void
  * expander_callback (GObject    *object,
@@ -57,16 +57,15 @@ import java.lang.invoke.*;
  *   // ...
  * }
  * }</pre>
- * <p>
+ * 
  * <h1>GtkExpander as GtkBuildable</h1>
- * <p>
  * The {@code GtkExpander} implementation of the {@code GtkBuildable} interface supports
  * placing a child in the label position by specifying “label” as the
  * “type” attribute of a &lt;child&gt; element. A normal content child can be
  * specified without specifying a &lt;child&gt; type attribute.
  * <p>
  * An example of a UI definition fragment with GtkExpander:
- * <p>
+ * 
  * <pre>{@code xml
  * <object class="GtkExpander">
  *   <child type="label">
@@ -77,9 +76,8 @@ import java.lang.invoke.*;
  *   </child>
  * </object>
  * }</pre>
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * <pre>{@code 
  * expander
  * ╰── box
@@ -92,9 +90,8 @@ import java.lang.invoke.*;
  * {@code GtkExpander} has three CSS nodes, the main node with the name expander,
  * a subnode with name title and node below it with name arrow. The arrow of an
  * expander that is showing its child gets the :checked pseudoclass added to it.
- * <p>
+ * 
  * <h1>Accessibility</h1>
- * <p>
  * {@code GtkExpander} uses the {@link AccessibleRole#BUTTON} role.
  */
 public class Expander extends Widget implements Accessible, Buildable, ConstraintTarget {
@@ -108,14 +105,14 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
         return new Expander(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_expander_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_expander_new = Interop.downcallHandle(
         "gtk_expander_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(java.lang.String label) {
+    private static Refcounted constructNew(@Nullable java.lang.String label) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_expander_new.invokeExact(Interop.allocateNativeString(label).handle()), false);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_expander_new.invokeExact(Interop.allocateNativeString(label)), false);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -125,18 +122,18 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
     /**
      * Creates a new expander using {@code label} as the text of the label.
      */
-    public Expander(java.lang.String label) {
+    public Expander(@Nullable java.lang.String label) {
         super(constructNew(label));
     }
     
-    static final MethodHandle gtk_expander_new_with_mnemonic = Interop.downcallHandle(
+    private static final MethodHandle gtk_expander_new_with_mnemonic = Interop.downcallHandle(
         "gtk_expander_new_with_mnemonic",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewWithMnemonic(java.lang.String label) {
+    private static Refcounted constructNewWithMnemonic(@Nullable java.lang.String label) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_expander_new_with_mnemonic.invokeExact(Interop.allocateNativeString(label).handle()), false);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_expander_new_with_mnemonic.invokeExact(Interop.allocateNativeString(label)), false);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -153,11 +150,11 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * <p>
      * Pressing Alt and that key activates the button.
      */
-    public static Expander newWithMnemonic(java.lang.String label) {
+    public static Expander newWithMnemonic(@Nullable java.lang.String label) {
         return new Expander(constructNewWithMnemonic(label));
     }
     
-    static final MethodHandle gtk_expander_get_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_expander_get_child = Interop.downcallHandle(
         "gtk_expander_get_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -165,16 +162,17 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
     /**
      * Gets the child widget of {@code expander}.
      */
-    public Widget getChild() {
+    public @Nullable Widget getChild() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_expander_get_child.invokeExact(handle());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_expander_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_expander_get_expanded = Interop.downcallHandle(
+    private static final MethodHandle gtk_expander_get_expanded = Interop.downcallHandle(
         "gtk_expander_get_expanded",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -185,15 +183,16 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * Returns {@code true} if the child widget is revealed.
      */
     public boolean getExpanded() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_expander_get_expanded.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_expander_get_expanded.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_expander_get_label = Interop.downcallHandle(
+    private static final MethodHandle gtk_expander_get_label = Interop.downcallHandle(
         "gtk_expander_get_label",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -207,16 +206,17 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * case if you create an empty button with gtk_button_new() to use as a
      * container.
      */
-    public java.lang.String getLabel() {
+    public @Nullable java.lang.String getLabel() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_expander_get_label.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_expander_get_label.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_expander_get_label_widget = Interop.downcallHandle(
+    private static final MethodHandle gtk_expander_get_label_widget = Interop.downcallHandle(
         "gtk_expander_get_label_widget",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -224,16 +224,17 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
     /**
      * Retrieves the label widget for the frame.
      */
-    public Widget getLabelWidget() {
+    public @Nullable Widget getLabelWidget() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_expander_get_label_widget.invokeExact(handle());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_expander_get_label_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_expander_get_resize_toplevel = Interop.downcallHandle(
+    private static final MethodHandle gtk_expander_get_resize_toplevel = Interop.downcallHandle(
         "gtk_expander_get_resize_toplevel",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -243,15 +244,16 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * containing the expander upon resizing and collpasing.
      */
     public boolean getResizeToplevel() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_expander_get_resize_toplevel.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_expander_get_resize_toplevel.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_expander_get_use_markup = Interop.downcallHandle(
+    private static final MethodHandle gtk_expander_get_use_markup = Interop.downcallHandle(
         "gtk_expander_get_use_markup",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -260,15 +262,16 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * Returns whether the label’s text is interpreted as Pango markup.
      */
     public boolean getUseMarkup() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_expander_get_use_markup.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_expander_get_use_markup.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_expander_get_use_underline = Interop.downcallHandle(
+    private static final MethodHandle gtk_expander_get_use_underline = Interop.downcallHandle(
         "gtk_expander_get_use_underline",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -277,15 +280,16 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * Returns whether an underline in the text indicates a mnemonic.
      */
     public boolean getUseUnderline() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_expander_get_use_underline.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_expander_get_use_underline.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_expander_set_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_expander_set_child = Interop.downcallHandle(
         "gtk_expander_set_child",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -293,7 +297,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
     /**
      * Sets the child widget of {@code expander}.
      */
-    public void setChild(Widget child) {
+    public @NotNull void setChild(@Nullable Widget child) {
         try {
             gtk_expander_set_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -301,7 +305,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_expander_set_expanded = Interop.downcallHandle(
+    private static final MethodHandle gtk_expander_set_expanded = Interop.downcallHandle(
         "gtk_expander_set_expanded",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -312,7 +316,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * Set to {@code true}, if you want the child widget to be revealed,
      * and {@code false} if you want the child widget to be hidden.
      */
-    public void setExpanded(boolean expanded) {
+    public @NotNull void setExpanded(@NotNull boolean expanded) {
         try {
             gtk_expander_set_expanded.invokeExact(handle(), expanded ? 1 : 0);
         } catch (Throwable ERR) {
@@ -320,7 +324,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_expander_set_label = Interop.downcallHandle(
+    private static final MethodHandle gtk_expander_set_label = Interop.downcallHandle(
         "gtk_expander_set_label",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -330,15 +334,15 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * <p>
      * This will also clear any previously set labels.
      */
-    public void setLabel(java.lang.String label) {
+    public @NotNull void setLabel(@Nullable java.lang.String label) {
         try {
-            gtk_expander_set_label.invokeExact(handle(), Interop.allocateNativeString(label).handle());
+            gtk_expander_set_label.invokeExact(handle(), Interop.allocateNativeString(label));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_expander_set_label_widget = Interop.downcallHandle(
+    private static final MethodHandle gtk_expander_set_label_widget = Interop.downcallHandle(
         "gtk_expander_set_label_widget",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -349,7 +353,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * This is the widget that will appear embedded alongside
      * the expander arrow.
      */
-    public void setLabelWidget(Widget labelWidget) {
+    public @NotNull void setLabelWidget(@Nullable Widget labelWidget) {
         try {
             gtk_expander_set_label_widget.invokeExact(handle(), labelWidget.handle());
         } catch (Throwable ERR) {
@@ -357,7 +361,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_expander_set_resize_toplevel = Interop.downcallHandle(
+    private static final MethodHandle gtk_expander_set_resize_toplevel = Interop.downcallHandle(
         "gtk_expander_set_resize_toplevel",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -366,7 +370,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
      * Sets whether the expander will resize the toplevel widget
      * containing the expander upon resizing and collpasing.
      */
-    public void setResizeToplevel(boolean resizeToplevel) {
+    public @NotNull void setResizeToplevel(@NotNull boolean resizeToplevel) {
         try {
             gtk_expander_set_resize_toplevel.invokeExact(handle(), resizeToplevel ? 1 : 0);
         } catch (Throwable ERR) {
@@ -374,7 +378,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_expander_set_use_markup = Interop.downcallHandle(
+    private static final MethodHandle gtk_expander_set_use_markup = Interop.downcallHandle(
         "gtk_expander_set_use_markup",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -382,7 +386,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
     /**
      * Sets whether the text of the label contains Pango markup.
      */
-    public void setUseMarkup(boolean useMarkup) {
+    public @NotNull void setUseMarkup(@NotNull boolean useMarkup) {
         try {
             gtk_expander_set_use_markup.invokeExact(handle(), useMarkup ? 1 : 0);
         } catch (Throwable ERR) {
@@ -390,7 +394,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_expander_set_use_underline = Interop.downcallHandle(
+    private static final MethodHandle gtk_expander_set_use_underline = Interop.downcallHandle(
         "gtk_expander_set_use_underline",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -398,7 +402,7 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
     /**
      * If true, an underline in the text indicates a mnemonic.
      */
-    public void setUseUnderline(boolean useUnderline) {
+    public @NotNull void setUseUnderline(@NotNull boolean useUnderline) {
         try {
             gtk_expander_set_use_underline.invokeExact(handle(), useUnderline ? 1 : 0);
         } catch (Throwable ERR) {
@@ -418,13 +422,13 @@ public class Expander extends Widget implements Accessible, Buildable, Constrain
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("activate").handle(),
+                Interop.allocateNativeString("activate"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Expander.Callbacks.class, "signalExpanderActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

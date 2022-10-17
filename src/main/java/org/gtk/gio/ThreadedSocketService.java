@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@link ThreadedSocketService} is a simple subclass of {@link SocketService}
@@ -32,12 +33,12 @@ public class ThreadedSocketService extends SocketService {
         return new ThreadedSocketService(gobject.refcounted());
     }
     
-    static final MethodHandle g_threaded_socket_service_new = Interop.downcallHandle(
+    private static final MethodHandle g_threaded_socket_service_new = Interop.downcallHandle(
         "g_threaded_socket_service_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNew(int maxThreads) {
+    private static Refcounted constructNew(@NotNull int maxThreads) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_threaded_socket_service_new.invokeExact(maxThreads), true);
             return RESULT;
@@ -50,13 +51,13 @@ public class ThreadedSocketService extends SocketService {
      * Creates a new {@link ThreadedSocketService} with no listeners. Listeners
      * must be added with one of the {@link SocketListener} "add" methods.
      */
-    public ThreadedSocketService(int maxThreads) {
+    public ThreadedSocketService(@NotNull int maxThreads) {
         super(constructNew(maxThreads));
     }
     
     @FunctionalInterface
     public interface RunHandler {
-        boolean signalReceived(ThreadedSocketService source, SocketConnection connection, org.gtk.gobject.Object sourceObject);
+        boolean signalReceived(ThreadedSocketService source, @NotNull SocketConnection connection, @Nullable org.gtk.gobject.Object sourceObject);
     }
     
     /**
@@ -69,13 +70,13 @@ public class ThreadedSocketService extends SocketService {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("run").handle(),
+                Interop.allocateNativeString("run"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ThreadedSocketService.Callbacks.class, "signalThreadedSocketServiceRun",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

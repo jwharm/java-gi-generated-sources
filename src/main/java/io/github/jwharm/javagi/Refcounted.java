@@ -2,7 +2,6 @@ package io.github.jwharm.javagi;
 
 import java.lang.foreign.Addressable;
 import java.lang.foreign.FunctionDescriptor;
-import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.ValueLayout;
 import java.lang.invoke.MethodHandle;
 import java.lang.ref.Cleaner;
@@ -15,10 +14,10 @@ public class Refcounted {
     private final static Cleaner cleaner = Cleaner.create();
     private Refcounted.State state;
     private Cleaner.Cleanable cleanable;
-    
+
     private static final MethodHandle g_object_unref = Interop.downcallHandle(
-        "g_object_unref",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+            "g_object_unref",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
 
     private static class State implements Runnable {

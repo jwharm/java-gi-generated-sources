@@ -1,11 +1,12 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Signature for callback function used in g_dbus_connection_signal_subscribe().
  */
 @FunctionalInterface
 public interface DBusSignalCallback {
-        void onDBusSignalCallback(DBusConnection connection, java.lang.String senderName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String signalName, org.gtk.glib.Variant parameters);
+        void onDBusSignalCallback(@NotNull DBusConnection connection, @Nullable java.lang.String senderName, @NotNull java.lang.String objectPath, @NotNull java.lang.String interfaceName, @NotNull java.lang.String signalName, @NotNull org.gtk.glib.Variant parameters);
 }

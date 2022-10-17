@@ -1,6 +1,7 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * This is the function type of the callback used for the {@link org.gtk.glib.Source}
@@ -8,5 +9,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface DatagramBasedSourceFunc {
-        boolean onDatagramBasedSourceFunc(DatagramBased datagramBased, org.gtk.glib.IOCondition condition);
+        boolean onDatagramBasedSourceFunc(@NotNull DatagramBased datagramBased, @NotNull org.gtk.glib.IOCondition condition);
 }

@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@code GtkFontChooserDialog} widget is a dialog for selecting a font.
@@ -13,9 +14,8 @@ import java.lang.invoke.*;
  * and does not provide much API of its own.
  * <p>
  * To create a {@code GtkFontChooserDialog}, use {@link FontChooserDialog#FontChooserDialog}.
- * <p>
+ * 
  * <h1>GtkFontChooserDialog as GtkBuildable</h1>
- * <p>
  * The {@code GtkFontChooserDialog} implementation of the {@code GtkBuildable}
  * interface exposes the buttons with the names “select_button”
  * and “cancel_button”.
@@ -31,14 +31,14 @@ public class FontChooserDialog extends Dialog implements Accessible, Buildable, 
         return new FontChooserDialog(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_font_chooser_dialog_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_font_chooser_dialog_new = Interop.downcallHandle(
         "gtk_font_chooser_dialog_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(java.lang.String title, Window parent) {
+    private static Refcounted constructNew(@Nullable java.lang.String title, @Nullable Window parent) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_font_chooser_dialog_new.invokeExact(Interop.allocateNativeString(title).handle(), parent.handle()), false);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_font_chooser_dialog_new.invokeExact(Interop.allocateNativeString(title), parent.handle()), false);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -48,7 +48,7 @@ public class FontChooserDialog extends Dialog implements Accessible, Buildable, 
     /**
      * Creates a new {@code GtkFontChooserDialog}.
      */
-    public FontChooserDialog(java.lang.String title, Window parent) {
+    public FontChooserDialog(@Nullable java.lang.String title, @Nullable Window parent) {
         super(constructNew(title, parent));
     }
     

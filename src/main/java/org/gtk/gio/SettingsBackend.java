@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@link SettingsBackend} interface defines a generic interface for
@@ -41,7 +42,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
         return new SettingsBackend(gobject.refcounted());
     }
     
-    static final MethodHandle g_settings_backend_changed = Interop.downcallHandle(
+    private static final MethodHandle g_settings_backend_changed = Interop.downcallHandle(
         "g_settings_backend_changed",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -70,15 +71,15 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * g_settings_backend_write() then {@code origin_tag} must be set to the same
      * value that was passed to that call.
      */
-    public void changed(java.lang.String key, java.lang.foreign.MemoryAddress originTag) {
+    public @NotNull void changed(@NotNull java.lang.String key, @Nullable java.lang.foreign.MemoryAddress originTag) {
         try {
-            g_settings_backend_changed.invokeExact(handle(), Interop.allocateNativeString(key).handle(), originTag);
+            g_settings_backend_changed.invokeExact(handle(), Interop.allocateNativeString(key), originTag);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_settings_backend_changed_tree = Interop.downcallHandle(
+    private static final MethodHandle g_settings_backend_changed_tree = Interop.downcallHandle(
         "g_settings_backend_changed_tree",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -88,7 +89,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * {@code tree}, computes the longest common prefix and calls
      * g_settings_backend_changed().
      */
-    public void changedTree(org.gtk.glib.Tree tree, java.lang.foreign.MemoryAddress originTag) {
+    public @NotNull void changedTree(@NotNull org.gtk.glib.Tree tree, @Nullable java.lang.foreign.MemoryAddress originTag) {
         try {
             g_settings_backend_changed_tree.invokeExact(handle(), tree.handle(), originTag);
         } catch (Throwable ERR) {
@@ -96,7 +97,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle g_settings_backend_keys_changed = Interop.downcallHandle(
+    private static final MethodHandle g_settings_backend_keys_changed = Interop.downcallHandle(
         "g_settings_backend_keys_changed",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -124,15 +125,15 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * be as long as possible (ie: the longest common prefix of all of the
      * keys that were changed) but this is not strictly required.
      */
-    public void keysChanged(java.lang.String path, java.lang.String[] items, java.lang.foreign.MemoryAddress originTag) {
+    public @NotNull void keysChanged(@NotNull java.lang.String path, @NotNull java.lang.String[] items, @Nullable java.lang.foreign.MemoryAddress originTag) {
         try {
-            g_settings_backend_keys_changed.invokeExact(handle(), Interop.allocateNativeString(path).handle(), Interop.allocateNativeArray(items).handle(), originTag);
+            g_settings_backend_keys_changed.invokeExact(handle(), Interop.allocateNativeString(path), Interop.allocateNativeArray(items), originTag);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_settings_backend_path_changed = Interop.downcallHandle(
+    private static final MethodHandle g_settings_backend_path_changed = Interop.downcallHandle(
         "g_settings_backend_path_changed",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -160,15 +161,15 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * example, if this function is called with the path of "/" then every
      * single key in the application will be notified of a possible change.
      */
-    public void pathChanged(java.lang.String path, java.lang.foreign.MemoryAddress originTag) {
+    public @NotNull void pathChanged(@NotNull java.lang.String path, @Nullable java.lang.foreign.MemoryAddress originTag) {
         try {
-            g_settings_backend_path_changed.invokeExact(handle(), Interop.allocateNativeString(path).handle(), originTag);
+            g_settings_backend_path_changed.invokeExact(handle(), Interop.allocateNativeString(path), originTag);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_settings_backend_path_writable_changed = Interop.downcallHandle(
+    private static final MethodHandle g_settings_backend_path_writable_changed = Interop.downcallHandle(
         "g_settings_backend_path_writable_changed",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -180,15 +181,15 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * Since GSettings performs no locking operations for itself, this call
      * will always be made in response to external events.
      */
-    public void pathWritableChanged(java.lang.String path) {
+    public @NotNull void pathWritableChanged(@NotNull java.lang.String path) {
         try {
-            g_settings_backend_path_writable_changed.invokeExact(handle(), Interop.allocateNativeString(path).handle());
+            g_settings_backend_path_writable_changed.invokeExact(handle(), Interop.allocateNativeString(path));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_settings_backend_writable_changed = Interop.downcallHandle(
+    private static final MethodHandle g_settings_backend_writable_changed = Interop.downcallHandle(
         "g_settings_backend_writable_changed",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -199,37 +200,15 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * Since GSettings performs no locking operations for itself, this call
      * will always be made in response to external events.
      */
-    public void writableChanged(java.lang.String key) {
+    public @NotNull void writableChanged(@NotNull java.lang.String key) {
         try {
-            g_settings_backend_writable_changed.invokeExact(handle(), Interop.allocateNativeString(key).handle());
+            g_settings_backend_writable_changed.invokeExact(handle(), Interop.allocateNativeString(key));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_settings_backend_flatten_tree = Interop.downcallHandle(
-        "g_settings_backend_flatten_tree",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    /**
-     * Calculate the longest common prefix of all keys in a tree and write
-     * out an array of the key names relative to that prefix and,
-     * optionally, the value to store at each of those keys.
-     * <p>
-     * You must free the value returned in {@code path}, {@code keys} and {@code values} using
-     * g_free().  You should not attempt to free or unref the contents of
-     * {@code keys} or {@code values}.
-     */
-    public static void flattenTree(org.gtk.glib.Tree tree, PointerString path, PointerString keys, PointerProxy<org.gtk.glib.Variant> values) {
-        try {
-            g_settings_backend_flatten_tree.invokeExact(tree.handle(), path.handle(), keys.handle(), values.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-    }
-    
-    static final MethodHandle g_settings_backend_get_default = Interop.downcallHandle(
+    private static final MethodHandle g_settings_backend_get_default = Interop.downcallHandle(
         "g_settings_backend_get_default",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -241,13 +220,14 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * <p>
      * The user gets a reference to the backend.
      */
-    public static SettingsBackend getDefault() {
+    public static @NotNull SettingsBackend getDefault() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_settings_backend_get_default.invokeExact();
-            return new SettingsBackend(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_settings_backend_get_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SettingsBackend(Refcounted.get(RESULT, true));
     }
     
 }

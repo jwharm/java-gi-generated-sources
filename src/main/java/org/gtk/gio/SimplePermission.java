@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link SimplePermission} is a trivial implementation of {@link Permission} that
@@ -22,12 +23,12 @@ public class SimplePermission extends Permission {
         return new SimplePermission(gobject.refcounted());
     }
     
-    static final MethodHandle g_simple_permission_new = Interop.downcallHandle(
+    private static final MethodHandle g_simple_permission_new = Interop.downcallHandle(
         "g_simple_permission_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNew(boolean allowed) {
+    private static Refcounted constructNew(@NotNull boolean allowed) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_simple_permission_new.invokeExact(allowed ? 1 : 0), true);
             return RESULT;
@@ -40,7 +41,7 @@ public class SimplePermission extends Permission {
      * Creates a new {@link Permission} instance that represents an action that is
      * either always or never allowed.
      */
-    public SimplePermission(boolean allowed) {
+    public SimplePermission(@NotNull boolean allowed) {
         super(constructNew(allowed));
     }
     

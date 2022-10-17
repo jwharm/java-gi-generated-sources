@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GtkEntryBuffer} that locks the underlying memory to prevent it
@@ -21,7 +22,7 @@ public class PasswordEntryBuffer extends EntryBuffer {
         return new PasswordEntryBuffer(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_password_entry_buffer_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_password_entry_buffer_new = Interop.downcallHandle(
         "gtk_password_entry_buffer_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );

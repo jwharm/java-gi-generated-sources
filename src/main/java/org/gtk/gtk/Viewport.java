@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkViewport} implements scrollability for widgets that lack their
@@ -13,13 +14,11 @@ import java.lang.invoke.*;
  * <p>
  * The {@code GtkViewport} will start scrolling content only if allocated
  * less than the child widget’s minimum size in a given orientation.
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * {@code GtkViewport} has a single CSS node with name {@code viewport}.
- * <p>
+ * 
  * <h1>Accessibility</h1>
- * <p>
  * {@code GtkViewport} uses the {@link AccessibleRole#GROUP} role.
  */
 public class Viewport extends Widget implements Accessible, Buildable, ConstraintTarget, Scrollable {
@@ -33,12 +32,12 @@ public class Viewport extends Widget implements Accessible, Buildable, Constrain
         return new Viewport(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_viewport_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_viewport_new = Interop.downcallHandle(
         "gtk_viewport_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(Adjustment hadjustment, Adjustment vadjustment) {
+    private static Refcounted constructNew(@Nullable Adjustment hadjustment, @Nullable Adjustment vadjustment) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_viewport_new.invokeExact(hadjustment.handle(), vadjustment.handle()), false);
             return RESULT;
@@ -53,11 +52,11 @@ public class Viewport extends Widget implements Accessible, Buildable, Constrain
      * The new viewport uses the given adjustments, or default
      * adjustments if none are given.
      */
-    public Viewport(Adjustment hadjustment, Adjustment vadjustment) {
+    public Viewport(@Nullable Adjustment hadjustment, @Nullable Adjustment vadjustment) {
         super(constructNew(hadjustment, vadjustment));
     }
     
-    static final MethodHandle gtk_viewport_get_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_viewport_get_child = Interop.downcallHandle(
         "gtk_viewport_get_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -65,16 +64,17 @@ public class Viewport extends Widget implements Accessible, Buildable, Constrain
     /**
      * Gets the child widget of {@code viewport}.
      */
-    public Widget getChild() {
+    public @Nullable Widget getChild() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_viewport_get_child.invokeExact(handle());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_viewport_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_viewport_get_scroll_to_focus = Interop.downcallHandle(
+    private static final MethodHandle gtk_viewport_get_scroll_to_focus = Interop.downcallHandle(
         "gtk_viewport_get_scroll_to_focus",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -84,15 +84,16 @@ public class Viewport extends Widget implements Accessible, Buildable, Constrain
      * child in view.
      */
     public boolean getScrollToFocus() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_viewport_get_scroll_to_focus.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_viewport_get_scroll_to_focus.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_viewport_set_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_viewport_set_child = Interop.downcallHandle(
         "gtk_viewport_set_child",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -100,7 +101,7 @@ public class Viewport extends Widget implements Accessible, Buildable, Constrain
     /**
      * Sets the child widget of {@code viewport}.
      */
-    public void setChild(Widget child) {
+    public @NotNull void setChild(@Nullable Widget child) {
         try {
             gtk_viewport_set_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -108,7 +109,7 @@ public class Viewport extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_viewport_set_scroll_to_focus = Interop.downcallHandle(
+    private static final MethodHandle gtk_viewport_set_scroll_to_focus = Interop.downcallHandle(
         "gtk_viewport_set_scroll_to_focus",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -117,7 +118,7 @@ public class Viewport extends Widget implements Accessible, Buildable, Constrain
      * Sets whether the viewport should automatically scroll
      * to keep the focused child in view.
      */
-    public void setScrollToFocus(boolean scrollToFocus) {
+    public @NotNull void setScrollToFocus(@NotNull boolean scrollToFocus) {
         try {
             gtk_viewport_set_scroll_to_focus.invokeExact(handle(), scrollToFocus ? 1 : 0);
         } catch (Throwable ERR) {

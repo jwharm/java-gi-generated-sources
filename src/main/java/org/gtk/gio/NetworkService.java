@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Like {@link NetworkAddress} does with hostnames, {@link NetworkService}
@@ -26,14 +27,14 @@ public class NetworkService extends org.gtk.gobject.Object implements SocketConn
         return new NetworkService(gobject.refcounted());
     }
     
-    static final MethodHandle g_network_service_new = Interop.downcallHandle(
+    private static final MethodHandle g_network_service_new = Interop.downcallHandle(
         "g_network_service_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(java.lang.String service, java.lang.String protocol, java.lang.String domain) {
+    private static Refcounted constructNew(@NotNull java.lang.String service, @NotNull java.lang.String protocol, @NotNull java.lang.String domain) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_network_service_new.invokeExact(Interop.allocateNativeString(service).handle(), Interop.allocateNativeString(protocol).handle(), Interop.allocateNativeString(domain).handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_network_service_new.invokeExact(Interop.allocateNativeString(service), Interop.allocateNativeString(protocol), Interop.allocateNativeString(domain)), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -45,11 +46,11 @@ public class NetworkService extends org.gtk.gobject.Object implements SocketConn
      * {@code protocol}, and {@code domain}. This will initially be unresolved; use the
      * {@link SocketConnectable} interface to resolve it.
      */
-    public NetworkService(java.lang.String service, java.lang.String protocol, java.lang.String domain) {
+    public NetworkService(@NotNull java.lang.String service, @NotNull java.lang.String protocol, @NotNull java.lang.String domain) {
         super(constructNew(service, protocol, domain));
     }
     
-    static final MethodHandle g_network_service_get_domain = Interop.downcallHandle(
+    private static final MethodHandle g_network_service_get_domain = Interop.downcallHandle(
         "g_network_service_get_domain",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -58,16 +59,17 @@ public class NetworkService extends org.gtk.gobject.Object implements SocketConn
      * Gets the domain that {@code srv} serves. This might be either UTF-8 or
      * ASCII-encoded, depending on what {@code srv} was created with.
      */
-    public java.lang.String getDomain() {
+    public @NotNull java.lang.String getDomain() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_network_service_get_domain.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_network_service_get_domain.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_network_service_get_protocol = Interop.downcallHandle(
+    private static final MethodHandle g_network_service_get_protocol = Interop.downcallHandle(
         "g_network_service_get_protocol",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -75,16 +77,17 @@ public class NetworkService extends org.gtk.gobject.Object implements SocketConn
     /**
      * Gets {@code srv}'s protocol name (eg, "tcp").
      */
-    public java.lang.String getProtocol() {
+    public @NotNull java.lang.String getProtocol() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_network_service_get_protocol.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_network_service_get_protocol.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_network_service_get_scheme = Interop.downcallHandle(
+    private static final MethodHandle g_network_service_get_scheme = Interop.downcallHandle(
         "g_network_service_get_scheme",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -93,16 +96,17 @@ public class NetworkService extends org.gtk.gobject.Object implements SocketConn
      * Gets the URI scheme used to resolve proxies. By default, the service name
      * is used as scheme.
      */
-    public java.lang.String getScheme() {
+    public @NotNull java.lang.String getScheme() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_network_service_get_scheme.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_network_service_get_scheme.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_network_service_get_service = Interop.downcallHandle(
+    private static final MethodHandle g_network_service_get_service = Interop.downcallHandle(
         "g_network_service_get_service",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -110,16 +114,17 @@ public class NetworkService extends org.gtk.gobject.Object implements SocketConn
     /**
      * Gets {@code srv}'s service name (eg, "ldap").
      */
-    public java.lang.String getService() {
+    public @NotNull java.lang.String getService() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_network_service_get_service.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_network_service_get_service.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_network_service_set_scheme = Interop.downcallHandle(
+    private static final MethodHandle g_network_service_set_scheme = Interop.downcallHandle(
         "g_network_service_set_scheme",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -128,9 +133,9 @@ public class NetworkService extends org.gtk.gobject.Object implements SocketConn
      * Set's the URI scheme used to resolve proxies. By default, the service name
      * is used as scheme.
      */
-    public void setScheme(java.lang.String scheme) {
+    public @NotNull void setScheme(@NotNull java.lang.String scheme) {
         try {
-            g_network_service_set_scheme.invokeExact(handle(), Interop.allocateNativeString(scheme).handle());
+            g_network_service_set_scheme.invokeExact(handle(), Interop.allocateNativeString(scheme));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

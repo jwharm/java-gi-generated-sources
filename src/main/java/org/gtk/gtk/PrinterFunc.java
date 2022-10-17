@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The type of function passed to gtk_enumerate_printers().
@@ -10,5 +11,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface PrinterFunc {
-        boolean onPrinterFunc(Printer printer);
+        boolean onPrinterFunc(@NotNull Printer printer);
 }

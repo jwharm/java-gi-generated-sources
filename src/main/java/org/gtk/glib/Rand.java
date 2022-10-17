@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The GRand struct is an opaque data structure. It should only be
@@ -14,7 +15,7 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_rand_copy = Interop.downcallHandle(
+    private static final MethodHandle g_rand_copy = Interop.downcallHandle(
         "g_rand_copy",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -24,16 +25,17 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
      * This way you can take a snapshot of the random number generator for
      * replaying later.
      */
-    public Rand copy() {
+    public @NotNull Rand copy() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_rand_copy.invokeExact(handle());
-            return new Rand(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_rand_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Rand(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_rand_double = Interop.downcallHandle(
+    private static final MethodHandle g_rand_double = Interop.downcallHandle(
         "g_rand_double",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -43,15 +45,16 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
      * the range [0..1).
      */
     public double double_() {
+        double RESULT;
         try {
-            var RESULT = (double) g_rand_double.invokeExact(handle());
-            return RESULT;
+            RESULT = (double) g_rand_double.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_rand_double_range = Interop.downcallHandle(
+    private static final MethodHandle g_rand_double_range = Interop.downcallHandle(
         "g_rand_double_range",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
     );
@@ -60,16 +63,17 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
      * Returns the next random {@code gdouble} from {@code rand_} equally distributed over
      * the range [{@code begin}..{@code end}).
      */
-    public double doubleRange(double begin, double end) {
+    public double doubleRange(@NotNull double begin, @NotNull double end) {
+        double RESULT;
         try {
-            var RESULT = (double) g_rand_double_range.invokeExact(handle(), begin, end);
-            return RESULT;
+            RESULT = (double) g_rand_double_range.invokeExact(handle(), begin, end);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_rand_free = Interop.downcallHandle(
+    private static final MethodHandle g_rand_free = Interop.downcallHandle(
         "g_rand_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -77,7 +81,7 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Frees the memory allocated for the {@link Rand}.
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             g_rand_free.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -85,7 +89,7 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_rand_int = Interop.downcallHandle(
+    private static final MethodHandle g_rand_int = Interop.downcallHandle(
         "g_rand_int",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -95,15 +99,16 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
      * the range [0..2^32-1].
      */
     public int int_() {
+        int RESULT;
         try {
-            var RESULT = (int) g_rand_int.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_rand_int.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_rand_int_range = Interop.downcallHandle(
+    private static final MethodHandle g_rand_int_range = Interop.downcallHandle(
         "g_rand_int_range",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -112,16 +117,17 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
      * Returns the next random {@code gint32} from {@code rand_} equally distributed over
      * the range {@code end-1}.
      */
-    public int intRange(int begin, int end) {
+    public int intRange(@NotNull int begin, @NotNull int end) {
+        int RESULT;
         try {
-            var RESULT = (int) g_rand_int_range.invokeExact(handle(), begin, end);
-            return RESULT;
+            RESULT = (int) g_rand_int_range.invokeExact(handle(), begin, end);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_rand_set_seed = Interop.downcallHandle(
+    private static final MethodHandle g_rand_set_seed = Interop.downcallHandle(
         "g_rand_set_seed",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -129,7 +135,7 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Sets the seed for the random number generator {@link Rand} to {@code seed}.
      */
-    public void setSeed(int seed) {
+    public @NotNull void setSeed(@NotNull int seed) {
         try {
             g_rand_set_seed.invokeExact(handle(), seed);
         } catch (Throwable ERR) {
@@ -137,7 +143,7 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_rand_set_seed_array = Interop.downcallHandle(
+    private static final MethodHandle g_rand_set_seed_array = Interop.downcallHandle(
         "g_rand_set_seed_array",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -149,7 +155,7 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
      * seeds, or if you require more then 32 bits of actual entropy for
      * your application.
      */
-    public void setSeedArray(PointerInteger seed, int seedLength) {
+    public @NotNull void setSeedArray(@NotNull PointerInteger seed, @NotNull int seedLength) {
         try {
             g_rand_set_seed_array.invokeExact(handle(), seed.handle(), seedLength);
         } catch (Throwable ERR) {
@@ -157,7 +163,7 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_rand_new = Interop.downcallHandle(
+    private static final MethodHandle g_rand_new = Interop.downcallHandle(
         "g_rand_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -169,16 +175,17 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * On Windows, the seed is taken from rand_s().
      */
-    public static Rand new_() {
+    public static @NotNull Rand new_() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_rand_new.invokeExact();
-            return new Rand(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_rand_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Rand(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_rand_new_with_seed = Interop.downcallHandle(
+    private static final MethodHandle g_rand_new_with_seed = Interop.downcallHandle(
         "g_rand_new_with_seed",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -186,16 +193,17 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new random number generator initialized with {@code seed}.
      */
-    public static Rand newWithSeed(int seed) {
+    public static @NotNull Rand newWithSeed(@NotNull int seed) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_rand_new_with_seed.invokeExact(seed);
-            return new Rand(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_rand_new_with_seed.invokeExact(seed);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Rand(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_rand_new_with_seed_array = Interop.downcallHandle(
+    private static final MethodHandle g_rand_new_with_seed_array = Interop.downcallHandle(
         "g_rand_new_with_seed_array",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -203,13 +211,14 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new random number generator initialized with {@code seed}.
      */
-    public static Rand newWithSeedArray(PointerInteger seed, int seedLength) {
+    public static @NotNull Rand newWithSeedArray(@NotNull PointerInteger seed, @NotNull int seedLength) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_rand_new_with_seed_array.invokeExact(seed.handle(), seedLength);
-            return new Rand(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_rand_new_with_seed_array.invokeExact(seed.handle(), seedLength);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Rand(Refcounted.get(RESULT, false));
     }
     
 }

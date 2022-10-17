@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Stores geometrical information for a series of rows in a GtkCellArea
@@ -29,7 +30,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
         return new CellAreaContext(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_cell_area_context_allocate = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_context_allocate = Interop.downcallHandle(
         "gtk_cell_area_context_allocate",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -46,7 +47,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      * rows. This is generally the case for {@code GtkTreeView} when
      * {@code GtkTreeView:fixed-height-mode} is enabled.
      */
-    public void allocate(int width, int height) {
+    public @NotNull void allocate(@NotNull int width, @NotNull int height) {
         try {
             gtk_cell_area_context_allocate.invokeExact(handle(), width, height);
         } catch (Throwable ERR) {
@@ -54,7 +55,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_cell_area_context_get_allocation = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_context_get_allocation = Interop.downcallHandle(
         "gtk_cell_area_context_get_allocation",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -66,15 +67,19 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      * context was recently reset with gtk_cell_area_context_reset(),
      * the returned value will be -1.
      */
-    public void getAllocation(PointerInteger width, PointerInteger height) {
+    public @NotNull void getAllocation(@NotNull Out<Integer> width, @NotNull Out<Integer> height) {
+        MemorySegment widthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment heightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gtk_cell_area_context_get_allocation.invokeExact(handle(), width.handle(), height.handle());
+            gtk_cell_area_context_get_allocation.invokeExact(handle(), (Addressable) widthPOINTER.address(), (Addressable) heightPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        width.set(widthPOINTER.get(ValueLayout.JAVA_INT, 0));
+        height.set(heightPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    static final MethodHandle gtk_cell_area_context_get_area = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_context_get_area = Interop.downcallHandle(
         "gtk_cell_area_context_get_area",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -91,16 +96,17 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      * that the {@code GtkCellArea} is configured with in order to
      * compute a proper allocation.
      */
-    public CellArea getArea() {
+    public @NotNull CellArea getArea() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_cell_area_context_get_area.invokeExact(handle());
-            return new CellArea(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_cell_area_context_get_area.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new CellArea(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_cell_area_context_get_preferred_height = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_context_get_preferred_height = Interop.downcallHandle(
         "gtk_cell_area_context_get_preferred_height",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -112,15 +118,19 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      * After gtk_cell_area_context_reset() is called and/or before ever
      * requesting the size of a {@code GtkCellArea}, the returned values are 0.
      */
-    public void getPreferredHeight(PointerInteger minimumHeight, PointerInteger naturalHeight) {
+    public @NotNull void getPreferredHeight(@NotNull Out<Integer> minimumHeight, @NotNull Out<Integer> naturalHeight) {
+        MemorySegment minimumHeightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment naturalHeightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gtk_cell_area_context_get_preferred_height.invokeExact(handle(), minimumHeight.handle(), naturalHeight.handle());
+            gtk_cell_area_context_get_preferred_height.invokeExact(handle(), (Addressable) minimumHeightPOINTER.address(), (Addressable) naturalHeightPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        minimumHeight.set(minimumHeightPOINTER.get(ValueLayout.JAVA_INT, 0));
+        naturalHeight.set(naturalHeightPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    static final MethodHandle gtk_cell_area_context_get_preferred_height_for_width = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_context_get_preferred_height_for_width = Interop.downcallHandle(
         "gtk_cell_area_context_get_preferred_height_for_width",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -132,15 +142,19 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      * After gtk_cell_area_context_reset() is called and/or before ever
      * requesting the size of a {@code GtkCellArea}, the returned values are -1.
      */
-    public void getPreferredHeightForWidth(int width, PointerInteger minimumHeight, PointerInteger naturalHeight) {
+    public @NotNull void getPreferredHeightForWidth(@NotNull int width, @NotNull Out<Integer> minimumHeight, @NotNull Out<Integer> naturalHeight) {
+        MemorySegment minimumHeightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment naturalHeightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gtk_cell_area_context_get_preferred_height_for_width.invokeExact(handle(), width, minimumHeight.handle(), naturalHeight.handle());
+            gtk_cell_area_context_get_preferred_height_for_width.invokeExact(handle(), width, (Addressable) minimumHeightPOINTER.address(), (Addressable) naturalHeightPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        minimumHeight.set(minimumHeightPOINTER.get(ValueLayout.JAVA_INT, 0));
+        naturalHeight.set(naturalHeightPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    static final MethodHandle gtk_cell_area_context_get_preferred_width = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_context_get_preferred_width = Interop.downcallHandle(
         "gtk_cell_area_context_get_preferred_width",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -152,15 +166,19 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      * After gtk_cell_area_context_reset() is called and/or before ever
      * requesting the size of a {@code GtkCellArea}, the returned values are 0.
      */
-    public void getPreferredWidth(PointerInteger minimumWidth, PointerInteger naturalWidth) {
+    public @NotNull void getPreferredWidth(@NotNull Out<Integer> minimumWidth, @NotNull Out<Integer> naturalWidth) {
+        MemorySegment minimumWidthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment naturalWidthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gtk_cell_area_context_get_preferred_width.invokeExact(handle(), minimumWidth.handle(), naturalWidth.handle());
+            gtk_cell_area_context_get_preferred_width.invokeExact(handle(), (Addressable) minimumWidthPOINTER.address(), (Addressable) naturalWidthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        minimumWidth.set(minimumWidthPOINTER.get(ValueLayout.JAVA_INT, 0));
+        naturalWidth.set(naturalWidthPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    static final MethodHandle gtk_cell_area_context_get_preferred_width_for_height = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_context_get_preferred_width_for_height = Interop.downcallHandle(
         "gtk_cell_area_context_get_preferred_width_for_height",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -172,15 +190,19 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      * After gtk_cell_area_context_reset() is called and/or before ever
      * requesting the size of a {@code GtkCellArea}, the returned values are -1.
      */
-    public void getPreferredWidthForHeight(int height, PointerInteger minimumWidth, PointerInteger naturalWidth) {
+    public @NotNull void getPreferredWidthForHeight(@NotNull int height, @NotNull Out<Integer> minimumWidth, @NotNull Out<Integer> naturalWidth) {
+        MemorySegment minimumWidthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment naturalWidthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gtk_cell_area_context_get_preferred_width_for_height.invokeExact(handle(), height, minimumWidth.handle(), naturalWidth.handle());
+            gtk_cell_area_context_get_preferred_width_for_height.invokeExact(handle(), height, (Addressable) minimumWidthPOINTER.address(), (Addressable) naturalWidthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        minimumWidth.set(minimumWidthPOINTER.get(ValueLayout.JAVA_INT, 0));
+        naturalWidth.set(naturalWidthPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    static final MethodHandle gtk_cell_area_context_push_preferred_height = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_context_push_preferred_height = Interop.downcallHandle(
         "gtk_cell_area_context_push_preferred_height",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -194,7 +216,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      * progressively push the requested height over a series of
      * gtk_cell_area_get_preferred_height() requests.
      */
-    public void pushPreferredHeight(int minimumHeight, int naturalHeight) {
+    public @NotNull void pushPreferredHeight(@NotNull int minimumHeight, @NotNull int naturalHeight) {
         try {
             gtk_cell_area_context_push_preferred_height.invokeExact(handle(), minimumHeight, naturalHeight);
         } catch (Throwable ERR) {
@@ -202,7 +224,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_cell_area_context_push_preferred_width = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_context_push_preferred_width = Interop.downcallHandle(
         "gtk_cell_area_context_push_preferred_width",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -216,7 +238,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      * progressively push the requested width over a series of
      * gtk_cell_area_get_preferred_width() requests.
      */
-    public void pushPreferredWidth(int minimumWidth, int naturalWidth) {
+    public @NotNull void pushPreferredWidth(@NotNull int minimumWidth, @NotNull int naturalWidth) {
         try {
             gtk_cell_area_context_push_preferred_width.invokeExact(handle(), minimumWidth, naturalWidth);
         } catch (Throwable ERR) {
@@ -224,7 +246,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_cell_area_context_reset = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_area_context_reset = Interop.downcallHandle(
         "gtk_cell_area_context_reset",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -253,7 +275,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      * of all the displayed row heights using
      * gtk_cell_area_get_preferred_height_for_width().
      */
-    public void reset() {
+    public @NotNull void reset() {
         try {
             gtk_cell_area_context_reset.invokeExact(handle());
         } catch (Throwable ERR) {

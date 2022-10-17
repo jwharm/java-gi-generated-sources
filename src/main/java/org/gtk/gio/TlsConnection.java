@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link TlsConnection} is the base TLS connection class type, which wraps
@@ -23,7 +24,7 @@ public class TlsConnection extends IOStream {
         return new TlsConnection(gobject.refcounted());
     }
     
-    static final MethodHandle g_tls_connection_emit_accept_certificate = Interop.downcallHandle(
+    private static final MethodHandle g_tls_connection_emit_accept_certificate = Interop.downcallHandle(
         "g_tls_connection_emit_accept_certificate",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -32,16 +33,17 @@ public class TlsConnection extends IOStream {
      * Used by {@link TlsConnection} implementations to emit the
      * {@link TlsConnection}::accept-certificate signal.
      */
-    public boolean emitAcceptCertificate(TlsCertificate peerCert, TlsCertificateFlags errors) {
+    public boolean emitAcceptCertificate(@NotNull TlsCertificate peerCert, @NotNull TlsCertificateFlags errors) {
+        int RESULT;
         try {
-            var RESULT = (int) g_tls_connection_emit_accept_certificate.invokeExact(handle(), peerCert.handle(), errors.getValue());
-            return RESULT != 0;
+            RESULT = (int) g_tls_connection_emit_accept_certificate.invokeExact(handle(), peerCert.handle(), errors.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_tls_connection_get_certificate = Interop.downcallHandle(
+    private static final MethodHandle g_tls_connection_get_certificate = Interop.downcallHandle(
         "g_tls_connection_get_certificate",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -50,49 +52,17 @@ public class TlsConnection extends IOStream {
      * Gets {@code conn}'s certificate, as set by
      * g_tls_connection_set_certificate().
      */
-    public TlsCertificate getCertificate() {
+    public @Nullable TlsCertificate getCertificate() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_tls_connection_get_certificate.invokeExact(handle());
-            return new TlsCertificate(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_tls_connection_get_certificate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TlsCertificate(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_tls_connection_get_channel_binding_data = Interop.downcallHandle(
-        "g_tls_connection_get_channel_binding_data",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    /**
-     * Query the TLS backend for TLS channel binding data of {@code type} for {@code conn}.
-     * <p>
-     * This call retrieves TLS channel binding data as specified in RFC
-     * <a href="https://tools.ietf.org/html/rfc5056">5056</a>, RFC
-     * <a href="https://tools.ietf.org/html/rfc5929">5929</a>, and related RFCs.  The
-     * binding data is returned in {@code data}.  The {@code data} is resized by the callee
-     * using {@link org.gtk.glib.ByteArray} buffer management and will be freed when the {@code data}
-     * is destroyed by g_byte_array_unref(). If {@code data} is {@code null}, it will only
-     * check whether TLS backend is able to fetch the data (e.g. whether {@code type}
-     * is supported by the TLS backend). It does not guarantee that the data
-     * will be available though.  That could happen if TLS connection does not
-     * support {@code type} or the binding data is not available yet due to additional
-     * negotiation or input required.
-     */
-    public boolean getChannelBindingData(TlsChannelBindingType type, PointerByte data) throws io.github.jwharm.javagi.GErrorException {
-        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
-        try {
-            var RESULT = (int) g_tls_connection_get_channel_binding_data.invokeExact(handle(), type.getValue(), data.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-    }
-    
-    static final MethodHandle g_tls_connection_get_ciphersuite_name = Interop.downcallHandle(
+    private static final MethodHandle g_tls_connection_get_ciphersuite_name = Interop.downcallHandle(
         "g_tls_connection_get_ciphersuite_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -107,16 +77,17 @@ public class TlsConnection extends IOStream {
      * displayed to the user for informative purposes only, and parsing it
      * is not recommended.
      */
-    public java.lang.String getCiphersuiteName() {
+    public @Nullable java.lang.String getCiphersuiteName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_tls_connection_get_ciphersuite_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_tls_connection_get_ciphersuite_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_tls_connection_get_database = Interop.downcallHandle(
+    private static final MethodHandle g_tls_connection_get_database = Interop.downcallHandle(
         "g_tls_connection_get_database",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -125,16 +96,17 @@ public class TlsConnection extends IOStream {
      * Gets the certificate database that {@code conn} uses to verify
      * peer certificates. See g_tls_connection_set_database().
      */
-    public TlsDatabase getDatabase() {
+    public @Nullable TlsDatabase getDatabase() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_tls_connection_get_database.invokeExact(handle());
-            return new TlsDatabase(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_tls_connection_get_database.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TlsDatabase(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_tls_connection_get_interaction = Interop.downcallHandle(
+    private static final MethodHandle g_tls_connection_get_interaction = Interop.downcallHandle(
         "g_tls_connection_get_interaction",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -144,16 +116,17 @@ public class TlsConnection extends IOStream {
      * for things like prompting the user for passwords. If {@code null} is returned, then
      * no user interaction will occur for this connection.
      */
-    public TlsInteraction getInteraction() {
+    public @Nullable TlsInteraction getInteraction() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_tls_connection_get_interaction.invokeExact(handle());
-            return new TlsInteraction(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_tls_connection_get_interaction.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TlsInteraction(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_tls_connection_get_negotiated_protocol = Interop.downcallHandle(
+    private static final MethodHandle g_tls_connection_get_negotiated_protocol = Interop.downcallHandle(
         "g_tls_connection_get_negotiated_protocol",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -167,16 +140,17 @@ public class TlsConnection extends IOStream {
      * does not support ALPN, then this will be {@code null}. See
      * g_tls_connection_set_advertised_protocols().
      */
-    public java.lang.String getNegotiatedProtocol() {
+    public @Nullable java.lang.String getNegotiatedProtocol() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_tls_connection_get_negotiated_protocol.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_tls_connection_get_negotiated_protocol.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_tls_connection_get_peer_certificate = Interop.downcallHandle(
+    private static final MethodHandle g_tls_connection_get_peer_certificate = Interop.downcallHandle(
         "g_tls_connection_get_peer_certificate",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -186,16 +160,17 @@ public class TlsConnection extends IOStream {
      * or failed. (It is not set during the emission of
      * {@link TlsConnection}::accept-certificate.)
      */
-    public TlsCertificate getPeerCertificate() {
+    public @Nullable TlsCertificate getPeerCertificate() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_tls_connection_get_peer_certificate.invokeExact(handle());
-            return new TlsCertificate(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_tls_connection_get_peer_certificate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TlsCertificate(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_tls_connection_get_peer_certificate_errors = Interop.downcallHandle(
+    private static final MethodHandle g_tls_connection_get_peer_certificate_errors = Interop.downcallHandle(
         "g_tls_connection_get_peer_certificate_errors",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -207,16 +182,17 @@ public class TlsConnection extends IOStream {
      * <p>
      * See {@link TlsConnection}:peer-certificate-errors for more information.
      */
-    public TlsCertificateFlags getPeerCertificateErrors() {
+    public @NotNull TlsCertificateFlags getPeerCertificateErrors() {
+        int RESULT;
         try {
-            var RESULT = (int) g_tls_connection_get_peer_certificate_errors.invokeExact(handle());
-            return new TlsCertificateFlags(RESULT);
+            RESULT = (int) g_tls_connection_get_peer_certificate_errors.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TlsCertificateFlags(RESULT);
     }
     
-    static final MethodHandle g_tls_connection_get_protocol_version = Interop.downcallHandle(
+    private static final MethodHandle g_tls_connection_get_protocol_version = Interop.downcallHandle(
         "g_tls_connection_get_protocol_version",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -227,16 +203,17 @@ public class TlsConnection extends IOStream {
      * has been closed, or if the TLS backend has implemented a protocol version
      * that is not a recognized {@link TlsProtocolVersion}.
      */
-    public TlsProtocolVersion getProtocolVersion() {
+    public @NotNull TlsProtocolVersion getProtocolVersion() {
+        int RESULT;
         try {
-            var RESULT = (int) g_tls_connection_get_protocol_version.invokeExact(handle());
-            return new TlsProtocolVersion(RESULT);
+            RESULT = (int) g_tls_connection_get_protocol_version.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TlsProtocolVersion(RESULT);
     }
     
-    static final MethodHandle g_tls_connection_get_require_close_notify = Interop.downcallHandle(
+    private static final MethodHandle g_tls_connection_get_require_close_notify = Interop.downcallHandle(
         "g_tls_connection_get_require_close_notify",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -247,15 +224,16 @@ public class TlsConnection extends IOStream {
      * g_tls_connection_set_require_close_notify() for details.
      */
     public boolean getRequireCloseNotify() {
+        int RESULT;
         try {
-            var RESULT = (int) g_tls_connection_get_require_close_notify.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_tls_connection_get_require_close_notify.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_tls_connection_handshake = Interop.downcallHandle(
+    private static final MethodHandle g_tls_connection_handshake = Interop.downcallHandle(
         "g_tls_connection_handshake",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -293,20 +271,21 @@ public class TlsConnection extends IOStream {
      * {@link TlsConnection}::accept_certificate may be emitted during the
      * handshake.
      */
-    public boolean handshake(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public boolean handshake(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_tls_connection_handshake.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_tls_connection_handshake.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_tls_connection_handshake_async = Interop.downcallHandle(
+    private static final MethodHandle g_tls_connection_handshake_async = Interop.downcallHandle(
         "g_tls_connection_handshake_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -315,7 +294,7 @@ public class TlsConnection extends IOStream {
      * Asynchronously performs a TLS handshake on {@code conn}. See
      * g_tls_connection_handshake() for more information.
      */
-    public void handshakeAsync(int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public @NotNull void handshakeAsync(@NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_tls_connection_handshake_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -323,13 +302,13 @@ public class TlsConnection extends IOStream {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_tls_connection_handshake_finish = Interop.downcallHandle(
+    private static final MethodHandle g_tls_connection_handshake_finish = Interop.downcallHandle(
         "g_tls_connection_handshake_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -338,20 +317,21 @@ public class TlsConnection extends IOStream {
      * Finish an asynchronous TLS handshake operation. See
      * g_tls_connection_handshake() for more information.
      */
-    public boolean handshakeFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public boolean handshakeFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_tls_connection_handshake_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_tls_connection_handshake_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_tls_connection_set_advertised_protocols = Interop.downcallHandle(
+    private static final MethodHandle g_tls_connection_set_advertised_protocols = Interop.downcallHandle(
         "g_tls_connection_set_advertised_protocols",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -368,15 +348,15 @@ public class TlsConnection extends IOStream {
      * See <a href="https://www.iana.org/assignments/tls-extensiontype-values/tls-extensiontype-values.xhtml#alpn-protocol-ids">IANA TLS ALPN Protocol IDs</a>
      * for a list of registered protocol IDs.
      */
-    public void setAdvertisedProtocols(java.lang.String[] protocols) {
+    public @NotNull void setAdvertisedProtocols(@Nullable java.lang.String[] protocols) {
         try {
-            g_tls_connection_set_advertised_protocols.invokeExact(handle(), Interop.allocateNativeArray(protocols).handle());
+            g_tls_connection_set_advertised_protocols.invokeExact(handle(), Interop.allocateNativeArray(protocols));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_tls_connection_set_certificate = Interop.downcallHandle(
+    private static final MethodHandle g_tls_connection_set_certificate = Interop.downcallHandle(
         "g_tls_connection_set_certificate",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -401,7 +381,7 @@ public class TlsConnection extends IOStream {
      * that g_tls_client_connection_get_accepted_cas() will return
      * non-{@code null}.)
      */
-    public void setCertificate(TlsCertificate certificate) {
+    public @NotNull void setCertificate(@NotNull TlsCertificate certificate) {
         try {
             g_tls_connection_set_certificate.invokeExact(handle(), certificate.handle());
         } catch (Throwable ERR) {
@@ -409,7 +389,7 @@ public class TlsConnection extends IOStream {
         }
     }
     
-    static final MethodHandle g_tls_connection_set_database = Interop.downcallHandle(
+    private static final MethodHandle g_tls_connection_set_database = Interop.downcallHandle(
         "g_tls_connection_set_database",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -427,7 +407,7 @@ public class TlsConnection extends IOStream {
      * There are nonintuitive security implications when using a non-default
      * database. See {@link DtlsConnection}:database for details.
      */
-    public void setDatabase(TlsDatabase database) {
+    public @NotNull void setDatabase(@Nullable TlsDatabase database) {
         try {
             g_tls_connection_set_database.invokeExact(handle(), database.handle());
         } catch (Throwable ERR) {
@@ -435,7 +415,7 @@ public class TlsConnection extends IOStream {
         }
     }
     
-    static final MethodHandle g_tls_connection_set_interaction = Interop.downcallHandle(
+    private static final MethodHandle g_tls_connection_set_interaction = Interop.downcallHandle(
         "g_tls_connection_set_interaction",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -448,7 +428,7 @@ public class TlsConnection extends IOStream {
      * {@link TlsInteraction}. {@code null} can also be provided if no user interaction
      * should occur for this connection.
      */
-    public void setInteraction(TlsInteraction interaction) {
+    public @NotNull void setInteraction(@Nullable TlsInteraction interaction) {
         try {
             g_tls_connection_set_interaction.invokeExact(handle(), interaction.handle());
         } catch (Throwable ERR) {
@@ -456,7 +436,7 @@ public class TlsConnection extends IOStream {
         }
     }
     
-    static final MethodHandle g_tls_connection_set_require_close_notify = Interop.downcallHandle(
+    private static final MethodHandle g_tls_connection_set_require_close_notify = Interop.downcallHandle(
         "g_tls_connection_set_require_close_notify",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -490,7 +470,7 @@ public class TlsConnection extends IOStream {
      * than closing {@code conn} itself, but note that this may only be done when no other
      * operations are pending on {@code conn} or the base I/O stream.
      */
-    public void setRequireCloseNotify(boolean requireCloseNotify) {
+    public @NotNull void setRequireCloseNotify(@NotNull boolean requireCloseNotify) {
         try {
             g_tls_connection_set_require_close_notify.invokeExact(handle(), requireCloseNotify ? 1 : 0);
         } catch (Throwable ERR) {
@@ -500,7 +480,7 @@ public class TlsConnection extends IOStream {
     
     @FunctionalInterface
     public interface AcceptCertificateHandler {
-        boolean signalReceived(TlsConnection source, TlsCertificate peerCert, TlsCertificateFlags errors);
+        boolean signalReceived(TlsConnection source, @NotNull TlsCertificate peerCert, @NotNull TlsCertificateFlags errors);
     }
     
     /**
@@ -551,13 +531,13 @@ public class TlsConnection extends IOStream {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("accept-certificate").handle(),
+                Interop.allocateNativeString("accept-certificate"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TlsConnection.Callbacks.class, "signalTlsConnectionAcceptCertificate",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

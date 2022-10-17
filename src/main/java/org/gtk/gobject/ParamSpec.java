@@ -3,13 +3,13 @@ package org.gtk.gobject;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link ParamSpec} is an object structure that encapsulates the metadata
  * required to specify parameters, such as e.g. {@link Object} properties.
- * <p>
+ * 
  * <h2>Parameter names # {#canonical-parameter-names}</h2>
- * <p>
  * A property name consists of one or more segments consisting of ASCII letters
  * and digits, separated by either the {@code -} or {@code _} character. The first
  * character of a property name must be a letter. These are the same rules as
@@ -30,7 +30,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
         return new ParamSpec(gobject.refcounted());
     }
     
-    static final MethodHandle g_param_spec_get_blurb = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_get_blurb = Interop.downcallHandle(
         "g_param_spec_get_blurb",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -38,16 +38,17 @@ public class ParamSpec extends org.gtk.gobject.Object {
     /**
      * Get the short description of a {@link ParamSpec}.
      */
-    public java.lang.String getBlurb() {
+    public @Nullable java.lang.String getBlurb() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_get_blurb.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_param_spec_get_blurb.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_param_spec_get_default_value = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_get_default_value = Interop.downcallHandle(
         "g_param_spec_get_default_value",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -57,16 +58,17 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * <p>
      * The {@link Value} will remain valid for the life of {@code pspec}.
      */
-    public Value getDefaultValue() {
+    public @NotNull Value getDefaultValue() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_get_default_value.invokeExact(handle());
-            return new Value(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_param_spec_get_default_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Value(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_param_spec_get_name = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_get_name = Interop.downcallHandle(
         "g_param_spec_get_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -77,16 +79,17 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * The name is always an "interned" string (as per g_intern_string()).
      * This allows for pointer-value comparisons.
      */
-    public java.lang.String getName() {
+    public @NotNull java.lang.String getName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_get_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_param_spec_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_param_spec_get_name_quark = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_get_name_quark = Interop.downcallHandle(
         "g_param_spec_get_name_quark",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -94,16 +97,17 @@ public class ParamSpec extends org.gtk.gobject.Object {
     /**
      * Gets the GQuark for the name.
      */
-    public org.gtk.glib.Quark getNameQuark() {
+    public @NotNull org.gtk.glib.Quark getNameQuark() {
+        int RESULT;
         try {
-            var RESULT = (int) g_param_spec_get_name_quark.invokeExact(handle());
-            return new org.gtk.glib.Quark(RESULT);
+            RESULT = (int) g_param_spec_get_name_quark.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.Quark(RESULT);
     }
     
-    static final MethodHandle g_param_spec_get_nick = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_get_nick = Interop.downcallHandle(
         "g_param_spec_get_nick",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -111,16 +115,17 @@ public class ParamSpec extends org.gtk.gobject.Object {
     /**
      * Get the nickname of a {@link ParamSpec}.
      */
-    public java.lang.String getNick() {
+    public @NotNull java.lang.String getNick() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_get_nick.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_param_spec_get_nick.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_param_spec_get_qdata = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_get_qdata = Interop.downcallHandle(
         "g_param_spec_get_qdata",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -128,16 +133,17 @@ public class ParamSpec extends org.gtk.gobject.Object {
     /**
      * Gets back user data pointers stored via g_param_spec_set_qdata().
      */
-    public java.lang.foreign.MemoryAddress getQdata(org.gtk.glib.Quark quark) {
+    public @Nullable java.lang.foreign.MemoryAddress getQdata(@NotNull org.gtk.glib.Quark quark) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_get_qdata.invokeExact(handle(), quark.getValue());
-            return RESULT;
+            RESULT = (MemoryAddress) g_param_spec_get_qdata.invokeExact(handle(), quark.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_param_spec_get_redirect_target = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_get_redirect_target = Interop.downcallHandle(
         "g_param_spec_get_redirect_target",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -151,16 +157,17 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * of type {@link ParamSpecOverride}. See g_object_class_override_property()
      * for an example of the use of this capability.
      */
-    public ParamSpec getRedirectTarget() {
+    public @Nullable ParamSpec getRedirectTarget() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_get_redirect_target.invokeExact(handle());
-            return new ParamSpec(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_param_spec_get_redirect_target.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_param_spec_ref = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_ref = Interop.downcallHandle(
         "g_param_spec_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -168,16 +175,17 @@ public class ParamSpec extends org.gtk.gobject.Object {
     /**
      * Increments the reference count of {@code pspec}.
      */
-    public ParamSpec ref() {
+    public @NotNull ParamSpec ref() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_ref.invokeExact(handle());
-            return new ParamSpec(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_param_spec_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_param_spec_ref_sink = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_ref_sink = Interop.downcallHandle(
         "g_param_spec_ref_sink",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -185,16 +193,17 @@ public class ParamSpec extends org.gtk.gobject.Object {
     /**
      * Convenience function to ref and sink a {@link ParamSpec}.
      */
-    public ParamSpec refSink() {
+    public @NotNull ParamSpec refSink() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_ref_sink.invokeExact(handle());
-            return new ParamSpec(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_param_spec_ref_sink.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_param_spec_set_qdata = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_set_qdata = Interop.downcallHandle(
         "g_param_spec_set_qdata",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -207,7 +216,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * previously set user data pointer, overrides (frees) the old pointer
      * set, using {@code null} as pointer essentially removes the data stored.
      */
-    public void setQdata(org.gtk.glib.Quark quark, java.lang.foreign.MemoryAddress data) {
+    public @NotNull void setQdata(@NotNull org.gtk.glib.Quark quark, @Nullable java.lang.foreign.MemoryAddress data) {
         try {
             g_param_spec_set_qdata.invokeExact(handle(), quark.getValue(), data);
         } catch (Throwable ERR) {
@@ -215,7 +224,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle g_param_spec_set_qdata_full = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_set_qdata_full = Interop.downcallHandle(
         "g_param_spec_set_qdata_full",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -227,7 +236,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * finalized, or the data is being overwritten by a call to
      * g_param_spec_set_qdata() with the same {@code quark}.
      */
-    public void setQdataFull(org.gtk.glib.Quark quark, java.lang.foreign.MemoryAddress data, org.gtk.glib.DestroyNotify destroy) {
+    public @NotNull void setQdataFull(@NotNull org.gtk.glib.Quark quark, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.gtk.glib.DestroyNotify destroy) {
         try {
             g_param_spec_set_qdata_full.invokeExact(handle(), quark.getValue(), data, 
                     Interop.cbDestroyNotifySymbol());
@@ -236,7 +245,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle g_param_spec_sink = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_sink = Interop.downcallHandle(
         "g_param_spec_sink",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -250,7 +259,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * reference count (thus ending up with a {@code pspec} that has a reference
      * count of 1 still, but is not flagged "floating" anymore).
      */
-    public void sink() {
+    public @NotNull void sink() {
         try {
             g_param_spec_sink.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -258,7 +267,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle g_param_spec_steal_qdata = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_steal_qdata = Interop.downcallHandle(
         "g_param_spec_steal_qdata",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -269,16 +278,17 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * function (if any was set).  Usually, calling this function is only
      * required to update user data pointers with a destroy notifier.
      */
-    public java.lang.foreign.MemoryAddress stealQdata(org.gtk.glib.Quark quark) {
+    public @Nullable java.lang.foreign.MemoryAddress stealQdata(@NotNull org.gtk.glib.Quark quark) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_steal_qdata.invokeExact(handle(), quark.getValue());
-            return RESULT;
+            RESULT = (MemoryAddress) g_param_spec_steal_qdata.invokeExact(handle(), quark.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_param_spec_unref = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_unref = Interop.downcallHandle(
         "g_param_spec_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -286,7 +296,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
     /**
      * Decrements the reference count of a {@code pspec}.
      */
-    public void unref() {
+    public @NotNull void unref() {
         try {
             g_param_spec_unref.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -294,7 +304,7 @@ public class ParamSpec extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle g_param_spec_internal = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_internal = Interop.downcallHandle(
         "g_param_spec_internal",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -312,16 +322,17 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * {@code blurb}, which should be a somewhat longer description, suitable for
      * e.g. a tooltip. The {@code nick} and {@code blurb} should ideally be localized.
      */
-    public static ParamSpec internal(org.gtk.gobject.Type paramType, java.lang.String name, java.lang.String nick, java.lang.String blurb, ParamFlags flags) {
+    public static @NotNull ParamSpec internal(@NotNull org.gtk.gobject.Type paramType, @NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @NotNull ParamFlags flags) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_internal.invokeExact(paramType.getValue(), Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), flags.getValue());
-            return new ParamSpec(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_param_spec_internal.invokeExact(paramType.getValue(), Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_param_spec_is_valid_name = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_is_valid_name = Interop.downcallHandle(
         "g_param_spec_is_valid_name",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -334,13 +345,14 @@ public class ParamSpec extends org.gtk.gobject.Object {
      * See [canonical parameter names][canonical-parameter-names] for details of
      * the rules for valid names.
      */
-    public static boolean isValidName(java.lang.String name) {
+    public static boolean isValidName(@NotNull java.lang.String name) {
+        int RESULT;
         try {
-            var RESULT = (int) g_param_spec_is_valid_name.invokeExact(Interop.allocateNativeString(name).handle());
-            return RESULT != 0;
+            RESULT = (int) g_param_spec_is_valid_name.invokeExact(Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
 }

@@ -3,6 +3,7 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GdkDevicePad} is an interface implemented by devices of type
@@ -25,7 +26,7 @@ import java.lang.invoke.*;
  */
 public interface DevicePad extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle gdk_device_pad_get_feature_group = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gdk_device_pad_get_feature_group = Interop.downcallHandle(
         "gdk_device_pad_get_feature_group",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -35,16 +36,17 @@ public interface DevicePad extends io.github.jwharm.javagi.Proxy {
      * <p>
      * f the feature or index do not exist in {@code pad}, -1 is returned.
      */
-    public default int getFeatureGroup(DevicePadFeature feature, int featureIdx) {
+    default int getFeatureGroup(@NotNull DevicePadFeature feature, @NotNull int featureIdx) {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_device_pad_get_feature_group.invokeExact(handle(), feature.getValue(), featureIdx);
-            return RESULT;
+            RESULT = (int) gdk_device_pad_get_feature_group.invokeExact(handle(), feature.getValue(), featureIdx);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gdk_device_pad_get_group_n_modes = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gdk_device_pad_get_group_n_modes = Interop.downcallHandle(
         "gdk_device_pad_get_group_n_modes",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -52,16 +54,17 @@ public interface DevicePad extends io.github.jwharm.javagi.Proxy {
     /**
      * Returns the number of modes that {@code group} may have.
      */
-    public default int getGroupNModes(int groupIdx) {
+    default int getGroupNModes(@NotNull int groupIdx) {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_device_pad_get_group_n_modes.invokeExact(handle(), groupIdx);
-            return RESULT;
+            RESULT = (int) gdk_device_pad_get_group_n_modes.invokeExact(handle(), groupIdx);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gdk_device_pad_get_n_features = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gdk_device_pad_get_n_features = Interop.downcallHandle(
         "gdk_device_pad_get_n_features",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -69,16 +72,17 @@ public interface DevicePad extends io.github.jwharm.javagi.Proxy {
     /**
      * Returns the number of features a tablet pad has.
      */
-    public default int getNFeatures(DevicePadFeature feature) {
+    default int getNFeatures(@NotNull DevicePadFeature feature) {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_device_pad_get_n_features.invokeExact(handle(), feature.getValue());
-            return RESULT;
+            RESULT = (int) gdk_device_pad_get_n_features.invokeExact(handle(), feature.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gdk_device_pad_get_n_groups = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gdk_device_pad_get_n_groups = Interop.downcallHandle(
         "gdk_device_pad_get_n_groups",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -90,13 +94,14 @@ public interface DevicePad extends io.github.jwharm.javagi.Proxy {
      * buttons/strip/rings that is affected collectively by a same
      * current mode.
      */
-    public default int getNGroups() {
+    default int getNGroups() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_device_pad_get_n_groups.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gdk_device_pad_get_n_groups.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     class DevicePadImpl extends org.gtk.gobject.Object implements DevicePad {

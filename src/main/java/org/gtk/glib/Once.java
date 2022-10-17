@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@link Once} struct controls a one-time initialization function. Any
@@ -15,7 +16,7 @@ public class Once extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_once_init_enter = Interop.downcallHandle(
+    private static final MethodHandle g_once_init_enter = Interop.downcallHandle(
         "g_once_init_enter",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -47,16 +48,17 @@ public class Once extends io.github.jwharm.javagi.ResourceBase {
      * While {@code location} has a {@code volatile} qualifier, this is a historical artifact and
      * the pointer passed to it should not be {@code volatile}.
      */
-    public static boolean initEnter(java.lang.foreign.MemoryAddress location) {
+    public static boolean initEnter(@NotNull java.lang.foreign.MemoryAddress location) {
+        int RESULT;
         try {
-            var RESULT = (int) g_once_init_enter.invokeExact(location);
-            return RESULT != 0;
+            RESULT = (int) g_once_init_enter.invokeExact(location);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_once_init_leave = Interop.downcallHandle(
+    private static final MethodHandle g_once_init_leave = Interop.downcallHandle(
         "g_once_init_leave",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -71,7 +73,7 @@ public class Once extends io.github.jwharm.javagi.ResourceBase {
      * While {@code location} has a {@code volatile} qualifier, this is a historical artifact and
      * the pointer passed to it should not be {@code volatile}.
      */
-    public static void initLeave(java.lang.foreign.MemoryAddress location, long result) {
+    public static @NotNull void initLeave(@NotNull java.lang.foreign.MemoryAddress location, @NotNull long result) {
         try {
             g_once_init_leave.invokeExact(location, result);
         } catch (Throwable ERR) {

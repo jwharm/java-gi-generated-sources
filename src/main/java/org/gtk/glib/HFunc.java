@@ -1,6 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Specifies the type of the function passed to g_hash_table_foreach().
@@ -9,5 +10,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface HFunc {
-        void onHFunc(java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value);
+        void onHFunc(@Nullable java.lang.foreign.MemoryAddress key, @Nullable java.lang.foreign.MemoryAddress value);
 }

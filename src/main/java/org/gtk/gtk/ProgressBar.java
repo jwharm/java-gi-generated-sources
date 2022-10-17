@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkProgressBar} is typically used to display the progress of a long
@@ -30,9 +31,8 @@ import java.lang.invoke.*;
  * of the {@code GtkProgressBar}. Functions are provided to control the orientation
  * of the bar, optional text can be displayed along with the bar, and the
  * step size used in activity mode can be set.
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * <pre>{@code 
  * progressbar[.osd]
  * ├── [text]
@@ -47,9 +47,8 @@ import java.lang.invoke.*;
  * .right, .top or .bottom added when the progress 'touches' the corresponding
  * end of the GtkProgressBar. The .osd class on the progressbar node is for use
  * in overlays like the one Epiphany has for page loading progress.
- * <p>
+ * 
  * <h1>Accessibility</h1>
- * <p>
  * {@code GtkProgressBar} uses the {@link AccessibleRole#PROGRESS_BAR} role.
  */
 public class ProgressBar extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
@@ -63,7 +62,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
         return new ProgressBar(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_progress_bar_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_progress_bar_new = Interop.downcallHandle(
         "gtk_progress_bar_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -84,7 +83,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
         super(constructNew());
     }
     
-    static final MethodHandle gtk_progress_bar_get_ellipsize = Interop.downcallHandle(
+    private static final MethodHandle gtk_progress_bar_get_ellipsize = Interop.downcallHandle(
         "gtk_progress_bar_get_ellipsize",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -94,16 +93,17 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * <p>
      * See {@link ProgressBar#setEllipsize}.
      */
-    public org.pango.EllipsizeMode getEllipsize() {
+    public @NotNull org.pango.EllipsizeMode getEllipsize() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_progress_bar_get_ellipsize.invokeExact(handle());
-            return new org.pango.EllipsizeMode(RESULT);
+            RESULT = (int) gtk_progress_bar_get_ellipsize.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.pango.EllipsizeMode(RESULT);
     }
     
-    static final MethodHandle gtk_progress_bar_get_fraction = Interop.downcallHandle(
+    private static final MethodHandle gtk_progress_bar_get_fraction = Interop.downcallHandle(
         "gtk_progress_bar_get_fraction",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -112,15 +112,16 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * Returns the current fraction of the task that’s been completed.
      */
     public double getFraction() {
+        double RESULT;
         try {
-            var RESULT = (double) gtk_progress_bar_get_fraction.invokeExact(handle());
-            return RESULT;
+            RESULT = (double) gtk_progress_bar_get_fraction.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_progress_bar_get_inverted = Interop.downcallHandle(
+    private static final MethodHandle gtk_progress_bar_get_inverted = Interop.downcallHandle(
         "gtk_progress_bar_get_inverted",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -129,15 +130,16 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * Returns whether the progress bar is inverted.
      */
     public boolean getInverted() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_progress_bar_get_inverted.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_progress_bar_get_inverted.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_progress_bar_get_pulse_step = Interop.downcallHandle(
+    private static final MethodHandle gtk_progress_bar_get_pulse_step = Interop.downcallHandle(
         "gtk_progress_bar_get_pulse_step",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -148,15 +150,16 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * See {@link ProgressBar#setPulseStep}.
      */
     public double getPulseStep() {
+        double RESULT;
         try {
-            var RESULT = (double) gtk_progress_bar_get_pulse_step.invokeExact(handle());
-            return RESULT;
+            RESULT = (double) gtk_progress_bar_get_pulse_step.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_progress_bar_get_show_text = Interop.downcallHandle(
+    private static final MethodHandle gtk_progress_bar_get_show_text = Interop.downcallHandle(
         "gtk_progress_bar_get_show_text",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -167,15 +170,16 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * See {@link ProgressBar#setShowText}.
      */
     public boolean getShowText() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_progress_bar_get_show_text.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_progress_bar_get_show_text.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_progress_bar_get_text = Interop.downcallHandle(
+    private static final MethodHandle gtk_progress_bar_get_text = Interop.downcallHandle(
         "gtk_progress_bar_get_text",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -186,16 +190,17 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * The return value is a reference to the text, not a copy of it,
      * so will become invalid if you change the text in the progress bar.
      */
-    public java.lang.String getText() {
+    public @Nullable java.lang.String getText() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_progress_bar_get_text.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_progress_bar_get_text.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_progress_bar_pulse = Interop.downcallHandle(
+    private static final MethodHandle gtk_progress_bar_pulse = Interop.downcallHandle(
         "gtk_progress_bar_pulse",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -208,7 +213,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * causes the block to move by a little bit (the amount of movement
      * per pulse is determined by {@link ProgressBar#setPulseStep}).
      */
-    public void pulse() {
+    public @NotNull void pulse() {
         try {
             gtk_progress_bar_pulse.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -216,7 +221,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
         }
     }
     
-    static final MethodHandle gtk_progress_bar_set_ellipsize = Interop.downcallHandle(
+    private static final MethodHandle gtk_progress_bar_set_ellipsize = Interop.downcallHandle(
         "gtk_progress_bar_set_ellipsize",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -227,7 +232,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * The text is ellipsized if there is not enough space
      * to render the entire string.
      */
-    public void setEllipsize(org.pango.EllipsizeMode mode) {
+    public @NotNull void setEllipsize(@NotNull org.pango.EllipsizeMode mode) {
         try {
             gtk_progress_bar_set_ellipsize.invokeExact(handle(), mode.getValue());
         } catch (Throwable ERR) {
@@ -235,7 +240,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
         }
     }
     
-    static final MethodHandle gtk_progress_bar_set_fraction = Interop.downcallHandle(
+    private static final MethodHandle gtk_progress_bar_set_fraction = Interop.downcallHandle(
         "gtk_progress_bar_set_fraction",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
     );
@@ -246,7 +251,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * <p>
      * The fraction should be between 0.0 and 1.0, inclusive.
      */
-    public void setFraction(double fraction) {
+    public @NotNull void setFraction(@NotNull double fraction) {
         try {
             gtk_progress_bar_set_fraction.invokeExact(handle(), fraction);
         } catch (Throwable ERR) {
@@ -254,7 +259,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
         }
     }
     
-    static final MethodHandle gtk_progress_bar_set_inverted = Interop.downcallHandle(
+    private static final MethodHandle gtk_progress_bar_set_inverted = Interop.downcallHandle(
         "gtk_progress_bar_set_inverted",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -265,7 +270,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * Progress bars normally grow from top to bottom or left to right.
      * Inverted progress bars grow in the opposite direction.
      */
-    public void setInverted(boolean inverted) {
+    public @NotNull void setInverted(@NotNull boolean inverted) {
         try {
             gtk_progress_bar_set_inverted.invokeExact(handle(), inverted ? 1 : 0);
         } catch (Throwable ERR) {
@@ -273,7 +278,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
         }
     }
     
-    static final MethodHandle gtk_progress_bar_set_pulse_step = Interop.downcallHandle(
+    private static final MethodHandle gtk_progress_bar_set_pulse_step = Interop.downcallHandle(
         "gtk_progress_bar_set_pulse_step",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
     );
@@ -285,7 +290,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * The bouncing block is moved when {@link ProgressBar#pulse}
      * is called.
      */
-    public void setPulseStep(double fraction) {
+    public @NotNull void setPulseStep(@NotNull double fraction) {
         try {
             gtk_progress_bar_set_pulse_step.invokeExact(handle(), fraction);
         } catch (Throwable ERR) {
@@ -293,7 +298,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
         }
     }
     
-    static final MethodHandle gtk_progress_bar_set_show_text = Interop.downcallHandle(
+    private static final MethodHandle gtk_progress_bar_set_show_text = Interop.downcallHandle(
         "gtk_progress_bar_set_show_text",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -309,7 +314,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * text (even if the actual text is blank), set {@code Gtk.ProgressBar:show-text}
      * to {@code true} and {@code Gtk.ProgressBar:text} to the empty string (not {@code null}).
      */
-    public void setShowText(boolean showText) {
+    public @NotNull void setShowText(@NotNull boolean showText) {
         try {
             gtk_progress_bar_set_show_text.invokeExact(handle(), showText ? 1 : 0);
         } catch (Throwable ERR) {
@@ -317,7 +322,7 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
         }
     }
     
-    static final MethodHandle gtk_progress_bar_set_text = Interop.downcallHandle(
+    private static final MethodHandle gtk_progress_bar_set_text = Interop.downcallHandle(
         "gtk_progress_bar_set_text",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -335,9 +340,9 @@ public class ProgressBar extends Widget implements Accessible, Buildable, Constr
      * be styled and sized suitably for containing text, as long as
      * {@code Gtk.ProgressBar:show-text} is {@code true}.
      */
-    public void setText(java.lang.String text) {
+    public @NotNull void setText(@Nullable java.lang.String text) {
         try {
-            gtk_progress_bar_set_text.invokeExact(handle(), Interop.allocateNativeString(text).handle());
+            gtk_progress_bar_set_text.invokeExact(handle(), Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link EmblemedIcon} is an implementation of {@link Icon} that supports
@@ -23,12 +24,12 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements Icon {
         return new EmblemedIcon(gobject.refcounted());
     }
     
-    static final MethodHandle g_emblemed_icon_new = Interop.downcallHandle(
+    private static final MethodHandle g_emblemed_icon_new = Interop.downcallHandle(
         "g_emblemed_icon_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(Icon icon, Emblem emblem) {
+    private static Refcounted constructNew(@NotNull Icon icon, @Nullable Emblem emblem) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_emblemed_icon_new.invokeExact(icon.handle(), emblem.handle()), true);
             return RESULT;
@@ -40,11 +41,11 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements Icon {
     /**
      * Creates a new emblemed icon for {@code icon} with the emblem {@code emblem}.
      */
-    public EmblemedIcon(Icon icon, Emblem emblem) {
+    public EmblemedIcon(@NotNull Icon icon, @Nullable Emblem emblem) {
         super(constructNew(icon, emblem));
     }
     
-    static final MethodHandle g_emblemed_icon_add_emblem = Interop.downcallHandle(
+    private static final MethodHandle g_emblemed_icon_add_emblem = Interop.downcallHandle(
         "g_emblemed_icon_add_emblem",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -52,7 +53,7 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements Icon {
     /**
      * Adds {@code emblem} to the {@link org.gtk.glib.List} of {@code GEmblems}.
      */
-    public void addEmblem(Emblem emblem) {
+    public @NotNull void addEmblem(@NotNull Emblem emblem) {
         try {
             g_emblemed_icon_add_emblem.invokeExact(handle(), emblem.handle());
         } catch (Throwable ERR) {
@@ -60,7 +61,7 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements Icon {
         }
     }
     
-    static final MethodHandle g_emblemed_icon_clear_emblems = Interop.downcallHandle(
+    private static final MethodHandle g_emblemed_icon_clear_emblems = Interop.downcallHandle(
         "g_emblemed_icon_clear_emblems",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -68,7 +69,7 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements Icon {
     /**
      * Removes all the emblems from {@code icon}.
      */
-    public void clearEmblems() {
+    public @NotNull void clearEmblems() {
         try {
             g_emblemed_icon_clear_emblems.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -76,7 +77,7 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements Icon {
         }
     }
     
-    static final MethodHandle g_emblemed_icon_get_emblems = Interop.downcallHandle(
+    private static final MethodHandle g_emblemed_icon_get_emblems = Interop.downcallHandle(
         "g_emblemed_icon_get_emblems",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -84,16 +85,17 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements Icon {
     /**
      * Gets the list of emblems for the {@code icon}.
      */
-    public org.gtk.glib.List getEmblems() {
+    public @NotNull org.gtk.glib.List getEmblems() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_emblemed_icon_get_emblems.invokeExact(handle());
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_emblemed_icon_get_emblems.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_emblemed_icon_get_icon = Interop.downcallHandle(
+    private static final MethodHandle g_emblemed_icon_get_icon = Interop.downcallHandle(
         "g_emblemed_icon_get_icon",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -101,13 +103,14 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements Icon {
     /**
      * Gets the main icon for {@code emblemed}.
      */
-    public Icon getIcon() {
+    public @NotNull Icon getIcon() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_emblemed_icon_get_icon.invokeExact(handle());
-            return new Icon.IconImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_emblemed_icon_get_icon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Icon.IconImpl(Refcounted.get(RESULT, false));
     }
     
 }

@@ -3,6 +3,7 @@ package org.gtk.gdkpixbuf;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The signature prefix for a module.
@@ -24,7 +25,7 @@ import java.lang.invoke.*;
  * The signature of a module is stored as an array of
  * {@code GdkPixbufModulePatterns}. The array is terminated by a pattern
  * where the {@code prefix} is {@code NULL}.
- * <p>
+ * 
  * <pre>{@code c
  * GdkPixbufModulePattern *signature[] = {
  *   { "abcdx", " !x z", 100 },

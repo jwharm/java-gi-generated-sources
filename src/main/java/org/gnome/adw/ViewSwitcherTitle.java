@@ -3,6 +3,7 @@ package org.gnome.adw;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A view switcher title.
@@ -30,7 +31,7 @@ import java.lang.invoke.*;
  * to {@code ViewSwitcherTitle:title-visible} to automatically reveal the
  * view switcher bar when the title label is displayed in place of the view
  * switcher, as follows:
- * <p>
+ * 
  * <pre>{@code xml
  * <object class="GtkWindow">
  *   <child type="titlebar">
@@ -61,9 +62,8 @@ import java.lang.invoke.*;
  *   </child>
  * </object>
  * }</pre>
- * <p>
+ * 
  * <h2>CSS nodes</h2>
- * <p>
  * {@code AdwViewSwitcherTitle} has a single CSS node with name {@code viewswitchertitle}.
  */
 public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
@@ -77,7 +77,7 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
         return new ViewSwitcherTitle(gobject.refcounted());
     }
     
-    static final MethodHandle adw_view_switcher_title_new = Interop.downcallHandle(
+    private static final MethodHandle adw_view_switcher_title_new = Interop.downcallHandle(
         "adw_view_switcher_title_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -98,7 +98,7 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
         super(constructNew());
     }
     
-    static final MethodHandle adw_view_switcher_title_get_stack = Interop.downcallHandle(
+    private static final MethodHandle adw_view_switcher_title_get_stack = Interop.downcallHandle(
         "adw_view_switcher_title_get_stack",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -106,16 +106,17 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
     /**
      * Gets the stack controlled by {@code self}.
      */
-    public ViewStack getStack() {
+    public @Nullable ViewStack getStack() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_view_switcher_title_get_stack.invokeExact(handle());
-            return new ViewStack(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_view_switcher_title_get_stack.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ViewStack(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_view_switcher_title_get_subtitle = Interop.downcallHandle(
+    private static final MethodHandle adw_view_switcher_title_get_subtitle = Interop.downcallHandle(
         "adw_view_switcher_title_get_subtitle",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -123,16 +124,17 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
     /**
      * Gets the subtitle of {@code self}.
      */
-    public java.lang.String getSubtitle() {
+    public @NotNull java.lang.String getSubtitle() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_view_switcher_title_get_subtitle.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) adw_view_switcher_title_get_subtitle.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle adw_view_switcher_title_get_title = Interop.downcallHandle(
+    private static final MethodHandle adw_view_switcher_title_get_title = Interop.downcallHandle(
         "adw_view_switcher_title_get_title",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -140,16 +142,17 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
     /**
      * Gets the title of {@code self}.
      */
-    public java.lang.String getTitle() {
+    public @NotNull java.lang.String getTitle() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_view_switcher_title_get_title.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) adw_view_switcher_title_get_title.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle adw_view_switcher_title_get_title_visible = Interop.downcallHandle(
+    private static final MethodHandle adw_view_switcher_title_get_title_visible = Interop.downcallHandle(
         "adw_view_switcher_title_get_title_visible",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -158,15 +161,16 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
      * Gets whether the title of {@code self} is currently visible.
      */
     public boolean getTitleVisible() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_view_switcher_title_get_title_visible.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) adw_view_switcher_title_get_title_visible.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_view_switcher_title_get_view_switcher_enabled = Interop.downcallHandle(
+    private static final MethodHandle adw_view_switcher_title_get_view_switcher_enabled = Interop.downcallHandle(
         "adw_view_switcher_title_get_view_switcher_enabled",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -175,15 +179,16 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
      * Gets whether {@code self}'s view switcher is enabled.
      */
     public boolean getViewSwitcherEnabled() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_view_switcher_title_get_view_switcher_enabled.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) adw_view_switcher_title_get_view_switcher_enabled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_view_switcher_title_set_stack = Interop.downcallHandle(
+    private static final MethodHandle adw_view_switcher_title_set_stack = Interop.downcallHandle(
         "adw_view_switcher_title_set_stack",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -191,7 +196,7 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
     /**
      * Sets the stack controlled by {@code self}.
      */
-    public void setStack(ViewStack stack) {
+    public @NotNull void setStack(@Nullable ViewStack stack) {
         try {
             adw_view_switcher_title_set_stack.invokeExact(handle(), stack.handle());
         } catch (Throwable ERR) {
@@ -199,7 +204,7 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
         }
     }
     
-    static final MethodHandle adw_view_switcher_title_set_subtitle = Interop.downcallHandle(
+    private static final MethodHandle adw_view_switcher_title_set_subtitle = Interop.downcallHandle(
         "adw_view_switcher_title_set_subtitle",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -207,15 +212,15 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
     /**
      * Sets the subtitle of {@code self}.
      */
-    public void setSubtitle(java.lang.String subtitle) {
+    public @NotNull void setSubtitle(@NotNull java.lang.String subtitle) {
         try {
-            adw_view_switcher_title_set_subtitle.invokeExact(handle(), Interop.allocateNativeString(subtitle).handle());
+            adw_view_switcher_title_set_subtitle.invokeExact(handle(), Interop.allocateNativeString(subtitle));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle adw_view_switcher_title_set_title = Interop.downcallHandle(
+    private static final MethodHandle adw_view_switcher_title_set_title = Interop.downcallHandle(
         "adw_view_switcher_title_set_title",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -223,15 +228,15 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
     /**
      * Sets the title of {@code self}.
      */
-    public void setTitle(java.lang.String title) {
+    public @NotNull void setTitle(@NotNull java.lang.String title) {
         try {
-            adw_view_switcher_title_set_title.invokeExact(handle(), Interop.allocateNativeString(title).handle());
+            adw_view_switcher_title_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle adw_view_switcher_title_set_view_switcher_enabled = Interop.downcallHandle(
+    private static final MethodHandle adw_view_switcher_title_set_view_switcher_enabled = Interop.downcallHandle(
         "adw_view_switcher_title_set_view_switcher_enabled",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -239,7 +244,7 @@ public class ViewSwitcherTitle extends org.gtk.gtk.Widget implements org.gtk.gtk
     /**
      * Sets whether {@code self}'s view switcher is enabled.
      */
-    public void setViewSwitcherEnabled(boolean enabled) {
+    public @NotNull void setViewSwitcherEnabled(@NotNull boolean enabled) {
         try {
             adw_view_switcher_title_set_view_switcher_enabled.invokeExact(handle(), enabled ? 1 : 0);
         } catch (Throwable ERR) {

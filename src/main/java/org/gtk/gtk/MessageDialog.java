@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkMessageDialog} presents a dialog with some message text.
@@ -39,7 +40,7 @@ import java.lang.invoke.*;
  * <p>
  * You might do a non-modal {@code GtkMessageDialog} simply by omitting the
  * {@link DialogFlags#MODAL} flag:
- * <p>
+ * 
  * <pre>{@code c
  * GtkDialogFlags flags = GTK_DIALOG_DESTROY_WITH_PARENT;
  * dialog = gtk_message_dialog_new (parent_window,
@@ -56,9 +57,8 @@ import java.lang.invoke.*;
  *                   G_CALLBACK (gtk_window_destroy),
  *                   NULL);
  * }</pre>
- * <p>
+ * 
  * <h1>GtkMessageDialog as GtkBuildable</h1>
- * <p>
  * The {@code GtkMessageDialog} implementation of the {@code GtkBuildable} interface exposes
  * the message area as an internal child with the name “message_area”.
  */
@@ -73,7 +73,7 @@ public class MessageDialog extends Dialog implements Accessible, Buildable, Cons
         return new MessageDialog(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_message_dialog_get_message_area = Interop.downcallHandle(
+    private static final MethodHandle gtk_message_dialog_get_message_area = Interop.downcallHandle(
         "gtk_message_dialog_get_message_area",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -86,16 +86,17 @@ public class MessageDialog extends Dialog implements Accessible, Buildable, Cons
      * will appear below those labels. See {@link Dialog#getContentArea}
      * for the corresponding function in the parent {@link Dialog}.
      */
-    public Widget getMessageArea() {
+    public @NotNull Widget getMessageArea() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_message_dialog_get_message_area.invokeExact(handle());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_message_dialog_get_message_area.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_message_dialog_set_markup = Interop.downcallHandle(
+    private static final MethodHandle gtk_message_dialog_set_markup = Interop.downcallHandle(
         "gtk_message_dialog_set_markup",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -103,9 +104,9 @@ public class MessageDialog extends Dialog implements Accessible, Buildable, Cons
     /**
      * Sets the text of the message dialog.
      */
-    public void setMarkup(java.lang.String str) {
+    public @NotNull void setMarkup(@NotNull java.lang.String str) {
         try {
-            gtk_message_dialog_set_markup.invokeExact(handle(), Interop.allocateNativeString(str).handle());
+            gtk_message_dialog_set_markup.invokeExact(handle(), Interop.allocateNativeString(str));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

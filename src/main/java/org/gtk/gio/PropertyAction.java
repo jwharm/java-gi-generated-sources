@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@link PropertyAction} is a way to get a {@link Action} with a state value
@@ -68,14 +69,14 @@ public class PropertyAction extends org.gtk.gobject.Object implements Action {
         return new PropertyAction(gobject.refcounted());
     }
     
-    static final MethodHandle g_property_action_new = Interop.downcallHandle(
+    private static final MethodHandle g_property_action_new = Interop.downcallHandle(
         "g_property_action_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(java.lang.String name, org.gtk.gobject.Object object, java.lang.String propertyName) {
+    private static Refcounted constructNew(@NotNull java.lang.String name, @NotNull org.gtk.gobject.Object object, @NotNull java.lang.String propertyName) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_property_action_new.invokeExact(Interop.allocateNativeString(name).handle(), object.handle(), Interop.allocateNativeString(propertyName).handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_property_action_new.invokeExact(Interop.allocateNativeString(name), object.handle(), Interop.allocateNativeString(propertyName)), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -92,7 +93,7 @@ public class PropertyAction extends org.gtk.gobject.Object implements Action {
      * This function takes a reference on {@code object} and doesn't release it
      * until the action is destroyed.
      */
-    public PropertyAction(java.lang.String name, org.gtk.gobject.Object object, java.lang.String propertyName) {
+    public PropertyAction(@NotNull java.lang.String name, @NotNull org.gtk.gobject.Object object, @NotNull java.lang.String propertyName) {
         super(constructNew(name, object, propertyName));
     }
     

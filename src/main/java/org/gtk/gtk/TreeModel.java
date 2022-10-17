@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The tree interface used by GtkTreeView
@@ -84,9 +85,8 @@ import java.lang.invoke.*;
  * the location {@code 3:2:5}. While the first method shown is
  * easier, the second is much more common, as you often get paths from
  * callbacks.
- * <p>
+ * 
  * <h2>Acquiring a `GtkTreeIter`</h2>
- * <p>
  * <pre>{@code c
  * // Three ways of getting the iter pointing to the location
  * GtkTreePath *path;
@@ -119,9 +119,8 @@ import java.lang.invoke.*;
  * populate_model() function used below is not
  * shown, as it is specific to the {@code GtkListStore}. For information on
  * how to write such a function, see the {@code GtkListStore} documentation.
- * <p>
+ * 
  * <h2>Reading data from a `GtkTreeModel`</h2>
- * <p>
  * <pre>{@code c
  * enum
  * {
@@ -187,20 +186,13 @@ import java.lang.invoke.*;
  * <p>
  * When working with reference counting, the following rules must be taken
  * into account:
- * <p>
  * <ul>
  * <li>Never take a reference on a node without owning a reference on its parent.
  *   This means that all parent nodes of a referenced node must be referenced
  *   as well.
- * </ul>
- * <p>
- * <ul>
  * <li>Outstanding references on a deleted node are not released. This is not
  *   possible because the node has already been deleted by the time the
  *   row-deleted signal is received.
- * </ul>
- * <p>
- * <ul>
  * <li>Models are not obligated to emit a signal on rows of which none of its
  *   siblings are referenced. To phrase this differently, signals are only
  *   required for levels in which nodes are referenced. For the root level
@@ -209,7 +201,7 @@ import java.lang.invoke.*;
  */
 public interface TreeModel extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle gtk_tree_model_filter_new = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_filter_new = Interop.downcallHandle(
         "gtk_tree_model_filter_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -218,16 +210,17 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * Creates a new {@code GtkTreeModel}, with {@code child_model} as the child_model
      * and {@code root} as the virtual root.
      */
-    public default TreeModel filterNew(TreePath root) {
+    default @NotNull TreeModel filterNew(@Nullable TreePath root) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_tree_model_filter_new.invokeExact(handle(), root.handle());
-            return new TreeModel.TreeModelImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_tree_model_filter_new.invokeExact(handle(), root.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TreeModel.TreeModelImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_tree_model_foreach = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_foreach = Interop.downcallHandle(
         "gtk_tree_model_foreach",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -238,7 +231,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * If {@code func} returns {@code true}, then the tree ceases to be walked,
      * and gtk_tree_model_foreach() returns.
      */
-    public default void foreach(TreeModelForeachFunc func) {
+    default @NotNull void foreach(@NotNull TreeModelForeachFunc func) {
         try {
             gtk_tree_model_foreach.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -246,13 +239,13 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_tree_model_get_column_type = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_get_column_type = Interop.downcallHandle(
         "gtk_tree_model_get_column_type",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -260,16 +253,17 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     /**
      * Returns the type of the column.
      */
-    public default org.gtk.gobject.Type getColumnType(int index) {
+    default @NotNull org.gtk.gobject.Type getColumnType(@NotNull int index) {
+        long RESULT;
         try {
-            var RESULT = (long) gtk_tree_model_get_column_type.invokeExact(handle(), index);
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) gtk_tree_model_get_column_type.invokeExact(handle(), index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle gtk_tree_model_get_flags = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_get_flags = Interop.downcallHandle(
         "gtk_tree_model_get_flags",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -281,16 +275,17 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * The flags supported should not change during the lifetime
      * of the {@code tree_model}.
      */
-    public default TreeModelFlags getFlags() {
+    default @NotNull TreeModelFlags getFlags() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_model_get_flags.invokeExact(handle());
-            return new TreeModelFlags(RESULT);
+            RESULT = (int) gtk_tree_model_get_flags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TreeModelFlags(RESULT);
     }
     
-    static final MethodHandle gtk_tree_model_get_iter = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_get_iter = Interop.downcallHandle(
         "gtk_tree_model_get_iter",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -301,16 +296,19 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * If {@code path} does not exist, {@code iter} is set to an invalid
      * iterator and {@code false} is returned.
      */
-    public default boolean getIter(TreeIter iter, TreePath path) {
+    default boolean getIter(@NotNull Out<TreeIter> iter, @NotNull TreePath path) {
+        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_model_get_iter.invokeExact(handle(), iter.handle(), path.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_tree_model_get_iter.invokeExact(handle(), (Addressable) iterPOINTER.address(), path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        iter.set(new TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_tree_model_get_iter_first = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_get_iter_first = Interop.downcallHandle(
         "gtk_tree_model_get_iter_first",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -321,16 +319,19 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * <p>
      * Returns {@code false} if the tree is empty, {@code true} otherwise.
      */
-    public default boolean getIterFirst(TreeIter iter) {
+    default boolean getIterFirst(@NotNull Out<TreeIter> iter) {
+        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_model_get_iter_first.invokeExact(handle(), iter.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_tree_model_get_iter_first.invokeExact(handle(), (Addressable) iterPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        iter.set(new TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_tree_model_get_iter_from_string = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_get_iter_from_string = Interop.downcallHandle(
         "gtk_tree_model_get_iter_from_string",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -341,16 +342,19 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * <p>
      * Otherwise, {@code iter} is left invalid and {@code false} is returned.
      */
-    public default boolean getIterFromString(TreeIter iter, java.lang.String pathString) {
+    default boolean getIterFromString(@NotNull Out<TreeIter> iter, @NotNull java.lang.String pathString) {
+        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_model_get_iter_from_string.invokeExact(handle(), iter.handle(), Interop.allocateNativeString(pathString).handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_tree_model_get_iter_from_string.invokeExact(handle(), (Addressable) iterPOINTER.address(), Interop.allocateNativeString(pathString));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        iter.set(new TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_tree_model_get_n_columns = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_get_n_columns = Interop.downcallHandle(
         "gtk_tree_model_get_n_columns",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -358,16 +362,17 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     /**
      * Returns the number of columns supported by {@code tree_model}.
      */
-    public default int getNColumns() {
+    default int getNColumns() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_model_get_n_columns.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_tree_model_get_n_columns.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_tree_model_get_path = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_get_path = Interop.downcallHandle(
         "gtk_tree_model_get_path",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -377,16 +382,17 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * <p>
      * This path should be freed with gtk_tree_path_free().
      */
-    public default TreePath getPath(TreeIter iter) {
+    default @NotNull TreePath getPath(@NotNull TreeIter iter) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_tree_model_get_path.invokeExact(handle(), iter.handle());
-            return new TreePath(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_tree_model_get_path.invokeExact(handle(), iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TreePath(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_tree_model_get_string_from_iter = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_get_string_from_iter = Interop.downcallHandle(
         "gtk_tree_model_get_string_from_iter",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -398,16 +404,17 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * For example, “4:10:0:3” would be an acceptable
      * return value for this string.
      */
-    public default java.lang.String getStringFromIter(TreeIter iter) {
+    default @Nullable java.lang.String getStringFromIter(@NotNull TreeIter iter) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_tree_model_get_string_from_iter.invokeExact(handle(), iter.handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_tree_model_get_string_from_iter.invokeExact(handle(), iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_tree_model_get_valist = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_get_valist = Interop.downcallHandle(
         "gtk_tree_model_get_valist",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -418,7 +425,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * See {@link TreeModel#get}, this version takes a va_list
      * for language bindings to use.
      */
-    public default void getValist(TreeIter iter, VaList varArgs) {
+    default @NotNull void getValist(@NotNull TreeIter iter, @NotNull VaList varArgs) {
         try {
             gtk_tree_model_get_valist.invokeExact(handle(), iter.handle(), varArgs);
         } catch (Throwable ERR) {
@@ -426,7 +433,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_tree_model_get_value = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_get_value = Interop.downcallHandle(
         "gtk_tree_model_get_value",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -437,15 +444,17 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * When done with {@code value}, g_value_unset() needs to be called
      * to free any allocated memory.
      */
-    public default void getValue(TreeIter iter, int column, org.gtk.gobject.Value value) {
+    default @NotNull void getValue(@NotNull TreeIter iter, @NotNull int column, @NotNull Out<org.gtk.gobject.Value> value) {
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_tree_model_get_value.invokeExact(handle(), iter.handle(), column, value.handle());
+            gtk_tree_model_get_value.invokeExact(handle(), iter.handle(), column, (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        value.set(new org.gtk.gobject.Value(Refcounted.get(valuePOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle gtk_tree_model_iter_children = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_iter_children = Interop.downcallHandle(
         "gtk_tree_model_iter_children",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -460,16 +469,19 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * If {@code parent} is {@code null} returns the first node, equivalent to
      * {@code gtk_tree_model_get_iter_first (tree_model, iter);}
      */
-    public default boolean iterChildren(TreeIter iter, TreeIter parent) {
+    default boolean iterChildren(@NotNull Out<TreeIter> iter, @Nullable TreeIter parent) {
+        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_model_iter_children.invokeExact(handle(), iter.handle(), parent.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_tree_model_iter_children.invokeExact(handle(), (Addressable) iterPOINTER.address(), parent.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        iter.set(new TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_tree_model_iter_has_child = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_iter_has_child = Interop.downcallHandle(
         "gtk_tree_model_iter_has_child",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -477,16 +489,17 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     /**
      * Returns {@code true} if {@code iter} has children, {@code false} otherwise.
      */
-    public default boolean iterHasChild(TreeIter iter) {
+    default boolean iterHasChild(@NotNull TreeIter iter) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_model_iter_has_child.invokeExact(handle(), iter.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_tree_model_iter_has_child.invokeExact(handle(), iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_tree_model_iter_n_children = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_iter_n_children = Interop.downcallHandle(
         "gtk_tree_model_iter_n_children",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -497,16 +510,17 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * As a special case, if {@code iter} is {@code null}, then the number
      * of toplevel nodes is returned.
      */
-    public default int iterNChildren(TreeIter iter) {
+    default int iterNChildren(@Nullable TreeIter iter) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_model_iter_n_children.invokeExact(handle(), iter.handle());
-            return RESULT;
+            RESULT = (int) gtk_tree_model_iter_n_children.invokeExact(handle(), iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_tree_model_iter_next = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_iter_next = Interop.downcallHandle(
         "gtk_tree_model_iter_next",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -517,16 +531,17 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * If there is no next {@code iter}, {@code false} is returned and {@code iter} is set
      * to be invalid.
      */
-    public default boolean iterNext(TreeIter iter) {
+    default boolean iterNext(@NotNull TreeIter iter) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_model_iter_next.invokeExact(handle(), iter.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_tree_model_iter_next.invokeExact(handle(), iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_tree_model_iter_nth_child = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_iter_nth_child = Interop.downcallHandle(
         "gtk_tree_model_iter_nth_child",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -540,16 +555,19 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * special case, if {@code parent} is {@code null}, then the @n-th root node
      * is set.
      */
-    public default boolean iterNthChild(TreeIter iter, TreeIter parent, int n) {
+    default boolean iterNthChild(@NotNull Out<TreeIter> iter, @Nullable TreeIter parent, @NotNull int n) {
+        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_model_iter_nth_child.invokeExact(handle(), iter.handle(), parent.handle(), n);
-            return RESULT != 0;
+            RESULT = (int) gtk_tree_model_iter_nth_child.invokeExact(handle(), (Addressable) iterPOINTER.address(), parent.handle(), n);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        iter.set(new TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_tree_model_iter_parent = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_iter_parent = Interop.downcallHandle(
         "gtk_tree_model_iter_parent",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -565,16 +583,19 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * {@code iter} will be initialized before the lookup is performed, so {@code child}
      * and {@code iter} cannot point to the same memory location.
      */
-    public default boolean iterParent(TreeIter iter, TreeIter child) {
+    default boolean iterParent(@NotNull Out<TreeIter> iter, @NotNull TreeIter child) {
+        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_model_iter_parent.invokeExact(handle(), iter.handle(), child.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_tree_model_iter_parent.invokeExact(handle(), (Addressable) iterPOINTER.address(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        iter.set(new TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_tree_model_iter_previous = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_iter_previous = Interop.downcallHandle(
         "gtk_tree_model_iter_previous",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -585,16 +606,17 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * If there is no previous {@code iter}, {@code false} is returned and {@code iter} is
      * set to be invalid.
      */
-    public default boolean iterPrevious(TreeIter iter) {
+    default boolean iterPrevious(@NotNull TreeIter iter) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_model_iter_previous.invokeExact(handle(), iter.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_tree_model_iter_previous.invokeExact(handle(), iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_tree_model_ref_node = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_ref_node = Interop.downcallHandle(
         "gtk_tree_model_ref_node",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -618,7 +640,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * A model should be expected to be able to get an iter independent
      * of its reffed state.
      */
-    public default void refNode(TreeIter iter) {
+    default @NotNull void refNode(@NotNull TreeIter iter) {
         try {
             gtk_tree_model_ref_node.invokeExact(handle(), iter.handle());
         } catch (Throwable ERR) {
@@ -626,7 +648,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_tree_model_row_changed = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_row_changed = Interop.downcallHandle(
         "gtk_tree_model_row_changed",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -636,7 +658,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * <p>
      * See {@code Gtk.TreeModel::row-changed}.
      */
-    public default void rowChanged(TreePath path, TreeIter iter) {
+    default @NotNull void rowChanged(@NotNull TreePath path, @NotNull TreeIter iter) {
         try {
             gtk_tree_model_row_changed.invokeExact(handle(), path.handle(), iter.handle());
         } catch (Throwable ERR) {
@@ -644,7 +666,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_tree_model_row_deleted = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_row_deleted = Interop.downcallHandle(
         "gtk_tree_model_row_deleted",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -661,7 +683,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * Nodes that are deleted are not unreffed, this means that any
      * outstanding references on the deleted node should not be released.
      */
-    public default void rowDeleted(TreePath path) {
+    default @NotNull void rowDeleted(@NotNull TreePath path) {
         try {
             gtk_tree_model_row_deleted.invokeExact(handle(), path.handle());
         } catch (Throwable ERR) {
@@ -669,7 +691,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_tree_model_row_has_child_toggled = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_row_has_child_toggled = Interop.downcallHandle(
         "gtk_tree_model_row_has_child_toggled",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -682,7 +704,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * This should be called by models after the child
      * state of a node changes.
      */
-    public default void rowHasChildToggled(TreePath path, TreeIter iter) {
+    default @NotNull void rowHasChildToggled(@NotNull TreePath path, @NotNull TreeIter iter) {
         try {
             gtk_tree_model_row_has_child_toggled.invokeExact(handle(), path.handle(), iter.handle());
         } catch (Throwable ERR) {
@@ -690,7 +712,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_tree_model_row_inserted = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_row_inserted = Interop.downcallHandle(
         "gtk_tree_model_row_inserted",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -700,7 +722,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * <p>
      * See {@code Gtk.TreeModel::row-inserted}.
      */
-    public default void rowInserted(TreePath path, TreeIter iter) {
+    default @NotNull void rowInserted(@NotNull TreePath path, @NotNull TreeIter iter) {
         try {
             gtk_tree_model_row_inserted.invokeExact(handle(), path.handle(), iter.handle());
         } catch (Throwable ERR) {
@@ -708,7 +730,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_tree_model_rows_reordered = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_rows_reordered = Interop.downcallHandle(
         "gtk_tree_model_rows_reordered",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -721,7 +743,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * This should be called by models when their rows have been
      * reordered.
      */
-    public default void rowsReordered(TreePath path, TreeIter iter, PointerInteger newOrder) {
+    default @NotNull void rowsReordered(@NotNull TreePath path, @NotNull TreeIter iter, @NotNull PointerInteger newOrder) {
         try {
             gtk_tree_model_rows_reordered.invokeExact(handle(), path.handle(), iter.handle(), newOrder.handle());
         } catch (Throwable ERR) {
@@ -729,7 +751,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_tree_model_rows_reordered_with_length = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_rows_reordered_with_length = Interop.downcallHandle(
         "gtk_tree_model_rows_reordered_with_length",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -742,15 +764,15 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * This should be called by models when their rows have been
      * reordered.
      */
-    public default void rowsReorderedWithLength(TreePath path, TreeIter iter, int[] newOrder, int length) {
+    default @NotNull void rowsReorderedWithLength(@NotNull TreePath path, @Nullable TreeIter iter, @NotNull int[] newOrder, @NotNull int length) {
         try {
-            gtk_tree_model_rows_reordered_with_length.invokeExact(handle(), path.handle(), iter.handle(), Interop.allocateNativeArray(newOrder).handle(), length);
+            gtk_tree_model_rows_reordered_with_length.invokeExact(handle(), path.handle(), iter.handle(), Interop.allocateNativeArray(newOrder), length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_tree_model_unref_node = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_model_unref_node = Interop.downcallHandle(
         "gtk_tree_model_unref_node",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -765,7 +787,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
      * <p>
      * Please note that nodes that are deleted are not unreffed.
      */
-    public default void unrefNode(TreeIter iter) {
+    default @NotNull void unrefNode(@NotNull TreeIter iter) {
         try {
             gtk_tree_model_unref_node.invokeExact(handle(), iter.handle());
         } catch (Throwable ERR) {
@@ -775,7 +797,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface RowChangedHandler {
-        void signalReceived(TreeModel source, TreePath path, TreeIter iter);
+        void signalReceived(TreeModel source, @NotNull TreePath path, @NotNull TreeIter iter);
     }
     
     /**
@@ -785,13 +807,13 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("row-changed").handle(),
+                Interop.allocateNativeString("row-changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TreeModel.Callbacks.class, "signalTreeModelRowChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -801,7 +823,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface RowDeletedHandler {
-        void signalReceived(TreeModel source, TreePath path);
+        void signalReceived(TreeModel source, @NotNull TreePath path);
     }
     
     /**
@@ -818,13 +840,13 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("row-deleted").handle(),
+                Interop.allocateNativeString("row-deleted"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TreeModel.Callbacks.class, "signalTreeModelRowDeleted",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -834,7 +856,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface RowHasChildToggledHandler {
-        void signalReceived(TreeModel source, TreePath path, TreeIter iter);
+        void signalReceived(TreeModel source, @NotNull TreePath path, @NotNull TreeIter iter);
     }
     
     /**
@@ -845,13 +867,13 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("row-has-child-toggled").handle(),
+                Interop.allocateNativeString("row-has-child-toggled"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TreeModel.Callbacks.class, "signalTreeModelRowHasChildToggled",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -861,7 +883,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface RowInsertedHandler {
-        void signalReceived(TreeModel source, TreePath path, TreeIter iter);
+        void signalReceived(TreeModel source, @NotNull TreePath path, @NotNull TreeIter iter);
     }
     
     /**
@@ -876,13 +898,13 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("row-inserted").handle(),
+                Interop.allocateNativeString("row-inserted"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TreeModel.Callbacks.class, "signalTreeModelRowInserted",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -892,7 +914,7 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface RowsReorderedHandler {
-        void signalReceived(TreeModel source, TreePath path, TreeIter iter, java.lang.foreign.MemoryAddress newOrder);
+        void signalReceived(TreeModel source, @NotNull TreePath path, @NotNull TreeIter iter, @Nullable java.lang.foreign.MemoryAddress newOrder);
     }
     
     /**
@@ -907,13 +929,13 @@ public interface TreeModel extends io.github.jwharm.javagi.Proxy {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("rows-reordered").handle(),
+                Interop.allocateNativeString("rows-reordered"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TreeModel.Callbacks.class, "signalTreeModelRowsReordered",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

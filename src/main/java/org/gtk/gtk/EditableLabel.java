@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GtkEditableLabel} is a label that allows users to
@@ -17,9 +18,8 @@ import java.lang.invoke.*;
  * to click or press the Enter key. The default bindings
  * for leaving the edit mode are the Enter key (to save
  * the results) or the Escape key (to cancel the editing).
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * <pre>{@code 
  * editablelabel[.editing]
  * ╰── stack
@@ -45,14 +45,14 @@ public class EditableLabel extends Widget implements Accessible, Buildable, Cons
         return new EditableLabel(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_editable_label_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_editable_label_new = Interop.downcallHandle(
         "gtk_editable_label_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(java.lang.String str) {
+    private static Refcounted constructNew(@NotNull java.lang.String str) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_editable_label_new.invokeExact(Interop.allocateNativeString(str).handle()), false);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_editable_label_new.invokeExact(Interop.allocateNativeString(str)), false);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -62,11 +62,11 @@ public class EditableLabel extends Widget implements Accessible, Buildable, Cons
     /**
      * Creates a new {@code GtkEditableLabel} widget.
      */
-    public EditableLabel(java.lang.String str) {
+    public EditableLabel(@NotNull java.lang.String str) {
         super(constructNew(str));
     }
     
-    static final MethodHandle gtk_editable_label_get_editing = Interop.downcallHandle(
+    private static final MethodHandle gtk_editable_label_get_editing = Interop.downcallHandle(
         "gtk_editable_label_get_editing",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -75,15 +75,16 @@ public class EditableLabel extends Widget implements Accessible, Buildable, Cons
      * Returns whether the label is currently in “editing mode”.
      */
     public boolean getEditing() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_editable_label_get_editing.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_editable_label_get_editing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_editable_label_start_editing = Interop.downcallHandle(
+    private static final MethodHandle gtk_editable_label_start_editing = Interop.downcallHandle(
         "gtk_editable_label_start_editing",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -91,7 +92,7 @@ public class EditableLabel extends Widget implements Accessible, Buildable, Cons
     /**
      * Switches the label into “editing mode”.
      */
-    public void startEditing() {
+    public @NotNull void startEditing() {
         try {
             gtk_editable_label_start_editing.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -99,7 +100,7 @@ public class EditableLabel extends Widget implements Accessible, Buildable, Cons
         }
     }
     
-    static final MethodHandle gtk_editable_label_stop_editing = Interop.downcallHandle(
+    private static final MethodHandle gtk_editable_label_stop_editing = Interop.downcallHandle(
         "gtk_editable_label_stop_editing",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -112,7 +113,7 @@ public class EditableLabel extends Widget implements Accessible, Buildable, Cons
      * resulting text is discarded and the label will keep its
      * previous {@code Gtk.Editable:text} property value.
      */
-    public void stopEditing(boolean commit) {
+    public @NotNull void stopEditing(@NotNull boolean commit) {
         try {
             gtk_editable_label_stop_editing.invokeExact(handle(), commit ? 1 : 0);
         } catch (Throwable ERR) {

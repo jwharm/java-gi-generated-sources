@@ -3,6 +3,7 @@ package org.gnome.adw;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * An {@link AnimationTarget} that calls a given callback during the
@@ -19,12 +20,12 @@ public class CallbackAnimationTarget extends AnimationTarget {
         return new CallbackAnimationTarget(gobject.refcounted());
     }
     
-    static final MethodHandle adw_callback_animation_target_new = Interop.downcallHandle(
+    private static final MethodHandle adw_callback_animation_target_new = Interop.downcallHandle(
         "adw_callback_animation_target_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(AnimationTargetFunc callback) {
+    private static Refcounted constructNew(@Nullable AnimationTargetFunc callback) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) adw_callback_animation_target_new.invokeExact(
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -32,7 +33,7 @@ public class CallbackAnimationTarget extends AnimationTarget {
                             MethodType.methodType(void.class, double.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)), 
                     Interop.cbDestroyNotifySymbol()), true);
             return RESULT;
         } catch (Throwable ERR) {
@@ -44,7 +45,7 @@ public class CallbackAnimationTarget extends AnimationTarget {
      * Creates a new {@code AdwAnimationTarget} that calls the given {@code callback} during
      * the animation.
      */
-    public CallbackAnimationTarget(AnimationTargetFunc callback) {
+    public CallbackAnimationTarget(@Nullable AnimationTargetFunc callback) {
         super(constructNew(callback));
     }
     

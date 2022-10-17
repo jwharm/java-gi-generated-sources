@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A function to set the properties of a cell instead of just using the
@@ -14,5 +15,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface TreeCellDataFunc {
-        void onTreeCellDataFunc(TreeViewColumn treeColumn, CellRenderer cell, TreeModel treeModel, TreeIter iter);
+        void onTreeCellDataFunc(@NotNull TreeViewColumn treeColumn, @NotNull CellRenderer cell, @NotNull TreeModel treeModel, @NotNull TreeIter iter);
 }

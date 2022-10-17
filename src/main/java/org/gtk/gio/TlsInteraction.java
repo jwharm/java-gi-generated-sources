@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link TlsInteraction} provides a mechanism for the TLS connection and database
@@ -37,7 +38,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
         return new TlsInteraction(gobject.refcounted());
     }
     
-    static final MethodHandle g_tls_interaction_ask_password = Interop.downcallHandle(
+    private static final MethodHandle g_tls_interaction_ask_password = Interop.downcallHandle(
         "g_tls_interaction_ask_password",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -57,20 +58,21 @@ public class TlsInteraction extends org.gtk.gobject.Object {
      * contains a {@link IOErrorEnum#CANCELLED} error code. Certain implementations may
      * not support immediate cancellation.
      */
-    public TlsInteractionResult askPassword(TlsPassword password, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull TlsInteractionResult askPassword(@NotNull TlsPassword password, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_tls_interaction_ask_password.invokeExact(handle(), password.handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new TlsInteractionResult(RESULT);
+            RESULT = (int) g_tls_interaction_ask_password.invokeExact(handle(), password.handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new TlsInteractionResult(RESULT);
     }
     
-    static final MethodHandle g_tls_interaction_ask_password_async = Interop.downcallHandle(
+    private static final MethodHandle g_tls_interaction_ask_password_async = Interop.downcallHandle(
         "g_tls_interaction_ask_password_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -92,7 +94,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
      * <p>
      * Certain implementations may not support immediate cancellation.
      */
-    public void askPasswordAsync(TlsPassword password, Cancellable cancellable, AsyncReadyCallback callback) {
+    public @NotNull void askPasswordAsync(@NotNull TlsPassword password, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_tls_interaction_ask_password_async.invokeExact(handle(), password.handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -100,13 +102,13 @@ public class TlsInteraction extends org.gtk.gobject.Object {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_tls_interaction_ask_password_finish = Interop.downcallHandle(
+    private static final MethodHandle g_tls_interaction_ask_password_finish = Interop.downcallHandle(
         "g_tls_interaction_ask_password_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -122,20 +124,21 @@ public class TlsInteraction extends org.gtk.gobject.Object {
      * user then {@link TlsInteractionResult#FAILED} will be returned with an error that
      * contains a {@link IOErrorEnum#CANCELLED} error code.
      */
-    public TlsInteractionResult askPasswordFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull TlsInteractionResult askPasswordFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_tls_interaction_ask_password_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new TlsInteractionResult(RESULT);
+            RESULT = (int) g_tls_interaction_ask_password_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new TlsInteractionResult(RESULT);
     }
     
-    static final MethodHandle g_tls_interaction_invoke_ask_password = Interop.downcallHandle(
+    private static final MethodHandle g_tls_interaction_invoke_ask_password = Interop.downcallHandle(
         "g_tls_interaction_invoke_ask_password",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -161,20 +164,21 @@ public class TlsInteraction extends org.gtk.gobject.Object {
      * contains a {@link IOErrorEnum#CANCELLED} error code. Certain implementations may
      * not support immediate cancellation.
      */
-    public TlsInteractionResult invokeAskPassword(TlsPassword password, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull TlsInteractionResult invokeAskPassword(@NotNull TlsPassword password, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_tls_interaction_invoke_ask_password.invokeExact(handle(), password.handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new TlsInteractionResult(RESULT);
+            RESULT = (int) g_tls_interaction_invoke_ask_password.invokeExact(handle(), password.handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new TlsInteractionResult(RESULT);
     }
     
-    static final MethodHandle g_tls_interaction_invoke_request_certificate = Interop.downcallHandle(
+    private static final MethodHandle g_tls_interaction_invoke_request_certificate = Interop.downcallHandle(
         "g_tls_interaction_invoke_request_certificate",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -201,20 +205,21 @@ public class TlsInteraction extends org.gtk.gobject.Object {
      * contains a {@link IOErrorEnum#CANCELLED} error code. Certain implementations may
      * not support immediate cancellation.
      */
-    public TlsInteractionResult invokeRequestCertificate(TlsConnection connection, TlsCertificateRequestFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull TlsInteractionResult invokeRequestCertificate(@NotNull TlsConnection connection, @NotNull TlsCertificateRequestFlags flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_tls_interaction_invoke_request_certificate.invokeExact(handle(), connection.handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new TlsInteractionResult(RESULT);
+            RESULT = (int) g_tls_interaction_invoke_request_certificate.invokeExact(handle(), connection.handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new TlsInteractionResult(RESULT);
     }
     
-    static final MethodHandle g_tls_interaction_request_certificate = Interop.downcallHandle(
+    private static final MethodHandle g_tls_interaction_request_certificate = Interop.downcallHandle(
         "g_tls_interaction_request_certificate",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -237,20 +242,21 @@ public class TlsInteraction extends org.gtk.gobject.Object {
      * contains a {@link IOErrorEnum#CANCELLED} error code. Certain implementations may
      * not support immediate cancellation.
      */
-    public TlsInteractionResult requestCertificate(TlsConnection connection, TlsCertificateRequestFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull TlsInteractionResult requestCertificate(@NotNull TlsConnection connection, @NotNull TlsCertificateRequestFlags flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_tls_interaction_request_certificate.invokeExact(handle(), connection.handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new TlsInteractionResult(RESULT);
+            RESULT = (int) g_tls_interaction_request_certificate.invokeExact(handle(), connection.handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new TlsInteractionResult(RESULT);
     }
     
-    static final MethodHandle g_tls_interaction_request_certificate_async = Interop.downcallHandle(
+    private static final MethodHandle g_tls_interaction_request_certificate_async = Interop.downcallHandle(
         "g_tls_interaction_request_certificate_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -265,7 +271,7 @@ public class TlsInteraction extends org.gtk.gobject.Object {
      * when the operation completes. Alternatively the user may abort this certificate
      * request, which will usually abort the TLS connection.
      */
-    public void requestCertificateAsync(TlsConnection connection, TlsCertificateRequestFlags flags, Cancellable cancellable, AsyncReadyCallback callback) {
+    public @NotNull void requestCertificateAsync(@NotNull TlsConnection connection, @NotNull TlsCertificateRequestFlags flags, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_tls_interaction_request_certificate_async.invokeExact(handle(), connection.handle(), flags.getValue(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -273,13 +279,13 @@ public class TlsInteraction extends org.gtk.gobject.Object {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_tls_interaction_request_certificate_finish = Interop.downcallHandle(
+    private static final MethodHandle g_tls_interaction_request_certificate_finish = Interop.downcallHandle(
         "g_tls_interaction_request_certificate_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -296,17 +302,18 @@ public class TlsInteraction extends org.gtk.gobject.Object {
      * user then {@link TlsInteractionResult#FAILED} will be returned with an error that
      * contains a {@link IOErrorEnum#CANCELLED} error code.
      */
-    public TlsInteractionResult requestCertificateFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull TlsInteractionResult requestCertificateFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_tls_interaction_request_certificate_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new TlsInteractionResult(RESULT);
+            RESULT = (int) g_tls_interaction_request_certificate_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new TlsInteractionResult(RESULT);
     }
     
 }

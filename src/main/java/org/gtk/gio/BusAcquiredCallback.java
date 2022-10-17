@@ -1,11 +1,12 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Invoked when a connection to a message bus has been obtained.
  */
 @FunctionalInterface
 public interface BusAcquiredCallback {
-        void onBusAcquiredCallback(DBusConnection connection, java.lang.String name);
+        void onBusAcquiredCallback(@NotNull DBusConnection connection, @NotNull java.lang.String name);
 }

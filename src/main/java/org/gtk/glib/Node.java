@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@link Node} struct represents one node in a [n-ary tree][glib-N-ary-Trees].
@@ -13,7 +14,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_node_child_index = Interop.downcallHandle(
+    private static final MethodHandle g_node_child_index = Interop.downcallHandle(
         "g_node_child_index",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -22,16 +23,17 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      * Gets the position of the first child of a {@link Node}
      * which contains the given data.
      */
-    public int childIndex(java.lang.foreign.MemoryAddress data) {
+    public int childIndex(@Nullable java.lang.foreign.MemoryAddress data) {
+        int RESULT;
         try {
-            var RESULT = (int) g_node_child_index.invokeExact(handle(), data);
-            return RESULT;
+            RESULT = (int) g_node_child_index.invokeExact(handle(), data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_node_child_position = Interop.downcallHandle(
+    private static final MethodHandle g_node_child_position = Interop.downcallHandle(
         "g_node_child_position",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -41,16 +43,17 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      * {@code child} must be a child of {@code node}. The first child is numbered 0,
      * the second 1, and so on.
      */
-    public int childPosition(Node child) {
+    public int childPosition(@NotNull Node child) {
+        int RESULT;
         try {
-            var RESULT = (int) g_node_child_position.invokeExact(handle(), child.handle());
-            return RESULT;
+            RESULT = (int) g_node_child_position.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_node_children_foreach = Interop.downcallHandle(
+    private static final MethodHandle g_node_children_foreach = Interop.downcallHandle(
         "g_node_children_foreach",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -60,7 +63,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      * doesn't descend beneath the child nodes. {@code func} must not do anything
      * that would modify the structure of the tree.
      */
-    public void childrenForeach(TraverseFlags flags, NodeForeachFunc func) {
+    public @NotNull void childrenForeach(@NotNull TraverseFlags flags, @NotNull NodeForeachFunc func) {
         try {
             g_node_children_foreach.invokeExact(handle(), flags.getValue(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -68,13 +71,13 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_node_copy = Interop.downcallHandle(
+    private static final MethodHandle g_node_copy = Interop.downcallHandle(
         "g_node_copy",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -83,16 +86,17 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      * Recursively copies a {@link Node} (but does not deep-copy the data inside the
      * nodes, see g_node_copy_deep() if you need that).
      */
-    public Node copy() {
+    public @NotNull Node copy() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_node_copy.invokeExact(handle());
-            return new Node(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_node_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Node(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_node_copy_deep = Interop.downcallHandle(
+    private static final MethodHandle g_node_copy_deep = Interop.downcallHandle(
         "g_node_copy_deep",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -100,22 +104,23 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Recursively copies a {@link Node} and its data.
      */
-    public Node copyDeep(CopyFunc copyFunc) {
+    public @NotNull Node copyDeep(@NotNull CopyFunc copyFunc) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_node_copy_deep.invokeExact(handle(), 
+            RESULT = (MemoryAddress) g_node_copy_deep.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCopyFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(copyFunc.hashCode(), copyFunc)));
-            return new Node(Refcounted.get(RESULT, false));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(copyFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Node(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_node_depth = Interop.downcallHandle(
+    private static final MethodHandle g_node_depth = Interop.downcallHandle(
         "g_node_depth",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -127,15 +132,16 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      * For the children of the root node the depth is 2. And so on.
      */
     public int depth() {
+        int RESULT;
         try {
-            var RESULT = (int) g_node_depth.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_node_depth.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_node_destroy = Interop.downcallHandle(
+    private static final MethodHandle g_node_destroy = Interop.downcallHandle(
         "g_node_destroy",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -144,7 +150,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      * Removes {@code root} and its children from the tree, freeing any memory
      * allocated.
      */
-    public void destroy() {
+    public @NotNull void destroy() {
         try {
             g_node_destroy.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -152,7 +158,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_node_find = Interop.downcallHandle(
+    private static final MethodHandle g_node_find = Interop.downcallHandle(
         "g_node_find",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -160,16 +166,17 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Finds a {@link Node} in a tree.
      */
-    public Node find(TraverseType order, TraverseFlags flags, java.lang.foreign.MemoryAddress data) {
+    public @NotNull Node find(@NotNull TraverseType order, @NotNull TraverseFlags flags, @Nullable java.lang.foreign.MemoryAddress data) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_node_find.invokeExact(handle(), order.getValue(), flags.getValue(), data);
-            return new Node(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_node_find.invokeExact(handle(), order.getValue(), flags.getValue(), data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Node(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_node_find_child = Interop.downcallHandle(
+    private static final MethodHandle g_node_find_child = Interop.downcallHandle(
         "g_node_find_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -177,16 +184,17 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Finds the first child of a {@link Node} with the given data.
      */
-    public Node findChild(TraverseFlags flags, java.lang.foreign.MemoryAddress data) {
+    public @NotNull Node findChild(@NotNull TraverseFlags flags, @Nullable java.lang.foreign.MemoryAddress data) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_node_find_child.invokeExact(handle(), flags.getValue(), data);
-            return new Node(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_node_find_child.invokeExact(handle(), flags.getValue(), data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Node(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_node_first_sibling = Interop.downcallHandle(
+    private static final MethodHandle g_node_first_sibling = Interop.downcallHandle(
         "g_node_first_sibling",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -195,16 +203,17 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      * Gets the first sibling of a {@link Node}.
      * This could possibly be the node itself.
      */
-    public Node firstSibling() {
+    public @NotNull Node firstSibling() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_node_first_sibling.invokeExact(handle());
-            return new Node(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_node_first_sibling.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Node(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_node_get_root = Interop.downcallHandle(
+    private static final MethodHandle g_node_get_root = Interop.downcallHandle(
         "g_node_get_root",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -212,16 +221,17 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the root of a tree.
      */
-    public Node getRoot() {
+    public @NotNull Node getRoot() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_node_get_root.invokeExact(handle());
-            return new Node(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_node_get_root.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Node(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_node_insert = Interop.downcallHandle(
+    private static final MethodHandle g_node_insert = Interop.downcallHandle(
         "g_node_insert",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -229,16 +239,17 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Inserts a {@link Node} beneath the parent at the given position.
      */
-    public Node insert(int position, Node node) {
+    public @NotNull Node insert(@NotNull int position, @NotNull Node node) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_node_insert.invokeExact(handle(), position, node.handle());
-            return new Node(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_node_insert.invokeExact(handle(), position, node.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Node(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_node_insert_after = Interop.downcallHandle(
+    private static final MethodHandle g_node_insert_after = Interop.downcallHandle(
         "g_node_insert_after",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -246,16 +257,17 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Inserts a {@link Node} beneath the parent after the given sibling.
      */
-    public Node insertAfter(Node sibling, Node node) {
+    public @NotNull Node insertAfter(@NotNull Node sibling, @NotNull Node node) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_node_insert_after.invokeExact(handle(), sibling.handle(), node.handle());
-            return new Node(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_node_insert_after.invokeExact(handle(), sibling.handle(), node.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Node(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_node_insert_before = Interop.downcallHandle(
+    private static final MethodHandle g_node_insert_before = Interop.downcallHandle(
         "g_node_insert_before",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -263,16 +275,17 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Inserts a {@link Node} beneath the parent before the given sibling.
      */
-    public Node insertBefore(Node sibling, Node node) {
+    public @NotNull Node insertBefore(@NotNull Node sibling, @NotNull Node node) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_node_insert_before.invokeExact(handle(), sibling.handle(), node.handle());
-            return new Node(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_node_insert_before.invokeExact(handle(), sibling.handle(), node.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Node(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_node_is_ancestor = Interop.downcallHandle(
+    private static final MethodHandle g_node_is_ancestor = Interop.downcallHandle(
         "g_node_is_ancestor",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -282,16 +295,17 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      * This is true if node is the parent of {@code descendant},
      * or if node is the grandparent of {@code descendant} etc.
      */
-    public boolean isAncestor(Node descendant) {
+    public boolean isAncestor(@NotNull Node descendant) {
+        int RESULT;
         try {
-            var RESULT = (int) g_node_is_ancestor.invokeExact(handle(), descendant.handle());
-            return RESULT != 0;
+            RESULT = (int) g_node_is_ancestor.invokeExact(handle(), descendant.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_node_last_child = Interop.downcallHandle(
+    private static final MethodHandle g_node_last_child = Interop.downcallHandle(
         "g_node_last_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -299,16 +313,17 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the last child of a {@link Node}.
      */
-    public Node lastChild() {
+    public @NotNull Node lastChild() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_node_last_child.invokeExact(handle());
-            return new Node(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_node_last_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Node(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_node_last_sibling = Interop.downcallHandle(
+    private static final MethodHandle g_node_last_sibling = Interop.downcallHandle(
         "g_node_last_sibling",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -317,16 +332,17 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      * Gets the last sibling of a {@link Node}.
      * This could possibly be the node itself.
      */
-    public Node lastSibling() {
+    public @NotNull Node lastSibling() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_node_last_sibling.invokeExact(handle());
-            return new Node(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_node_last_sibling.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Node(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_node_max_height = Interop.downcallHandle(
+    private static final MethodHandle g_node_max_height = Interop.downcallHandle(
         "g_node_max_height",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -339,15 +355,16 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      * 1 is returned. If {@code root} has children, 2 is returned. And so on.
      */
     public int maxHeight() {
+        int RESULT;
         try {
-            var RESULT = (int) g_node_max_height.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_node_max_height.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_node_n_children = Interop.downcallHandle(
+    private static final MethodHandle g_node_n_children = Interop.downcallHandle(
         "g_node_n_children",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -356,15 +373,16 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      * Gets the number of children of a {@link Node}.
      */
     public int nChildren() {
+        int RESULT;
         try {
-            var RESULT = (int) g_node_n_children.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_node_n_children.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_node_n_nodes = Interop.downcallHandle(
+    private static final MethodHandle g_node_n_nodes = Interop.downcallHandle(
         "g_node_n_nodes",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -372,16 +390,17 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the number of nodes in a tree.
      */
-    public int nNodes(TraverseFlags flags) {
+    public int nNodes(@NotNull TraverseFlags flags) {
+        int RESULT;
         try {
-            var RESULT = (int) g_node_n_nodes.invokeExact(handle(), flags.getValue());
-            return RESULT;
+            RESULT = (int) g_node_n_nodes.invokeExact(handle(), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_node_nth_child = Interop.downcallHandle(
+    private static final MethodHandle g_node_nth_child = Interop.downcallHandle(
         "g_node_nth_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -391,16 +410,17 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      * The first child is at index 0. If the index is
      * too big, {@code null} is returned.
      */
-    public Node nthChild(int n) {
+    public @NotNull Node nthChild(@NotNull int n) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_node_nth_child.invokeExact(handle(), n);
-            return new Node(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_node_nth_child.invokeExact(handle(), n);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Node(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_node_prepend = Interop.downcallHandle(
+    private static final MethodHandle g_node_prepend = Interop.downcallHandle(
         "g_node_prepend",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -408,16 +428,17 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Inserts a {@link Node} as the first child of the given parent.
      */
-    public Node prepend(Node node) {
+    public @NotNull Node prepend(@NotNull Node node) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_node_prepend.invokeExact(handle(), node.handle());
-            return new Node(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_node_prepend.invokeExact(handle(), node.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Node(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_node_reverse_children = Interop.downcallHandle(
+    private static final MethodHandle g_node_reverse_children = Interop.downcallHandle(
         "g_node_reverse_children",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -426,7 +447,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      * Reverses the order of the children of a {@link Node}.
      * (It doesn't change the order of the grandchildren.)
      */
-    public void reverseChildren() {
+    public @NotNull void reverseChildren() {
         try {
             g_node_reverse_children.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -434,7 +455,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_node_traverse = Interop.downcallHandle(
+    private static final MethodHandle g_node_traverse = Interop.downcallHandle(
         "g_node_traverse",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -445,7 +466,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      * The traversal can be halted at any point by returning {@code true} from {@code func}.
      * {@code func} must not do anything that would modify the structure of the tree.
      */
-    public void traverse(TraverseType order, TraverseFlags flags, int maxDepth, NodeTraverseFunc func) {
+    public @NotNull void traverse(@NotNull TraverseType order, @NotNull TraverseFlags flags, @NotNull int maxDepth, @NotNull NodeTraverseFunc func) {
         try {
             g_node_traverse.invokeExact(handle(), order.getValue(), flags.getValue(), maxDepth, 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -453,13 +474,13 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_node_unlink = Interop.downcallHandle(
+    private static final MethodHandle g_node_unlink = Interop.downcallHandle(
         "g_node_unlink",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -467,7 +488,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Unlinks a {@link Node} from a tree, resulting in two separate trees.
      */
-    public void unlink() {
+    public @NotNull void unlink() {
         try {
             g_node_unlink.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -475,7 +496,7 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_node_new = Interop.downcallHandle(
+    private static final MethodHandle g_node_new = Interop.downcallHandle(
         "g_node_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -484,13 +505,14 @@ public class Node extends io.github.jwharm.javagi.ResourceBase {
      * Creates a new {@link Node} containing the given data.
      * Used to create the first node in a tree.
      */
-    public static Node new_(java.lang.foreign.MemoryAddress data) {
+    public static @NotNull Node new_(@Nullable java.lang.foreign.MemoryAddress data) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_node_new.invokeExact(data);
-            return new Node(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_node_new.invokeExact(data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Node(Refcounted.get(RESULT, false));
     }
     
 }

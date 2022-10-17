@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Type of the callback passed to gtk_tree_model_foreach() to
@@ -8,5 +9,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface TreeModelForeachFunc {
-        boolean onTreeModelForeachFunc(TreeModel model, TreePath path, TreeIter iter);
+        boolean onTreeModelForeachFunc(@NotNull TreeModel model, @NotNull TreePath path, @NotNull TreeIter iter);
 }

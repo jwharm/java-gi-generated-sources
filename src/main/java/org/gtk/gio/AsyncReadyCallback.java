@@ -1,6 +1,7 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Type definition for a function that will be called back when an asynchronous
@@ -18,5 +19,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface AsyncReadyCallback {
-        void onAsyncReadyCallback(org.gtk.gobject.Object sourceObject, AsyncResult res);
+        void onAsyncReadyCallback(@Nullable org.gtk.gobject.Object sourceObject, @NotNull AsyncResult res);
 }

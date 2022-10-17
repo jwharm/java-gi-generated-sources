@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A utility type for constructing container-type {@link Variant} instances.
@@ -19,12 +20,12 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_variant_builder_new = Interop.downcallHandle(
+    private static final MethodHandle g_variant_builder_new = Interop.downcallHandle(
         "g_variant_builder_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(VariantType type) {
+    private static Refcounted constructNew(@NotNull VariantType type) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_builder_new.invokeExact(type.handle()), true);
             return RESULT;
@@ -44,11 +45,11 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * the stack of the calling function and initialise it with
      * g_variant_builder_init().
      */
-    public VariantBuilder(VariantType type) {
+    public VariantBuilder(@NotNull VariantType type) {
         super(constructNew(type));
     }
     
-    static final MethodHandle g_variant_builder_add_value = Interop.downcallHandle(
+    private static final MethodHandle g_variant_builder_add_value = Interop.downcallHandle(
         "g_variant_builder_add_value",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -65,7 +66,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * If {@code value} is a floating reference (see g_variant_ref_sink()),
      * the {@code builder} instance takes ownership of {@code value}.
      */
-    public void addValue(Variant value) {
+    public @NotNull void addValue(@NotNull Variant value) {
         try {
             g_variant_builder_add_value.invokeExact(handle(), value.handle());
         } catch (Throwable ERR) {
@@ -73,7 +74,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_variant_builder_clear = Interop.downcallHandle(
+    private static final MethodHandle g_variant_builder_clear = Interop.downcallHandle(
         "g_variant_builder_clear",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -94,7 +95,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * {@link VariantBuilder} or one that is set to all-zeros but it is not valid
      * to call this function on uninitialised memory.
      */
-    public void clear() {
+    public @NotNull void clear() {
         try {
             g_variant_builder_clear.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -102,7 +103,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_variant_builder_close = Interop.downcallHandle(
+    private static final MethodHandle g_variant_builder_close = Interop.downcallHandle(
         "g_variant_builder_close",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -115,7 +116,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * inconsistent value to be constructed (ie: too few values added to the
      * subcontainer).
      */
-    public void close() {
+    public @NotNull void close() {
         try {
             g_variant_builder_close.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -123,7 +124,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_variant_builder_end = Interop.downcallHandle(
+    private static final MethodHandle g_variant_builder_end = Interop.downcallHandle(
         "g_variant_builder_end",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -147,16 +148,17 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * have been added; in this case it is impossible to infer the type of
      * the empty array.
      */
-    public Variant end() {
+    public @NotNull Variant end() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_variant_builder_end.invokeExact(handle());
-            return new Variant(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_variant_builder_end.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Variant(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_variant_builder_init = Interop.downcallHandle(
+    private static final MethodHandle g_variant_builder_init = Interop.downcallHandle(
         "g_variant_builder_init",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -192,7 +194,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * reference counting; you should use g_variant_builder_new() instead of
      * this function.
      */
-    public void init(VariantType type) {
+    public @NotNull void init(@NotNull VariantType type) {
         try {
             g_variant_builder_init.invokeExact(handle(), type.handle());
         } catch (Throwable ERR) {
@@ -200,7 +202,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_variant_builder_open = Interop.downcallHandle(
+    private static final MethodHandle g_variant_builder_open = Interop.downcallHandle(
         "g_variant_builder_open",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -243,7 +245,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * output = g_variant_builder_end (&builder);
      * }</pre>
      */
-    public void open(VariantType type) {
+    public @NotNull void open(@NotNull VariantType type) {
         try {
             g_variant_builder_open.invokeExact(handle(), type.handle());
         } catch (Throwable ERR) {
@@ -251,7 +253,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_variant_builder_ref = Interop.downcallHandle(
+    private static final MethodHandle g_variant_builder_ref = Interop.downcallHandle(
         "g_variant_builder_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -262,16 +264,17 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * Don't call this on stack-allocated {@link VariantBuilder} instances or bad
      * things will happen.
      */
-    public VariantBuilder ref() {
+    public @NotNull VariantBuilder ref() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_variant_builder_ref.invokeExact(handle());
-            return new VariantBuilder(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_variant_builder_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new VariantBuilder(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_variant_builder_unref = Interop.downcallHandle(
+    private static final MethodHandle g_variant_builder_unref = Interop.downcallHandle(
         "g_variant_builder_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -285,7 +288,7 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * Don't call this on stack-allocated {@link VariantBuilder} instances or bad
      * things will happen.
      */
-    public void unref() {
+    public @NotNull void unref() {
         try {
             g_variant_builder_unref.invokeExact(handle());
         } catch (Throwable ERR) {

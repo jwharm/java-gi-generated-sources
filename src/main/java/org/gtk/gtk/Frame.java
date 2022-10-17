@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkFrame} is a widget that surrounds its child with a decorative
@@ -16,9 +17,8 @@ import java.lang.invoke.*;
  * <p>
  * {@code GtkFrame} clips its child. You can use this to add rounded corners
  * to widgets, but be aware that it also cuts off shadows.
- * <p>
+ * 
  * <h1>GtkFrame as GtkBuildable</h1>
- * <p>
  * The {@code GtkFrame} implementation of the {@code GtkBuildable} interface supports
  * placing a child in the label position by specifying “label” as the
  * “type” attribute of a &lt;child&gt; element. A normal content child can
@@ -35,9 +35,8 @@ import java.lang.invoke.*;
  *   </child>
  * </object>
  * }</pre>
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * <pre>{@code 
  * frame
  * ├── <label widget>
@@ -59,14 +58,14 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
         return new Frame(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_frame_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_frame_new = Interop.downcallHandle(
         "gtk_frame_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(java.lang.String label) {
+    private static Refcounted constructNew(@Nullable java.lang.String label) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_frame_new.invokeExact(Interop.allocateNativeString(label).handle()), false);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_frame_new.invokeExact(Interop.allocateNativeString(label)), false);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -78,11 +77,11 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
      * <p>
      * If {@code label} is {@code null}, the label is omitted.
      */
-    public Frame(java.lang.String label) {
+    public Frame(@Nullable java.lang.String label) {
         super(constructNew(label));
     }
     
-    static final MethodHandle gtk_frame_get_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_frame_get_child = Interop.downcallHandle(
         "gtk_frame_get_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -90,16 +89,17 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Gets the child widget of {@code frame}.
      */
-    public Widget getChild() {
+    public @Nullable Widget getChild() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_frame_get_child.invokeExact(handle());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_frame_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_frame_get_label = Interop.downcallHandle(
+    private static final MethodHandle gtk_frame_get_label = Interop.downcallHandle(
         "gtk_frame_get_label",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -110,16 +110,17 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
      * If the frame's label widget is not a {@code GtkLabel}, {@code null}
      * is returned.
      */
-    public java.lang.String getLabel() {
+    public @Nullable java.lang.String getLabel() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_frame_get_label.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_frame_get_label.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_frame_get_label_align = Interop.downcallHandle(
+    private static final MethodHandle gtk_frame_get_label_align = Interop.downcallHandle(
         "gtk_frame_get_label_align",
         FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -128,15 +129,16 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
      * Retrieves the X alignment of the frame’s label.
      */
     public float getLabelAlign() {
+        float RESULT;
         try {
-            var RESULT = (float) gtk_frame_get_label_align.invokeExact(handle());
-            return RESULT;
+            RESULT = (float) gtk_frame_get_label_align.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_frame_get_label_widget = Interop.downcallHandle(
+    private static final MethodHandle gtk_frame_get_label_widget = Interop.downcallHandle(
         "gtk_frame_get_label_widget",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -144,16 +146,17 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Retrieves the label widget for the frame.
      */
-    public Widget getLabelWidget() {
+    public @Nullable Widget getLabelWidget() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_frame_get_label_widget.invokeExact(handle());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_frame_get_label_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_frame_set_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_frame_set_child = Interop.downcallHandle(
         "gtk_frame_set_child",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -161,7 +164,7 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
     /**
      * Sets the child widget of {@code frame}.
      */
-    public void setChild(Widget child) {
+    public @NotNull void setChild(@Nullable Widget child) {
         try {
             gtk_frame_set_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -169,7 +172,7 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_frame_set_label = Interop.downcallHandle(
+    private static final MethodHandle gtk_frame_set_label = Interop.downcallHandle(
         "gtk_frame_set_label",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -178,15 +181,15 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
      * Creates a new {@code GtkLabel} with the {@code label} and sets it as the frame's
      * label widget.
      */
-    public void setLabel(java.lang.String label) {
+    public @NotNull void setLabel(@Nullable java.lang.String label) {
         try {
-            gtk_frame_set_label.invokeExact(handle(), Interop.allocateNativeString(label).handle());
+            gtk_frame_set_label.invokeExact(handle(), Interop.allocateNativeString(label));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_frame_set_label_align = Interop.downcallHandle(
+    private static final MethodHandle gtk_frame_set_label_align = Interop.downcallHandle(
         "gtk_frame_set_label_align",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
     );
@@ -196,7 +199,7 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
      * <p>
      * The default value for a newly created frame is 0.0.
      */
-    public void setLabelAlign(float xalign) {
+    public @NotNull void setLabelAlign(@NotNull float xalign) {
         try {
             gtk_frame_set_label_align.invokeExact(handle(), xalign);
         } catch (Throwable ERR) {
@@ -204,7 +207,7 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
         }
     }
     
-    static final MethodHandle gtk_frame_set_label_widget = Interop.downcallHandle(
+    private static final MethodHandle gtk_frame_set_label_widget = Interop.downcallHandle(
         "gtk_frame_set_label_widget",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -215,7 +218,7 @@ public class Frame extends Widget implements Accessible, Buildable, ConstraintTa
      * This is the widget that will appear embedded in the top edge
      * of the frame as a title.
      */
-    public void setLabelWidget(Widget labelWidget) {
+    public @NotNull void setLabelWidget(@Nullable Widget labelWidget) {
         try {
             gtk_frame_set_label_widget.invokeExact(handle(), labelWidget.handle());
         } catch (Throwable ERR) {

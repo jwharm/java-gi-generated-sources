@@ -3,6 +3,7 @@ package org.harfbuzz;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Data type containing a set of virtual methods used for

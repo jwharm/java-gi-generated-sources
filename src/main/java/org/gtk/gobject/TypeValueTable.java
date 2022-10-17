@@ -3,6 +3,7 @@ package org.gtk.gobject;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@link TypeValueTable} provides the functions required by the {@link Value}
@@ -14,7 +15,7 @@ public class TypeValueTable extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_type_value_table_peek = Interop.downcallHandle(
+    private static final MethodHandle g_type_value_table_peek = Interop.downcallHandle(
         "g_type_value_table_peek",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -26,13 +27,14 @@ public class TypeValueTable extends io.github.jwharm.javagi.ResourceBase {
      * that implements or has internal knowledge of the implementation of
      * {@code type}.
      */
-    public static TypeValueTable peek(org.gtk.gobject.Type type) {
+    public static @NotNull TypeValueTable peek(@NotNull org.gtk.gobject.Type type) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_value_table_peek.invokeExact(type.getValue());
-            return new TypeValueTable(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_type_value_table_peek.invokeExact(type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TypeValueTable(Refcounted.get(RESULT, false));
     }
     
 }

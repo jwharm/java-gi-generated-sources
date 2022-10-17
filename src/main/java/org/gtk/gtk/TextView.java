@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A widget that displays the contents of a {@link TextBuffer}.
@@ -12,9 +13,8 @@ import java.lang.invoke.*;
  * You may wish to begin by reading the <a href="section-text-widget.html">conceptual overview</a>,
  * which gives an overview of all the objects and data types related to the
  * text widget and how they work together.
- * <p>
+ * 
  * <h2>CSS nodes</h2>
- * <p>
  * <pre>{@code 
  * textview.view
  * ├── border.top
@@ -35,9 +35,8 @@ import java.lang.invoke.*;
  * <p>
  * If a context menu is opened, the window node will appear as a subnode
  * of the main node.
- * <p>
+ * 
  * <h2>Accessibility</h2>
- * <p>
  * {@code GtkTextView} uses the {@link AccessibleRole#TEXT_BOX} role.
  */
 public class TextView extends Widget implements Accessible, Buildable, ConstraintTarget, Scrollable {
@@ -51,7 +50,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         return new TextView(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_text_view_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_new = Interop.downcallHandle(
         "gtk_text_view_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -77,12 +76,12 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         super(constructNew());
     }
     
-    static final MethodHandle gtk_text_view_new_with_buffer = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_new_with_buffer = Interop.downcallHandle(
         "gtk_text_view_new_with_buffer",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewWithBuffer(TextBuffer buffer) {
+    private static Refcounted constructNewWithBuffer(@NotNull TextBuffer buffer) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_text_view_new_with_buffer.invokeExact(buffer.handle()), false);
             return RESULT;
@@ -99,11 +98,11 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * to {@link TextView#TextView}. The text view adds its own reference count
      * to the buffer; it does not take over an existing reference.
      */
-    public static TextView newWithBuffer(TextBuffer buffer) {
+    public static TextView newWithBuffer(@NotNull TextBuffer buffer) {
         return new TextView(constructNewWithBuffer(buffer));
     }
     
-    static final MethodHandle gtk_text_view_add_child_at_anchor = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_add_child_at_anchor = Interop.downcallHandle(
         "gtk_text_view_add_child_at_anchor",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -111,7 +110,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     /**
      * Adds a child widget in the text buffer, at the given {@code anchor}.
      */
-    public void addChildAtAnchor(Widget child, TextChildAnchor anchor) {
+    public @NotNull void addChildAtAnchor(@NotNull Widget child, @NotNull TextChildAnchor anchor) {
         try {
             gtk_text_view_add_child_at_anchor.invokeExact(handle(), child.handle(), anchor.handle());
         } catch (Throwable ERR) {
@@ -119,7 +118,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_add_overlay = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_add_overlay = Interop.downcallHandle(
         "gtk_text_view_add_overlay",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -136,7 +135,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * If instead you want a widget that will not move with the
      * {@code GtkTextView} contents see {@code GtkOverlay}.
      */
-    public void addOverlay(Widget child, int xpos, int ypos) {
+    public @NotNull void addOverlay(@NotNull Widget child, @NotNull int xpos, @NotNull int ypos) {
         try {
             gtk_text_view_add_overlay.invokeExact(handle(), child.handle(), xpos, ypos);
         } catch (Throwable ERR) {
@@ -144,7 +143,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_backward_display_line = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_backward_display_line = Interop.downcallHandle(
         "gtk_text_view_backward_display_line",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -160,16 +159,17 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * they depend on the view’s width; paragraphs are the same in all
      * views, since they depend on the contents of the {@code GtkTextBuffer}.
      */
-    public boolean backwardDisplayLine(TextIter iter) {
+    public boolean backwardDisplayLine(@NotNull TextIter iter) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_backward_display_line.invokeExact(handle(), iter.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_text_view_backward_display_line.invokeExact(handle(), iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_view_backward_display_line_start = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_backward_display_line_start = Interop.downcallHandle(
         "gtk_text_view_backward_display_line_start",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -185,16 +185,17 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * they depend on the view’s width; paragraphs are the same in all
      * views, since they depend on the contents of the {@code GtkTextBuffer}.
      */
-    public boolean backwardDisplayLineStart(TextIter iter) {
+    public boolean backwardDisplayLineStart(@NotNull TextIter iter) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_backward_display_line_start.invokeExact(handle(), iter.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_text_view_backward_display_line_start.invokeExact(handle(), iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_view_buffer_to_window_coords = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_buffer_to_window_coords = Interop.downcallHandle(
         "gtk_text_view_buffer_to_window_coords",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -202,15 +203,19 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     /**
      * Converts buffer coordinates to window coordinates.
      */
-    public void bufferToWindowCoords(TextWindowType win, int bufferX, int bufferY, PointerInteger windowX, PointerInteger windowY) {
+    public @NotNull void bufferToWindowCoords(@NotNull TextWindowType win, @NotNull int bufferX, @NotNull int bufferY, @NotNull Out<Integer> windowX, @NotNull Out<Integer> windowY) {
+        MemorySegment windowXPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment windowYPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gtk_text_view_buffer_to_window_coords.invokeExact(handle(), win.getValue(), bufferX, bufferY, windowX.handle(), windowY.handle());
+            gtk_text_view_buffer_to_window_coords.invokeExact(handle(), win.getValue(), bufferX, bufferY, (Addressable) windowXPOINTER.address(), (Addressable) windowYPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        windowX.set(windowXPOINTER.get(ValueLayout.JAVA_INT, 0));
+        windowY.set(windowYPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    static final MethodHandle gtk_text_view_forward_display_line = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_forward_display_line = Interop.downcallHandle(
         "gtk_text_view_forward_display_line",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -226,16 +231,17 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * they depend on the view’s width; paragraphs are the same in all
      * views, since they depend on the contents of the {@code GtkTextBuffer}.
      */
-    public boolean forwardDisplayLine(TextIter iter) {
+    public boolean forwardDisplayLine(@NotNull TextIter iter) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_forward_display_line.invokeExact(handle(), iter.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_text_view_forward_display_line.invokeExact(handle(), iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_view_forward_display_line_end = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_forward_display_line_end = Interop.downcallHandle(
         "gtk_text_view_forward_display_line_end",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -251,35 +257,37 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * they depend on the view’s width; paragraphs are the same in all
      * views, since they depend on the contents of the {@code GtkTextBuffer}.
      */
-    public boolean forwardDisplayLineEnd(TextIter iter) {
+    public boolean forwardDisplayLineEnd(@NotNull TextIter iter) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_forward_display_line_end.invokeExact(handle(), iter.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_text_view_forward_display_line_end.invokeExact(handle(), iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_view_get_accepts_tab = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_accepts_tab = Interop.downcallHandle(
         "gtk_text_view_get_accepts_tab",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
     /**
-     * Returns whether pressing the &lt;kbd>Tab</kbd&gt; key inserts a tab characters.
+     * Returns whether pressing the &lt;kbd&gt;Tab&lt;/kbd&gt; key inserts a tab characters.
      * <p>
      * See {@link TextView#setAcceptsTab}.
      */
     public boolean getAcceptsTab() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_get_accepts_tab.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_text_view_get_accepts_tab.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_view_get_bottom_margin = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_bottom_margin = Interop.downcallHandle(
         "gtk_text_view_get_bottom_margin",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -288,15 +296,16 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * Gets the bottom margin for text in the {@code text_view}.
      */
     public int getBottomMargin() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_get_bottom_margin.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_text_view_get_bottom_margin.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_text_view_get_buffer = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_buffer = Interop.downcallHandle(
         "gtk_text_view_get_buffer",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -307,16 +316,17 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * The reference count on the buffer is not incremented; the caller
      * of this function won’t own a new reference.
      */
-    public TextBuffer getBuffer() {
+    public @NotNull TextBuffer getBuffer() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_text_view_get_buffer.invokeExact(handle());
-            return new TextBuffer(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_text_view_get_buffer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TextBuffer(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_text_view_get_cursor_locations = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_cursor_locations = Interop.downcallHandle(
         "gtk_text_view_get_cursor_locations",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -343,15 +353,19 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * {@link TextView#bufferToWindowCoords} to convert these
      * coordinates to coordinates for one of the windows in the text view.
      */
-    public void getCursorLocations(TextIter iter, org.gtk.gdk.Rectangle strong, org.gtk.gdk.Rectangle weak) {
+    public @NotNull void getCursorLocations(@Nullable TextIter iter, @NotNull Out<org.gtk.gdk.Rectangle> strong, @NotNull Out<org.gtk.gdk.Rectangle> weak) {
+        MemorySegment strongPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment weakPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_text_view_get_cursor_locations.invokeExact(handle(), iter.handle(), strong.handle(), weak.handle());
+            gtk_text_view_get_cursor_locations.invokeExact(handle(), iter.handle(), (Addressable) strongPOINTER.address(), (Addressable) weakPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        strong.set(new org.gtk.gdk.Rectangle(Refcounted.get(strongPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        weak.set(new org.gtk.gdk.Rectangle(Refcounted.get(weakPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle gtk_text_view_get_cursor_visible = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_cursor_visible = Interop.downcallHandle(
         "gtk_text_view_get_cursor_visible",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -360,15 +374,16 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * Find out whether the cursor should be displayed.
      */
     public boolean getCursorVisible() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_get_cursor_visible.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_text_view_get_cursor_visible.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_view_get_editable = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_editable = Interop.downcallHandle(
         "gtk_text_view_get_editable",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -379,15 +394,16 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * Tags in the buffer may override this setting for some ranges of text.
      */
     public boolean getEditable() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_get_editable.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_text_view_get_editable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_view_get_extra_menu = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_extra_menu = Interop.downcallHandle(
         "gtk_text_view_get_extra_menu",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -396,16 +412,17 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * Gets the menu model that gets added to the context menu
      * or {@code null} if none has been set.
      */
-    public org.gtk.gio.MenuModel getExtraMenu() {
+    public @NotNull org.gtk.gio.MenuModel getExtraMenu() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_text_view_get_extra_menu.invokeExact(handle());
-            return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_text_view_get_extra_menu.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_text_view_get_gutter = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_gutter = Interop.downcallHandle(
         "gtk_text_view_get_gutter",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -418,16 +435,17 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * {@code win} must be one of {@link TextWindowType#LEFT}, {@link TextWindowType#RIGHT},
      * {@link TextWindowType#TOP}, or {@link TextWindowType#BOTTOM}.
      */
-    public Widget getGutter(TextWindowType win) {
+    public @Nullable Widget getGutter(@NotNull TextWindowType win) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_text_view_get_gutter.invokeExact(handle(), win.getValue());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_text_view_get_gutter.invokeExact(handle(), win.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_text_view_get_indent = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_indent = Interop.downcallHandle(
         "gtk_text_view_get_indent",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -439,15 +457,16 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * The indentation may be negative.
      */
     public int getIndent() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_get_indent.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_text_view_get_indent.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_text_view_get_input_hints = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_input_hints = Interop.downcallHandle(
         "gtk_text_view_get_input_hints",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -455,16 +474,17 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     /**
      * Gets the {@code input-hints} of the {@code GtkTextView}.
      */
-    public InputHints getInputHints() {
+    public @NotNull InputHints getInputHints() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_get_input_hints.invokeExact(handle());
-            return new InputHints(RESULT);
+            RESULT = (int) gtk_text_view_get_input_hints.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new InputHints(RESULT);
     }
     
-    static final MethodHandle gtk_text_view_get_input_purpose = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_input_purpose = Interop.downcallHandle(
         "gtk_text_view_get_input_purpose",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -472,16 +492,17 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     /**
      * Gets the {@code input-purpose} of the {@code GtkTextView}.
      */
-    public InputPurpose getInputPurpose() {
+    public @NotNull InputPurpose getInputPurpose() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_get_input_purpose.invokeExact(handle());
-            return new InputPurpose(RESULT);
+            RESULT = (int) gtk_text_view_get_input_purpose.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new InputPurpose(RESULT);
     }
     
-    static final MethodHandle gtk_text_view_get_iter_at_location = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_iter_at_location = Interop.downcallHandle(
         "gtk_text_view_get_iter_at_location",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -494,16 +515,19 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * event, you have to convert those to buffer coordinates with
      * {@link TextView#windowToBufferCoords}.
      */
-    public boolean getIterAtLocation(TextIter iter, int x, int y) {
+    public boolean getIterAtLocation(@NotNull Out<TextIter> iter, @NotNull int x, @NotNull int y) {
+        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_get_iter_at_location.invokeExact(handle(), iter.handle(), x, y);
-            return RESULT != 0;
+            RESULT = (int) gtk_text_view_get_iter_at_location.invokeExact(handle(), (Addressable) iterPOINTER.address(), x, y);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        iter.set(new TextIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_view_get_iter_at_position = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_iter_at_position = Interop.downcallHandle(
         "gtk_text_view_get_iter_at_position",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -520,16 +544,21 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * Note that this is different from {@link TextView#getIterAtLocation},
      * which returns cursor locations, i.e. positions between characters.
      */
-    public boolean getIterAtPosition(TextIter iter, PointerInteger trailing, int x, int y) {
+    public boolean getIterAtPosition(@NotNull Out<TextIter> iter, @NotNull Out<Integer> trailing, @NotNull int x, @NotNull int y) {
+        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment trailingPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_get_iter_at_position.invokeExact(handle(), iter.handle(), trailing.handle(), x, y);
-            return RESULT != 0;
+            RESULT = (int) gtk_text_view_get_iter_at_position.invokeExact(handle(), (Addressable) iterPOINTER.address(), (Addressable) trailingPOINTER.address(), x, y);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        iter.set(new TextIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        trailing.set(trailingPOINTER.get(ValueLayout.JAVA_INT, 0));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_view_get_iter_location = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_iter_location = Interop.downcallHandle(
         "gtk_text_view_get_iter_location",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -541,15 +570,17 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * {@link TextView#bufferToWindowCoords} to convert these
      * coordinates to coordinates for one of the windows in the text view.
      */
-    public void getIterLocation(TextIter iter, org.gtk.gdk.Rectangle location) {
+    public @NotNull void getIterLocation(@NotNull TextIter iter, @NotNull Out<org.gtk.gdk.Rectangle> location) {
+        MemorySegment locationPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_text_view_get_iter_location.invokeExact(handle(), iter.handle(), location.handle());
+            gtk_text_view_get_iter_location.invokeExact(handle(), iter.handle(), (Addressable) locationPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        location.set(new org.gtk.gdk.Rectangle(Refcounted.get(locationPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle gtk_text_view_get_justification = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_justification = Interop.downcallHandle(
         "gtk_text_view_get_justification",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -559,16 +590,17 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * <p>
      * Tags in the buffer may override the default.
      */
-    public Justification getJustification() {
+    public @NotNull Justification getJustification() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_get_justification.invokeExact(handle());
-            return new Justification(RESULT);
+            RESULT = (int) gtk_text_view_get_justification.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Justification(RESULT);
     }
     
-    static final MethodHandle gtk_text_view_get_left_margin = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_left_margin = Interop.downcallHandle(
         "gtk_text_view_get_left_margin",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -579,15 +611,16 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * Tags in the buffer may override the default.
      */
     public int getLeftMargin() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_get_left_margin.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_text_view_get_left_margin.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_text_view_get_line_at_y = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_line_at_y = Interop.downcallHandle(
         "gtk_text_view_get_line_at_y",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -601,15 +634,19 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * {@code line_top} will be filled with the coordinate of the top edge
      * of the line.
      */
-    public void getLineAtY(TextIter targetIter, int y, PointerInteger lineTop) {
+    public @NotNull void getLineAtY(@NotNull Out<TextIter> targetIter, @NotNull int y, @NotNull Out<Integer> lineTop) {
+        MemorySegment targetIterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment lineTopPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gtk_text_view_get_line_at_y.invokeExact(handle(), targetIter.handle(), y, lineTop.handle());
+            gtk_text_view_get_line_at_y.invokeExact(handle(), (Addressable) targetIterPOINTER.address(), y, (Addressable) lineTopPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        targetIter.set(new TextIter(Refcounted.get(targetIterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        lineTop.set(lineTopPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    static final MethodHandle gtk_text_view_get_line_yrange = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_line_yrange = Interop.downcallHandle(
         "gtk_text_view_get_line_yrange",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -621,15 +658,19 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * The coordinate is a buffer coordinate; convert to window
      * coordinates with {@link TextView#bufferToWindowCoords}.
      */
-    public void getLineYrange(TextIter iter, PointerInteger y, PointerInteger height) {
+    public @NotNull void getLineYrange(@NotNull TextIter iter, @NotNull Out<Integer> y, @NotNull Out<Integer> height) {
+        MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment heightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gtk_text_view_get_line_yrange.invokeExact(handle(), iter.handle(), y.handle(), height.handle());
+            gtk_text_view_get_line_yrange.invokeExact(handle(), iter.handle(), (Addressable) yPOINTER.address(), (Addressable) heightPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        y.set(yPOINTER.get(ValueLayout.JAVA_INT, 0));
+        height.set(heightPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    static final MethodHandle gtk_text_view_get_ltr_context = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_ltr_context = Interop.downcallHandle(
         "gtk_text_view_get_ltr_context",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -640,16 +681,17 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * <p>
      * The context may be replaced when CSS changes occur.
      */
-    public org.pango.Context getLtrContext() {
+    public @NotNull org.pango.Context getLtrContext() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_text_view_get_ltr_context.invokeExact(handle());
-            return new org.pango.Context(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_text_view_get_ltr_context.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.pango.Context(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_text_view_get_monospace = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_monospace = Interop.downcallHandle(
         "gtk_text_view_get_monospace",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -658,15 +700,16 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * Gets whether the {@code GtkTextView} uses monospace styling.
      */
     public boolean getMonospace() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_get_monospace.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_text_view_get_monospace.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_view_get_overwrite = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_overwrite = Interop.downcallHandle(
         "gtk_text_view_get_overwrite",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -675,15 +718,16 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * Returns whether the {@code GtkTextView} is in overwrite mode or not.
      */
     public boolean getOverwrite() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_get_overwrite.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_text_view_get_overwrite.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_view_get_pixels_above_lines = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_pixels_above_lines = Interop.downcallHandle(
         "gtk_text_view_get_pixels_above_lines",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -695,15 +739,16 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * is equal to the line space between each paragraph.
      */
     public int getPixelsAboveLines() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_get_pixels_above_lines.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_text_view_get_pixels_above_lines.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_text_view_get_pixels_below_lines = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_pixels_below_lines = Interop.downcallHandle(
         "gtk_text_view_get_pixels_below_lines",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -715,15 +760,16 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * the value returned by {@link TextView#getPixelsAboveLines}.
      */
     public int getPixelsBelowLines() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_get_pixels_below_lines.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_text_view_get_pixels_below_lines.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_text_view_get_pixels_inside_wrap = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_pixels_inside_wrap = Interop.downcallHandle(
         "gtk_text_view_get_pixels_inside_wrap",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -733,15 +779,16 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * inside a paragraph.
      */
     public int getPixelsInsideWrap() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_get_pixels_inside_wrap.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_text_view_get_pixels_inside_wrap.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_text_view_get_right_margin = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_right_margin = Interop.downcallHandle(
         "gtk_text_view_get_right_margin",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -752,15 +799,16 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * Tags in the buffer may override the default.
      */
     public int getRightMargin() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_get_right_margin.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_text_view_get_right_margin.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_text_view_get_rtl_context = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_rtl_context = Interop.downcallHandle(
         "gtk_text_view_get_rtl_context",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -771,16 +819,17 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * <p>
      * The context may be replaced when CSS changes occur.
      */
-    public org.pango.Context getRtlContext() {
+    public @NotNull org.pango.Context getRtlContext() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_text_view_get_rtl_context.invokeExact(handle());
-            return new org.pango.Context(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_text_view_get_rtl_context.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.pango.Context(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_text_view_get_tabs = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_tabs = Interop.downcallHandle(
         "gtk_text_view_get_tabs",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -792,16 +841,17 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * will be {@code null} if “standard” (8-space) tabs are used. Free the
      * return value with {@link org.pango.TabArray#free}.
      */
-    public org.pango.TabArray getTabs() {
+    public @Nullable org.pango.TabArray getTabs() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_text_view_get_tabs.invokeExact(handle());
-            return new org.pango.TabArray(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_text_view_get_tabs.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.pango.TabArray(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_text_view_get_top_margin = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_top_margin = Interop.downcallHandle(
         "gtk_text_view_get_top_margin",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -810,15 +860,16 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * Gets the top margin for text in the {@code text_view}.
      */
     public int getTopMargin() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_get_top_margin.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_text_view_get_top_margin.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_text_view_get_visible_rect = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_visible_rect = Interop.downcallHandle(
         "gtk_text_view_get_visible_rect",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -830,15 +881,17 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * Convert to window coordinates with
      * {@link TextView#bufferToWindowCoords}.
      */
-    public void getVisibleRect(org.gtk.gdk.Rectangle visibleRect) {
+    public @NotNull void getVisibleRect(@NotNull Out<org.gtk.gdk.Rectangle> visibleRect) {
+        MemorySegment visibleRectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_text_view_get_visible_rect.invokeExact(handle(), visibleRect.handle());
+            gtk_text_view_get_visible_rect.invokeExact(handle(), (Addressable) visibleRectPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        visibleRect.set(new org.gtk.gdk.Rectangle(Refcounted.get(visibleRectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle gtk_text_view_get_wrap_mode = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_get_wrap_mode = Interop.downcallHandle(
         "gtk_text_view_get_wrap_mode",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -846,16 +899,17 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     /**
      * Gets the line wrapping for the view.
      */
-    public WrapMode getWrapMode() {
+    public @NotNull WrapMode getWrapMode() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_get_wrap_mode.invokeExact(handle());
-            return new WrapMode(RESULT);
+            RESULT = (int) gtk_text_view_get_wrap_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new WrapMode(RESULT);
     }
     
-    static final MethodHandle gtk_text_view_im_context_filter_keypress = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_im_context_filter_keypress = Interop.downcallHandle(
         "gtk_text_view_im_context_filter_keypress",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -871,7 +925,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * when overriding key event handling. This is needed in the case when
      * you need to insert your own key handling between the input method
      * and the default key event handling of the {@code GtkTextView}.
-     * <p>
+     * 
      * <pre>{@code c
      * static gboolean
      * gtk_foo_bar_key_press_event (GtkWidget *widget,
@@ -893,16 +947,17 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * }
      * }</pre>
      */
-    public boolean imContextFilterKeypress(org.gtk.gdk.Event event) {
+    public boolean imContextFilterKeypress(@NotNull org.gtk.gdk.Event event) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_im_context_filter_keypress.invokeExact(handle(), event.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_text_view_im_context_filter_keypress.invokeExact(handle(), event.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_view_move_mark_onscreen = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_move_mark_onscreen = Interop.downcallHandle(
         "gtk_text_view_move_mark_onscreen",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -911,16 +966,17 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * Moves a mark within the buffer so that it's
      * located within the currently-visible text area.
      */
-    public boolean moveMarkOnscreen(TextMark mark) {
+    public boolean moveMarkOnscreen(@NotNull TextMark mark) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_move_mark_onscreen.invokeExact(handle(), mark.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_text_view_move_mark_onscreen.invokeExact(handle(), mark.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_view_move_overlay = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_move_overlay = Interop.downcallHandle(
         "gtk_text_view_move_overlay",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -930,7 +986,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * <p>
      * See {@link TextView#addOverlay}.
      */
-    public void moveOverlay(Widget child, int xpos, int ypos) {
+    public @NotNull void moveOverlay(@NotNull Widget child, @NotNull int xpos, @NotNull int ypos) {
         try {
             gtk_text_view_move_overlay.invokeExact(handle(), child.handle(), xpos, ypos);
         } catch (Throwable ERR) {
@@ -938,7 +994,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_move_visually = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_move_visually = Interop.downcallHandle(
         "gtk_text_view_move_visually",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -957,16 +1013,17 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * of the current run, and there may be jumps when the cursor
      * is moved off of the end of a run.
      */
-    public boolean moveVisually(TextIter iter, int count) {
+    public boolean moveVisually(@NotNull TextIter iter, @NotNull int count) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_move_visually.invokeExact(handle(), iter.handle(), count);
-            return RESULT != 0;
+            RESULT = (int) gtk_text_view_move_visually.invokeExact(handle(), iter.handle(), count);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_view_place_cursor_onscreen = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_place_cursor_onscreen = Interop.downcallHandle(
         "gtk_text_view_place_cursor_onscreen",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -976,15 +1033,16 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * buffer.
      */
     public boolean placeCursorOnscreen() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_place_cursor_onscreen.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_text_view_place_cursor_onscreen.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_view_remove = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_remove = Interop.downcallHandle(
         "gtk_text_view_remove",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -992,7 +1050,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     /**
      * Removes a child widget from {@code text_view}.
      */
-    public void remove(Widget child) {
+    public @NotNull void remove(@NotNull Widget child) {
         try {
             gtk_text_view_remove.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -1000,7 +1058,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_reset_cursor_blink = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_reset_cursor_blink = Interop.downcallHandle(
         "gtk_text_view_reset_cursor_blink",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -1015,7 +1073,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * (e.g. from derived classes that override the textview's
      * event handlers).
      */
-    public void resetCursorBlink() {
+    public @NotNull void resetCursorBlink() {
         try {
             gtk_text_view_reset_cursor_blink.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -1023,7 +1081,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_reset_im_context = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_reset_im_context = Interop.downcallHandle(
         "gtk_text_view_reset_im_context",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -1034,7 +1092,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * This can be necessary in the case where modifying the buffer
      * would confuse on-going input method behavior.
      */
-    public void resetImContext() {
+    public @NotNull void resetImContext() {
         try {
             gtk_text_view_reset_im_context.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -1042,7 +1100,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_scroll_mark_onscreen = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_scroll_mark_onscreen = Interop.downcallHandle(
         "gtk_text_view_scroll_mark_onscreen",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1051,7 +1109,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * Scrolls {@code text_view} the minimum distance such that {@code mark} is contained
      * within the visible area of the widget.
      */
-    public void scrollMarkOnscreen(TextMark mark) {
+    public @NotNull void scrollMarkOnscreen(@NotNull TextMark mark) {
         try {
             gtk_text_view_scroll_mark_onscreen.invokeExact(handle(), mark.handle());
         } catch (Throwable ERR) {
@@ -1059,7 +1117,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_scroll_to_iter = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_scroll_to_iter = Interop.downcallHandle(
         "gtk_text_view_scroll_to_iter",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
     );
@@ -1081,16 +1139,17 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * using {@link TextView#scrollToMark} which saves a point to be
      * scrolled to after line validation.
      */
-    public boolean scrollToIter(TextIter iter, double withinMargin, boolean useAlign, double xalign, double yalign) {
+    public boolean scrollToIter(@NotNull TextIter iter, @NotNull double withinMargin, @NotNull boolean useAlign, @NotNull double xalign, @NotNull double yalign) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_scroll_to_iter.invokeExact(handle(), iter.handle(), withinMargin, useAlign ? 1 : 0, xalign, yalign);
-            return RESULT != 0;
+            RESULT = (int) gtk_text_view_scroll_to_iter.invokeExact(handle(), iter.handle(), withinMargin, useAlign ? 1 : 0, xalign, yalign);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_view_scroll_to_mark = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_scroll_to_mark = Interop.downcallHandle(
         "gtk_text_view_scroll_to_mark",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
     );
@@ -1105,7 +1164,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * at all. The effective screen for purposes of this function is reduced
      * by a margin of size {@code within_margin}.
      */
-    public void scrollToMark(TextMark mark, double withinMargin, boolean useAlign, double xalign, double yalign) {
+    public @NotNull void scrollToMark(@NotNull TextMark mark, @NotNull double withinMargin, @NotNull boolean useAlign, @NotNull double xalign, @NotNull double yalign) {
         try {
             gtk_text_view_scroll_to_mark.invokeExact(handle(), mark.handle(), withinMargin, useAlign ? 1 : 0, xalign, yalign);
         } catch (Throwable ERR) {
@@ -1113,19 +1172,19 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_set_accepts_tab = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_set_accepts_tab = Interop.downcallHandle(
         "gtk_text_view_set_accepts_tab",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
     
     /**
-     * Sets the behavior of the text widget when the &lt;kbd>Tab</kbd&gt; key is pressed.
+     * Sets the behavior of the text widget when the &lt;kbd&gt;Tab&lt;/kbd&gt; key is pressed.
      * <p>
      * If {@code accepts_tab} is {@code true}, a tab character is inserted. If {@code accepts_tab}
      * is {@code false} the keyboard focus is moved to the next widget in the focus
      * chain.
      */
-    public void setAcceptsTab(boolean acceptsTab) {
+    public @NotNull void setAcceptsTab(@NotNull boolean acceptsTab) {
         try {
             gtk_text_view_set_accepts_tab.invokeExact(handle(), acceptsTab ? 1 : 0);
         } catch (Throwable ERR) {
@@ -1133,7 +1192,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_set_bottom_margin = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_set_bottom_margin = Interop.downcallHandle(
         "gtk_text_view_set_bottom_margin",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1144,7 +1203,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * Note that this function is confusingly named.
      * In CSS terms, the value set here is padding.
      */
-    public void setBottomMargin(int bottomMargin) {
+    public @NotNull void setBottomMargin(@NotNull int bottomMargin) {
         try {
             gtk_text_view_set_bottom_margin.invokeExact(handle(), bottomMargin);
         } catch (Throwable ERR) {
@@ -1152,7 +1211,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_set_buffer = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_set_buffer = Interop.downcallHandle(
         "gtk_text_view_set_buffer",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1165,7 +1224,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * before passing it to this function, you must remove that reference
      * yourself; {@code GtkTextView} will not “adopt” it.
      */
-    public void setBuffer(TextBuffer buffer) {
+    public @NotNull void setBuffer(@Nullable TextBuffer buffer) {
         try {
             gtk_text_view_set_buffer.invokeExact(handle(), buffer.handle());
         } catch (Throwable ERR) {
@@ -1173,7 +1232,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_set_cursor_visible = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_set_cursor_visible = Interop.downcallHandle(
         "gtk_text_view_set_cursor_visible",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1187,7 +1246,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * Note that this property may be overridden by the
      * {@code GtkSettings:gtk-keynav-use-caret} setting.
      */
-    public void setCursorVisible(boolean setting) {
+    public @NotNull void setCursorVisible(@NotNull boolean setting) {
         try {
             gtk_text_view_set_cursor_visible.invokeExact(handle(), setting ? 1 : 0);
         } catch (Throwable ERR) {
@@ -1195,7 +1254,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_set_editable = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_set_editable = Interop.downcallHandle(
         "gtk_text_view_set_editable",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1206,7 +1265,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * You can override this default setting with tags in the buffer,
      * using the “editable” attribute of tags.
      */
-    public void setEditable(boolean setting) {
+    public @NotNull void setEditable(@NotNull boolean setting) {
         try {
             gtk_text_view_set_editable.invokeExact(handle(), setting ? 1 : 0);
         } catch (Throwable ERR) {
@@ -1214,7 +1273,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_set_extra_menu = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_set_extra_menu = Interop.downcallHandle(
         "gtk_text_view_set_extra_menu",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1225,7 +1284,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * <p>
      * You can pass {@code null} to remove a previously set extra menu.
      */
-    public void setExtraMenu(org.gtk.gio.MenuModel model) {
+    public @NotNull void setExtraMenu(@Nullable org.gtk.gio.MenuModel model) {
         try {
             gtk_text_view_set_extra_menu.invokeExact(handle(), model.handle());
         } catch (Throwable ERR) {
@@ -1233,7 +1292,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_set_gutter = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_set_gutter = Interop.downcallHandle(
         "gtk_text_view_set_gutter",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -1244,7 +1303,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * {@code win} must be one of {@link TextWindowType#LEFT}, {@link TextWindowType#RIGHT},
      * {@link TextWindowType#TOP}, or {@link TextWindowType#BOTTOM}.
      */
-    public void setGutter(TextWindowType win, Widget widget) {
+    public @NotNull void setGutter(@NotNull TextWindowType win, @Nullable Widget widget) {
         try {
             gtk_text_view_set_gutter.invokeExact(handle(), win.getValue(), widget.handle());
         } catch (Throwable ERR) {
@@ -1252,7 +1311,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_set_indent = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_set_indent = Interop.downcallHandle(
         "gtk_text_view_set_indent",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1262,7 +1321,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * <p>
      * Tags in the buffer may override the default.
      */
-    public void setIndent(int indent) {
+    public @NotNull void setIndent(@NotNull int indent) {
         try {
             gtk_text_view_set_indent.invokeExact(handle(), indent);
         } catch (Throwable ERR) {
@@ -1270,7 +1329,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_set_input_hints = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_set_input_hints = Interop.downcallHandle(
         "gtk_text_view_set_input_hints",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1281,7 +1340,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * The {@code input-hints} allow input methods to fine-tune
      * their behaviour.
      */
-    public void setInputHints(InputHints hints) {
+    public @NotNull void setInputHints(@NotNull InputHints hints) {
         try {
             gtk_text_view_set_input_hints.invokeExact(handle(), hints.getValue());
         } catch (Throwable ERR) {
@@ -1289,7 +1348,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_set_input_purpose = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_set_input_purpose = Interop.downcallHandle(
         "gtk_text_view_set_input_purpose",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1300,7 +1359,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * The {@code input-purpose} can be used by on-screen keyboards
      * and other input methods to adjust their behaviour.
      */
-    public void setInputPurpose(InputPurpose purpose) {
+    public @NotNull void setInputPurpose(@NotNull InputPurpose purpose) {
         try {
             gtk_text_view_set_input_purpose.invokeExact(handle(), purpose.getValue());
         } catch (Throwable ERR) {
@@ -1308,7 +1367,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_set_justification = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_set_justification = Interop.downcallHandle(
         "gtk_text_view_set_justification",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1318,7 +1377,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * <p>
      * Tags in the view’s buffer may override the default.
      */
-    public void setJustification(Justification justification) {
+    public @NotNull void setJustification(@NotNull Justification justification) {
         try {
             gtk_text_view_set_justification.invokeExact(handle(), justification.getValue());
         } catch (Throwable ERR) {
@@ -1326,7 +1385,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_set_left_margin = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_set_left_margin = Interop.downcallHandle(
         "gtk_text_view_set_left_margin",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1339,7 +1398,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * Note that this function is confusingly named.
      * In CSS terms, the value set here is padding.
      */
-    public void setLeftMargin(int leftMargin) {
+    public @NotNull void setLeftMargin(@NotNull int leftMargin) {
         try {
             gtk_text_view_set_left_margin.invokeExact(handle(), leftMargin);
         } catch (Throwable ERR) {
@@ -1347,7 +1406,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_set_monospace = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_set_monospace = Interop.downcallHandle(
         "gtk_text_view_set_monospace",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1356,7 +1415,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * Sets whether the {@code GtkTextView} should display text in
      * monospace styling.
      */
-    public void setMonospace(boolean monospace) {
+    public @NotNull void setMonospace(@NotNull boolean monospace) {
         try {
             gtk_text_view_set_monospace.invokeExact(handle(), monospace ? 1 : 0);
         } catch (Throwable ERR) {
@@ -1364,7 +1423,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_set_overwrite = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_set_overwrite = Interop.downcallHandle(
         "gtk_text_view_set_overwrite",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1372,7 +1431,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     /**
      * Changes the {@code GtkTextView} overwrite mode.
      */
-    public void setOverwrite(boolean overwrite) {
+    public @NotNull void setOverwrite(@NotNull boolean overwrite) {
         try {
             gtk_text_view_set_overwrite.invokeExact(handle(), overwrite ? 1 : 0);
         } catch (Throwable ERR) {
@@ -1380,7 +1439,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_set_pixels_above_lines = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_set_pixels_above_lines = Interop.downcallHandle(
         "gtk_text_view_set_pixels_above_lines",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1390,7 +1449,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * <p>
      * Tags in the buffer for {@code text_view} may override the defaults.
      */
-    public void setPixelsAboveLines(int pixelsAboveLines) {
+    public @NotNull void setPixelsAboveLines(@NotNull int pixelsAboveLines) {
         try {
             gtk_text_view_set_pixels_above_lines.invokeExact(handle(), pixelsAboveLines);
         } catch (Throwable ERR) {
@@ -1398,7 +1457,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_set_pixels_below_lines = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_set_pixels_below_lines = Interop.downcallHandle(
         "gtk_text_view_set_pixels_below_lines",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1409,7 +1468,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * <p>
      * May be overridden by tags applied to {@code text_view}’s buffer.
      */
-    public void setPixelsBelowLines(int pixelsBelowLines) {
+    public @NotNull void setPixelsBelowLines(@NotNull int pixelsBelowLines) {
         try {
             gtk_text_view_set_pixels_below_lines.invokeExact(handle(), pixelsBelowLines);
         } catch (Throwable ERR) {
@@ -1417,7 +1476,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_set_pixels_inside_wrap = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_set_pixels_inside_wrap = Interop.downcallHandle(
         "gtk_text_view_set_pixels_inside_wrap",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1428,7 +1487,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * <p>
      * May be overridden by tags in {@code text_view}’s buffer.
      */
-    public void setPixelsInsideWrap(int pixelsInsideWrap) {
+    public @NotNull void setPixelsInsideWrap(@NotNull int pixelsInsideWrap) {
         try {
             gtk_text_view_set_pixels_inside_wrap.invokeExact(handle(), pixelsInsideWrap);
         } catch (Throwable ERR) {
@@ -1436,7 +1495,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_set_right_margin = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_set_right_margin = Interop.downcallHandle(
         "gtk_text_view_set_right_margin",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1449,7 +1508,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * Note that this function is confusingly named.
      * In CSS terms, the value set here is padding.
      */
-    public void setRightMargin(int rightMargin) {
+    public @NotNull void setRightMargin(@NotNull int rightMargin) {
         try {
             gtk_text_view_set_right_margin.invokeExact(handle(), rightMargin);
         } catch (Throwable ERR) {
@@ -1457,7 +1516,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_set_tabs = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_set_tabs = Interop.downcallHandle(
         "gtk_text_view_set_tabs",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1467,7 +1526,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * <p>
      * Tags in the buffer may override the default.
      */
-    public void setTabs(org.pango.TabArray tabs) {
+    public @NotNull void setTabs(@NotNull org.pango.TabArray tabs) {
         try {
             gtk_text_view_set_tabs.invokeExact(handle(), tabs.handle());
         } catch (Throwable ERR) {
@@ -1475,7 +1534,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_set_top_margin = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_set_top_margin = Interop.downcallHandle(
         "gtk_text_view_set_top_margin",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1486,7 +1545,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * Note that this function is confusingly named.
      * In CSS terms, the value set here is padding.
      */
-    public void setTopMargin(int topMargin) {
+    public @NotNull void setTopMargin(@NotNull int topMargin) {
         try {
             gtk_text_view_set_top_margin.invokeExact(handle(), topMargin);
         } catch (Throwable ERR) {
@@ -1494,7 +1553,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_set_wrap_mode = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_set_wrap_mode = Interop.downcallHandle(
         "gtk_text_view_set_wrap_mode",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1502,7 +1561,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     /**
      * Sets the line wrapping for the view.
      */
-    public void setWrapMode(WrapMode wrapMode) {
+    public @NotNull void setWrapMode(@NotNull WrapMode wrapMode) {
         try {
             gtk_text_view_set_wrap_mode.invokeExact(handle(), wrapMode.getValue());
         } catch (Throwable ERR) {
@@ -1510,7 +1569,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_text_view_starts_display_line = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_starts_display_line = Interop.downcallHandle(
         "gtk_text_view_starts_display_line",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1521,16 +1580,17 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * See {@link TextView#forwardDisplayLine} for an
      * explanation of display lines vs. paragraphs.
      */
-    public boolean startsDisplayLine(TextIter iter) {
+    public boolean startsDisplayLine(@NotNull TextIter iter) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_view_starts_display_line.invokeExact(handle(), iter.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_text_view_starts_display_line.invokeExact(handle(), iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_view_window_to_buffer_coords = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_view_window_to_buffer_coords = Interop.downcallHandle(
         "gtk_text_view_window_to_buffer_coords",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1539,12 +1599,16 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * Converts coordinates on the window identified by {@code win} to buffer
      * coordinates.
      */
-    public void windowToBufferCoords(TextWindowType win, int windowX, int windowY, PointerInteger bufferX, PointerInteger bufferY) {
+    public @NotNull void windowToBufferCoords(@NotNull TextWindowType win, @NotNull int windowX, @NotNull int windowY, @NotNull Out<Integer> bufferX, @NotNull Out<Integer> bufferY) {
+        MemorySegment bufferXPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment bufferYPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gtk_text_view_window_to_buffer_coords.invokeExact(handle(), win.getValue(), windowX, windowY, bufferX.handle(), bufferY.handle());
+            gtk_text_view_window_to_buffer_coords.invokeExact(handle(), win.getValue(), windowX, windowY, (Addressable) bufferXPOINTER.address(), (Addressable) bufferYPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        bufferX.set(bufferXPOINTER.get(ValueLayout.JAVA_INT, 0));
+        bufferY.set(bufferYPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
     @FunctionalInterface
@@ -1558,19 +1622,19 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * The ::backspace signal is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
      * The default bindings for this signal are
-     * &lt;kbd>Backspace</kbd> and <kbd>Shift</kbd>-<kbd>Backspace</kbd&gt;.
+     * &lt;kbd&gt;Backspace&lt;/kbd&gt; and &lt;kbd&gt;Shift&lt;/kbd&gt;-&lt;kbd&gt;Backspace&lt;/kbd&gt;.
      */
     public SignalHandle onBackspace(BackspaceHandler handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("backspace").handle(),
+                Interop.allocateNativeString("backspace"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewBackspace",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1589,20 +1653,20 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * The ::copy-clipboard signal is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
      * The default bindings for this signal are
-     * &lt;kbd>Ctrl</kbd>-<kbd>c</kbd&gt; and
-     * &lt;kbd>Ctrl</kbd>-<kbd>Insert</kbd&gt;.
+     * &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;c&lt;/kbd&gt; and
+     * &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;Insert&lt;/kbd&gt;.
      */
     public SignalHandle onCopyClipboard(CopyClipboardHandler handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("copy-clipboard").handle(),
+                Interop.allocateNativeString("copy-clipboard"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewCopyClipboard",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1621,20 +1685,20 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * The ::cut-clipboard signal is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
      * The default bindings for this signal are
-     * &lt;kbd>Ctrl</kbd>-<kbd>x</kbd&gt; and
-     * &lt;kbd>Shift</kbd>-<kbd>Delete</kbd&gt;.
+     * &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;x&lt;/kbd&gt; and
+     * &lt;kbd&gt;Shift&lt;/kbd&gt;-&lt;kbd&gt;Delete&lt;/kbd&gt;.
      */
     public SignalHandle onCutClipboard(CutClipboardHandler handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("cut-clipboard").handle(),
+                Interop.allocateNativeString("cut-clipboard"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewCutClipboard",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1644,7 +1708,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     @FunctionalInterface
     public interface DeleteFromCursorHandler {
-        void signalReceived(TextView source, DeleteType type, int count);
+        void signalReceived(TextView source, @NotNull DeleteType type, @NotNull int count);
     }
     
     /**
@@ -1656,22 +1720,22 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * if there is one, otherwise it deletes the requested number
      * of characters.
      * <p>
-     * The default bindings for this signal are &lt;kbd>Delete</kbd&gt; for
-     * deleting a character, &lt;kbd>Ctrl</kbd>-<kbd>Delete</kbd&gt; for
-     * deleting a word and &lt;kbd>Ctrl</kbd>-<kbd>Backspace</kbd&gt; for
+     * The default bindings for this signal are &lt;kbd&gt;Delete&lt;/kbd&gt; for
+     * deleting a character, &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;Delete&lt;/kbd&gt; for
+     * deleting a word and &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;Backspace&lt;/kbd&gt; for
      * deleting a word backwards.
      */
     public SignalHandle onDeleteFromCursor(DeleteFromCursorHandler handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("delete-from-cursor").handle(),
+                Interop.allocateNativeString("delete-from-cursor"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewDeleteFromCursor",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1681,7 +1745,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     @FunctionalInterface
     public interface ExtendSelectionHandler {
-        boolean signalReceived(TextView source, TextExtendSelection granularity, TextIter location, TextIter start, TextIter end);
+        boolean signalReceived(TextView source, @NotNull TextExtendSelection granularity, @NotNull TextIter location, @NotNull TextIter start, @NotNull TextIter end);
     }
     
     /**
@@ -1691,13 +1755,13 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("extend-selection").handle(),
+                Interop.allocateNativeString("extend-selection"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewExtendSelection",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1707,7 +1771,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     @FunctionalInterface
     public interface InsertAtCursorHandler {
-        void signalReceived(TextView source, java.lang.String string);
+        void signalReceived(TextView source, @NotNull java.lang.String string);
     }
     
     /**
@@ -1722,13 +1786,13 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("insert-at-cursor").handle(),
+                Interop.allocateNativeString("insert-at-cursor"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewInsertAtCursor",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1747,20 +1811,20 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * The ::insert-emoji signal is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
      * The default bindings for this signal are
-     * &lt;kbd>Ctrl</kbd>-<kbd>.</kbd&gt; and
-     * &lt;kbd>Ctrl</kbd>-<kbd>;</kbd&gt;
+     * &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;.&lt;/kbd&gt; and
+     * &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;;&lt;/kbd&gt;
      */
     public SignalHandle onInsertEmoji(InsertEmojiHandler handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("insert-emoji").handle(),
+                Interop.allocateNativeString("insert-emoji"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewInsertEmoji",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1770,7 +1834,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     @FunctionalInterface
     public interface MoveCursorHandler {
-        void signalReceived(TextView source, MovementStep step, int count, boolean extendSelection);
+        void signalReceived(TextView source, @NotNull MovementStep step, @NotNull int count, @NotNull boolean extendSelection);
     }
     
     /**
@@ -1784,32 +1848,30 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * g_signal_emit_by_name() if they need to control the cursor
      * programmatically.
      * <p>
-     * 
      * The default bindings for this signal come in two variants,
-     * the variant with the &lt;kbd>Shift</kbd&gt; modifier extends the
+     * the variant with the &lt;kbd&gt;Shift&lt;/kbd&gt; modifier extends the
      * selection, the variant without it does not.
      * There are too many key combinations to list them all here.
-     * <p>
      * <ul>
-     * <li>&lt;kbd>←</kbd>, <kbd>→</kbd>, <kbd>↑</kbd>, <kbd>↓</kbd&gt;
+     * <li>&lt;kbd&gt;←&lt;/kbd&gt;, &lt;kbd&gt;→&lt;/kbd&gt;, &lt;kbd&gt;↑&lt;/kbd&gt;, &lt;kbd&gt;↓&lt;/kbd&gt;
      *   move by individual characters/lines
-     * <li>&lt;kbd>Ctrl</kbd>-<kbd>→</kbd&gt;, etc. move by words/paragraphs
-     * <li>&lt;kbd>Home</kbd>, <kbd>End</kbd&gt; move to the ends of the buffer
-     * <li>&lt;kbd>PgUp</kbd>, <kbd>PgDn</kbd&gt; move vertically by pages
-     * <li>&lt;kbd>Ctrl</kbd>-<kbd>PgUp</kbd>, <kbd>Ctrl</kbd>-<kbd>PgDn</kbd&gt;
+     * <li>&lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;→&lt;/kbd&gt;, etc. move by words/paragraphs
+     * <li>&lt;kbd&gt;Home&lt;/kbd&gt;, &lt;kbd&gt;End&lt;/kbd&gt; move to the ends of the buffer
+     * <li>&lt;kbd&gt;PgUp&lt;/kbd&gt;, &lt;kbd&gt;PgDn&lt;/kbd&gt; move vertically by pages
+     * <li>&lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;PgUp&lt;/kbd&gt;, &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;PgDn&lt;/kbd&gt;
      *   move horizontally by pages
      */
     public SignalHandle onMoveCursor(MoveCursorHandler handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("move-cursor").handle(),
+                Interop.allocateNativeString("move-cursor"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewMoveCursor",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1819,7 +1881,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     @FunctionalInterface
     public interface MoveViewportHandler {
-        void signalReceived(TextView source, ScrollStep step, int count);
+        void signalReceived(TextView source, @NotNull ScrollStep step, @NotNull int count);
     }
     
     /**
@@ -1836,13 +1898,13 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("move-viewport").handle(),
+                Interop.allocateNativeString("move-viewport"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewMoveViewport",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1862,20 +1924,20 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * The ::paste-clipboard signal is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
      * The default bindings for this signal are
-     * &lt;kbd>Ctrl</kbd>-<kbd>v</kbd&gt; and
-     * &lt;kbd>Shift</kbd>-<kbd>Insert</kbd&gt;.
+     * &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;v&lt;/kbd&gt; and
+     * &lt;kbd&gt;Shift&lt;/kbd&gt;-&lt;kbd&gt;Insert&lt;/kbd&gt;.
      */
     public SignalHandle onPasteClipboard(PasteClipboardHandler handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("paste-clipboard").handle(),
+                Interop.allocateNativeString("paste-clipboard"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewPasteClipboard",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1885,7 +1947,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     @FunctionalInterface
     public interface PreeditChangedHandler {
-        void signalReceived(TextView source, java.lang.String preedit);
+        void signalReceived(TextView source, @NotNull java.lang.String preedit);
     }
     
     /**
@@ -1902,13 +1964,13 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("preedit-changed").handle(),
+                Interop.allocateNativeString("preedit-changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewPreeditChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1918,7 +1980,7 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
     
     @FunctionalInterface
     public interface SelectAllHandler {
-        void signalReceived(TextView source, boolean select);
+        void signalReceived(TextView source, @NotNull boolean select);
     }
     
     /**
@@ -1927,22 +1989,22 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * The ::select-all signal is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
      * The default bindings for this signal are
-     * &lt;kbd>Ctrl</kbd>-<kbd>a</kbd&gt; and
-     * &lt;kbd>Ctrl</kbd>-<kbd>/</kbd&gt; for selecting and
-     * &lt;kbd>Shift</kbd>-<kbd>Ctrl</kbd>-<kbd>a</kbd&gt; and
-     * &lt;kbd>Ctrl</kbd>-<kbd>\\</kbd&gt; for unselecting.
+     * &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;a&lt;/kbd&gt; and
+     * &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;/&lt;/kbd&gt; for selecting and
+     * &lt;kbd&gt;Shift&lt;/kbd&gt;-&lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;a&lt;/kbd&gt; and
+     * &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;\\&lt;/kbd&gt; for unselecting.
      */
     public SignalHandle onSelectAll(SelectAllHandler handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("select-all").handle(),
+                Interop.allocateNativeString("select-all"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewSelectAll",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1969,13 +2031,13 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("set-anchor").handle(),
+                Interop.allocateNativeString("set-anchor"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewSetAnchor",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1994,19 +2056,19 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * The ::toggle-cursor-visible signal is a
      * <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
-     * The default binding for this signal is &lt;kbd>F7</kbd&gt;.
+     * The default binding for this signal is &lt;kbd&gt;F7&lt;/kbd&gt;.
      */
     public SignalHandle onToggleCursorVisible(ToggleCursorVisibleHandler handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("toggle-cursor-visible").handle(),
+                Interop.allocateNativeString("toggle-cursor-visible"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewToggleCursorVisible",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -2024,19 +2086,19 @@ public class TextView extends Widget implements Accessible, Buildable, Constrain
      * <p>
      * The ::toggle-overwrite signal is a <a href="class.SignalAction.html">keybinding signal</a>.
      * <p>
-     * The default binding for this signal is &lt;kbd>Insert</kbd&gt;.
+     * The default binding for this signal is &lt;kbd&gt;Insert&lt;/kbd&gt;.
      */
     public SignalHandle onToggleOverwrite(ToggleOverwriteHandler handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("toggle-overwrite").handle(),
+                Interop.allocateNativeString("toggle-overwrite"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewToggleOverwrite",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

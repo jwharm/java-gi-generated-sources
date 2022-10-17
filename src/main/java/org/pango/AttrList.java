@@ -3,6 +3,7 @@ package org.pango;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code PangoAttrList} represents a list of attributes that apply to a section
@@ -23,7 +24,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle pango_attr_list_new = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_list_new = Interop.downcallHandle(
         "pango_attr_list_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -45,7 +46,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew());
     }
     
-    static final MethodHandle pango_attr_list_change = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_list_change = Interop.downcallHandle(
         "pango_attr_list_change",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -64,7 +65,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * continually changing a set of attributes since it
      * never removes or combines existing attributes.
      */
-    public void change(Attribute attr) {
+    public @NotNull void change(@NotNull Attribute attr) {
         try {
             pango_attr_list_change.invokeExact(handle(), attr.refcounted().unowned().handle());
         } catch (Throwable ERR) {
@@ -72,7 +73,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle pango_attr_list_copy = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_list_copy = Interop.downcallHandle(
         "pango_attr_list_copy",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -80,16 +81,17 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Copy {@code list} and return an identical new list.
      */
-    public AttrList copy() {
+    public @Nullable AttrList copy() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_attr_list_copy.invokeExact(handle());
-            return new AttrList(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_attr_list_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new AttrList(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle pango_attr_list_equal = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_list_equal = Interop.downcallHandle(
         "pango_attr_list_equal",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -102,16 +104,17 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * Beware that this will return wrong values if any list
      * contains duplicates.
      */
-    public boolean equal(AttrList otherList) {
+    public boolean equal(@NotNull AttrList otherList) {
+        int RESULT;
         try {
-            var RESULT = (int) pango_attr_list_equal.invokeExact(handle(), otherList.handle());
-            return RESULT != 0;
+            RESULT = (int) pango_attr_list_equal.invokeExact(handle(), otherList.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle pango_attr_list_filter = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_list_filter = Interop.downcallHandle(
         "pango_attr_list_filter",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -121,22 +124,23 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * any elements of {@code list} for which {@code func} returns {@code true} and
      * inserts them into a new list.
      */
-    public AttrList filter(AttrFilterFunc func) {
+    public @Nullable AttrList filter(@NotNull AttrFilterFunc func) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_attr_list_filter.invokeExact(handle(), 
+            RESULT = (MemoryAddress) pango_attr_list_filter.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Pango.class, "__cbAttrFilterFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
-            return new AttrList(Refcounted.get(RESULT, true));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new AttrList(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle pango_attr_list_get_attributes = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_list_get_attributes = Interop.downcallHandle(
         "pango_attr_list_get_attributes",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -144,16 +148,17 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets a list of all attributes in {@code list}.
      */
-    public org.gtk.glib.SList getAttributes() {
+    public @NotNull org.gtk.glib.SList getAttributes() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_attr_list_get_attributes.invokeExact(handle());
-            return new org.gtk.glib.SList(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_attr_list_get_attributes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle pango_attr_list_get_iterator = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_list_get_iterator = Interop.downcallHandle(
         "pango_attr_list_get_iterator",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -163,16 +168,17 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * {@code list} must not be modified until this iterator is freed.
      */
-    public AttrIterator getIterator() {
+    public @NotNull AttrIterator getIterator() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_attr_list_get_iterator.invokeExact(handle());
-            return new AttrIterator(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_attr_list_get_iterator.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new AttrIterator(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle pango_attr_list_insert = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_list_insert = Interop.downcallHandle(
         "pango_attr_list_insert",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -183,7 +189,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * It will be inserted after all other attributes with a
      * matching {@code start_index}.
      */
-    public void insert(Attribute attr) {
+    public @NotNull void insert(@NotNull Attribute attr) {
         try {
             pango_attr_list_insert.invokeExact(handle(), attr.refcounted().unowned().handle());
         } catch (Throwable ERR) {
@@ -191,7 +197,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle pango_attr_list_insert_before = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_list_insert_before = Interop.downcallHandle(
         "pango_attr_list_insert_before",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -202,7 +208,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * It will be inserted before all other attributes with a
      * matching {@code start_index}.
      */
-    public void insertBefore(Attribute attr) {
+    public @NotNull void insertBefore(@NotNull Attribute attr) {
         try {
             pango_attr_list_insert_before.invokeExact(handle(), attr.refcounted().unowned().handle());
         } catch (Throwable ERR) {
@@ -210,7 +216,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle pango_attr_list_ref = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_list_ref = Interop.downcallHandle(
         "pango_attr_list_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -219,16 +225,17 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * Increase the reference count of the given attribute
      * list by one.
      */
-    public AttrList ref() {
+    public @NotNull AttrList ref() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_attr_list_ref.invokeExact(handle());
-            return new AttrList(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_attr_list_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new AttrList(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle pango_attr_list_splice = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_list_splice = Interop.downcallHandle(
         "pango_attr_list_splice",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -253,7 +260,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This mode is useful for merging two lists of attributes together.
      */
-    public void splice(AttrList other, int pos, int len) {
+    public @NotNull void splice(@NotNull AttrList other, @NotNull int pos, @NotNull int len) {
         try {
             pango_attr_list_splice.invokeExact(handle(), other.handle(), pos, len);
         } catch (Throwable ERR) {
@@ -261,7 +268,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle pango_attr_list_to_string = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_list_to_string = Interop.downcallHandle(
         "pango_attr_list_to_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -276,16 +283,17 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * debugging. The format is not meant as a permanent
      * storage format.
      */
-    public java.lang.String toString() {
+    public @NotNull java.lang.String toString() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_attr_list_to_string.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) pango_attr_list_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle pango_attr_list_unref = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_list_unref = Interop.downcallHandle(
         "pango_attr_list_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -297,7 +305,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * If the result is zero, free the attribute list
      * and the attributes it contains.
      */
-    public void unref() {
+    public @NotNull void unref() {
         try {
             pango_attr_list_unref.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -305,7 +313,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle pango_attr_list_update = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_list_update = Interop.downcallHandle(
         "pango_attr_list_update",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -326,7 +334,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * Attributes start and end positions are updated if they are
      * behind {@code pos} + {@code remove}.
      */
-    public void update(int pos, int remove, int add) {
+    public @NotNull void update(@NotNull int pos, @NotNull int remove, @NotNull int add) {
         try {
             pango_attr_list_update.invokeExact(handle(), pos, remove, add);
         } catch (Throwable ERR) {
@@ -334,7 +342,7 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle pango_attr_list_from_string = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_list_from_string = Interop.downcallHandle(
         "pango_attr_list_from_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -345,13 +353,14 @@ public class AttrList extends io.github.jwharm.javagi.ResourceBase {
      * This is the counterpart to {@link AttrList#toString}.
      * See that functions for details about the format.
      */
-    public static AttrList fromString(java.lang.String text) {
+    public static @Nullable AttrList fromString(@NotNull java.lang.String text) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_attr_list_from_string.invokeExact(Interop.allocateNativeString(text).handle());
-            return new AttrList(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_attr_list_from_string.invokeExact(Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new AttrList(Refcounted.get(RESULT, true));
     }
     
 }

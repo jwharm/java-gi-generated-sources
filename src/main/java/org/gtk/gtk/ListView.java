@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkListView} presents a large dynamic list of items.
@@ -74,9 +75,8 @@ import java.lang.invoke.*;
  * 
  *   gtk_scrolled_window_set_child (GTK_SCROLLED_WINDOW (sw), list);
  * }</pre>
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * <pre>{@code 
  * listview[.separators][.rich-list][.navigation-sidebar][.data-table]
  * ├── row[.activatable]
@@ -97,9 +97,8 @@ import java.lang.invoke.*;
  * The main listview node may also carry style classes to select
  * the style of <a href="ListContainers.html#list-styles">list presentation</a>:
  * .rich-list, .navigation-sidebar or .data-table.
- * <p>
+ * 
  * <h1>Accessibility</h1>
- * <p>
  * {@code GtkListView} uses the {@link AccessibleRole#LIST} role, and the list
  * items use the {@link AccessibleRole#LIST_ITEM} role.
  */
@@ -114,12 +113,12 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
         return new ListView(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_list_view_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_list_view_new = Interop.downcallHandle(
         "gtk_list_view_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(SelectionModel model, ListItemFactory factory) {
+    private static Refcounted constructNew(@Nullable SelectionModel model, @Nullable ListItemFactory factory) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_list_view_new.invokeExact(model.refcounted().unowned().handle(), factory.refcounted().unowned().handle()), false);
             return RESULT;
@@ -139,11 +138,11 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
      *   gtk_builder_list_item_factory_new_from_resource ("/resource.ui"));
      * }</pre>
      */
-    public ListView(SelectionModel model, ListItemFactory factory) {
+    public ListView(@Nullable SelectionModel model, @Nullable ListItemFactory factory) {
         super(constructNew(model, factory));
     }
     
-    static final MethodHandle gtk_list_view_get_enable_rubberband = Interop.downcallHandle(
+    private static final MethodHandle gtk_list_view_get_enable_rubberband = Interop.downcallHandle(
         "gtk_list_view_get_enable_rubberband",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -152,15 +151,16 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
      * Returns whether rows can be selected by dragging with the mouse.
      */
     public boolean getEnableRubberband() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_list_view_get_enable_rubberband.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_list_view_get_enable_rubberband.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_list_view_get_factory = Interop.downcallHandle(
+    private static final MethodHandle gtk_list_view_get_factory = Interop.downcallHandle(
         "gtk_list_view_get_factory",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -168,16 +168,17 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
     /**
      * Gets the factory that's currently used to populate list items.
      */
-    public ListItemFactory getFactory() {
+    public @Nullable ListItemFactory getFactory() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_list_view_get_factory.invokeExact(handle());
-            return new ListItemFactory(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_list_view_get_factory.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ListItemFactory(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_list_view_get_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_list_view_get_model = Interop.downcallHandle(
         "gtk_list_view_get_model",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -185,16 +186,17 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
     /**
      * Gets the model that's currently used to read the items displayed.
      */
-    public SelectionModel getModel() {
+    public @Nullable SelectionModel getModel() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_list_view_get_model.invokeExact(handle());
-            return new SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_list_view_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_list_view_get_show_separators = Interop.downcallHandle(
+    private static final MethodHandle gtk_list_view_get_show_separators = Interop.downcallHandle(
         "gtk_list_view_get_show_separators",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -204,15 +206,16 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
      * between rows.
      */
     public boolean getShowSeparators() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_list_view_get_show_separators.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_list_view_get_show_separators.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_list_view_get_single_click_activate = Interop.downcallHandle(
+    private static final MethodHandle gtk_list_view_get_single_click_activate = Interop.downcallHandle(
         "gtk_list_view_get_single_click_activate",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -222,15 +225,16 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
      * selected on hover.
      */
     public boolean getSingleClickActivate() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_list_view_get_single_click_activate.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_list_view_get_single_click_activate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_list_view_set_enable_rubberband = Interop.downcallHandle(
+    private static final MethodHandle gtk_list_view_set_enable_rubberband = Interop.downcallHandle(
         "gtk_list_view_set_enable_rubberband",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -238,7 +242,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
     /**
      * Sets whether selections can be changed by dragging with the mouse.
      */
-    public void setEnableRubberband(boolean enableRubberband) {
+    public @NotNull void setEnableRubberband(@NotNull boolean enableRubberband) {
         try {
             gtk_list_view_set_enable_rubberband.invokeExact(handle(), enableRubberband ? 1 : 0);
         } catch (Throwable ERR) {
@@ -246,7 +250,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
         }
     }
     
-    static final MethodHandle gtk_list_view_set_factory = Interop.downcallHandle(
+    private static final MethodHandle gtk_list_view_set_factory = Interop.downcallHandle(
         "gtk_list_view_set_factory",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -254,7 +258,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
     /**
      * Sets the {@code GtkListItemFactory} to use for populating list items.
      */
-    public void setFactory(ListItemFactory factory) {
+    public @NotNull void setFactory(@Nullable ListItemFactory factory) {
         try {
             gtk_list_view_set_factory.invokeExact(handle(), factory.handle());
         } catch (Throwable ERR) {
@@ -262,7 +266,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
         }
     }
     
-    static final MethodHandle gtk_list_view_set_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_list_view_set_model = Interop.downcallHandle(
         "gtk_list_view_set_model",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -272,7 +276,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
      * <p>
      * This must be a {@code Gtk.SelectionModel} to use.
      */
-    public void setModel(SelectionModel model) {
+    public @NotNull void setModel(@Nullable SelectionModel model) {
         try {
             gtk_list_view_set_model.invokeExact(handle(), model.handle());
         } catch (Throwable ERR) {
@@ -280,7 +284,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
         }
     }
     
-    static final MethodHandle gtk_list_view_set_show_separators = Interop.downcallHandle(
+    private static final MethodHandle gtk_list_view_set_show_separators = Interop.downcallHandle(
         "gtk_list_view_set_show_separators",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -289,7 +293,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
      * Sets whether the list box should show separators
      * between rows.
      */
-    public void setShowSeparators(boolean showSeparators) {
+    public @NotNull void setShowSeparators(@NotNull boolean showSeparators) {
         try {
             gtk_list_view_set_show_separators.invokeExact(handle(), showSeparators ? 1 : 0);
         } catch (Throwable ERR) {
@@ -297,7 +301,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
         }
     }
     
-    static final MethodHandle gtk_list_view_set_single_click_activate = Interop.downcallHandle(
+    private static final MethodHandle gtk_list_view_set_single_click_activate = Interop.downcallHandle(
         "gtk_list_view_set_single_click_activate",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -306,7 +310,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
      * Sets whether rows should be activated on single click and
      * selected on hover.
      */
-    public void setSingleClickActivate(boolean singleClickActivate) {
+    public @NotNull void setSingleClickActivate(@NotNull boolean singleClickActivate) {
         try {
             gtk_list_view_set_single_click_activate.invokeExact(handle(), singleClickActivate ? 1 : 0);
         } catch (Throwable ERR) {
@@ -316,7 +320,7 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
     
     @FunctionalInterface
     public interface ActivateHandler {
-        void signalReceived(ListView source, int position);
+        void signalReceived(ListView source, @NotNull int position);
     }
     
     /**
@@ -331,13 +335,13 @@ public class ListView extends ListBase implements Accessible, Buildable, Constra
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("activate").handle(),
+                Interop.allocateNativeString("activate"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ListView.Callbacks.class, "signalListViewActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

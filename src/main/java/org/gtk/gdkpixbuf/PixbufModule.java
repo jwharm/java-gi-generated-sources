@@ -3,6 +3,7 @@ package org.gtk.gdkpixbuf;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GdkPixbufModule} contains the necessary functions to load and save
@@ -11,9 +12,8 @@ import java.lang.invoke.*;
  * If {@code GdkPixbuf} has been compiled with {@code GModule} support, it can be extended
  * by modules which can load (and perhaps also save) new image and animation
  * formats.
- * <p>
+ * 
  * <h2>Implementing modules</h2>
- * <p>
  * The {@code GdkPixbuf} interfaces needed for implementing modules are contained in
  * {@code gdk-pixbuf-io.h} (and {@code gdk-pixbuf-animation.h} if the module supports
  * animations). They are not covered by the same stability guarantees as the
@@ -39,9 +39,8 @@ import java.lang.invoke.*;
  * incremental loading (i.e. provides {@code begin_load}, {@code stop_load} and
  * {@code load_increment}), it doesn't have to implement {@code load}, since {@code GdkPixbuf}
  * can supply a generic {@code load} implementation wrapping the incremental loading.
- * <p>
+ * 
  * <h2>Installing modules</h2>
- * <p>
  * Installing a module is a two-step process:
  * <p>
  * <ul>

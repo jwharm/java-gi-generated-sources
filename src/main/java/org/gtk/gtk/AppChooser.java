@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkAppChooser} is an interface for widgets which allow the user to
@@ -27,7 +28,7 @@ import java.lang.invoke.*;
  */
 public interface AppChooser extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle gtk_app_chooser_get_app_info = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_app_chooser_get_app_info = Interop.downcallHandle(
         "gtk_app_chooser_get_app_info",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -35,16 +36,17 @@ public interface AppChooser extends io.github.jwharm.javagi.Proxy {
     /**
      * Returns the currently selected application.
      */
-    public default org.gtk.gio.AppInfo getAppInfo() {
+    default @Nullable org.gtk.gio.AppInfo getAppInfo() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_app_chooser_get_app_info.invokeExact(handle());
-            return new org.gtk.gio.AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_app_chooser_get_app_info.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_app_chooser_get_content_type = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_app_chooser_get_content_type = Interop.downcallHandle(
         "gtk_app_chooser_get_content_type",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -53,16 +55,17 @@ public interface AppChooser extends io.github.jwharm.javagi.Proxy {
      * Returns the content type for which the {@code GtkAppChooser}
      * shows applications.
      */
-    public default java.lang.String getContentType() {
+    default @NotNull java.lang.String getContentType() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_app_chooser_get_content_type.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_app_chooser_get_content_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_app_chooser_refresh = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_app_chooser_refresh = Interop.downcallHandle(
         "gtk_app_chooser_refresh",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -70,7 +73,7 @@ public interface AppChooser extends io.github.jwharm.javagi.Proxy {
     /**
      * Reloads the list of applications.
      */
-    public default void refresh() {
+    default @NotNull void refresh() {
         try {
             gtk_app_chooser_refresh.invokeExact(handle());
         } catch (Throwable ERR) {

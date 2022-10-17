@@ -3,6 +3,7 @@ package org.pango;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code PangoAttrIterator} is used to iterate through a {@code PangoAttrList}.
@@ -19,7 +20,7 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle pango_attr_iterator_copy = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_iterator_copy = Interop.downcallHandle(
         "pango_attr_iterator_copy",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -27,16 +28,17 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Copy a {@code PangoAttrIterator}.
      */
-    public AttrIterator copy() {
+    public @NotNull AttrIterator copy() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_attr_iterator_copy.invokeExact(handle());
-            return new AttrIterator(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_attr_iterator_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new AttrIterator(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle pango_attr_iterator_destroy = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_iterator_destroy = Interop.downcallHandle(
         "pango_attr_iterator_destroy",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -44,7 +46,7 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Destroy a {@code PangoAttrIterator} and free all associated memory.
      */
-    public void destroy() {
+    public @NotNull void destroy() {
         try {
             pango_attr_iterator_destroy.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -52,7 +54,7 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle pango_attr_iterator_get = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_iterator_get = Interop.downcallHandle(
         "pango_attr_iterator_get",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -65,16 +67,17 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
      * the attribute whose range starts closest to the
      * current location is used.
      */
-    public Attribute get(AttrType type) {
+    public @Nullable Attribute get(@NotNull AttrType type) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_attr_iterator_get.invokeExact(handle(), type.getValue());
-            return new Attribute(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) pango_attr_iterator_get.invokeExact(handle(), type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Attribute(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle pango_attr_iterator_get_attrs = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_iterator_get_attrs = Interop.downcallHandle(
         "pango_attr_iterator_get_attrs",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -83,16 +86,17 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
      * Gets a list of all attributes at the current position of the
      * iterator.
      */
-    public org.gtk.glib.SList getAttrs() {
+    public @NotNull org.gtk.glib.SList getAttrs() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_attr_iterator_get_attrs.invokeExact(handle());
-            return new org.gtk.glib.SList(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_attr_iterator_get_attrs.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle pango_attr_iterator_get_font = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_iterator_get_font = Interop.downcallHandle(
         "pango_attr_iterator_get_font",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -101,15 +105,19 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
      * Get the font and other attributes at the current
      * iterator position.
      */
-    public void getFont(FontDescription desc, PointerProxy<Language> language, PointerProxy<org.gtk.glib.SList> extraAttrs) {
+    public @NotNull void getFont(@NotNull FontDescription desc, @NotNull Out<Language> language, @NotNull Out<org.gtk.glib.SList> extraAttrs) {
+        MemorySegment languagePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment extraAttrsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            pango_attr_iterator_get_font.invokeExact(handle(), desc.handle(), language.handle(), extraAttrs.handle());
+            pango_attr_iterator_get_font.invokeExact(handle(), desc.handle(), (Addressable) languagePOINTER.address(), (Addressable) extraAttrsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        language.set(new Language(Refcounted.get(languagePOINTER.get(ValueLayout.ADDRESS, 0), true)));
+        extraAttrs.set(new org.gtk.glib.SList(Refcounted.get(extraAttrsPOINTER.get(ValueLayout.ADDRESS, 0), true)));
     }
     
-    static final MethodHandle pango_attr_iterator_next = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_iterator_next = Interop.downcallHandle(
         "pango_attr_iterator_next",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -118,15 +126,16 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
      * Advance the iterator until the next change of style.
      */
     public boolean next() {
+        int RESULT;
         try {
-            var RESULT = (int) pango_attr_iterator_next.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) pango_attr_iterator_next.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle pango_attr_iterator_range = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_iterator_range = Interop.downcallHandle(
         "pango_attr_iterator_range",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -139,12 +148,16 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
      * oversight, stored return values that wouldn't fit into
      * a signed integer are clamped to {@code G_MAXINT}.
      */
-    public void range(PointerInteger start, PointerInteger end) {
+    public @NotNull void range(@NotNull Out<Integer> start, @NotNull Out<Integer> end) {
+        MemorySegment startPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment endPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            pango_attr_iterator_range.invokeExact(handle(), start.handle(), end.handle());
+            pango_attr_iterator_range.invokeExact(handle(), (Addressable) startPOINTER.address(), (Addressable) endPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        start.set(startPOINTER.get(ValueLayout.JAVA_INT, 0));
+        end.set(endPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
 }

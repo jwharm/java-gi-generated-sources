@@ -1,6 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Specifies the type of function passed to g_tree_foreach_node(). It is
@@ -10,5 +11,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface TraverseNodeFunc {
-        boolean onTraverseNodeFunc(TreeNode node);
+        boolean onTraverseNodeFunc(@NotNull TreeNode node);
 }

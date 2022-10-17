@@ -1,6 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Specifies the type of a function used to test two values for
@@ -9,5 +10,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface EqualFunc {
-        boolean onEqualFunc(java.lang.foreign.MemoryAddress a, java.lang.foreign.MemoryAddress b);
+        boolean onEqualFunc(@Nullable java.lang.foreign.MemoryAddress a, @Nullable java.lang.foreign.MemoryAddress b);
 }

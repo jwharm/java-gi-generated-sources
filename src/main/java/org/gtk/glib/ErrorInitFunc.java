@@ -1,6 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Specifies the type of function which is called just after an
@@ -13,5 +14,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface ErrorInitFunc {
-        void onErrorInitFunc(Error error);
+        void onErrorInitFunc(@NotNull Error error);
 }

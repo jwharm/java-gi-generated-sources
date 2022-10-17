@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link TlsServerConnection} is the server-side subclass of {@link TlsConnection},
@@ -10,7 +11,7 @@ import java.lang.invoke.*;
  */
 public interface TlsServerConnection extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle g_tls_server_connection_new = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_tls_server_connection_new = Interop.downcallHandle(
         "g_tls_server_connection_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -23,17 +24,18 @@ public interface TlsServerConnection extends io.github.jwharm.javagi.Proxy {
      * on when application code can run operations on the {@code base_io_stream} after
      * this function has returned.
      */
-    public static TlsServerConnection new_(IOStream baseIoStream, TlsCertificate certificate) throws io.github.jwharm.javagi.GErrorException {
+    public static @NotNull TlsServerConnection new_(@NotNull IOStream baseIoStream, @Nullable TlsCertificate certificate) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_tls_server_connection_new.invokeExact(baseIoStream.handle(), certificate.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new TlsServerConnection.TlsServerConnectionImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_tls_server_connection_new.invokeExact(baseIoStream.handle(), certificate.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new TlsServerConnection.TlsServerConnectionImpl(Refcounted.get(RESULT, true));
     }
     
     class TlsServerConnectionImpl extends org.gtk.gobject.Object implements TlsServerConnection {

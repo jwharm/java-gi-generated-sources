@@ -3,6 +3,7 @@ package org.gtk.graphene;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A point with two coordinates.
@@ -13,7 +14,7 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle graphene_point_alloc = Interop.downcallHandle(
+    private static final MethodHandle graphene_point_alloc = Interop.downcallHandle(
         "graphene_point_alloc",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -53,7 +54,7 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
         return new Point(constructAlloc());
     }
     
-    static final MethodHandle graphene_point_distance = Interop.downcallHandle(
+    private static final MethodHandle graphene_point_distance = Interop.downcallHandle(
         "graphene_point_distance",
         FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -61,16 +62,21 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Computes the distance between @a and @b.
      */
-    public float distance(Point b, PointerFloat dX, PointerFloat dY) {
+    public float distance(@NotNull Point b, @NotNull Out<Float> dX, @NotNull Out<Float> dY) {
+        MemorySegment dXPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment dYPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        float RESULT;
         try {
-            var RESULT = (float) graphene_point_distance.invokeExact(handle(), b.handle(), dX.handle(), dY.handle());
-            return RESULT;
+            RESULT = (float) graphene_point_distance.invokeExact(handle(), b.handle(), (Addressable) dXPOINTER.address(), (Addressable) dYPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        dX.set(dXPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        dY.set(dYPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        return RESULT;
     }
     
-    static final MethodHandle graphene_point_equal = Interop.downcallHandle(
+    private static final MethodHandle graphene_point_equal = Interop.downcallHandle(
         "graphene_point_equal",
         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -83,16 +89,17 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
      * you want to control the fuzziness of the match, you can use
      * graphene_point_near() instead.
      */
-    public boolean equal(Point b) {
+    public boolean equal(@NotNull Point b) {
+        boolean RESULT;
         try {
-            var RESULT = (boolean) graphene_point_equal.invokeExact(handle(), b.handle());
-            return RESULT;
+            RESULT = (boolean) graphene_point_equal.invokeExact(handle(), b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_point_free = Interop.downcallHandle(
+    private static final MethodHandle graphene_point_free = Interop.downcallHandle(
         "graphene_point_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -100,7 +107,7 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Frees the resources allocated by graphene_point_alloc().
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             graphene_point_free.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -108,7 +115,7 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle graphene_point_init = Interop.downcallHandle(
+    private static final MethodHandle graphene_point_init = Interop.downcallHandle(
         "graphene_point_init",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
     );
@@ -118,16 +125,17 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * It's safe to call this function multiple times.
      */
-    public Point init(float x, float y) {
+    public @NotNull Point init(@NotNull float x, @NotNull float y) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_point_init.invokeExact(handle(), x, y);
-            return new Point(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_point_init.invokeExact(handle(), x, y);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Point(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_point_init_from_point = Interop.downcallHandle(
+    private static final MethodHandle graphene_point_init_from_point = Interop.downcallHandle(
         "graphene_point_init_from_point",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -135,16 +143,17 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Initializes @p with the same coordinates of {@code src}.
      */
-    public Point initFromPoint(Point src) {
+    public @NotNull Point initFromPoint(@NotNull Point src) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_point_init_from_point.invokeExact(handle(), src.handle());
-            return new Point(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_point_init_from_point.invokeExact(handle(), src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Point(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_point_init_from_vec2 = Interop.downcallHandle(
+    private static final MethodHandle graphene_point_init_from_vec2 = Interop.downcallHandle(
         "graphene_point_init_from_vec2",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -152,16 +161,17 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Initializes @p with the coordinates inside the given {@link Vec2}.
      */
-    public Point initFromVec2(Vec2 src) {
+    public @NotNull Point initFromVec2(@NotNull Vec2 src) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_point_init_from_vec2.invokeExact(handle(), src.handle());
-            return new Point(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_point_init_from_vec2.invokeExact(handle(), src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Point(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_point_interpolate = Interop.downcallHandle(
+    private static final MethodHandle graphene_point_interpolate = Interop.downcallHandle(
         "graphene_point_interpolate",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -170,15 +180,17 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
      * Linearly interpolates the coordinates of @a and @b using the
      * given {@code factor}.
      */
-    public void interpolate(Point b, double factor, Point res) {
+    public @NotNull void interpolate(@NotNull Point b, @NotNull double factor, @NotNull Out<Point> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_point_interpolate.invokeExact(handle(), b.handle(), factor, res.handle());
+            graphene_point_interpolate.invokeExact(handle(), b.handle(), factor, (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Point(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_point_near = Interop.downcallHandle(
+    private static final MethodHandle graphene_point_near = Interop.downcallHandle(
         "graphene_point_near",
         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
     );
@@ -187,16 +199,17 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
      * Checks whether the two points @a and @b are within
      * the threshold of {@code epsilon}.
      */
-    public boolean near(Point b, float epsilon) {
+    public boolean near(@NotNull Point b, @NotNull float epsilon) {
+        boolean RESULT;
         try {
-            var RESULT = (boolean) graphene_point_near.invokeExact(handle(), b.handle(), epsilon);
-            return RESULT;
+            RESULT = (boolean) graphene_point_near.invokeExact(handle(), b.handle(), epsilon);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_point_to_vec2 = Interop.downcallHandle(
+    private static final MethodHandle graphene_point_to_vec2 = Interop.downcallHandle(
         "graphene_point_to_vec2",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -205,15 +218,17 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
      * Stores the coordinates of the given {@link Point} into a
      * {@link Vec2}.
      */
-    public void toVec2(Vec2 v) {
+    public @NotNull void toVec2(@NotNull Out<Vec2> v) {
+        MemorySegment vPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_point_to_vec2.invokeExact(handle(), v.handle());
+            graphene_point_to_vec2.invokeExact(handle(), (Addressable) vPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        v.set(new Vec2(Refcounted.get(vPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_point_zero = Interop.downcallHandle(
+    private static final MethodHandle graphene_point_zero = Interop.downcallHandle(
         "graphene_point_zero",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -221,13 +236,14 @@ public class Point extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns a point fixed at (0, 0).
      */
-    public static Point zero() {
+    public static @NotNull Point zero() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_point_zero.invokeExact();
-            return new Point(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_point_zero.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Point(Refcounted.get(RESULT, false));
     }
     
 }

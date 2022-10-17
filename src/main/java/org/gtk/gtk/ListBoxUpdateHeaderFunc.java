@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Whenever {@code row} changes or which row is before {@code row} changes this
@@ -11,5 +12,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface ListBoxUpdateHeaderFunc {
-        void onListBoxUpdateHeaderFunc(ListBoxRow row, ListBoxRow before);
+        void onListBoxUpdateHeaderFunc(@NotNull ListBoxRow row, @Nullable ListBoxRow before);
 }

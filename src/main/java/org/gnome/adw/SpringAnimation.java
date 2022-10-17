@@ -3,6 +3,7 @@ package org.gnome.adw;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A spring-based {@link Animation}.
@@ -48,12 +49,12 @@ public class SpringAnimation extends Animation {
         return new SpringAnimation(gobject.refcounted());
     }
     
-    static final MethodHandle adw_spring_animation_new = Interop.downcallHandle(
+    private static final MethodHandle adw_spring_animation_new = Interop.downcallHandle(
         "adw_spring_animation_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(org.gtk.gtk.Widget widget, double from, double to, SpringParams springParams, AnimationTarget target) {
+    private static Refcounted constructNew(@NotNull org.gtk.gtk.Widget widget, @NotNull double from, @NotNull double to, @NotNull SpringParams springParams, @NotNull AnimationTarget target) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) adw_spring_animation_new.invokeExact(widget.handle(), from, to, springParams.refcounted().unowned().handle(), target.refcounted().unowned().handle()), false);
             return RESULT;
@@ -68,11 +69,11 @@ public class SpringAnimation extends Animation {
      * The animation will animate {@code target} from {@code from} to {@code to} with the dynamics of a
      * spring described by {@code spring_params}.
      */
-    public SpringAnimation(org.gtk.gtk.Widget widget, double from, double to, SpringParams springParams, AnimationTarget target) {
+    public SpringAnimation(@NotNull org.gtk.gtk.Widget widget, @NotNull double from, @NotNull double to, @NotNull SpringParams springParams, @NotNull AnimationTarget target) {
         super(constructNew(widget, from, to, springParams, target));
     }
     
-    static final MethodHandle adw_spring_animation_get_clamp = Interop.downcallHandle(
+    private static final MethodHandle adw_spring_animation_get_clamp = Interop.downcallHandle(
         "adw_spring_animation_get_clamp",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -81,15 +82,16 @@ public class SpringAnimation extends Animation {
      * Gets whether {@code self} should be clamped.
      */
     public boolean getClamp() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_spring_animation_get_clamp.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) adw_spring_animation_get_clamp.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_spring_animation_get_epsilon = Interop.downcallHandle(
+    private static final MethodHandle adw_spring_animation_get_epsilon = Interop.downcallHandle(
         "adw_spring_animation_get_epsilon",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -98,15 +100,16 @@ public class SpringAnimation extends Animation {
      * Gets the precision used to determine the duration of {@code self}.
      */
     public double getEpsilon() {
+        double RESULT;
         try {
-            var RESULT = (double) adw_spring_animation_get_epsilon.invokeExact(handle());
-            return RESULT;
+            RESULT = (double) adw_spring_animation_get_epsilon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle adw_spring_animation_get_estimated_duration = Interop.downcallHandle(
+    private static final MethodHandle adw_spring_animation_get_estimated_duration = Interop.downcallHandle(
         "adw_spring_animation_get_estimated_duration",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -115,15 +118,16 @@ public class SpringAnimation extends Animation {
      * Gets the estimated duration of {@code self}.
      */
     public int getEstimatedDuration() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_spring_animation_get_estimated_duration.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) adw_spring_animation_get_estimated_duration.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle adw_spring_animation_get_initial_velocity = Interop.downcallHandle(
+    private static final MethodHandle adw_spring_animation_get_initial_velocity = Interop.downcallHandle(
         "adw_spring_animation_get_initial_velocity",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -132,15 +136,16 @@ public class SpringAnimation extends Animation {
      * Gets the initial velocity of {@code self}.
      */
     public double getInitialVelocity() {
+        double RESULT;
         try {
-            var RESULT = (double) adw_spring_animation_get_initial_velocity.invokeExact(handle());
-            return RESULT;
+            RESULT = (double) adw_spring_animation_get_initial_velocity.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle adw_spring_animation_get_spring_params = Interop.downcallHandle(
+    private static final MethodHandle adw_spring_animation_get_spring_params = Interop.downcallHandle(
         "adw_spring_animation_get_spring_params",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -148,16 +153,17 @@ public class SpringAnimation extends Animation {
     /**
      * Gets the physical parameters of the spring of {@code self}.
      */
-    public SpringParams getSpringParams() {
+    public @NotNull SpringParams getSpringParams() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_spring_animation_get_spring_params.invokeExact(handle());
-            return new SpringParams(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_spring_animation_get_spring_params.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SpringParams(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_spring_animation_get_value_from = Interop.downcallHandle(
+    private static final MethodHandle adw_spring_animation_get_value_from = Interop.downcallHandle(
         "adw_spring_animation_get_value_from",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -166,15 +172,16 @@ public class SpringAnimation extends Animation {
      * Gets the value {@code self} will animate from.
      */
     public double getValueFrom() {
+        double RESULT;
         try {
-            var RESULT = (double) adw_spring_animation_get_value_from.invokeExact(handle());
-            return RESULT;
+            RESULT = (double) adw_spring_animation_get_value_from.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle adw_spring_animation_get_value_to = Interop.downcallHandle(
+    private static final MethodHandle adw_spring_animation_get_value_to = Interop.downcallHandle(
         "adw_spring_animation_get_value_to",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -183,15 +190,16 @@ public class SpringAnimation extends Animation {
      * Gets the value {@code self} will animate to.
      */
     public double getValueTo() {
+        double RESULT;
         try {
-            var RESULT = (double) adw_spring_animation_get_value_to.invokeExact(handle());
-            return RESULT;
+            RESULT = (double) adw_spring_animation_get_value_to.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle adw_spring_animation_get_velocity = Interop.downcallHandle(
+    private static final MethodHandle adw_spring_animation_get_velocity = Interop.downcallHandle(
         "adw_spring_animation_get_velocity",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -200,15 +208,16 @@ public class SpringAnimation extends Animation {
      * Gets the current velocity of {@code self}.
      */
     public double getVelocity() {
+        double RESULT;
         try {
-            var RESULT = (double) adw_spring_animation_get_velocity.invokeExact(handle());
-            return RESULT;
+            RESULT = (double) adw_spring_animation_get_velocity.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle adw_spring_animation_set_clamp = Interop.downcallHandle(
+    private static final MethodHandle adw_spring_animation_set_clamp = Interop.downcallHandle(
         "adw_spring_animation_set_clamp",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -216,7 +225,7 @@ public class SpringAnimation extends Animation {
     /**
      * Sets whether {@code self} should be clamped.
      */
-    public void setClamp(boolean clamp) {
+    public @NotNull void setClamp(@NotNull boolean clamp) {
         try {
             adw_spring_animation_set_clamp.invokeExact(handle(), clamp ? 1 : 0);
         } catch (Throwable ERR) {
@@ -224,7 +233,7 @@ public class SpringAnimation extends Animation {
         }
     }
     
-    static final MethodHandle adw_spring_animation_set_epsilon = Interop.downcallHandle(
+    private static final MethodHandle adw_spring_animation_set_epsilon = Interop.downcallHandle(
         "adw_spring_animation_set_epsilon",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
     );
@@ -232,7 +241,7 @@ public class SpringAnimation extends Animation {
     /**
      * Sets the precision used to determine the duration of {@code self}.
      */
-    public void setEpsilon(double epsilon) {
+    public @NotNull void setEpsilon(@NotNull double epsilon) {
         try {
             adw_spring_animation_set_epsilon.invokeExact(handle(), epsilon);
         } catch (Throwable ERR) {
@@ -240,7 +249,7 @@ public class SpringAnimation extends Animation {
         }
     }
     
-    static final MethodHandle adw_spring_animation_set_initial_velocity = Interop.downcallHandle(
+    private static final MethodHandle adw_spring_animation_set_initial_velocity = Interop.downcallHandle(
         "adw_spring_animation_set_initial_velocity",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
     );
@@ -248,7 +257,7 @@ public class SpringAnimation extends Animation {
     /**
      * Sets the initial velocity of {@code self}.
      */
-    public void setInitialVelocity(double velocity) {
+    public @NotNull void setInitialVelocity(@NotNull double velocity) {
         try {
             adw_spring_animation_set_initial_velocity.invokeExact(handle(), velocity);
         } catch (Throwable ERR) {
@@ -256,7 +265,7 @@ public class SpringAnimation extends Animation {
         }
     }
     
-    static final MethodHandle adw_spring_animation_set_spring_params = Interop.downcallHandle(
+    private static final MethodHandle adw_spring_animation_set_spring_params = Interop.downcallHandle(
         "adw_spring_animation_set_spring_params",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -264,7 +273,7 @@ public class SpringAnimation extends Animation {
     /**
      * Sets the physical parameters of the spring of {@code self}.
      */
-    public void setSpringParams(SpringParams springParams) {
+    public @NotNull void setSpringParams(@NotNull SpringParams springParams) {
         try {
             adw_spring_animation_set_spring_params.invokeExact(handle(), springParams.handle());
         } catch (Throwable ERR) {
@@ -272,7 +281,7 @@ public class SpringAnimation extends Animation {
         }
     }
     
-    static final MethodHandle adw_spring_animation_set_value_from = Interop.downcallHandle(
+    private static final MethodHandle adw_spring_animation_set_value_from = Interop.downcallHandle(
         "adw_spring_animation_set_value_from",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
     );
@@ -280,7 +289,7 @@ public class SpringAnimation extends Animation {
     /**
      * Sets the value {@code self} will animate from.
      */
-    public void setValueFrom(double value) {
+    public @NotNull void setValueFrom(@NotNull double value) {
         try {
             adw_spring_animation_set_value_from.invokeExact(handle(), value);
         } catch (Throwable ERR) {
@@ -288,7 +297,7 @@ public class SpringAnimation extends Animation {
         }
     }
     
-    static final MethodHandle adw_spring_animation_set_value_to = Interop.downcallHandle(
+    private static final MethodHandle adw_spring_animation_set_value_to = Interop.downcallHandle(
         "adw_spring_animation_set_value_to",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
     );
@@ -296,7 +305,7 @@ public class SpringAnimation extends Animation {
     /**
      * Sets the value {@code self} will animate to.
      */
-    public void setValueTo(double value) {
+    public @NotNull void setValueTo(@NotNull double value) {
         try {
             adw_spring_animation_set_value_to.invokeExact(handle(), value);
         } catch (Throwable ERR) {

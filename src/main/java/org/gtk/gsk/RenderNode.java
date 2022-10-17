@@ -3,6 +3,7 @@ package org.gtk.gsk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GskRenderNode} is the basic block in a scene graph to be
@@ -30,7 +31,7 @@ public class RenderNode extends org.gtk.gobject.Object {
         return new RenderNode(gobject.refcounted());
     }
     
-    static final MethodHandle gsk_render_node_draw = Interop.downcallHandle(
+    private static final MethodHandle gsk_render_node_draw = Interop.downcallHandle(
         "gsk_render_node_draw",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -45,7 +46,7 @@ public class RenderNode extends org.gtk.gobject.Object {
      * For advanced nodes that cannot be supported using Cairo, in particular
      * for nodes doing 3D operations, this function may fail.
      */
-    public void draw(org.cairographics.Context cr) {
+    public @NotNull void draw(@NotNull org.cairographics.Context cr) {
         try {
             gsk_render_node_draw.invokeExact(handle(), cr.handle());
         } catch (Throwable ERR) {
@@ -53,7 +54,7 @@ public class RenderNode extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gsk_render_node_get_bounds = Interop.downcallHandle(
+    private static final MethodHandle gsk_render_node_get_bounds = Interop.downcallHandle(
         "gsk_render_node_get_bounds",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -63,15 +64,17 @@ public class RenderNode extends org.gtk.gobject.Object {
      * <p>
      * The node will not draw outside of its boundaries.
      */
-    public void getBounds(org.gtk.graphene.Rect bounds) {
+    public @NotNull void getBounds(@NotNull Out<org.gtk.graphene.Rect> bounds) {
+        MemorySegment boundsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gsk_render_node_get_bounds.invokeExact(handle(), bounds.handle());
+            gsk_render_node_get_bounds.invokeExact(handle(), (Addressable) boundsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        bounds.set(new org.gtk.graphene.Rect(Refcounted.get(boundsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle gsk_render_node_get_node_type = Interop.downcallHandle(
+    private static final MethodHandle gsk_render_node_get_node_type = Interop.downcallHandle(
         "gsk_render_node_get_node_type",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -79,16 +82,17 @@ public class RenderNode extends org.gtk.gobject.Object {
     /**
      * Returns the type of the {@code node}.
      */
-    public RenderNodeType getNodeType() {
+    public @NotNull RenderNodeType getNodeType() {
+        int RESULT;
         try {
-            var RESULT = (int) gsk_render_node_get_node_type.invokeExact(handle());
-            return new RenderNodeType(RESULT);
+            RESULT = (int) gsk_render_node_get_node_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new RenderNodeType(RESULT);
     }
     
-    static final MethodHandle gsk_render_node_ref = Interop.downcallHandle(
+    private static final MethodHandle gsk_render_node_ref = Interop.downcallHandle(
         "gsk_render_node_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -96,16 +100,17 @@ public class RenderNode extends org.gtk.gobject.Object {
     /**
      * Acquires a reference on the given {@code GskRenderNode}.
      */
-    public RenderNode ref() {
+    public @NotNull RenderNode ref() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_render_node_ref.invokeExact(handle());
-            return new RenderNode(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gsk_render_node_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new RenderNode(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gsk_render_node_serialize = Interop.downcallHandle(
+    private static final MethodHandle gsk_render_node_serialize = Interop.downcallHandle(
         "gsk_render_node_serialize",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -121,16 +126,17 @@ public class RenderNode extends org.gtk.gobject.Object {
      * The intended use of this functions is testing, benchmarking and debugging.
      * The format is not meant as a permanent storage format.
      */
-    public org.gtk.glib.Bytes serialize() {
+    public @NotNull org.gtk.glib.Bytes serialize() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_render_node_serialize.invokeExact(handle());
-            return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gsk_render_node_serialize.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gsk_render_node_unref = Interop.downcallHandle(
+    private static final MethodHandle gsk_render_node_unref = Interop.downcallHandle(
         "gsk_render_node_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -141,7 +147,7 @@ public class RenderNode extends org.gtk.gobject.Object {
      * If the reference was the last, the resources associated to the {@code node} are
      * freed.
      */
-    public void unref() {
+    public @NotNull void unref() {
         try {
             gsk_render_node_unref.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -149,7 +155,7 @@ public class RenderNode extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gsk_render_node_write_to_file = Interop.downcallHandle(
+    private static final MethodHandle gsk_render_node_write_to_file = Interop.downcallHandle(
         "gsk_render_node_write_to_file",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -163,20 +169,21 @@ public class RenderNode extends org.gtk.gobject.Object {
      * It is mostly intended for use inside a debugger to quickly dump a render
      * node to a file for later inspection.
      */
-    public boolean writeToFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
+    public boolean writeToFile(@NotNull java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gsk_render_node_write_to_file.invokeExact(handle(), Interop.allocateNativeString(filename).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gsk_render_node_write_to_file.invokeExact(handle(), Interop.allocateNativeString(filename), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gsk_render_node_deserialize = Interop.downcallHandle(
+    private static final MethodHandle gsk_render_node_deserialize = Interop.downcallHandle(
         "gsk_render_node_deserialize",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -186,19 +193,20 @@ public class RenderNode extends org.gtk.gobject.Object {
      * <p>
      * For a discussion of the supported format, see that function.
      */
-    public static RenderNode deserialize(org.gtk.glib.Bytes bytes, ParseErrorFunc errorFunc) {
+    public static @Nullable RenderNode deserialize(@NotNull org.gtk.glib.Bytes bytes, @Nullable ParseErrorFunc errorFunc) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_render_node_deserialize.invokeExact(bytes.handle(), 
+            RESULT = (MemoryAddress) gsk_render_node_deserialize.invokeExact(bytes.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gsk.class, "__cbParseErrorFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(errorFunc.hashCode(), errorFunc)));
-            return new RenderNode(Refcounted.get(RESULT, true));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(errorFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new RenderNode(Refcounted.get(RESULT, true));
     }
     
 }

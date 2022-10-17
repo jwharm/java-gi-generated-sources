@@ -3,6 +3,7 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@code GdkDrop} object represents the target of an ongoing DND operation.
@@ -31,7 +32,7 @@ public class Drop extends org.gtk.gobject.Object {
         return new Drop(gobject.refcounted());
     }
     
-    static final MethodHandle gdk_drop_finish = Interop.downcallHandle(
+    private static final MethodHandle gdk_drop_finish = Interop.downcallHandle(
         "gdk_drop_finish",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -42,7 +43,7 @@ public class Drop extends org.gtk.gobject.Object {
      * The {@code action} must be a single action selected from the actions
      * available via {@link Drop#getActions}.
      */
-    public void finish(DragAction action) {
+    public @NotNull void finish(@NotNull DragAction action) {
         try {
             gdk_drop_finish.invokeExact(handle(), action.getValue());
         } catch (Throwable ERR) {
@@ -50,7 +51,7 @@ public class Drop extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gdk_drop_get_actions = Interop.downcallHandle(
+    private static final MethodHandle gdk_drop_get_actions = Interop.downcallHandle(
         "gdk_drop_get_actions",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -71,16 +72,17 @@ public class Drop extends org.gtk.gobject.Object {
      * {@code Gdk.Drop.finish}. The source
      * side will not change this value anymore once a drop has started.
      */
-    public DragAction getActions() {
+    public @NotNull DragAction getActions() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_drop_get_actions.invokeExact(handle());
-            return new DragAction(RESULT);
+            RESULT = (int) gdk_drop_get_actions.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new DragAction(RESULT);
     }
     
-    static final MethodHandle gdk_drop_get_device = Interop.downcallHandle(
+    private static final MethodHandle gdk_drop_get_device = Interop.downcallHandle(
         "gdk_drop_get_device",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -88,16 +90,17 @@ public class Drop extends org.gtk.gobject.Object {
     /**
      * Returns the {@code GdkDevice} performing the drop.
      */
-    public Device getDevice() {
+    public @NotNull Device getDevice() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_drop_get_device.invokeExact(handle());
-            return new Device(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_drop_get_device.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Device(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_drop_get_display = Interop.downcallHandle(
+    private static final MethodHandle gdk_drop_get_display = Interop.downcallHandle(
         "gdk_drop_get_display",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -105,16 +108,17 @@ public class Drop extends org.gtk.gobject.Object {
     /**
      * Gets the {@code GdkDisplay} that {@code self} was created for.
      */
-    public Display getDisplay() {
+    public @NotNull Display getDisplay() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_drop_get_display.invokeExact(handle());
-            return new Display(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_drop_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Display(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_drop_get_drag = Interop.downcallHandle(
+    private static final MethodHandle gdk_drop_get_drag = Interop.downcallHandle(
         "gdk_drop_get_drag",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -125,16 +129,17 @@ public class Drop extends org.gtk.gobject.Object {
      * <p>
      * If it is not, {@code null} is returned.
      */
-    public Drag getDrag() {
+    public @Nullable Drag getDrag() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_drop_get_drag.invokeExact(handle());
-            return new Drag(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_drop_get_drag.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Drag(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_drop_get_formats = Interop.downcallHandle(
+    private static final MethodHandle gdk_drop_get_formats = Interop.downcallHandle(
         "gdk_drop_get_formats",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -143,16 +148,17 @@ public class Drop extends org.gtk.gobject.Object {
      * Returns the {@code GdkContentFormats} that the drop offers the data
      * to be read in.
      */
-    public ContentFormats getFormats() {
+    public @NotNull ContentFormats getFormats() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_drop_get_formats.invokeExact(handle());
-            return new ContentFormats(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_drop_get_formats.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ContentFormats(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_drop_get_surface = Interop.downcallHandle(
+    private static final MethodHandle gdk_drop_get_surface = Interop.downcallHandle(
         "gdk_drop_get_surface",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -160,16 +166,17 @@ public class Drop extends org.gtk.gobject.Object {
     /**
      * Returns the {@code GdkSurface} performing the drop.
      */
-    public Surface getSurface() {
+    public @NotNull Surface getSurface() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_drop_get_surface.invokeExact(handle());
-            return new Surface(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_drop_get_surface.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Surface(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_drop_read_async = Interop.downcallHandle(
+    private static final MethodHandle gdk_drop_read_async = Interop.downcallHandle(
         "gdk_drop_read_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -178,21 +185,21 @@ public class Drop extends org.gtk.gobject.Object {
      * Asynchronously read the dropped data from a {@code GdkDrop}
      * in a format that complies with one of the mime types.
      */
-    public void readAsync(java.lang.String[] mimeTypes, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+    public @NotNull void readAsync(@NotNull java.lang.String[] mimeTypes, @NotNull int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
-            gdk_drop_read_async.invokeExact(handle(), Interop.allocateNativeArray(mimeTypes).handle(), ioPriority, cancellable.handle(), 
+            gdk_drop_read_async.invokeExact(handle(), Interop.allocateNativeArray(mimeTypes), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gdk.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gdk_drop_read_finish = Interop.downcallHandle(
+    private static final MethodHandle gdk_drop_read_finish = Interop.downcallHandle(
         "gdk_drop_read_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -207,20 +214,23 @@ public class Drop extends org.gtk.gobject.Object {
      * <p>
      * See {@link Drop#readAsync}.
      */
-    public org.gtk.gio.InputStream readFinish(org.gtk.gio.AsyncResult result, PointerString outMimeType) throws io.github.jwharm.javagi.GErrorException {
+    public @Nullable org.gtk.gio.InputStream readFinish(@NotNull org.gtk.gio.AsyncResult result, @NotNull Out<java.lang.String> outMimeType) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment outMimeTypePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_drop_read_finish.invokeExact(handle(), result.handle(), outMimeType.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new org.gtk.gio.InputStream(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gdk_drop_read_finish.invokeExact(handle(), result.handle(), (Addressable) outMimeTypePOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        outMimeType.set(outMimeTypePOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new org.gtk.gio.InputStream(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gdk_drop_read_value_async = Interop.downcallHandle(
+    private static final MethodHandle gdk_drop_read_value_async = Interop.downcallHandle(
         "gdk_drop_read_value_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -237,7 +247,7 @@ public class Drop extends org.gtk.gobject.Object {
      * {@code GType}, the value will be copied directly. Otherwise, GDK will
      * try to use {@link Gdk#contentDeserializeAsync} to convert the data.
      */
-    public void readValueAsync(org.gtk.gobject.Type type, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+    public @NotNull void readValueAsync(@NotNull org.gtk.gobject.Type type, @NotNull int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             gdk_drop_read_value_async.invokeExact(handle(), type.getValue(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -245,13 +255,13 @@ public class Drop extends org.gtk.gobject.Object {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gdk_drop_read_value_finish = Interop.downcallHandle(
+    private static final MethodHandle gdk_drop_read_value_finish = Interop.downcallHandle(
         "gdk_drop_read_value_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -261,20 +271,21 @@ public class Drop extends org.gtk.gobject.Object {
      * <p>
      * See {@link Drop#readValueAsync}.
      */
-    public org.gtk.gobject.Value readValueFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.gobject.Value readValueFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_drop_read_value_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new org.gtk.gobject.Value(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_drop_read_value_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new org.gtk.gobject.Value(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_drop_status = Interop.downcallHandle(
+    private static final MethodHandle gdk_drop_status = Interop.downcallHandle(
         "gdk_drop_status",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -294,7 +305,7 @@ public class Drop extends org.gtk.gobject.Object {
      * not yet know the exact actions it supports, it should set any possible
      * actions first and then later call this function again.
      */
-    public void status(DragAction actions, DragAction preferred) {
+    public @NotNull void status(@NotNull DragAction actions, @NotNull DragAction preferred) {
         try {
             gdk_drop_status.invokeExact(handle(), actions.getValue(), preferred.getValue());
         } catch (Throwable ERR) {

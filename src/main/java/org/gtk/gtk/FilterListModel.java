@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkFilterListModel} is a list model that filters the elements of
@@ -26,12 +27,12 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
         return new FilterListModel(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_filter_list_model_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_filter_list_model_new = Interop.downcallHandle(
         "gtk_filter_list_model_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(org.gtk.gio.ListModel model, Filter filter) {
+    private static Refcounted constructNew(@Nullable org.gtk.gio.ListModel model, @Nullable Filter filter) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_filter_list_model_new.invokeExact(model.refcounted().unowned().handle(), filter.refcounted().unowned().handle()), true);
             return RESULT;
@@ -44,11 +45,11 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      * Creates a new {@code GtkFilterListModel} that will filter {@code model} using the given
      * {@code filter}.
      */
-    public FilterListModel(org.gtk.gio.ListModel model, Filter filter) {
+    public FilterListModel(@Nullable org.gtk.gio.ListModel model, @Nullable Filter filter) {
         super(constructNew(model, filter));
     }
     
-    static final MethodHandle gtk_filter_list_model_get_filter = Interop.downcallHandle(
+    private static final MethodHandle gtk_filter_list_model_get_filter = Interop.downcallHandle(
         "gtk_filter_list_model_get_filter",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -56,16 +57,17 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
     /**
      * Gets the {@code GtkFilter} currently set on {@code self}.
      */
-    public Filter getFilter() {
+    public @Nullable Filter getFilter() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_filter_list_model_get_filter.invokeExact(handle());
-            return new Filter(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_filter_list_model_get_filter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Filter(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_filter_list_model_get_incremental = Interop.downcallHandle(
+    private static final MethodHandle gtk_filter_list_model_get_incremental = Interop.downcallHandle(
         "gtk_filter_list_model_get_incremental",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -76,15 +78,16 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      * See {@link FilterListModel#setIncremental}.
      */
     public boolean getIncremental() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_filter_list_model_get_incremental.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_filter_list_model_get_incremental.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_filter_list_model_get_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_filter_list_model_get_model = Interop.downcallHandle(
         "gtk_filter_list_model_get_model",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -92,16 +95,17 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
     /**
      * Gets the model currently filtered or {@code null} if none.
      */
-    public org.gtk.gio.ListModel getModel() {
+    public @Nullable org.gtk.gio.ListModel getModel() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_filter_list_model_get_model.invokeExact(handle());
-            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_filter_list_model_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_filter_list_model_get_pending = Interop.downcallHandle(
+    private static final MethodHandle gtk_filter_list_model_get_pending = Interop.downcallHandle(
         "gtk_filter_list_model_get_pending",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -113,7 +117,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      * comparing the return value to 0 or you can compute the percentage
      * of the filter remaining by dividing the return value by the total
      * number of items in the underlying model:
-     * <p>
+     * 
      * <pre>{@code c
      * pending = gtk_filter_list_model_get_pending (self);
      * model = gtk_filter_list_model_get_model (self);
@@ -125,15 +129,16 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      * function returns 0.
      */
     public int getPending() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_filter_list_model_get_pending.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_filter_list_model_get_pending.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_filter_list_model_set_filter = Interop.downcallHandle(
+    private static final MethodHandle gtk_filter_list_model_set_filter = Interop.downcallHandle(
         "gtk_filter_list_model_set_filter",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -141,7 +146,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
     /**
      * Sets the filter used to filter items.
      */
-    public void setFilter(Filter filter) {
+    public @NotNull void setFilter(@Nullable Filter filter) {
         try {
             gtk_filter_list_model_set_filter.invokeExact(handle(), filter.handle());
         } catch (Throwable ERR) {
@@ -149,7 +154,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
         }
     }
     
-    static final MethodHandle gtk_filter_list_model_set_incremental = Interop.downcallHandle(
+    private static final MethodHandle gtk_filter_list_model_set_incremental = Interop.downcallHandle(
         "gtk_filter_list_model_set_incremental",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -172,7 +177,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      * See {@link FilterListModel#getPending} for progress information
      * about an ongoing incremental filtering operation.
      */
-    public void setIncremental(boolean incremental) {
+    public @NotNull void setIncremental(@NotNull boolean incremental) {
         try {
             gtk_filter_list_model_set_incremental.invokeExact(handle(), incremental ? 1 : 0);
         } catch (Throwable ERR) {
@@ -180,7 +185,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
         }
     }
     
-    static final MethodHandle gtk_filter_list_model_set_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_filter_list_model_set_model = Interop.downcallHandle(
         "gtk_filter_list_model_set_model",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -193,7 +198,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      * are doing and have set up an appropriate filter to ensure that item
      * types match.
      */
-    public void setModel(org.gtk.gio.ListModel model) {
+    public @NotNull void setModel(@Nullable org.gtk.gio.ListModel model) {
         try {
             gtk_filter_list_model_set_model.invokeExact(handle(), model.handle());
         } catch (Throwable ERR) {

@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GtkBuilder} reads XML descriptions of a user interface and
@@ -37,9 +38,8 @@ import java.lang.invoke.*;
  * or without a parent, in which case they have to be added to some container
  * to make use of them. Non-widget objects need to be reffed with
  * g_object_ref() to keep them beyond the lifespan of the builder.
- * <p>
+ * 
  * <h1>GtkBuilder UI Definitions</h1>
- * <p>
  * {@code GtkBuilder} parses textual descriptions of user interfaces which are
  * specified in XML format. We refer to these descriptions as “GtkBuilder
  * UI definitions” or just “UI definitions” if the context is clear.
@@ -129,9 +129,8 @@ import java.lang.invoke.*;
  * a UI definition by specifying the “type” attribute on a {@code <child>}
  * The possible values for the “type” attribute are described in the
  * sections describing the widget-specific portions of UI definitions.
- * <p>
+ * 
  * <h1>Signal handlers and function pointers</h1>
- * <p>
  * Signal handlers are set up with the {@code <signal>} element. The “name”
  * attribute specifies the name of the signal, and the “handler” attribute
  * specifies the function to connect to the signal.
@@ -149,9 +148,8 @@ import java.lang.invoke.*;
  * On Linux and Unix, this is not necessary; applications should instead
  * be compiled with the -Wl,--export-dynamic {@code CFLAGS}, and linked against
  * {@code gmodule-export-2.0}.
- * <p>
+ * 
  * <h1>A GtkBuilder UI Definition</h1>
- * <p>
  * <pre>{@code xml
  * <interface>
  *   <object class="GtkDialog" id="dialog1">
@@ -197,7 +195,7 @@ public class Builder extends org.gtk.gobject.Object {
         return new Builder(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_builder_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_new = Interop.downcallHandle(
         "gtk_builder_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -223,14 +221,14 @@ public class Builder extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
-    static final MethodHandle gtk_builder_new_from_file = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_new_from_file = Interop.downcallHandle(
         "gtk_builder_new_from_file",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewFromFile(java.lang.String filename) {
+    private static Refcounted constructNewFromFile(@NotNull java.lang.String filename) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_builder_new_from_file.invokeExact(Interop.allocateNativeString(filename).handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_builder_new_from_file.invokeExact(Interop.allocateNativeString(filename)), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -244,18 +242,18 @@ public class Builder extends org.gtk.gobject.Object {
      * the program will be aborted. You should only ever attempt to parse
      * user interface descriptions that are shipped as part of your program.
      */
-    public static Builder newFromFile(java.lang.String filename) {
+    public static Builder newFromFile(@NotNull java.lang.String filename) {
         return new Builder(constructNewFromFile(filename));
     }
     
-    static final MethodHandle gtk_builder_new_from_resource = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_new_from_resource = Interop.downcallHandle(
         "gtk_builder_new_from_resource",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewFromResource(java.lang.String resourcePath) {
+    private static Refcounted constructNewFromResource(@NotNull java.lang.String resourcePath) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_builder_new_from_resource.invokeExact(Interop.allocateNativeString(resourcePath).handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_builder_new_from_resource.invokeExact(Interop.allocateNativeString(resourcePath)), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -268,18 +266,18 @@ public class Builder extends org.gtk.gobject.Object {
      * If there is an error locating the resource or parsing the
      * description, then the program will be aborted.
      */
-    public static Builder newFromResource(java.lang.String resourcePath) {
+    public static Builder newFromResource(@NotNull java.lang.String resourcePath) {
         return new Builder(constructNewFromResource(resourcePath));
     }
     
-    static final MethodHandle gtk_builder_new_from_string = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_new_from_string = Interop.downcallHandle(
         "gtk_builder_new_from_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
     
-    private static Refcounted constructNewFromString(java.lang.String string, long length) {
+    private static Refcounted constructNewFromString(@NotNull java.lang.String string, @NotNull long length) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_builder_new_from_string.invokeExact(Interop.allocateNativeString(string).handle(), length), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_builder_new_from_string.invokeExact(Interop.allocateNativeString(string), length), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -296,11 +294,11 @@ public class Builder extends org.gtk.gobject.Object {
      * aborted. You should not attempt to parse user interface description
      * from untrusted sources.
      */
-    public static Builder newFromString(java.lang.String string, long length) {
+    public static Builder newFromString(@NotNull java.lang.String string, @NotNull long length) {
         return new Builder(constructNewFromString(string, length));
     }
     
-    static final MethodHandle gtk_builder_add_from_file = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_add_from_file = Interop.downcallHandle(
         "gtk_builder_add_from_file",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -325,20 +323,21 @@ public class Builder extends org.gtk.gobject.Object {
      * was leaked leading up to the reported failure. The only reasonable
      * thing to do when an error is detected is to call {@code g_error()}.
      */
-    public boolean addFromFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
+    public boolean addFromFile(@NotNull java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_builder_add_from_file.invokeExact(handle(), Interop.allocateNativeString(filename).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gtk_builder_add_from_file.invokeExact(handle(), Interop.allocateNativeString(filename), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_builder_add_from_resource = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_add_from_resource = Interop.downcallHandle(
         "gtk_builder_add_from_resource",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -360,20 +359,21 @@ public class Builder extends org.gtk.gobject.Object {
      * call.  The only reasonable thing to do when an error is detected is
      * to call g_error().
      */
-    public boolean addFromResource(java.lang.String resourcePath) throws io.github.jwharm.javagi.GErrorException {
+    public boolean addFromResource(@NotNull java.lang.String resourcePath) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_builder_add_from_resource.invokeExact(handle(), Interop.allocateNativeString(resourcePath).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gtk_builder_add_from_resource.invokeExact(handle(), Interop.allocateNativeString(resourcePath), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_builder_add_from_string = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_add_from_string = Interop.downcallHandle(
         "gtk_builder_add_from_string",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -395,20 +395,21 @@ public class Builder extends org.gtk.gobject.Object {
      * call.  The only reasonable thing to do when an error is detected is
      * to call g_error().
      */
-    public boolean addFromString(java.lang.String buffer, long length) throws io.github.jwharm.javagi.GErrorException {
+    public boolean addFromString(@NotNull java.lang.String buffer, @NotNull long length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_builder_add_from_string.invokeExact(handle(), Interop.allocateNativeString(buffer).handle(), length, (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gtk_builder_add_from_string.invokeExact(handle(), Interop.allocateNativeString(buffer), length, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_builder_add_objects_from_file = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_add_objects_from_file = Interop.downcallHandle(
         "gtk_builder_add_objects_from_file",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -426,20 +427,21 @@ public class Builder extends org.gtk.gobject.Object {
      * its child (for instance a {@code GtkTreeView} that depends on its
      * {@code GtkTreeModel}), you have to explicitly list all of them in {@code object_ids}.
      */
-    public boolean addObjectsFromFile(java.lang.String filename, java.lang.String[] objectIds) throws io.github.jwharm.javagi.GErrorException {
+    public boolean addObjectsFromFile(@NotNull java.lang.String filename, @NotNull java.lang.String[] objectIds) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_builder_add_objects_from_file.invokeExact(handle(), Interop.allocateNativeString(filename).handle(), Interop.allocateNativeArray(objectIds).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gtk_builder_add_objects_from_file.invokeExact(handle(), Interop.allocateNativeString(filename), Interop.allocateNativeArray(objectIds), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_builder_add_objects_from_resource = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_add_objects_from_resource = Interop.downcallHandle(
         "gtk_builder_add_objects_from_resource",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -457,20 +459,21 @@ public class Builder extends org.gtk.gobject.Object {
      * its child (for instance a {@code GtkTreeView} that depends on its
      * {@code GtkTreeModel}), you have to explicitly list all of them in {@code object_ids}.
      */
-    public boolean addObjectsFromResource(java.lang.String resourcePath, java.lang.String[] objectIds) throws io.github.jwharm.javagi.GErrorException {
+    public boolean addObjectsFromResource(@NotNull java.lang.String resourcePath, @NotNull java.lang.String[] objectIds) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_builder_add_objects_from_resource.invokeExact(handle(), Interop.allocateNativeString(resourcePath).handle(), Interop.allocateNativeArray(objectIds).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gtk_builder_add_objects_from_resource.invokeExact(handle(), Interop.allocateNativeString(resourcePath), Interop.allocateNativeArray(objectIds), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_builder_add_objects_from_string = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_add_objects_from_string = Interop.downcallHandle(
         "gtk_builder_add_objects_from_string",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -487,20 +490,21 @@ public class Builder extends org.gtk.gobject.Object {
      * its child (for instance a {@code GtkTreeView} that depends on its
      * {@code GtkTreeModel}), you have to explicitly list all of them in {@code object_ids}.
      */
-    public boolean addObjectsFromString(java.lang.String buffer, long length, java.lang.String[] objectIds) throws io.github.jwharm.javagi.GErrorException {
+    public boolean addObjectsFromString(@NotNull java.lang.String buffer, @NotNull long length, @NotNull java.lang.String[] objectIds) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_builder_add_objects_from_string.invokeExact(handle(), Interop.allocateNativeString(buffer).handle(), length, Interop.allocateNativeArray(objectIds).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gtk_builder_add_objects_from_string.invokeExact(handle(), Interop.allocateNativeString(buffer), length, Interop.allocateNativeArray(objectIds), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_builder_create_closure = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_create_closure = Interop.downcallHandle(
         "gtk_builder_create_closure",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -514,20 +518,21 @@ public class Builder extends org.gtk.gobject.Object {
      * If no closure could be created, {@code null} will be returned and {@code error}
      * will be set.
      */
-    public org.gtk.gobject.Closure createClosure(java.lang.String functionName, BuilderClosureFlags flags, org.gtk.gobject.Object object) throws io.github.jwharm.javagi.GErrorException {
+    public @Nullable org.gtk.gobject.Closure createClosure(@NotNull java.lang.String functionName, @NotNull BuilderClosureFlags flags, @Nullable org.gtk.gobject.Object object) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_builder_create_closure.invokeExact(handle(), Interop.allocateNativeString(functionName).handle(), flags.getValue(), object.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new org.gtk.gobject.Closure(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_builder_create_closure.invokeExact(handle(), Interop.allocateNativeString(functionName), flags.getValue(), object.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new org.gtk.gobject.Closure(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_builder_expose_object = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_expose_object = Interop.downcallHandle(
         "gtk_builder_expose_object",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -536,15 +541,15 @@ public class Builder extends org.gtk.gobject.Object {
      * Add {@code object} to the {@code builder} object pool so it can be
      * referenced just like any other object built by builder.
      */
-    public void exposeObject(java.lang.String name, org.gtk.gobject.Object object) {
+    public @NotNull void exposeObject(@NotNull java.lang.String name, @NotNull org.gtk.gobject.Object object) {
         try {
-            gtk_builder_expose_object.invokeExact(handle(), Interop.allocateNativeString(name).handle(), object.handle());
+            gtk_builder_expose_object.invokeExact(handle(), Interop.allocateNativeString(name), object.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_builder_extend_with_template = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_extend_with_template = Interop.downcallHandle(
         "gtk_builder_extend_with_template",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -556,20 +561,21 @@ public class Builder extends org.gtk.gobject.Object {
      * This is exported purely to let {@code gtk-builder-tool} validate
      * templates, applications have no need to call this function.
      */
-    public boolean extendWithTemplate(org.gtk.gobject.Object object, org.gtk.gobject.Type templateType, java.lang.String buffer, long length) throws io.github.jwharm.javagi.GErrorException {
+    public boolean extendWithTemplate(@NotNull org.gtk.gobject.Object object, @NotNull org.gtk.gobject.Type templateType, @NotNull java.lang.String buffer, @NotNull long length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_builder_extend_with_template.invokeExact(handle(), object.handle(), templateType.getValue(), Interop.allocateNativeString(buffer).handle(), length, (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gtk_builder_extend_with_template.invokeExact(handle(), object.handle(), templateType.getValue(), Interop.allocateNativeString(buffer), length, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_builder_get_current_object = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_get_current_object = Interop.downcallHandle(
         "gtk_builder_get_current_object",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -577,16 +583,17 @@ public class Builder extends org.gtk.gobject.Object {
     /**
      * Gets the current object set via gtk_builder_set_current_object().
      */
-    public org.gtk.gobject.Object getCurrentObject() {
+    public @Nullable org.gtk.gobject.Object getCurrentObject() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_builder_get_current_object.invokeExact(handle());
-            return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_builder_get_current_object.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_builder_get_object = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_get_object = Interop.downcallHandle(
         "gtk_builder_get_object",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -597,16 +604,17 @@ public class Builder extends org.gtk.gobject.Object {
      * Note that this function does not increment the reference count
      * of the returned object.
      */
-    public org.gtk.gobject.Object getObject(java.lang.String name) {
+    public @Nullable org.gtk.gobject.Object getObject(@NotNull java.lang.String name) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_builder_get_object.invokeExact(handle(), Interop.allocateNativeString(name).handle());
-            return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_builder_get_object.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_builder_get_objects = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_get_objects = Interop.downcallHandle(
         "gtk_builder_get_objects",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -617,16 +625,17 @@ public class Builder extends org.gtk.gobject.Object {
      * Note that this function does not increment the reference
      * counts of the returned objects.
      */
-    public org.gtk.glib.SList getObjects() {
+    public @NotNull org.gtk.glib.SList getObjects() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_builder_get_objects.invokeExact(handle());
-            return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_builder_get_objects.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_builder_get_scope = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_get_scope = Interop.downcallHandle(
         "gtk_builder_get_scope",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -634,16 +643,17 @@ public class Builder extends org.gtk.gobject.Object {
     /**
      * Gets the scope in use that was set via gtk_builder_set_scope().
      */
-    public BuilderScope getScope() {
+    public @NotNull BuilderScope getScope() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_builder_get_scope.invokeExact(handle());
-            return new BuilderScope.BuilderScopeImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_builder_get_scope.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new BuilderScope.BuilderScopeImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_builder_get_translation_domain = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_get_translation_domain = Interop.downcallHandle(
         "gtk_builder_get_translation_domain",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -651,16 +661,17 @@ public class Builder extends org.gtk.gobject.Object {
     /**
      * Gets the translation domain of {@code builder}.
      */
-    public java.lang.String getTranslationDomain() {
+    public @Nullable java.lang.String getTranslationDomain() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_builder_get_translation_domain.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_builder_get_translation_domain.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_builder_get_type_from_name = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_get_type_from_name = Interop.downcallHandle(
         "gtk_builder_get_type_from_name",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -672,16 +683,17 @@ public class Builder extends org.gtk.gobject.Object {
      * for that purpose. This is mainly used when implementing
      * the {@code GtkBuildable} interface on a type.
      */
-    public org.gtk.gobject.Type getTypeFromName(java.lang.String typeName) {
+    public @NotNull org.gtk.gobject.Type getTypeFromName(@NotNull java.lang.String typeName) {
+        long RESULT;
         try {
-            var RESULT = (long) gtk_builder_get_type_from_name.invokeExact(handle(), Interop.allocateNativeString(typeName).handle());
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) gtk_builder_get_type_from_name.invokeExact(handle(), Interop.allocateNativeString(typeName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle gtk_builder_set_current_object = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_set_current_object = Interop.downcallHandle(
         "gtk_builder_set_current_object",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -697,7 +709,7 @@ public class Builder extends org.gtk.gobject.Object {
      * object to the widget the template is inited for. For functions like
      * {@link Builder#newFromResource}, the current object will be {@code null}.
      */
-    public void setCurrentObject(org.gtk.gobject.Object currentObject) {
+    public @NotNull void setCurrentObject(@Nullable org.gtk.gobject.Object currentObject) {
         try {
             gtk_builder_set_current_object.invokeExact(handle(), currentObject.handle());
         } catch (Throwable ERR) {
@@ -705,7 +717,7 @@ public class Builder extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_builder_set_scope = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_set_scope = Interop.downcallHandle(
         "gtk_builder_set_scope",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -715,7 +727,7 @@ public class Builder extends org.gtk.gobject.Object {
      * <p>
      * If {@code scope} is {@code null}, a new {@link BuilderCScope} will be created.
      */
-    public void setScope(BuilderScope scope) {
+    public @NotNull void setScope(@Nullable BuilderScope scope) {
         try {
             gtk_builder_set_scope.invokeExact(handle(), scope.handle());
         } catch (Throwable ERR) {
@@ -723,7 +735,7 @@ public class Builder extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_builder_set_translation_domain = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_set_translation_domain = Interop.downcallHandle(
         "gtk_builder_set_translation_domain",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -731,15 +743,15 @@ public class Builder extends org.gtk.gobject.Object {
     /**
      * Sets the translation domain of {@code builder}.
      */
-    public void setTranslationDomain(java.lang.String domain) {
+    public @NotNull void setTranslationDomain(@Nullable java.lang.String domain) {
         try {
-            gtk_builder_set_translation_domain.invokeExact(handle(), Interop.allocateNativeString(domain).handle());
+            gtk_builder_set_translation_domain.invokeExact(handle(), Interop.allocateNativeString(domain));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_builder_value_from_string = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_value_from_string = Interop.downcallHandle(
         "gtk_builder_value_from_string",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -757,20 +769,23 @@ public class Builder extends org.gtk.gobject.Object {
      * Upon errors {@code false} will be returned and {@code error} will be
      * assigned a {@code GError} from the {@code GTK_BUILDER_ERROR} domain.
      */
-    public boolean valueFromString(org.gtk.gobject.ParamSpec pspec, java.lang.String string, org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
+    public boolean valueFromString(@NotNull org.gtk.gobject.ParamSpec pspec, @NotNull java.lang.String string, @NotNull Out<org.gtk.gobject.Value> value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_builder_value_from_string.invokeExact(handle(), pspec.handle(), Interop.allocateNativeString(string).handle(), value.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gtk_builder_value_from_string.invokeExact(handle(), pspec.handle(), Interop.allocateNativeString(string), (Addressable) valuePOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        value.set(new org.gtk.gobject.Value(Refcounted.get(valuePOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_builder_value_from_string_type = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_value_from_string_type = Interop.downcallHandle(
         "gtk_builder_value_from_string_type",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -787,17 +802,20 @@ public class Builder extends org.gtk.gobject.Object {
      * Upon errors {@code false} will be returned and {@code error} will be
      * assigned a {@code GError} from the {@code GTK_BUILDER_ERROR} domain.
      */
-    public boolean valueFromStringType(org.gtk.gobject.Type type, java.lang.String string, org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
+    public boolean valueFromStringType(@NotNull org.gtk.gobject.Type type, @NotNull java.lang.String string, @NotNull Out<org.gtk.gobject.Value> value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_builder_value_from_string_type.invokeExact(handle(), type.getValue(), Interop.allocateNativeString(string).handle(), value.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gtk_builder_value_from_string_type.invokeExact(handle(), type.getValue(), Interop.allocateNativeString(string), (Addressable) valuePOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        value.set(new org.gtk.gobject.Value(Refcounted.get(valuePOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
 }

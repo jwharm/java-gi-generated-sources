@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 public class TestLogBuffer extends io.github.jwharm.javagi.ResourceBase {
 
@@ -10,7 +11,7 @@ public class TestLogBuffer extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_test_log_buffer_free = Interop.downcallHandle(
+    private static final MethodHandle g_test_log_buffer_free = Interop.downcallHandle(
         "g_test_log_buffer_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -18,7 +19,7 @@ public class TestLogBuffer extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Internal function for gtester to free test log messages, no ABI guarantees provided.
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             g_test_log_buffer_free.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -26,7 +27,7 @@ public class TestLogBuffer extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_test_log_buffer_pop = Interop.downcallHandle(
+    private static final MethodHandle g_test_log_buffer_pop = Interop.downcallHandle(
         "g_test_log_buffer_pop",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -34,16 +35,17 @@ public class TestLogBuffer extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Internal function for gtester to retrieve test log messages, no ABI guarantees provided.
      */
-    public TestLogMsg pop() {
+    public @NotNull TestLogMsg pop() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_test_log_buffer_pop.invokeExact(handle());
-            return new TestLogMsg(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_test_log_buffer_pop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TestLogMsg(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_test_log_buffer_push = Interop.downcallHandle(
+    private static final MethodHandle g_test_log_buffer_push = Interop.downcallHandle(
         "g_test_log_buffer_push",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -51,7 +53,7 @@ public class TestLogBuffer extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Internal function for gtester to decode test log messages, no ABI guarantees provided.
      */
-    public void push(int nBytes, PointerByte bytes) {
+    public @NotNull void push(@NotNull int nBytes, @NotNull PointerByte bytes) {
         try {
             g_test_log_buffer_push.invokeExact(handle(), nBytes, bytes.handle());
         } catch (Throwable ERR) {
@@ -59,7 +61,7 @@ public class TestLogBuffer extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_test_log_buffer_new = Interop.downcallHandle(
+    private static final MethodHandle g_test_log_buffer_new = Interop.downcallHandle(
         "g_test_log_buffer_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -67,13 +69,14 @@ public class TestLogBuffer extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Internal function for gtester to decode test log messages, no ABI guarantees provided.
      */
-    public static TestLogBuffer new_() {
+    public static @NotNull TestLogBuffer new_() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_test_log_buffer_new.invokeExact();
-            return new TestLogBuffer(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_test_log_buffer_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TestLogBuffer(Refcounted.get(RESULT, false));
     }
     
 }

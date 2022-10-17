@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@link SimpleAction} is the obvious simple implementation of the {@link Action}
@@ -22,14 +23,14 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
         return new SimpleAction(gobject.refcounted());
     }
     
-    static final MethodHandle g_simple_action_new = Interop.downcallHandle(
+    private static final MethodHandle g_simple_action_new = Interop.downcallHandle(
         "g_simple_action_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(java.lang.String name, org.gtk.glib.VariantType parameterType) {
+    private static Refcounted constructNew(@NotNull java.lang.String name, @Nullable org.gtk.glib.VariantType parameterType) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_simple_action_new.invokeExact(Interop.allocateNativeString(name).handle(), parameterType.handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_simple_action_new.invokeExact(Interop.allocateNativeString(name), parameterType.handle()), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -42,18 +43,18 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
      * The created action is stateless. See g_simple_action_new_stateful() to create
      * an action that has state.
      */
-    public SimpleAction(java.lang.String name, org.gtk.glib.VariantType parameterType) {
+    public SimpleAction(@NotNull java.lang.String name, @Nullable org.gtk.glib.VariantType parameterType) {
         super(constructNew(name, parameterType));
     }
     
-    static final MethodHandle g_simple_action_new_stateful = Interop.downcallHandle(
+    private static final MethodHandle g_simple_action_new_stateful = Interop.downcallHandle(
         "g_simple_action_new_stateful",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewStateful(java.lang.String name, org.gtk.glib.VariantType parameterType, org.gtk.glib.Variant state) {
+    private static Refcounted constructNewStateful(@NotNull java.lang.String name, @Nullable org.gtk.glib.VariantType parameterType, @NotNull org.gtk.glib.Variant state) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_simple_action_new_stateful.invokeExact(Interop.allocateNativeString(name).handle(), parameterType.handle(), state.handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_simple_action_new_stateful.invokeExact(Interop.allocateNativeString(name), parameterType.handle(), state.handle()), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -68,11 +69,11 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
      * <p>
      * If the {@code state} {@link org.gtk.glib.Variant} is floating, it is consumed.
      */
-    public static SimpleAction newStateful(java.lang.String name, org.gtk.glib.VariantType parameterType, org.gtk.glib.Variant state) {
+    public static SimpleAction newStateful(@NotNull java.lang.String name, @Nullable org.gtk.glib.VariantType parameterType, @NotNull org.gtk.glib.Variant state) {
         return new SimpleAction(constructNewStateful(name, parameterType, state));
     }
     
-    static final MethodHandle g_simple_action_set_enabled = Interop.downcallHandle(
+    private static final MethodHandle g_simple_action_set_enabled = Interop.downcallHandle(
         "g_simple_action_set_enabled",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -86,7 +87,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
      * This should only be called by the implementor of the action.  Users
      * of the action should not attempt to modify its enabled flag.
      */
-    public void setEnabled(boolean enabled) {
+    public @NotNull void setEnabled(@NotNull boolean enabled) {
         try {
             g_simple_action_set_enabled.invokeExact(handle(), enabled ? 1 : 0);
         } catch (Throwable ERR) {
@@ -94,7 +95,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
         }
     }
     
-    static final MethodHandle g_simple_action_set_state = Interop.downcallHandle(
+    private static final MethodHandle g_simple_action_set_state = Interop.downcallHandle(
         "g_simple_action_set_state",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -111,7 +112,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
      * <p>
      * If the {@code value} GVariant is floating, it is consumed.
      */
-    public void setState(org.gtk.glib.Variant value) {
+    public @NotNull void setState(@NotNull org.gtk.glib.Variant value) {
         try {
             g_simple_action_set_state.invokeExact(handle(), value.handle());
         } catch (Throwable ERR) {
@@ -119,7 +120,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
         }
     }
     
-    static final MethodHandle g_simple_action_set_state_hint = Interop.downcallHandle(
+    private static final MethodHandle g_simple_action_set_state_hint = Interop.downcallHandle(
         "g_simple_action_set_state_hint",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -130,7 +131,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
      * See g_action_get_state_hint() for more information about
      * action state hints.
      */
-    public void setStateHint(org.gtk.glib.Variant stateHint) {
+    public @NotNull void setStateHint(@Nullable org.gtk.glib.Variant stateHint) {
         try {
             g_simple_action_set_state_hint.invokeExact(handle(), stateHint.handle());
         } catch (Throwable ERR) {
@@ -140,7 +141,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
     
     @FunctionalInterface
     public interface ActivateHandler {
-        void signalReceived(SimpleAction source, org.gtk.glib.Variant parameter);
+        void signalReceived(SimpleAction source, @Nullable org.gtk.glib.Variant parameter);
     }
     
     /**
@@ -162,13 +163,13 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("activate").handle(),
+                Interop.allocateNativeString("activate"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SimpleAction.Callbacks.class, "signalSimpleActionActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -178,7 +179,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
     
     @FunctionalInterface
     public interface ChangeStateHandler {
-        void signalReceived(SimpleAction source, org.gtk.glib.Variant value);
+        void signalReceived(SimpleAction source, @Nullable org.gtk.glib.Variant value);
     }
     
     /**
@@ -220,13 +221,13 @@ public class SimpleAction extends org.gtk.gobject.Object implements Action {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("change-state").handle(),
+                Interop.allocateNativeString("change-state"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SimpleAction.Callbacks.class, "signalSimpleActionChangeState",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

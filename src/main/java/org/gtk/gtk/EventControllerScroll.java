@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkEventControllerScroll} is an event controller that handles scroll
@@ -51,12 +52,12 @@ public class EventControllerScroll extends EventController {
         return new EventControllerScroll(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_event_controller_scroll_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_event_controller_scroll_new = Interop.downcallHandle(
         "gtk_event_controller_scroll_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNew(EventControllerScrollFlags flags) {
+    private static Refcounted constructNew(@NotNull EventControllerScrollFlags flags) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_event_controller_scroll_new.invokeExact(flags.getValue()), true);
             return RESULT;
@@ -68,11 +69,11 @@ public class EventControllerScroll extends EventController {
     /**
      * Creates a new event controller that will handle scroll events.
      */
-    public EventControllerScroll(EventControllerScrollFlags flags) {
+    public EventControllerScroll(@NotNull EventControllerScrollFlags flags) {
         super(constructNew(flags));
     }
     
-    static final MethodHandle gtk_event_controller_scroll_get_flags = Interop.downcallHandle(
+    private static final MethodHandle gtk_event_controller_scroll_get_flags = Interop.downcallHandle(
         "gtk_event_controller_scroll_get_flags",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -80,16 +81,17 @@ public class EventControllerScroll extends EventController {
     /**
      * Gets the flags conditioning the scroll controller behavior.
      */
-    public EventControllerScrollFlags getFlags() {
+    public @NotNull EventControllerScrollFlags getFlags() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_event_controller_scroll_get_flags.invokeExact(handle());
-            return new EventControllerScrollFlags(RESULT);
+            RESULT = (int) gtk_event_controller_scroll_get_flags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new EventControllerScrollFlags(RESULT);
     }
     
-    static final MethodHandle gtk_event_controller_scroll_set_flags = Interop.downcallHandle(
+    private static final MethodHandle gtk_event_controller_scroll_set_flags = Interop.downcallHandle(
         "gtk_event_controller_scroll_set_flags",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -97,7 +99,7 @@ public class EventControllerScroll extends EventController {
     /**
      * Sets the flags conditioning scroll controller behavior.
      */
-    public void setFlags(EventControllerScrollFlags flags) {
+    public @NotNull void setFlags(@NotNull EventControllerScrollFlags flags) {
         try {
             gtk_event_controller_scroll_set_flags.invokeExact(handle(), flags.getValue());
         } catch (Throwable ERR) {
@@ -107,7 +109,7 @@ public class EventControllerScroll extends EventController {
     
     @FunctionalInterface
     public interface DecelerateHandler {
-        void signalReceived(EventControllerScroll source, double velX, double velY);
+        void signalReceived(EventControllerScroll source, @NotNull double velX, @NotNull double velY);
     }
     
     /**
@@ -122,13 +124,13 @@ public class EventControllerScroll extends EventController {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("decelerate").handle(),
+                Interop.allocateNativeString("decelerate"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EventControllerScroll.Callbacks.class, "signalEventControllerScrollDecelerate",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -138,7 +140,7 @@ public class EventControllerScroll extends EventController {
     
     @FunctionalInterface
     public interface ScrollHandler {
-        boolean signalReceived(EventControllerScroll source, double dx, double dy);
+        boolean signalReceived(EventControllerScroll source, @NotNull double dx, @NotNull double dy);
     }
     
     /**
@@ -149,13 +151,13 @@ public class EventControllerScroll extends EventController {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("scroll").handle(),
+                Interop.allocateNativeString("scroll"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EventControllerScroll.Callbacks.class, "signalEventControllerScrollScroll",
                         MethodType.methodType(boolean.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -177,13 +179,13 @@ public class EventControllerScroll extends EventController {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("scroll-begin").handle(),
+                Interop.allocateNativeString("scroll-begin"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EventControllerScroll.Callbacks.class, "signalEventControllerScrollScrollBegin",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -205,13 +207,13 @@ public class EventControllerScroll extends EventController {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("scroll-end").handle(),
+                Interop.allocateNativeString("scroll-end"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EventControllerScroll.Callbacks.class, "signalEventControllerScrollScrollEnd",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

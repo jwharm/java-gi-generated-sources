@@ -3,6 +3,7 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GdkToplevel} is a freestanding toplevel surface.
@@ -13,7 +14,7 @@ import java.lang.invoke.*;
  */
 public interface Toplevel extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle gdk_toplevel_begin_move = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gdk_toplevel_begin_move = Interop.downcallHandle(
         "gdk_toplevel_begin_move",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
     );
@@ -23,7 +24,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * <p>
      * You might use this function to implement draggable titlebars.
      */
-    public default void beginMove(Device device, int button, double x, double y, int timestamp) {
+    default @NotNull void beginMove(@NotNull Device device, @NotNull int button, @NotNull double x, @NotNull double y, @NotNull int timestamp) {
         try {
             gdk_toplevel_begin_move.invokeExact(handle(), device.handle(), button, x, y, timestamp);
         } catch (Throwable ERR) {
@@ -31,7 +32,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gdk_toplevel_begin_resize = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gdk_toplevel_begin_resize = Interop.downcallHandle(
         "gdk_toplevel_begin_resize",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
     );
@@ -41,7 +42,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * <p>
      * You might use this function to implement a “window resize grip.”
      */
-    public default void beginResize(SurfaceEdge edge, Device device, int button, double x, double y, int timestamp) {
+    default @NotNull void beginResize(@NotNull SurfaceEdge edge, @Nullable Device device, @NotNull int button, @NotNull double x, @NotNull double y, @NotNull int timestamp) {
         try {
             gdk_toplevel_begin_resize.invokeExact(handle(), edge.getValue(), device.handle(), button, x, y, timestamp);
         } catch (Throwable ERR) {
@@ -49,7 +50,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gdk_toplevel_focus = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gdk_toplevel_focus = Interop.downcallHandle(
         "gdk_toplevel_focus",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -60,7 +61,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * In most cases, {@link org.gtk.gtk.Window#presentWithTime} should be
      * used on a {@link org.gtk.gtk.Window}, rather than calling this function.
      */
-    public default void focus(int timestamp) {
+    default @NotNull void focus(@NotNull int timestamp) {
         try {
             gdk_toplevel_focus.invokeExact(handle(), timestamp);
         } catch (Throwable ERR) {
@@ -68,7 +69,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gdk_toplevel_get_state = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gdk_toplevel_get_state = Interop.downcallHandle(
         "gdk_toplevel_get_state",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -77,16 +78,17 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * Gets the bitwise or of the currently active surface state flags,
      * from the {@code GdkToplevelState} enumeration.
      */
-    public default ToplevelState getState() {
+    default @NotNull ToplevelState getState() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_toplevel_get_state.invokeExact(handle());
-            return new ToplevelState(RESULT);
+            RESULT = (int) gdk_toplevel_get_state.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ToplevelState(RESULT);
     }
     
-    static final MethodHandle gdk_toplevel_inhibit_system_shortcuts = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gdk_toplevel_inhibit_system_shortcuts = Interop.downcallHandle(
         "gdk_toplevel_inhibit_system_shortcuts",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -114,7 +116,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * The caller can be notified whenever the request is granted or revoked
      * by listening to the {@code Gdk.Toplevel:shortcuts-inhibited} property.
      */
-    public default void inhibitSystemShortcuts(Event event) {
+    default @NotNull void inhibitSystemShortcuts(@Nullable Event event) {
         try {
             gdk_toplevel_inhibit_system_shortcuts.invokeExact(handle(), event.handle());
         } catch (Throwable ERR) {
@@ -122,7 +124,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gdk_toplevel_lower = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gdk_toplevel_lower = Interop.downcallHandle(
         "gdk_toplevel_lower",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -132,16 +134,17 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * <p>
      * The windowing system may choose to ignore the request.
      */
-    public default boolean lower() {
+    default boolean lower() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_toplevel_lower.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_toplevel_lower.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_toplevel_minimize = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gdk_toplevel_minimize = Interop.downcallHandle(
         "gdk_toplevel_minimize",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -151,16 +154,17 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * <p>
      * The windowing system may choose to ignore the request.
      */
-    public default boolean minimize() {
+    default boolean minimize() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_toplevel_minimize.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_toplevel_minimize.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_toplevel_present = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gdk_toplevel_present = Interop.downcallHandle(
         "gdk_toplevel_present",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -178,7 +182,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * Presenting is asynchronous and the specified layout parameters are not
      * guaranteed to be respected.
      */
-    public default void present(ToplevelLayout layout) {
+    default @NotNull void present(@NotNull ToplevelLayout layout) {
         try {
             gdk_toplevel_present.invokeExact(handle(), layout.handle());
         } catch (Throwable ERR) {
@@ -186,7 +190,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gdk_toplevel_restore_system_shortcuts = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gdk_toplevel_restore_system_shortcuts = Interop.downcallHandle(
         "gdk_toplevel_restore_system_shortcuts",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -197,7 +201,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * <p>
      * This undoes the effect of {@link Toplevel#inhibitSystemShortcuts}.
      */
-    public default void restoreSystemShortcuts() {
+    default @NotNull void restoreSystemShortcuts() {
         try {
             gdk_toplevel_restore_system_shortcuts.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -205,7 +209,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gdk_toplevel_set_decorated = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gdk_toplevel_set_decorated = Interop.downcallHandle(
         "gdk_toplevel_set_decorated",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -217,7 +221,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * that the surface has its own, client-side decorations and
      * does not need to have window decorations added.
      */
-    public default void setDecorated(boolean decorated) {
+    default @NotNull void setDecorated(@NotNull boolean decorated) {
         try {
             gdk_toplevel_set_decorated.invokeExact(handle(), decorated ? 1 : 0);
         } catch (Throwable ERR) {
@@ -225,7 +229,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gdk_toplevel_set_deletable = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gdk_toplevel_set_deletable = Interop.downcallHandle(
         "gdk_toplevel_set_deletable",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -236,7 +240,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * Setting {@code deletable} to {@code true} hints the desktop environment
      * that it should offer the user a way to close the surface.
      */
-    public default void setDeletable(boolean deletable) {
+    default @NotNull void setDeletable(@NotNull boolean deletable) {
         try {
             gdk_toplevel_set_deletable.invokeExact(handle(), deletable ? 1 : 0);
         } catch (Throwable ERR) {
@@ -244,7 +248,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gdk_toplevel_set_icon_list = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gdk_toplevel_set_icon_list = Interop.downcallHandle(
         "gdk_toplevel_set_icon_list",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -260,7 +264,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * <p>
      * Note that some platforms don't support surface icons.
      */
-    public default void setIconList(org.gtk.glib.List surfaces) {
+    default @NotNull void setIconList(@NotNull org.gtk.glib.List surfaces) {
         try {
             gdk_toplevel_set_icon_list.invokeExact(handle(), surfaces.handle());
         } catch (Throwable ERR) {
@@ -268,7 +272,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gdk_toplevel_set_modal = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gdk_toplevel_set_modal = Interop.downcallHandle(
         "gdk_toplevel_set_modal",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -284,7 +288,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * You should only use this on surfaces for which you have
      * previously called {@link Toplevel#setTransientFor}.
      */
-    public default void setModal(boolean modal) {
+    default @NotNull void setModal(@NotNull boolean modal) {
         try {
             gdk_toplevel_set_modal.invokeExact(handle(), modal ? 1 : 0);
         } catch (Throwable ERR) {
@@ -292,7 +296,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gdk_toplevel_set_startup_id = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gdk_toplevel_set_startup_id = Interop.downcallHandle(
         "gdk_toplevel_set_startup_id",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -304,15 +308,15 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * {@link org.gtk.gtk.Window#setStartupId} instead of this
      * low-level function.
      */
-    public default void setStartupId(java.lang.String startupId) {
+    default @NotNull void setStartupId(@NotNull java.lang.String startupId) {
         try {
-            gdk_toplevel_set_startup_id.invokeExact(handle(), Interop.allocateNativeString(startupId).handle());
+            gdk_toplevel_set_startup_id.invokeExact(handle(), Interop.allocateNativeString(startupId));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gdk_toplevel_set_title = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gdk_toplevel_set_title = Interop.downcallHandle(
         "gdk_toplevel_set_title",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -323,15 +327,15 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * The title maybe be displayed in the titlebar,
      * in lists of windows, etc.
      */
-    public default void setTitle(java.lang.String title) {
+    default @NotNull void setTitle(@NotNull java.lang.String title) {
         try {
-            gdk_toplevel_set_title.invokeExact(handle(), Interop.allocateNativeString(title).handle());
+            gdk_toplevel_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gdk_toplevel_set_transient_for = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gdk_toplevel_set_transient_for = Interop.downcallHandle(
         "gdk_toplevel_set_transient_for",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -347,7 +351,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * See {@link org.gtk.gtk.Window#setTransientFor} if you’re using
      * {@code Gtk.Dialog}.
      */
-    public default void setTransientFor(Surface parent) {
+    default @NotNull void setTransientFor(@NotNull Surface parent) {
         try {
             gdk_toplevel_set_transient_for.invokeExact(handle(), parent.handle());
         } catch (Throwable ERR) {
@@ -355,7 +359,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gdk_toplevel_show_window_menu = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gdk_toplevel_show_window_menu = Interop.downcallHandle(
         "gdk_toplevel_show_window_menu",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -368,16 +372,17 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * for windows using client-side decorations, activating it with a
      * right-click on the window decorations.
      */
-    public default boolean showWindowMenu(Event event) {
+    default boolean showWindowMenu(@NotNull Event event) {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_toplevel_show_window_menu.invokeExact(handle(), event.handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_toplevel_show_window_menu.invokeExact(handle(), event.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_toplevel_supports_edge_constraints = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gdk_toplevel_supports_edge_constraints = Interop.downcallHandle(
         "gdk_toplevel_supports_edge_constraints",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -386,74 +391,33 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * Returns whether the desktop environment supports
      * tiled window states.
      */
-    public default boolean supportsEdgeConstraints() {
+    default boolean supportsEdgeConstraints() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_toplevel_supports_edge_constraints.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_toplevel_supports_edge_constraints.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_toplevel_titlebar_gesture = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gdk_toplevel_titlebar_gesture = Interop.downcallHandle(
         "gdk_toplevel_titlebar_gesture",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
     
-    public default boolean titlebarGesture(TitlebarGesture gesture) {
+    default boolean titlebarGesture(@NotNull TitlebarGesture gesture) {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_toplevel_titlebar_gesture.invokeExact(handle(), gesture.getValue());
-            return RESULT != 0;
+            RESULT = (int) gdk_toplevel_titlebar_gesture.invokeExact(handle(), gesture.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-    }
-    
-    @FunctionalInterface
-    public interface ComputeSizeHandler {
-        void signalReceived(Toplevel source, ToplevelSize size);
-    }
-    
-    /**
-     * Emitted when the size for the surface needs to be computed, when
-     * it is present.
-     * <p>
-     * It will normally be emitted during or after {@link Toplevel#present},
-     * depending on the configuration received by the windowing system.
-     * It may also be emitted at any other point in time, in response
-     * to the windowing system spontaneously changing the configuration.
-     * <p>
-     * It is the responsibility of the toplevel user to handle this signal
-     * and compute the desired size of the toplevel, given the information
-     * passed via the {@code Gdk.ToplevelSize} object. Failing to do so
-     * will result in an arbitrary size being used as a result.
-     */
-    public default SignalHandle onComputeSize(ComputeSizeHandler handler) {
-        try {
-            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("compute-size").handle(),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Toplevel.Callbacks.class, "signalToplevelComputeSize",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                    Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
+        return RESULT != 0;
     }
     
     public static class Callbacks {
     
-        public static void signalToplevelComputeSize(MemoryAddress source, MemoryAddress size, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (Toplevel.ComputeSizeHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Toplevel.ToplevelImpl(Refcounted.get(source)), new ToplevelSize(Refcounted.get(size, false)));
-        }
-        
     }
     
     class ToplevelImpl extends org.gtk.gobject.Object implements Toplevel {

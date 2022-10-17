@@ -3,6 +3,7 @@ package org.gnome.adw;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A widget constraining its child to a given size.
@@ -23,9 +24,8 @@ import java.lang.invoke.*;
  * <p>
  * If the child requires more than the requested maximum size, it will be
  * allocated the minimum size it can fit in instead.
- * <p>
+ * 
  * <h2>CSS nodes</h2>
- * <p>
  * {@code AdwClamp} has a single CSS node with name {@code clamp}.
  * <p>
  * Its children will receive the style classes {@code .large} when the child reached
@@ -43,7 +43,7 @@ public class Clamp extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         return new Clamp(gobject.refcounted());
     }
     
-    static final MethodHandle adw_clamp_new = Interop.downcallHandle(
+    private static final MethodHandle adw_clamp_new = Interop.downcallHandle(
         "adw_clamp_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -64,7 +64,7 @@ public class Clamp extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         super(constructNew());
     }
     
-    static final MethodHandle adw_clamp_get_child = Interop.downcallHandle(
+    private static final MethodHandle adw_clamp_get_child = Interop.downcallHandle(
         "adw_clamp_get_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -72,16 +72,17 @@ public class Clamp extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     /**
      * Gets the child widget of {@code self}.
      */
-    public org.gtk.gtk.Widget getChild() {
+    public @Nullable org.gtk.gtk.Widget getChild() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_clamp_get_child.invokeExact(handle());
-            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_clamp_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_clamp_get_maximum_size = Interop.downcallHandle(
+    private static final MethodHandle adw_clamp_get_maximum_size = Interop.downcallHandle(
         "adw_clamp_get_maximum_size",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -90,15 +91,16 @@ public class Clamp extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * Gets the maximum size allocated to the child.
      */
     public int getMaximumSize() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_clamp_get_maximum_size.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) adw_clamp_get_maximum_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle adw_clamp_get_tightening_threshold = Interop.downcallHandle(
+    private static final MethodHandle adw_clamp_get_tightening_threshold = Interop.downcallHandle(
         "adw_clamp_get_tightening_threshold",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -107,15 +109,16 @@ public class Clamp extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * Gets the size above which the child is clamped.
      */
     public int getTighteningThreshold() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_clamp_get_tightening_threshold.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) adw_clamp_get_tightening_threshold.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle adw_clamp_set_child = Interop.downcallHandle(
+    private static final MethodHandle adw_clamp_set_child = Interop.downcallHandle(
         "adw_clamp_set_child",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -123,7 +126,7 @@ public class Clamp extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     /**
      * Sets the child widget of {@code self}.
      */
-    public void setChild(org.gtk.gtk.Widget child) {
+    public @NotNull void setChild(@Nullable org.gtk.gtk.Widget child) {
         try {
             adw_clamp_set_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -131,7 +134,7 @@ public class Clamp extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         }
     }
     
-    static final MethodHandle adw_clamp_set_maximum_size = Interop.downcallHandle(
+    private static final MethodHandle adw_clamp_set_maximum_size = Interop.downcallHandle(
         "adw_clamp_set_maximum_size",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -139,7 +142,7 @@ public class Clamp extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     /**
      * Sets the maximum size allocated to the child.
      */
-    public void setMaximumSize(int maximumSize) {
+    public @NotNull void setMaximumSize(@NotNull int maximumSize) {
         try {
             adw_clamp_set_maximum_size.invokeExact(handle(), maximumSize);
         } catch (Throwable ERR) {
@@ -147,7 +150,7 @@ public class Clamp extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         }
     }
     
-    static final MethodHandle adw_clamp_set_tightening_threshold = Interop.downcallHandle(
+    private static final MethodHandle adw_clamp_set_tightening_threshold = Interop.downcallHandle(
         "adw_clamp_set_tightening_threshold",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -155,7 +158,7 @@ public class Clamp extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     /**
      * Sets the size above which the child is clamped.
      */
-    public void setTighteningThreshold(int tighteningThreshold) {
+    public @NotNull void setTighteningThreshold(@NotNull int tighteningThreshold) {
         try {
             adw_clamp_set_tightening_threshold.invokeExact(handle(), tighteningThreshold);
         } catch (Throwable ERR) {

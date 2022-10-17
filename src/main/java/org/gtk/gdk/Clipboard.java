@@ -3,6 +3,7 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@code GdkClipboard} object represents data shared between applications or
@@ -34,7 +35,7 @@ public class Clipboard extends org.gtk.gobject.Object {
         return new Clipboard(gobject.refcounted());
     }
     
-    static final MethodHandle gdk_clipboard_get_content = Interop.downcallHandle(
+    private static final MethodHandle gdk_clipboard_get_content = Interop.downcallHandle(
         "gdk_clipboard_get_content",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -45,16 +46,17 @@ public class Clipboard extends org.gtk.gobject.Object {
      * If the {@code clipboard} is empty or its contents are not owned by the
      * current process, {@code null} will be returned.
      */
-    public ContentProvider getContent() {
+    public @Nullable ContentProvider getContent() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_clipboard_get_content.invokeExact(handle());
-            return new ContentProvider(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_clipboard_get_content.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ContentProvider(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_clipboard_get_display = Interop.downcallHandle(
+    private static final MethodHandle gdk_clipboard_get_display = Interop.downcallHandle(
         "gdk_clipboard_get_display",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -62,16 +64,17 @@ public class Clipboard extends org.gtk.gobject.Object {
     /**
      * Gets the {@code GdkDisplay} that the clipboard was created for.
      */
-    public Display getDisplay() {
+    public @NotNull Display getDisplay() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_clipboard_get_display.invokeExact(handle());
-            return new Display(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_clipboard_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Display(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_clipboard_get_formats = Interop.downcallHandle(
+    private static final MethodHandle gdk_clipboard_get_formats = Interop.downcallHandle(
         "gdk_clipboard_get_formats",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -79,16 +82,17 @@ public class Clipboard extends org.gtk.gobject.Object {
     /**
      * Gets the formats that the clipboard can provide its current contents in.
      */
-    public ContentFormats getFormats() {
+    public @NotNull ContentFormats getFormats() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_clipboard_get_formats.invokeExact(handle());
-            return new ContentFormats(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_clipboard_get_formats.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ContentFormats(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_clipboard_is_local = Interop.downcallHandle(
+    private static final MethodHandle gdk_clipboard_is_local = Interop.downcallHandle(
         "gdk_clipboard_is_local",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -103,15 +107,16 @@ public class Clipboard extends org.gtk.gobject.Object {
      * even on a local clipboard. In this case the clipboard is empty.
      */
     public boolean isLocal() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_clipboard_is_local.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_clipboard_is_local.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_clipboard_read_async = Interop.downcallHandle(
+    private static final MethodHandle gdk_clipboard_read_async = Interop.downcallHandle(
         "gdk_clipboard_read_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -126,21 +131,21 @@ public class Clipboard extends org.gtk.gobject.Object {
      * The clipboard will choose the most suitable mime type from the given list
      * to fulfill the request, preferring the ones listed first.
      */
-    public void readAsync(java.lang.String[] mimeTypes, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+    public @NotNull void readAsync(@NotNull java.lang.String[] mimeTypes, @NotNull int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
-            gdk_clipboard_read_async.invokeExact(handle(), Interop.allocateNativeArray(mimeTypes).handle(), ioPriority, cancellable.handle(), 
+            gdk_clipboard_read_async.invokeExact(handle(), Interop.allocateNativeArray(mimeTypes), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gdk.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gdk_clipboard_read_finish = Interop.downcallHandle(
+    private static final MethodHandle gdk_clipboard_read_finish = Interop.downcallHandle(
         "gdk_clipboard_read_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -150,20 +155,23 @@ public class Clipboard extends org.gtk.gobject.Object {
      * <p>
      * See {@link Clipboard#readAsync}.
      */
-    public org.gtk.gio.InputStream readFinish(org.gtk.gio.AsyncResult result, PointerString outMimeType) throws io.github.jwharm.javagi.GErrorException {
+    public @Nullable org.gtk.gio.InputStream readFinish(@NotNull org.gtk.gio.AsyncResult result, @NotNull Out<java.lang.String> outMimeType) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment outMimeTypePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_clipboard_read_finish.invokeExact(handle(), result.handle(), outMimeType.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new org.gtk.gio.InputStream(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gdk_clipboard_read_finish.invokeExact(handle(), result.handle(), (Addressable) outMimeTypePOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        outMimeType.set(outMimeTypePOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new org.gtk.gio.InputStream(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gdk_clipboard_read_text_async = Interop.downcallHandle(
+    private static final MethodHandle gdk_clipboard_read_text_async = Interop.downcallHandle(
         "gdk_clipboard_read_text_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -178,7 +186,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      * Use that function or {@link Clipboard#readAsync} directly if you
      * need more control over the operation.
      */
-    public void readTextAsync(org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+    public @NotNull void readTextAsync(@Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             gdk_clipboard_read_text_async.invokeExact(handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -186,13 +194,13 @@ public class Clipboard extends org.gtk.gobject.Object {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gdk_clipboard_read_text_finish = Interop.downcallHandle(
+    private static final MethodHandle gdk_clipboard_read_text_finish = Interop.downcallHandle(
         "gdk_clipboard_read_text_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -202,20 +210,21 @@ public class Clipboard extends org.gtk.gobject.Object {
      * <p>
      * See {@link Clipboard#readTextAsync}.
      */
-    public java.lang.String readTextFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public @Nullable java.lang.String readTextFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_clipboard_read_text_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gdk_clipboard_read_text_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gdk_clipboard_read_texture_async = Interop.downcallHandle(
+    private static final MethodHandle gdk_clipboard_read_texture_async = Interop.downcallHandle(
         "gdk_clipboard_read_texture_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -230,7 +239,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      * Use that function or {@link Clipboard#readAsync} directly if you
      * need more control over the operation.
      */
-    public void readTextureAsync(org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+    public @NotNull void readTextureAsync(@Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             gdk_clipboard_read_texture_async.invokeExact(handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -238,13 +247,13 @@ public class Clipboard extends org.gtk.gobject.Object {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gdk_clipboard_read_texture_finish = Interop.downcallHandle(
+    private static final MethodHandle gdk_clipboard_read_texture_finish = Interop.downcallHandle(
         "gdk_clipboard_read_texture_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -254,20 +263,21 @@ public class Clipboard extends org.gtk.gobject.Object {
      * <p>
      * See {@link Clipboard#readTextureAsync}.
      */
-    public Texture readTextureFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public @Nullable Texture readTextureFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_clipboard_read_texture_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new Texture(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gdk_clipboard_read_texture_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new Texture(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gdk_clipboard_read_value_async = Interop.downcallHandle(
+    private static final MethodHandle gdk_clipboard_read_value_async = Interop.downcallHandle(
         "gdk_clipboard_read_value_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -283,7 +293,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      * the value will be copied directly. Otherwise, GDK will try to use
      * {@link content_deserialize_async#null} to convert the clipboard's data.
      */
-    public void readValueAsync(org.gtk.gobject.Type type, int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+    public @NotNull void readValueAsync(@NotNull org.gtk.gobject.Type type, @NotNull int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             gdk_clipboard_read_value_async.invokeExact(handle(), type.getValue(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -291,13 +301,13 @@ public class Clipboard extends org.gtk.gobject.Object {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gdk_clipboard_read_value_finish = Interop.downcallHandle(
+    private static final MethodHandle gdk_clipboard_read_value_finish = Interop.downcallHandle(
         "gdk_clipboard_read_value_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -307,20 +317,21 @@ public class Clipboard extends org.gtk.gobject.Object {
      * <p>
      * See {@link Clipboard#readValueAsync}.
      */
-    public org.gtk.gobject.Value readValueFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.gobject.Value readValueFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_clipboard_read_value_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new org.gtk.gobject.Value(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_clipboard_read_value_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new org.gtk.gobject.Value(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_clipboard_set_content = Interop.downcallHandle(
+    private static final MethodHandle gdk_clipboard_set_content = Interop.downcallHandle(
         "gdk_clipboard_set_content",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -339,16 +350,17 @@ public class Clipboard extends org.gtk.gobject.Object {
      * {@code clipboard}'s read functions, {@code clipboard} will select the best format to
      * transfer the contents and then request that format from {@code provider}.
      */
-    public boolean setContent(ContentProvider provider) {
+    public boolean setContent(@Nullable ContentProvider provider) {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_clipboard_set_content.invokeExact(handle(), provider.handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_clipboard_set_content.invokeExact(handle(), provider.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_clipboard_set_text = Interop.downcallHandle(
+    private static final MethodHandle gdk_clipboard_set_text = Interop.downcallHandle(
         "gdk_clipboard_set_text",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -356,15 +368,15 @@ public class Clipboard extends org.gtk.gobject.Object {
     /**
      * Puts the given {@code text} into the clipboard.
      */
-    public void setText(java.lang.String text) {
+    public @NotNull void setText(@NotNull java.lang.String text) {
         try {
-            gdk_clipboard_set_text.invokeExact(handle(), Interop.allocateNativeString(text).handle());
+            gdk_clipboard_set_text.invokeExact(handle(), Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gdk_clipboard_set_texture = Interop.downcallHandle(
+    private static final MethodHandle gdk_clipboard_set_texture = Interop.downcallHandle(
         "gdk_clipboard_set_texture",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -372,7 +384,7 @@ public class Clipboard extends org.gtk.gobject.Object {
     /**
      * Puts the given {@code texture} into the clipboard.
      */
-    public void setTexture(Texture texture) {
+    public @NotNull void setTexture(@NotNull Texture texture) {
         try {
             gdk_clipboard_set_texture.invokeExact(handle(), texture.handle());
         } catch (Throwable ERR) {
@@ -380,7 +392,7 @@ public class Clipboard extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gdk_clipboard_set_valist = Interop.downcallHandle(
+    private static final MethodHandle gdk_clipboard_set_valist = Interop.downcallHandle(
         "gdk_clipboard_set_valist",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -388,7 +400,7 @@ public class Clipboard extends org.gtk.gobject.Object {
     /**
      * Sets the clipboard to contain the value collected from the given {@code args}.
      */
-    public void setValist(org.gtk.gobject.Type type, VaList args) {
+    public @NotNull void setValist(@NotNull org.gtk.gobject.Type type, @NotNull VaList args) {
         try {
             gdk_clipboard_set_valist.invokeExact(handle(), type.getValue(), args);
         } catch (Throwable ERR) {
@@ -396,7 +408,7 @@ public class Clipboard extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gdk_clipboard_set_value = Interop.downcallHandle(
+    private static final MethodHandle gdk_clipboard_set_value = Interop.downcallHandle(
         "gdk_clipboard_set_value",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -404,7 +416,7 @@ public class Clipboard extends org.gtk.gobject.Object {
     /**
      * Sets the {@code clipboard} to contain the given {@code value}.
      */
-    public void setValue(org.gtk.gobject.Value value) {
+    public @NotNull void setValue(@NotNull org.gtk.gobject.Value value) {
         try {
             gdk_clipboard_set_value.invokeExact(handle(), value.handle());
         } catch (Throwable ERR) {
@@ -412,7 +424,7 @@ public class Clipboard extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gdk_clipboard_store_async = Interop.downcallHandle(
+    private static final MethodHandle gdk_clipboard_store_async = Interop.downcallHandle(
         "gdk_clipboard_store_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -432,7 +444,7 @@ public class Clipboard extends org.gtk.gobject.Object {
      * This function is called automatically when a {@link org.gtk.gtk.Application} is
      * shut down, so you likely don't need to call it.
      */
-    public void storeAsync(int ioPriority, org.gtk.gio.Cancellable cancellable, org.gtk.gio.AsyncReadyCallback callback) {
+    public @NotNull void storeAsync(@NotNull int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             gdk_clipboard_store_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -440,13 +452,13 @@ public class Clipboard extends org.gtk.gobject.Object {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gdk_clipboard_store_finish = Interop.downcallHandle(
+    private static final MethodHandle gdk_clipboard_store_finish = Interop.downcallHandle(
         "gdk_clipboard_store_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -456,17 +468,18 @@ public class Clipboard extends org.gtk.gobject.Object {
      * <p>
      * See {@link Clipboard#storeAsync}.
      */
-    public boolean storeFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public boolean storeFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gdk_clipboard_store_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gdk_clipboard_store_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
     @FunctionalInterface
@@ -481,13 +494,13 @@ public class Clipboard extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("changed").handle(),
+                Interop.allocateNativeString("changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Clipboard.Callbacks.class, "signalClipboardChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

@@ -1,6 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Specifies the type of the function passed to g_regex_replace_eval().
@@ -10,5 +11,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface RegexEvalCallback {
-        boolean onRegexEvalCallback(MatchInfo matchInfo, String result);
+        boolean onRegexEvalCallback(@NotNull MatchInfo matchInfo, @NotNull String result);
 }

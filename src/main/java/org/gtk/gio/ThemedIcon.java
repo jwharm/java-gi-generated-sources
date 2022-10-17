@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link ThemedIcon} is an implementation of {@link Icon} that supports icon themes.
@@ -24,14 +25,14 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
         return new ThemedIcon(gobject.refcounted());
     }
     
-    static final MethodHandle g_themed_icon_new = Interop.downcallHandle(
+    private static final MethodHandle g_themed_icon_new = Interop.downcallHandle(
         "g_themed_icon_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(java.lang.String iconname) {
+    private static Refcounted constructNew(@NotNull java.lang.String iconname) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_themed_icon_new.invokeExact(Interop.allocateNativeString(iconname).handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_themed_icon_new.invokeExact(Interop.allocateNativeString(iconname)), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -41,18 +42,18 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
     /**
      * Creates a new themed icon for {@code iconname}.
      */
-    public ThemedIcon(java.lang.String iconname) {
+    public ThemedIcon(@NotNull java.lang.String iconname) {
         super(constructNew(iconname));
     }
     
-    static final MethodHandle g_themed_icon_new_from_names = Interop.downcallHandle(
+    private static final MethodHandle g_themed_icon_new_from_names = Interop.downcallHandle(
         "g_themed_icon_new_from_names",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNewFromNames(java.lang.String[] iconnames, int len) {
+    private static Refcounted constructNewFromNames(@NotNull java.lang.String[] iconnames, @NotNull int len) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_themed_icon_new_from_names.invokeExact(Interop.allocateNativeArray(iconnames).handle(), len), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_themed_icon_new_from_names.invokeExact(Interop.allocateNativeArray(iconnames), len), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -62,18 +63,18 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
     /**
      * Creates a new themed icon for {@code iconnames}.
      */
-    public static ThemedIcon newFromNames(java.lang.String[] iconnames, int len) {
+    public static ThemedIcon newFromNames(@NotNull java.lang.String[] iconnames, @NotNull int len) {
         return new ThemedIcon(constructNewFromNames(iconnames, len));
     }
     
-    static final MethodHandle g_themed_icon_new_with_default_fallbacks = Interop.downcallHandle(
+    private static final MethodHandle g_themed_icon_new_with_default_fallbacks = Interop.downcallHandle(
         "g_themed_icon_new_with_default_fallbacks",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewWithDefaultFallbacks(java.lang.String iconname) {
+    private static Refcounted constructNewWithDefaultFallbacks(@NotNull java.lang.String iconname) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_themed_icon_new_with_default_fallbacks.invokeExact(Interop.allocateNativeString(iconname).handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_themed_icon_new_with_default_fallbacks.invokeExact(Interop.allocateNativeString(iconname)), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -97,11 +98,11 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
      * icon2 = g_themed_icon_new_with_default_fallbacks ("gnome-dev-cdrom-audio");
      * }</pre>
      */
-    public static ThemedIcon newWithDefaultFallbacks(java.lang.String iconname) {
+    public static ThemedIcon newWithDefaultFallbacks(@NotNull java.lang.String iconname) {
         return new ThemedIcon(constructNewWithDefaultFallbacks(iconname));
     }
     
-    static final MethodHandle g_themed_icon_append_name = Interop.downcallHandle(
+    private static final MethodHandle g_themed_icon_append_name = Interop.downcallHandle(
         "g_themed_icon_append_name",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -112,15 +113,15 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
      * Note that doing so invalidates the hash computed by prior calls
      * to g_icon_hash().
      */
-    public void appendName(java.lang.String iconname) {
+    public @NotNull void appendName(@NotNull java.lang.String iconname) {
         try {
-            g_themed_icon_append_name.invokeExact(handle(), Interop.allocateNativeString(iconname).handle());
+            g_themed_icon_append_name.invokeExact(handle(), Interop.allocateNativeString(iconname));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_themed_icon_get_names = Interop.downcallHandle(
+    private static final MethodHandle g_themed_icon_get_names = Interop.downcallHandle(
         "g_themed_icon_get_names",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -129,15 +130,16 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
      * Gets the names of icons from within {@code icon}.
      */
     public PointerString getNames() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_themed_icon_get_names.invokeExact(handle());
-            return new PointerString(RESULT);
+            RESULT = (MemoryAddress) g_themed_icon_get_names.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PointerString(RESULT);
     }
     
-    static final MethodHandle g_themed_icon_prepend_name = Interop.downcallHandle(
+    private static final MethodHandle g_themed_icon_prepend_name = Interop.downcallHandle(
         "g_themed_icon_prepend_name",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -148,9 +150,9 @@ public class ThemedIcon extends org.gtk.gobject.Object implements Icon {
      * Note that doing so invalidates the hash computed by prior calls
      * to g_icon_hash().
      */
-    public void prependName(java.lang.String iconname) {
+    public @NotNull void prependName(@NotNull java.lang.String iconname) {
         try {
-            g_themed_icon_prepend_name.invokeExact(handle(), Interop.allocateNativeString(iconname).handle());
+            g_themed_icon_prepend_name.invokeExact(handle(), Interop.allocateNativeString(iconname));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

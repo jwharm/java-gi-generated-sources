@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkStyleContext} stores styling information affecting a widget.
@@ -18,16 +19,14 @@ import java.lang.invoke.*;
  * {@link Widget#getStyleContext} will already have a {@code GdkDisplay}
  * and RTL/LTR information set. The style context will also be updated
  * automatically if any of these settings change on the widget.
- * <p>
+ * 
  * <h1>Style Classes</h1>
- * <p>
  * Widgets can add style classes to their context, which can be used to associate
  * different styles by class. The documentation for individual widgets lists
  * which style classes it uses itself, and which style classes may be added by
  * applications to affect their appearance.
- * <p>
+ * 
  * <h1>Custom styling in UI libraries and applications</h1>
- * <p>
  * If you are developing a library with custom widgets that render differently
  * than standard components, you may need to add a {@code GtkStyleProvider} yourself
  * with the {@code GTK_STYLE_PROVIDER_PRIORITY_FALLBACK} priority, either a
@@ -54,7 +53,7 @@ public class StyleContext extends org.gtk.gobject.Object {
         return new StyleContext(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_style_context_add_class = Interop.downcallHandle(
+    private static final MethodHandle gtk_style_context_add_class = Interop.downcallHandle(
         "gtk_style_context_add_class",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -65,7 +64,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * <p>
      * In the CSS file format, a {@code GtkEntry} defining a “search”
      * class, would be matched by:
-     * <p>
+     * 
      * <pre>{@code css
      * entry.search { ... }
      * }</pre>
@@ -76,15 +75,15 @@ public class StyleContext extends org.gtk.gobject.Object {
      * .search { ... }
      * }</pre>
      */
-    public void addClass(java.lang.String className) {
+    public @NotNull void addClass(@NotNull java.lang.String className) {
         try {
-            gtk_style_context_add_class.invokeExact(handle(), Interop.allocateNativeString(className).handle());
+            gtk_style_context_add_class.invokeExact(handle(), Interop.allocateNativeString(className));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_style_context_add_provider = Interop.downcallHandle(
+    private static final MethodHandle gtk_style_context_add_provider = Interop.downcallHandle(
         "gtk_style_context_add_provider",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -101,7 +100,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * added through this function takes precedence over another added
      * through {@link Gtk#StyleContext}.
      */
-    public void addProvider(StyleProvider provider, int priority) {
+    public @NotNull void addProvider(@NotNull StyleProvider provider, @NotNull int priority) {
         try {
             gtk_style_context_add_provider.invokeExact(handle(), provider.handle(), priority);
         } catch (Throwable ERR) {
@@ -109,7 +108,7 @@ public class StyleContext extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_style_context_get_border = Interop.downcallHandle(
+    private static final MethodHandle gtk_style_context_get_border = Interop.downcallHandle(
         "gtk_style_context_get_border",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -117,15 +116,17 @@ public class StyleContext extends org.gtk.gobject.Object {
     /**
      * Gets the border for a given state as a {@code GtkBorder}.
      */
-    public void getBorder(Border border) {
+    public @NotNull void getBorder(@NotNull Out<Border> border) {
+        MemorySegment borderPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_style_context_get_border.invokeExact(handle(), border.handle());
+            gtk_style_context_get_border.invokeExact(handle(), (Addressable) borderPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        border.set(new Border(Refcounted.get(borderPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle gtk_style_context_get_color = Interop.downcallHandle(
+    private static final MethodHandle gtk_style_context_get_color = Interop.downcallHandle(
         "gtk_style_context_get_color",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -133,15 +134,17 @@ public class StyleContext extends org.gtk.gobject.Object {
     /**
      * Gets the foreground color for a given state.
      */
-    public void getColor(org.gtk.gdk.RGBA color) {
+    public @NotNull void getColor(@NotNull Out<org.gtk.gdk.RGBA> color) {
+        MemorySegment colorPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_style_context_get_color.invokeExact(handle(), color.handle());
+            gtk_style_context_get_color.invokeExact(handle(), (Addressable) colorPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        color.set(new org.gtk.gdk.RGBA(Refcounted.get(colorPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle gtk_style_context_get_display = Interop.downcallHandle(
+    private static final MethodHandle gtk_style_context_get_display = Interop.downcallHandle(
         "gtk_style_context_get_display",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -149,16 +152,17 @@ public class StyleContext extends org.gtk.gobject.Object {
     /**
      * Returns the {@code GdkDisplay} to which {@code context} is attached.
      */
-    public org.gtk.gdk.Display getDisplay() {
+    public @NotNull org.gtk.gdk.Display getDisplay() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_style_context_get_display.invokeExact(handle());
-            return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_style_context_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_style_context_get_margin = Interop.downcallHandle(
+    private static final MethodHandle gtk_style_context_get_margin = Interop.downcallHandle(
         "gtk_style_context_get_margin",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -166,15 +170,17 @@ public class StyleContext extends org.gtk.gobject.Object {
     /**
      * Gets the margin for a given state as a {@code GtkBorder}.
      */
-    public void getMargin(Border margin) {
+    public @NotNull void getMargin(@NotNull Out<Border> margin) {
+        MemorySegment marginPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_style_context_get_margin.invokeExact(handle(), margin.handle());
+            gtk_style_context_get_margin.invokeExact(handle(), (Addressable) marginPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        margin.set(new Border(Refcounted.get(marginPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle gtk_style_context_get_padding = Interop.downcallHandle(
+    private static final MethodHandle gtk_style_context_get_padding = Interop.downcallHandle(
         "gtk_style_context_get_padding",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -182,15 +188,17 @@ public class StyleContext extends org.gtk.gobject.Object {
     /**
      * Gets the padding for a given state as a {@code GtkBorder}.
      */
-    public void getPadding(Border padding) {
+    public @NotNull void getPadding(@NotNull Out<Border> padding) {
+        MemorySegment paddingPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_style_context_get_padding.invokeExact(handle(), padding.handle());
+            gtk_style_context_get_padding.invokeExact(handle(), (Addressable) paddingPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        padding.set(new Border(Refcounted.get(paddingPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle gtk_style_context_get_scale = Interop.downcallHandle(
+    private static final MethodHandle gtk_style_context_get_scale = Interop.downcallHandle(
         "gtk_style_context_get_scale",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -199,15 +207,16 @@ public class StyleContext extends org.gtk.gobject.Object {
      * Returns the scale used for assets.
      */
     public int getScale() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_style_context_get_scale.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_style_context_get_scale.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_style_context_get_state = Interop.downcallHandle(
+    private static final MethodHandle gtk_style_context_get_state = Interop.downcallHandle(
         "gtk_style_context_get_state",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -221,16 +230,17 @@ public class StyleContext extends org.gtk.gobject.Object {
      * If you need to retrieve the current state of a {@code GtkWidget}, use
      * {@link Widget#getStateFlags}.
      */
-    public StateFlags getState() {
+    public @NotNull StateFlags getState() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_style_context_get_state.invokeExact(handle());
-            return new StateFlags(RESULT);
+            RESULT = (int) gtk_style_context_get_state.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new StateFlags(RESULT);
     }
     
-    static final MethodHandle gtk_style_context_has_class = Interop.downcallHandle(
+    private static final MethodHandle gtk_style_context_has_class = Interop.downcallHandle(
         "gtk_style_context_has_class",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -239,16 +249,17 @@ public class StyleContext extends org.gtk.gobject.Object {
      * Returns {@code true} if {@code context} currently has defined the
      * given class name.
      */
-    public boolean hasClass(java.lang.String className) {
+    public boolean hasClass(@NotNull java.lang.String className) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_style_context_has_class.invokeExact(handle(), Interop.allocateNativeString(className).handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_style_context_has_class.invokeExact(handle(), Interop.allocateNativeString(className));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_style_context_lookup_color = Interop.downcallHandle(
+    private static final MethodHandle gtk_style_context_lookup_color = Interop.downcallHandle(
         "gtk_style_context_lookup_color",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -256,16 +267,19 @@ public class StyleContext extends org.gtk.gobject.Object {
     /**
      * Looks up and resolves a color name in the {@code context} color map.
      */
-    public boolean lookupColor(java.lang.String colorName, org.gtk.gdk.RGBA color) {
+    public boolean lookupColor(@NotNull java.lang.String colorName, @NotNull Out<org.gtk.gdk.RGBA> color) {
+        MemorySegment colorPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_style_context_lookup_color.invokeExact(handle(), Interop.allocateNativeString(colorName).handle(), color.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_style_context_lookup_color.invokeExact(handle(), Interop.allocateNativeString(colorName), (Addressable) colorPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        color.set(new org.gtk.gdk.RGBA(Refcounted.get(colorPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_style_context_remove_class = Interop.downcallHandle(
+    private static final MethodHandle gtk_style_context_remove_class = Interop.downcallHandle(
         "gtk_style_context_remove_class",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -273,15 +287,15 @@ public class StyleContext extends org.gtk.gobject.Object {
     /**
      * Removes {@code class_name} from {@code context}.
      */
-    public void removeClass(java.lang.String className) {
+    public @NotNull void removeClass(@NotNull java.lang.String className) {
         try {
-            gtk_style_context_remove_class.invokeExact(handle(), Interop.allocateNativeString(className).handle());
+            gtk_style_context_remove_class.invokeExact(handle(), Interop.allocateNativeString(className));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_style_context_remove_provider = Interop.downcallHandle(
+    private static final MethodHandle gtk_style_context_remove_provider = Interop.downcallHandle(
         "gtk_style_context_remove_provider",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -289,7 +303,7 @@ public class StyleContext extends org.gtk.gobject.Object {
     /**
      * Removes {@code provider} from the style providers list in {@code context}.
      */
-    public void removeProvider(StyleProvider provider) {
+    public @NotNull void removeProvider(@NotNull StyleProvider provider) {
         try {
             gtk_style_context_remove_provider.invokeExact(handle(), provider.handle());
         } catch (Throwable ERR) {
@@ -297,7 +311,7 @@ public class StyleContext extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_style_context_restore = Interop.downcallHandle(
+    private static final MethodHandle gtk_style_context_restore = Interop.downcallHandle(
         "gtk_style_context_restore",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -307,7 +321,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * <p>
      * See {@link StyleContext#save}.
      */
-    public void restore() {
+    public @NotNull void restore() {
         try {
             gtk_style_context_restore.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -315,7 +329,7 @@ public class StyleContext extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_style_context_save = Interop.downcallHandle(
+    private static final MethodHandle gtk_style_context_save = Interop.downcallHandle(
         "gtk_style_context_save",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -332,7 +346,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * The matching call to {@link StyleContext#restore}
      * must be done before GTK returns to the main loop.
      */
-    public void save() {
+    public @NotNull void save() {
         try {
             gtk_style_context_save.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -340,7 +354,7 @@ public class StyleContext extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_style_context_set_display = Interop.downcallHandle(
+    private static final MethodHandle gtk_style_context_set_display = Interop.downcallHandle(
         "gtk_style_context_set_display",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -355,7 +369,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * {@link Widget#getStyleContext}, you do not need to
      * call this yourself.
      */
-    public void setDisplay(org.gtk.gdk.Display display) {
+    public @NotNull void setDisplay(@NotNull org.gtk.gdk.Display display) {
         try {
             gtk_style_context_set_display.invokeExact(handle(), display.handle());
         } catch (Throwable ERR) {
@@ -363,7 +377,7 @@ public class StyleContext extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_style_context_set_scale = Interop.downcallHandle(
+    private static final MethodHandle gtk_style_context_set_scale = Interop.downcallHandle(
         "gtk_style_context_set_scale",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -371,7 +385,7 @@ public class StyleContext extends org.gtk.gobject.Object {
     /**
      * Sets the scale to use when getting image assets for the style.
      */
-    public void setScale(int scale) {
+    public @NotNull void setScale(@NotNull int scale) {
         try {
             gtk_style_context_set_scale.invokeExact(handle(), scale);
         } catch (Throwable ERR) {
@@ -379,7 +393,7 @@ public class StyleContext extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_style_context_set_state = Interop.downcallHandle(
+    private static final MethodHandle gtk_style_context_set_state = Interop.downcallHandle(
         "gtk_style_context_set_state",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -387,7 +401,7 @@ public class StyleContext extends org.gtk.gobject.Object {
     /**
      * Sets the state to be used for style matching.
      */
-    public void setState(StateFlags flags) {
+    public @NotNull void setState(@NotNull StateFlags flags) {
         try {
             gtk_style_context_set_state.invokeExact(handle(), flags.getValue());
         } catch (Throwable ERR) {
@@ -395,7 +409,7 @@ public class StyleContext extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_style_context_to_string = Interop.downcallHandle(
+    private static final MethodHandle gtk_style_context_to_string = Interop.downcallHandle(
         "gtk_style_context_to_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -412,16 +426,17 @@ public class StyleContext extends org.gtk.gobject.Object {
      * CSS implementation in GTK. There are no guarantees about
      * the format of the returned string, it may change.
      */
-    public java.lang.String toString(StyleContextPrintFlags flags) {
+    public @NotNull java.lang.String toString(@NotNull StyleContextPrintFlags flags) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_style_context_to_string.invokeExact(handle(), flags.getValue());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_style_context_to_string.invokeExact(handle(), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_style_context_add_provider_for_display = Interop.downcallHandle(
+    private static final MethodHandle gtk_style_context_add_provider_for_display = Interop.downcallHandle(
         "gtk_style_context_add_provider_for_display",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -437,7 +452,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * added through {@link StyleContext#addProvider} takes
      * precedence over another added through this function.
      */
-    public static void addProviderForDisplay(org.gtk.gdk.Display display, StyleProvider provider, int priority) {
+    public static @NotNull void addProviderForDisplay(@NotNull org.gtk.gdk.Display display, @NotNull StyleProvider provider, @NotNull int priority) {
         try {
             gtk_style_context_add_provider_for_display.invokeExact(display.handle(), provider.handle(), priority);
         } catch (Throwable ERR) {
@@ -445,7 +460,7 @@ public class StyleContext extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_style_context_remove_provider_for_display = Interop.downcallHandle(
+    private static final MethodHandle gtk_style_context_remove_provider_for_display = Interop.downcallHandle(
         "gtk_style_context_remove_provider_for_display",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -453,7 +468,7 @@ public class StyleContext extends org.gtk.gobject.Object {
     /**
      * Removes {@code provider} from the global style providers list in {@code display}.
      */
-    public static void removeProviderForDisplay(org.gtk.gdk.Display display, StyleProvider provider) {
+    public static @NotNull void removeProviderForDisplay(@NotNull org.gtk.gdk.Display display, @NotNull StyleProvider provider) {
         try {
             gtk_style_context_remove_provider_for_display.invokeExact(display.handle(), provider.handle());
         } catch (Throwable ERR) {

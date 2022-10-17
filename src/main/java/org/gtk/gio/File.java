@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link File} is a high level abstraction for manipulating files on a
@@ -79,10 +80,8 @@ import java.lang.invoke.*;
  * <li>g_file_mount_mountable() to mount a mountable file.
  * <li>g_file_unmount_mountable_with_operation() to unmount a mountable file.
  * <li>g_file_eject_mountable_with_operation() to eject a mountable file.
- * </ul>
- * <p>
+ * 
  * <h2>Entity Tags # {#gfile-etag}</h2>
- * <p>
  * One notable feature of {@code GFiles} are entity tags, or "etags" for
  * short. Entity tags are somewhat like a more abstract version of the
  * traditional mtime, and can be used to quickly determine if the file
@@ -93,7 +92,7 @@ import java.lang.invoke.*;
  */
 public interface File extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle g_file_append_to = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_append_to = Interop.downcallHandle(
         "g_file_append_to",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -117,20 +116,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * {@link IOErrorEnum#IS_DIRECTORY} error will be returned. Other errors are
      * possible too, and depend on what kind of filesystem the file is on.
      */
-    public default FileOutputStream appendTo(FileCreateFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull FileOutputStream appendTo(@NotNull FileCreateFlags flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_append_to.invokeExact(handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileOutputStream(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_append_to.invokeExact(handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileOutputStream(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_append_to_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_append_to_async = Interop.downcallHandle(
         "g_file_append_to_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -145,7 +145,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * You can then call g_file_append_to_finish() to get the result
      * of the operation.
      */
-    public default void appendToAsync(FileCreateFlags flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void appendToAsync(@NotNull FileCreateFlags flags, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_file_append_to_async.invokeExact(handle(), flags.getValue(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -153,13 +153,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_append_to_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_append_to_finish = Interop.downcallHandle(
         "g_file_append_to_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -168,20 +168,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * Finishes an asynchronous file append operation started with
      * g_file_append_to_async().
      */
-    public default FileOutputStream appendToFinish(AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull FileOutputStream appendToFinish(@NotNull AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_append_to_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileOutputStream(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_append_to_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileOutputStream(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_build_attribute_list_for_copy = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_build_attribute_list_for_copy = Interop.downcallHandle(
         "g_file_build_attribute_list_for_copy",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -197,20 +198,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * when one needs to query and set the attributes in two
      * stages (e.g., for recursive move of a directory).
      */
-    public default java.lang.String buildAttributeListForCopy(FileCopyFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull java.lang.String buildAttributeListForCopy(@NotNull FileCopyFlags flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_build_attribute_list_for_copy.invokeExact(handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_file_build_attribute_list_for_copy.invokeExact(handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_file_copy = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_copy = Interop.downcallHandle(
         "g_file_copy",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -257,26 +259,27 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * If you are interested in copying the {@link File} object itself (not the on-disk
      * file), see g_file_dup().
      */
-    public default boolean copy(File destination, FileCopyFlags flags, Cancellable cancellable, FileProgressCallback progressCallback) throws io.github.jwharm.javagi.GErrorException {
+    default boolean copy(@NotNull File destination, @NotNull FileCopyFlags flags, @Nullable Cancellable cancellable, @Nullable FileProgressCallback progressCallback) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_copy.invokeExact(handle(), destination.handle(), flags.getValue(), cancellable.handle(), 
+            RESULT = (int) g_file_copy.invokeExact(handle(), destination.handle(), flags.getValue(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbFileProgressCallback",
                             MethodType.methodType(void.class, long.class, long.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(progressCallback.hashCode(), progressCallback)), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(progressCallback)), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_copy_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_copy_async = Interop.downcallHandle(
         "g_file_copy_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -293,7 +296,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * When the operation is finished, {@code callback} will be called. You can then call
      * g_file_copy_finish() to get the result of the operation.
      */
-    public default void copyAsync(File destination, FileCopyFlags flags, int ioPriority, Cancellable cancellable, FileProgressCallback progressCallback, AsyncReadyCallback callback) {
+    default @NotNull void copyAsync(@NotNull File destination, @NotNull FileCopyFlags flags, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable FileProgressCallback progressCallback, @Nullable AsyncReadyCallback callback) {
         try {
             g_file_copy_async.invokeExact(handle(), destination.handle(), flags.getValue(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -301,19 +304,19 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, long.class, long.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(progressCallback.hashCode(), progressCallback)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(progressCallback)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, long.class, long.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(progressCallback.hashCode(), progressCallback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(progressCallback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_copy_attributes = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_copy_attributes = Interop.downcallHandle(
         "g_file_copy_attributes",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -328,20 +331,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * all the metadata that is possible to copy is copied. This
      * is useful when implementing move by copy + delete source.
      */
-    public default boolean copyAttributes(File destination, FileCopyFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default boolean copyAttributes(@NotNull File destination, @NotNull FileCopyFlags flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_copy_attributes.invokeExact(handle(), destination.handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_copy_attributes.invokeExact(handle(), destination.handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_copy_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_copy_finish = Interop.downcallHandle(
         "g_file_copy_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -349,20 +353,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
     /**
      * Finishes copying the file started with g_file_copy_async().
      */
-    public default boolean copyFinish(AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
+    default boolean copyFinish(@NotNull AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_copy_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_copy_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_create = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_create = Interop.downcallHandle(
         "g_file_create",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -388,20 +393,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * be returned. Other errors are possible too, and depend on what kind
      * of filesystem the file is on.
      */
-    public default FileOutputStream create(FileCreateFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull FileOutputStream create(@NotNull FileCreateFlags flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_create.invokeExact(handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileOutputStream(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_create.invokeExact(handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileOutputStream(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_create_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_create_async = Interop.downcallHandle(
         "g_file_create_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -417,7 +423,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * You can then call g_file_create_finish() to get the result
      * of the operation.
      */
-    public default void createAsync(FileCreateFlags flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void createAsync(@NotNull FileCreateFlags flags, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_file_create_async.invokeExact(handle(), flags.getValue(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -425,13 +431,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_create_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_create_finish = Interop.downcallHandle(
         "g_file_create_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -440,20 +446,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * Finishes an asynchronous file create operation started with
      * g_file_create_async().
      */
-    public default FileOutputStream createFinish(AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull FileOutputStream createFinish(@NotNull AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_create_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileOutputStream(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_create_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileOutputStream(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_create_readwrite = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_create_readwrite = Interop.downcallHandle(
         "g_file_create_readwrite",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -483,20 +490,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * not supported, so make sure you really need to do read and write
      * streaming, rather than just opening for reading or writing.
      */
-    public default FileIOStream createReadwrite(FileCreateFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull FileIOStream createReadwrite(@NotNull FileCreateFlags flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_create_readwrite.invokeExact(handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileIOStream(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_create_readwrite.invokeExact(handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileIOStream(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_create_readwrite_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_create_readwrite_async = Interop.downcallHandle(
         "g_file_create_readwrite_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -512,7 +520,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * You can then call g_file_create_readwrite_finish() to get
      * the result of the operation.
      */
-    public default void createReadwriteAsync(FileCreateFlags flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void createReadwriteAsync(@NotNull FileCreateFlags flags, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_file_create_readwrite_async.invokeExact(handle(), flags.getValue(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -520,13 +528,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_create_readwrite_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_create_readwrite_finish = Interop.downcallHandle(
         "g_file_create_readwrite_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -535,20 +543,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * Finishes an asynchronous file create operation started with
      * g_file_create_readwrite_async().
      */
-    public default FileIOStream createReadwriteFinish(AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull FileIOStream createReadwriteFinish(@NotNull AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_create_readwrite_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileIOStream(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_create_readwrite_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileIOStream(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_delete = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_delete = Interop.downcallHandle(
         "g_file_delete",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -576,20 +585,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default boolean delete(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default boolean delete(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_delete.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_delete.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_delete_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_delete_async = Interop.downcallHandle(
         "g_file_delete_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -599,7 +609,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * only be deleted if it is empty.  This has the same semantics as
      * g_unlink().
      */
-    public default void deleteAsync(int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void deleteAsync(@NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_file_delete_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -607,13 +617,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_delete_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_delete_finish = Interop.downcallHandle(
         "g_file_delete_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -621,20 +631,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
     /**
      * Finishes deleting a file started with g_file_delete_async().
      */
-    public default boolean deleteFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    default boolean deleteFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_delete_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_delete_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_dup = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_dup = Interop.downcallHandle(
         "g_file_dup",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -651,16 +662,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * <p>
      * This call does no blocking I/O.
      */
-    public default File dup() {
+    default @NotNull File dup() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_dup.invokeExact(handle());
-            return new File.FileImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_dup.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_eject_mountable_with_operation = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_eject_mountable_with_operation = Interop.downcallHandle(
         "g_file_eject_mountable_with_operation",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -675,7 +687,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default void ejectMountableWithOperation(MountUnmountFlags flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void ejectMountableWithOperation(@NotNull MountUnmountFlags flags, @Nullable MountOperation mountOperation, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_file_eject_mountable_with_operation.invokeExact(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -683,13 +695,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_eject_mountable_with_operation_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_eject_mountable_with_operation_finish = Interop.downcallHandle(
         "g_file_eject_mountable_with_operation_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -698,20 +710,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * Finishes an asynchronous eject operation started by
      * g_file_eject_mountable_with_operation().
      */
-    public default boolean ejectMountableWithOperationFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    default boolean ejectMountableWithOperationFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_eject_mountable_with_operation_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_eject_mountable_with_operation_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_enumerate_children = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_enumerate_children = Interop.downcallHandle(
         "g_file_enumerate_children",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -743,20 +756,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * be returned. If the file is not a directory, the {@link IOErrorEnum#NOT_DIRECTORY}
      * error will be returned. Other errors are possible too.
      */
-    public default FileEnumerator enumerateChildren(java.lang.String attributes, FileQueryInfoFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull FileEnumerator enumerateChildren(@NotNull java.lang.String attributes, @NotNull FileQueryInfoFlags flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_enumerate_children.invokeExact(handle(), Interop.allocateNativeString(attributes).handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileEnumerator(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_enumerate_children.invokeExact(handle(), Interop.allocateNativeString(attributes), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileEnumerator(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_enumerate_children_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_enumerate_children_async = Interop.downcallHandle(
         "g_file_enumerate_children_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -773,21 +787,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * then call g_file_enumerate_children_finish() to get the result of
      * the operation.
      */
-    public default void enumerateChildrenAsync(java.lang.String attributes, FileQueryInfoFlags flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void enumerateChildrenAsync(@NotNull java.lang.String attributes, @NotNull FileQueryInfoFlags flags, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
-            g_file_enumerate_children_async.invokeExact(handle(), Interop.allocateNativeString(attributes).handle(), flags.getValue(), ioPriority, cancellable.handle(), 
+            g_file_enumerate_children_async.invokeExact(handle(), Interop.allocateNativeString(attributes), flags.getValue(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_enumerate_children_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_enumerate_children_finish = Interop.downcallHandle(
         "g_file_enumerate_children_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -796,20 +810,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * Finishes an async enumerate children operation.
      * See g_file_enumerate_children_async().
      */
-    public default FileEnumerator enumerateChildrenFinish(AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull FileEnumerator enumerateChildrenFinish(@NotNull AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_enumerate_children_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileEnumerator(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_enumerate_children_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileEnumerator(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_equal = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_equal = Interop.downcallHandle(
         "g_file_equal",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -823,16 +838,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * <p>
      * This call does no blocking I/O.
      */
-    public default boolean equal(File file2) {
+    default boolean equal(@NotNull File file2) {
+        int RESULT;
         try {
-            var RESULT = (int) g_file_equal.invokeExact(handle(), file2.handle());
-            return RESULT != 0;
+            RESULT = (int) g_file_equal.invokeExact(handle(), file2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_find_enclosing_mount = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_find_enclosing_mount = Interop.downcallHandle(
         "g_file_find_enclosing_mount",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -848,20 +864,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default Mount findEnclosingMount(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull Mount findEnclosingMount(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_find_enclosing_mount.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new Mount.MountImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_find_enclosing_mount.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new Mount.MountImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_find_enclosing_mount_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_find_enclosing_mount_async = Interop.downcallHandle(
         "g_file_find_enclosing_mount_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -876,7 +893,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * You can then call g_file_find_enclosing_mount_finish() to
      * get the result of the operation.
      */
-    public default void findEnclosingMountAsync(int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void findEnclosingMountAsync(@NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_file_find_enclosing_mount_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -884,13 +901,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_find_enclosing_mount_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_find_enclosing_mount_finish = Interop.downcallHandle(
         "g_file_find_enclosing_mount_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -899,20 +916,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * Finishes an asynchronous find mount request.
      * See g_file_find_enclosing_mount_async().
      */
-    public default Mount findEnclosingMountFinish(AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull Mount findEnclosingMountFinish(@NotNull AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_find_enclosing_mount_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new Mount.MountImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_find_enclosing_mount_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new Mount.MountImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_get_basename = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_get_basename = Interop.downcallHandle(
         "g_file_get_basename",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -932,16 +950,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * <p>
      * This call does no blocking I/O.
      */
-    public default java.lang.String getBasename() {
+    default @Nullable java.lang.String getBasename() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_get_basename.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_file_get_basename.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_file_get_child = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_get_child = Interop.downcallHandle(
         "g_file_get_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -955,16 +974,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * <p>
      * This call does no blocking I/O.
      */
-    public default File getChild(java.lang.String name) {
+    default @NotNull File getChild(@NotNull java.lang.String name) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_get_child.invokeExact(handle(), Interop.allocateNativeString(name).handle());
-            return new File.FileImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_get_child.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_get_child_for_display_name = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_get_child_for_display_name = Interop.downcallHandle(
         "g_file_get_child_for_display_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -979,20 +999,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * <p>
      * This call does no blocking I/O.
      */
-    public default File getChildForDisplayName(java.lang.String displayName) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull File getChildForDisplayName(@NotNull java.lang.String displayName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_get_child_for_display_name.invokeExact(handle(), Interop.allocateNativeString(displayName).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new File.FileImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_get_child_for_display_name.invokeExact(handle(), Interop.allocateNativeString(displayName), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_get_parent = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_get_parent = Interop.downcallHandle(
         "g_file_get_parent",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1004,16 +1025,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * <p>
      * This call does no blocking I/O.
      */
-    public default File getParent() {
+    default @Nullable File getParent() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_get_parent.invokeExact(handle());
-            return new File.FileImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_get_parent.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_get_parse_name = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_get_parse_name = Interop.downcallHandle(
         "g_file_get_parse_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1034,16 +1056,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * <p>
      * This call does no blocking I/O.
      */
-    public default java.lang.String getParseName() {
+    default @NotNull java.lang.String getParseName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_get_parse_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_file_get_parse_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_file_get_path = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_get_path = Interop.downcallHandle(
         "g_file_get_path",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1054,16 +1077,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * <p>
      * This call does no blocking I/O.
      */
-    public default java.lang.String getPath() {
+    default @Nullable java.lang.String getPath() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_get_path.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_file_get_path.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_file_get_relative_path = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_get_relative_path = Interop.downcallHandle(
         "g_file_get_relative_path",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1073,16 +1097,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * <p>
      * This call does no blocking I/O.
      */
-    public default java.lang.String getRelativePath(File descendant) {
+    default @Nullable java.lang.String getRelativePath(@NotNull File descendant) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_get_relative_path.invokeExact(handle(), descendant.handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_file_get_relative_path.invokeExact(handle(), descendant.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_file_get_uri = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_get_uri = Interop.downcallHandle(
         "g_file_get_uri",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1092,16 +1117,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * <p>
      * This call does no blocking I/O.
      */
-    public default java.lang.String getUri() {
+    default @NotNull java.lang.String getUri() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_get_uri.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_file_get_uri.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_file_get_uri_scheme = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_get_uri_scheme = Interop.downcallHandle(
         "g_file_get_uri_scheme",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1119,16 +1145,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * <p>
      * This call does no blocking I/O.
      */
-    public default java.lang.String getUriScheme() {
+    default @Nullable java.lang.String getUriScheme() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_get_uri_scheme.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_file_get_uri_scheme.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_file_has_parent = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_has_parent = Interop.downcallHandle(
         "g_file_has_parent",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1140,16 +1167,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * parent at all.  If {@code parent} is non-{@code null} then {@code true} is only returned
      * if {@code file} is an immediate child of {@code parent}.
      */
-    public default boolean hasParent(File parent) {
+    default boolean hasParent(@Nullable File parent) {
+        int RESULT;
         try {
-            var RESULT = (int) g_file_has_parent.invokeExact(handle(), parent.handle());
-            return RESULT != 0;
+            RESULT = (int) g_file_has_parent.invokeExact(handle(), parent.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_has_prefix = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_has_prefix = Interop.downcallHandle(
         "g_file_has_prefix",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1170,16 +1198,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * filesystem point of view), because the prefix of {@code file} is an alias
      * of {@code prefix}.
      */
-    public default boolean hasPrefix(File prefix) {
+    default boolean hasPrefix(@NotNull File prefix) {
+        int RESULT;
         try {
-            var RESULT = (int) g_file_has_prefix.invokeExact(handle(), prefix.handle());
-            return RESULT != 0;
+            RESULT = (int) g_file_has_prefix.invokeExact(handle(), prefix.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_has_uri_scheme = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_has_uri_scheme = Interop.downcallHandle(
         "g_file_has_uri_scheme",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1189,16 +1218,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * <p>
      * This call does no blocking I/O.
      */
-    public default boolean hasUriScheme(java.lang.String uriScheme) {
+    default boolean hasUriScheme(@NotNull java.lang.String uriScheme) {
+        int RESULT;
         try {
-            var RESULT = (int) g_file_has_uri_scheme.invokeExact(handle(), Interop.allocateNativeString(uriScheme).handle());
-            return RESULT != 0;
+            RESULT = (int) g_file_has_uri_scheme.invokeExact(handle(), Interop.allocateNativeString(uriScheme));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_hash = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_hash = Interop.downcallHandle(
         "g_file_hash",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -1208,16 +1238,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * <p>
      * This call does no blocking I/O.
      */
-    public default int hash() {
+    default int hash() {
+        int RESULT;
         try {
-            var RESULT = (int) g_file_hash.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_file_hash.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_file_is_native = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_is_native = Interop.downcallHandle(
         "g_file_is_native",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -1235,16 +1266,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * <p>
      * This call does no blocking I/O.
      */
-    public default boolean isNative() {
+    default boolean isNative() {
+        int RESULT;
         try {
-            var RESULT = (int) g_file_is_native.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_file_is_native.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_load_bytes = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_load_bytes = Interop.downcallHandle(
         "g_file_load_bytes",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1262,20 +1294,23 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * this is not included in the {@link org.gtk.glib.Bytes} length. The resulting {@link org.gtk.glib.Bytes} should be
      * freed with g_bytes_unref() when no longer in use.
      */
-    public default org.gtk.glib.Bytes loadBytes(Cancellable cancellable, PointerString etagOut) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull org.gtk.glib.Bytes loadBytes(@Nullable Cancellable cancellable, @Nullable Out<java.lang.String> etagOut) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment etagOutPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_load_bytes.invokeExact(handle(), cancellable.handle(), etagOut.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_load_bytes.invokeExact(handle(), cancellable.handle(), (Addressable) etagOutPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        etagOut.set(etagOutPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_load_bytes_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_load_bytes_async = Interop.downcallHandle(
         "g_file_load_bytes_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1292,7 +1327,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * <p>
      * See g_file_load_bytes() for more information.
      */
-    public default void loadBytesAsync(Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void loadBytesAsync(@Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_file_load_bytes_async.invokeExact(handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -1300,13 +1335,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_load_bytes_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_load_bytes_finish = Interop.downcallHandle(
         "g_file_load_bytes_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1322,20 +1357,23 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * <p>
      * See g_file_load_bytes() for more information.
      */
-    public default org.gtk.glib.Bytes loadBytesFinish(AsyncResult result, PointerString etagOut) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull org.gtk.glib.Bytes loadBytesFinish(@NotNull AsyncResult result, @Nullable Out<java.lang.String> etagOut) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment etagOutPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_load_bytes_finish.invokeExact(handle(), result.handle(), etagOut.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_load_bytes_finish.invokeExact(handle(), result.handle(), (Addressable) etagOutPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        etagOut.set(etagOutPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_load_contents = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_load_contents = Interop.downcallHandle(
         "g_file_load_contents",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1350,20 +1388,27 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default boolean loadContents(Cancellable cancellable, PointerByte contents, PointerLong length, PointerString etagOut) throws io.github.jwharm.javagi.GErrorException {
+    default boolean loadContents(@Nullable Cancellable cancellable, @NotNull Out<byte[]> contents, @NotNull Out<Long> length, @Nullable Out<java.lang.String> etagOut) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment contentsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment etagOutPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_load_contents.invokeExact(handle(), cancellable.handle(), contents.handle(), length.handle(), etagOut.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_load_contents.invokeExact(handle(), cancellable.handle(), (Addressable) contentsPOINTER.address(), (Addressable) lengthPOINTER.address(), (Addressable) etagOutPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        etagOut.set(etagOutPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        contents.set(MemorySegment.ofAddress(contentsPOINTER.get(ValueLayout.ADDRESS, 0), length.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_load_contents_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_load_contents_async = Interop.downcallHandle(
         "g_file_load_contents_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1383,7 +1428,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default void loadContentsAsync(Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void loadContentsAsync(@Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_file_load_contents_async.invokeExact(handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -1391,13 +1436,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_load_contents_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_load_contents_finish = Interop.downcallHandle(
         "g_file_load_contents_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1409,20 +1454,27 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * g_free() when no longer needed. If {@code etag_out} is present, it will be
      * set to the new entity tag for the {@code file}.
      */
-    public default boolean loadContentsFinish(AsyncResult res, PointerByte contents, PointerLong length, PointerString etagOut) throws io.github.jwharm.javagi.GErrorException {
+    default boolean loadContentsFinish(@NotNull AsyncResult res, @NotNull Out<byte[]> contents, @NotNull Out<Long> length, @Nullable Out<java.lang.String> etagOut) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment contentsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment etagOutPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_load_contents_finish.invokeExact(handle(), res.handle(), contents.handle(), length.handle(), etagOut.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_load_contents_finish.invokeExact(handle(), res.handle(), (Addressable) contentsPOINTER.address(), (Addressable) lengthPOINTER.address(), (Addressable) etagOutPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        etagOut.set(etagOutPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        contents.set(MemorySegment.ofAddress(contentsPOINTER.get(ValueLayout.ADDRESS, 0), length.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_load_partial_contents_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_load_partial_contents_async = Interop.downcallHandle(
         "g_file_load_partial_contents_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1440,7 +1492,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default void loadPartialContentsAsync(Cancellable cancellable, FileReadMoreCallback readMoreCallback, AsyncReadyCallback callback) {
+    default @NotNull void loadPartialContentsAsync(@Nullable Cancellable cancellable, @NotNull FileReadMoreCallback readMoreCallback, @Nullable AsyncReadyCallback callback) {
         try {
             g_file_load_partial_contents_async.invokeExact(handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -1453,13 +1505,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(int.class, MemoryAddress.class, long.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(readMoreCallback.hashCode(), readMoreCallback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(readMoreCallback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_load_partial_contents_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_load_partial_contents_finish = Interop.downcallHandle(
         "g_file_load_partial_contents_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1471,20 +1523,27 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * The returned {@code contents} should be freed with g_free() when no longer
      * needed.
      */
-    public default boolean loadPartialContentsFinish(AsyncResult res, PointerByte contents, PointerLong length, PointerString etagOut) throws io.github.jwharm.javagi.GErrorException {
+    default boolean loadPartialContentsFinish(@NotNull AsyncResult res, @NotNull Out<byte[]> contents, @NotNull Out<Long> length, @Nullable Out<java.lang.String> etagOut) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment contentsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment etagOutPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_load_partial_contents_finish.invokeExact(handle(), res.handle(), contents.handle(), length.handle(), etagOut.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_load_partial_contents_finish.invokeExact(handle(), res.handle(), (Addressable) contentsPOINTER.address(), (Addressable) lengthPOINTER.address(), (Addressable) etagOutPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        etagOut.set(etagOutPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        contents.set(MemorySegment.ofAddress(contentsPOINTER.get(ValueLayout.ADDRESS, 0), length.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_make_directory = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_make_directory = Interop.downcallHandle(
         "g_file_make_directory",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1505,20 +1564,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default boolean makeDirectory(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default boolean makeDirectory(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_make_directory.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_make_directory.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_make_directory_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_make_directory_async = Interop.downcallHandle(
         "g_file_make_directory_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1526,7 +1586,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
     /**
      * Asynchronously creates a directory.
      */
-    public default void makeDirectoryAsync(int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void makeDirectoryAsync(@NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_file_make_directory_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -1534,13 +1594,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_make_directory_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_make_directory_finish = Interop.downcallHandle(
         "g_file_make_directory_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1549,20 +1609,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * Finishes an asynchronous directory creation, started with
      * g_file_make_directory_async().
      */
-    public default boolean makeDirectoryFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    default boolean makeDirectoryFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_make_directory_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_make_directory_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_make_directory_with_parents = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_make_directory_with_parents = Interop.downcallHandle(
         "g_file_make_directory_with_parents",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1582,20 +1643,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default boolean makeDirectoryWithParents(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default boolean makeDirectoryWithParents(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_make_directory_with_parents.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_make_directory_with_parents.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_make_symbolic_link = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_make_symbolic_link = Interop.downcallHandle(
         "g_file_make_symbolic_link",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1608,20 +1670,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default boolean makeSymbolicLink(java.lang.String symlinkValue, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default boolean makeSymbolicLink(@NotNull java.lang.String symlinkValue, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_make_symbolic_link.invokeExact(handle(), Interop.allocateNativeString(symlinkValue).handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_make_symbolic_link.invokeExact(handle(), Interop.allocateNativeString(symlinkValue), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_measure_disk_usage = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_measure_disk_usage = Interop.downcallHandle(
         "g_file_measure_disk_usage",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1646,26 +1709,33 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * {@link FileMeasureProgressCallback} for information about when and how the
      * callback will be invoked.
      */
-    public default boolean measureDiskUsage(FileMeasureFlags flags, Cancellable cancellable, FileMeasureProgressCallback progressCallback, PointerLong diskUsage, PointerLong numDirs, PointerLong numFiles) throws io.github.jwharm.javagi.GErrorException {
+    default boolean measureDiskUsage(@NotNull FileMeasureFlags flags, @Nullable Cancellable cancellable, @Nullable FileMeasureProgressCallback progressCallback, @NotNull Out<Long> diskUsage, @NotNull Out<Long> numDirs, @NotNull Out<Long> numFiles) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment diskUsagePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment numDirsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment numFilesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_measure_disk_usage.invokeExact(handle(), flags.getValue(), cancellable.handle(), 
+            RESULT = (int) g_file_measure_disk_usage.invokeExact(handle(), flags.getValue(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbFileMeasureProgressCallback",
                             MethodType.methodType(void.class, int.class, long.class, long.class, long.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(progressCallback.hashCode(), progressCallback)), diskUsage.handle(), numDirs.handle(), numFiles.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(progressCallback)), (Addressable) diskUsagePOINTER.address(), (Addressable) numDirsPOINTER.address(), (Addressable) numFilesPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        diskUsage.set(diskUsagePOINTER.get(ValueLayout.JAVA_LONG, 0));
+        numDirs.set(numDirsPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        numFiles.set(numFilesPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_measure_disk_usage_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_measure_disk_usage_async = Interop.downcallHandle(
         "g_file_measure_disk_usage_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1676,7 +1746,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * This is the asynchronous version of g_file_measure_disk_usage().  See
      * there for more information.
      */
-    public default void measureDiskUsageAsync(FileMeasureFlags flags, int ioPriority, Cancellable cancellable, FileMeasureProgressCallback progressCallback, AsyncReadyCallback callback) {
+    default @NotNull void measureDiskUsageAsync(@NotNull FileMeasureFlags flags, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable FileMeasureProgressCallback progressCallback, @Nullable AsyncReadyCallback callback) {
         try {
             g_file_measure_disk_usage_async.invokeExact(handle(), flags.getValue(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -1684,19 +1754,19 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, int.class, long.class, long.class, long.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(progressCallback.hashCode(), progressCallback)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(progressCallback)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, int.class, long.class, long.class, long.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(progressCallback.hashCode(), progressCallback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(progressCallback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_measure_disk_usage_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_measure_disk_usage_finish = Interop.downcallHandle(
         "g_file_measure_disk_usage_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1706,20 +1776,27 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * g_file_measure_disk_usage_async().  See g_file_measure_disk_usage() for
      * more information.
      */
-    public default boolean measureDiskUsageFinish(AsyncResult result, PointerLong diskUsage, PointerLong numDirs, PointerLong numFiles) throws io.github.jwharm.javagi.GErrorException {
+    default boolean measureDiskUsageFinish(@NotNull AsyncResult result, @NotNull Out<Long> diskUsage, @NotNull Out<Long> numDirs, @NotNull Out<Long> numFiles) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment diskUsagePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment numDirsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment numFilesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_measure_disk_usage_finish.invokeExact(handle(), result.handle(), diskUsage.handle(), numDirs.handle(), numFiles.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_measure_disk_usage_finish.invokeExact(handle(), result.handle(), (Addressable) diskUsagePOINTER.address(), (Addressable) numDirsPOINTER.address(), (Addressable) numFilesPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        diskUsage.set(diskUsagePOINTER.get(ValueLayout.JAVA_LONG, 0));
+        numDirs.set(numDirsPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        numFiles.set(numFilesPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_monitor = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_monitor = Interop.downcallHandle(
         "g_file_monitor",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1732,20 +1809,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default FileMonitor monitor(FileMonitorFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull FileMonitor monitor(@NotNull FileMonitorFlags flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_monitor.invokeExact(handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileMonitor(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_monitor.invokeExact(handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileMonitor(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_monitor_directory = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_monitor_directory = Interop.downcallHandle(
         "g_file_monitor_directory",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1764,20 +1842,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * directory for changes made via hard links; if you want to do this then
      * you must register individual watches with g_file_monitor().
      */
-    public default FileMonitor monitorDirectory(FileMonitorFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull FileMonitor monitorDirectory(@NotNull FileMonitorFlags flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_monitor_directory.invokeExact(handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileMonitor(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_monitor_directory.invokeExact(handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileMonitor(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_monitor_file = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_monitor_file = Interop.downcallHandle(
         "g_file_monitor_file",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1798,20 +1877,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * usage, and may not have any effect depending on the {@link FileMonitor}
      * backend and/or filesystem type.
      */
-    public default FileMonitor monitorFile(FileMonitorFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull FileMonitor monitorFile(@NotNull FileMonitorFlags flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_monitor_file.invokeExact(handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileMonitor(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_monitor_file.invokeExact(handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileMonitor(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_mount_enclosing_volume = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_mount_enclosing_volume = Interop.downcallHandle(
         "g_file_mount_enclosing_volume",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1828,7 +1908,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default void mountEnclosingVolume(MountMountFlags flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void mountEnclosingVolume(@NotNull MountMountFlags flags, @Nullable MountOperation mountOperation, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_file_mount_enclosing_volume.invokeExact(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -1836,13 +1916,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_mount_enclosing_volume_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_mount_enclosing_volume_finish = Interop.downcallHandle(
         "g_file_mount_enclosing_volume_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1850,20 +1930,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
     /**
      * Finishes a mount operation started by g_file_mount_enclosing_volume().
      */
-    public default boolean mountEnclosingVolumeFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    default boolean mountEnclosingVolumeFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_mount_enclosing_volume_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_mount_enclosing_volume_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_mount_mountable = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_mount_mountable = Interop.downcallHandle(
         "g_file_mount_mountable",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1881,7 +1962,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * You can then call g_file_mount_mountable_finish() to get
      * the result of the operation.
      */
-    public default void mountMountable(MountMountFlags flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void mountMountable(@NotNull MountMountFlags flags, @Nullable MountOperation mountOperation, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_file_mount_mountable.invokeExact(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -1889,13 +1970,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_mount_mountable_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_mount_mountable_finish = Interop.downcallHandle(
         "g_file_mount_mountable_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1906,20 +1987,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * Finish an asynchronous mount operation that was started
      * with g_file_mount_mountable().
      */
-    public default File mountMountableFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull File mountMountableFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_mount_mountable_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new File.FileImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_mount_mountable_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_move = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_move = Interop.downcallHandle(
         "g_file_move",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1959,26 +2041,27 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * the {@link IOErrorEnum#WOULD_RECURSE} error may be returned (if the native
      * move operation isn't available).
      */
-    public default boolean move(File destination, FileCopyFlags flags, Cancellable cancellable, FileProgressCallback progressCallback) throws io.github.jwharm.javagi.GErrorException {
+    default boolean move(@NotNull File destination, @NotNull FileCopyFlags flags, @Nullable Cancellable cancellable, @Nullable FileProgressCallback progressCallback) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_move.invokeExact(handle(), destination.handle(), flags.getValue(), cancellable.handle(), 
+            RESULT = (int) g_file_move.invokeExact(handle(), destination.handle(), flags.getValue(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbFileProgressCallback",
                             MethodType.methodType(void.class, long.class, long.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(progressCallback.hashCode(), progressCallback)), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(progressCallback)), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_move_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_move_async = Interop.downcallHandle(
         "g_file_move_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1994,7 +2077,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * When the operation is finished, {@code callback} will be called. You can then call
      * g_file_move_finish() to get the result of the operation.
      */
-    public default void moveAsync(File destination, FileCopyFlags flags, int ioPriority, Cancellable cancellable, FileProgressCallback progressCallback, AsyncReadyCallback callback) {
+    default @NotNull void moveAsync(@NotNull File destination, @NotNull FileCopyFlags flags, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable FileProgressCallback progressCallback, @Nullable AsyncReadyCallback callback) {
         try {
             g_file_move_async.invokeExact(handle(), destination.handle(), flags.getValue(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -2002,19 +2085,19 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, long.class, long.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(progressCallback.hashCode(), progressCallback)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(progressCallback)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, long.class, long.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(progressCallback.hashCode(), progressCallback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(progressCallback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_move_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_move_finish = Interop.downcallHandle(
         "g_file_move_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2023,20 +2106,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * Finishes an asynchronous file movement, started with
      * g_file_move_async().
      */
-    public default boolean moveFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    default boolean moveFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_move_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_move_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_open_readwrite = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_open_readwrite = Interop.downcallHandle(
         "g_file_open_readwrite",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2059,20 +2143,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * really need to do read and write streaming, rather than just opening
      * for reading or writing.
      */
-    public default FileIOStream openReadwrite(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull FileIOStream openReadwrite(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_open_readwrite.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileIOStream(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_open_readwrite.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileIOStream(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_open_readwrite_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_open_readwrite_async = Interop.downcallHandle(
         "g_file_open_readwrite_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2087,7 +2172,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * You can then call g_file_open_readwrite_finish() to get
      * the result of the operation.
      */
-    public default void openReadwriteAsync(int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void openReadwriteAsync(@NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_file_open_readwrite_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -2095,13 +2180,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_open_readwrite_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_open_readwrite_finish = Interop.downcallHandle(
         "g_file_open_readwrite_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2110,20 +2195,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * Finishes an asynchronous file read operation started with
      * g_file_open_readwrite_async().
      */
-    public default FileIOStream openReadwriteFinish(AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull FileIOStream openReadwriteFinish(@NotNull AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_open_readwrite_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileIOStream(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_open_readwrite_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileIOStream(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_peek_path = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_peek_path = Interop.downcallHandle(
         "g_file_peek_path",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2137,16 +2223,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * <p>
      * This call does no blocking I/O.
      */
-    public default java.lang.String peekPath() {
+    default @Nullable java.lang.String peekPath() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_peek_path.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_file_peek_path.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_file_poll_mountable = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_poll_mountable = Interop.downcallHandle(
         "g_file_poll_mountable",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2162,7 +2249,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * You can then call g_file_mount_mountable_finish() to get
      * the result of the operation.
      */
-    public default void pollMountable(Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void pollMountable(@Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_file_poll_mountable.invokeExact(handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -2170,13 +2257,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_poll_mountable_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_poll_mountable_finish = Interop.downcallHandle(
         "g_file_poll_mountable_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2187,20 +2274,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * Finish an asynchronous poll operation that was polled
      * with g_file_poll_mountable().
      */
-    public default boolean pollMountableFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    default boolean pollMountableFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_poll_mountable_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_poll_mountable_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_query_default_handler = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_query_default_handler = Interop.downcallHandle(
         "g_file_query_default_handler",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2213,20 +2301,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default AppInfo queryDefaultHandler(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull AppInfo queryDefaultHandler(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_query_default_handler.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_query_default_handler.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_query_default_handler_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_query_default_handler_async = Interop.downcallHandle(
         "g_file_query_default_handler_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2234,7 +2323,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
     /**
      * Async version of g_file_query_default_handler().
      */
-    public default void queryDefaultHandlerAsync(int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void queryDefaultHandlerAsync(@NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_file_query_default_handler_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -2242,13 +2331,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_query_default_handler_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_query_default_handler_finish = Interop.downcallHandle(
         "g_file_query_default_handler_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2256,20 +2345,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
     /**
      * Finishes a g_file_query_default_handler_async() operation.
      */
-    public default AppInfo queryDefaultHandlerFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull AppInfo queryDefaultHandlerFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_query_default_handler_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_query_default_handler_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_query_exists = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_query_exists = Interop.downcallHandle(
         "g_file_query_exists",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2298,16 +2388,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * dialog. If you do this, you should make sure to also handle the errors
      * that can happen due to races when you execute the operation.
      */
-    public default boolean queryExists(Cancellable cancellable) {
+    default boolean queryExists(@Nullable Cancellable cancellable) {
+        int RESULT;
         try {
-            var RESULT = (int) g_file_query_exists.invokeExact(handle(), cancellable.handle());
-            return RESULT != 0;
+            RESULT = (int) g_file_query_exists.invokeExact(handle(), cancellable.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_query_file_type = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_query_file_type = Interop.downcallHandle(
         "g_file_query_file_type",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -2319,16 +2410,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * The primary use case of this method is to check if a file is
      * a regular file, directory, or symlink.
      */
-    public default FileType queryFileType(FileQueryInfoFlags flags, Cancellable cancellable) {
+    default @NotNull FileType queryFileType(@NotNull FileQueryInfoFlags flags, @Nullable Cancellable cancellable) {
+        int RESULT;
         try {
-            var RESULT = (int) g_file_query_file_type.invokeExact(handle(), flags.getValue(), cancellable.handle());
-            return new FileType(RESULT);
+            RESULT = (int) g_file_query_file_type.invokeExact(handle(), flags.getValue(), cancellable.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new FileType(RESULT);
     }
     
-    static final MethodHandle g_file_query_filesystem_info = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_query_filesystem_info = Interop.downcallHandle(
         "g_file_query_filesystem_info",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2360,20 +2452,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * be returned. Other errors are possible too, and depend on what
      * kind of filesystem the file is on.
      */
-    public default FileInfo queryFilesystemInfo(java.lang.String attributes, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull FileInfo queryFilesystemInfo(@NotNull java.lang.String attributes, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_query_filesystem_info.invokeExact(handle(), Interop.allocateNativeString(attributes).handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileInfo(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_query_filesystem_info.invokeExact(handle(), Interop.allocateNativeString(attributes), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileInfo(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_query_filesystem_info_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_query_filesystem_info_async = Interop.downcallHandle(
         "g_file_query_filesystem_info_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2391,21 +2484,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * then call g_file_query_info_finish() to get the result of the
      * operation.
      */
-    public default void queryFilesystemInfoAsync(java.lang.String attributes, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void queryFilesystemInfoAsync(@NotNull java.lang.String attributes, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
-            g_file_query_filesystem_info_async.invokeExact(handle(), Interop.allocateNativeString(attributes).handle(), ioPriority, cancellable.handle(), 
+            g_file_query_filesystem_info_async.invokeExact(handle(), Interop.allocateNativeString(attributes), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_query_filesystem_info_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_query_filesystem_info_finish = Interop.downcallHandle(
         "g_file_query_filesystem_info_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2414,20 +2507,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * Finishes an asynchronous filesystem info query.
      * See g_file_query_filesystem_info_async().
      */
-    public default FileInfo queryFilesystemInfoFinish(AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull FileInfo queryFilesystemInfoFinish(@NotNull AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_query_filesystem_info_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileInfo(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_query_filesystem_info_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileInfo(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_query_info = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_query_info = Interop.downcallHandle(
         "g_file_query_info",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2464,20 +2558,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * returned. Other errors are possible too, and depend on what kind of
      * filesystem the file is on.
      */
-    public default FileInfo queryInfo(java.lang.String attributes, FileQueryInfoFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull FileInfo queryInfo(@NotNull java.lang.String attributes, @NotNull FileQueryInfoFlags flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_query_info.invokeExact(handle(), Interop.allocateNativeString(attributes).handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileInfo(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_query_info.invokeExact(handle(), Interop.allocateNativeString(attributes), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileInfo(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_query_info_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_query_info_async = Interop.downcallHandle(
         "g_file_query_info_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2493,21 +2588,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * When the operation is finished, {@code callback} will be called. You can
      * then call g_file_query_info_finish() to get the result of the operation.
      */
-    public default void queryInfoAsync(java.lang.String attributes, FileQueryInfoFlags flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void queryInfoAsync(@NotNull java.lang.String attributes, @NotNull FileQueryInfoFlags flags, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
-            g_file_query_info_async.invokeExact(handle(), Interop.allocateNativeString(attributes).handle(), flags.getValue(), ioPriority, cancellable.handle(), 
+            g_file_query_info_async.invokeExact(handle(), Interop.allocateNativeString(attributes), flags.getValue(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_query_info_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_query_info_finish = Interop.downcallHandle(
         "g_file_query_info_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2516,20 +2611,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * Finishes an asynchronous file info query.
      * See g_file_query_info_async().
      */
-    public default FileInfo queryInfoFinish(AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull FileInfo queryInfoFinish(@NotNull AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_query_info_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileInfo(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_query_info_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileInfo(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_query_settable_attributes = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_query_settable_attributes = Interop.downcallHandle(
         "g_file_query_settable_attributes",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2546,20 +2642,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default FileAttributeInfoList querySettableAttributes(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull FileAttributeInfoList querySettableAttributes(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_query_settable_attributes.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileAttributeInfoList(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_query_settable_attributes.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileAttributeInfoList(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_query_writable_namespaces = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_query_writable_namespaces = Interop.downcallHandle(
         "g_file_query_writable_namespaces",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2573,20 +2670,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default FileAttributeInfoList queryWritableNamespaces(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull FileAttributeInfoList queryWritableNamespaces(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_query_writable_namespaces.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileAttributeInfoList(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_query_writable_namespaces.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileAttributeInfoList(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_read = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_read = Interop.downcallHandle(
         "g_file_read",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2604,20 +2702,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * error will be returned. Other errors are possible too, and depend
      * on what kind of filesystem the file is on.
      */
-    public default FileInputStream read(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull FileInputStream read(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_read.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileInputStream(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_read.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileInputStream(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_read_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_read_async = Interop.downcallHandle(
         "g_file_read_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2632,7 +2731,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * You can then call g_file_read_finish() to get the result
      * of the operation.
      */
-    public default void readAsync(int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void readAsync(@NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_file_read_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -2640,13 +2739,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_read_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_read_finish = Interop.downcallHandle(
         "g_file_read_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2655,20 +2754,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * Finishes an asynchronous file read operation started with
      * g_file_read_async().
      */
-    public default FileInputStream readFinish(AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull FileInputStream readFinish(@NotNull AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_read_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileInputStream(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_read_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileInputStream(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_replace = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_replace = Interop.downcallHandle(
         "g_file_replace",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2716,20 +2816,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * {@link IOErrorEnum#FILENAME_TOO_LONG} will be returned. Other errors are
      * possible too, and depend on what kind of filesystem the file is on.
      */
-    public default FileOutputStream replace(java.lang.String etag, boolean makeBackup, FileCreateFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull FileOutputStream replace(@Nullable java.lang.String etag, @NotNull boolean makeBackup, @NotNull FileCreateFlags flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_replace.invokeExact(handle(), Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags.getValue(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileOutputStream(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_replace.invokeExact(handle(), Interop.allocateNativeString(etag), makeBackup ? 1 : 0, flags.getValue(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileOutputStream(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_replace_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_replace_async = Interop.downcallHandle(
         "g_file_replace_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2745,21 +2846,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * You can then call g_file_replace_finish() to get the result
      * of the operation.
      */
-    public default void replaceAsync(java.lang.String etag, boolean makeBackup, FileCreateFlags flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void replaceAsync(@Nullable java.lang.String etag, @NotNull boolean makeBackup, @NotNull FileCreateFlags flags, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
-            g_file_replace_async.invokeExact(handle(), Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags.getValue(), ioPriority, cancellable.handle(), 
+            g_file_replace_async.invokeExact(handle(), Interop.allocateNativeString(etag), makeBackup ? 1 : 0, flags.getValue(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_replace_contents = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_replace_contents = Interop.downcallHandle(
         "g_file_replace_contents",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2782,20 +2883,23 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * The returned {@code new_etag} can be used to verify that the file hasn't
      * changed the next time it is saved over.
      */
-    public default boolean replaceContents(byte[] contents, long length, java.lang.String etag, boolean makeBackup, FileCreateFlags flags, PointerString newEtag, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default boolean replaceContents(@NotNull byte[] contents, @NotNull long length, @Nullable java.lang.String etag, @NotNull boolean makeBackup, @NotNull FileCreateFlags flags, @Nullable Out<java.lang.String> newEtag, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment newEtagPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_replace_contents.invokeExact(handle(), Interop.allocateNativeArray(contents).handle(), length, Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags.getValue(), newEtag.handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_replace_contents.invokeExact(handle(), Interop.allocateNativeArray(contents), length, Interop.allocateNativeString(etag), makeBackup ? 1 : 0, flags.getValue(), (Addressable) newEtagPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        newEtag.set(newEtagPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_replace_contents_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_replace_contents_async = Interop.downcallHandle(
         "g_file_replace_contents_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2821,21 +2925,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * for a {@link org.gtk.glib.Bytes} version that will automatically hold a reference to the
      * contents (without copying) for the duration of the call.
      */
-    public default void replaceContentsAsync(byte[] contents, long length, java.lang.String etag, boolean makeBackup, FileCreateFlags flags, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void replaceContentsAsync(@NotNull byte[] contents, @NotNull long length, @Nullable java.lang.String etag, @NotNull boolean makeBackup, @NotNull FileCreateFlags flags, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
-            g_file_replace_contents_async.invokeExact(handle(), Interop.allocateNativeArray(contents).handle(), length, Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags.getValue(), cancellable.handle(), 
+            g_file_replace_contents_async.invokeExact(handle(), Interop.allocateNativeArray(contents), length, Interop.allocateNativeString(etag), makeBackup ? 1 : 0, flags.getValue(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_replace_contents_bytes_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_replace_contents_bytes_async = Interop.downcallHandle(
         "g_file_replace_contents_bytes_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2850,21 +2954,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * {@code user_user} data, and the operation can be finalized with
      * g_file_replace_contents_finish().
      */
-    public default void replaceContentsBytesAsync(org.gtk.glib.Bytes contents, java.lang.String etag, boolean makeBackup, FileCreateFlags flags, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void replaceContentsBytesAsync(@NotNull org.gtk.glib.Bytes contents, @Nullable java.lang.String etag, @NotNull boolean makeBackup, @NotNull FileCreateFlags flags, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
-            g_file_replace_contents_bytes_async.invokeExact(handle(), contents.handle(), Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags.getValue(), cancellable.handle(), 
+            g_file_replace_contents_bytes_async.invokeExact(handle(), contents.handle(), Interop.allocateNativeString(etag), makeBackup ? 1 : 0, flags.getValue(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_replace_contents_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_replace_contents_finish = Interop.downcallHandle(
         "g_file_replace_contents_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2874,20 +2978,23 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * g_file_replace_contents_async(). Sets {@code new_etag} to the new entity
      * tag for the document, if present.
      */
-    public default boolean replaceContentsFinish(AsyncResult res, PointerString newEtag) throws io.github.jwharm.javagi.GErrorException {
+    default boolean replaceContentsFinish(@NotNull AsyncResult res, @Nullable Out<java.lang.String> newEtag) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment newEtagPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_replace_contents_finish.invokeExact(handle(), res.handle(), newEtag.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_replace_contents_finish.invokeExact(handle(), res.handle(), (Addressable) newEtagPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        newEtag.set(newEtagPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_replace_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_replace_finish = Interop.downcallHandle(
         "g_file_replace_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2896,20 +3003,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * Finishes an asynchronous file replace operation started with
      * g_file_replace_async().
      */
-    public default FileOutputStream replaceFinish(AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull FileOutputStream replaceFinish(@NotNull AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_replace_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileOutputStream(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_replace_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileOutputStream(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_replace_readwrite = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_replace_readwrite = Interop.downcallHandle(
         "g_file_replace_readwrite",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2926,20 +3034,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * supported, so make sure you really need to do read and write streaming,
      * rather than just opening for reading or writing.
      */
-    public default FileIOStream replaceReadwrite(java.lang.String etag, boolean makeBackup, FileCreateFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull FileIOStream replaceReadwrite(@Nullable java.lang.String etag, @NotNull boolean makeBackup, @NotNull FileCreateFlags flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_replace_readwrite.invokeExact(handle(), Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags.getValue(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileIOStream(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_replace_readwrite.invokeExact(handle(), Interop.allocateNativeString(etag), makeBackup ? 1 : 0, flags.getValue(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileIOStream(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_replace_readwrite_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_replace_readwrite_async = Interop.downcallHandle(
         "g_file_replace_readwrite_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2956,21 +3065,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * You can then call g_file_replace_readwrite_finish() to get
      * the result of the operation.
      */
-    public default void replaceReadwriteAsync(java.lang.String etag, boolean makeBackup, FileCreateFlags flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void replaceReadwriteAsync(@Nullable java.lang.String etag, @NotNull boolean makeBackup, @NotNull FileCreateFlags flags, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
-            g_file_replace_readwrite_async.invokeExact(handle(), Interop.allocateNativeString(etag).handle(), makeBackup ? 1 : 0, flags.getValue(), ioPriority, cancellable.handle(), 
+            g_file_replace_readwrite_async.invokeExact(handle(), Interop.allocateNativeString(etag), makeBackup ? 1 : 0, flags.getValue(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_replace_readwrite_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_replace_readwrite_finish = Interop.downcallHandle(
         "g_file_replace_readwrite_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2979,20 +3088,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * Finishes an asynchronous file replace operation started with
      * g_file_replace_readwrite_async().
      */
-    public default FileIOStream replaceReadwriteFinish(AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull FileIOStream replaceReadwriteFinish(@NotNull AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_replace_readwrite_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileIOStream(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_replace_readwrite_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileIOStream(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_resolve_relative_path = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_resolve_relative_path = Interop.downcallHandle(
         "g_file_resolve_relative_path",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3005,16 +3115,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * If the {@code relative_path} is an absolute path name, the resolution
      * is done absolutely (without taking {@code file} path as base).
      */
-    public default File resolveRelativePath(java.lang.String relativePath) {
+    default @NotNull File resolveRelativePath(@NotNull java.lang.String relativePath) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_resolve_relative_path.invokeExact(handle(), Interop.allocateNativeString(relativePath).handle());
-            return new File.FileImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_resolve_relative_path.invokeExact(handle(), Interop.allocateNativeString(relativePath));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_set_attribute = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_set_attribute = Interop.downcallHandle(
         "g_file_set_attribute",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3029,20 +3140,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default boolean setAttribute(java.lang.String attribute, FileAttributeType type, java.lang.foreign.MemoryAddress valueP, FileQueryInfoFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default boolean setAttribute(@NotNull java.lang.String attribute, @NotNull FileAttributeType type, @Nullable java.lang.foreign.MemoryAddress valueP, @NotNull FileQueryInfoFlags flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_set_attribute.invokeExact(handle(), Interop.allocateNativeString(attribute).handle(), type.getValue(), valueP, flags.getValue(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_set_attribute.invokeExact(handle(), Interop.allocateNativeString(attribute), type.getValue(), valueP, flags.getValue(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_set_attribute_byte_string = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_set_attribute_byte_string = Interop.downcallHandle(
         "g_file_set_attribute_byte_string",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3056,20 +3168,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default boolean setAttributeByteString(java.lang.String attribute, java.lang.String value, FileQueryInfoFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default boolean setAttributeByteString(@NotNull java.lang.String attribute, @NotNull java.lang.String value, @NotNull FileQueryInfoFlags flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_set_attribute_byte_string.invokeExact(handle(), Interop.allocateNativeString(attribute).handle(), Interop.allocateNativeString(value).handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_set_attribute_byte_string.invokeExact(handle(), Interop.allocateNativeString(attribute), Interop.allocateNativeString(value), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_set_attribute_int32 = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_set_attribute_int32 = Interop.downcallHandle(
         "g_file_set_attribute_int32",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3082,20 +3195,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default boolean setAttributeInt32(java.lang.String attribute, int value, FileQueryInfoFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default boolean setAttributeInt32(@NotNull java.lang.String attribute, @NotNull int value, @NotNull FileQueryInfoFlags flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_set_attribute_int32.invokeExact(handle(), Interop.allocateNativeString(attribute).handle(), value, flags.getValue(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_set_attribute_int32.invokeExact(handle(), Interop.allocateNativeString(attribute), value, flags.getValue(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_set_attribute_int64 = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_set_attribute_int64 = Interop.downcallHandle(
         "g_file_set_attribute_int64",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3108,20 +3222,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default boolean setAttributeInt64(java.lang.String attribute, long value, FileQueryInfoFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default boolean setAttributeInt64(@NotNull java.lang.String attribute, @NotNull long value, @NotNull FileQueryInfoFlags flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_set_attribute_int64.invokeExact(handle(), Interop.allocateNativeString(attribute).handle(), value, flags.getValue(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_set_attribute_int64.invokeExact(handle(), Interop.allocateNativeString(attribute), value, flags.getValue(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_set_attribute_string = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_set_attribute_string = Interop.downcallHandle(
         "g_file_set_attribute_string",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3134,20 +3249,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default boolean setAttributeString(java.lang.String attribute, java.lang.String value, FileQueryInfoFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default boolean setAttributeString(@NotNull java.lang.String attribute, @NotNull java.lang.String value, @NotNull FileQueryInfoFlags flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_set_attribute_string.invokeExact(handle(), Interop.allocateNativeString(attribute).handle(), Interop.allocateNativeString(value).handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_set_attribute_string.invokeExact(handle(), Interop.allocateNativeString(attribute), Interop.allocateNativeString(value), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_set_attribute_uint32 = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_set_attribute_uint32 = Interop.downcallHandle(
         "g_file_set_attribute_uint32",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3160,20 +3276,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default boolean setAttributeUint32(java.lang.String attribute, int value, FileQueryInfoFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default boolean setAttributeUint32(@NotNull java.lang.String attribute, @NotNull int value, @NotNull FileQueryInfoFlags flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_set_attribute_uint32.invokeExact(handle(), Interop.allocateNativeString(attribute).handle(), value, flags.getValue(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_set_attribute_uint32.invokeExact(handle(), Interop.allocateNativeString(attribute), value, flags.getValue(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_set_attribute_uint64 = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_set_attribute_uint64 = Interop.downcallHandle(
         "g_file_set_attribute_uint64",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3186,20 +3303,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default boolean setAttributeUint64(java.lang.String attribute, long value, FileQueryInfoFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default boolean setAttributeUint64(@NotNull java.lang.String attribute, @NotNull long value, @NotNull FileQueryInfoFlags flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_set_attribute_uint64.invokeExact(handle(), Interop.allocateNativeString(attribute).handle(), value, flags.getValue(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_set_attribute_uint64.invokeExact(handle(), Interop.allocateNativeString(attribute), value, flags.getValue(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_set_attributes_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_set_attributes_async = Interop.downcallHandle(
         "g_file_set_attributes_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3214,7 +3332,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * You can then call g_file_set_attributes_finish() to get
      * the result of the operation.
      */
-    public default void setAttributesAsync(FileInfo info, FileQueryInfoFlags flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void setAttributesAsync(@NotNull FileInfo info, @NotNull FileQueryInfoFlags flags, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_file_set_attributes_async.invokeExact(handle(), info.handle(), flags.getValue(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -3222,13 +3340,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_set_attributes_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_set_attributes_finish = Interop.downcallHandle(
         "g_file_set_attributes_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3236,20 +3354,23 @@ public interface File extends io.github.jwharm.javagi.Proxy {
     /**
      * Finishes setting an attribute started in g_file_set_attributes_async().
      */
-    public default boolean setAttributesFinish(AsyncResult result, PointerProxy<FileInfo> info) throws io.github.jwharm.javagi.GErrorException {
+    default boolean setAttributesFinish(@NotNull AsyncResult result, @NotNull Out<FileInfo> info) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment infoPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_set_attributes_finish.invokeExact(handle(), result.handle(), info.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_set_attributes_finish.invokeExact(handle(), result.handle(), (Addressable) infoPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        info.set(new FileInfo(Refcounted.get(infoPOINTER.get(ValueLayout.ADDRESS, 0), true)));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_set_attributes_from_info = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_set_attributes_from_info = Interop.downcallHandle(
         "g_file_set_attributes_from_info",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3268,20 +3389,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default boolean setAttributesFromInfo(FileInfo info, FileQueryInfoFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default boolean setAttributesFromInfo(@NotNull FileInfo info, @NotNull FileQueryInfoFlags flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_set_attributes_from_info.invokeExact(handle(), info.handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_set_attributes_from_info.invokeExact(handle(), info.handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_set_display_name = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_set_display_name = Interop.downcallHandle(
         "g_file_set_display_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3303,20 +3425,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default File setDisplayName(java.lang.String displayName, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull File setDisplayName(@NotNull java.lang.String displayName, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_set_display_name.invokeExact(handle(), Interop.allocateNativeString(displayName).handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new File.FileImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_set_display_name.invokeExact(handle(), Interop.allocateNativeString(displayName), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_set_display_name_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_set_display_name_async = Interop.downcallHandle(
         "g_file_set_display_name_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3331,21 +3454,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * You can then call g_file_set_display_name_finish() to get
      * the result of the operation.
      */
-    public default void setDisplayNameAsync(java.lang.String displayName, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void setDisplayNameAsync(@NotNull java.lang.String displayName, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
-            g_file_set_display_name_async.invokeExact(handle(), Interop.allocateNativeString(displayName).handle(), ioPriority, cancellable.handle(), 
+            g_file_set_display_name_async.invokeExact(handle(), Interop.allocateNativeString(displayName), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_set_display_name_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_set_display_name_finish = Interop.downcallHandle(
         "g_file_set_display_name_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3354,20 +3477,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * Finishes setting a display name started with
      * g_file_set_display_name_async().
      */
-    public default File setDisplayNameFinish(AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull File setDisplayNameFinish(@NotNull AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_set_display_name_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new File.FileImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_set_display_name_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_start_mountable = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_start_mountable = Interop.downcallHandle(
         "g_file_start_mountable",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3385,7 +3509,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * You can then call g_file_mount_mountable_finish() to get
      * the result of the operation.
      */
-    public default void startMountable(DriveStartFlags flags, MountOperation startOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void startMountable(@NotNull DriveStartFlags flags, @Nullable MountOperation startOperation, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_file_start_mountable.invokeExact(handle(), flags.getValue(), startOperation.handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -3393,13 +3517,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_start_mountable_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_start_mountable_finish = Interop.downcallHandle(
         "g_file_start_mountable_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3410,20 +3534,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * Finish an asynchronous start operation that was started
      * with g_file_start_mountable().
      */
-    public default boolean startMountableFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    default boolean startMountableFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_start_mountable_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_start_mountable_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_stop_mountable = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_stop_mountable = Interop.downcallHandle(
         "g_file_stop_mountable",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3439,7 +3564,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * You can then call g_file_stop_mountable_finish() to get
      * the result of the operation.
      */
-    public default void stopMountable(MountUnmountFlags flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void stopMountable(@NotNull MountUnmountFlags flags, @Nullable MountOperation mountOperation, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_file_stop_mountable.invokeExact(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -3447,13 +3572,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_stop_mountable_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_stop_mountable_finish = Interop.downcallHandle(
         "g_file_stop_mountable_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3464,20 +3589,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * Finish an asynchronous stop operation that was started
      * with g_file_stop_mountable().
      */
-    public default boolean stopMountableFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    default boolean stopMountableFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_stop_mountable_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_stop_mountable_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_supports_thread_contexts = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_supports_thread_contexts = Interop.downcallHandle(
         "g_file_supports_thread_contexts",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -3488,16 +3614,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * If this returns {@code false}, you cannot perform asynchronous operations on
      * {@code file} in a thread that has a thread-default context.
      */
-    public default boolean supportsThreadContexts() {
+    default boolean supportsThreadContexts() {
+        int RESULT;
         try {
-            var RESULT = (int) g_file_supports_thread_contexts.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_file_supports_thread_contexts.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_trash = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_trash = Interop.downcallHandle(
         "g_file_trash",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3514,20 +3641,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public default boolean trash(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default boolean trash(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_trash.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_trash.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_trash_async = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_trash_async = Interop.downcallHandle(
         "g_file_trash_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3535,7 +3663,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
     /**
      * Asynchronously sends {@code file} to the Trash location, if possible.
      */
-    public default void trashAsync(int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void trashAsync(@NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_file_trash_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -3543,13 +3671,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_trash_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_trash_finish = Interop.downcallHandle(
         "g_file_trash_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3558,20 +3686,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * Finishes an asynchronous file trashing operation, started with
      * g_file_trash_async().
      */
-    public default boolean trashFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    default boolean trashFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_trash_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_trash_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_unmount_mountable_with_operation = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_unmount_mountable_with_operation = Interop.downcallHandle(
         "g_file_unmount_mountable_with_operation",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3587,7 +3716,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * You can then call g_file_unmount_mountable_finish() to get
      * the result of the operation.
      */
-    public default void unmountMountableWithOperation(MountUnmountFlags flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void unmountMountableWithOperation(@NotNull MountUnmountFlags flags, @Nullable MountOperation mountOperation, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_file_unmount_mountable_with_operation.invokeExact(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -3595,13 +3724,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_unmount_mountable_with_operation_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_unmount_mountable_with_operation_finish = Interop.downcallHandle(
         "g_file_unmount_mountable_with_operation_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3613,20 +3742,21 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * Finish an asynchronous unmount operation that was started
      * with g_file_unmount_mountable_with_operation().
      */
-    public default boolean unmountMountableWithOperationFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    default boolean unmountMountableWithOperationFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_file_unmount_mountable_with_operation_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_file_unmount_mountable_with_operation_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_new_for_commandline_arg = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_new_for_commandline_arg = Interop.downcallHandle(
         "g_file_new_for_commandline_arg",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3647,16 +3777,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * for you there.  It is also always possible to use this function with
      * {@link org.gtk.glib.OptionContext} arguments of type {@link org.gtk.glib.OptionArg#FILENAME}.
      */
-    public static File newForCommandlineArg(java.lang.String arg) {
+    public static @NotNull File newForCommandlineArg(@NotNull java.lang.String arg) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_new_for_commandline_arg.invokeExact(Interop.allocateNativeString(arg).handle());
-            return new File.FileImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_new_for_commandline_arg.invokeExact(Interop.allocateNativeString(arg));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_new_for_commandline_arg_and_cwd = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_new_for_commandline_arg_and_cwd = Interop.downcallHandle(
         "g_file_new_for_commandline_arg_and_cwd",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3674,16 +3805,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * <p>
      * See also g_application_command_line_create_file_for_arg().
      */
-    public static File newForCommandlineArgAndCwd(java.lang.String arg, java.lang.String cwd) {
+    public static @NotNull File newForCommandlineArgAndCwd(@NotNull java.lang.String arg, @NotNull java.lang.String cwd) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_new_for_commandline_arg_and_cwd.invokeExact(Interop.allocateNativeString(arg).handle(), Interop.allocateNativeString(cwd).handle());
-            return new File.FileImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_new_for_commandline_arg_and_cwd.invokeExact(Interop.allocateNativeString(arg), Interop.allocateNativeString(cwd));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_new_for_path = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_new_for_path = Interop.downcallHandle(
         "g_file_new_for_path",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3693,16 +3825,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * fails, but the returned object might not support any I/O
      * operation if {@code path} is malformed.
      */
-    public static File newForPath(java.lang.String path) {
+    public static @NotNull File newForPath(@NotNull java.lang.String path) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_new_for_path.invokeExact(Interop.allocateNativeString(path).handle());
-            return new File.FileImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_new_for_path.invokeExact(Interop.allocateNativeString(path));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_new_for_uri = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_new_for_uri = Interop.downcallHandle(
         "g_file_new_for_uri",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3713,16 +3846,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * operation if {@code uri} is malformed or if the uri type is
      * not supported.
      */
-    public static File newForUri(java.lang.String uri) {
+    public static @NotNull File newForUri(@NotNull java.lang.String uri) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_new_for_uri.invokeExact(Interop.allocateNativeString(uri).handle());
-            return new File.FileImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_new_for_uri.invokeExact(Interop.allocateNativeString(uri));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_new_tmp = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_new_tmp = Interop.downcallHandle(
         "g_file_new_tmp",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3739,20 +3873,23 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * Unlike the other {@link File} constructors, this will return {@code null} if
      * a temporary file could not be created.
      */
-    public static File newTmp(java.lang.String tmpl, PointerProxy<FileIOStream> iostream) throws io.github.jwharm.javagi.GErrorException {
+    public static @NotNull File newTmp(@Nullable java.lang.String tmpl, @NotNull Out<FileIOStream> iostream) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment iostreamPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_new_tmp.invokeExact(Interop.allocateNativeString(tmpl).handle(), iostream.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new File.FileImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_new_tmp.invokeExact(Interop.allocateNativeString(tmpl), (Addressable) iostreamPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        iostream.set(new FileIOStream(Refcounted.get(iostreamPOINTER.get(ValueLayout.ADDRESS, 0), true)));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_parse_name = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_parse_name = Interop.downcallHandle(
         "g_file_parse_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3763,13 +3900,14 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * but the returned object might not support any I/O operation if
      * the {@code parse_name} cannot be parsed.
      */
-    public static File parseName(java.lang.String parseName) {
+    public static @NotNull File parseName(@NotNull java.lang.String parseName) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_parse_name.invokeExact(Interop.allocateNativeString(parseName).handle());
-            return new File.FileImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_parse_name.invokeExact(Interop.allocateNativeString(parseName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
     class FileImpl extends org.gtk.gobject.Object implements File {

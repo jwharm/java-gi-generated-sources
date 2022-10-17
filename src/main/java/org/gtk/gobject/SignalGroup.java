@@ -3,6 +3,7 @@ package org.gtk.gobject;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link SignalGroup} manages to simplify the process of connecting
@@ -37,12 +38,12 @@ public class SignalGroup extends Object {
         return new SignalGroup(gobject.refcounted());
     }
     
-    static final MethodHandle g_signal_group_new = Interop.downcallHandle(
+    private static final MethodHandle g_signal_group_new = Interop.downcallHandle(
         "g_signal_group_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
     
-    private static Refcounted constructNew(org.gtk.gobject.Type targetType) {
+    private static Refcounted constructNew(@NotNull org.gtk.gobject.Type targetType) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_signal_group_new.invokeExact(targetType.getValue()), true);
             return RESULT;
@@ -54,11 +55,11 @@ public class SignalGroup extends Object {
     /**
      * Creates a new {@link SignalGroup} for target instances of {@code target_type}.
      */
-    public SignalGroup(org.gtk.gobject.Type targetType) {
+    public SignalGroup(@NotNull org.gtk.gobject.Type targetType) {
         super(constructNew(targetType));
     }
     
-    static final MethodHandle g_signal_group_block = Interop.downcallHandle(
+    private static final MethodHandle g_signal_group_block = Interop.downcallHandle(
         "g_signal_group_block",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -70,7 +71,7 @@ public class SignalGroup extends Object {
      * <p>
      * This blocked state will be kept across changes of the target instance.
      */
-    public void block() {
+    public @NotNull void block() {
         try {
             g_signal_group_block.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -78,7 +79,7 @@ public class SignalGroup extends Object {
         }
     }
     
-    static final MethodHandle g_signal_group_connect = Interop.downcallHandle(
+    private static final MethodHandle g_signal_group_connect = Interop.downcallHandle(
         "g_signal_group_connect",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -89,21 +90,21 @@ public class SignalGroup extends Object {
      * <p>
      * You cannot connect a signal handler after {@link SignalGroup}:target has been set.
      */
-    public void connect(java.lang.String detailedSignal, Callback cHandler) {
+    public @NotNull void connect(@NotNull java.lang.String detailedSignal, @NotNull Callback cHandler) {
         try {
-            g_signal_group_connect.invokeExact(handle(), Interop.allocateNativeString(detailedSignal).handle(), 
+            g_signal_group_connect.invokeExact(handle(), Interop.allocateNativeString(detailedSignal), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cHandler.hashCode(), cHandler)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cHandler)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_signal_group_connect_after = Interop.downcallHandle(
+    private static final MethodHandle g_signal_group_connect_after = Interop.downcallHandle(
         "g_signal_group_connect_after",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -116,21 +117,21 @@ public class SignalGroup extends Object {
      * <p>
      * You cannot connect a signal handler after {@link SignalGroup}:target has been set.
      */
-    public void connectAfter(java.lang.String detailedSignal, Callback cHandler) {
+    public @NotNull void connectAfter(@NotNull java.lang.String detailedSignal, @NotNull Callback cHandler) {
         try {
-            g_signal_group_connect_after.invokeExact(handle(), Interop.allocateNativeString(detailedSignal).handle(), 
+            g_signal_group_connect_after.invokeExact(handle(), Interop.allocateNativeString(detailedSignal), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cHandler.hashCode(), cHandler)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cHandler)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_signal_group_connect_data = Interop.downcallHandle(
+    private static final MethodHandle g_signal_group_connect_data = Interop.downcallHandle(
         "g_signal_group_connect_data",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -141,15 +142,15 @@ public class SignalGroup extends Object {
      * <p>
      * You cannot connect a signal handler after {@link SignalGroup}:target has been set.
      */
-    public void connectData(java.lang.String detailedSignal, Callback cHandler, ClosureNotify notify, ConnectFlags flags) {
+    public @NotNull void connectData(@NotNull java.lang.String detailedSignal, @NotNull Callback cHandler, @NotNull ClosureNotify notify, @NotNull ConnectFlags flags) {
         try {
-            g_signal_group_connect_data.invokeExact(handle(), Interop.allocateNativeString(detailedSignal).handle(), 
+            g_signal_group_connect_data.invokeExact(handle(), Interop.allocateNativeString(detailedSignal), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cHandler.hashCode(), cHandler)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cHandler)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class)),
@@ -160,7 +161,7 @@ public class SignalGroup extends Object {
         }
     }
     
-    static final MethodHandle g_signal_group_connect_swapped = Interop.downcallHandle(
+    private static final MethodHandle g_signal_group_connect_swapped = Interop.downcallHandle(
         "g_signal_group_connect_swapped",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -174,21 +175,21 @@ public class SignalGroup extends Object {
      * <p>
      * You cannot connect a signal handler after {@link SignalGroup}:target has been set.
      */
-    public void connectSwapped(java.lang.String detailedSignal, Callback cHandler) {
+    public @NotNull void connectSwapped(@NotNull java.lang.String detailedSignal, @NotNull Callback cHandler) {
         try {
-            g_signal_group_connect_swapped.invokeExact(handle(), Interop.allocateNativeString(detailedSignal).handle(), 
+            g_signal_group_connect_swapped.invokeExact(handle(), Interop.allocateNativeString(detailedSignal), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cHandler.hashCode(), cHandler)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cHandler)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_signal_group_dup_target = Interop.downcallHandle(
+    private static final MethodHandle g_signal_group_dup_target = Interop.downcallHandle(
         "g_signal_group_dup_target",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -196,16 +197,17 @@ public class SignalGroup extends Object {
     /**
      * Gets the target instance used when connecting signals.
      */
-    public Object dupTarget() {
+    public @Nullable Object dupTarget() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_signal_group_dup_target.invokeExact(handle());
-            return new Object(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_signal_group_dup_target.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Object(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_signal_group_set_target = Interop.downcallHandle(
+    private static final MethodHandle g_signal_group_set_target = Interop.downcallHandle(
         "g_signal_group_set_target",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -218,7 +220,7 @@ public class SignalGroup extends Object {
      * If the target instance was previously set, signals will be
      * disconnected from that object prior to connecting to {@code target}.
      */
-    public void setTarget(Object target) {
+    public @NotNull void setTarget(@Nullable Object target) {
         try {
             g_signal_group_set_target.invokeExact(handle(), target.handle());
         } catch (Throwable ERR) {
@@ -226,7 +228,7 @@ public class SignalGroup extends Object {
         }
     }
     
-    static final MethodHandle g_signal_group_unblock = Interop.downcallHandle(
+    private static final MethodHandle g_signal_group_unblock = Interop.downcallHandle(
         "g_signal_group_unblock",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -237,7 +239,7 @@ public class SignalGroup extends Object {
      * again. Must be unblocked exactly the same number of times it
      * has been blocked to become active again.
      */
-    public void unblock() {
+    public @NotNull void unblock() {
         try {
             g_signal_group_unblock.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -247,7 +249,7 @@ public class SignalGroup extends Object {
     
     @FunctionalInterface
     public interface BindHandler {
-        void signalReceived(SignalGroup source, Object instance);
+        void signalReceived(SignalGroup source, @NotNull Object instance);
     }
     
     /**
@@ -260,13 +262,13 @@ public class SignalGroup extends Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("bind").handle(),
+                Interop.allocateNativeString("bind"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SignalGroup.Callbacks.class, "signalSignalGroupBind",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -290,13 +292,13 @@ public class SignalGroup extends Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("unbind").handle(),
+                Interop.allocateNativeString("unbind"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SignalGroup.Callbacks.class, "signalSignalGroupUnbind",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

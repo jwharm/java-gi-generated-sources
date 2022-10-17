@@ -1,6 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Specifies the type of function which is called when an extended
@@ -12,5 +13,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface ErrorClearFunc {
-        void onErrorClearFunc(Error error);
+        void onErrorClearFunc(@NotNull Error error);
 }

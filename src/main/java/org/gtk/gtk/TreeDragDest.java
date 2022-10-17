@@ -3,13 +3,14 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Interface for Drag-and-Drop destinations in {@code GtkTreeView}.
  */
 public interface TreeDragDest extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle gtk_tree_drag_dest_drag_data_received = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_drag_dest_drag_data_received = Interop.downcallHandle(
         "gtk_tree_drag_dest_drag_data_received",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -22,16 +23,17 @@ public interface TreeDragDest extends io.github.jwharm.javagi.Proxy {
      * not created for some model-specific reason.  Should robustly handle
      * a {@code dest} no longer found in the model!
      */
-    public default boolean dragDataReceived(TreePath dest, org.gtk.gobject.Value value) {
+    default boolean dragDataReceived(@NotNull TreePath dest, @NotNull org.gtk.gobject.Value value) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_drag_dest_drag_data_received.invokeExact(handle(), dest.handle(), value.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_tree_drag_dest_drag_data_received.invokeExact(handle(), dest.handle(), value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_tree_drag_dest_row_drop_possible = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_tree_drag_dest_row_drop_possible = Interop.downcallHandle(
         "gtk_tree_drag_dest_row_drop_possible",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -43,13 +45,14 @@ public interface TreeDragDest extends io.github.jwharm.javagi.Proxy {
      * exist; the return value will almost certainly be {@code false} if the
      * parent of {@code dest_path} doesn’t exist, though.
      */
-    public default boolean rowDropPossible(TreePath destPath, org.gtk.gobject.Value value) {
+    default boolean rowDropPossible(@NotNull TreePath destPath, @NotNull org.gtk.gobject.Value value) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_drag_dest_row_drop_possible.invokeExact(handle(), destPath.handle(), value.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_tree_drag_dest_row_drop_possible.invokeExact(handle(), destPath.handle(), value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
     class TreeDragDestImpl extends org.gtk.gobject.Object implements TreeDragDest {

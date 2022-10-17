@@ -3,6 +3,7 @@ package org.gtk.graphene;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A 3D volume delimited by 2D clip planes.
@@ -16,7 +17,7 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle graphene_frustum_alloc = Interop.downcallHandle(
+    private static final MethodHandle graphene_frustum_alloc = Interop.downcallHandle(
         "graphene_frustum_alloc",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -39,7 +40,7 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
         return new Frustum(constructAlloc());
     }
     
-    static final MethodHandle graphene_frustum_contains_point = Interop.downcallHandle(
+    private static final MethodHandle graphene_frustum_contains_point = Interop.downcallHandle(
         "graphene_frustum_contains_point",
         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -48,16 +49,17 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
      * Checks whether a point is inside the volume defined by the given
      * {@link Frustum}.
      */
-    public boolean containsPoint(Point3D point) {
+    public boolean containsPoint(@NotNull Point3D point) {
+        boolean RESULT;
         try {
-            var RESULT = (boolean) graphene_frustum_contains_point.invokeExact(handle(), point.handle());
-            return RESULT;
+            RESULT = (boolean) graphene_frustum_contains_point.invokeExact(handle(), point.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_frustum_equal = Interop.downcallHandle(
+    private static final MethodHandle graphene_frustum_equal = Interop.downcallHandle(
         "graphene_frustum_equal",
         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -65,16 +67,17 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Checks whether the two given {@link Frustum} are equal.
      */
-    public boolean equal(Frustum b) {
+    public boolean equal(@NotNull Frustum b) {
+        boolean RESULT;
         try {
-            var RESULT = (boolean) graphene_frustum_equal.invokeExact(handle(), b.handle());
-            return RESULT;
+            RESULT = (boolean) graphene_frustum_equal.invokeExact(handle(), b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_frustum_free = Interop.downcallHandle(
+    private static final MethodHandle graphene_frustum_free = Interop.downcallHandle(
         "graphene_frustum_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -82,7 +85,7 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Frees the resources allocated by graphene_frustum_alloc().
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             graphene_frustum_free.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -90,7 +93,7 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle graphene_frustum_get_planes = Interop.downcallHandle(
+    private static final MethodHandle graphene_frustum_get_planes = Interop.downcallHandle(
         "graphene_frustum_get_planes",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -98,15 +101,22 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Retrieves the planes that define the given {@link Frustum}.
      */
-    public void getPlanes(PointerProxy<Plane> planes) {
+    public @NotNull void getPlanes(@NotNull Out<Plane[]> planes) {
+        MemorySegment planesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_frustum_get_planes.invokeExact(handle(), planes.handle());
+            graphene_frustum_get_planes.invokeExact(handle(), (Addressable) planesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        Plane[] planesARRAY = new Plane[6];
+        for (int I = 0; I < 6; I++) {
+            var OBJ = planesPOINTER.get(ValueLayout.ADDRESS, I);
+            planesARRAY[I] = new Plane(Refcounted.get(OBJ, false));
+        }
+        planes.set(planesARRAY);
     }
     
-    static final MethodHandle graphene_frustum_init = Interop.downcallHandle(
+    private static final MethodHandle graphene_frustum_init = Interop.downcallHandle(
         "graphene_frustum_init",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -115,16 +125,17 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
      * Initializes the given {@link Frustum} using the provided
      * clipping planes.
      */
-    public Frustum init(Plane p0, Plane p1, Plane p2, Plane p3, Plane p4, Plane p5) {
+    public @NotNull Frustum init(@NotNull Plane p0, @NotNull Plane p1, @NotNull Plane p2, @NotNull Plane p3, @NotNull Plane p4, @NotNull Plane p5) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_frustum_init.invokeExact(handle(), p0.handle(), p1.handle(), p2.handle(), p3.handle(), p4.handle(), p5.handle());
-            return new Frustum(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_frustum_init.invokeExact(handle(), p0.handle(), p1.handle(), p2.handle(), p3.handle(), p4.handle(), p5.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Frustum(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_frustum_init_from_frustum = Interop.downcallHandle(
+    private static final MethodHandle graphene_frustum_init_from_frustum = Interop.downcallHandle(
         "graphene_frustum_init_from_frustum",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -133,16 +144,17 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
      * Initializes the given {@link Frustum} using the clipping
      * planes of another {@link Frustum}.
      */
-    public Frustum initFromFrustum(Frustum src) {
+    public @NotNull Frustum initFromFrustum(@NotNull Frustum src) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_frustum_init_from_frustum.invokeExact(handle(), src.handle());
-            return new Frustum(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_frustum_init_from_frustum.invokeExact(handle(), src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Frustum(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_frustum_init_from_matrix = Interop.downcallHandle(
+    private static final MethodHandle graphene_frustum_init_from_matrix = Interop.downcallHandle(
         "graphene_frustum_init_from_matrix",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -150,16 +162,17 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Initializes a {@link Frustum} using the given {@code matrix}.
      */
-    public Frustum initFromMatrix(Matrix matrix) {
+    public @NotNull Frustum initFromMatrix(@NotNull Matrix matrix) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_frustum_init_from_matrix.invokeExact(handle(), matrix.handle());
-            return new Frustum(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_frustum_init_from_matrix.invokeExact(handle(), matrix.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Frustum(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_frustum_intersects_box = Interop.downcallHandle(
+    private static final MethodHandle graphene_frustum_intersects_box = Interop.downcallHandle(
         "graphene_frustum_intersects_box",
         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -168,16 +181,17 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
      * Checks whether the given {@code box} intersects a plane of
      * a {@link Frustum}.
      */
-    public boolean intersectsBox(Box box) {
+    public boolean intersectsBox(@NotNull Box box) {
+        boolean RESULT;
         try {
-            var RESULT = (boolean) graphene_frustum_intersects_box.invokeExact(handle(), box.handle());
-            return RESULT;
+            RESULT = (boolean) graphene_frustum_intersects_box.invokeExact(handle(), box.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_frustum_intersects_sphere = Interop.downcallHandle(
+    private static final MethodHandle graphene_frustum_intersects_sphere = Interop.downcallHandle(
         "graphene_frustum_intersects_sphere",
         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -186,13 +200,14 @@ public class Frustum extends io.github.jwharm.javagi.ResourceBase {
      * Checks whether the given {@code sphere} intersects a plane of
      * a {@link Frustum}.
      */
-    public boolean intersectsSphere(Sphere sphere) {
+    public boolean intersectsSphere(@NotNull Sphere sphere) {
+        boolean RESULT;
         try {
-            var RESULT = (boolean) graphene_frustum_intersects_sphere.invokeExact(handle(), sphere.handle());
-            return RESULT;
+            RESULT = (boolean) graphene_frustum_intersects_sphere.invokeExact(handle(), sphere.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
 }

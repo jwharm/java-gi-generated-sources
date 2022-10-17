@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The type of the callback functions used for activating
@@ -10,5 +11,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface WidgetActionActivateFunc {
-        void onWidgetActionActivateFunc(Widget widget, java.lang.String actionName, org.gtk.glib.Variant parameter);
+        void onWidgetActionActivateFunc(@NotNull Widget widget, @NotNull java.lang.String actionName, @NotNull org.gtk.glib.Variant parameter);
 }

@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link ListStore} is a simple implementation of {@link ListModel} that stores all
@@ -22,12 +23,12 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
         return new ListStore(gobject.refcounted());
     }
     
-    static final MethodHandle g_list_store_new = Interop.downcallHandle(
+    private static final MethodHandle g_list_store_new = Interop.downcallHandle(
         "g_list_store_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
     
-    private static Refcounted constructNew(org.gtk.gobject.Type itemType) {
+    private static Refcounted constructNew(@NotNull org.gtk.gobject.Type itemType) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_list_store_new.invokeExact(itemType.getValue()), true);
             return RESULT;
@@ -40,11 +41,11 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
      * Creates a new {@link ListStore} with items of type {@code item_type}. {@code item_type}
      * must be a subclass of {@link org.gtk.gobject.Object}.
      */
-    public ListStore(org.gtk.gobject.Type itemType) {
+    public ListStore(@NotNull org.gtk.gobject.Type itemType) {
         super(constructNew(itemType));
     }
     
-    static final MethodHandle g_list_store_append = Interop.downcallHandle(
+    private static final MethodHandle g_list_store_append = Interop.downcallHandle(
         "g_list_store_append",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -57,7 +58,7 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
      * Use g_list_store_splice() to append multiple items at the same time
      * efficiently.
      */
-    public void append(org.gtk.gobject.Object item) {
+    public @NotNull void append(@NotNull org.gtk.gobject.Object item) {
         try {
             g_list_store_append.invokeExact(handle(), item.handle());
         } catch (Throwable ERR) {
@@ -65,7 +66,7 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
         }
     }
     
-    static final MethodHandle g_list_store_find = Interop.downcallHandle(
+    private static final MethodHandle g_list_store_find = Interop.downcallHandle(
         "g_list_store_find",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -78,16 +79,19 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
      * If you need to compare the two items with a custom comparison function, use
      * g_list_store_find_with_equal_func() with a custom {@link org.gtk.glib.EqualFunc} instead.
      */
-    public boolean find(org.gtk.gobject.Object item, PointerInteger position) {
+    public boolean find(@NotNull org.gtk.gobject.Object item, @NotNull Out<Integer> position) {
+        MemorySegment positionPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        int RESULT;
         try {
-            var RESULT = (int) g_list_store_find.invokeExact(handle(), item.handle(), position.handle());
-            return RESULT != 0;
+            RESULT = (int) g_list_store_find.invokeExact(handle(), item.handle(), (Addressable) positionPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        position.set(positionPOINTER.get(ValueLayout.JAVA_INT, 0));
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_list_store_insert = Interop.downcallHandle(
+    private static final MethodHandle g_list_store_insert = Interop.downcallHandle(
         "g_list_store_insert",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -102,7 +106,7 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
      * Use g_list_store_splice() to insert multiple items at the same time
      * efficiently.
      */
-    public void insert(int position, org.gtk.gobject.Object item) {
+    public @NotNull void insert(@NotNull int position, @NotNull org.gtk.gobject.Object item) {
         try {
             g_list_store_insert.invokeExact(handle(), position, item.handle());
         } catch (Throwable ERR) {
@@ -110,7 +114,7 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
         }
     }
     
-    static final MethodHandle g_list_store_insert_sorted = Interop.downcallHandle(
+    private static final MethodHandle g_list_store_insert_sorted = Interop.downcallHandle(
         "g_list_store_insert_sorted",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -125,22 +129,23 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
      * <p>
      * This function takes a ref on {@code item}.
      */
-    public int insertSorted(org.gtk.gobject.Object item, org.gtk.glib.CompareDataFunc compareFunc) {
+    public int insertSorted(@NotNull org.gtk.gobject.Object item, @NotNull org.gtk.glib.CompareDataFunc compareFunc) {
+        int RESULT;
         try {
-            var RESULT = (int) g_list_store_insert_sorted.invokeExact(handle(), item.handle(), 
+            RESULT = (int) g_list_store_insert_sorted.invokeExact(handle(), item.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(compareFunc.hashCode(), compareFunc)));
-            return RESULT;
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(compareFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_list_store_remove = Interop.downcallHandle(
+    private static final MethodHandle g_list_store_remove = Interop.downcallHandle(
         "g_list_store_remove",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -152,7 +157,7 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
      * Use g_list_store_splice() to remove multiple items at the same time
      * efficiently.
      */
-    public void remove(int position) {
+    public @NotNull void remove(@NotNull int position) {
         try {
             g_list_store_remove.invokeExact(handle(), position);
         } catch (Throwable ERR) {
@@ -160,7 +165,7 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
         }
     }
     
-    static final MethodHandle g_list_store_remove_all = Interop.downcallHandle(
+    private static final MethodHandle g_list_store_remove_all = Interop.downcallHandle(
         "g_list_store_remove_all",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -168,7 +173,7 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
     /**
      * Removes all items from {@code store}.
      */
-    public void removeAll() {
+    public @NotNull void removeAll() {
         try {
             g_list_store_remove_all.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -176,7 +181,7 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
         }
     }
     
-    static final MethodHandle g_list_store_sort = Interop.downcallHandle(
+    private static final MethodHandle g_list_store_sort = Interop.downcallHandle(
         "g_list_store_sort",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -184,7 +189,7 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
     /**
      * Sort the items in {@code store} according to {@code compare_func}.
      */
-    public void sort(org.gtk.glib.CompareDataFunc compareFunc) {
+    public @NotNull void sort(@NotNull org.gtk.glib.CompareDataFunc compareFunc) {
         try {
             g_list_store_sort.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -192,13 +197,13 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(compareFunc.hashCode(), compareFunc)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(compareFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_list_store_splice = Interop.downcallHandle(
+    private static final MethodHandle g_list_store_splice = Interop.downcallHandle(
         "g_list_store_splice",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -218,9 +223,9 @@ public class ListStore extends org.gtk.gobject.Object implements ListModel {
      * {@code position} + {@code n_removals} must be less than or equal to the length of
      * the list at the time this function is called).
      */
-    public void splice(int position, int nRemovals, org.gtk.gobject.Object[] additions, int nAdditions) {
+    public @NotNull void splice(@NotNull int position, @NotNull int nRemovals, @NotNull org.gtk.gobject.Object[] additions, @NotNull int nAdditions) {
         try {
-            g_list_store_splice.invokeExact(handle(), position, nRemovals, Interop.allocateNativeArray(additions).handle(), nAdditions);
+            g_list_store_splice.invokeExact(handle(), position, nRemovals, Interop.allocateNativeArray(additions), nAdditions);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

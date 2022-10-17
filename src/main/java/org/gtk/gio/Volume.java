@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@link Volume} interface represents user-visible objects that can be
@@ -27,9 +28,8 @@ import java.lang.invoke.*;
  * {@link AsyncResult} data to see if the operation was completed
  * successfully.  If an {@code error} is present when g_volume_mount_finish()
  * is called, then it will be filled with any error information.
- * <p>
+ * 
  * <h2>Volume Identifiers # {#volume-identifier}</h2>
- * <p>
  * It is sometimes necessary to directly access the underlying
  * operating system object behind a volume (e.g. for passing a volume
  * to an application via the commandline). For this purpose, GIO
@@ -40,7 +40,6 @@ import java.lang.invoke.*;
  * {@code G_VOLUME_IDENTIFIER_KIND_UUID}, {@code G_VOLUME_IDENTIFIER_KIND_LABEL}, etc.
  * Use g_volume_get_identifier() to obtain an identifier for a volume.
  * <p>
- * 
  * Note that {@code G_VOLUME_IDENTIFIER_KIND_HAL_UDI} will only be available
  * when the gvfs hal volume monitor is in use. Other volume monitors
  * will generally be able to provide the {@code G_VOLUME_IDENTIFIER_KIND_UNIX_DEVICE}
@@ -49,7 +48,7 @@ import java.lang.invoke.*;
  */
 public interface Volume extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle g_volume_can_eject = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_volume_can_eject = Interop.downcallHandle(
         "g_volume_can_eject",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -57,16 +56,17 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
     /**
      * Checks if a volume can be ejected.
      */
-    public default boolean canEject() {
+    default boolean canEject() {
+        int RESULT;
         try {
-            var RESULT = (int) g_volume_can_eject.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_volume_can_eject.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_volume_can_mount = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_volume_can_mount = Interop.downcallHandle(
         "g_volume_can_mount",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -74,16 +74,17 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
     /**
      * Checks if a volume can be mounted.
      */
-    public default boolean canMount() {
+    default boolean canMount() {
+        int RESULT;
         try {
-            var RESULT = (int) g_volume_can_mount.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_volume_can_mount.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_volume_eject_with_operation = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_volume_eject_with_operation = Interop.downcallHandle(
         "g_volume_eject_with_operation",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -93,7 +94,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      * finished by calling g_volume_eject_with_operation_finish() with the {@code volume}
      * and {@link AsyncResult} data returned in the {@code callback}.
      */
-    public default void ejectWithOperation(MountUnmountFlags flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void ejectWithOperation(@NotNull MountUnmountFlags flags, @Nullable MountOperation mountOperation, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_volume_eject_with_operation.invokeExact(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -101,13 +102,13 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_volume_eject_with_operation_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_volume_eject_with_operation_finish = Interop.downcallHandle(
         "g_volume_eject_with_operation_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -116,20 +117,21 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      * Finishes ejecting a volume. If any errors occurred during the operation,
      * {@code error} will be set to contain the errors and {@code false} will be returned.
      */
-    public default boolean ejectWithOperationFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    default boolean ejectWithOperationFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_volume_eject_with_operation_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_volume_eject_with_operation_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_volume_enumerate_identifiers = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_volume_enumerate_identifiers = Interop.downcallHandle(
         "g_volume_enumerate_identifiers",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -138,16 +140,17 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      * Gets the kinds of [identifiers][volume-identifier] that {@code volume} has.
      * Use g_volume_get_identifier() to obtain the identifiers themselves.
      */
-    public default PointerString enumerateIdentifiers() {
+    default PointerString enumerateIdentifiers() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_volume_enumerate_identifiers.invokeExact(handle());
-            return new PointerString(RESULT);
+            RESULT = (MemoryAddress) g_volume_enumerate_identifiers.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PointerString(RESULT);
     }
     
-    static final MethodHandle g_volume_get_activation_root = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_volume_get_activation_root = Interop.downcallHandle(
         "g_volume_get_activation_root",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -180,16 +183,17 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      * implementations to find the underlying mount to shadow, see
      * g_mount_is_shadowed() for more details.
      */
-    public default File getActivationRoot() {
+    default @Nullable File getActivationRoot() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_volume_get_activation_root.invokeExact(handle());
-            return new File.FileImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_volume_get_activation_root.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new File.FileImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_volume_get_drive = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_volume_get_drive = Interop.downcallHandle(
         "g_volume_get_drive",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -197,16 +201,17 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets the drive for the {@code volume}.
      */
-    public default Drive getDrive() {
+    default @Nullable Drive getDrive() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_volume_get_drive.invokeExact(handle());
-            return new Drive.DriveImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_volume_get_drive.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Drive.DriveImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_volume_get_icon = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_volume_get_icon = Interop.downcallHandle(
         "g_volume_get_icon",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -214,16 +219,17 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets the icon for {@code volume}.
      */
-    public default Icon getIcon() {
+    default @NotNull Icon getIcon() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_volume_get_icon.invokeExact(handle());
-            return new Icon.IconImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_volume_get_icon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Icon.IconImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_volume_get_identifier = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_volume_get_identifier = Interop.downcallHandle(
         "g_volume_get_identifier",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -233,16 +239,17 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      * See the [introduction][volume-identifier] for more
      * information about volume identifiers.
      */
-    public default java.lang.String getIdentifier(java.lang.String kind) {
+    default @Nullable java.lang.String getIdentifier(@NotNull java.lang.String kind) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_volume_get_identifier.invokeExact(handle(), Interop.allocateNativeString(kind).handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_volume_get_identifier.invokeExact(handle(), Interop.allocateNativeString(kind));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_volume_get_mount = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_volume_get_mount = Interop.downcallHandle(
         "g_volume_get_mount",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -250,16 +257,17 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets the mount for the {@code volume}.
      */
-    public default Mount getMount() {
+    default @Nullable Mount getMount() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_volume_get_mount.invokeExact(handle());
-            return new Mount.MountImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_volume_get_mount.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Mount.MountImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_volume_get_name = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_volume_get_name = Interop.downcallHandle(
         "g_volume_get_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -267,16 +275,17 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets the name of {@code volume}.
      */
-    public default java.lang.String getName() {
+    default @NotNull java.lang.String getName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_volume_get_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_volume_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_volume_get_sort_key = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_volume_get_sort_key = Interop.downcallHandle(
         "g_volume_get_sort_key",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -284,16 +293,17 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets the sort key for {@code volume}, if any.
      */
-    public default java.lang.String getSortKey() {
+    default @Nullable java.lang.String getSortKey() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_volume_get_sort_key.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_volume_get_sort_key.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_volume_get_symbolic_icon = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_volume_get_symbolic_icon = Interop.downcallHandle(
         "g_volume_get_symbolic_icon",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -301,16 +311,17 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets the symbolic icon for {@code volume}.
      */
-    public default Icon getSymbolicIcon() {
+    default @NotNull Icon getSymbolicIcon() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_volume_get_symbolic_icon.invokeExact(handle());
-            return new Icon.IconImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_volume_get_symbolic_icon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Icon.IconImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_volume_get_uuid = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_volume_get_uuid = Interop.downcallHandle(
         "g_volume_get_uuid",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -321,16 +332,17 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      * considered an opaque string. Returns {@code null} if there is no UUID
      * available.
      */
-    public default java.lang.String getUuid() {
+    default @Nullable java.lang.String getUuid() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_volume_get_uuid.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_volume_get_uuid.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_volume_mount = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_volume_mount = Interop.downcallHandle(
         "g_volume_mount",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -340,7 +352,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      * finished by calling g_volume_mount_finish() with the {@code volume}
      * and {@link AsyncResult} returned in the {@code callback}.
      */
-    public default void mount(MountMountFlags flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void mount(@NotNull MountMountFlags flags, @Nullable MountOperation mountOperation, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_volume_mount.invokeExact(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -348,13 +360,13 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_volume_mount_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_volume_mount_finish = Interop.downcallHandle(
         "g_volume_mount_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -368,20 +380,21 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      * function; there's no need to listen for the 'mount-added' signal on
      * {@link VolumeMonitor}.
      */
-    public default boolean mountFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    default boolean mountFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_volume_mount_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_volume_mount_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_volume_should_automount = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_volume_should_automount = Interop.downcallHandle(
         "g_volume_should_automount",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -389,13 +402,14 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
     /**
      * Returns whether the volume should be automatically mounted.
      */
-    public default boolean shouldAutomount() {
+    default boolean shouldAutomount() {
+        int RESULT;
         try {
-            var RESULT = (int) g_volume_should_automount.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_volume_should_automount.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
     @FunctionalInterface
@@ -410,13 +424,13 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("changed").handle(),
+                Interop.allocateNativeString("changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Volume.Callbacks.class, "signalVolumeChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -438,13 +452,13 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("removed").handle(),
+                Interop.allocateNativeString("removed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Volume.Callbacks.class, "signalVolumeRemoved",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

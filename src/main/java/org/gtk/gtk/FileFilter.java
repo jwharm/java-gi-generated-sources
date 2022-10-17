@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkFileFilter} filters files by name or mime type.
@@ -22,9 +23,8 @@ import java.lang.invoke.*;
  * (see {@link FileChooser#addFilter}), but it is also possible to
  * manually use a file filter on any {@link FilterListModel} containing
  * {@code GFileInfo} objects.
- * <p>
+ * 
  * <h1>GtkFileFilter as GtkBuildable</h1>
- * <p>
  * The {@code GtkFileFilter} implementation of the {@code GtkBuildable} interface
  * supports adding rules using the {@code <mime-types>} and {@code <patterns>} and
  * {@code <suffixes>} elements and listing the rules within. Specifying a
@@ -63,7 +63,7 @@ public class FileFilter extends Filter implements Buildable {
         return new FileFilter(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_file_filter_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_file_filter_new = Interop.downcallHandle(
         "gtk_file_filter_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -97,12 +97,12 @@ public class FileFilter extends Filter implements Buildable {
         super(constructNew());
     }
     
-    static final MethodHandle gtk_file_filter_new_from_gvariant = Interop.downcallHandle(
+    private static final MethodHandle gtk_file_filter_new_from_gvariant = Interop.downcallHandle(
         "gtk_file_filter_new_from_gvariant",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewFromGvariant(org.gtk.glib.Variant variant) {
+    private static Refcounted constructNewFromGvariant(@NotNull org.gtk.glib.Variant variant) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_file_filter_new_from_gvariant.invokeExact(variant.handle()), true);
             return RESULT;
@@ -117,11 +117,11 @@ public class FileFilter extends Filter implements Buildable {
      * The variant must be in the format produced by
      * {@link FileFilter#toGvariant}.
      */
-    public static FileFilter newFromGvariant(org.gtk.glib.Variant variant) {
+    public static FileFilter newFromGvariant(@NotNull org.gtk.glib.Variant variant) {
         return new FileFilter(constructNewFromGvariant(variant));
     }
     
-    static final MethodHandle gtk_file_filter_add_mime_type = Interop.downcallHandle(
+    private static final MethodHandle gtk_file_filter_add_mime_type = Interop.downcallHandle(
         "gtk_file_filter_add_mime_type",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -129,15 +129,15 @@ public class FileFilter extends Filter implements Buildable {
     /**
      * Adds a rule allowing a given mime type to {@code filter}.
      */
-    public void addMimeType(java.lang.String mimeType) {
+    public @NotNull void addMimeType(@NotNull java.lang.String mimeType) {
         try {
-            gtk_file_filter_add_mime_type.invokeExact(handle(), Interop.allocateNativeString(mimeType).handle());
+            gtk_file_filter_add_mime_type.invokeExact(handle(), Interop.allocateNativeString(mimeType));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_file_filter_add_pattern = Interop.downcallHandle(
+    private static final MethodHandle gtk_file_filter_add_pattern = Interop.downcallHandle(
         "gtk_file_filter_add_pattern",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -149,15 +149,15 @@ public class FileFilter extends Filter implements Buildable {
      * matching ignores case or not. On Windows, it does, on
      * other platforms, it doesn't.
      */
-    public void addPattern(java.lang.String pattern) {
+    public @NotNull void addPattern(@NotNull java.lang.String pattern) {
         try {
-            gtk_file_filter_add_pattern.invokeExact(handle(), Interop.allocateNativeString(pattern).handle());
+            gtk_file_filter_add_pattern.invokeExact(handle(), Interop.allocateNativeString(pattern));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_file_filter_add_pixbuf_formats = Interop.downcallHandle(
+    private static final MethodHandle gtk_file_filter_add_pixbuf_formats = Interop.downcallHandle(
         "gtk_file_filter_add_pixbuf_formats",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -169,7 +169,7 @@ public class FileFilter extends Filter implements Buildable {
      * This is equivalent to calling {@link FileFilter#addMimeType}
      * for all the supported mime types.
      */
-    public void addPixbufFormats() {
+    public @NotNull void addPixbufFormats() {
         try {
             gtk_file_filter_add_pixbuf_formats.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -177,7 +177,7 @@ public class FileFilter extends Filter implements Buildable {
         }
     }
     
-    static final MethodHandle gtk_file_filter_add_suffix = Interop.downcallHandle(
+    private static final MethodHandle gtk_file_filter_add_suffix = Interop.downcallHandle(
         "gtk_file_filter_add_suffix",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -191,15 +191,15 @@ public class FileFilter extends Filter implements Buildable {
      * In contrast to pattern matches, suffix matches
      * are <strong>always</strong> case-insensitive.
      */
-    public void addSuffix(java.lang.String suffix) {
+    public @NotNull void addSuffix(@NotNull java.lang.String suffix) {
         try {
-            gtk_file_filter_add_suffix.invokeExact(handle(), Interop.allocateNativeString(suffix).handle());
+            gtk_file_filter_add_suffix.invokeExact(handle(), Interop.allocateNativeString(suffix));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_file_filter_get_attributes = Interop.downcallHandle(
+    private static final MethodHandle gtk_file_filter_get_attributes = Interop.downcallHandle(
         "gtk_file_filter_get_attributes",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -213,15 +213,16 @@ public class FileFilter extends Filter implements Buildable {
      * of {@code GtkFileChooser}.
      */
     public PointerString getAttributes() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_file_filter_get_attributes.invokeExact(handle());
-            return new PointerString(RESULT);
+            RESULT = (MemoryAddress) gtk_file_filter_get_attributes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PointerString(RESULT);
     }
     
-    static final MethodHandle gtk_file_filter_get_name = Interop.downcallHandle(
+    private static final MethodHandle gtk_file_filter_get_name = Interop.downcallHandle(
         "gtk_file_filter_get_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -231,16 +232,17 @@ public class FileFilter extends Filter implements Buildable {
      * <p>
      * See {@link FileFilter#setName}.
      */
-    public java.lang.String getName() {
+    public @Nullable java.lang.String getName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_file_filter_get_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_file_filter_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_file_filter_set_name = Interop.downcallHandle(
+    private static final MethodHandle gtk_file_filter_set_name = Interop.downcallHandle(
         "gtk_file_filter_set_name",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -251,15 +253,15 @@ public class FileFilter extends Filter implements Buildable {
      * This is the string that will be displayed in the file chooser
      * if there is a selectable list of filters.
      */
-    public void setName(java.lang.String name) {
+    public @NotNull void setName(@Nullable java.lang.String name) {
         try {
-            gtk_file_filter_set_name.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+            gtk_file_filter_set_name.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_file_filter_to_gvariant = Interop.downcallHandle(
+    private static final MethodHandle gtk_file_filter_to_gvariant = Interop.downcallHandle(
         "gtk_file_filter_to_gvariant",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -267,13 +269,14 @@ public class FileFilter extends Filter implements Buildable {
     /**
      * Serialize a file filter to an {@code a{sv}} variant.
      */
-    public org.gtk.glib.Variant toGvariant() {
+    public @NotNull org.gtk.glib.Variant toGvariant() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_file_filter_to_gvariant.invokeExact(handle());
-            return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_file_filter_to_gvariant.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
     }
     
 }

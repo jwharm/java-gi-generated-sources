@@ -3,6 +3,7 @@ package org.pango;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code PangoFontFamily} is used to represent a family of related
@@ -22,7 +23,7 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
         return new FontFamily(gobject.refcounted());
     }
     
-    static final MethodHandle pango_font_family_get_face = Interop.downcallHandle(
+    private static final MethodHandle pango_font_family_get_face = Interop.downcallHandle(
         "pango_font_family_get_face",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -30,16 +31,17 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
     /**
      * Gets the {@code PangoFontFace} of {@code family} with the given name.
      */
-    public FontFace getFace(java.lang.String name) {
+    public @Nullable FontFace getFace(@Nullable java.lang.String name) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_font_family_get_face.invokeExact(handle(), Interop.allocateNativeString(name).handle());
-            return new FontFace(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) pango_font_family_get_face.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new FontFace(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle pango_font_family_get_name = Interop.downcallHandle(
+    private static final MethodHandle pango_font_family_get_name = Interop.downcallHandle(
         "pango_font_family_get_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -51,16 +53,17 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * be used in a {@code PangoFontDescription} to specify that a face from
      * this family is desired.
      */
-    public java.lang.String getName() {
+    public @NotNull java.lang.String getName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_font_family_get_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) pango_font_family_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle pango_font_family_is_monospace = Interop.downcallHandle(
+    private static final MethodHandle pango_font_family_is_monospace = Interop.downcallHandle(
         "pango_font_family_is_monospace",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -82,15 +85,16 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * be affected by double-width characters.
      */
     public boolean isMonospace() {
+        int RESULT;
         try {
-            var RESULT = (int) pango_font_family_is_monospace.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) pango_font_family_is_monospace.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle pango_font_family_is_variable = Interop.downcallHandle(
+    private static final MethodHandle pango_font_family_is_variable = Interop.downcallHandle(
         "pango_font_family_is_variable",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -103,15 +107,16 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * {@link FontDescription#setVariations} for more information.
      */
     public boolean isVariable() {
+        int RESULT;
         try {
-            var RESULT = (int) pango_font_family_is_variable.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) pango_font_family_is_variable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle pango_font_family_list_faces = Interop.downcallHandle(
+    private static final MethodHandle pango_font_family_list_faces = Interop.downcallHandle(
         "pango_font_family_list_faces",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -128,12 +133,21 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * {@code PangoFontFamily} also implemented the {@code Gio.ListModel} interface
      * for enumerating faces.
      */
-    public void listFaces(PointerProxy<FontFace> faces, PointerInteger nFaces) {
+    public @NotNull void listFaces(@NotNull Out<FontFace[]> faces, @NotNull Out<Integer> nFaces) {
+        MemorySegment facesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment nFacesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            pango_font_family_list_faces.invokeExact(handle(), faces.handle(), nFaces.handle());
+            pango_font_family_list_faces.invokeExact(handle(), (Addressable) facesPOINTER.address(), (Addressable) nFacesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        nFaces.set(nFacesPOINTER.get(ValueLayout.JAVA_INT, 0));
+        FontFace[] facesARRAY = new FontFace[nFaces.get().intValue()];
+        for (int I = 0; I < nFaces.get().intValue(); I++) {
+            var OBJ = facesPOINTER.get(ValueLayout.ADDRESS, I);
+            facesARRAY[I] = new FontFace(Refcounted.get(OBJ, false));
+        }
+        faces.set(facesARRAY);
     }
     
 }

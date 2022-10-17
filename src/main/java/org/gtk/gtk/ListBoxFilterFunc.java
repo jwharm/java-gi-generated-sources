@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Will be called whenever the row changes or is added and lets you control
@@ -8,5 +9,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface ListBoxFilterFunc {
-        boolean onListBoxFilterFunc(ListBoxRow row);
+        boolean onListBoxFilterFunc(@NotNull ListBoxRow row);
 }

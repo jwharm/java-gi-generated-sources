@@ -3,6 +3,7 @@ package org.gtk.graphene;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A 3D box, described as the volume between a minimum and
@@ -14,7 +15,7 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle graphene_box_alloc = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_alloc = Interop.downcallHandle(
         "graphene_box_alloc",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -37,7 +38,7 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
         return new Box(constructAlloc());
     }
     
-    static final MethodHandle graphene_box_contains_box = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_contains_box = Interop.downcallHandle(
         "graphene_box_contains_box",
         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -46,16 +47,17 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      * Checks whether the {@link Box} @a contains the given
      * {@link Box} @b.
      */
-    public boolean containsBox(Box b) {
+    public boolean containsBox(@NotNull Box b) {
+        boolean RESULT;
         try {
-            var RESULT = (boolean) graphene_box_contains_box.invokeExact(handle(), b.handle());
-            return RESULT;
+            RESULT = (boolean) graphene_box_contains_box.invokeExact(handle(), b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_box_contains_point = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_contains_point = Interop.downcallHandle(
         "graphene_box_contains_point",
         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -63,16 +65,17 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Checks whether {@code box} contains the given {@code point}.
      */
-    public boolean containsPoint(Point3D point) {
+    public boolean containsPoint(@NotNull Point3D point) {
+        boolean RESULT;
         try {
-            var RESULT = (boolean) graphene_box_contains_point.invokeExact(handle(), point.handle());
-            return RESULT;
+            RESULT = (boolean) graphene_box_contains_point.invokeExact(handle(), point.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_box_equal = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_equal = Interop.downcallHandle(
         "graphene_box_equal",
         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -80,16 +83,17 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Checks whether the two given boxes are equal.
      */
-    public boolean equal(Box b) {
+    public boolean equal(@NotNull Box b) {
+        boolean RESULT;
         try {
-            var RESULT = (boolean) graphene_box_equal.invokeExact(handle(), b.handle());
-            return RESULT;
+            RESULT = (boolean) graphene_box_equal.invokeExact(handle(), b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_box_expand = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_expand = Interop.downcallHandle(
         "graphene_box_expand",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -97,15 +101,17 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Expands the dimensions of {@code box} to include the coordinates at {@code point}.
      */
-    public void expand(Point3D point, Box res) {
+    public @NotNull void expand(@NotNull Point3D point, @NotNull Out<Box> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_box_expand.invokeExact(handle(), point.handle(), res.handle());
+            graphene_box_expand.invokeExact(handle(), point.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Box(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_box_expand_scalar = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_expand_scalar = Interop.downcallHandle(
         "graphene_box_expand_scalar",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -116,15 +122,17 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      * If {@code scalar} is positive, the {@link Box} will grow; if {@code scalar} is
      * negative, the {@link Box} will shrink.
      */
-    public void expandScalar(float scalar, Box res) {
+    public @NotNull void expandScalar(@NotNull float scalar, @NotNull Out<Box> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_box_expand_scalar.invokeExact(handle(), scalar, res.handle());
+            graphene_box_expand_scalar.invokeExact(handle(), scalar, (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Box(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_box_expand_vec3 = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_expand_vec3 = Interop.downcallHandle(
         "graphene_box_expand_vec3",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -133,15 +141,17 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      * Expands the dimensions of {@code box} to include the coordinates of the
      * given vector.
      */
-    public void expandVec3(Vec3 vec, Box res) {
+    public @NotNull void expandVec3(@NotNull Vec3 vec, @NotNull Out<Box> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_box_expand_vec3.invokeExact(handle(), vec.handle(), res.handle());
+            graphene_box_expand_vec3.invokeExact(handle(), vec.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Box(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_box_free = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_free = Interop.downcallHandle(
         "graphene_box_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -149,7 +159,7 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Frees the resources allocated by graphene_box_alloc().
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             graphene_box_free.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -157,7 +167,7 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle graphene_box_get_bounding_sphere = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_get_bounding_sphere = Interop.downcallHandle(
         "graphene_box_get_bounding_sphere",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -166,15 +176,17 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      * Computes the bounding {@link Sphere} capable of containing the given
      * {@link Box}.
      */
-    public void getBoundingSphere(Sphere sphere) {
+    public @NotNull void getBoundingSphere(@NotNull Out<Sphere> sphere) {
+        MemorySegment spherePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_box_get_bounding_sphere.invokeExact(handle(), sphere.handle());
+            graphene_box_get_bounding_sphere.invokeExact(handle(), (Addressable) spherePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        sphere.set(new Sphere(Refcounted.get(spherePOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_box_get_center = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_get_center = Interop.downcallHandle(
         "graphene_box_get_center",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -182,15 +194,17 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Retrieves the coordinates of the center of a {@link Box}.
      */
-    public void getCenter(Point3D center) {
+    public @NotNull void getCenter(@NotNull Out<Point3D> center) {
+        MemorySegment centerPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_box_get_center.invokeExact(handle(), center.handle());
+            graphene_box_get_center.invokeExact(handle(), (Addressable) centerPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        center.set(new Point3D(Refcounted.get(centerPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_box_get_depth = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_get_depth = Interop.downcallHandle(
         "graphene_box_get_depth",
         FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -199,15 +213,16 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      * Retrieves the size of the {@code box} on the Z axis.
      */
     public float getDepth() {
+        float RESULT;
         try {
-            var RESULT = (float) graphene_box_get_depth.invokeExact(handle());
-            return RESULT;
+            RESULT = (float) graphene_box_get_depth.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_box_get_height = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_get_height = Interop.downcallHandle(
         "graphene_box_get_height",
         FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -216,15 +231,16 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      * Retrieves the size of the {@code box} on the Y axis.
      */
     public float getHeight() {
+        float RESULT;
         try {
-            var RESULT = (float) graphene_box_get_height.invokeExact(handle());
-            return RESULT;
+            RESULT = (float) graphene_box_get_height.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_box_get_max = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_get_max = Interop.downcallHandle(
         "graphene_box_get_max",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -233,15 +249,17 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      * Retrieves the coordinates of the maximum point of the given
      * {@link Box}.
      */
-    public void getMax(Point3D max) {
+    public @NotNull void getMax(@NotNull Out<Point3D> max) {
+        MemorySegment maxPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_box_get_max.invokeExact(handle(), max.handle());
+            graphene_box_get_max.invokeExact(handle(), (Addressable) maxPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        max.set(new Point3D(Refcounted.get(maxPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_box_get_min = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_get_min = Interop.downcallHandle(
         "graphene_box_get_min",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -250,15 +268,17 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      * Retrieves the coordinates of the minimum point of the given
      * {@link Box}.
      */
-    public void getMin(Point3D min) {
+    public @NotNull void getMin(@NotNull Out<Point3D> min) {
+        MemorySegment minPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_box_get_min.invokeExact(handle(), min.handle());
+            graphene_box_get_min.invokeExact(handle(), (Addressable) minPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        min.set(new Point3D(Refcounted.get(minPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_box_get_size = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_get_size = Interop.downcallHandle(
         "graphene_box_get_size",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -267,15 +287,17 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      * Retrieves the size of the box on all three axes, and stores
      * it into the given {@code size} vector.
      */
-    public void getSize(Vec3 size) {
+    public @NotNull void getSize(@NotNull Out<Vec3> size) {
+        MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_box_get_size.invokeExact(handle(), size.handle());
+            graphene_box_get_size.invokeExact(handle(), (Addressable) sizePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        size.set(new Vec3(Refcounted.get(sizePOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_box_get_vertices = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_get_vertices = Interop.downcallHandle(
         "graphene_box_get_vertices",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -283,15 +305,22 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Computes the vertices of the given {@link Box}.
      */
-    public void getVertices(PointerProxy<Vec3> vertices) {
+    public @NotNull void getVertices(@NotNull Out<Vec3[]> vertices) {
+        MemorySegment verticesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_box_get_vertices.invokeExact(handle(), vertices.handle());
+            graphene_box_get_vertices.invokeExact(handle(), (Addressable) verticesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        Vec3[] verticesARRAY = new Vec3[8];
+        for (int I = 0; I < 8; I++) {
+            var OBJ = verticesPOINTER.get(ValueLayout.ADDRESS, I);
+            verticesARRAY[I] = new Vec3(Refcounted.get(OBJ, false));
+        }
+        vertices.set(verticesARRAY);
     }
     
-    static final MethodHandle graphene_box_get_width = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_get_width = Interop.downcallHandle(
         "graphene_box_get_width",
         FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -300,15 +329,16 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      * Retrieves the size of the {@code box} on the X axis.
      */
     public float getWidth() {
+        float RESULT;
         try {
-            var RESULT = (float) graphene_box_get_width.invokeExact(handle());
-            return RESULT;
+            RESULT = (float) graphene_box_get_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_box_init = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_init = Interop.downcallHandle(
         "graphene_box_init",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -316,16 +346,17 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Initializes the given {@link Box} with two vertices.
      */
-    public Box init(Point3D min, Point3D max) {
+    public @NotNull Box init(@Nullable Point3D min, @Nullable Point3D max) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_box_init.invokeExact(handle(), min.handle(), max.handle());
-            return new Box(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_box_init.invokeExact(handle(), min.handle(), max.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Box(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_box_init_from_box = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_init_from_box = Interop.downcallHandle(
         "graphene_box_init_from_box",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -334,16 +365,17 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      * Initializes the given {@link Box} with the vertices of
      * another {@link Box}.
      */
-    public Box initFromBox(Box src) {
+    public @NotNull Box initFromBox(@NotNull Box src) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_box_init_from_box.invokeExact(handle(), src.handle());
-            return new Box(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_box_init_from_box.invokeExact(handle(), src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Box(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_box_init_from_points = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_init_from_points = Interop.downcallHandle(
         "graphene_box_init_from_points",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -355,16 +387,17 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      * If {@code n_points} is 0, the returned box is initialized with
      * graphene_box_empty().
      */
-    public Box initFromPoints(int nPoints, Point3D[] points) {
+    public @NotNull Box initFromPoints(@NotNull int nPoints, @NotNull Point3D[] points) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_box_init_from_points.invokeExact(handle(), nPoints, Interop.allocateNativeArray(points).handle());
-            return new Box(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_box_init_from_points.invokeExact(handle(), nPoints, Interop.allocateNativeArray(points));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Box(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_box_init_from_vec3 = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_init_from_vec3 = Interop.downcallHandle(
         "graphene_box_init_from_vec3",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -373,16 +406,17 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      * Initializes the given {@link Box} with two vertices
      * stored inside {@link Vec3}.
      */
-    public Box initFromVec3(Vec3 min, Vec3 max) {
+    public @NotNull Box initFromVec3(@Nullable Vec3 min, @Nullable Vec3 max) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_box_init_from_vec3.invokeExact(handle(), min.handle(), max.handle());
-            return new Box(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_box_init_from_vec3.invokeExact(handle(), min.handle(), max.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Box(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_box_init_from_vectors = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_init_from_vectors = Interop.downcallHandle(
         "graphene_box_init_from_vectors",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -394,16 +428,17 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      * If {@code n_vectors} is 0, the returned box is initialized with
      * graphene_box_empty().
      */
-    public Box initFromVectors(int nVectors, Vec3[] vectors) {
+    public @NotNull Box initFromVectors(@NotNull int nVectors, @NotNull Vec3[] vectors) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_box_init_from_vectors.invokeExact(handle(), nVectors, Interop.allocateNativeArray(vectors).handle());
-            return new Box(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_box_init_from_vectors.invokeExact(handle(), nVectors, Interop.allocateNativeArray(vectors));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Box(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_box_intersection = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_intersection = Interop.downcallHandle(
         "graphene_box_intersection",
         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -414,16 +449,19 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      * If the two boxes do not intersect, {@code res} will contain a degenerate box
      * initialized with graphene_box_empty().
      */
-    public boolean intersection(Box b, Box res) {
+    public boolean intersection(@NotNull Box b, @NotNull Out<Box> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        boolean RESULT;
         try {
-            var RESULT = (boolean) graphene_box_intersection.invokeExact(handle(), b.handle(), res.handle());
-            return RESULT;
+            RESULT = (boolean) graphene_box_intersection.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Box(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return RESULT;
     }
     
-    static final MethodHandle graphene_box_union = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_union = Interop.downcallHandle(
         "graphene_box_union",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -431,15 +469,17 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Unions the two given {@link Box}.
      */
-    public void union(Box b, Box res) {
+    public @NotNull void union(@NotNull Box b, @NotNull Out<Box> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_box_union.invokeExact(handle(), b.handle(), res.handle());
+            graphene_box_union.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Box(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_box_empty = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_empty = Interop.downcallHandle(
         "graphene_box_empty",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -449,16 +489,17 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The returned value is owned by Graphene and should not be modified or freed.
      */
-    public static Box empty() {
+    public static @NotNull Box empty() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_box_empty.invokeExact();
-            return new Box(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_box_empty.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Box(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_box_infinite = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_infinite = Interop.downcallHandle(
         "graphene_box_infinite",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -468,16 +509,17 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The returned value is owned by Graphene and should not be modified or freed.
      */
-    public static Box infinite() {
+    public static @NotNull Box infinite() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_box_infinite.invokeExact();
-            return new Box(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_box_infinite.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Box(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_box_minus_one = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_minus_one = Interop.downcallHandle(
         "graphene_box_minus_one",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -488,16 +530,17 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The returned value is owned by Graphene and should not be modified or freed.
      */
-    public static Box minusOne() {
+    public static @NotNull Box minusOne() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_box_minus_one.invokeExact();
-            return new Box(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_box_minus_one.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Box(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_box_one = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_one = Interop.downcallHandle(
         "graphene_box_one",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -508,16 +551,17 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The returned value is owned by Graphene and should not be modified or freed.
      */
-    public static Box one() {
+    public static @NotNull Box one() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_box_one.invokeExact();
-            return new Box(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_box_one.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Box(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_box_one_minus_one = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_one_minus_one = Interop.downcallHandle(
         "graphene_box_one_minus_one",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -528,16 +572,17 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The returned value is owned by Graphene and should not be modified or freed.
      */
-    public static Box oneMinusOne() {
+    public static @NotNull Box oneMinusOne() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_box_one_minus_one.invokeExact();
-            return new Box(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_box_one_minus_one.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Box(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_box_zero = Interop.downcallHandle(
+    private static final MethodHandle graphene_box_zero = Interop.downcallHandle(
         "graphene_box_zero",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -547,13 +592,14 @@ public class Box extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The returned value is owned by Graphene and should not be modified or freed.
      */
-    public static Box zero() {
+    public static @NotNull Box zero() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_box_zero.invokeExact();
-            return new Box(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_box_zero.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Box(Refcounted.get(RESULT, false));
     }
     
 }

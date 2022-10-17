@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A function which decides whether the row indicated by {@code iter} matches
@@ -13,5 +14,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface EntryCompletionMatchFunc {
-        boolean onEntryCompletionMatchFunc(EntryCompletion completion, java.lang.String key, TreeIter iter);
+        boolean onEntryCompletionMatchFunc(@NotNull EntryCompletion completion, @NotNull java.lang.String key, @NotNull TreeIter iter);
 }

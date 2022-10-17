@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A variant of {@code GtkClosureExpression} using a C closure.
@@ -18,25 +19,25 @@ public class CClosureExpression extends Expression {
         return new CClosureExpression(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_cclosure_expression_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_cclosure_expression_new = Interop.downcallHandle(
         "gtk_cclosure_expression_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(org.gtk.gobject.Type valueType, org.gtk.gobject.ClosureMarshal marshal, int nParams, Expression[] params, org.gtk.gobject.Callback callbackFunc, org.gtk.gobject.ClosureNotify userDestroy) {
+    private static Refcounted constructNew(@NotNull org.gtk.gobject.Type valueType, @Nullable org.gtk.gobject.ClosureMarshal marshal, @NotNull int nParams, @NotNull Expression[] params, @NotNull org.gtk.gobject.Callback callbackFunc, @Nullable org.gtk.gobject.ClosureNotify userDestroy) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_cclosure_expression_new.invokeExact(valueType.getValue(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbClosureMarshal",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
-                        Interop.getScope()), nParams, Interop.allocateNativeArray(params).handle(), 
+                        Interop.getScope()), nParams, Interop.allocateNativeArray(params), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(marshal.hashCode(), marshal)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(marshal)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gtk.class, "__cbClosureNotify",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
@@ -55,7 +56,7 @@ public class CClosureExpression extends Expression {
      * creates a {@code GClosure} by calling g_cclosure_new() with the given
      * {@code callback_func}, {@code user_data} and {@code user_destroy}.
      */
-    public CClosureExpression(org.gtk.gobject.Type valueType, org.gtk.gobject.ClosureMarshal marshal, int nParams, Expression[] params, org.gtk.gobject.Callback callbackFunc, org.gtk.gobject.ClosureNotify userDestroy) {
+    public CClosureExpression(@NotNull org.gtk.gobject.Type valueType, @Nullable org.gtk.gobject.ClosureMarshal marshal, @NotNull int nParams, @NotNull Expression[] params, @NotNull org.gtk.gobject.Callback callbackFunc, @Nullable org.gtk.gobject.ClosureNotify userDestroy) {
         super(constructNew(valueType, marshal, nParams, params, callbackFunc, userDestroy));
     }
     

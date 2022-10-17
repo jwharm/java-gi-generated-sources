@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GtkRequisition} represents the desired size of a widget. See
@@ -15,7 +16,7 @@ public class Requisition extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle gtk_requisition_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_requisition_new = Interop.downcallHandle(
         "gtk_requisition_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -38,7 +39,7 @@ public class Requisition extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew());
     }
     
-    static final MethodHandle gtk_requisition_copy = Interop.downcallHandle(
+    private static final MethodHandle gtk_requisition_copy = Interop.downcallHandle(
         "gtk_requisition_copy",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -46,16 +47,17 @@ public class Requisition extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Copies a {@code GtkRequisition}.
      */
-    public Requisition copy() {
+    public @NotNull Requisition copy() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_requisition_copy.invokeExact(handle());
-            return new Requisition(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_requisition_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Requisition(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_requisition_free = Interop.downcallHandle(
+    private static final MethodHandle gtk_requisition_free = Interop.downcallHandle(
         "gtk_requisition_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -63,7 +65,7 @@ public class Requisition extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Frees a {@code GtkRequisition}.
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             gtk_requisition_free.invokeExact(handle());
         } catch (Throwable ERR) {

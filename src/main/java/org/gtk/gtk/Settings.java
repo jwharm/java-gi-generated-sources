@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkSettings} provides a mechanism to share global settings between
@@ -43,7 +44,7 @@ public class Settings extends org.gtk.gobject.Object implements StyleProvider {
         return new Settings(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_settings_reset_property = Interop.downcallHandle(
+    private static final MethodHandle gtk_settings_reset_property = Interop.downcallHandle(
         "gtk_settings_reset_property",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -55,15 +56,15 @@ public class Settings extends org.gtk.gobject.Object implements StyleProvider {
      * After this call, the setting will again follow the session-wide
      * value for this setting.
      */
-    public void resetProperty(java.lang.String name) {
+    public @NotNull void resetProperty(@NotNull java.lang.String name) {
         try {
-            gtk_settings_reset_property.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+            gtk_settings_reset_property.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_settings_get_default = Interop.downcallHandle(
+    private static final MethodHandle gtk_settings_get_default = Interop.downcallHandle(
         "gtk_settings_get_default",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -74,16 +75,17 @@ public class Settings extends org.gtk.gobject.Object implements StyleProvider {
      * <p>
      * See {@link Gtk#Settings}.
      */
-    public static Settings getDefault() {
+    public static @Nullable Settings getDefault() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_settings_get_default.invokeExact();
-            return new Settings(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_settings_get_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Settings(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_settings_get_for_display = Interop.downcallHandle(
+    private static final MethodHandle gtk_settings_get_for_display = Interop.downcallHandle(
         "gtk_settings_get_for_display",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -91,13 +93,14 @@ public class Settings extends org.gtk.gobject.Object implements StyleProvider {
     /**
      * Gets the {@code GtkSettings} object for {@code display}, creating it if necessary.
      */
-    public static Settings getForDisplay(org.gtk.gdk.Display display) {
+    public static @NotNull Settings getForDisplay(@NotNull org.gtk.gdk.Display display) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_settings_get_for_display.invokeExact(display.handle());
-            return new Settings(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_settings_get_for_display.invokeExact(display.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Settings(Refcounted.get(RESULT, false));
     }
     
 }

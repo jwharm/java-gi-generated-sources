@@ -3,6 +3,7 @@ package org.gnome.adw;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A title bar widget.
@@ -21,7 +22,7 @@ import java.lang.invoke.*;
  * {@code HeaderBar:show-start-title-buttons} and
  * {@code HeaderBar:show-end-title-buttons} allow to easily create split
  * header bar layouts using {@link Leaflet}, as follows:
- * <p>
+ * 
  * <pre>{@code xml
  * <object class="AdwLeaflet" id="leaflet">
  *   <child>
@@ -59,9 +60,8 @@ import java.lang.invoke.*;
  *   &lt;source srcset="header-bar-split-dark.png" media="(prefers-color-scheme: dark)"&gt;
  *   &lt;img src="header-bar-split.png" alt="header-bar-split"&gt;
  * &lt;/picture&gt;
- * <p>
+ * 
  * <h2>CSS nodes</h2>
- * <p>
  * <pre>{@code 
  * headerbar
  * ╰── windowhandle
@@ -85,9 +85,8 @@ import java.lang.invoke.*;
  * <p>
  * Each of the boxes contains a {@code windowcontrols} subnode, see
  * {@link org.gtk.gtk.WindowControls} for details, as well as other children.
- * <p>
+ * 
  * <h2>Accessibility</h2>
- * <p>
  * {@code AdwHeaderBar} uses the {@code GTK_ACCESSIBLE_ROLE_GROUP} role.
  */
 public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
@@ -101,7 +100,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         return new HeaderBar(gobject.refcounted());
     }
     
-    static final MethodHandle adw_header_bar_new = Interop.downcallHandle(
+    private static final MethodHandle adw_header_bar_new = Interop.downcallHandle(
         "adw_header_bar_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -122,7 +121,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         super(constructNew());
     }
     
-    static final MethodHandle adw_header_bar_get_centering_policy = Interop.downcallHandle(
+    private static final MethodHandle adw_header_bar_get_centering_policy = Interop.downcallHandle(
         "adw_header_bar_get_centering_policy",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -130,16 +129,17 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     /**
      * Gets the policy for aligning the center widget.
      */
-    public CenteringPolicy getCenteringPolicy() {
+    public @NotNull CenteringPolicy getCenteringPolicy() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_header_bar_get_centering_policy.invokeExact(handle());
-            return new CenteringPolicy(RESULT);
+            RESULT = (int) adw_header_bar_get_centering_policy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new CenteringPolicy(RESULT);
     }
     
-    static final MethodHandle adw_header_bar_get_decoration_layout = Interop.downcallHandle(
+    private static final MethodHandle adw_header_bar_get_decoration_layout = Interop.downcallHandle(
         "adw_header_bar_get_decoration_layout",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -147,16 +147,17 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     /**
      * Gets the decoration layout for {@code self}.
      */
-    public java.lang.String getDecorationLayout() {
+    public @Nullable java.lang.String getDecorationLayout() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_header_bar_get_decoration_layout.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) adw_header_bar_get_decoration_layout.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle adw_header_bar_get_show_end_title_buttons = Interop.downcallHandle(
+    private static final MethodHandle adw_header_bar_get_show_end_title_buttons = Interop.downcallHandle(
         "adw_header_bar_get_show_end_title_buttons",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -165,15 +166,16 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * Gets whether to show title buttons at the end of {@code self}.
      */
     public boolean getShowEndTitleButtons() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_header_bar_get_show_end_title_buttons.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) adw_header_bar_get_show_end_title_buttons.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_header_bar_get_show_start_title_buttons = Interop.downcallHandle(
+    private static final MethodHandle adw_header_bar_get_show_start_title_buttons = Interop.downcallHandle(
         "adw_header_bar_get_show_start_title_buttons",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -182,15 +184,16 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * Gets whether to show title buttons at the start of {@code self}.
      */
     public boolean getShowStartTitleButtons() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_header_bar_get_show_start_title_buttons.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) adw_header_bar_get_show_start_title_buttons.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_header_bar_get_title_widget = Interop.downcallHandle(
+    private static final MethodHandle adw_header_bar_get_title_widget = Interop.downcallHandle(
         "adw_header_bar_get_title_widget",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -198,16 +201,17 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     /**
      * Gets the title widget widget of {@code self}.
      */
-    public org.gtk.gtk.Widget getTitleWidget() {
+    public @Nullable org.gtk.gtk.Widget getTitleWidget() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_header_bar_get_title_widget.invokeExact(handle());
-            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_header_bar_get_title_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_header_bar_pack_end = Interop.downcallHandle(
+    private static final MethodHandle adw_header_bar_pack_end = Interop.downcallHandle(
         "adw_header_bar_pack_end",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -215,7 +219,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     /**
      * Adds {@code child} to {@code self}, packed with reference to the end of {@code self}.
      */
-    public void packEnd(org.gtk.gtk.Widget child) {
+    public @NotNull void packEnd(@NotNull org.gtk.gtk.Widget child) {
         try {
             adw_header_bar_pack_end.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -223,7 +227,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         }
     }
     
-    static final MethodHandle adw_header_bar_pack_start = Interop.downcallHandle(
+    private static final MethodHandle adw_header_bar_pack_start = Interop.downcallHandle(
         "adw_header_bar_pack_start",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -231,7 +235,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     /**
      * Adds {@code child} to {@code self}, packed with reference to the start of the {@code self}.
      */
-    public void packStart(org.gtk.gtk.Widget child) {
+    public @NotNull void packStart(@NotNull org.gtk.gtk.Widget child) {
         try {
             adw_header_bar_pack_start.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -239,7 +243,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         }
     }
     
-    static final MethodHandle adw_header_bar_remove = Interop.downcallHandle(
+    private static final MethodHandle adw_header_bar_remove = Interop.downcallHandle(
         "adw_header_bar_remove",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -250,7 +254,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * The child must have been added with {@link HeaderBar#packStart},
      * {@code HeaderBar:title-widget}.
      */
-    public void remove(org.gtk.gtk.Widget child) {
+    public @NotNull void remove(@NotNull org.gtk.gtk.Widget child) {
         try {
             adw_header_bar_remove.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -258,7 +262,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         }
     }
     
-    static final MethodHandle adw_header_bar_set_centering_policy = Interop.downcallHandle(
+    private static final MethodHandle adw_header_bar_set_centering_policy = Interop.downcallHandle(
         "adw_header_bar_set_centering_policy",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -266,7 +270,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     /**
      * Sets the policy for aligning the center widget.
      */
-    public void setCenteringPolicy(CenteringPolicy centeringPolicy) {
+    public @NotNull void setCenteringPolicy(@NotNull CenteringPolicy centeringPolicy) {
         try {
             adw_header_bar_set_centering_policy.invokeExact(handle(), centeringPolicy.getValue());
         } catch (Throwable ERR) {
@@ -274,7 +278,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         }
     }
     
-    static final MethodHandle adw_header_bar_set_decoration_layout = Interop.downcallHandle(
+    private static final MethodHandle adw_header_bar_set_decoration_layout = Interop.downcallHandle(
         "adw_header_bar_set_decoration_layout",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -282,15 +286,15 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     /**
      * Sets the decoration layout for {@code self}.
      */
-    public void setDecorationLayout(java.lang.String layout) {
+    public @NotNull void setDecorationLayout(@Nullable java.lang.String layout) {
         try {
-            adw_header_bar_set_decoration_layout.invokeExact(handle(), Interop.allocateNativeString(layout).handle());
+            adw_header_bar_set_decoration_layout.invokeExact(handle(), Interop.allocateNativeString(layout));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle adw_header_bar_set_show_end_title_buttons = Interop.downcallHandle(
+    private static final MethodHandle adw_header_bar_set_show_end_title_buttons = Interop.downcallHandle(
         "adw_header_bar_set_show_end_title_buttons",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -298,7 +302,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     /**
      * Sets whether to show title buttons at the end of {@code self}.
      */
-    public void setShowEndTitleButtons(boolean setting) {
+    public @NotNull void setShowEndTitleButtons(@NotNull boolean setting) {
         try {
             adw_header_bar_set_show_end_title_buttons.invokeExact(handle(), setting ? 1 : 0);
         } catch (Throwable ERR) {
@@ -306,7 +310,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         }
     }
     
-    static final MethodHandle adw_header_bar_set_show_start_title_buttons = Interop.downcallHandle(
+    private static final MethodHandle adw_header_bar_set_show_start_title_buttons = Interop.downcallHandle(
         "adw_header_bar_set_show_start_title_buttons",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -314,7 +318,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     /**
      * Sets whether to show title buttons at the start of {@code self}.
      */
-    public void setShowStartTitleButtons(boolean setting) {
+    public @NotNull void setShowStartTitleButtons(@NotNull boolean setting) {
         try {
             adw_header_bar_set_show_start_title_buttons.invokeExact(handle(), setting ? 1 : 0);
         } catch (Throwable ERR) {
@@ -322,7 +326,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         }
     }
     
-    static final MethodHandle adw_header_bar_set_title_widget = Interop.downcallHandle(
+    private static final MethodHandle adw_header_bar_set_title_widget = Interop.downcallHandle(
         "adw_header_bar_set_title_widget",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -330,7 +334,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     /**
      * Sets the title widget for {@code self}.
      */
-    public void setTitleWidget(org.gtk.gtk.Widget titleWidget) {
+    public @NotNull void setTitleWidget(@Nullable org.gtk.gtk.Widget titleWidget) {
         try {
             adw_header_bar_set_title_widget.invokeExact(handle(), titleWidget.handle());
         } catch (Throwable ERR) {

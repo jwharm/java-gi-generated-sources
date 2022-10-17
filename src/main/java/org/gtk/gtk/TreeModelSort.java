@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A GtkTreeModel which makes an underlying tree model sortable
@@ -22,9 +23,8 @@ import java.lang.invoke.*;
  * view of the data without affecting the other.  By contrast, if we
  * simply put the same model in each widget, then sorting the first would
  * sort the second.
- * <p>
+ * 
  * <h2>Using a `GtkTreeModelSort`</h2>
- * <p>
  * <pre>{@code <!-- language="C" -->
  * {
  *   GtkTreeView *tree_view1;
@@ -57,9 +57,8 @@ import java.lang.invoke.*;
  * {@code GtkTreeSelection::changed} signal.  In this callback, we get a string
  * from COLUMN_1 of the model.  We then modify the string, find the same
  * selected row on the child model, and change the row there.
- * <p>
+ * 
  * <h2>Accessing the child model of in a selection changed callback</h2>
- * <p>
  * <pre>{@code <!-- language="C" -->
  * void
  * selection_changed (GtkTreeSelection *selection, gpointer data)
@@ -113,12 +112,12 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
         return new TreeModelSort(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_tree_model_sort_new_with_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_model_sort_new_with_model = Interop.downcallHandle(
         "gtk_tree_model_sort_new_with_model",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewWithModel(TreeModel childModel) {
+    private static Refcounted constructNewWithModel(@NotNull TreeModel childModel) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_tree_model_sort_new_with_model.invokeExact(childModel.handle()), true);
             return RESULT;
@@ -130,11 +129,11 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
     /**
      * Creates a new {@code GtkTreeModelSort}, with {@code child_model} as the child model.
      */
-    public static TreeModelSort newWithModel(TreeModel childModel) {
+    public static TreeModelSort newWithModel(@NotNull TreeModel childModel) {
         return new TreeModelSort(constructNewWithModel(childModel));
     }
     
-    static final MethodHandle gtk_tree_model_sort_clear_cache = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_model_sort_clear_cache = Interop.downcallHandle(
         "gtk_tree_model_sort_clear_cache",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -147,7 +146,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      * unreffed access to nodes.  As a side effect of this function, all unreffed
      * iters will be invalid.
      */
-    public void clearCache() {
+    public @NotNull void clearCache() {
         try {
             gtk_tree_model_sort_clear_cache.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -155,7 +154,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
         }
     }
     
-    static final MethodHandle gtk_tree_model_sort_convert_child_iter_to_iter = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_model_sort_convert_child_iter_to_iter = Interop.downcallHandle(
         "gtk_tree_model_sort_convert_child_iter_to_iter",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -165,16 +164,19 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      * the row pointed at by {@code child_iter}.  If {@code sort_iter} was not set, {@code false}
      * is returned.  Note: a boolean is only returned since 2.14.
      */
-    public boolean convertChildIterToIter(TreeIter sortIter, TreeIter childIter) {
+    public boolean convertChildIterToIter(@NotNull Out<TreeIter> sortIter, @NotNull TreeIter childIter) {
+        MemorySegment sortIterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_model_sort_convert_child_iter_to_iter.invokeExact(handle(), sortIter.handle(), childIter.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_tree_model_sort_convert_child_iter_to_iter.invokeExact(handle(), (Addressable) sortIterPOINTER.address(), childIter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        sortIter.set(new TreeIter(Refcounted.get(sortIterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_tree_model_sort_convert_child_path_to_path = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_model_sort_convert_child_path_to_path = Interop.downcallHandle(
         "gtk_tree_model_sort_convert_child_path_to_path",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -185,16 +187,17 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      * point to the same row in the sorted model.  If {@code child_path} isn’t a valid
      * path on the child model, then {@code null} is returned.
      */
-    public TreePath convertChildPathToPath(TreePath childPath) {
+    public @Nullable TreePath convertChildPathToPath(@NotNull TreePath childPath) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_tree_model_sort_convert_child_path_to_path.invokeExact(handle(), childPath.handle());
-            return new TreePath(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_tree_model_sort_convert_child_path_to_path.invokeExact(handle(), childPath.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TreePath(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_tree_model_sort_convert_iter_to_child_iter = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_model_sort_convert_iter_to_child_iter = Interop.downcallHandle(
         "gtk_tree_model_sort_convert_iter_to_child_iter",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -202,15 +205,17 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
     /**
      * Sets {@code child_iter} to point to the row pointed to by {@code sorted_iter}.
      */
-    public void convertIterToChildIter(TreeIter childIter, TreeIter sortedIter) {
+    public @NotNull void convertIterToChildIter(@NotNull Out<TreeIter> childIter, @NotNull TreeIter sortedIter) {
+        MemorySegment childIterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_tree_model_sort_convert_iter_to_child_iter.invokeExact(handle(), childIter.handle(), sortedIter.handle());
+            gtk_tree_model_sort_convert_iter_to_child_iter.invokeExact(handle(), (Addressable) childIterPOINTER.address(), sortedIter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        childIter.set(new TreeIter(Refcounted.get(childIterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle gtk_tree_model_sort_convert_path_to_child_path = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_model_sort_convert_path_to_child_path = Interop.downcallHandle(
         "gtk_tree_model_sort_convert_path_to_child_path",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -222,16 +227,17 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      * sorted.  If {@code sorted_path} does not point to a location in the child model,
      * {@code null} is returned.
      */
-    public TreePath convertPathToChildPath(TreePath sortedPath) {
+    public @Nullable TreePath convertPathToChildPath(@NotNull TreePath sortedPath) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_tree_model_sort_convert_path_to_child_path.invokeExact(handle(), sortedPath.handle());
-            return new TreePath(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_tree_model_sort_convert_path_to_child_path.invokeExact(handle(), sortedPath.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TreePath(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_tree_model_sort_get_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_model_sort_get_model = Interop.downcallHandle(
         "gtk_tree_model_sort_get_model",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -239,16 +245,17 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
     /**
      * Returns the model the {@code GtkTreeModelSort} is sorting.
      */
-    public TreeModel getModel() {
+    public @NotNull TreeModel getModel() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_tree_model_sort_get_model.invokeExact(handle());
-            return new TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_tree_model_sort_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_tree_model_sort_iter_is_valid = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_model_sort_iter_is_valid = Interop.downcallHandle(
         "gtk_tree_model_sort_iter_is_valid",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -259,16 +266,17 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      * <p>
      * Checks if the given iter is a valid iter for this {@code GtkTreeModelSort}.
      */
-    public boolean iterIsValid(TreeIter iter) {
+    public boolean iterIsValid(@NotNull TreeIter iter) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_model_sort_iter_is_valid.invokeExact(handle(), iter.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_tree_model_sort_iter_is_valid.invokeExact(handle(), iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_tree_model_sort_reset_default_sort_func = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_model_sort_reset_default_sort_func = Interop.downcallHandle(
         "gtk_tree_model_sort_reset_default_sort_func",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -279,7 +287,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      * to be in the same order as the child model only if the {@code GtkTreeModelSort}
      * is in “unsorted” state.
      */
-    public void resetDefaultSortFunc() {
+    public @NotNull void resetDefaultSortFunc() {
         try {
             gtk_tree_model_sort_reset_default_sort_func.invokeExact(handle());
         } catch (Throwable ERR) {

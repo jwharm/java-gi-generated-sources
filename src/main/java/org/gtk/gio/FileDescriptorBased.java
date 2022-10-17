@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link FileDescriptorBased} is implemented by streams (implementations of
@@ -14,7 +15,7 @@ import java.lang.invoke.*;
  */
 public interface FileDescriptorBased extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle g_file_descriptor_based_get_fd = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_file_descriptor_based_get_fd = Interop.downcallHandle(
         "g_file_descriptor_based_get_fd",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -22,13 +23,14 @@ public interface FileDescriptorBased extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets the underlying file descriptor.
      */
-    public default int getFd() {
+    default int getFd() {
+        int RESULT;
         try {
-            var RESULT = (int) g_file_descriptor_based_get_fd.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_file_descriptor_based_get_fd.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     class FileDescriptorBasedImpl extends org.gtk.gobject.Object implements FileDescriptorBased {

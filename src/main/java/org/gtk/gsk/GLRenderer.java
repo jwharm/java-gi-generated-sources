@@ -3,6 +3,7 @@ package org.gtk.gsk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 public class GLRenderer extends Renderer {
 
@@ -15,7 +16,7 @@ public class GLRenderer extends Renderer {
         return new GLRenderer(gobject.refcounted());
     }
     
-    static final MethodHandle gsk_gl_renderer_new = Interop.downcallHandle(
+    private static final MethodHandle gsk_gl_renderer_new = Interop.downcallHandle(
         "gsk_gl_renderer_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );

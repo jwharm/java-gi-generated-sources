@@ -3,12 +3,12 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkIMContextSimple} is an input method supporting table-based input methods.
- * <p>
+ * 
  * <h2>Compose sequences</h2>
- * <p>
  * {@code GtkIMContextSimple} reads compose sequences from the first of the
  * following files that is found: ~/.config/gtk-4.0/Compose, ~/.XCompose,
  * /usr/share/X11/locale/$locale/Compose (for locales that have a nontrivial
@@ -21,11 +21,10 @@ import java.lang.invoke.*;
  * Note that compose sequences typically start with the Compose_key, which is
  * often not available as a dedicated key on keyboards. Keyboard layouts may
  * map this keysym to other keys, such as the right Control key.
- * <p>
+ * 
  * <h2>Unicode characters</h2>
- * <p>
  * {@code GtkIMContextSimple} also supports numeric entry of Unicode characters
- * by typing &lt;kbd>Ctrl</kbd>-<kbd>Shift</kbd>-<kbd>u</kbd&gt;, followed by a
+ * by typing &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;Shift&lt;/kbd&gt;-&lt;kbd&gt;u&lt;/kbd&gt;, followed by a
  * hexadecimal Unicode codepoint.
  * <p>
  * For example,
@@ -33,9 +32,8 @@ import java.lang.invoke.*;
  *     Ctrl-Shift-u 1 2 3 Enter
  * <p>
  * yields U+0123 LATIN SMALL LETTER G WITH CEDILLA, i.e. ģ.
- * <p>
+ * 
  * <h2>Dead keys</h2>
- * <p>
  * {@code GtkIMContextSimple} supports dead keys. For example, typing
  * <p>
  *     dead_acute a
@@ -54,7 +52,7 @@ public class IMContextSimple extends IMContext {
         return new IMContextSimple(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_im_context_simple_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_im_context_simple_new = Interop.downcallHandle(
         "gtk_im_context_simple_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -75,7 +73,7 @@ public class IMContextSimple extends IMContext {
         super(constructNew());
     }
     
-    static final MethodHandle gtk_im_context_simple_add_compose_file = Interop.downcallHandle(
+    private static final MethodHandle gtk_im_context_simple_add_compose_file = Interop.downcallHandle(
         "gtk_im_context_simple_add_compose_file",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -83,9 +81,9 @@ public class IMContextSimple extends IMContext {
     /**
      * Adds an additional table from the X11 compose file.
      */
-    public void addComposeFile(java.lang.String composeFile) {
+    public @NotNull void addComposeFile(@NotNull java.lang.String composeFile) {
         try {
-            gtk_im_context_simple_add_compose_file.invokeExact(handle(), Interop.allocateNativeString(composeFile).handle());
+            gtk_im_context_simple_add_compose_file.invokeExact(handle(), Interop.allocateNativeString(composeFile));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@code GMainLoop} struct is an opaque data type
@@ -14,12 +15,12 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_main_loop_new = Interop.downcallHandle(
+    private static final MethodHandle g_main_loop_new = Interop.downcallHandle(
         "g_main_loop_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNew(MainContext context, boolean isRunning) {
+    private static Refcounted constructNew(@Nullable MainContext context, @NotNull boolean isRunning) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_main_loop_new.invokeExact(context.handle(), isRunning ? 1 : 0), true);
             return RESULT;
@@ -31,11 +32,11 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new {@link MainLoop} structure.
      */
-    public MainLoop(MainContext context, boolean isRunning) {
+    public MainLoop(@Nullable MainContext context, @NotNull boolean isRunning) {
         super(constructNew(context, isRunning));
     }
     
-    static final MethodHandle g_main_loop_get_context = Interop.downcallHandle(
+    private static final MethodHandle g_main_loop_get_context = Interop.downcallHandle(
         "g_main_loop_get_context",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -43,16 +44,17 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the {@link MainContext} of {@code loop}.
      */
-    public MainContext getContext() {
+    public @NotNull MainContext getContext() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_main_loop_get_context.invokeExact(handle());
-            return new MainContext(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_main_loop_get_context.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new MainContext(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_main_loop_is_running = Interop.downcallHandle(
+    private static final MethodHandle g_main_loop_is_running = Interop.downcallHandle(
         "g_main_loop_is_running",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -61,15 +63,16 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
      * Checks to see if the main loop is currently being run via g_main_loop_run().
      */
     public boolean isRunning() {
+        int RESULT;
         try {
-            var RESULT = (int) g_main_loop_is_running.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_main_loop_is_running.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_main_loop_quit = Interop.downcallHandle(
+    private static final MethodHandle g_main_loop_quit = Interop.downcallHandle(
         "g_main_loop_quit",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -81,7 +84,7 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
      * Note that sources that have already been dispatched when
      * g_main_loop_quit() is called will still be executed.
      */
-    public void quit() {
+    public @NotNull void quit() {
         try {
             g_main_loop_quit.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -89,7 +92,7 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_main_loop_ref = Interop.downcallHandle(
+    private static final MethodHandle g_main_loop_ref = Interop.downcallHandle(
         "g_main_loop_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -97,16 +100,17 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Increases the reference count on a {@link MainLoop} object by one.
      */
-    public MainLoop ref() {
+    public @NotNull MainLoop ref() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_main_loop_ref.invokeExact(handle());
-            return new MainLoop(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_main_loop_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new MainLoop(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_main_loop_run = Interop.downcallHandle(
+    private static final MethodHandle g_main_loop_run = Interop.downcallHandle(
         "g_main_loop_run",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -117,7 +121,7 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
      * it will process events from the loop, otherwise it will
      * simply wait.
      */
-    public void run() {
+    public @NotNull void run() {
         try {
             g_main_loop_run.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -125,7 +129,7 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_main_loop_unref = Interop.downcallHandle(
+    private static final MethodHandle g_main_loop_unref = Interop.downcallHandle(
         "g_main_loop_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -134,7 +138,7 @@ public class MainLoop extends io.github.jwharm.javagi.ResourceBase {
      * Decreases the reference count on a {@link MainLoop} object by one. If
      * the result is zero, free the loop and free all associated memory.
      */
-    public void unref() {
+    public @NotNull void unref() {
         try {
             g_main_loop_unref.invokeExact(handle());
         } catch (Throwable ERR) {

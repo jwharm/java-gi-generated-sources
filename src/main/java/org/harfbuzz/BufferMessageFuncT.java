@@ -1,6 +1,7 @@
 package org.harfbuzz;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A callback method for {@link buffer_t}. The method gets called with the
@@ -11,5 +12,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface BufferMessageFuncT {
-        BoolT onBufferMessageFuncT(BufferT buffer, FontT font, java.lang.String message, java.lang.foreign.MemoryAddress userData);
+        BoolT onBufferMessageFuncT(@NotNull BufferT buffer, @NotNull FontT font, @NotNull java.lang.String message, @Nullable java.lang.foreign.MemoryAddress userData);
 }

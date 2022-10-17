@@ -3,6 +3,7 @@ package org.pango;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@code PangoAttrFontDesc} structure is used to store an attribute that
@@ -14,7 +15,7 @@ public class AttrFontDesc extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle pango_attr_font_desc_new = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_font_desc_new = Interop.downcallHandle(
         "pango_attr_font_desc_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -25,13 +26,14 @@ public class AttrFontDesc extends io.github.jwharm.javagi.ResourceBase {
      * This attribute allows setting family, style, weight, variant,
      * stretch, and size simultaneously.
      */
-    public static Attribute new_(FontDescription desc) {
+    public static @NotNull Attribute new_(@NotNull FontDescription desc) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_attr_font_desc_new.invokeExact(desc.handle());
-            return new Attribute(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_attr_font_desc_new.invokeExact(desc.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
 }

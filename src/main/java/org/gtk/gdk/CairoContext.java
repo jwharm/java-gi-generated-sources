@@ -3,6 +3,7 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GdkCairoContext} is an object representing the platform-specific
@@ -23,7 +24,7 @@ public class CairoContext extends DrawContext {
         return new CairoContext(gobject.refcounted());
     }
     
-    static final MethodHandle gdk_cairo_context_cairo_create = Interop.downcallHandle(
+    private static final MethodHandle gdk_cairo_context_cairo_create = Interop.downcallHandle(
         "gdk_cairo_context_cairo_create",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -38,13 +39,14 @@ public class CairoContext extends DrawContext {
      * The returned context is guaranteed to be valid until
      * {@link DrawContext#endFrame} is called.
      */
-    public org.cairographics.Context cairoCreate() {
+    public @Nullable org.cairographics.Context cairoCreate() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_cairo_context_cairo_create.invokeExact(handle());
-            return new org.cairographics.Context(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gdk_cairo_context_cairo_create.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.cairographics.Context(Refcounted.get(RESULT, true));
     }
     
 }

@@ -3,6 +3,7 @@ package org.gtk.gdkpixbuf;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * An opaque struct representing a simple animation.
@@ -18,12 +19,12 @@ public class PixbufSimpleAnim extends PixbufAnimation {
         return new PixbufSimpleAnim(gobject.refcounted());
     }
     
-    static final MethodHandle gdk_pixbuf_simple_anim_new = Interop.downcallHandle(
+    private static final MethodHandle gdk_pixbuf_simple_anim_new = Interop.downcallHandle(
         "gdk_pixbuf_simple_anim_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_FLOAT)
     );
     
-    private static Refcounted constructNew(int width, int height, float rate) {
+    private static Refcounted constructNew(@NotNull int width, @NotNull int height, @NotNull float rate) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_pixbuf_simple_anim_new.invokeExact(width, height, rate), true);
             return RESULT;
@@ -35,11 +36,11 @@ public class PixbufSimpleAnim extends PixbufAnimation {
     /**
      * Creates a new, empty animation.
      */
-    public PixbufSimpleAnim(int width, int height, float rate) {
+    public PixbufSimpleAnim(@NotNull int width, @NotNull int height, @NotNull float rate) {
         super(constructNew(width, height, rate));
     }
     
-    static final MethodHandle gdk_pixbuf_simple_anim_add_frame = Interop.downcallHandle(
+    private static final MethodHandle gdk_pixbuf_simple_anim_add_frame = Interop.downcallHandle(
         "gdk_pixbuf_simple_anim_add_frame",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -49,7 +50,7 @@ public class PixbufSimpleAnim extends PixbufAnimation {
      * have the dimensions specified when the animation
      * was constructed.
      */
-    public void addFrame(Pixbuf pixbuf) {
+    public @NotNull void addFrame(@NotNull Pixbuf pixbuf) {
         try {
             gdk_pixbuf_simple_anim_add_frame.invokeExact(handle(), pixbuf.handle());
         } catch (Throwable ERR) {
@@ -57,7 +58,7 @@ public class PixbufSimpleAnim extends PixbufAnimation {
         }
     }
     
-    static final MethodHandle gdk_pixbuf_simple_anim_get_loop = Interop.downcallHandle(
+    private static final MethodHandle gdk_pixbuf_simple_anim_get_loop = Interop.downcallHandle(
         "gdk_pixbuf_simple_anim_get_loop",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -66,15 +67,16 @@ public class PixbufSimpleAnim extends PixbufAnimation {
      * Gets whether {@code animation} should loop indefinitely when it reaches the end.
      */
     public boolean getLoop() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_pixbuf_simple_anim_get_loop.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_pixbuf_simple_anim_get_loop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_pixbuf_simple_anim_set_loop = Interop.downcallHandle(
+    private static final MethodHandle gdk_pixbuf_simple_anim_set_loop = Interop.downcallHandle(
         "gdk_pixbuf_simple_anim_set_loop",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -82,7 +84,7 @@ public class PixbufSimpleAnim extends PixbufAnimation {
     /**
      * Sets whether {@code animation} should loop indefinitely when it reaches the end.
      */
-    public void setLoop(boolean loop) {
+    public @NotNull void setLoop(@NotNull boolean loop) {
         try {
             gdk_pixbuf_simple_anim_set_loop.invokeExact(handle(), loop ? 1 : 0);
         } catch (Throwable ERR) {

@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkSorter} is an object to describe sorting criteria.
@@ -37,7 +38,7 @@ public class Sorter extends org.gtk.gobject.Object {
         return new Sorter(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_sorter_changed = Interop.downcallHandle(
+    private static final MethodHandle gtk_sorter_changed = Interop.downcallHandle(
         "gtk_sorter_changed",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -56,7 +57,7 @@ public class Sorter extends org.gtk.gobject.Object {
      * This function is intended for implementors of {@code GtkSorter}
      * subclasses and should not be called from other functions.
      */
-    public void changed(SorterChange change) {
+    public @NotNull void changed(@NotNull SorterChange change) {
         try {
             gtk_sorter_changed.invokeExact(handle(), change.getValue());
         } catch (Throwable ERR) {
@@ -64,7 +65,7 @@ public class Sorter extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_sorter_compare = Interop.downcallHandle(
+    private static final MethodHandle gtk_sorter_compare = Interop.downcallHandle(
         "gtk_sorter_compare",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -83,16 +84,17 @@ public class Sorter extends org.gtk.gobject.Object {
      * The sorter may signal it conforms to additional constraints
      * via the return value of {@link Sorter#getOrder}.
      */
-    public Ordering compare(org.gtk.gobject.Object item1, org.gtk.gobject.Object item2) {
+    public @NotNull Ordering compare(@NotNull org.gtk.gobject.Object item1, @NotNull org.gtk.gobject.Object item2) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_sorter_compare.invokeExact(handle(), item1.handle(), item2.handle());
-            return new Ordering(RESULT);
+            RESULT = (int) gtk_sorter_compare.invokeExact(handle(), item1.handle(), item2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Ordering(RESULT);
     }
     
-    static final MethodHandle gtk_sorter_get_order = Interop.downcallHandle(
+    private static final MethodHandle gtk_sorter_get_order = Interop.downcallHandle(
         "gtk_sorter_get_order",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -105,18 +107,19 @@ public class Sorter extends org.gtk.gobject.Object {
      * <p>
      * This function is intended to allow optimizations.
      */
-    public SorterOrder getOrder() {
+    public @NotNull SorterOrder getOrder() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_sorter_get_order.invokeExact(handle());
-            return new SorterOrder(RESULT);
+            RESULT = (int) gtk_sorter_get_order.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SorterOrder(RESULT);
     }
     
     @FunctionalInterface
     public interface ChangedHandler {
-        void signalReceived(Sorter source, SorterChange change);
+        void signalReceived(Sorter source, @NotNull SorterChange change);
     }
     
     /**
@@ -135,13 +138,13 @@ public class Sorter extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("changed").handle(),
+                Interop.allocateNativeString("changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Sorter.Callbacks.class, "signalSorterChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

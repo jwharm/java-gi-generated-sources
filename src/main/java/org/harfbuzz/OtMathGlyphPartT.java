@@ -3,6 +3,7 @@ package org.harfbuzz;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Data type to hold information for a "part" component of a math-variant glyph.

@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * An IPv4 or IPv6 socket address; that is, the combination of a
@@ -19,12 +20,12 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
         return new InetSocketAddress(gobject.refcounted());
     }
     
-    static final MethodHandle g_inet_socket_address_new = Interop.downcallHandle(
+    private static final MethodHandle g_inet_socket_address_new = Interop.downcallHandle(
         "g_inet_socket_address_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT)
     );
     
-    private static Refcounted constructNew(InetAddress address, short port) {
+    private static Refcounted constructNew(@NotNull InetAddress address, @NotNull short port) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_inet_socket_address_new.invokeExact(address.handle(), port), true);
             return RESULT;
@@ -36,18 +37,18 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
     /**
      * Creates a new {@link InetSocketAddress} for {@code address} and {@code port}.
      */
-    public InetSocketAddress(InetAddress address, short port) {
+    public InetSocketAddress(@NotNull InetAddress address, @NotNull short port) {
         super(constructNew(address, port));
     }
     
-    static final MethodHandle g_inet_socket_address_new_from_string = Interop.downcallHandle(
+    private static final MethodHandle g_inet_socket_address_new_from_string = Interop.downcallHandle(
         "g_inet_socket_address_new_from_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNewFromString(java.lang.String address, int port) {
+    private static Refcounted constructNewFromString(@NotNull java.lang.String address, @NotNull int port) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_inet_socket_address_new_from_string.invokeExact(Interop.allocateNativeString(address).handle(), port), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_inet_socket_address_new_from_string.invokeExact(Interop.allocateNativeString(address), port), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -60,11 +61,11 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
      * If {@code address} is an IPv6 address, it can also contain a scope ID
      * (separated from the address by a {@code %}).
      */
-    public static InetSocketAddress newFromString(java.lang.String address, int port) {
+    public static InetSocketAddress newFromString(@NotNull java.lang.String address, @NotNull int port) {
         return new InetSocketAddress(constructNewFromString(address, port));
     }
     
-    static final MethodHandle g_inet_socket_address_get_address = Interop.downcallHandle(
+    private static final MethodHandle g_inet_socket_address_get_address = Interop.downcallHandle(
         "g_inet_socket_address_get_address",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -72,16 +73,17 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
     /**
      * Gets {@code address}'s {@link InetAddress}.
      */
-    public InetAddress getAddress() {
+    public @NotNull InetAddress getAddress() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_inet_socket_address_get_address.invokeExact(handle());
-            return new InetAddress(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_inet_socket_address_get_address.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new InetAddress(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_inet_socket_address_get_flowinfo = Interop.downcallHandle(
+    private static final MethodHandle g_inet_socket_address_get_flowinfo = Interop.downcallHandle(
         "g_inet_socket_address_get_flowinfo",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -91,15 +93,16 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
      * which must be an IPv6 address.
      */
     public int getFlowinfo() {
+        int RESULT;
         try {
-            var RESULT = (int) g_inet_socket_address_get_flowinfo.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_inet_socket_address_get_flowinfo.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_inet_socket_address_get_port = Interop.downcallHandle(
+    private static final MethodHandle g_inet_socket_address_get_port = Interop.downcallHandle(
         "g_inet_socket_address_get_port",
         FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
     );
@@ -108,15 +111,16 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
      * Gets {@code address}'s port.
      */
     public short getPort() {
+        short RESULT;
         try {
-            var RESULT = (short) g_inet_socket_address_get_port.invokeExact(handle());
-            return RESULT;
+            RESULT = (short) g_inet_socket_address_get_port.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_inet_socket_address_get_scope_id = Interop.downcallHandle(
+    private static final MethodHandle g_inet_socket_address_get_scope_id = Interop.downcallHandle(
         "g_inet_socket_address_get_scope_id",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -126,12 +130,13 @@ public class InetSocketAddress extends SocketAddress implements SocketConnectabl
      * which must be an IPv6 address.
      */
     public int getScopeId() {
+        int RESULT;
         try {
-            var RESULT = (int) g_inet_socket_address_get_scope_id.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_inet_socket_address_get_scope_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
 }

@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Called for list boxes that are bound to a {@code GListModel} with
@@ -11,5 +12,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface ListBoxCreateWidgetFunc {
-        Widget onListBoxCreateWidgetFunc(org.gtk.gobject.Object item);
+        Widget onListBoxCreateWidgetFunc(@NotNull org.gtk.gobject.Object item);
 }

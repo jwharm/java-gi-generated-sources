@@ -3,6 +3,7 @@ package org.gnome.adw;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * An auxiliary class used by {@link Squeezer}.
@@ -18,7 +19,7 @@ public class SqueezerPage extends org.gtk.gobject.Object {
         return new SqueezerPage(gobject.refcounted());
     }
     
-    static final MethodHandle adw_squeezer_page_get_child = Interop.downcallHandle(
+    private static final MethodHandle adw_squeezer_page_get_child = Interop.downcallHandle(
         "adw_squeezer_page_get_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -26,16 +27,17 @@ public class SqueezerPage extends org.gtk.gobject.Object {
     /**
      * Returns the squeezer child to which {@code self} belongs.
      */
-    public org.gtk.gtk.Widget getChild() {
+    public @NotNull org.gtk.gtk.Widget getChild() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_squeezer_page_get_child.invokeExact(handle());
-            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_squeezer_page_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_squeezer_page_get_enabled = Interop.downcallHandle(
+    private static final MethodHandle adw_squeezer_page_get_enabled = Interop.downcallHandle(
         "adw_squeezer_page_get_enabled",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -44,15 +46,16 @@ public class SqueezerPage extends org.gtk.gobject.Object {
      * Gets whether {@code self} is enabled.
      */
     public boolean getEnabled() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_squeezer_page_get_enabled.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) adw_squeezer_page_get_enabled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_squeezer_page_set_enabled = Interop.downcallHandle(
+    private static final MethodHandle adw_squeezer_page_set_enabled = Interop.downcallHandle(
         "adw_squeezer_page_set_enabled",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -60,7 +63,7 @@ public class SqueezerPage extends org.gtk.gobject.Object {
     /**
      * Sets whether {@code self} is enabled.
      */
-    public void setEnabled(boolean enabled) {
+    public @NotNull void setEnabled(@NotNull boolean enabled) {
         try {
             adw_squeezer_page_set_enabled.invokeExact(handle(), enabled ? 1 : 0);
         } catch (Throwable ERR) {

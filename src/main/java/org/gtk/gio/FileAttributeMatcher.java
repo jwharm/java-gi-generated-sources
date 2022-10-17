@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Determines if a string matches a file attribute.
@@ -13,14 +14,14 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_file_attribute_matcher_new = Interop.downcallHandle(
+    private static final MethodHandle g_file_attribute_matcher_new = Interop.downcallHandle(
         "g_file_attribute_matcher_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(java.lang.String attributes) {
+    private static Refcounted constructNew(@NotNull java.lang.String attributes) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_file_attribute_matcher_new.invokeExact(Interop.allocateNativeString(attributes).handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_file_attribute_matcher_new.invokeExact(Interop.allocateNativeString(attributes)), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -39,9 +40,8 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
      * concatenated with a single comma (e.g. "standard::type,standard::is-hidden").
      * The wildcard "*" may be used to match all keys and namespaces, or
      * "namespace::*" will match all keys in a given namespace.
-     * <p>
+     * 
      * <h2>Examples of file attribute matcher strings and results</h2>
-     * <p>
      * <ul>
      * <li>{@code "*"}: matches all attributes.
      * <li>{@code "standard::is-hidden"}: matches only the key is-hidden in the
@@ -49,11 +49,11 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
      * <li>{@code "standard::type,unix::*"}: matches the type key in the standard
      *   namespace and all keys in the unix namespace.
      */
-    public FileAttributeMatcher(java.lang.String attributes) {
+    public FileAttributeMatcher(@NotNull java.lang.String attributes) {
         super(constructNew(attributes));
     }
     
-    static final MethodHandle g_file_attribute_matcher_enumerate_namespace = Interop.downcallHandle(
+    private static final MethodHandle g_file_attribute_matcher_enumerate_namespace = Interop.downcallHandle(
         "g_file_attribute_matcher_enumerate_namespace",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -66,16 +66,17 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * TODO: this is awkwardly worded.
      */
-    public boolean enumerateNamespace(java.lang.String ns) {
+    public boolean enumerateNamespace(@NotNull java.lang.String ns) {
+        int RESULT;
         try {
-            var RESULT = (int) g_file_attribute_matcher_enumerate_namespace.invokeExact(handle(), Interop.allocateNativeString(ns).handle());
-            return RESULT != 0;
+            RESULT = (int) g_file_attribute_matcher_enumerate_namespace.invokeExact(handle(), Interop.allocateNativeString(ns));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_attribute_matcher_enumerate_next = Interop.downcallHandle(
+    private static final MethodHandle g_file_attribute_matcher_enumerate_next = Interop.downcallHandle(
         "g_file_attribute_matcher_enumerate_next",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -83,16 +84,17 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the next matched attribute from a {@link FileAttributeMatcher}.
      */
-    public java.lang.String enumerateNext() {
+    public @Nullable java.lang.String enumerateNext() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_attribute_matcher_enumerate_next.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_file_attribute_matcher_enumerate_next.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_file_attribute_matcher_matches = Interop.downcallHandle(
+    private static final MethodHandle g_file_attribute_matcher_matches = Interop.downcallHandle(
         "g_file_attribute_matcher_matches",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -102,16 +104,17 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
      * the matcher was created with the "*" matching string, this function
      * will always return {@code true}.
      */
-    public boolean matches(java.lang.String attribute) {
+    public boolean matches(@NotNull java.lang.String attribute) {
+        int RESULT;
         try {
-            var RESULT = (int) g_file_attribute_matcher_matches.invokeExact(handle(), Interop.allocateNativeString(attribute).handle());
-            return RESULT != 0;
+            RESULT = (int) g_file_attribute_matcher_matches.invokeExact(handle(), Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_attribute_matcher_matches_only = Interop.downcallHandle(
+    private static final MethodHandle g_file_attribute_matcher_matches_only = Interop.downcallHandle(
         "g_file_attribute_matcher_matches_only",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -120,16 +123,17 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
      * Checks if a attribute matcher only matches a given attribute. Always
      * returns {@code false} if "*" was used when creating the matcher.
      */
-    public boolean matchesOnly(java.lang.String attribute) {
+    public boolean matchesOnly(@NotNull java.lang.String attribute) {
+        int RESULT;
         try {
-            var RESULT = (int) g_file_attribute_matcher_matches_only.invokeExact(handle(), Interop.allocateNativeString(attribute).handle());
-            return RESULT != 0;
+            RESULT = (int) g_file_attribute_matcher_matches_only.invokeExact(handle(), Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_file_attribute_matcher_ref = Interop.downcallHandle(
+    private static final MethodHandle g_file_attribute_matcher_ref = Interop.downcallHandle(
         "g_file_attribute_matcher_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -137,16 +141,17 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
     /**
      * References a file attribute matcher.
      */
-    public FileAttributeMatcher ref() {
+    public @NotNull FileAttributeMatcher ref() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_attribute_matcher_ref.invokeExact(handle());
-            return new FileAttributeMatcher(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_attribute_matcher_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new FileAttributeMatcher(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_attribute_matcher_subtract = Interop.downcallHandle(
+    private static final MethodHandle g_file_attribute_matcher_subtract = Interop.downcallHandle(
         "g_file_attribute_matcher_subtract",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -161,16 +166,17 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
      * is a limitation of the current implementation, but may be fixed
      * in the future.
      */
-    public FileAttributeMatcher subtract(FileAttributeMatcher subtract) {
+    public @Nullable FileAttributeMatcher subtract(@Nullable FileAttributeMatcher subtract) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_attribute_matcher_subtract.invokeExact(handle(), subtract.handle());
-            return new FileAttributeMatcher(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_attribute_matcher_subtract.invokeExact(handle(), subtract.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new FileAttributeMatcher(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_attribute_matcher_to_string = Interop.downcallHandle(
+    private static final MethodHandle g_file_attribute_matcher_to_string = Interop.downcallHandle(
         "g_file_attribute_matcher_to_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -181,16 +187,17 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
      * The output however, might not be identical, as the matcher may
      * decide to use a different order or omit needless parts.
      */
-    public java.lang.String toString() {
+    public @NotNull java.lang.String toString() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_attribute_matcher_to_string.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_file_attribute_matcher_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_file_attribute_matcher_unref = Interop.downcallHandle(
+    private static final MethodHandle g_file_attribute_matcher_unref = Interop.downcallHandle(
         "g_file_attribute_matcher_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -199,7 +206,7 @@ public class FileAttributeMatcher extends io.github.jwharm.javagi.ResourceBase {
      * Unreferences {@code matcher}. If the reference count falls below 1,
      * the {@code matcher} is automatically freed.
      */
-    public void unref() {
+    public @NotNull void unref() {
         try {
             g_file_attribute_matcher_unref.invokeExact(handle());
         } catch (Throwable ERR) {

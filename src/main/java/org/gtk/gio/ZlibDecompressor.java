@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link ZlibDecompressor} is an implementation of {@link Converter} that
@@ -19,12 +20,12 @@ public class ZlibDecompressor extends org.gtk.gobject.Object implements Converte
         return new ZlibDecompressor(gobject.refcounted());
     }
     
-    static final MethodHandle g_zlib_decompressor_new = Interop.downcallHandle(
+    private static final MethodHandle g_zlib_decompressor_new = Interop.downcallHandle(
         "g_zlib_decompressor_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNew(ZlibCompressorFormat format) {
+    private static Refcounted constructNew(@NotNull ZlibCompressorFormat format) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_zlib_decompressor_new.invokeExact(format.getValue()), true);
             return RESULT;
@@ -36,11 +37,11 @@ public class ZlibDecompressor extends org.gtk.gobject.Object implements Converte
     /**
      * Creates a new {@link ZlibDecompressor}.
      */
-    public ZlibDecompressor(ZlibCompressorFormat format) {
+    public ZlibDecompressor(@NotNull ZlibCompressorFormat format) {
         super(constructNew(format));
     }
     
-    static final MethodHandle g_zlib_decompressor_get_file_info = Interop.downcallHandle(
+    private static final MethodHandle g_zlib_decompressor_get_file_info = Interop.downcallHandle(
         "g_zlib_decompressor_get_file_info",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -52,13 +53,14 @@ public class ZlibDecompressor extends org.gtk.gobject.Object implements Converte
      * or the header data was not fully processed yet, or it not present in the
      * data stream at all.
      */
-    public FileInfo getFileInfo() {
+    public @Nullable FileInfo getFileInfo() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_zlib_decompressor_get_file_info.invokeExact(handle());
-            return new FileInfo(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_zlib_decompressor_get_file_info.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new FileInfo(Refcounted.get(RESULT, false));
     }
     
 }

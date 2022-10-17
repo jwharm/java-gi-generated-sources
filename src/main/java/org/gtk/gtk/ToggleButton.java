@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GtkToggleButton} is a button which remains “pressed-in” when
@@ -21,22 +22,19 @@ import java.lang.invoke.*;
  * <p>
  * To simply switch the state of a toggle button, use
  * {@link ToggleButton#toggled}.
- * <p>
+ * 
  * <h2>Grouping</h2>
- * <p>
  * Toggle buttons can be grouped together, to form mutually exclusive
  * groups - only one of the buttons can be toggled at a time, and toggling
  * another one will switch the currently toggled one off.
  * <p>
  * To add a {@code GtkToggleButton} to a group, use {@link ToggleButton#setGroup}.
- * <p>
+ * 
  * <h2>CSS nodes</h2>
- * <p>
  * {@code GtkToggleButton} has a single CSS node with name button. To differentiate
  * it from a plain {@code GtkButton}, it gets the {@code .toggle} style class.
- * <p>
+ * 
  * <h2>Creating two `GtkToggleButton` widgets.</h2>
- * <p>
  * <pre>{@code c
  * static void
  * output_state (GtkToggleButton *source,
@@ -88,7 +86,7 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
         return new ToggleButton(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_toggle_button_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_toggle_button_new = Interop.downcallHandle(
         "gtk_toggle_button_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -111,14 +109,14 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
         super(constructNew());
     }
     
-    static final MethodHandle gtk_toggle_button_new_with_label = Interop.downcallHandle(
+    private static final MethodHandle gtk_toggle_button_new_with_label = Interop.downcallHandle(
         "gtk_toggle_button_new_with_label",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewWithLabel(java.lang.String label) {
+    private static Refcounted constructNewWithLabel(@NotNull java.lang.String label) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_toggle_button_new_with_label.invokeExact(Interop.allocateNativeString(label).handle()), false);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_toggle_button_new_with_label.invokeExact(Interop.allocateNativeString(label)), false);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -128,18 +126,18 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
     /**
      * Creates a new toggle button with a text label.
      */
-    public static ToggleButton newWithLabel(java.lang.String label) {
+    public static ToggleButton newWithLabel(@NotNull java.lang.String label) {
         return new ToggleButton(constructNewWithLabel(label));
     }
     
-    static final MethodHandle gtk_toggle_button_new_with_mnemonic = Interop.downcallHandle(
+    private static final MethodHandle gtk_toggle_button_new_with_mnemonic = Interop.downcallHandle(
         "gtk_toggle_button_new_with_mnemonic",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewWithMnemonic(java.lang.String label) {
+    private static Refcounted constructNewWithMnemonic(@NotNull java.lang.String label) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_toggle_button_new_with_mnemonic.invokeExact(Interop.allocateNativeString(label).handle()), false);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_toggle_button_new_with_mnemonic.invokeExact(Interop.allocateNativeString(label)), false);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -152,11 +150,11 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
      * The label will be created using {@link Label#newWithMnemonic},
      * so underscores in {@code label} indicate the mnemonic for the button.
      */
-    public static ToggleButton newWithMnemonic(java.lang.String label) {
+    public static ToggleButton newWithMnemonic(@NotNull java.lang.String label) {
         return new ToggleButton(constructNewWithMnemonic(label));
     }
     
-    static final MethodHandle gtk_toggle_button_get_active = Interop.downcallHandle(
+    private static final MethodHandle gtk_toggle_button_get_active = Interop.downcallHandle(
         "gtk_toggle_button_get_active",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -168,15 +166,16 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
      * if it is raised.
      */
     public boolean getActive() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_toggle_button_get_active.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_toggle_button_get_active.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_toggle_button_set_active = Interop.downcallHandle(
+    private static final MethodHandle gtk_toggle_button_set_active = Interop.downcallHandle(
         "gtk_toggle_button_set_active",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -190,7 +189,7 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
      * If the status of the button changes, this action causes the
      * {@code GtkToggleButton::toggled} signal to be emitted.
      */
-    public void setActive(boolean isActive) {
+    public @NotNull void setActive(@NotNull boolean isActive) {
         try {
             gtk_toggle_button_set_active.invokeExact(handle(), isActive ? 1 : 0);
         } catch (Throwable ERR) {
@@ -198,7 +197,7 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
         }
     }
     
-    static final MethodHandle gtk_toggle_button_set_group = Interop.downcallHandle(
+    private static final MethodHandle gtk_toggle_button_set_group = Interop.downcallHandle(
         "gtk_toggle_button_set_group",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -216,7 +215,7 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
      * for all buttons in the group, and giving each button its own target
      * value.
      */
-    public void setGroup(ToggleButton group) {
+    public @NotNull void setGroup(@Nullable ToggleButton group) {
         try {
             gtk_toggle_button_set_group.invokeExact(handle(), group.handle());
         } catch (Throwable ERR) {
@@ -224,7 +223,7 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
         }
     }
     
-    static final MethodHandle gtk_toggle_button_toggled = Interop.downcallHandle(
+    private static final MethodHandle gtk_toggle_button_toggled = Interop.downcallHandle(
         "gtk_toggle_button_toggled",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -234,7 +233,7 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
      * <p>
      * There is no good reason for an application ever to call this function.
      */
-    public void toggled() {
+    public @NotNull void toggled() {
         try {
             gtk_toggle_button_toggled.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -254,13 +253,13 @@ public class ToggleButton extends Button implements Accessible, Actionable, Buil
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("toggled").handle(),
+                Interop.allocateNativeString("toggled"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ToggleButton.Callbacks.class, "signalToggleButtonToggled",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

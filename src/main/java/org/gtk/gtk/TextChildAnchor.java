@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GtkTextChildAnchor} is a spot in a {@code GtkTextBuffer} where child widgets can
@@ -21,7 +22,7 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
         return new TextChildAnchor(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_text_child_anchor_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_child_anchor_new = Interop.downcallHandle(
         "gtk_text_child_anchor_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -47,14 +48,14 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
-    static final MethodHandle gtk_text_child_anchor_new_with_replacement = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_child_anchor_new_with_replacement = Interop.downcallHandle(
         "gtk_text_child_anchor_new_with_replacement",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewWithReplacement(java.lang.String character) {
+    private static Refcounted constructNewWithReplacement(@NotNull java.lang.String character) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_text_child_anchor_new_with_replacement.invokeExact(Interop.allocateNativeString(character).handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_text_child_anchor_new_with_replacement.invokeExact(Interop.allocateNativeString(character)), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -67,11 +68,11 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
      * Usually you would then insert it into a {@code GtkTextBuffer} with
      * {@link TextBuffer#insertChildAnchor}.
      */
-    public static TextChildAnchor newWithReplacement(java.lang.String character) {
+    public static TextChildAnchor newWithReplacement(@NotNull java.lang.String character) {
         return new TextChildAnchor(constructNewWithReplacement(character));
     }
     
-    static final MethodHandle gtk_text_child_anchor_get_deleted = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_child_anchor_get_deleted = Interop.downcallHandle(
         "gtk_text_child_anchor_get_deleted",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -87,15 +88,16 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
      * be finalized.
      */
     public boolean getDeleted() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_child_anchor_get_deleted.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_text_child_anchor_get_deleted.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_child_anchor_get_widgets = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_child_anchor_get_widgets = Interop.downcallHandle(
         "gtk_text_child_anchor_get_widgets",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -105,13 +107,21 @@ public class TextChildAnchor extends org.gtk.gobject.Object {
      * <p>
      * The order in which the widgets are returned is not defined.
      */
-    public PointerProxy<Widget> getWidgets(PointerInteger outLen) {
+    public Widget[] getWidgets(@NotNull Out<Integer> outLen) {
+        MemorySegment outLenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_text_child_anchor_get_widgets.invokeExact(handle(), outLen.handle());
-            return new PointerProxy<Widget>(RESULT, Widget.class);
+            RESULT = (MemoryAddress) gtk_text_child_anchor_get_widgets.invokeExact(handle(), (Addressable) outLenPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        outLen.set(outLenPOINTER.get(ValueLayout.JAVA_INT, 0));
+        Widget[] resultARRAY = new Widget[outLen.get().intValue()];
+        for (int I = 0; I < outLen.get().intValue(); I++) {
+            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            resultARRAY[I] = new Widget(Refcounted.get(OBJ, false));
+        }
+        return resultARRAY;
     }
     
 }

@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@code GtkTreeIter} is the primary structure
@@ -17,7 +18,7 @@ public class TreeIter extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle gtk_tree_iter_copy = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_iter_copy = Interop.downcallHandle(
         "gtk_tree_iter_copy",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -30,16 +31,17 @@ public class TreeIter extends io.github.jwharm.javagi.ResourceBase {
      * ({@code GtkTreeIter new_iter = iter;}).
      * You must free this iter with gtk_tree_iter_free().
      */
-    public TreeIter copy() {
+    public @NotNull TreeIter copy() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_tree_iter_copy.invokeExact(handle());
-            return new TreeIter(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_tree_iter_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TreeIter(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_tree_iter_free = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_iter_free = Interop.downcallHandle(
         "gtk_tree_iter_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -49,7 +51,7 @@ public class TreeIter extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function is mainly used for language bindings.
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             gtk_tree_iter_free.invokeExact(handle());
         } catch (Throwable ERR) {

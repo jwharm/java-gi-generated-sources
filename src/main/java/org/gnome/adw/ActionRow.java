@@ -3,6 +3,7 @@ package org.gnome.adw;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@link org.gtk.gtk.ListBoxRow} used to present actions.
@@ -20,18 +21,16 @@ import java.lang.invoke.*;
  * {@code AdwActionRow} is unactivatable by default, giving it an activatable widget
  * will automatically make it activatable, but unsetting it won't change the
  * row's activatability.
- * <p>
+ * 
  * <h2>AdwActionRow as GtkBuildable</h2>
- * <p>
  * The {@code AdwActionRow} implementation of the {@code Gtk.Buildable} interface
  * supports adding a child at its end by specifying “suffix” or omitting the
  * “type” attribute of a &lt;child&gt; element.
  * <p>
  * It also supports adding a child as a prefix widget by specifying “prefix” as
  * the “type” attribute of a &lt;child&gt; element.
- * <p>
+ * 
  * <h2>CSS nodes</h2>
- * <p>
  * {@code AdwActionRow} has a main CSS node with name {@code row}.
  * <p>
  * It contains the subnode {@code box.header} for its main horizontal box, and
@@ -51,7 +50,7 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
         return new ActionRow(gobject.refcounted());
     }
     
-    static final MethodHandle adw_action_row_new = Interop.downcallHandle(
+    private static final MethodHandle adw_action_row_new = Interop.downcallHandle(
         "adw_action_row_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -72,7 +71,7 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
         super(constructNew());
     }
     
-    static final MethodHandle adw_action_row_activate = Interop.downcallHandle(
+    private static final MethodHandle adw_action_row_activate = Interop.downcallHandle(
         "adw_action_row_activate",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -80,7 +79,7 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
     /**
      * Activates {@code self}.
      */
-    public void activateRow() {
+    public @NotNull void activateRow() {
         try {
             adw_action_row_activate.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -88,7 +87,7 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
         }
     }
     
-    static final MethodHandle adw_action_row_add_prefix = Interop.downcallHandle(
+    private static final MethodHandle adw_action_row_add_prefix = Interop.downcallHandle(
         "adw_action_row_add_prefix",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -96,7 +95,7 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
     /**
      * Adds a prefix widget to {@code self}.
      */
-    public void addPrefix(org.gtk.gtk.Widget widget) {
+    public @NotNull void addPrefix(@NotNull org.gtk.gtk.Widget widget) {
         try {
             adw_action_row_add_prefix.invokeExact(handle(), widget.handle());
         } catch (Throwable ERR) {
@@ -104,7 +103,7 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
         }
     }
     
-    static final MethodHandle adw_action_row_add_suffix = Interop.downcallHandle(
+    private static final MethodHandle adw_action_row_add_suffix = Interop.downcallHandle(
         "adw_action_row_add_suffix",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -112,7 +111,7 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
     /**
      * Adds a suffix widget to {@code self}.
      */
-    public void addSuffix(org.gtk.gtk.Widget widget) {
+    public @NotNull void addSuffix(@NotNull org.gtk.gtk.Widget widget) {
         try {
             adw_action_row_add_suffix.invokeExact(handle(), widget.handle());
         } catch (Throwable ERR) {
@@ -120,7 +119,7 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
         }
     }
     
-    static final MethodHandle adw_action_row_get_activatable_widget = Interop.downcallHandle(
+    private static final MethodHandle adw_action_row_get_activatable_widget = Interop.downcallHandle(
         "adw_action_row_get_activatable_widget",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -128,16 +127,17 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
     /**
      * Gets the widget activated when {@code self} is activated.
      */
-    public org.gtk.gtk.Widget getActivatableWidget() {
+    public @Nullable org.gtk.gtk.Widget getActivatableWidget() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_action_row_get_activatable_widget.invokeExact(handle());
-            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_action_row_get_activatable_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_action_row_get_icon_name = Interop.downcallHandle(
+    private static final MethodHandle adw_action_row_get_icon_name = Interop.downcallHandle(
         "adw_action_row_get_icon_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -145,16 +145,17 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
     /**
      * Gets the icon name for {@code self}.
      */
-    public java.lang.String getIconName() {
+    public @Nullable java.lang.String getIconName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_action_row_get_icon_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) adw_action_row_get_icon_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle adw_action_row_get_subtitle = Interop.downcallHandle(
+    private static final MethodHandle adw_action_row_get_subtitle = Interop.downcallHandle(
         "adw_action_row_get_subtitle",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -162,16 +163,17 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
     /**
      * Gets the subtitle for {@code self}.
      */
-    public java.lang.String getSubtitle() {
+    public @Nullable java.lang.String getSubtitle() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_action_row_get_subtitle.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) adw_action_row_get_subtitle.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle adw_action_row_get_subtitle_lines = Interop.downcallHandle(
+    private static final MethodHandle adw_action_row_get_subtitle_lines = Interop.downcallHandle(
         "adw_action_row_get_subtitle_lines",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -183,15 +185,16 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
      * If the value is 0, the number of lines won't be limited.
      */
     public int getSubtitleLines() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_action_row_get_subtitle_lines.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) adw_action_row_get_subtitle_lines.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle adw_action_row_get_title_lines = Interop.downcallHandle(
+    private static final MethodHandle adw_action_row_get_title_lines = Interop.downcallHandle(
         "adw_action_row_get_title_lines",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -203,15 +206,16 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
      * If the value is 0, the number of lines won't be limited.
      */
     public int getTitleLines() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_action_row_get_title_lines.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) adw_action_row_get_title_lines.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle adw_action_row_remove = Interop.downcallHandle(
+    private static final MethodHandle adw_action_row_remove = Interop.downcallHandle(
         "adw_action_row_remove",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -219,7 +223,7 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
     /**
      * Removes a child from {@code self}.
      */
-    public void remove(org.gtk.gtk.Widget widget) {
+    public @NotNull void remove(@NotNull org.gtk.gtk.Widget widget) {
         try {
             adw_action_row_remove.invokeExact(handle(), widget.handle());
         } catch (Throwable ERR) {
@@ -227,7 +231,7 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
         }
     }
     
-    static final MethodHandle adw_action_row_set_activatable_widget = Interop.downcallHandle(
+    private static final MethodHandle adw_action_row_set_activatable_widget = Interop.downcallHandle(
         "adw_action_row_set_activatable_widget",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -235,7 +239,7 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
     /**
      * Sets the widget to activate when {@code self} is activated.
      */
-    public void setActivatableWidget(org.gtk.gtk.Widget widget) {
+    public @NotNull void setActivatableWidget(@Nullable org.gtk.gtk.Widget widget) {
         try {
             adw_action_row_set_activatable_widget.invokeExact(handle(), widget.handle());
         } catch (Throwable ERR) {
@@ -243,7 +247,7 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
         }
     }
     
-    static final MethodHandle adw_action_row_set_icon_name = Interop.downcallHandle(
+    private static final MethodHandle adw_action_row_set_icon_name = Interop.downcallHandle(
         "adw_action_row_set_icon_name",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -251,15 +255,15 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
     /**
      * Sets the icon name for {@code self}.
      */
-    public void setIconName(java.lang.String iconName) {
+    public @NotNull void setIconName(@Nullable java.lang.String iconName) {
         try {
-            adw_action_row_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName).handle());
+            adw_action_row_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle adw_action_row_set_subtitle = Interop.downcallHandle(
+    private static final MethodHandle adw_action_row_set_subtitle = Interop.downcallHandle(
         "adw_action_row_set_subtitle",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -267,15 +271,15 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
     /**
      * Sets the subtitle for {@code self}.
      */
-    public void setSubtitle(java.lang.String subtitle) {
+    public @NotNull void setSubtitle(@NotNull java.lang.String subtitle) {
         try {
-            adw_action_row_set_subtitle.invokeExact(handle(), Interop.allocateNativeString(subtitle).handle());
+            adw_action_row_set_subtitle.invokeExact(handle(), Interop.allocateNativeString(subtitle));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle adw_action_row_set_subtitle_lines = Interop.downcallHandle(
+    private static final MethodHandle adw_action_row_set_subtitle_lines = Interop.downcallHandle(
         "adw_action_row_set_subtitle_lines",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -286,7 +290,7 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
      * <p>
      * If the value is 0, the number of lines won't be limited.
      */
-    public void setSubtitleLines(int subtitleLines) {
+    public @NotNull void setSubtitleLines(@NotNull int subtitleLines) {
         try {
             adw_action_row_set_subtitle_lines.invokeExact(handle(), subtitleLines);
         } catch (Throwable ERR) {
@@ -294,7 +298,7 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
         }
     }
     
-    static final MethodHandle adw_action_row_set_title_lines = Interop.downcallHandle(
+    private static final MethodHandle adw_action_row_set_title_lines = Interop.downcallHandle(
         "adw_action_row_set_title_lines",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -305,7 +309,7 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
      * <p>
      * If the value is 0, the number of lines won't be limited.
      */
-    public void setTitleLines(int titleLines) {
+    public @NotNull void setTitleLines(@NotNull int titleLines) {
         try {
             adw_action_row_set_title_lines.invokeExact(handle(), titleLines);
         } catch (Throwable ERR) {
@@ -325,13 +329,13 @@ public class ActionRow extends PreferencesRow implements org.gtk.gtk.Accessible,
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("activated").handle(),
+                Interop.allocateNativeString("activated"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ActionRow.Callbacks.class, "signalActionRowActivated",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

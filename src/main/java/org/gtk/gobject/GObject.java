@@ -3,40 +3,97 @@ package org.gtk.gobject;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 public final class GObject {
     
+    /**
+     * Mask containing the bits of {@link ParamSpec}.flags which are reserved for GLib.
+     */
     public static final int PARAM_MASK = 255;
 
+    /**
+     * {@link ParamFlags} value alias for {@link ParamFlags#STATIC_NAME} | {@link ParamFlags#STATIC_NICK} | {@link ParamFlags#STATIC_BLURB}.
+     * <p>
+     * Since 2.13.0
+     */
     public static final int PARAM_STATIC_STRINGS = 224;
 
+    /**
+     * Minimum shift count to be used for user defined flags, to be stored in
+     * {@link ParamSpec}.flags. The maximum allowed is 10.
+     */
     public static final int PARAM_USER_SHIFT = 8;
 
+    /**
+     * A mask for all {@link SignalFlags} bits.
+     */
     public static final int SIGNAL_FLAGS_MASK = 511;
 
+    /**
+     * A mask for all {@link SignalMatchType} bits.
+     */
     public static final int SIGNAL_MATCH_MASK = 63;
 
+    /**
+     * A bit in the type number that's supposed to be left untouched.
+     */
     public static final org.gtk.glib.Type TYPE_FLAG_RESERVED_ID_BIT = new org.gtk.glib.Type(1L);
 
+    /**
+     * An integer constant that represents the number of identifiers reserved
+     * for types that are assigned at compile-time.
+     */
     public static final int TYPE_FUNDAMENTAL_MAX = 255;
 
+    /**
+     * Shift value used in converting numbers to type IDs.
+     */
     public static final int TYPE_FUNDAMENTAL_SHIFT = 2;
 
+    /**
+     * First fundamental type number to create a new fundamental type id with
+     * G_TYPE_MAKE_FUNDAMENTAL() reserved for BSE.
+     */
     public static final int TYPE_RESERVED_BSE_FIRST = 32;
 
+    /**
+     * Last fundamental type number reserved for BSE.
+     */
     public static final int TYPE_RESERVED_BSE_LAST = 48;
 
+    /**
+     * First fundamental type number to create a new fundamental type id with
+     * G_TYPE_MAKE_FUNDAMENTAL() reserved for GLib.
+     */
     public static final int TYPE_RESERVED_GLIB_FIRST = 22;
 
+    /**
+     * Last fundamental type number reserved for GLib.
+     */
     public static final int TYPE_RESERVED_GLIB_LAST = 31;
 
+    /**
+     * First available fundamental type number to create new fundamental
+     * type id with G_TYPE_MAKE_FUNDAMENTAL().
+     */
     public static final int TYPE_RESERVED_USER_FIRST = 49;
 
+    /**
+     * For string values, indicates that the string contained is canonical and will
+     * exist for the duration of the process. See g_value_set_interned_string().
+     */
     public static final int VALUE_INTERNED_STRING = 268435456;
 
+    /**
+     * If passed to G_VALUE_COLLECT(), allocated data won't be copied
+     * but used verbatim. This does not affect ref-counted types like
+     * objects. This does not affect usage of g_value_copy(), the data will
+     * be copied if it is not ref-counted.
+     */
     public static final int VALUE_NOCOPY_CONTENTS = 134217728;
 
-    static final MethodHandle g_boxed_copy = Interop.downcallHandle(
+    private static final MethodHandle g_boxed_copy = Interop.downcallHandle(
         "g_boxed_copy",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -44,16 +101,17 @@ public final class GObject {
     /**
      * Provide a copy of a boxed structure {@code src_boxed} which is of type {@code boxed_type}.
      */
-    public static java.lang.foreign.MemoryAddress boxedCopy(org.gtk.gobject.Type boxedType, java.lang.foreign.MemoryAddress srcBoxed) {
+    public static @NotNull java.lang.foreign.MemoryAddress boxedCopy(@NotNull org.gtk.gobject.Type boxedType, @NotNull java.lang.foreign.MemoryAddress srcBoxed) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_boxed_copy.invokeExact(boxedType.getValue(), srcBoxed);
-            return RESULT;
+            RESULT = (MemoryAddress) g_boxed_copy.invokeExact(boxedType.getValue(), srcBoxed);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_boxed_free = Interop.downcallHandle(
+    private static final MethodHandle g_boxed_free = Interop.downcallHandle(
         "g_boxed_free",
         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -61,7 +119,7 @@ public final class GObject {
     /**
      * Free the boxed structure {@code boxed} which is of type {@code boxed_type}.
      */
-    public static void boxedFree(org.gtk.gobject.Type boxedType, java.lang.foreign.MemoryAddress boxed) {
+    public static @NotNull void boxedFree(@NotNull org.gtk.gobject.Type boxedType, @NotNull java.lang.foreign.MemoryAddress boxed) {
         try {
             g_boxed_free.invokeExact(boxedType.getValue(), boxed);
         } catch (Throwable ERR) {
@@ -69,7 +127,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_cclosure_marshal_BOOLEAN__BOXED_BOXED = Interop.downcallHandle(
+    private static final MethodHandle g_cclosure_marshal_BOOLEAN__BOXED_BOXED = Interop.downcallHandle(
         "g_cclosure_marshal_BOOLEAN__BOXED_BOXED",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -80,7 +138,7 @@ public final class GObject {
      * have such a signal, you will probably also need to use an
      * accumulator, such as g_signal_accumulator_true_handled().
      */
-    public static void cclosureMarshalBOOLEANBOXEDBOXED(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
+    public static @NotNull void cclosureMarshalBOOLEANBOXEDBOXED(@NotNull Closure closure, @NotNull Value returnValue, @NotNull int nParamValues, @NotNull Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
         try {
             g_cclosure_marshal_BOOLEAN__BOXED_BOXED.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
         } catch (Throwable ERR) {
@@ -88,7 +146,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_cclosure_marshal_BOOLEAN__FLAGS = Interop.downcallHandle(
+    private static final MethodHandle g_cclosure_marshal_BOOLEAN__FLAGS = Interop.downcallHandle(
         "g_cclosure_marshal_BOOLEAN__FLAGS",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -98,7 +156,7 @@ public final class GObject {
      * {@code gboolean (*callback) (gpointer instance, gint arg1, gpointer user_data)} where the {@code gint} parameter
      * denotes a flags type.
      */
-    public static void cclosureMarshalBOOLEANFLAGS(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
+    public static @NotNull void cclosureMarshalBOOLEANFLAGS(@NotNull Closure closure, @NotNull Value returnValue, @NotNull int nParamValues, @NotNull Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
         try {
             g_cclosure_marshal_BOOLEAN__FLAGS.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
         } catch (Throwable ERR) {
@@ -106,7 +164,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_cclosure_marshal_STRING__OBJECT_POINTER = Interop.downcallHandle(
+    private static final MethodHandle g_cclosure_marshal_STRING__OBJECT_POINTER = Interop.downcallHandle(
         "g_cclosure_marshal_STRING__OBJECT_POINTER",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -115,7 +173,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code gchar* (*callback) (gpointer instance, GObject *arg1, gpointer arg2, gpointer user_data)}.
      */
-    public static void cclosureMarshalSTRINGOBJECTPOINTER(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
+    public static @NotNull void cclosureMarshalSTRINGOBJECTPOINTER(@NotNull Closure closure, @NotNull Value returnValue, @NotNull int nParamValues, @NotNull Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
         try {
             g_cclosure_marshal_STRING__OBJECT_POINTER.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
         } catch (Throwable ERR) {
@@ -123,7 +181,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_cclosure_marshal_VOID__BOOLEAN = Interop.downcallHandle(
+    private static final MethodHandle g_cclosure_marshal_VOID__BOOLEAN = Interop.downcallHandle(
         "g_cclosure_marshal_VOID__BOOLEAN",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -132,7 +190,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, gboolean arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDBOOLEAN(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
+    public static @NotNull void cclosureMarshalVOIDBOOLEAN(@NotNull Closure closure, @NotNull Value returnValue, @NotNull int nParamValues, @NotNull Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
         try {
             g_cclosure_marshal_VOID__BOOLEAN.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
         } catch (Throwable ERR) {
@@ -140,7 +198,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_cclosure_marshal_VOID__BOXED = Interop.downcallHandle(
+    private static final MethodHandle g_cclosure_marshal_VOID__BOXED = Interop.downcallHandle(
         "g_cclosure_marshal_VOID__BOXED",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -149,7 +207,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, GBoxed *arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDBOXED(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
+    public static @NotNull void cclosureMarshalVOIDBOXED(@NotNull Closure closure, @NotNull Value returnValue, @NotNull int nParamValues, @NotNull Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
         try {
             g_cclosure_marshal_VOID__BOXED.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
         } catch (Throwable ERR) {
@@ -157,7 +215,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_cclosure_marshal_VOID__CHAR = Interop.downcallHandle(
+    private static final MethodHandle g_cclosure_marshal_VOID__CHAR = Interop.downcallHandle(
         "g_cclosure_marshal_VOID__CHAR",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -166,7 +224,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, gchar arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDCHAR(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
+    public static @NotNull void cclosureMarshalVOIDCHAR(@NotNull Closure closure, @NotNull Value returnValue, @NotNull int nParamValues, @NotNull Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
         try {
             g_cclosure_marshal_VOID__CHAR.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
         } catch (Throwable ERR) {
@@ -174,7 +232,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_cclosure_marshal_VOID__DOUBLE = Interop.downcallHandle(
+    private static final MethodHandle g_cclosure_marshal_VOID__DOUBLE = Interop.downcallHandle(
         "g_cclosure_marshal_VOID__DOUBLE",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -183,7 +241,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, gdouble arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDDOUBLE(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
+    public static @NotNull void cclosureMarshalVOIDDOUBLE(@NotNull Closure closure, @NotNull Value returnValue, @NotNull int nParamValues, @NotNull Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
         try {
             g_cclosure_marshal_VOID__DOUBLE.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
         } catch (Throwable ERR) {
@@ -191,7 +249,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_cclosure_marshal_VOID__ENUM = Interop.downcallHandle(
+    private static final MethodHandle g_cclosure_marshal_VOID__ENUM = Interop.downcallHandle(
         "g_cclosure_marshal_VOID__ENUM",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -200,7 +258,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, gint arg1, gpointer user_data)} where the {@code gint} parameter denotes an enumeration type..
      */
-    public static void cclosureMarshalVOIDENUM(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
+    public static @NotNull void cclosureMarshalVOIDENUM(@NotNull Closure closure, @NotNull Value returnValue, @NotNull int nParamValues, @NotNull Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
         try {
             g_cclosure_marshal_VOID__ENUM.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
         } catch (Throwable ERR) {
@@ -208,7 +266,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_cclosure_marshal_VOID__FLAGS = Interop.downcallHandle(
+    private static final MethodHandle g_cclosure_marshal_VOID__FLAGS = Interop.downcallHandle(
         "g_cclosure_marshal_VOID__FLAGS",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -217,7 +275,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, gint arg1, gpointer user_data)} where the {@code gint} parameter denotes a flags type.
      */
-    public static void cclosureMarshalVOIDFLAGS(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
+    public static @NotNull void cclosureMarshalVOIDFLAGS(@NotNull Closure closure, @NotNull Value returnValue, @NotNull int nParamValues, @NotNull Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
         try {
             g_cclosure_marshal_VOID__FLAGS.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
         } catch (Throwable ERR) {
@@ -225,7 +283,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_cclosure_marshal_VOID__FLOAT = Interop.downcallHandle(
+    private static final MethodHandle g_cclosure_marshal_VOID__FLOAT = Interop.downcallHandle(
         "g_cclosure_marshal_VOID__FLOAT",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -234,7 +292,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, gfloat arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDFLOAT(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
+    public static @NotNull void cclosureMarshalVOIDFLOAT(@NotNull Closure closure, @NotNull Value returnValue, @NotNull int nParamValues, @NotNull Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
         try {
             g_cclosure_marshal_VOID__FLOAT.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
         } catch (Throwable ERR) {
@@ -242,7 +300,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_cclosure_marshal_VOID__INT = Interop.downcallHandle(
+    private static final MethodHandle g_cclosure_marshal_VOID__INT = Interop.downcallHandle(
         "g_cclosure_marshal_VOID__INT",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -251,7 +309,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, gint arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDINT(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
+    public static @NotNull void cclosureMarshalVOIDINT(@NotNull Closure closure, @NotNull Value returnValue, @NotNull int nParamValues, @NotNull Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
         try {
             g_cclosure_marshal_VOID__INT.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
         } catch (Throwable ERR) {
@@ -259,7 +317,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_cclosure_marshal_VOID__LONG = Interop.downcallHandle(
+    private static final MethodHandle g_cclosure_marshal_VOID__LONG = Interop.downcallHandle(
         "g_cclosure_marshal_VOID__LONG",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -268,7 +326,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, glong arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDLONG(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
+    public static @NotNull void cclosureMarshalVOIDLONG(@NotNull Closure closure, @NotNull Value returnValue, @NotNull int nParamValues, @NotNull Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
         try {
             g_cclosure_marshal_VOID__LONG.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
         } catch (Throwable ERR) {
@@ -276,7 +334,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_cclosure_marshal_VOID__OBJECT = Interop.downcallHandle(
+    private static final MethodHandle g_cclosure_marshal_VOID__OBJECT = Interop.downcallHandle(
         "g_cclosure_marshal_VOID__OBJECT",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -285,7 +343,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, GObject *arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDOBJECT(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
+    public static @NotNull void cclosureMarshalVOIDOBJECT(@NotNull Closure closure, @NotNull Value returnValue, @NotNull int nParamValues, @NotNull Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
         try {
             g_cclosure_marshal_VOID__OBJECT.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
         } catch (Throwable ERR) {
@@ -293,7 +351,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_cclosure_marshal_VOID__PARAM = Interop.downcallHandle(
+    private static final MethodHandle g_cclosure_marshal_VOID__PARAM = Interop.downcallHandle(
         "g_cclosure_marshal_VOID__PARAM",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -302,7 +360,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, GParamSpec *arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDPARAM(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
+    public static @NotNull void cclosureMarshalVOIDPARAM(@NotNull Closure closure, @NotNull Value returnValue, @NotNull int nParamValues, @NotNull Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
         try {
             g_cclosure_marshal_VOID__PARAM.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
         } catch (Throwable ERR) {
@@ -310,7 +368,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_cclosure_marshal_VOID__POINTER = Interop.downcallHandle(
+    private static final MethodHandle g_cclosure_marshal_VOID__POINTER = Interop.downcallHandle(
         "g_cclosure_marshal_VOID__POINTER",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -319,7 +377,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, gpointer arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDPOINTER(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
+    public static @NotNull void cclosureMarshalVOIDPOINTER(@NotNull Closure closure, @NotNull Value returnValue, @NotNull int nParamValues, @NotNull Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
         try {
             g_cclosure_marshal_VOID__POINTER.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
         } catch (Throwable ERR) {
@@ -327,7 +385,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_cclosure_marshal_VOID__STRING = Interop.downcallHandle(
+    private static final MethodHandle g_cclosure_marshal_VOID__STRING = Interop.downcallHandle(
         "g_cclosure_marshal_VOID__STRING",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -336,7 +394,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, const gchar *arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDSTRING(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
+    public static @NotNull void cclosureMarshalVOIDSTRING(@NotNull Closure closure, @NotNull Value returnValue, @NotNull int nParamValues, @NotNull Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
         try {
             g_cclosure_marshal_VOID__STRING.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
         } catch (Throwable ERR) {
@@ -344,7 +402,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_cclosure_marshal_VOID__UCHAR = Interop.downcallHandle(
+    private static final MethodHandle g_cclosure_marshal_VOID__UCHAR = Interop.downcallHandle(
         "g_cclosure_marshal_VOID__UCHAR",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -353,7 +411,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, guchar arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDUCHAR(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
+    public static @NotNull void cclosureMarshalVOIDUCHAR(@NotNull Closure closure, @NotNull Value returnValue, @NotNull int nParamValues, @NotNull Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
         try {
             g_cclosure_marshal_VOID__UCHAR.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
         } catch (Throwable ERR) {
@@ -361,7 +419,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_cclosure_marshal_VOID__UINT = Interop.downcallHandle(
+    private static final MethodHandle g_cclosure_marshal_VOID__UINT = Interop.downcallHandle(
         "g_cclosure_marshal_VOID__UINT",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -370,7 +428,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, guint arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDUINT(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
+    public static @NotNull void cclosureMarshalVOIDUINT(@NotNull Closure closure, @NotNull Value returnValue, @NotNull int nParamValues, @NotNull Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
         try {
             g_cclosure_marshal_VOID__UINT.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
         } catch (Throwable ERR) {
@@ -378,7 +436,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_cclosure_marshal_VOID__UINT_POINTER = Interop.downcallHandle(
+    private static final MethodHandle g_cclosure_marshal_VOID__UINT_POINTER = Interop.downcallHandle(
         "g_cclosure_marshal_VOID__UINT_POINTER",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -387,7 +445,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, guint arg1, gpointer arg2, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDUINTPOINTER(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
+    public static @NotNull void cclosureMarshalVOIDUINTPOINTER(@NotNull Closure closure, @NotNull Value returnValue, @NotNull int nParamValues, @NotNull Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
         try {
             g_cclosure_marshal_VOID__UINT_POINTER.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
         } catch (Throwable ERR) {
@@ -395,7 +453,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_cclosure_marshal_VOID__ULONG = Interop.downcallHandle(
+    private static final MethodHandle g_cclosure_marshal_VOID__ULONG = Interop.downcallHandle(
         "g_cclosure_marshal_VOID__ULONG",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -404,7 +462,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, gulong arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDULONG(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
+    public static @NotNull void cclosureMarshalVOIDULONG(@NotNull Closure closure, @NotNull Value returnValue, @NotNull int nParamValues, @NotNull Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
         try {
             g_cclosure_marshal_VOID__ULONG.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
         } catch (Throwable ERR) {
@@ -412,7 +470,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_cclosure_marshal_VOID__VARIANT = Interop.downcallHandle(
+    private static final MethodHandle g_cclosure_marshal_VOID__VARIANT = Interop.downcallHandle(
         "g_cclosure_marshal_VOID__VARIANT",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -421,7 +479,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, GVariant *arg1, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDVARIANT(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
+    public static @NotNull void cclosureMarshalVOIDVARIANT(@NotNull Closure closure, @NotNull Value returnValue, @NotNull int nParamValues, @NotNull Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
         try {
             g_cclosure_marshal_VOID__VARIANT.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
         } catch (Throwable ERR) {
@@ -429,7 +487,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_cclosure_marshal_VOID__VOID = Interop.downcallHandle(
+    private static final MethodHandle g_cclosure_marshal_VOID__VOID = Interop.downcallHandle(
         "g_cclosure_marshal_VOID__VOID",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -438,7 +496,7 @@ public final class GObject {
      * A marshaller for a {@link CClosure} with a callback of type
      * {@code void (*callback) (gpointer instance, gpointer user_data)}.
      */
-    public static void cclosureMarshalVOIDVOID(Closure closure, Value returnValue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
+    public static @NotNull void cclosureMarshalVOIDVOID(@NotNull Closure closure, @NotNull Value returnValue, @NotNull int nParamValues, @NotNull Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
         try {
             g_cclosure_marshal_VOID__VOID.invokeExact(closure.handle(), returnValue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
         } catch (Throwable ERR) {
@@ -446,7 +504,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_cclosure_marshal_generic = Interop.downcallHandle(
+    private static final MethodHandle g_cclosure_marshal_generic = Interop.downcallHandle(
         "g_cclosure_marshal_generic",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -458,7 +516,7 @@ public final class GObject {
      * Normally this function is not passed explicitly to g_signal_new(),
      * but used automatically by GLib when specifying a {@code null} marshaller.
      */
-    public static void cclosureMarshalGeneric(Closure closure, Value returnGvalue, int nParamValues, Value paramValues, java.lang.foreign.MemoryAddress invocationHint, java.lang.foreign.MemoryAddress marshalData) {
+    public static @NotNull void cclosureMarshalGeneric(@NotNull Closure closure, @NotNull Value returnGvalue, @NotNull int nParamValues, @NotNull Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
         try {
             g_cclosure_marshal_generic.invokeExact(closure.handle(), returnGvalue.handle(), nParamValues, paramValues.handle(), invocationHint, marshalData);
         } catch (Throwable ERR) {
@@ -466,7 +524,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_cclosure_new = Interop.downcallHandle(
+    private static final MethodHandle g_cclosure_new = Interop.downcallHandle(
         "g_cclosure_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -477,27 +535,28 @@ public final class GObject {
      * <p>
      * {@code destroy_data} will be called as a finalize notifier on the {@link Closure}.
      */
-    public static Closure cclosureNew(Callback callbackFunc, ClosureNotify destroyData) {
+    public static @NotNull Closure cclosureNew(@Nullable Callback callbackFunc, @NotNull ClosureNotify destroyData) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_cclosure_new.invokeExact(
+            RESULT = (MemoryAddress) g_cclosure_new.invokeExact(
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callbackFunc.hashCode(), callbackFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callbackFunc)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()));
-            return new Closure(Refcounted.get(RESULT, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Closure(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_cclosure_new_swap = Interop.downcallHandle(
+    private static final MethodHandle g_cclosure_new_swap = Interop.downcallHandle(
         "g_cclosure_new_swap",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -508,27 +567,28 @@ public final class GObject {
      * <p>
      * {@code destroy_data} will be called as a finalize notifier on the {@link Closure}.
      */
-    public static Closure cclosureNewSwap(Callback callbackFunc, ClosureNotify destroyData) {
+    public static @NotNull Closure cclosureNewSwap(@Nullable Callback callbackFunc, @NotNull ClosureNotify destroyData) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_cclosure_new_swap.invokeExact(
+            RESULT = (MemoryAddress) g_cclosure_new_swap.invokeExact(
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callbackFunc.hashCode(), callbackFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callbackFunc)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()));
-            return new Closure(Refcounted.get(RESULT, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Closure(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_clear_object = Interop.downcallHandle(
+    private static final MethodHandle g_clear_object = Interop.downcallHandle(
         "g_clear_object",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -545,15 +605,15 @@ public final class GObject {
      * A macro is also included that allows this function to be used without
      * pointer casts.
      */
-    public static void clearObject(Object[] objectPtr) {
+    public static @NotNull void clearObject(@NotNull PointerProxy<Object> objectPtr) {
         try {
-            g_clear_object.invokeExact(Interop.allocateNativeArray(objectPtr).handle());
+            g_clear_object.invokeExact(objectPtr.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_clear_signal_handler = Interop.downcallHandle(
+    private static final MethodHandle g_clear_signal_handler = Interop.downcallHandle(
         "g_clear_signal_handler",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -568,7 +628,7 @@ public final class GObject {
      * There is also a macro version of this function so that the code
      * will be inlined.
      */
-    public static void clearSignalHandler(PointerLong handlerIdPtr, Object instance) {
+    public static @NotNull void clearSignalHandler(@NotNull PointerLong handlerIdPtr, @NotNull Object instance) {
         try {
             g_clear_signal_handler.invokeExact(handlerIdPtr.handle(), instance.handle());
         } catch (Throwable ERR) {
@@ -576,7 +636,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_enum_complete_type_info = Interop.downcallHandle(
+    private static final MethodHandle g_enum_complete_type_info = Interop.downcallHandle(
         "g_enum_complete_type_info",
         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -603,15 +663,17 @@ public final class GObject {
      * }
      * }</pre>
      */
-    public static void enumCompleteTypeInfo(org.gtk.gobject.Type gEnumType, TypeInfo info, EnumValue constValues) {
+    public static @NotNull void enumCompleteTypeInfo(@NotNull org.gtk.gobject.Type gEnumType, @NotNull Out<TypeInfo> info, @NotNull EnumValue constValues) {
+        MemorySegment infoPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            g_enum_complete_type_info.invokeExact(gEnumType.getValue(), info.refcounted().unowned().handle(), constValues.handle());
+            g_enum_complete_type_info.invokeExact(gEnumType.getValue(), (Addressable) infoPOINTER.address(), constValues.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        info.set(new TypeInfo(Refcounted.get(infoPOINTER.get(ValueLayout.ADDRESS, 0), true)));
     }
     
-    static final MethodHandle g_enum_get_value = Interop.downcallHandle(
+    private static final MethodHandle g_enum_get_value = Interop.downcallHandle(
         "g_enum_get_value",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -619,16 +681,17 @@ public final class GObject {
     /**
      * Returns the {@link EnumValue} for a value.
      */
-    public static EnumValue enumGetValue(EnumClass enumClass, int value) {
+    public static @Nullable EnumValue enumGetValue(@NotNull EnumClass enumClass, @NotNull int value) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_enum_get_value.invokeExact(enumClass.handle(), value);
-            return new EnumValue(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_enum_get_value.invokeExact(enumClass.handle(), value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new EnumValue(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_enum_get_value_by_name = Interop.downcallHandle(
+    private static final MethodHandle g_enum_get_value_by_name = Interop.downcallHandle(
         "g_enum_get_value_by_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -636,16 +699,17 @@ public final class GObject {
     /**
      * Looks up a {@link EnumValue} by name.
      */
-    public static EnumValue enumGetValueByName(EnumClass enumClass, java.lang.String name) {
+    public static @Nullable EnumValue enumGetValueByName(@NotNull EnumClass enumClass, @NotNull java.lang.String name) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_enum_get_value_by_name.invokeExact(enumClass.handle(), Interop.allocateNativeString(name).handle());
-            return new EnumValue(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_enum_get_value_by_name.invokeExact(enumClass.handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new EnumValue(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_enum_get_value_by_nick = Interop.downcallHandle(
+    private static final MethodHandle g_enum_get_value_by_nick = Interop.downcallHandle(
         "g_enum_get_value_by_nick",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -653,16 +717,17 @@ public final class GObject {
     /**
      * Looks up a {@link EnumValue} by nickname.
      */
-    public static EnumValue enumGetValueByNick(EnumClass enumClass, java.lang.String nick) {
+    public static @Nullable EnumValue enumGetValueByNick(@NotNull EnumClass enumClass, @NotNull java.lang.String nick) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_enum_get_value_by_nick.invokeExact(enumClass.handle(), Interop.allocateNativeString(nick).handle());
-            return new EnumValue(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_enum_get_value_by_nick.invokeExact(enumClass.handle(), Interop.allocateNativeString(nick));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new EnumValue(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_enum_register_static = Interop.downcallHandle(
+    private static final MethodHandle g_enum_register_static = Interop.downcallHandle(
         "g_enum_register_static",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -674,16 +739,17 @@ public final class GObject {
      * generate a my_enum_get_type() function from a usual C enumeration
      * definition  than to write one yourself using g_enum_register_static().
      */
-    public static org.gtk.gobject.Type enumRegisterStatic(java.lang.String name, EnumValue constStaticValues) {
+    public static @NotNull org.gtk.gobject.Type enumRegisterStatic(@NotNull java.lang.String name, @NotNull EnumValue constStaticValues) {
+        long RESULT;
         try {
-            var RESULT = (long) g_enum_register_static.invokeExact(Interop.allocateNativeString(name).handle(), constStaticValues.handle());
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) g_enum_register_static.invokeExact(Interop.allocateNativeString(name), constStaticValues.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle g_enum_to_string = Interop.downcallHandle(
+    private static final MethodHandle g_enum_to_string = Interop.downcallHandle(
         "g_enum_to_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
     );
@@ -694,16 +760,17 @@ public final class GObject {
      * This is intended to be used for debugging purposes. The format of the output
      * may change in the future.
      */
-    public static java.lang.String enumToString(org.gtk.gobject.Type gEnumType, int value) {
+    public static @NotNull java.lang.String enumToString(@NotNull org.gtk.gobject.Type gEnumType, @NotNull int value) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_enum_to_string.invokeExact(gEnumType.getValue(), value);
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_enum_to_string.invokeExact(gEnumType.getValue(), value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_flags_complete_type_info = Interop.downcallHandle(
+    private static final MethodHandle g_flags_complete_type_info = Interop.downcallHandle(
         "g_flags_complete_type_info",
         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -713,15 +780,17 @@ public final class GObject {
      * function of a {@link TypePlugin} implementation, see the example for
      * g_enum_complete_type_info() above.
      */
-    public static void flagsCompleteTypeInfo(org.gtk.gobject.Type gFlagsType, TypeInfo info, FlagsValue constValues) {
+    public static @NotNull void flagsCompleteTypeInfo(@NotNull org.gtk.gobject.Type gFlagsType, @NotNull Out<TypeInfo> info, @NotNull FlagsValue constValues) {
+        MemorySegment infoPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            g_flags_complete_type_info.invokeExact(gFlagsType.getValue(), info.refcounted().unowned().handle(), constValues.handle());
+            g_flags_complete_type_info.invokeExact(gFlagsType.getValue(), (Addressable) infoPOINTER.address(), constValues.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        info.set(new TypeInfo(Refcounted.get(infoPOINTER.get(ValueLayout.ADDRESS, 0), true)));
     }
     
-    static final MethodHandle g_flags_get_first_value = Interop.downcallHandle(
+    private static final MethodHandle g_flags_get_first_value = Interop.downcallHandle(
         "g_flags_get_first_value",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -729,16 +798,17 @@ public final class GObject {
     /**
      * Returns the first {@link FlagsValue} which is set in {@code value}.
      */
-    public static FlagsValue flagsGetFirstValue(FlagsClass flagsClass, int value) {
+    public static @Nullable FlagsValue flagsGetFirstValue(@NotNull FlagsClass flagsClass, @NotNull int value) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_flags_get_first_value.invokeExact(flagsClass.handle(), value);
-            return new FlagsValue(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_flags_get_first_value.invokeExact(flagsClass.handle(), value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new FlagsValue(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_flags_get_value_by_name = Interop.downcallHandle(
+    private static final MethodHandle g_flags_get_value_by_name = Interop.downcallHandle(
         "g_flags_get_value_by_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -746,16 +816,17 @@ public final class GObject {
     /**
      * Looks up a {@link FlagsValue} by name.
      */
-    public static FlagsValue flagsGetValueByName(FlagsClass flagsClass, java.lang.String name) {
+    public static @Nullable FlagsValue flagsGetValueByName(@NotNull FlagsClass flagsClass, @NotNull java.lang.String name) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_flags_get_value_by_name.invokeExact(flagsClass.handle(), Interop.allocateNativeString(name).handle());
-            return new FlagsValue(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_flags_get_value_by_name.invokeExact(flagsClass.handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new FlagsValue(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_flags_get_value_by_nick = Interop.downcallHandle(
+    private static final MethodHandle g_flags_get_value_by_nick = Interop.downcallHandle(
         "g_flags_get_value_by_nick",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -763,16 +834,17 @@ public final class GObject {
     /**
      * Looks up a {@link FlagsValue} by nickname.
      */
-    public static FlagsValue flagsGetValueByNick(FlagsClass flagsClass, java.lang.String nick) {
+    public static @Nullable FlagsValue flagsGetValueByNick(@NotNull FlagsClass flagsClass, @NotNull java.lang.String nick) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_flags_get_value_by_nick.invokeExact(flagsClass.handle(), Interop.allocateNativeString(nick).handle());
-            return new FlagsValue(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_flags_get_value_by_nick.invokeExact(flagsClass.handle(), Interop.allocateNativeString(nick));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new FlagsValue(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_flags_register_static = Interop.downcallHandle(
+    private static final MethodHandle g_flags_register_static = Interop.downcallHandle(
         "g_flags_register_static",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -784,16 +856,17 @@ public final class GObject {
      * generate a my_flags_get_type() function from a usual C enumeration
      * definition than to write one yourself using g_flags_register_static().
      */
-    public static org.gtk.gobject.Type flagsRegisterStatic(java.lang.String name, FlagsValue constStaticValues) {
+    public static @NotNull org.gtk.gobject.Type flagsRegisterStatic(@NotNull java.lang.String name, @NotNull FlagsValue constStaticValues) {
+        long RESULT;
         try {
-            var RESULT = (long) g_flags_register_static.invokeExact(Interop.allocateNativeString(name).handle(), constStaticValues.handle());
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) g_flags_register_static.invokeExact(Interop.allocateNativeString(name), constStaticValues.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle g_flags_to_string = Interop.downcallHandle(
+    private static final MethodHandle g_flags_to_string = Interop.downcallHandle(
         "g_flags_to_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
     );
@@ -805,30 +878,32 @@ public final class GObject {
      * This is intended to be used for debugging purposes. The format of the output
      * may change in the future.
      */
-    public static java.lang.String flagsToString(org.gtk.gobject.Type flagsType, int value) {
+    public static @NotNull java.lang.String flagsToString(@NotNull org.gtk.gobject.Type flagsType, @NotNull int value) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_flags_to_string.invokeExact(flagsType.getValue(), value);
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_flags_to_string.invokeExact(flagsType.getValue(), value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_gtype_get_type = Interop.downcallHandle(
+    private static final MethodHandle g_gtype_get_type = Interop.downcallHandle(
         "g_gtype_get_type",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG)
     );
     
-    public static org.gtk.gobject.Type gtypeGetType() {
+    public static @NotNull org.gtk.gobject.Type gtypeGetType() {
+        long RESULT;
         try {
-            var RESULT = (long) g_gtype_get_type.invokeExact();
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) g_gtype_get_type.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle g_param_spec_boolean = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_boolean = Interop.downcallHandle(
         "g_param_spec_boolean",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -842,16 +917,17 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecBoolean(java.lang.String name, java.lang.String nick, java.lang.String blurb, boolean defaultValue, ParamFlags flags) {
+    public static @NotNull ParamSpec paramSpecBoolean(@NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @NotNull boolean defaultValue, @NotNull ParamFlags flags) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_boolean.invokeExact(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), defaultValue ? 1 : 0, flags.getValue());
-            return new ParamSpec(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_param_spec_boolean.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), defaultValue ? 1 : 0, flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_param_spec_boxed = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_boxed = Interop.downcallHandle(
         "g_param_spec_boxed",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
     );
@@ -862,16 +938,17 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecBoxed(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.gobject.Type boxedType, ParamFlags flags) {
+    public static @NotNull ParamSpec paramSpecBoxed(@NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @NotNull org.gtk.gobject.Type boxedType, @NotNull ParamFlags flags) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_boxed.invokeExact(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), boxedType.getValue(), flags.getValue());
-            return new ParamSpec(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_param_spec_boxed.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), boxedType.getValue(), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_param_spec_char = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_char = Interop.downcallHandle(
         "g_param_spec_char",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE, ValueLayout.JAVA_BYTE, ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT)
     );
@@ -879,16 +956,17 @@ public final class GObject {
     /**
      * Creates a new {@link ParamSpecChar} instance specifying a {@code G_TYPE_CHAR} property.
      */
-    public static ParamSpec paramSpecChar(java.lang.String name, java.lang.String nick, java.lang.String blurb, byte minimum, byte maximum, byte defaultValue, ParamFlags flags) {
+    public static @NotNull ParamSpec paramSpecChar(@NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @NotNull byte minimum, @NotNull byte maximum, @NotNull byte defaultValue, @NotNull ParamFlags flags) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_char.invokeExact(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
-            return new ParamSpec(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_param_spec_char.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), minimum, maximum, defaultValue, flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_param_spec_double = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_double = Interop.downcallHandle(
         "g_param_spec_double",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
     );
@@ -899,16 +977,17 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecDouble(java.lang.String name, java.lang.String nick, java.lang.String blurb, double minimum, double maximum, double defaultValue, ParamFlags flags) {
+    public static @NotNull ParamSpec paramSpecDouble(@NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @NotNull double minimum, @NotNull double maximum, @NotNull double defaultValue, @NotNull ParamFlags flags) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_double.invokeExact(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
-            return new ParamSpec(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_param_spec_double.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), minimum, maximum, defaultValue, flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_param_spec_enum = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_enum = Interop.downcallHandle(
         "g_param_spec_enum",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -919,16 +998,17 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecEnum(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.gobject.Type enumType, int defaultValue, ParamFlags flags) {
+    public static @NotNull ParamSpec paramSpecEnum(@NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @NotNull org.gtk.gobject.Type enumType, @NotNull int defaultValue, @NotNull ParamFlags flags) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_enum.invokeExact(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), enumType.getValue(), defaultValue, flags.getValue());
-            return new ParamSpec(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_param_spec_enum.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), enumType.getValue(), defaultValue, flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_param_spec_flags = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_flags = Interop.downcallHandle(
         "g_param_spec_flags",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -939,16 +1019,17 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecFlags(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.gobject.Type flagsType, int defaultValue, ParamFlags flags) {
+    public static @NotNull ParamSpec paramSpecFlags(@NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @NotNull org.gtk.gobject.Type flagsType, @NotNull int defaultValue, @NotNull ParamFlags flags) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_flags.invokeExact(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), flagsType.getValue(), defaultValue, flags.getValue());
-            return new ParamSpec(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_param_spec_flags.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), flagsType.getValue(), defaultValue, flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_param_spec_float = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_float = Interop.downcallHandle(
         "g_param_spec_float",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_INT)
     );
@@ -958,16 +1039,17 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecFloat(java.lang.String name, java.lang.String nick, java.lang.String blurb, float minimum, float maximum, float defaultValue, ParamFlags flags) {
+    public static @NotNull ParamSpec paramSpecFloat(@NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @NotNull float minimum, @NotNull float maximum, @NotNull float defaultValue, @NotNull ParamFlags flags) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_float.invokeExact(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
-            return new ParamSpec(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_param_spec_float.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), minimum, maximum, defaultValue, flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_param_spec_gtype = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_gtype = Interop.downcallHandle(
         "g_param_spec_gtype",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
     );
@@ -978,16 +1060,17 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecGtype(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.gobject.Type isAType, ParamFlags flags) {
+    public static @NotNull ParamSpec paramSpecGtype(@NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @NotNull org.gtk.gobject.Type isAType, @NotNull ParamFlags flags) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_gtype.invokeExact(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), isAType.getValue(), flags.getValue());
-            return new ParamSpec(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_param_spec_gtype.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), isAType.getValue(), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_param_spec_int = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_int = Interop.downcallHandle(
         "g_param_spec_int",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -997,16 +1080,17 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecInt(java.lang.String name, java.lang.String nick, java.lang.String blurb, int minimum, int maximum, int defaultValue, ParamFlags flags) {
+    public static @NotNull ParamSpec paramSpecInt(@NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @NotNull int minimum, @NotNull int maximum, @NotNull int defaultValue, @NotNull ParamFlags flags) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_int.invokeExact(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
-            return new ParamSpec(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_param_spec_int.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), minimum, maximum, defaultValue, flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_param_spec_int64 = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_int64 = Interop.downcallHandle(
         "g_param_spec_int64",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
     );
@@ -1016,16 +1100,17 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecInt64(java.lang.String name, java.lang.String nick, java.lang.String blurb, long minimum, long maximum, long defaultValue, ParamFlags flags) {
+    public static @NotNull ParamSpec paramSpecInt64(@NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @NotNull long minimum, @NotNull long maximum, @NotNull long defaultValue, @NotNull ParamFlags flags) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_int64.invokeExact(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
-            return new ParamSpec(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_param_spec_int64.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), minimum, maximum, defaultValue, flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_param_spec_long = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_long = Interop.downcallHandle(
         "g_param_spec_long",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
     );
@@ -1035,16 +1120,17 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecLong(java.lang.String name, java.lang.String nick, java.lang.String blurb, long minimum, long maximum, long defaultValue, ParamFlags flags) {
+    public static @NotNull ParamSpec paramSpecLong(@NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @NotNull long minimum, @NotNull long maximum, @NotNull long defaultValue, @NotNull ParamFlags flags) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_long.invokeExact(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
-            return new ParamSpec(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_param_spec_long.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), minimum, maximum, defaultValue, flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_param_spec_object = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_object = Interop.downcallHandle(
         "g_param_spec_object",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
     );
@@ -1055,16 +1141,17 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecObject(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.gobject.Type objectType, ParamFlags flags) {
+    public static @NotNull ParamSpec paramSpecObject(@NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @NotNull org.gtk.gobject.Type objectType, @NotNull ParamFlags flags) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_object.invokeExact(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), objectType.getValue(), flags.getValue());
-            return new ParamSpec(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_param_spec_object.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), objectType.getValue(), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_param_spec_override = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_override = Interop.downcallHandle(
         "g_param_spec_override",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1074,16 +1161,17 @@ public final class GObject {
      * to direct operations to another paramspec, and will not be directly
      * useful unless you are implementing a new base type similar to GObject.
      */
-    public static ParamSpec paramSpecOverride(java.lang.String name, ParamSpec overridden) {
+    public static @NotNull ParamSpec paramSpecOverride(@NotNull java.lang.String name, @NotNull ParamSpec overridden) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_override.invokeExact(Interop.allocateNativeString(name).handle(), overridden.handle());
-            return new ParamSpec(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_param_spec_override.invokeExact(Interop.allocateNativeString(name), overridden.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_param_spec_param = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_param = Interop.downcallHandle(
         "g_param_spec_param",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
     );
@@ -1094,16 +1182,17 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecParam(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.gobject.Type paramType, ParamFlags flags) {
+    public static @NotNull ParamSpec paramSpecParam(@NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @NotNull org.gtk.gobject.Type paramType, @NotNull ParamFlags flags) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_param.invokeExact(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), paramType.getValue(), flags.getValue());
-            return new ParamSpec(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_param_spec_param.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), paramType.getValue(), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_param_spec_pointer = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_pointer = Interop.downcallHandle(
         "g_param_spec_pointer",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1115,16 +1204,17 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecPointer(java.lang.String name, java.lang.String nick, java.lang.String blurb, ParamFlags flags) {
+    public static @NotNull ParamSpec paramSpecPointer(@NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @NotNull ParamFlags flags) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_pointer.invokeExact(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), flags.getValue());
-            return new ParamSpec(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_param_spec_pointer.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_param_spec_string = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_string = Interop.downcallHandle(
         "g_param_spec_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1134,16 +1224,17 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecString(java.lang.String name, java.lang.String nick, java.lang.String blurb, java.lang.String defaultValue, ParamFlags flags) {
+    public static @NotNull ParamSpec paramSpecString(@NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @Nullable java.lang.String defaultValue, @NotNull ParamFlags flags) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_string.invokeExact(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), Interop.allocateNativeString(defaultValue).handle(), flags.getValue());
-            return new ParamSpec(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_param_spec_string.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), Interop.allocateNativeString(defaultValue), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_param_spec_uchar = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_uchar = Interop.downcallHandle(
         "g_param_spec_uchar",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE, ValueLayout.JAVA_BYTE, ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT)
     );
@@ -1151,16 +1242,17 @@ public final class GObject {
     /**
      * Creates a new {@link ParamSpecUChar} instance specifying a {@code G_TYPE_UCHAR} property.
      */
-    public static ParamSpec paramSpecUchar(java.lang.String name, java.lang.String nick, java.lang.String blurb, byte minimum, byte maximum, byte defaultValue, ParamFlags flags) {
+    public static @NotNull ParamSpec paramSpecUchar(@NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @NotNull byte minimum, @NotNull byte maximum, @NotNull byte defaultValue, @NotNull ParamFlags flags) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_uchar.invokeExact(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
-            return new ParamSpec(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_param_spec_uchar.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), minimum, maximum, defaultValue, flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_param_spec_uint = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_uint = Interop.downcallHandle(
         "g_param_spec_uint",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -1170,16 +1262,17 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecUint(java.lang.String name, java.lang.String nick, java.lang.String blurb, int minimum, int maximum, int defaultValue, ParamFlags flags) {
+    public static @NotNull ParamSpec paramSpecUint(@NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @NotNull int minimum, @NotNull int maximum, @NotNull int defaultValue, @NotNull ParamFlags flags) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_uint.invokeExact(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
-            return new ParamSpec(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_param_spec_uint.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), minimum, maximum, defaultValue, flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_param_spec_uint64 = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_uint64 = Interop.downcallHandle(
         "g_param_spec_uint64",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
     );
@@ -1190,16 +1283,17 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecUint64(java.lang.String name, java.lang.String nick, java.lang.String blurb, long minimum, long maximum, long defaultValue, ParamFlags flags) {
+    public static @NotNull ParamSpec paramSpecUint64(@NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @NotNull long minimum, @NotNull long maximum, @NotNull long defaultValue, @NotNull ParamFlags flags) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_uint64.invokeExact(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
-            return new ParamSpec(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_param_spec_uint64.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), minimum, maximum, defaultValue, flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_param_spec_ulong = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_ulong = Interop.downcallHandle(
         "g_param_spec_ulong",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
     );
@@ -1210,16 +1304,17 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecUlong(java.lang.String name, java.lang.String nick, java.lang.String blurb, long minimum, long maximum, long defaultValue, ParamFlags flags) {
+    public static @NotNull ParamSpec paramSpecUlong(@NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @NotNull long minimum, @NotNull long maximum, @NotNull long defaultValue, @NotNull ParamFlags flags) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_ulong.invokeExact(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), minimum, maximum, defaultValue, flags.getValue());
-            return new ParamSpec(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_param_spec_ulong.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), minimum, maximum, defaultValue, flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_param_spec_unichar = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_unichar = Interop.downcallHandle(
         "g_param_spec_unichar",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -1231,16 +1326,17 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecUnichar(java.lang.String name, java.lang.String nick, java.lang.String blurb, int defaultValue, ParamFlags flags) {
+    public static @NotNull ParamSpec paramSpecUnichar(@NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @NotNull int defaultValue, @NotNull ParamFlags flags) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_unichar.invokeExact(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), defaultValue, flags.getValue());
-            return new ParamSpec(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_param_spec_unichar.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), defaultValue, flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_param_spec_value_array = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_value_array = Interop.downcallHandle(
         "g_param_spec_value_array",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1253,16 +1349,17 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecValueArray(java.lang.String name, java.lang.String nick, java.lang.String blurb, ParamSpec elementSpec, ParamFlags flags) {
+    public static @NotNull ParamSpec paramSpecValueArray(@NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @NotNull ParamSpec elementSpec, @NotNull ParamFlags flags) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_value_array.invokeExact(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), elementSpec.handle(), flags.getValue());
-            return new ParamSpec(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_param_spec_value_array.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), elementSpec.handle(), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_param_spec_variant = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_variant = Interop.downcallHandle(
         "g_param_spec_variant",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1275,16 +1372,17 @@ public final class GObject {
      * <p>
      * See g_param_spec_internal() for details on property names.
      */
-    public static ParamSpec paramSpecVariant(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.glib.VariantType type, org.gtk.glib.Variant defaultValue, ParamFlags flags) {
+    public static @NotNull ParamSpec paramSpecVariant(@NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @NotNull org.gtk.glib.VariantType type, @Nullable org.gtk.glib.Variant defaultValue, @NotNull ParamFlags flags) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_variant.invokeExact(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(nick).handle(), Interop.allocateNativeString(blurb).handle(), type.handle(), defaultValue.refcounted().unowned().handle(), flags.getValue());
-            return new ParamSpec(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_param_spec_variant.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(nick), Interop.allocateNativeString(blurb), type.handle(), defaultValue.refcounted().unowned().handle(), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_param_type_register_static = Interop.downcallHandle(
+    private static final MethodHandle g_param_type_register_static = Interop.downcallHandle(
         "g_param_type_register_static",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1297,16 +1395,17 @@ public final class GObject {
      * structure pointed to by {@code info} to manage the {@link ParamSpec} type and its
      * instances.
      */
-    public static org.gtk.gobject.Type paramTypeRegisterStatic(java.lang.String name, ParamSpecTypeInfo pspecInfo) {
+    public static @NotNull org.gtk.gobject.Type paramTypeRegisterStatic(@NotNull java.lang.String name, @NotNull ParamSpecTypeInfo pspecInfo) {
+        long RESULT;
         try {
-            var RESULT = (long) g_param_type_register_static.invokeExact(Interop.allocateNativeString(name).handle(), pspecInfo.handle());
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) g_param_type_register_static.invokeExact(Interop.allocateNativeString(name), pspecInfo.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle g_param_value_convert = Interop.downcallHandle(
+    private static final MethodHandle g_param_value_convert = Interop.downcallHandle(
         "g_param_value_convert",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1320,16 +1419,17 @@ public final class GObject {
      * See also g_value_type_transformable(), g_value_transform() and
      * g_param_value_validate().
      */
-    public static boolean paramValueConvert(ParamSpec pspec, Value srcValue, Value destValue, boolean strictValidation) {
+    public static boolean paramValueConvert(@NotNull ParamSpec pspec, @NotNull Value srcValue, @NotNull Value destValue, @NotNull boolean strictValidation) {
+        int RESULT;
         try {
-            var RESULT = (int) g_param_value_convert.invokeExact(pspec.handle(), srcValue.handle(), destValue.handle(), strictValidation ? 1 : 0);
-            return RESULT != 0;
+            RESULT = (int) g_param_value_convert.invokeExact(pspec.handle(), srcValue.handle(), destValue.handle(), strictValidation ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_param_value_defaults = Interop.downcallHandle(
+    private static final MethodHandle g_param_value_defaults = Interop.downcallHandle(
         "g_param_value_defaults",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1337,16 +1437,17 @@ public final class GObject {
     /**
      * Checks whether {@code value} contains the default value as specified in {@code pspec}.
      */
-    public static boolean paramValueDefaults(ParamSpec pspec, Value value) {
+    public static boolean paramValueDefaults(@NotNull ParamSpec pspec, @NotNull Value value) {
+        int RESULT;
         try {
-            var RESULT = (int) g_param_value_defaults.invokeExact(pspec.handle(), value.handle());
-            return RESULT != 0;
+            RESULT = (int) g_param_value_defaults.invokeExact(pspec.handle(), value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_param_value_set_default = Interop.downcallHandle(
+    private static final MethodHandle g_param_value_set_default = Interop.downcallHandle(
         "g_param_value_set_default",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1354,7 +1455,7 @@ public final class GObject {
     /**
      * Sets {@code value} to its default value as specified in {@code pspec}.
      */
-    public static void paramValueSetDefault(ParamSpec pspec, Value value) {
+    public static @NotNull void paramValueSetDefault(@NotNull ParamSpec pspec, @NotNull Value value) {
         try {
             g_param_value_set_default.invokeExact(pspec.handle(), value.handle());
         } catch (Throwable ERR) {
@@ -1362,7 +1463,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_param_value_validate = Interop.downcallHandle(
+    private static final MethodHandle g_param_value_validate = Interop.downcallHandle(
         "g_param_value_validate",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1375,16 +1476,17 @@ public final class GObject {
      * it is modified accordingly, so the resulting value will fit into the
      * range -42 .. +42.
      */
-    public static boolean paramValueValidate(ParamSpec pspec, Value value) {
+    public static boolean paramValueValidate(@NotNull ParamSpec pspec, @NotNull Value value) {
+        int RESULT;
         try {
-            var RESULT = (int) g_param_value_validate.invokeExact(pspec.handle(), value.handle());
-            return RESULT != 0;
+            RESULT = (int) g_param_value_validate.invokeExact(pspec.handle(), value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_param_values_cmp = Interop.downcallHandle(
+    private static final MethodHandle g_param_values_cmp = Interop.downcallHandle(
         "g_param_values_cmp",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1394,16 +1496,17 @@ public final class GObject {
      * if {@code value1} is found to be less than, equal to or greater than {@code value2},
      * respectively.
      */
-    public static int paramValuesCmp(ParamSpec pspec, Value value1, Value value2) {
+    public static int paramValuesCmp(@NotNull ParamSpec pspec, @NotNull Value value1, @NotNull Value value2) {
+        int RESULT;
         try {
-            var RESULT = (int) g_param_values_cmp.invokeExact(pspec.handle(), value1.handle(), value2.handle());
-            return RESULT;
+            RESULT = (int) g_param_values_cmp.invokeExact(pspec.handle(), value1.handle(), value2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_pointer_type_register_static = Interop.downcallHandle(
+    private static final MethodHandle g_pointer_type_register_static = Interop.downcallHandle(
         "g_pointer_type_register_static",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -1412,16 +1515,17 @@ public final class GObject {
      * Creates a new {@code G_TYPE_POINTER} derived type id for a new
      * pointer type with name {@code name}.
      */
-    public static org.gtk.gobject.Type pointerTypeRegisterStatic(java.lang.String name) {
+    public static @NotNull org.gtk.gobject.Type pointerTypeRegisterStatic(@NotNull java.lang.String name) {
+        long RESULT;
         try {
-            var RESULT = (long) g_pointer_type_register_static.invokeExact(Interop.allocateNativeString(name).handle());
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) g_pointer_type_register_static.invokeExact(Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle g_signal_accumulator_first_wins = Interop.downcallHandle(
+    private static final MethodHandle g_signal_accumulator_first_wins = Interop.downcallHandle(
         "g_signal_accumulator_first_wins",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1438,16 +1542,17 @@ public final class GObject {
      * handler that is run as the return value for the signal and not run
      * any further handlers (ie: the first handler "wins").
      */
-    public static boolean signalAccumulatorFirstWins(SignalInvocationHint ihint, Value returnAccu, Value handlerReturn, java.lang.foreign.MemoryAddress dummy) {
+    public static boolean signalAccumulatorFirstWins(@NotNull SignalInvocationHint ihint, @NotNull Value returnAccu, @NotNull Value handlerReturn, @Nullable java.lang.foreign.MemoryAddress dummy) {
+        int RESULT;
         try {
-            var RESULT = (int) g_signal_accumulator_first_wins.invokeExact(ihint.handle(), returnAccu.handle(), handlerReturn.handle(), dummy);
-            return RESULT != 0;
+            RESULT = (int) g_signal_accumulator_first_wins.invokeExact(ihint.handle(), returnAccu.handle(), handlerReturn.handle(), dummy);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_signal_accumulator_true_handled = Interop.downcallHandle(
+    private static final MethodHandle g_signal_accumulator_true_handled = Interop.downcallHandle(
         "g_signal_accumulator_true_handled",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1461,16 +1566,17 @@ public final class GObject {
      * indicates that the callback handled the signal, and no further
      * handling is needed.
      */
-    public static boolean signalAccumulatorTrueHandled(SignalInvocationHint ihint, Value returnAccu, Value handlerReturn, java.lang.foreign.MemoryAddress dummy) {
+    public static boolean signalAccumulatorTrueHandled(@NotNull SignalInvocationHint ihint, @NotNull Value returnAccu, @NotNull Value handlerReturn, @Nullable java.lang.foreign.MemoryAddress dummy) {
+        int RESULT;
         try {
-            var RESULT = (int) g_signal_accumulator_true_handled.invokeExact(ihint.handle(), returnAccu.handle(), handlerReturn.handle(), dummy);
-            return RESULT != 0;
+            RESULT = (int) g_signal_accumulator_true_handled.invokeExact(ihint.handle(), returnAccu.handle(), handlerReturn.handle(), dummy);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_signal_add_emission_hook = Interop.downcallHandle(
+    private static final MethodHandle g_signal_add_emission_hook = Interop.downcallHandle(
         "g_signal_add_emission_hook",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1480,23 +1586,24 @@ public final class GObject {
      * of that signal, independent of the instance. This is possible only
      * for signals which don't have {@link SignalFlags#NO_HOOKS} flag set.
      */
-    public static long signalAddEmissionHook(int signalId, org.gtk.glib.Quark detail, SignalEmissionHook hookFunc) {
+    public static long signalAddEmissionHook(@NotNull int signalId, @NotNull org.gtk.glib.Quark detail, @NotNull SignalEmissionHook hookFunc) {
+        long RESULT;
         try {
-            var RESULT = (long) g_signal_add_emission_hook.invokeExact(signalId, detail.getValue(), 
+            RESULT = (long) g_signal_add_emission_hook.invokeExact(signalId, detail.getValue(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbSignalEmissionHook",
                             MethodType.methodType(int.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(hookFunc.hashCode(), hookFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(hookFunc)), 
                     Interop.cbDestroyNotifySymbol());
-            return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_signal_chain_from_overridden = Interop.downcallHandle(
+    private static final MethodHandle g_signal_chain_from_overridden = Interop.downcallHandle(
         "g_signal_chain_from_overridden",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1507,15 +1614,15 @@ public final class GObject {
      * g_signal_override_class_closure() and
      * g_signal_override_class_handler().
      */
-    public static void signalChainFromOverridden(Value[] instanceAndParams, Value returnValue) {
+    public static @NotNull void signalChainFromOverridden(@NotNull Value[] instanceAndParams, @NotNull Value returnValue) {
         try {
-            g_signal_chain_from_overridden.invokeExact(Interop.allocateNativeArray(instanceAndParams).handle(), returnValue.handle());
+            g_signal_chain_from_overridden.invokeExact(Interop.allocateNativeArray(instanceAndParams), returnValue.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_signal_connect_closure = Interop.downcallHandle(
+    private static final MethodHandle g_signal_connect_closure = Interop.downcallHandle(
         "g_signal_connect_closure",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1523,16 +1630,17 @@ public final class GObject {
     /**
      * Connects a closure to a signal for a particular object.
      */
-    public static long signalConnectClosure(Object instance, java.lang.String detailedSignal, Closure closure, boolean after) {
+    public static long signalConnectClosure(@NotNull Object instance, @NotNull java.lang.String detailedSignal, @NotNull Closure closure, @NotNull boolean after) {
+        long RESULT;
         try {
-            var RESULT = (long) g_signal_connect_closure.invokeExact(instance.handle(), Interop.allocateNativeString(detailedSignal).handle(), closure.handle(), after ? 1 : 0);
-            return RESULT;
+            RESULT = (long) g_signal_connect_closure.invokeExact(instance.handle(), Interop.allocateNativeString(detailedSignal), closure.handle(), after ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_signal_connect_closure_by_id = Interop.downcallHandle(
+    private static final MethodHandle g_signal_connect_closure_by_id = Interop.downcallHandle(
         "g_signal_connect_closure_by_id",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1540,16 +1648,17 @@ public final class GObject {
     /**
      * Connects a closure to a signal for a particular object.
      */
-    public static long signalConnectClosureById(Object instance, int signalId, org.gtk.glib.Quark detail, Closure closure, boolean after) {
+    public static long signalConnectClosureById(@NotNull Object instance, @NotNull int signalId, @NotNull org.gtk.glib.Quark detail, @NotNull Closure closure, @NotNull boolean after) {
+        long RESULT;
         try {
-            var RESULT = (long) g_signal_connect_closure_by_id.invokeExact(instance.handle(), signalId, detail.getValue(), closure.handle(), after ? 1 : 0);
-            return RESULT;
+            RESULT = (long) g_signal_connect_closure_by_id.invokeExact(instance.handle(), signalId, detail.getValue(), closure.handle(), after ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_signal_connect_data = Interop.downcallHandle(
+    private static final MethodHandle g_signal_connect_data = Interop.downcallHandle(
         "g_signal_connect_data",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1561,27 +1670,28 @@ public final class GObject {
      * used. Specify {@code connect_flags} if you need {@code ..._after()} or
      * {@code ..._swapped()} variants of this function.
      */
-    public static long signalConnectData(Object instance, java.lang.String detailedSignal, Callback cHandler, ClosureNotify destroyData, ConnectFlags connectFlags) {
+    public static long signalConnectData(@NotNull Object instance, @NotNull java.lang.String detailedSignal, @NotNull Callback cHandler, @Nullable ClosureNotify destroyData, @NotNull ConnectFlags connectFlags) {
+        long RESULT;
         try {
-            var RESULT = (long) g_signal_connect_data.invokeExact(instance.handle(), Interop.allocateNativeString(detailedSignal).handle(), 
+            RESULT = (long) g_signal_connect_data.invokeExact(instance.handle(), Interop.allocateNativeString(detailedSignal), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cHandler.hashCode(), cHandler)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cHandler)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbClosureNotify",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), connectFlags.getValue());
-            return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_signal_emit_valist = Interop.downcallHandle(
+    private static final MethodHandle g_signal_emit_valist = Interop.downcallHandle(
         "g_signal_emit_valist",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -1593,7 +1703,7 @@ public final class GObject {
      * Note that g_signal_emit_valist() resets the return value to the default
      * if no handlers are connected, in contrast to g_signal_emitv().
      */
-    public static void signalEmitValist(TypeInstance instance, int signalId, org.gtk.glib.Quark detail, VaList varArgs) {
+    public static @NotNull void signalEmitValist(@NotNull TypeInstance instance, @NotNull int signalId, @NotNull org.gtk.glib.Quark detail, @NotNull VaList varArgs) {
         try {
             g_signal_emit_valist.invokeExact(instance.handle(), signalId, detail.getValue(), varArgs);
         } catch (Throwable ERR) {
@@ -1601,7 +1711,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_signal_emitv = Interop.downcallHandle(
+    private static final MethodHandle g_signal_emitv = Interop.downcallHandle(
         "g_signal_emitv",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -1613,15 +1723,17 @@ public final class GObject {
      * Note that g_signal_emitv() doesn't change {@code return_value} if no handlers are
      * connected, in contrast to g_signal_emit() and g_signal_emit_valist().
      */
-    public static void signalEmitv(Value[] instanceAndParams, int signalId, org.gtk.glib.Quark detail, Value returnValue) {
+    public static @NotNull void signalEmitv(@NotNull Value[] instanceAndParams, @NotNull int signalId, @NotNull org.gtk.glib.Quark detail, @NotNull Out<Value> returnValue) {
+        MemorySegment returnValuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            g_signal_emitv.invokeExact(Interop.allocateNativeArray(instanceAndParams).handle(), signalId, detail.getValue(), returnValue.refcounted().unowned().handle());
+            g_signal_emitv.invokeExact(Interop.allocateNativeArray(instanceAndParams), signalId, detail.getValue(), (Addressable) returnValuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        returnValue.set(new Value(Refcounted.get(returnValuePOINTER.get(ValueLayout.ADDRESS, 0), true)));
     }
     
-    static final MethodHandle g_signal_get_invocation_hint = Interop.downcallHandle(
+    private static final MethodHandle g_signal_get_invocation_hint = Interop.downcallHandle(
         "g_signal_get_invocation_hint",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1629,16 +1741,17 @@ public final class GObject {
     /**
      * Returns the invocation hint of the innermost signal emission of instance.
      */
-    public static SignalInvocationHint signalGetInvocationHint(Object instance) {
+    public static @Nullable SignalInvocationHint signalGetInvocationHint(@NotNull Object instance) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_signal_get_invocation_hint.invokeExact(instance.handle());
-            return new SignalInvocationHint(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_signal_get_invocation_hint.invokeExact(instance.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SignalInvocationHint(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_signal_handler_block = Interop.downcallHandle(
+    private static final MethodHandle g_signal_handler_block = Interop.downcallHandle(
         "g_signal_handler_block",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -1653,7 +1766,7 @@ public final class GObject {
      * The {@code handler_id} has to be a valid signal handler id, connected to a
      * signal of {@code instance}.
      */
-    public static void signalHandlerBlock(Object instance, long handlerId) {
+    public static @NotNull void signalHandlerBlock(@NotNull Object instance, @NotNull long handlerId) {
         try {
             g_signal_handler_block.invokeExact(instance.handle(), handlerId);
         } catch (Throwable ERR) {
@@ -1661,7 +1774,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_signal_handler_disconnect = Interop.downcallHandle(
+    private static final MethodHandle g_signal_handler_disconnect = Interop.downcallHandle(
         "g_signal_handler_disconnect",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -1674,7 +1787,7 @@ public final class GObject {
      * The {@code handler_id} has to be a valid signal handler id, connected to a
      * signal of {@code instance}.
      */
-    public static void signalHandlerDisconnect(Object instance, long handlerId) {
+    public static @NotNull void signalHandlerDisconnect(@NotNull Object instance, @NotNull long handlerId) {
         try {
             g_signal_handler_disconnect.invokeExact(instance.handle(), handlerId);
         } catch (Throwable ERR) {
@@ -1682,7 +1795,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_signal_handler_find = Interop.downcallHandle(
+    private static final MethodHandle g_signal_handler_find = Interop.downcallHandle(
         "g_signal_handler_find",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1694,16 +1807,17 @@ public final class GObject {
      * The match {@code mask} has to be non-0 for successful matches.
      * If no handler was found, 0 is returned.
      */
-    public static long signalHandlerFind(Object instance, SignalMatchType mask, int signalId, org.gtk.glib.Quark detail, Closure closure, java.lang.foreign.MemoryAddress func, java.lang.foreign.MemoryAddress data) {
+    public static long signalHandlerFind(@NotNull Object instance, @NotNull SignalMatchType mask, @NotNull int signalId, @NotNull org.gtk.glib.Quark detail, @Nullable Closure closure, @Nullable java.lang.foreign.MemoryAddress func, @Nullable java.lang.foreign.MemoryAddress data) {
+        long RESULT;
         try {
-            var RESULT = (long) g_signal_handler_find.invokeExact(instance.handle(), mask.getValue(), signalId, detail.getValue(), closure.handle(), func, data);
-            return RESULT;
+            RESULT = (long) g_signal_handler_find.invokeExact(instance.handle(), mask.getValue(), signalId, detail.getValue(), closure.handle(), func, data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_signal_handler_is_connected = Interop.downcallHandle(
+    private static final MethodHandle g_signal_handler_is_connected = Interop.downcallHandle(
         "g_signal_handler_is_connected",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -1711,16 +1825,17 @@ public final class GObject {
     /**
      * Returns whether {@code handler_id} is the ID of a handler connected to {@code instance}.
      */
-    public static boolean signalHandlerIsConnected(Object instance, long handlerId) {
+    public static boolean signalHandlerIsConnected(@NotNull Object instance, @NotNull long handlerId) {
+        int RESULT;
         try {
-            var RESULT = (int) g_signal_handler_is_connected.invokeExact(instance.handle(), handlerId);
-            return RESULT != 0;
+            RESULT = (int) g_signal_handler_is_connected.invokeExact(instance.handle(), handlerId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_signal_handler_unblock = Interop.downcallHandle(
+    private static final MethodHandle g_signal_handler_unblock = Interop.downcallHandle(
         "g_signal_handler_unblock",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -1740,7 +1855,7 @@ public final class GObject {
      * The {@code handler_id} has to be a valid id of a signal handler that is
      * connected to a signal of {@code instance} and is currently blocked.
      */
-    public static void signalHandlerUnblock(Object instance, long handlerId) {
+    public static @NotNull void signalHandlerUnblock(@NotNull Object instance, @NotNull long handlerId) {
         try {
             g_signal_handler_unblock.invokeExact(instance.handle(), handlerId);
         } catch (Throwable ERR) {
@@ -1748,7 +1863,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_signal_handlers_block_matched = Interop.downcallHandle(
+    private static final MethodHandle g_signal_handlers_block_matched = Interop.downcallHandle(
         "g_signal_handlers_block_matched",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1762,16 +1877,17 @@ public final class GObject {
      * If no handlers were found, 0 is returned, the number of blocked handlers
      * otherwise.
      */
-    public static int signalHandlersBlockMatched(Object instance, SignalMatchType mask, int signalId, org.gtk.glib.Quark detail, Closure closure, java.lang.foreign.MemoryAddress func, java.lang.foreign.MemoryAddress data) {
+    public static int signalHandlersBlockMatched(@NotNull Object instance, @NotNull SignalMatchType mask, @NotNull int signalId, @NotNull org.gtk.glib.Quark detail, @Nullable Closure closure, @Nullable java.lang.foreign.MemoryAddress func, @Nullable java.lang.foreign.MemoryAddress data) {
+        int RESULT;
         try {
-            var RESULT = (int) g_signal_handlers_block_matched.invokeExact(instance.handle(), mask.getValue(), signalId, detail.getValue(), closure.handle(), func, data);
-            return RESULT;
+            RESULT = (int) g_signal_handlers_block_matched.invokeExact(instance.handle(), mask.getValue(), signalId, detail.getValue(), closure.handle(), func, data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_signal_handlers_destroy = Interop.downcallHandle(
+    private static final MethodHandle g_signal_handlers_destroy = Interop.downcallHandle(
         "g_signal_handlers_destroy",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -1781,7 +1897,7 @@ public final class GObject {
      * an implementation detail of the {@link Object} dispose implementation,
      * and should not be used outside of the type system.
      */
-    public static void signalHandlersDestroy(Object instance) {
+    public static @NotNull void signalHandlersDestroy(@NotNull Object instance) {
         try {
             g_signal_handlers_destroy.invokeExact(instance.handle());
         } catch (Throwable ERR) {
@@ -1789,7 +1905,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_signal_handlers_disconnect_matched = Interop.downcallHandle(
+    private static final MethodHandle g_signal_handlers_disconnect_matched = Interop.downcallHandle(
         "g_signal_handlers_disconnect_matched",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1804,16 +1920,17 @@ public final class GObject {
      * matches.  If no handlers were found, 0 is returned, the number of
      * disconnected handlers otherwise.
      */
-    public static int signalHandlersDisconnectMatched(Object instance, SignalMatchType mask, int signalId, org.gtk.glib.Quark detail, Closure closure, java.lang.foreign.MemoryAddress func, java.lang.foreign.MemoryAddress data) {
+    public static int signalHandlersDisconnectMatched(@NotNull Object instance, @NotNull SignalMatchType mask, @NotNull int signalId, @NotNull org.gtk.glib.Quark detail, @Nullable Closure closure, @Nullable java.lang.foreign.MemoryAddress func, @Nullable java.lang.foreign.MemoryAddress data) {
+        int RESULT;
         try {
-            var RESULT = (int) g_signal_handlers_disconnect_matched.invokeExact(instance.handle(), mask.getValue(), signalId, detail.getValue(), closure.handle(), func, data);
-            return RESULT;
+            RESULT = (int) g_signal_handlers_disconnect_matched.invokeExact(instance.handle(), mask.getValue(), signalId, detail.getValue(), closure.handle(), func, data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_signal_handlers_unblock_matched = Interop.downcallHandle(
+    private static final MethodHandle g_signal_handlers_unblock_matched = Interop.downcallHandle(
         "g_signal_handlers_unblock_matched",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1828,16 +1945,17 @@ public final class GObject {
      * otherwise. The match criteria should not apply to any handlers that are
      * not currently blocked.
      */
-    public static int signalHandlersUnblockMatched(Object instance, SignalMatchType mask, int signalId, org.gtk.glib.Quark detail, Closure closure, java.lang.foreign.MemoryAddress func, java.lang.foreign.MemoryAddress data) {
+    public static int signalHandlersUnblockMatched(@NotNull Object instance, @NotNull SignalMatchType mask, @NotNull int signalId, @NotNull org.gtk.glib.Quark detail, @Nullable Closure closure, @Nullable java.lang.foreign.MemoryAddress func, @Nullable java.lang.foreign.MemoryAddress data) {
+        int RESULT;
         try {
-            var RESULT = (int) g_signal_handlers_unblock_matched.invokeExact(instance.handle(), mask.getValue(), signalId, detail.getValue(), closure.handle(), func, data);
-            return RESULT;
+            RESULT = (int) g_signal_handlers_unblock_matched.invokeExact(instance.handle(), mask.getValue(), signalId, detail.getValue(), closure.handle(), func, data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_signal_has_handler_pending = Interop.downcallHandle(
+    private static final MethodHandle g_signal_has_handler_pending = Interop.downcallHandle(
         "g_signal_has_handler_pending",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -1860,16 +1978,17 @@ public final class GObject {
      * emit the signal if no one is attached anyway, thus saving the cost
      * of building the arguments.
      */
-    public static boolean signalHasHandlerPending(Object instance, int signalId, org.gtk.glib.Quark detail, boolean mayBeBlocked) {
+    public static boolean signalHasHandlerPending(@NotNull Object instance, @NotNull int signalId, @NotNull org.gtk.glib.Quark detail, @NotNull boolean mayBeBlocked) {
+        int RESULT;
         try {
-            var RESULT = (int) g_signal_has_handler_pending.invokeExact(instance.handle(), signalId, detail.getValue(), mayBeBlocked ? 1 : 0);
-            return RESULT != 0;
+            RESULT = (int) g_signal_has_handler_pending.invokeExact(instance.handle(), signalId, detail.getValue(), mayBeBlocked ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_signal_is_valid_name = Interop.downcallHandle(
+    private static final MethodHandle g_signal_is_valid_name = Interop.downcallHandle(
         "g_signal_is_valid_name",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -1882,16 +2001,17 @@ public final class GObject {
      * the rules for valid names. The rules for signal names are the same as those
      * for property names.
      */
-    public static boolean signalIsValidName(java.lang.String name) {
+    public static boolean signalIsValidName(@NotNull java.lang.String name) {
+        int RESULT;
         try {
-            var RESULT = (int) g_signal_is_valid_name.invokeExact(Interop.allocateNativeString(name).handle());
-            return RESULT != 0;
+            RESULT = (int) g_signal_is_valid_name.invokeExact(Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_signal_list_ids = Interop.downcallHandle(
+    private static final MethodHandle g_signal_list_ids = Interop.downcallHandle(
         "g_signal_list_ids",
         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -1901,16 +2021,19 @@ public final class GObject {
      * created. Further information about the signals can be acquired through
      * g_signal_query().
      */
-    public static PointerInteger signalListIds(org.gtk.gobject.Type itype, PointerInteger nIds) {
+    public static int[] signalListIds(@NotNull org.gtk.gobject.Type itype, @NotNull Out<Integer> nIds) {
+        MemorySegment nIdsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_signal_list_ids.invokeExact(itype.getValue(), nIds.handle());
-            return new PointerInteger(RESULT);
+            RESULT = (MemoryAddress) g_signal_list_ids.invokeExact(itype.getValue(), (Addressable) nIdsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        nIds.set(nIdsPOINTER.get(ValueLayout.JAVA_INT, 0));
+        return MemorySegment.ofAddress(RESULT.get(ValueLayout.ADDRESS, 0), nIds.get().intValue() * ValueLayout.JAVA_INT.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_INT);
     }
     
-    static final MethodHandle g_signal_lookup = Interop.downcallHandle(
+    private static final MethodHandle g_signal_lookup = Interop.downcallHandle(
         "g_signal_lookup",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -1928,16 +2051,17 @@ public final class GObject {
      * <p>
      * See g_signal_new() for details on allowed signal names.
      */
-    public static int signalLookup(java.lang.String name, org.gtk.gobject.Type itype) {
+    public static int signalLookup(@NotNull java.lang.String name, @NotNull org.gtk.gobject.Type itype) {
+        int RESULT;
         try {
-            var RESULT = (int) g_signal_lookup.invokeExact(Interop.allocateNativeString(name).handle(), itype.getValue());
-            return RESULT;
+            RESULT = (int) g_signal_lookup.invokeExact(Interop.allocateNativeString(name), itype.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_signal_name = Interop.downcallHandle(
+    private static final MethodHandle g_signal_name = Interop.downcallHandle(
         "g_signal_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1947,16 +2071,17 @@ public final class GObject {
      * <p>
      * Two different signals may have the same name, if they have differing types.
      */
-    public static java.lang.String signalName(int signalId) {
+    public static @Nullable java.lang.String signalName(@NotNull int signalId) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_signal_name.invokeExact(signalId);
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_signal_name.invokeExact(signalId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_signal_override_class_closure = Interop.downcallHandle(
+    private static final MethodHandle g_signal_override_class_closure = Interop.downcallHandle(
         "g_signal_override_class_closure",
         FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -1970,7 +2095,7 @@ public final class GObject {
      * g_signal_chain_from_overridden_handler() for how to chain up to the
      * parent class closure from inside the overridden one.
      */
-    public static void signalOverrideClassClosure(int signalId, org.gtk.gobject.Type instanceType, Closure classClosure) {
+    public static @NotNull void signalOverrideClassClosure(@NotNull int signalId, @NotNull org.gtk.gobject.Type instanceType, @NotNull Closure classClosure) {
         try {
             g_signal_override_class_closure.invokeExact(signalId, instanceType.getValue(), classClosure.handle());
         } catch (Throwable ERR) {
@@ -1978,7 +2103,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_signal_parse_name = Interop.downcallHandle(
+    private static final MethodHandle g_signal_parse_name = Interop.downcallHandle(
         "g_signal_parse_name",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1987,18 +2112,21 @@ public final class GObject {
      * Internal function to parse a signal name into its {@code signal_id}
      * and {@code detail} quark.
      */
-    public static boolean signalParseName(java.lang.String detailedSignal, org.gtk.gobject.Type itype, PointerInteger signalIdP, org.gtk.glib.Quark detailP, boolean forceDetailQuark) {
-        PointerInteger detailPPOINTER = new PointerInteger(detailP.getValue());
+    public static boolean signalParseName(@NotNull java.lang.String detailedSignal, @NotNull org.gtk.gobject.Type itype, @NotNull Out<Integer> signalIdP, @NotNull Out<org.gtk.glib.Quark> detailP, @NotNull boolean forceDetailQuark) {
+        MemorySegment signalIdPPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment detailPPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        int RESULT;
         try {
-            var RESULT = (int) g_signal_parse_name.invokeExact(Interop.allocateNativeString(detailedSignal).handle(), itype.getValue(), signalIdP.handle(), new PointerInteger(detailP.getValue()).handle(), forceDetailQuark ? 1 : 0);
-            detailP.setValue(detailPPOINTER.get());
-            return RESULT != 0;
+            RESULT = (int) g_signal_parse_name.invokeExact(Interop.allocateNativeString(detailedSignal), itype.getValue(), (Addressable) signalIdPPOINTER.address(), (Addressable) detailPPOINTER.address(), forceDetailQuark ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        signalIdP.set(signalIdPPOINTER.get(ValueLayout.JAVA_INT, 0));
+        detailP.set(new org.gtk.glib.Quark(detailPPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_signal_query = Interop.downcallHandle(
+    private static final MethodHandle g_signal_query = Interop.downcallHandle(
         "g_signal_query",
         FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -2011,15 +2139,17 @@ public final class GObject {
      * is 0. All members filled into the {@link SignalQuery} structure should
      * be considered constant and have to be left untouched.
      */
-    public static void signalQuery(int signalId, SignalQuery query) {
+    public static @NotNull void signalQuery(@NotNull int signalId, @NotNull Out<SignalQuery> query) {
+        MemorySegment queryPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            g_signal_query.invokeExact(signalId, query.handle());
+            g_signal_query.invokeExact(signalId, (Addressable) queryPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        query.set(new SignalQuery(Refcounted.get(queryPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle g_signal_remove_emission_hook = Interop.downcallHandle(
+    private static final MethodHandle g_signal_remove_emission_hook = Interop.downcallHandle(
         "g_signal_remove_emission_hook",
         FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG)
     );
@@ -2027,7 +2157,7 @@ public final class GObject {
     /**
      * Deletes an emission hook.
      */
-    public static void signalRemoveEmissionHook(int signalId, long hookId) {
+    public static @NotNull void signalRemoveEmissionHook(@NotNull int signalId, @NotNull long hookId) {
         try {
             g_signal_remove_emission_hook.invokeExact(signalId, hookId);
         } catch (Throwable ERR) {
@@ -2035,7 +2165,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_signal_stop_emission = Interop.downcallHandle(
+    private static final MethodHandle g_signal_stop_emission = Interop.downcallHandle(
         "g_signal_stop_emission",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -2049,7 +2179,7 @@ public final class GObject {
      * <p>
      * Prints a warning if used on a signal which isn't being emitted.
      */
-    public static void signalStopEmission(Object instance, int signalId, org.gtk.glib.Quark detail) {
+    public static @NotNull void signalStopEmission(@NotNull Object instance, @NotNull int signalId, @NotNull org.gtk.glib.Quark detail) {
         try {
             g_signal_stop_emission.invokeExact(instance.handle(), signalId, detail.getValue());
         } catch (Throwable ERR) {
@@ -2057,7 +2187,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_signal_stop_emission_by_name = Interop.downcallHandle(
+    private static final MethodHandle g_signal_stop_emission_by_name = Interop.downcallHandle(
         "g_signal_stop_emission_by_name",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2068,15 +2198,15 @@ public final class GObject {
      * This is just like g_signal_stop_emission() except it will look up the
      * signal id for you.
      */
-    public static void signalStopEmissionByName(Object instance, java.lang.String detailedSignal) {
+    public static @NotNull void signalStopEmissionByName(@NotNull Object instance, @NotNull java.lang.String detailedSignal) {
         try {
-            g_signal_stop_emission_by_name.invokeExact(instance.handle(), Interop.allocateNativeString(detailedSignal).handle());
+            g_signal_stop_emission_by_name.invokeExact(instance.handle(), Interop.allocateNativeString(detailedSignal));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_signal_type_cclosure_new = Interop.downcallHandle(
+    private static final MethodHandle g_signal_type_cclosure_new = Interop.downcallHandle(
         "g_signal_type_cclosure_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
     );
@@ -2086,16 +2216,17 @@ public final class GObject {
      * {@code struct_offset} in the class structure of the interface or classed type
      * identified by {@code itype}.
      */
-    public static Closure signalTypeCclosureNew(org.gtk.gobject.Type itype, int structOffset) {
+    public static @NotNull Closure signalTypeCclosureNew(@NotNull org.gtk.gobject.Type itype, @NotNull int structOffset) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_signal_type_cclosure_new.invokeExact(itype.getValue(), structOffset);
-            return new Closure(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_signal_type_cclosure_new.invokeExact(itype.getValue(), structOffset);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Closure(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_source_set_closure = Interop.downcallHandle(
+    private static final MethodHandle g_source_set_closure = Interop.downcallHandle(
         "g_source_set_closure",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2107,7 +2238,7 @@ public final class GObject {
      * and {@code closure_marshal} fields of the {@link org.gtk.glib.SourceFuncs} structure must have been
      * filled in with pointers to appropriate functions.
      */
-    public static void sourceSetClosure(org.gtk.glib.Source source, Closure closure) {
+    public static @NotNull void sourceSetClosure(@NotNull org.gtk.glib.Source source, @NotNull Closure closure) {
         try {
             g_source_set_closure.invokeExact(source.handle(), closure.handle());
         } catch (Throwable ERR) {
@@ -2115,7 +2246,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_source_set_dummy_callback = Interop.downcallHandle(
+    private static final MethodHandle g_source_set_dummy_callback = Interop.downcallHandle(
         "g_source_set_dummy_callback",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -2132,7 +2263,7 @@ public final class GObject {
      * structure must have been filled in with pointers to appropriate
      * functions.
      */
-    public static void sourceSetDummyCallback(org.gtk.glib.Source source) {
+    public static @NotNull void sourceSetDummyCallback(@NotNull org.gtk.glib.Source source) {
         try {
             g_source_set_dummy_callback.invokeExact(source.handle());
         } catch (Throwable ERR) {
@@ -2140,7 +2271,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_strdup_value_contents = Interop.downcallHandle(
+    private static final MethodHandle g_strdup_value_contents = Interop.downcallHandle(
         "g_strdup_value_contents",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2151,16 +2282,17 @@ public final class GObject {
      * contents for debugging output, the way in which the contents are
      * described may change between different GLib versions.
      */
-    public static java.lang.String strdupValueContents(Value value) {
+    public static @NotNull java.lang.String strdupValueContents(@NotNull Value value) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_strdup_value_contents.invokeExact(value.handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_strdup_value_contents.invokeExact(value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_type_add_class_cache_func = Interop.downcallHandle(
+    private static final MethodHandle g_type_add_class_cache_func = Interop.downcallHandle(
         "g_type_add_class_cache_func",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2174,10 +2306,10 @@ public final class GObject {
      * type, since all classes are routed through the same {@link TypeClassCacheFunc}
      * chain.
      */
-    public static void typeAddClassCacheFunc(TypeClassCacheFunc cacheFunc) {
+    public static @NotNull void typeAddClassCacheFunc(@NotNull TypeClassCacheFunc cacheFunc) {
         try {
             g_type_add_class_cache_func.invokeExact(
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cacheFunc.hashCode(), cacheFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cacheFunc)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbTypeClassCacheFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
@@ -2188,7 +2320,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_type_add_class_private = Interop.downcallHandle(
+    private static final MethodHandle g_type_add_class_private = Interop.downcallHandle(
         "g_type_add_class_private",
         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
     );
@@ -2205,7 +2337,7 @@ public final class GObject {
      * The private structure can be retrieved using the
      * G_TYPE_CLASS_GET_PRIVATE() macro.
      */
-    public static void typeAddClassPrivate(org.gtk.gobject.Type classType, long privateSize) {
+    public static @NotNull void typeAddClassPrivate(@NotNull org.gtk.gobject.Type classType, @NotNull long privateSize) {
         try {
             g_type_add_class_private.invokeExact(classType.getValue(), privateSize);
         } catch (Throwable ERR) {
@@ -2213,21 +2345,22 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_type_add_instance_private = Interop.downcallHandle(
+    private static final MethodHandle g_type_add_instance_private = Interop.downcallHandle(
         "g_type_add_instance_private",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
     );
     
-    public static int typeAddInstancePrivate(org.gtk.gobject.Type classType, long privateSize) {
+    public static int typeAddInstancePrivate(@NotNull org.gtk.gobject.Type classType, @NotNull long privateSize) {
+        int RESULT;
         try {
-            var RESULT = (int) g_type_add_instance_private.invokeExact(classType.getValue(), privateSize);
-            return RESULT;
+            RESULT = (int) g_type_add_instance_private.invokeExact(classType.getValue(), privateSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_type_add_interface_check = Interop.downcallHandle(
+    private static final MethodHandle g_type_add_interface_check = Interop.downcallHandle(
         "g_type_add_interface_check",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -2243,10 +2376,10 @@ public final class GObject {
      * object implements all of the properties that are defined on its
      * interfaces.
      */
-    public static void typeAddInterfaceCheck(TypeInterfaceCheckFunc checkFunc) {
+    public static @NotNull void typeAddInterfaceCheck(@NotNull TypeInterfaceCheckFunc checkFunc) {
         try {
             g_type_add_interface_check.invokeExact(
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(checkFunc.hashCode(), checkFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(checkFunc)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbTypeInterfaceCheckFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
@@ -2257,7 +2390,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_type_add_interface_dynamic = Interop.downcallHandle(
+    private static final MethodHandle g_type_add_interface_dynamic = Interop.downcallHandle(
         "g_type_add_interface_dynamic",
         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -2267,7 +2400,7 @@ public final class GObject {
      * contained in the {@link TypePlugin} structure pointed to by {@code plugin}
      * is used to manage the relationship.
      */
-    public static void typeAddInterfaceDynamic(org.gtk.gobject.Type instanceType, org.gtk.gobject.Type interfaceType, TypePlugin plugin) {
+    public static @NotNull void typeAddInterfaceDynamic(@NotNull org.gtk.gobject.Type instanceType, @NotNull org.gtk.gobject.Type interfaceType, @NotNull TypePlugin plugin) {
         try {
             g_type_add_interface_dynamic.invokeExact(instanceType.getValue(), interfaceType.getValue(), plugin.handle());
         } catch (Throwable ERR) {
@@ -2275,7 +2408,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_type_add_interface_static = Interop.downcallHandle(
+    private static final MethodHandle g_type_add_interface_static = Interop.downcallHandle(
         "g_type_add_interface_static",
         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -2285,7 +2418,7 @@ public final class GObject {
      * The information contained in the {@link InterfaceInfo} structure
      * pointed to by {@code info} is used to manage the relationship.
      */
-    public static void typeAddInterfaceStatic(org.gtk.gobject.Type instanceType, org.gtk.gobject.Type interfaceType, InterfaceInfo info) {
+    public static @NotNull void typeAddInterfaceStatic(@NotNull org.gtk.gobject.Type instanceType, @NotNull org.gtk.gobject.Type interfaceType, @NotNull InterfaceInfo info) {
         try {
             g_type_add_interface_static.invokeExact(instanceType.getValue(), interfaceType.getValue(), info.handle());
         } catch (Throwable ERR) {
@@ -2293,35 +2426,37 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_type_check_class_cast = Interop.downcallHandle(
+    private static final MethodHandle g_type_check_class_cast = Interop.downcallHandle(
         "g_type_check_class_cast",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
     
-    public static TypeClass typeCheckClassCast(TypeClass gClass, org.gtk.gobject.Type isAType) {
+    public static @NotNull TypeClass typeCheckClassCast(@NotNull TypeClass gClass, @NotNull org.gtk.gobject.Type isAType) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_check_class_cast.invokeExact(gClass.handle(), isAType.getValue());
-            return new TypeClass(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_type_check_class_cast.invokeExact(gClass.handle(), isAType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TypeClass(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_type_check_class_is_a = Interop.downcallHandle(
+    private static final MethodHandle g_type_check_class_is_a = Interop.downcallHandle(
         "g_type_check_class_is_a",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
     
-    public static boolean typeCheckClassIsA(TypeClass gClass, org.gtk.gobject.Type isAType) {
+    public static boolean typeCheckClassIsA(@NotNull TypeClass gClass, @NotNull org.gtk.gobject.Type isAType) {
+        int RESULT;
         try {
-            var RESULT = (int) g_type_check_class_is_a.invokeExact(gClass.handle(), isAType.getValue());
-            return RESULT != 0;
+            RESULT = (int) g_type_check_class_is_a.invokeExact(gClass.handle(), isAType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_type_check_instance = Interop.downcallHandle(
+    private static final MethodHandle g_type_check_instance = Interop.downcallHandle(
         "g_type_check_instance",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -2330,100 +2465,107 @@ public final class GObject {
      * Private helper function to aid implementation of the
      * G_TYPE_CHECK_INSTANCE() macro.
      */
-    public static boolean typeCheckInstance(TypeInstance instance) {
+    public static boolean typeCheckInstance(@NotNull TypeInstance instance) {
+        int RESULT;
         try {
-            var RESULT = (int) g_type_check_instance.invokeExact(instance.handle());
-            return RESULT != 0;
+            RESULT = (int) g_type_check_instance.invokeExact(instance.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_type_check_instance_cast = Interop.downcallHandle(
+    private static final MethodHandle g_type_check_instance_cast = Interop.downcallHandle(
         "g_type_check_instance_cast",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
     
-    public static TypeInstance typeCheckInstanceCast(TypeInstance instance, org.gtk.gobject.Type ifaceType) {
+    public static @NotNull TypeInstance typeCheckInstanceCast(@NotNull TypeInstance instance, @NotNull org.gtk.gobject.Type ifaceType) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_check_instance_cast.invokeExact(instance.handle(), ifaceType.getValue());
-            return new TypeInstance(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_type_check_instance_cast.invokeExact(instance.handle(), ifaceType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TypeInstance(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_type_check_instance_is_a = Interop.downcallHandle(
+    private static final MethodHandle g_type_check_instance_is_a = Interop.downcallHandle(
         "g_type_check_instance_is_a",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
     
-    public static boolean typeCheckInstanceIsA(TypeInstance instance, org.gtk.gobject.Type ifaceType) {
+    public static boolean typeCheckInstanceIsA(@NotNull TypeInstance instance, @NotNull org.gtk.gobject.Type ifaceType) {
+        int RESULT;
         try {
-            var RESULT = (int) g_type_check_instance_is_a.invokeExact(instance.handle(), ifaceType.getValue());
-            return RESULT != 0;
+            RESULT = (int) g_type_check_instance_is_a.invokeExact(instance.handle(), ifaceType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_type_check_instance_is_fundamentally_a = Interop.downcallHandle(
+    private static final MethodHandle g_type_check_instance_is_fundamentally_a = Interop.downcallHandle(
         "g_type_check_instance_is_fundamentally_a",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
     
-    public static boolean typeCheckInstanceIsFundamentallyA(TypeInstance instance, org.gtk.gobject.Type fundamentalType) {
+    public static boolean typeCheckInstanceIsFundamentallyA(@NotNull TypeInstance instance, @NotNull org.gtk.gobject.Type fundamentalType) {
+        int RESULT;
         try {
-            var RESULT = (int) g_type_check_instance_is_fundamentally_a.invokeExact(instance.handle(), fundamentalType.getValue());
-            return RESULT != 0;
+            RESULT = (int) g_type_check_instance_is_fundamentally_a.invokeExact(instance.handle(), fundamentalType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_type_check_is_value_type = Interop.downcallHandle(
+    private static final MethodHandle g_type_check_is_value_type = Interop.downcallHandle(
         "g_type_check_is_value_type",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG)
     );
     
-    public static boolean typeCheckIsValueType(org.gtk.gobject.Type type) {
+    public static boolean typeCheckIsValueType(@NotNull org.gtk.gobject.Type type) {
+        int RESULT;
         try {
-            var RESULT = (int) g_type_check_is_value_type.invokeExact(type.getValue());
-            return RESULT != 0;
+            RESULT = (int) g_type_check_is_value_type.invokeExact(type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_type_check_value = Interop.downcallHandle(
+    private static final MethodHandle g_type_check_value = Interop.downcallHandle(
         "g_type_check_value",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
-    public static boolean typeCheckValue(Value value) {
+    public static boolean typeCheckValue(@NotNull Value value) {
+        int RESULT;
         try {
-            var RESULT = (int) g_type_check_value.invokeExact(value.handle());
-            return RESULT != 0;
+            RESULT = (int) g_type_check_value.invokeExact(value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_type_check_value_holds = Interop.downcallHandle(
+    private static final MethodHandle g_type_check_value_holds = Interop.downcallHandle(
         "g_type_check_value_holds",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
     
-    public static boolean typeCheckValueHolds(Value value, org.gtk.gobject.Type type) {
+    public static boolean typeCheckValueHolds(@NotNull Value value, @NotNull org.gtk.gobject.Type type) {
+        int RESULT;
         try {
-            var RESULT = (int) g_type_check_value_holds.invokeExact(value.handle(), type.getValue());
-            return RESULT != 0;
+            RESULT = (int) g_type_check_value_holds.invokeExact(value.handle(), type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_type_children = Interop.downcallHandle(
+    private static final MethodHandle g_type_children = Interop.downcallHandle(
         "g_type_children",
         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -2432,21 +2574,29 @@ public final class GObject {
      * Return a newly allocated and 0-terminated array of type IDs, listing
      * the child types of {@code type}.
      */
-    public static PointerLong typeChildren(org.gtk.gobject.Type type, PointerInteger nChildren) {
+    public static org.gtk.gobject.Type[] typeChildren(@NotNull org.gtk.gobject.Type type, @NotNull Out<Integer> nChildren) {
+        MemorySegment nChildrenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_children.invokeExact(type.getValue(), nChildren.handle());
-            return new PointerLong(RESULT);
+            RESULT = (MemoryAddress) g_type_children.invokeExact(type.getValue(), (Addressable) nChildrenPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        nChildren.set(nChildrenPOINTER.get(ValueLayout.JAVA_INT, 0));
+        org.gtk.gobject.Type[] resultARRAY = new org.gtk.gobject.Type[nChildren.get().intValue()];
+        for (int I = 0; I < nChildren.get().intValue(); I++) {
+            var OBJ = RESULT.get(ValueLayout.JAVA_LONG, I);
+            resultARRAY[I] = new org.gtk.gobject.Type(OBJ);
+        }
+        return resultARRAY;
     }
     
-    static final MethodHandle g_type_class_adjust_private_offset = Interop.downcallHandle(
+    private static final MethodHandle g_type_class_adjust_private_offset = Interop.downcallHandle(
         "g_type_class_adjust_private_offset",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    public static void typeClassAdjustPrivateOffset(java.lang.foreign.MemoryAddress gClass, PointerInteger privateSizeOrOffset) {
+    public static @NotNull void typeClassAdjustPrivateOffset(@Nullable java.lang.foreign.MemoryAddress gClass, @NotNull PointerInteger privateSizeOrOffset) {
         try {
             g_type_class_adjust_private_offset.invokeExact(gClass, privateSizeOrOffset.handle());
         } catch (Throwable ERR) {
@@ -2454,7 +2604,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_type_class_peek = Interop.downcallHandle(
+    private static final MethodHandle g_type_class_peek = Interop.downcallHandle(
         "g_type_class_peek",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -2466,16 +2616,17 @@ public final class GObject {
      * of the type passed in does not currently exist (hasn't been
      * referenced before).
      */
-    public static TypeClass typeClassPeek(org.gtk.gobject.Type type) {
+    public static @NotNull TypeClass typeClassPeek(@NotNull org.gtk.gobject.Type type) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_class_peek.invokeExact(type.getValue());
-            return new TypeClass(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_type_class_peek.invokeExact(type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TypeClass(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_type_class_peek_static = Interop.downcallHandle(
+    private static final MethodHandle g_type_class_peek_static = Interop.downcallHandle(
         "g_type_class_peek_static",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -2484,16 +2635,17 @@ public final class GObject {
      * A more efficient version of g_type_class_peek() which works only for
      * static types.
      */
-    public static TypeClass typeClassPeekStatic(org.gtk.gobject.Type type) {
+    public static @NotNull TypeClass typeClassPeekStatic(@NotNull org.gtk.gobject.Type type) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_class_peek_static.invokeExact(type.getValue());
-            return new TypeClass(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_type_class_peek_static.invokeExact(type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TypeClass(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_type_class_ref = Interop.downcallHandle(
+    private static final MethodHandle g_type_class_ref = Interop.downcallHandle(
         "g_type_class_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -2503,16 +2655,17 @@ public final class GObject {
      * {@code type}. This function will demand-create the class if it doesn't
      * exist already.
      */
-    public static TypeClass typeClassRef(org.gtk.gobject.Type type) {
+    public static @NotNull TypeClass typeClassRef(@NotNull org.gtk.gobject.Type type) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_class_ref.invokeExact(type.getValue());
-            return new TypeClass(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_type_class_ref.invokeExact(type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TypeClass(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_type_create_instance = Interop.downcallHandle(
+    private static final MethodHandle g_type_create_instance = Interop.downcallHandle(
         "g_type_create_instance",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -2535,16 +2688,17 @@ public final class GObject {
      * fundamental type. Also language bindings should not use this
      * function, but g_object_new() instead.
      */
-    public static TypeInstance typeCreateInstance(org.gtk.gobject.Type type) {
+    public static @NotNull TypeInstance typeCreateInstance(@NotNull org.gtk.gobject.Type type) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_create_instance.invokeExact(type.getValue());
-            return new TypeInstance(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_type_create_instance.invokeExact(type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TypeInstance(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_type_default_interface_peek = Interop.downcallHandle(
+    private static final MethodHandle g_type_default_interface_peek = Interop.downcallHandle(
         "g_type_default_interface_peek",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -2553,16 +2707,17 @@ public final class GObject {
      * If the interface type {@code g_type} is currently in use, returns its
      * default interface vtable.
      */
-    public static TypeInterface typeDefaultInterfacePeek(org.gtk.gobject.Type gType) {
+    public static @NotNull TypeInterface typeDefaultInterfacePeek(@NotNull org.gtk.gobject.Type gType) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_default_interface_peek.invokeExact(gType.getValue());
-            return new TypeInterface(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_type_default_interface_peek.invokeExact(gType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TypeInterface(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_type_default_interface_ref = Interop.downcallHandle(
+    private static final MethodHandle g_type_default_interface_ref = Interop.downcallHandle(
         "g_type_default_interface_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -2579,16 +2734,17 @@ public final class GObject {
      * want to make sure that signals and properties for an interface
      * have been installed.
      */
-    public static TypeInterface typeDefaultInterfaceRef(org.gtk.gobject.Type gType) {
+    public static @NotNull TypeInterface typeDefaultInterfaceRef(@NotNull org.gtk.gobject.Type gType) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_default_interface_ref.invokeExact(gType.getValue());
-            return new TypeInterface(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_type_default_interface_ref.invokeExact(gType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TypeInterface(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_type_default_interface_unref = Interop.downcallHandle(
+    private static final MethodHandle g_type_default_interface_unref = Interop.downcallHandle(
         "g_type_default_interface_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -2600,7 +2756,7 @@ public final class GObject {
      * been released, the finalize function for the interface's default
      * vtable (the {@code class_finalize} member of {@link TypeInfo}) will be called.
      */
-    public static void typeDefaultInterfaceUnref(TypeInterface gIface) {
+    public static @NotNull void typeDefaultInterfaceUnref(@NotNull TypeInterface gIface) {
         try {
             g_type_default_interface_unref.invokeExact(gIface.handle());
         } catch (Throwable ERR) {
@@ -2608,7 +2764,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_type_depth = Interop.downcallHandle(
+    private static final MethodHandle g_type_depth = Interop.downcallHandle(
         "g_type_depth",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG)
     );
@@ -2617,16 +2773,17 @@ public final class GObject {
      * Returns the length of the ancestry of the passed in type. This
      * includes the type itself, so that e.g. a fundamental type has depth 1.
      */
-    public static int typeDepth(org.gtk.gobject.Type type) {
+    public static int typeDepth(@NotNull org.gtk.gobject.Type type) {
+        int RESULT;
         try {
-            var RESULT = (int) g_type_depth.invokeExact(type.getValue());
-            return RESULT;
+            RESULT = (int) g_type_depth.invokeExact(type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_type_ensure = Interop.downcallHandle(
+    private static final MethodHandle g_type_ensure = Interop.downcallHandle(
         "g_type_ensure",
         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG)
     );
@@ -2645,7 +2802,7 @@ public final class GObject {
      * out by the compiler. Using g_type_ensure() guarantees that the
      * type's _get_type() method is called.
      */
-    public static void typeEnsure(org.gtk.gobject.Type type) {
+    public static @NotNull void typeEnsure(@NotNull org.gtk.gobject.Type type) {
         try {
             g_type_ensure.invokeExact(type.getValue());
         } catch (Throwable ERR) {
@@ -2653,7 +2810,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_type_free_instance = Interop.downcallHandle(
+    private static final MethodHandle g_type_free_instance = Interop.downcallHandle(
         "g_type_free_instance",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -2665,7 +2822,7 @@ public final class GObject {
      * Like g_type_create_instance(), this function is reserved for
      * implementors of fundamental types.
      */
-    public static void typeFreeInstance(TypeInstance instance) {
+    public static @NotNull void typeFreeInstance(@NotNull TypeInstance instance) {
         try {
             g_type_free_instance.invokeExact(instance.handle());
         } catch (Throwable ERR) {
@@ -2673,7 +2830,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_type_from_name = Interop.downcallHandle(
+    private static final MethodHandle g_type_from_name = Interop.downcallHandle(
         "g_type_from_name",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -2684,16 +2841,17 @@ public final class GObject {
      * to find out by name whether a specific type has been registered
      * yet).
      */
-    public static org.gtk.gobject.Type typeFromName(java.lang.String name) {
+    public static @NotNull org.gtk.gobject.Type typeFromName(@NotNull java.lang.String name) {
+        long RESULT;
         try {
-            var RESULT = (long) g_type_from_name.invokeExact(Interop.allocateNativeString(name).handle());
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) g_type_from_name.invokeExact(Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle g_type_fundamental = Interop.downcallHandle(
+    private static final MethodHandle g_type_fundamental = Interop.downcallHandle(
         "g_type_fundamental",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
     );
@@ -2702,16 +2860,17 @@ public final class GObject {
      * Internal function, used to extract the fundamental type ID portion.
      * Use G_TYPE_FUNDAMENTAL() instead.
      */
-    public static org.gtk.gobject.Type typeFundamental(org.gtk.gobject.Type typeId) {
+    public static @NotNull org.gtk.gobject.Type typeFundamental(@NotNull org.gtk.gobject.Type typeId) {
+        long RESULT;
         try {
-            var RESULT = (long) g_type_fundamental.invokeExact(typeId.getValue());
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) g_type_fundamental.invokeExact(typeId.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle g_type_fundamental_next = Interop.downcallHandle(
+    private static final MethodHandle g_type_fundamental_next = Interop.downcallHandle(
         "g_type_fundamental_next",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG)
     );
@@ -2722,16 +2881,17 @@ public final class GObject {
      * The returned type ID represents the highest currently registered
      * fundamental type identifier.
      */
-    public static org.gtk.gobject.Type typeFundamentalNext() {
+    public static @NotNull org.gtk.gobject.Type typeFundamentalNext() {
+        long RESULT;
         try {
-            var RESULT = (long) g_type_fundamental_next.invokeExact();
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) g_type_fundamental_next.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle g_type_get_instance_count = Interop.downcallHandle(
+    private static final MethodHandle g_type_get_instance_count = Interop.downcallHandle(
         "g_type_get_instance_count",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG)
     );
@@ -2742,16 +2902,17 @@ public final class GObject {
      * the instance_count debug flag is set (by setting the GOBJECT_DEBUG
      * variable to include instance-count).
      */
-    public static int typeGetInstanceCount(org.gtk.gobject.Type type) {
+    public static int typeGetInstanceCount(@NotNull org.gtk.gobject.Type type) {
+        int RESULT;
         try {
-            var RESULT = (int) g_type_get_instance_count.invokeExact(type.getValue());
-            return RESULT;
+            RESULT = (int) g_type_get_instance_count.invokeExact(type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_type_get_plugin = Interop.downcallHandle(
+    private static final MethodHandle g_type_get_plugin = Interop.downcallHandle(
         "g_type_get_plugin",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -2759,16 +2920,17 @@ public final class GObject {
     /**
      * Returns the {@link TypePlugin} structure for {@code type}.
      */
-    public static TypePlugin typeGetPlugin(org.gtk.gobject.Type type) {
+    public static @NotNull TypePlugin typeGetPlugin(@NotNull org.gtk.gobject.Type type) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_get_plugin.invokeExact(type.getValue());
-            return new TypePlugin.TypePluginImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_type_get_plugin.invokeExact(type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TypePlugin.TypePluginImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_type_get_qdata = Interop.downcallHandle(
+    private static final MethodHandle g_type_get_qdata = Interop.downcallHandle(
         "g_type_get_qdata",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
     );
@@ -2781,16 +2943,17 @@ public final class GObject {
      * attached to one type with g_type_set_qdata() cannot
      * be retrieved from a subtype using g_type_get_qdata().
      */
-    public static java.lang.foreign.MemoryAddress typeGetQdata(org.gtk.gobject.Type type, org.gtk.glib.Quark quark) {
+    public static @Nullable java.lang.foreign.MemoryAddress typeGetQdata(@NotNull org.gtk.gobject.Type type, @NotNull org.gtk.glib.Quark quark) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_get_qdata.invokeExact(type.getValue(), quark.getValue());
-            return RESULT;
+            RESULT = (MemoryAddress) g_type_get_qdata.invokeExact(type.getValue(), quark.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_type_get_type_registration_serial = Interop.downcallHandle(
+    private static final MethodHandle g_type_get_type_registration_serial = Interop.downcallHandle(
         "g_type_get_type_registration_serial",
         FunctionDescriptor.of(ValueLayout.JAVA_INT)
     );
@@ -2803,15 +2966,16 @@ public final class GObject {
      * time by comparing the current serial with the one at the type lookup.
      */
     public static int typeGetTypeRegistrationSerial() {
+        int RESULT;
         try {
-            var RESULT = (int) g_type_get_type_registration_serial.invokeExact();
-            return RESULT;
+            RESULT = (int) g_type_get_type_registration_serial.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_type_interface_add_prerequisite = Interop.downcallHandle(
+    private static final MethodHandle g_type_interface_add_prerequisite = Interop.downcallHandle(
         "g_type_interface_add_prerequisite",
         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
     );
@@ -2823,7 +2987,7 @@ public final class GObject {
      * interface derivation (which GType doesn't support). An interface can have
      * at most one instantiatable prerequisite type.
      */
-    public static void typeInterfaceAddPrerequisite(org.gtk.gobject.Type interfaceType, org.gtk.gobject.Type prerequisiteType) {
+    public static @NotNull void typeInterfaceAddPrerequisite(@NotNull org.gtk.gobject.Type interfaceType, @NotNull org.gtk.gobject.Type prerequisiteType) {
         try {
             g_type_interface_add_prerequisite.invokeExact(interfaceType.getValue(), prerequisiteType.getValue());
         } catch (Throwable ERR) {
@@ -2831,7 +2995,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_type_interface_get_plugin = Interop.downcallHandle(
+    private static final MethodHandle g_type_interface_get_plugin = Interop.downcallHandle(
         "g_type_interface_get_plugin",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
     );
@@ -2842,16 +3006,17 @@ public final class GObject {
      * if {@code interface_type} has not been added to {@code instance_type} or does
      * not have a {@link TypePlugin} structure. See g_type_add_interface_dynamic().
      */
-    public static TypePlugin typeInterfaceGetPlugin(org.gtk.gobject.Type instanceType, org.gtk.gobject.Type interfaceType) {
+    public static @NotNull TypePlugin typeInterfaceGetPlugin(@NotNull org.gtk.gobject.Type instanceType, @NotNull org.gtk.gobject.Type interfaceType) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_interface_get_plugin.invokeExact(instanceType.getValue(), interfaceType.getValue());
-            return new TypePlugin.TypePluginImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_type_interface_get_plugin.invokeExact(instanceType.getValue(), interfaceType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TypePlugin.TypePluginImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_type_interface_instantiatable_prerequisite = Interop.downcallHandle(
+    private static final MethodHandle g_type_interface_instantiatable_prerequisite = Interop.downcallHandle(
         "g_type_interface_instantiatable_prerequisite",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
     );
@@ -2864,16 +3029,17 @@ public final class GObject {
      * See g_type_interface_add_prerequisite() for more information
      * about prerequisites.
      */
-    public static org.gtk.gobject.Type typeInterfaceInstantiatablePrerequisite(org.gtk.gobject.Type interfaceType) {
+    public static @NotNull org.gtk.gobject.Type typeInterfaceInstantiatablePrerequisite(@NotNull org.gtk.gobject.Type interfaceType) {
+        long RESULT;
         try {
-            var RESULT = (long) g_type_interface_instantiatable_prerequisite.invokeExact(interfaceType.getValue());
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) g_type_interface_instantiatable_prerequisite.invokeExact(interfaceType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle g_type_interface_peek = Interop.downcallHandle(
+    private static final MethodHandle g_type_interface_peek = Interop.downcallHandle(
         "g_type_interface_peek",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -2882,16 +3048,17 @@ public final class GObject {
      * Returns the {@link TypeInterface} structure of an interface to which the
      * passed in class conforms.
      */
-    public static TypeInterface typeInterfacePeek(TypeClass instanceClass, org.gtk.gobject.Type ifaceType) {
+    public static @NotNull TypeInterface typeInterfacePeek(@NotNull TypeClass instanceClass, @NotNull org.gtk.gobject.Type ifaceType) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_interface_peek.invokeExact(instanceClass.handle(), ifaceType.getValue());
-            return new TypeInterface(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_type_interface_peek.invokeExact(instanceClass.handle(), ifaceType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TypeInterface(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_type_interface_prerequisites = Interop.downcallHandle(
+    private static final MethodHandle g_type_interface_prerequisites = Interop.downcallHandle(
         "g_type_interface_prerequisites",
         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -2899,16 +3066,24 @@ public final class GObject {
     /**
      * Returns the prerequisites of an interfaces type.
      */
-    public static PointerLong typeInterfacePrerequisites(org.gtk.gobject.Type interfaceType, PointerInteger nPrerequisites) {
+    public static org.gtk.gobject.Type[] typeInterfacePrerequisites(@NotNull org.gtk.gobject.Type interfaceType, @NotNull Out<Integer> nPrerequisites) {
+        MemorySegment nPrerequisitesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_interface_prerequisites.invokeExact(interfaceType.getValue(), nPrerequisites.handle());
-            return new PointerLong(RESULT);
+            RESULT = (MemoryAddress) g_type_interface_prerequisites.invokeExact(interfaceType.getValue(), (Addressable) nPrerequisitesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        nPrerequisites.set(nPrerequisitesPOINTER.get(ValueLayout.JAVA_INT, 0));
+        org.gtk.gobject.Type[] resultARRAY = new org.gtk.gobject.Type[nPrerequisites.get().intValue()];
+        for (int I = 0; I < nPrerequisites.get().intValue(); I++) {
+            var OBJ = RESULT.get(ValueLayout.JAVA_LONG, I);
+            resultARRAY[I] = new org.gtk.gobject.Type(OBJ);
+        }
+        return resultARRAY;
     }
     
-    static final MethodHandle g_type_interfaces = Interop.downcallHandle(
+    private static final MethodHandle g_type_interfaces = Interop.downcallHandle(
         "g_type_interfaces",
         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -2917,16 +3092,24 @@ public final class GObject {
      * Return a newly allocated and 0-terminated array of type IDs, listing
      * the interface types that {@code type} conforms to.
      */
-    public static PointerLong typeInterfaces(org.gtk.gobject.Type type, PointerInteger nInterfaces) {
+    public static org.gtk.gobject.Type[] typeInterfaces(@NotNull org.gtk.gobject.Type type, @NotNull Out<Integer> nInterfaces) {
+        MemorySegment nInterfacesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_interfaces.invokeExact(type.getValue(), nInterfaces.handle());
-            return new PointerLong(RESULT);
+            RESULT = (MemoryAddress) g_type_interfaces.invokeExact(type.getValue(), (Addressable) nInterfacesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        nInterfaces.set(nInterfacesPOINTER.get(ValueLayout.JAVA_INT, 0));
+        org.gtk.gobject.Type[] resultARRAY = new org.gtk.gobject.Type[nInterfaces.get().intValue()];
+        for (int I = 0; I < nInterfaces.get().intValue(); I++) {
+            var OBJ = RESULT.get(ValueLayout.JAVA_LONG, I);
+            resultARRAY[I] = new org.gtk.gobject.Type(OBJ);
+        }
+        return resultARRAY;
     }
     
-    static final MethodHandle g_type_is_a = Interop.downcallHandle(
+    private static final MethodHandle g_type_is_a = Interop.downcallHandle(
         "g_type_is_a",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
     );
@@ -2936,16 +3119,17 @@ public final class GObject {
      * descendant of {@code is_a_type}. If {@code is_a_type} is an interface, check
      * whether {@code type} conforms to it.
      */
-    public static boolean typeIsA(org.gtk.gobject.Type type, org.gtk.gobject.Type isAType) {
+    public static boolean typeIsA(@NotNull org.gtk.gobject.Type type, @NotNull org.gtk.gobject.Type isAType) {
+        int RESULT;
         try {
-            var RESULT = (int) g_type_is_a.invokeExact(type.getValue(), isAType.getValue());
-            return RESULT != 0;
+            RESULT = (int) g_type_is_a.invokeExact(type.getValue(), isAType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_type_name = Interop.downcallHandle(
+    private static final MethodHandle g_type_name = Interop.downcallHandle(
         "g_type_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -2957,44 +3141,47 @@ public final class GObject {
      * other validly registered type ID, but randomized type IDs should
      * not be passed in and will most likely lead to a crash.
      */
-    public static java.lang.String typeName(org.gtk.gobject.Type type) {
+    public static @NotNull java.lang.String typeName(@NotNull org.gtk.gobject.Type type) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_name.invokeExact(type.getValue());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_type_name.invokeExact(type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_type_name_from_class = Interop.downcallHandle(
+    private static final MethodHandle g_type_name_from_class = Interop.downcallHandle(
         "g_type_name_from_class",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    public static java.lang.String typeNameFromClass(TypeClass gClass) {
+    public static @NotNull java.lang.String typeNameFromClass(@NotNull TypeClass gClass) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_name_from_class.invokeExact(gClass.handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_type_name_from_class.invokeExact(gClass.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_type_name_from_instance = Interop.downcallHandle(
+    private static final MethodHandle g_type_name_from_instance = Interop.downcallHandle(
         "g_type_name_from_instance",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    public static java.lang.String typeNameFromInstance(TypeInstance instance) {
+    public static @NotNull java.lang.String typeNameFromInstance(@NotNull TypeInstance instance) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_name_from_instance.invokeExact(instance.handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_type_name_from_instance.invokeExact(instance.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_type_next_base = Interop.downcallHandle(
+    private static final MethodHandle g_type_next_base = Interop.downcallHandle(
         "g_type_next_base",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
     );
@@ -3008,16 +3195,17 @@ public final class GObject {
      * be used to determine the types and order in which the leaf type is
      * descended from the root type.
      */
-    public static org.gtk.gobject.Type typeNextBase(org.gtk.gobject.Type leafType, org.gtk.gobject.Type rootType) {
+    public static @NotNull org.gtk.gobject.Type typeNextBase(@NotNull org.gtk.gobject.Type leafType, @NotNull org.gtk.gobject.Type rootType) {
+        long RESULT;
         try {
-            var RESULT = (long) g_type_next_base.invokeExact(leafType.getValue(), rootType.getValue());
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) g_type_next_base.invokeExact(leafType.getValue(), rootType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle g_type_parent = Interop.downcallHandle(
+    private static final MethodHandle g_type_parent = Interop.downcallHandle(
         "g_type_parent",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
     );
@@ -3026,16 +3214,17 @@ public final class GObject {
      * Return the direct parent type of the passed in type. If the passed
      * in type has no parent, i.e. is a fundamental type, 0 is returned.
      */
-    public static org.gtk.gobject.Type typeParent(org.gtk.gobject.Type type) {
+    public static @NotNull org.gtk.gobject.Type typeParent(@NotNull org.gtk.gobject.Type type) {
+        long RESULT;
         try {
-            var RESULT = (long) g_type_parent.invokeExact(type.getValue());
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) g_type_parent.invokeExact(type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle g_type_qname = Interop.downcallHandle(
+    private static final MethodHandle g_type_qname = Interop.downcallHandle(
         "g_type_qname",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG)
     );
@@ -3043,16 +3232,17 @@ public final class GObject {
     /**
      * Get the corresponding quark of the type IDs name.
      */
-    public static org.gtk.glib.Quark typeQname(org.gtk.gobject.Type type) {
+    public static @NotNull org.gtk.glib.Quark typeQname(@NotNull org.gtk.gobject.Type type) {
+        int RESULT;
         try {
-            var RESULT = (int) g_type_qname.invokeExact(type.getValue());
-            return new org.gtk.glib.Quark(RESULT);
+            RESULT = (int) g_type_qname.invokeExact(type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.Quark(RESULT);
     }
     
-    static final MethodHandle g_type_query = Interop.downcallHandle(
+    private static final MethodHandle g_type_query = Interop.downcallHandle(
         "g_type_query",
         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -3065,15 +3255,17 @@ public final class GObject {
      * {@link TypeQuery} structure should be considered constant and have to be
      * left untouched.
      */
-    public static void typeQuery(org.gtk.gobject.Type type, TypeQuery query) {
+    public static @NotNull void typeQuery(@NotNull org.gtk.gobject.Type type, @NotNull Out<TypeQuery> query) {
+        MemorySegment queryPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            g_type_query.invokeExact(type.getValue(), query.handle());
+            g_type_query.invokeExact(type.getValue(), (Addressable) queryPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        query.set(new TypeQuery(Refcounted.get(queryPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle g_type_register_dynamic = Interop.downcallHandle(
+    private static final MethodHandle g_type_register_dynamic = Interop.downcallHandle(
         "g_type_register_dynamic",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -3085,16 +3277,17 @@ public final class GObject {
      * instances (if not abstract).  The value of {@code flags} determines the nature
      * (e.g. abstract or not) of the type.
      */
-    public static org.gtk.gobject.Type typeRegisterDynamic(org.gtk.gobject.Type parentType, java.lang.String typeName, TypePlugin plugin, TypeFlags flags) {
+    public static @NotNull org.gtk.gobject.Type typeRegisterDynamic(@NotNull org.gtk.gobject.Type parentType, @NotNull java.lang.String typeName, @NotNull TypePlugin plugin, @NotNull TypeFlags flags) {
+        long RESULT;
         try {
-            var RESULT = (long) g_type_register_dynamic.invokeExact(parentType.getValue(), Interop.allocateNativeString(typeName).handle(), plugin.handle(), flags.getValue());
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) g_type_register_dynamic.invokeExact(parentType.getValue(), Interop.allocateNativeString(typeName), plugin.handle(), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle g_type_register_fundamental = Interop.downcallHandle(
+    private static final MethodHandle g_type_register_fundamental = Interop.downcallHandle(
         "g_type_register_fundamental",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -3108,16 +3301,17 @@ public final class GObject {
      * {@code finfo} to manage the type and its instances. The value of {@code flags} determines
      * additional characteristics of the fundamental type.
      */
-    public static org.gtk.gobject.Type typeRegisterFundamental(org.gtk.gobject.Type typeId, java.lang.String typeName, TypeInfo info, TypeFundamentalInfo finfo, TypeFlags flags) {
+    public static @NotNull org.gtk.gobject.Type typeRegisterFundamental(@NotNull org.gtk.gobject.Type typeId, @NotNull java.lang.String typeName, @NotNull TypeInfo info, @NotNull TypeFundamentalInfo finfo, @NotNull TypeFlags flags) {
+        long RESULT;
         try {
-            var RESULT = (long) g_type_register_fundamental.invokeExact(typeId.getValue(), Interop.allocateNativeString(typeName).handle(), info.handle(), finfo.handle(), flags.getValue());
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) g_type_register_fundamental.invokeExact(typeId.getValue(), Interop.allocateNativeString(typeName), info.handle(), finfo.handle(), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle g_type_register_static = Interop.downcallHandle(
+    private static final MethodHandle g_type_register_static = Interop.downcallHandle(
         "g_type_register_static",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -3129,16 +3323,17 @@ public final class GObject {
      * instances (if not abstract). The value of {@code flags} determines the nature
      * (e.g. abstract or not) of the type.
      */
-    public static org.gtk.gobject.Type typeRegisterStatic(org.gtk.gobject.Type parentType, java.lang.String typeName, TypeInfo info, TypeFlags flags) {
+    public static @NotNull org.gtk.gobject.Type typeRegisterStatic(@NotNull org.gtk.gobject.Type parentType, @NotNull java.lang.String typeName, @NotNull TypeInfo info, @NotNull TypeFlags flags) {
+        long RESULT;
         try {
-            var RESULT = (long) g_type_register_static.invokeExact(parentType.getValue(), Interop.allocateNativeString(typeName).handle(), info.handle(), flags.getValue());
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) g_type_register_static.invokeExact(parentType.getValue(), Interop.allocateNativeString(typeName), info.handle(), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle g_type_remove_class_cache_func = Interop.downcallHandle(
+    private static final MethodHandle g_type_remove_class_cache_func = Interop.downcallHandle(
         "g_type_remove_class_cache_func",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3148,10 +3343,10 @@ public final class GObject {
      * maintained by {@code cache_func} has to be empty when calling
      * g_type_remove_class_cache_func() to avoid leaks.
      */
-    public static void typeRemoveClassCacheFunc(TypeClassCacheFunc cacheFunc) {
+    public static @NotNull void typeRemoveClassCacheFunc(@NotNull TypeClassCacheFunc cacheFunc) {
         try {
             g_type_remove_class_cache_func.invokeExact(
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cacheFunc.hashCode(), cacheFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cacheFunc)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbTypeClassCacheFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
@@ -3162,7 +3357,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_type_remove_interface_check = Interop.downcallHandle(
+    private static final MethodHandle g_type_remove_interface_check = Interop.downcallHandle(
         "g_type_remove_interface_check",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -3171,10 +3366,10 @@ public final class GObject {
      * Removes an interface check function added with
      * g_type_add_interface_check().
      */
-    public static void typeRemoveInterfaceCheck(TypeInterfaceCheckFunc checkFunc) {
+    public static @NotNull void typeRemoveInterfaceCheck(@NotNull TypeInterfaceCheckFunc checkFunc) {
         try {
             g_type_remove_interface_check.invokeExact(
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(checkFunc.hashCode(), checkFunc)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(checkFunc)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GObject.class, "__cbTypeInterfaceCheckFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
@@ -3185,7 +3380,7 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_type_set_qdata = Interop.downcallHandle(
+    private static final MethodHandle g_type_set_qdata = Interop.downcallHandle(
         "g_type_set_qdata",
         FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -3193,7 +3388,7 @@ public final class GObject {
     /**
      * Attaches arbitrary data to a type.
      */
-    public static void typeSetQdata(org.gtk.gobject.Type type, org.gtk.glib.Quark quark, java.lang.foreign.MemoryAddress data) {
+    public static @NotNull void typeSetQdata(@NotNull org.gtk.gobject.Type type, @NotNull org.gtk.glib.Quark quark, @Nullable java.lang.foreign.MemoryAddress data) {
         try {
             g_type_set_qdata.invokeExact(type.getValue(), quark.getValue(), data);
         } catch (Throwable ERR) {
@@ -3201,21 +3396,22 @@ public final class GObject {
         }
     }
     
-    static final MethodHandle g_type_test_flags = Interop.downcallHandle(
+    private static final MethodHandle g_type_test_flags = Interop.downcallHandle(
         "g_type_test_flags",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
     );
     
-    public static boolean typeTestFlags(org.gtk.gobject.Type type, int flags) {
+    public static boolean typeTestFlags(@NotNull org.gtk.gobject.Type type, @NotNull int flags) {
+        int RESULT;
         try {
-            var RESULT = (int) g_type_test_flags.invokeExact(type.getValue(), flags);
-            return RESULT != 0;
+            RESULT = (int) g_type_test_flags.invokeExact(type.getValue(), flags);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_type_value_table_peek = Interop.downcallHandle(
+    private static final MethodHandle g_type_value_table_peek = Interop.downcallHandle(
         "g_type_value_table_peek",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -3227,16 +3423,17 @@ public final class GObject {
      * that implements or has internal knowledge of the implementation of
      * {@code type}.
      */
-    public static TypeValueTable typeValueTablePeek(org.gtk.gobject.Type type) {
+    public static @NotNull TypeValueTable typeValueTablePeek(@NotNull org.gtk.gobject.Type type) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_type_value_table_peek.invokeExact(type.getValue());
-            return new TypeValueTable(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_type_value_table_peek.invokeExact(type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TypeValueTable(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_value_type_compatible = Interop.downcallHandle(
+    private static final MethodHandle g_value_type_compatible = Interop.downcallHandle(
         "g_value_type_compatible",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
     );
@@ -3245,16 +3442,17 @@ public final class GObject {
      * Returns whether a {@link Value} of type {@code src_type} can be copied into
      * a {@link Value} of type {@code dest_type}.
      */
-    public static boolean valueTypeCompatible(org.gtk.gobject.Type srcType, org.gtk.gobject.Type destType) {
+    public static boolean valueTypeCompatible(@NotNull org.gtk.gobject.Type srcType, @NotNull org.gtk.gobject.Type destType) {
+        int RESULT;
         try {
-            var RESULT = (int) g_value_type_compatible.invokeExact(srcType.getValue(), destType.getValue());
-            return RESULT != 0;
+            RESULT = (int) g_value_type_compatible.invokeExact(srcType.getValue(), destType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_value_type_transformable = Interop.downcallHandle(
+    private static final MethodHandle g_value_type_transformable = Interop.downcallHandle(
         "g_value_type_transformable",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
     );
@@ -3265,13 +3463,14 @@ public final class GObject {
      * the types to be transformable, they must be compatible or a
      * transformation function must be registered.
      */
-    public static boolean valueTypeTransformable(org.gtk.gobject.Type srcType, org.gtk.gobject.Type destType) {
+    public static boolean valueTypeTransformable(@NotNull org.gtk.gobject.Type srcType, @NotNull org.gtk.gobject.Type destType) {
+        int RESULT;
         try {
-            var RESULT = (int) g_value_type_transformable.invokeExact(srcType.getValue(), destType.getValue());
-            return RESULT != 0;
+            RESULT = (int) g_value_type_transformable.invokeExact(srcType.getValue(), destType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
     public static void __cbToggleNotify(MemoryAddress data, MemoryAddress object, int isLastRef) {
@@ -3298,12 +3497,6 @@ public final class GObject {
         return handler.onSignalAccumulator(new SignalInvocationHint(Refcounted.get(ihint, false)), new Value(Refcounted.get(returnAccu, false)), new Value(Refcounted.get(handlerReturn, false)));
     }
     
-    public static void __cbClosureMarshal(MemoryAddress closure, MemoryAddress returnValue, int nParamValues, MemoryAddress paramValues, MemoryAddress invocationHint, MemoryAddress marshalData) {
-        int hash = marshalData.get(ValueLayout.JAVA_INT, 0);
-        var handler = (ClosureMarshal) Interop.signalRegistry.get(hash);
-        handler.onClosureMarshal(new Closure(Refcounted.get(closure, false)), new Value(Refcounted.get(returnValue, false)), nParamValues, new PointerProxy<Value>(paramValues, Value.class), invocationHint);
-    }
-    
     public static void __cbClosureNotify(MemoryAddress data, MemoryAddress closure) {
         int hash = data.get(ValueLayout.JAVA_INT, 0);
         var handler = (ClosureNotify) Interop.signalRegistry.get(hash);
@@ -3326,12 +3519,6 @@ public final class GObject {
         int hash = classData.get(ValueLayout.JAVA_INT, 0);
         var handler = (ClassFinalizeFunc) Interop.signalRegistry.get(hash);
         handler.onClassFinalizeFunc(new TypeClass(Refcounted.get(gClass, false)));
-    }
-    
-    public static boolean __cbSignalEmissionHook(MemoryAddress ihint, int nParamValues, MemoryAddress paramValues, MemoryAddress data) {
-        int hash = data.get(ValueLayout.JAVA_INT, 0);
-        var handler = (SignalEmissionHook) Interop.signalRegistry.get(hash);
-        return handler.onSignalEmissionHook(new SignalInvocationHint(Refcounted.get(ihint, false)), nParamValues, new PointerProxy<Value>(paramValues, Value.class));
     }
     
     public static void __cbInterfaceFinalizeFunc(MemoryAddress gIface, MemoryAddress ifaceData) {

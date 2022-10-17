@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A tag that can be applied to text contained in a {@code GtkTextBuffer}.
@@ -35,14 +36,14 @@ public class TextTag extends org.gtk.gobject.Object {
         return new TextTag(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_text_tag_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_tag_new = Interop.downcallHandle(
         "gtk_text_tag_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(java.lang.String name) {
+    private static Refcounted constructNew(@Nullable java.lang.String name) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_text_tag_new.invokeExact(Interop.allocateNativeString(name).handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_text_tag_new.invokeExact(Interop.allocateNativeString(name)), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -52,11 +53,11 @@ public class TextTag extends org.gtk.gobject.Object {
     /**
      * Creates a {@code GtkTextTag}.
      */
-    public TextTag(java.lang.String name) {
+    public TextTag(@Nullable java.lang.String name) {
         super(constructNew(name));
     }
     
-    static final MethodHandle gtk_text_tag_changed = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_tag_changed = Interop.downcallHandle(
         "gtk_text_tag_changed",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -68,7 +69,7 @@ public class TextTag extends org.gtk.gobject.Object {
      * The signal is already emitted when setting a {@code GtkTextTag} property.
      * This function is useful for a {@code GtkTextTag} subclass.
      */
-    public void changed(boolean sizeChanged) {
+    public @NotNull void changed(@NotNull boolean sizeChanged) {
         try {
             gtk_text_tag_changed.invokeExact(handle(), sizeChanged ? 1 : 0);
         } catch (Throwable ERR) {
@@ -76,7 +77,7 @@ public class TextTag extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_tag_get_priority = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_tag_get_priority = Interop.downcallHandle(
         "gtk_text_tag_get_priority",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -85,15 +86,16 @@ public class TextTag extends org.gtk.gobject.Object {
      * Get the tag priority.
      */
     public int getPriority() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_tag_get_priority.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_text_tag_get_priority.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_text_tag_set_priority = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_tag_set_priority = Interop.downcallHandle(
         "gtk_text_tag_set_priority",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -114,7 +116,7 @@ public class TextTag extends org.gtk.gobject.Object {
      * to the table, or created with {@link TextBuffer#createTag},
      * which adds the tag to the buffer’s table automatically.
      */
-    public void setPriority(int priority) {
+    public @NotNull void setPriority(@NotNull int priority) {
         try {
             gtk_text_tag_set_priority.invokeExact(handle(), priority);
         } catch (Throwable ERR) {

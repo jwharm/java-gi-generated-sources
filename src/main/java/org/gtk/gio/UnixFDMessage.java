@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * This {@link SocketControlMessage} contains a {@link UnixFDList}.
@@ -30,7 +31,7 @@ public class UnixFDMessage extends SocketControlMessage {
         return new UnixFDMessage(gobject.refcounted());
     }
     
-    static final MethodHandle g_unix_fd_message_new = Interop.downcallHandle(
+    private static final MethodHandle g_unix_fd_message_new = Interop.downcallHandle(
         "g_unix_fd_message_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -52,12 +53,12 @@ public class UnixFDMessage extends SocketControlMessage {
         super(constructNew());
     }
     
-    static final MethodHandle g_unix_fd_message_new_with_fd_list = Interop.downcallHandle(
+    private static final MethodHandle g_unix_fd_message_new_with_fd_list = Interop.downcallHandle(
         "g_unix_fd_message_new_with_fd_list",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewWithFdList(UnixFDList fdList) {
+    private static Refcounted constructNewWithFdList(@NotNull UnixFDList fdList) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_unix_fd_message_new_with_fd_list.invokeExact(fdList.handle()), true);
             return RESULT;
@@ -69,11 +70,11 @@ public class UnixFDMessage extends SocketControlMessage {
     /**
      * Creates a new {@link UnixFDMessage} containing {@code list}.
      */
-    public static UnixFDMessage newWithFdList(UnixFDList fdList) {
+    public static UnixFDMessage newWithFdList(@NotNull UnixFDList fdList) {
         return new UnixFDMessage(constructNewWithFdList(fdList));
     }
     
-    static final MethodHandle g_unix_fd_message_append_fd = Interop.downcallHandle(
+    private static final MethodHandle g_unix_fd_message_append_fd = Interop.downcallHandle(
         "g_unix_fd_message_append_fd",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -88,20 +89,21 @@ public class UnixFDMessage extends SocketControlMessage {
      * A possible cause of failure is exceeding the per-process or
      * system-wide file descriptor limit.
      */
-    public boolean appendFd(int fd) throws io.github.jwharm.javagi.GErrorException {
+    public boolean appendFd(@NotNull int fd) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_unix_fd_message_append_fd.invokeExact(handle(), fd, (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_unix_fd_message_append_fd.invokeExact(handle(), fd, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_unix_fd_message_get_fd_list = Interop.downcallHandle(
+    private static final MethodHandle g_unix_fd_message_get_fd_list = Interop.downcallHandle(
         "g_unix_fd_message_get_fd_list",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -111,16 +113,17 @@ public class UnixFDMessage extends SocketControlMessage {
      * return a reference to the caller, but the returned list is valid for
      * the lifetime of {@code message}.
      */
-    public UnixFDList getFdList() {
+    public @NotNull UnixFDList getFdList() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_unix_fd_message_get_fd_list.invokeExact(handle());
-            return new UnixFDList(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_unix_fd_message_get_fd_list.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new UnixFDList(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_unix_fd_message_steal_fds = Interop.downcallHandle(
+    private static final MethodHandle g_unix_fd_message_steal_fds = Interop.downcallHandle(
         "g_unix_fd_message_steal_fds",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -144,13 +147,16 @@ public class UnixFDMessage extends SocketControlMessage {
      * This function never returns {@code null}. In case there are no file
      * descriptors contained in {@code message}, an empty array is returned.
      */
-    public PointerInteger stealFds(PointerInteger length) {
+    public int[] stealFds(@NotNull Out<Integer> length) {
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_unix_fd_message_steal_fds.invokeExact(handle(), length.handle());
-            return new PointerInteger(RESULT);
+            RESULT = (MemoryAddress) g_unix_fd_message_steal_fds.invokeExact(handle(), (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        length.set(lengthPOINTER.get(ValueLayout.JAVA_INT, 0));
+        return MemorySegment.ofAddress(RESULT.get(ValueLayout.ADDRESS, 0), length.get().intValue() * ValueLayout.JAVA_INT.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_INT);
     }
     
 }

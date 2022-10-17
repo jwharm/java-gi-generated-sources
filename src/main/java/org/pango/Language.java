@@ -3,6 +3,7 @@ package org.pango;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@code PangoLanguage} structure is used to
@@ -17,7 +18,7 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle pango_language_get_sample_string = Interop.downcallHandle(
+    private static final MethodHandle pango_language_get_sample_string = Interop.downcallHandle(
         "pango_language_get_sample_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -38,21 +39,22 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * "The quick brown fox..." is returned.  This can be detected by
      * comparing the returned pointer value to that returned for (non-existent)
      * language code "xx".  That is, compare to:
-     * <p>
+     * 
      * <pre>{@code 
      * pango_language_get_sample_string (pango_language_from_string ("xx"))
      * }</pre>
      */
-    public java.lang.String getSampleString() {
+    public @NotNull java.lang.String getSampleString() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_language_get_sample_string.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) pango_language_get_sample_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle pango_language_get_scripts = Interop.downcallHandle(
+    private static final MethodHandle pango_language_get_scripts = Interop.downcallHandle(
         "pango_language_get_scripts",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -82,16 +84,24 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * returned values are from the {@code GUnicodeScript} enumeration, which
      * may have more values. Callers need to handle unknown values.
      */
-    public PointerEnumeration getScripts(PointerInteger numScripts) {
+    public Script[] getScripts(@NotNull Out<Integer> numScripts) {
+        MemorySegment numScriptsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_language_get_scripts.invokeExact(handle(), numScripts.handle());
-            return new PointerEnumeration<Script>(RESULT, Script.class);
+            RESULT = (MemoryAddress) pango_language_get_scripts.invokeExact(handle(), (Addressable) numScriptsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        numScripts.set(numScriptsPOINTER.get(ValueLayout.JAVA_INT, 0));
+        Script[] resultARRAY = new Script[numScripts.get().intValue()];
+        for (int I = 0; I < numScripts.get().intValue(); I++) {
+            var OBJ = RESULT.get(ValueLayout.JAVA_INT, I);
+            resultARRAY[I] = new Script(OBJ);
+        }
+        return resultARRAY;
     }
     
-    static final MethodHandle pango_language_includes_script = Interop.downcallHandle(
+    private static final MethodHandle pango_language_includes_script = Interop.downcallHandle(
         "pango_language_includes_script",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -111,16 +121,17 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function uses {@link Language#getScripts} internally.
      */
-    public boolean includesScript(Script script) {
+    public boolean includesScript(@NotNull Script script) {
+        int RESULT;
         try {
-            var RESULT = (int) pango_language_includes_script.invokeExact(handle(), script.getValue());
-            return RESULT != 0;
+            RESULT = (int) pango_language_includes_script.invokeExact(handle(), script.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle pango_language_matches = Interop.downcallHandle(
+    private static final MethodHandle pango_language_matches = Interop.downcallHandle(
         "pango_language_matches",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -133,16 +144,17 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * range is '*', the range is exactly the tag, or the range is a prefix
      * of the tag, and the character after it in the tag is '-'.
      */
-    public boolean matches(java.lang.String rangeList) {
+    public boolean matches(@NotNull java.lang.String rangeList) {
+        int RESULT;
         try {
-            var RESULT = (int) pango_language_matches.invokeExact(handle(), Interop.allocateNativeString(rangeList).handle());
-            return RESULT != 0;
+            RESULT = (int) pango_language_matches.invokeExact(handle(), Interop.allocateNativeString(rangeList));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle pango_language_to_string = Interop.downcallHandle(
+    private static final MethodHandle pango_language_to_string = Interop.downcallHandle(
         "pango_language_to_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -152,16 +164,17 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Returns (transfer none): a string representing the language tag
      */
-    public java.lang.String toString() {
+    public @NotNull java.lang.String toString() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_language_to_string.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) pango_language_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle pango_language_from_string = Interop.downcallHandle(
+    private static final MethodHandle pango_language_from_string = Interop.downcallHandle(
         "pango_language_from_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -180,16 +193,17 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * Use {@link Pango#Language} if you want to get the
      * {@code PangoLanguage} for the current locale of the process.
      */
-    public static Language fromString(java.lang.String language) {
+    public static @Nullable Language fromString(@Nullable java.lang.String language) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_language_from_string.invokeExact(Interop.allocateNativeString(language).handle());
-            return new Language(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) pango_language_from_string.invokeExact(Interop.allocateNativeString(language));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Language(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle pango_language_get_default = Interop.downcallHandle(
+    private static final MethodHandle pango_language_get_default = Interop.downcallHandle(
         "pango_language_get_default",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -227,16 +241,17 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * use per-thread locales with uselocale(). In that case, you should
      * just call pango_language_from_string() yourself.
      */
-    public static Language getDefault() {
+    public static @NotNull Language getDefault() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_language_get_default.invokeExact();
-            return new Language(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) pango_language_get_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Language(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle pango_language_get_preferred = Interop.downcallHandle(
+    private static final MethodHandle pango_language_get_preferred = Interop.downcallHandle(
         "pango_language_get_preferred",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -254,13 +269,14 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * you should first try the default language, followed by the
      * languages returned by this function.
      */
-    public static PointerProxy<Language> getPreferred() {
+    public static @Nullable PointerProxy<Language> getPreferred() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_language_get_preferred.invokeExact();
-            return new PointerProxy<Language>(RESULT, Language.class);
+            RESULT = (MemoryAddress) pango_language_get_preferred.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PointerProxy<Language>(RESULT, Language.class);
     }
     
 }

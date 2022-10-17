@@ -3,6 +3,7 @@ package org.gtk.gobject;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@link ParamSpecPool} maintains a collection of {@code GParamSpecs} which can be
@@ -17,7 +18,7 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_param_spec_pool_insert = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_pool_insert = Interop.downcallHandle(
         "g_param_spec_pool_insert",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -25,7 +26,7 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Inserts a {@link ParamSpec} in the pool.
      */
-    public void insert(ParamSpec pspec, org.gtk.gobject.Type ownerType) {
+    public @NotNull void insert(@NotNull ParamSpec pspec, @NotNull org.gtk.gobject.Type ownerType) {
         try {
             g_param_spec_pool_insert.invokeExact(handle(), pspec.handle(), ownerType.getValue());
         } catch (Throwable ERR) {
@@ -33,7 +34,7 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_param_spec_pool_list = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_pool_list = Interop.downcallHandle(
         "g_param_spec_pool_list",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -42,16 +43,24 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
      * Gets an array of all {@code GParamSpecs} owned by {@code owner_type} in
      * the pool.
      */
-    public PointerProxy<ParamSpec> list(org.gtk.gobject.Type ownerType, PointerInteger nPspecsP) {
+    public ParamSpec[] list(@NotNull org.gtk.gobject.Type ownerType, @NotNull Out<Integer> nPspecsP) {
+        MemorySegment nPspecsPPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_pool_list.invokeExact(handle(), ownerType.getValue(), nPspecsP.handle());
-            return new PointerProxy<ParamSpec>(RESULT, ParamSpec.class);
+            RESULT = (MemoryAddress) g_param_spec_pool_list.invokeExact(handle(), ownerType.getValue(), (Addressable) nPspecsPPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        nPspecsP.set(nPspecsPPOINTER.get(ValueLayout.JAVA_INT, 0));
+        ParamSpec[] resultARRAY = new ParamSpec[nPspecsP.get().intValue()];
+        for (int I = 0; I < nPspecsP.get().intValue(); I++) {
+            var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
+            resultARRAY[I] = new ParamSpec(Refcounted.get(OBJ, false));
+        }
+        return resultARRAY;
     }
     
-    static final MethodHandle g_param_spec_pool_list_owned = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_pool_list_owned = Interop.downcallHandle(
         "g_param_spec_pool_list_owned",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -60,16 +69,17 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
      * Gets an {@link org.gtk.glib.List} of all {@code GParamSpecs} owned by {@code owner_type} in
      * the pool.
      */
-    public org.gtk.glib.List listOwned(org.gtk.gobject.Type ownerType) {
+    public @NotNull org.gtk.glib.List listOwned(@NotNull org.gtk.gobject.Type ownerType) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_pool_list_owned.invokeExact(handle(), ownerType.getValue());
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_param_spec_pool_list_owned.invokeExact(handle(), ownerType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_param_spec_pool_lookup = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_pool_lookup = Interop.downcallHandle(
         "g_param_spec_pool_lookup",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
     );
@@ -77,16 +87,17 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Looks up a {@link ParamSpec} in the pool.
      */
-    public ParamSpec lookup(java.lang.String paramName, org.gtk.gobject.Type ownerType, boolean walkAncestors) {
+    public @Nullable ParamSpec lookup(@NotNull java.lang.String paramName, @NotNull org.gtk.gobject.Type ownerType, @NotNull boolean walkAncestors) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_pool_lookup.invokeExact(handle(), Interop.allocateNativeString(paramName).handle(), ownerType.getValue(), walkAncestors ? 1 : 0);
-            return new ParamSpec(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_param_spec_pool_lookup.invokeExact(handle(), Interop.allocateNativeString(paramName), ownerType.getValue(), walkAncestors ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpec(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_param_spec_pool_remove = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_pool_remove = Interop.downcallHandle(
         "g_param_spec_pool_remove",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -94,7 +105,7 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Removes a {@link ParamSpec} from the pool.
      */
-    public void remove(ParamSpec pspec) {
+    public @NotNull void remove(@NotNull ParamSpec pspec) {
         try {
             g_param_spec_pool_remove.invokeExact(handle(), pspec.handle());
         } catch (Throwable ERR) {
@@ -102,7 +113,7 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_param_spec_pool_new = Interop.downcallHandle(
+    private static final MethodHandle g_param_spec_pool_new = Interop.downcallHandle(
         "g_param_spec_pool_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -115,13 +126,14 @@ public class ParamSpecPool extends io.github.jwharm.javagi.ResourceBase {
      * property name, like "GtkContainer:border-width". This feature is
      * deprecated, so you should always set {@code type_prefixing} to {@code false}.
      */
-    public static ParamSpecPool new_(boolean typePrefixing) {
+    public static @NotNull ParamSpecPool new_(@NotNull boolean typePrefixing) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_param_spec_pool_new.invokeExact(typePrefixing ? 1 : 0);
-            return new ParamSpecPool(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_param_spec_pool_new.invokeExact(typePrefixing ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ParamSpecPool(Refcounted.get(RESULT, true));
     }
     
 }

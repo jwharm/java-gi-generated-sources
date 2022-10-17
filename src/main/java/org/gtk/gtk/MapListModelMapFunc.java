@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * User function that is called to map an {@code item} of the original model to
@@ -11,5 +12,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface MapListModelMapFunc {
-        org.gtk.gobject.Object onMapListModelMapFunc(org.gtk.gobject.Object item);
+        org.gtk.gobject.Object onMapListModelMapFunc(@NotNull org.gtk.gobject.Object item);
 }

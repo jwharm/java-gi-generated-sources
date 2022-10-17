@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@link Sequence} struct is an opaque data type representing a
@@ -14,7 +15,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_sequence_append = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_append = Interop.downcallHandle(
         "g_sequence_append",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -22,16 +23,17 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Adds a new item to the end of {@code seq}.
      */
-    public SequenceIter append(java.lang.foreign.MemoryAddress data) {
+    public @NotNull SequenceIter append(@Nullable java.lang.foreign.MemoryAddress data) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_sequence_append.invokeExact(handle(), data);
-            return new SequenceIter(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_sequence_append.invokeExact(handle(), data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_sequence_foreach = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_foreach = Interop.downcallHandle(
         "g_sequence_foreach",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -40,7 +42,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * Calls {@code func} for each item in the sequence passing {@code user_data}
      * to the function. {@code func} must not modify the sequence itself.
      */
-    public void foreach(Func func) {
+    public @NotNull void foreach(@NotNull Func func) {
         try {
             g_sequence_foreach.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -48,13 +50,13 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_sequence_free = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_free = Interop.downcallHandle(
         "g_sequence_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -64,7 +66,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * function associated with it, that function is called on all items
      * in {@code seq}.
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             g_sequence_free.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -72,7 +74,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_sequence_get_begin_iter = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_get_begin_iter = Interop.downcallHandle(
         "g_sequence_get_begin_iter",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -80,16 +82,17 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the begin iterator for {@code seq}.
      */
-    public SequenceIter getBeginIter() {
+    public @NotNull SequenceIter getBeginIter() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_sequence_get_begin_iter.invokeExact(handle());
-            return new SequenceIter(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_sequence_get_begin_iter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_sequence_get_end_iter = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_get_end_iter = Interop.downcallHandle(
         "g_sequence_get_end_iter",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -97,16 +100,17 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the end iterator for {@code seg}
      */
-    public SequenceIter getEndIter() {
+    public @NotNull SequenceIter getEndIter() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_sequence_get_end_iter.invokeExact(handle());
-            return new SequenceIter(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_sequence_get_end_iter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_sequence_get_iter_at_pos = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_get_iter_at_pos = Interop.downcallHandle(
         "g_sequence_get_iter_at_pos",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -115,16 +119,17 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * Returns the iterator at position {@code pos}. If {@code pos} is negative or larger
      * than the number of items in {@code seq}, the end iterator is returned.
      */
-    public SequenceIter getIterAtPos(int pos) {
+    public @NotNull SequenceIter getIterAtPos(@NotNull int pos) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_sequence_get_iter_at_pos.invokeExact(handle(), pos);
-            return new SequenceIter(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_sequence_get_iter_at_pos.invokeExact(handle(), pos);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_sequence_get_length = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_get_length = Interop.downcallHandle(
         "g_sequence_get_length",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -135,15 +140,16 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * to use g_sequence_is_empty() when comparing the length to zero.
      */
     public int getLength() {
+        int RESULT;
         try {
-            var RESULT = (int) g_sequence_get_length.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_sequence_get_length.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_sequence_insert_sorted = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_insert_sorted = Interop.downcallHandle(
         "g_sequence_insert_sorted",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -162,23 +168,24 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * it is more efficient to do unsorted insertions and then call
      * g_sequence_sort() or g_sequence_sort_iter().
      */
-    public SequenceIter insertSorted(CompareDataFunc cmpFunc) {
+    public @NotNull SequenceIter insertSorted(@NotNull CompareDataFunc cmpFunc) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_sequence_insert_sorted.invokeExact(handle(), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)), 
+            RESULT = (MemoryAddress) g_sequence_insert_sorted.invokeExact(handle(), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
-            return new SequenceIter(Refcounted.get(RESULT, false));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_sequence_insert_sorted_iter = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_insert_sorted_iter = Interop.downcallHandle(
         "g_sequence_insert_sorted_iter",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -197,23 +204,24 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * it is more efficient to do unsorted insertions and then call
      * g_sequence_sort() or g_sequence_sort_iter().
      */
-    public SequenceIter insertSortedIter(SequenceIterCompareFunc iterCmp) {
+    public @NotNull SequenceIter insertSortedIter(@NotNull SequenceIterCompareFunc iterCmp) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_sequence_insert_sorted_iter.invokeExact(handle(), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)), 
+            RESULT = (MemoryAddress) g_sequence_insert_sorted_iter.invokeExact(handle(), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(iterCmp)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSequenceIterCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)));
-            return new SequenceIter(Refcounted.get(RESULT, false));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(iterCmp)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_sequence_is_empty = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_is_empty = Interop.downcallHandle(
         "g_sequence_is_empty",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -226,15 +234,16 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * implemented in O(1) running time.
      */
     public boolean isEmpty() {
+        int RESULT;
         try {
-            var RESULT = (int) g_sequence_is_empty.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_sequence_is_empty.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_sequence_lookup = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_lookup = Interop.downcallHandle(
         "g_sequence_lookup",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -254,23 +263,24 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * This function will fail if the data contained in the sequence is
      * unsorted.
      */
-    public SequenceIter lookup(CompareDataFunc cmpFunc) {
+    public @Nullable SequenceIter lookup(@NotNull CompareDataFunc cmpFunc) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_sequence_lookup.invokeExact(handle(), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)), 
+            RESULT = (MemoryAddress) g_sequence_lookup.invokeExact(handle(), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
-            return new SequenceIter(Refcounted.get(RESULT, false));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_sequence_lookup_iter = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_lookup_iter = Interop.downcallHandle(
         "g_sequence_lookup_iter",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -287,23 +297,24 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * This function will fail if the data contained in the sequence is
      * unsorted.
      */
-    public SequenceIter lookupIter(SequenceIterCompareFunc iterCmp) {
+    public @Nullable SequenceIter lookupIter(@NotNull SequenceIterCompareFunc iterCmp) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_sequence_lookup_iter.invokeExact(handle(), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)), 
+            RESULT = (MemoryAddress) g_sequence_lookup_iter.invokeExact(handle(), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(iterCmp)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSequenceIterCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)));
-            return new SequenceIter(Refcounted.get(RESULT, false));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(iterCmp)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_sequence_prepend = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_prepend = Interop.downcallHandle(
         "g_sequence_prepend",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -311,16 +322,17 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Adds a new item to the front of {@code seq}
      */
-    public SequenceIter prepend(java.lang.foreign.MemoryAddress data) {
+    public @NotNull SequenceIter prepend(@Nullable java.lang.foreign.MemoryAddress data) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_sequence_prepend.invokeExact(handle(), data);
-            return new SequenceIter(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_sequence_prepend.invokeExact(handle(), data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_sequence_search = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_search = Interop.downcallHandle(
         "g_sequence_search",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -340,23 +352,24 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * This function will fail if the data contained in the sequence is
      * unsorted.
      */
-    public SequenceIter search(CompareDataFunc cmpFunc) {
+    public @NotNull SequenceIter search(@NotNull CompareDataFunc cmpFunc) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_sequence_search.invokeExact(handle(), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)), 
+            RESULT = (MemoryAddress) g_sequence_search.invokeExact(handle(), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
-            return new SequenceIter(Refcounted.get(RESULT, false));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_sequence_search_iter = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_search_iter = Interop.downcallHandle(
         "g_sequence_search_iter",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -376,23 +389,24 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * This function will fail if the data contained in the sequence is
      * unsorted.
      */
-    public SequenceIter searchIter(SequenceIterCompareFunc iterCmp) {
+    public @NotNull SequenceIter searchIter(@NotNull SequenceIterCompareFunc iterCmp) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_sequence_search_iter.invokeExact(handle(), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)), 
+            RESULT = (MemoryAddress) g_sequence_search_iter.invokeExact(handle(), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(iterCmp)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(GLib.class, "__cbSequenceIterCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)));
-            return new SequenceIter(Refcounted.get(RESULT, false));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(iterCmp)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_sequence_sort = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_sort = Interop.downcallHandle(
         "g_sequence_sort",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -405,7 +419,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * first comes before the second, and a positive value
      * if the second comes before the first.
      */
-    public void sort(CompareDataFunc cmpFunc) {
+    public @NotNull void sort(@NotNull CompareDataFunc cmpFunc) {
         try {
             g_sequence_sort.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -413,13 +427,13 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_sequence_sort_iter = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_sort_iter = Interop.downcallHandle(
         "g_sequence_sort_iter",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -433,7 +447,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * iterator comes before the second, and a positive value if the second
      * iterator comes before the first.
      */
-    public void sortIter(SequenceIterCompareFunc cmpFunc) {
+    public @NotNull void sortIter(@NotNull SequenceIterCompareFunc cmpFunc) {
         try {
             g_sequence_sort_iter.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -441,13 +455,13 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_sequence_foreach_range = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_foreach_range = Interop.downcallHandle(
         "g_sequence_foreach_range",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -457,7 +471,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * {@code user_data} to the function. {@code func} must not modify the sequence
      * itself.
      */
-    public static void foreachRange(SequenceIter begin, SequenceIter end, Func func) {
+    public static @NotNull void foreachRange(@NotNull SequenceIter begin, @NotNull SequenceIter end, @NotNull Func func) {
         try {
             g_sequence_foreach_range.invokeExact(begin.handle(), end.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -465,13 +479,13 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_sequence_get = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_get = Interop.downcallHandle(
         "g_sequence_get",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -479,16 +493,17 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the data that {@code iter} points to.
      */
-    public static java.lang.foreign.MemoryAddress get(SequenceIter iter) {
+    public static @Nullable java.lang.foreign.MemoryAddress get(@NotNull SequenceIter iter) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_sequence_get.invokeExact(iter.handle());
-            return RESULT;
+            RESULT = (MemoryAddress) g_sequence_get.invokeExact(iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_sequence_insert_before = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_insert_before = Interop.downcallHandle(
         "g_sequence_insert_before",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -496,16 +511,17 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Inserts a new item just before the item pointed to by {@code iter}.
      */
-    public static SequenceIter insertBefore(SequenceIter iter, java.lang.foreign.MemoryAddress data) {
+    public static @NotNull SequenceIter insertBefore(@NotNull SequenceIter iter, @Nullable java.lang.foreign.MemoryAddress data) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_sequence_insert_before.invokeExact(iter.handle(), data);
-            return new SequenceIter(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_sequence_insert_before.invokeExact(iter.handle(), data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_sequence_move = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_move = Interop.downcallHandle(
         "g_sequence_move",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -516,7 +532,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * after {@code src}. It is allowed for {@code src} and {@code dest} to point into different
      * sequences.
      */
-    public static void move(SequenceIter src, SequenceIter dest) {
+    public static @NotNull void move(@NotNull SequenceIter src, @NotNull SequenceIter dest) {
         try {
             g_sequence_move.invokeExact(src.handle(), dest.handle());
         } catch (Throwable ERR) {
@@ -524,7 +540,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_sequence_move_range = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_move_range = Interop.downcallHandle(
         "g_sequence_move_range",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -539,7 +555,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * removed from the sequence. If {@code dest} points to a place within
      * the ({@code begin}, {@code end}) range, the range does not move.
      */
-    public static void moveRange(SequenceIter dest, SequenceIter begin, SequenceIter end) {
+    public static @NotNull void moveRange(@NotNull SequenceIter dest, @NotNull SequenceIter begin, @NotNull SequenceIter end) {
         try {
             g_sequence_move_range.invokeExact(dest.handle(), begin.handle(), end.handle());
         } catch (Throwable ERR) {
@@ -547,7 +563,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_sequence_range_get_midpoint = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_range_get_midpoint = Interop.downcallHandle(
         "g_sequence_range_get_midpoint",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -560,16 +576,17 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * The {@code begin} and {@code end} iterators must both point to the same sequence
      * and {@code begin} must come before or be equal to {@code end} in the sequence.
      */
-    public static SequenceIter rangeGetMidpoint(SequenceIter begin, SequenceIter end) {
+    public static @NotNull SequenceIter rangeGetMidpoint(@NotNull SequenceIter begin, @NotNull SequenceIter end) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_sequence_range_get_midpoint.invokeExact(begin.handle(), end.handle());
-            return new SequenceIter(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_sequence_range_get_midpoint.invokeExact(begin.handle(), end.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SequenceIter(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_sequence_remove = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_remove = Interop.downcallHandle(
         "g_sequence_remove",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -581,7 +598,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * If the sequence has a data destroy function associated with it, this
      * function is called on the data for the removed item.
      */
-    public static void remove(SequenceIter iter) {
+    public static @NotNull void remove(@NotNull SequenceIter iter) {
         try {
             g_sequence_remove.invokeExact(iter.handle());
         } catch (Throwable ERR) {
@@ -589,7 +606,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_sequence_remove_range = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_remove_range = Interop.downcallHandle(
         "g_sequence_remove_range",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -600,7 +617,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * If the sequence has a data destroy function associated with it, this
      * function is called on the data for the removed items.
      */
-    public static void removeRange(SequenceIter begin, SequenceIter end) {
+    public static @NotNull void removeRange(@NotNull SequenceIter begin, @NotNull SequenceIter end) {
         try {
             g_sequence_remove_range.invokeExact(begin.handle(), end.handle());
         } catch (Throwable ERR) {
@@ -608,7 +625,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_sequence_set = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_set = Interop.downcallHandle(
         "g_sequence_set",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -618,7 +635,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * the sequence has a data destroy function associated with it, that
      * function is called on the existing data that {@code iter} pointed to.
      */
-    public static void set(SequenceIter iter, java.lang.foreign.MemoryAddress data) {
+    public static @NotNull void set(@NotNull SequenceIter iter, @Nullable java.lang.foreign.MemoryAddress data) {
         try {
             g_sequence_set.invokeExact(iter.handle(), data);
         } catch (Throwable ERR) {
@@ -626,7 +643,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_sequence_sort_changed = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_sort_changed = Interop.downcallHandle(
         "g_sequence_sort_changed",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -643,7 +660,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * the first item comes before the second, and a positive value if
      * the second item comes before the first.
      */
-    public static void sortChanged(SequenceIter iter, CompareDataFunc cmpFunc) {
+    public static @NotNull void sortChanged(@NotNull SequenceIter iter, @NotNull CompareDataFunc cmpFunc) {
         try {
             g_sequence_sort_changed.invokeExact(iter.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -651,13 +668,13 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc.hashCode(), cmpFunc)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(cmpFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_sequence_sort_changed_iter = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_sort_changed_iter = Interop.downcallHandle(
         "g_sequence_sort_changed_iter",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -673,7 +690,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * iterator comes before the second, and a positive value if the second
      * iterator comes before the first.
      */
-    public static void sortChangedIter(SequenceIter iter, SequenceIterCompareFunc iterCmp) {
+    public static @NotNull void sortChangedIter(@NotNull SequenceIter iter, @NotNull SequenceIterCompareFunc iterCmp) {
         try {
             g_sequence_sort_changed_iter.invokeExact(iter.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -681,13 +698,13 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(iterCmp.hashCode(), iterCmp)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(iterCmp)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_sequence_swap = Interop.downcallHandle(
+    private static final MethodHandle g_sequence_swap = Interop.downcallHandle(
         "g_sequence_swap",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -696,7 +713,7 @@ public class Sequence extends io.github.jwharm.javagi.ResourceBase {
      * Swaps the items pointed to by @a and @b. It is allowed for @a and @b
      * to point into difference sequences.
      */
-    public static void swap(SequenceIter a, SequenceIter b) {
+    public static @NotNull void swap(@NotNull SequenceIter a, @NotNull SequenceIter b) {
         try {
             g_sequence_swap.invokeExact(a.handle(), b.handle());
         } catch (Throwable ERR) {

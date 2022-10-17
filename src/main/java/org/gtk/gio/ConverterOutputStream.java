@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Converter output stream implements {@link OutputStream} and allows
@@ -22,12 +23,12 @@ public class ConverterOutputStream extends FilterOutputStream implements Pollabl
         return new ConverterOutputStream(gobject.refcounted());
     }
     
-    static final MethodHandle g_converter_output_stream_new = Interop.downcallHandle(
+    private static final MethodHandle g_converter_output_stream_new = Interop.downcallHandle(
         "g_converter_output_stream_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(OutputStream baseStream, Converter converter) {
+    private static Refcounted constructNew(@NotNull OutputStream baseStream, @NotNull Converter converter) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_converter_output_stream_new.invokeExact(baseStream.handle(), converter.handle()), true);
             return RESULT;
@@ -39,11 +40,11 @@ public class ConverterOutputStream extends FilterOutputStream implements Pollabl
     /**
      * Creates a new converter output stream for the {@code base_stream}.
      */
-    public ConverterOutputStream(OutputStream baseStream, Converter converter) {
+    public ConverterOutputStream(@NotNull OutputStream baseStream, @NotNull Converter converter) {
         super(constructNew(baseStream, converter));
     }
     
-    static final MethodHandle g_converter_output_stream_get_converter = Interop.downcallHandle(
+    private static final MethodHandle g_converter_output_stream_get_converter = Interop.downcallHandle(
         "g_converter_output_stream_get_converter",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -51,13 +52,14 @@ public class ConverterOutputStream extends FilterOutputStream implements Pollabl
     /**
      * Gets the {@link Converter} that is used by {@code converter_stream}.
      */
-    public Converter getConverter() {
+    public @NotNull Converter getConverter() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_converter_output_stream_get_converter.invokeExact(handle());
-            return new Converter.ConverterImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_converter_output_stream_get_converter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Converter.ConverterImpl(Refcounted.get(RESULT, false));
     }
     
 }

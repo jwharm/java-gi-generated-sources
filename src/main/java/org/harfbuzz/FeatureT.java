@@ -3,6 +3,7 @@ package org.harfbuzz;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@link feature_t} is the structure that holds information about requested
@@ -17,7 +18,7 @@ public class FeatureT extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle hb_feature_to_string = Interop.downcallHandle(
+    private static final MethodHandle hb_feature_to_string = Interop.downcallHandle(
         "hb_feature_to_string",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -27,12 +28,21 @@ public class FeatureT extends io.github.jwharm.javagi.ResourceBase {
      * understood by hb_feature_from_string(). The client in responsible for
      * allocating big enough size for {@code buf}, 128 bytes is more than enough.
      */
-    public void String(PointerString buf, int size) {
+    public @NotNull void String(@NotNull Out<java.lang.String[]> buf, @NotNull Out<Integer> size) {
+        MemorySegment bufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            hb_feature_to_string.invokeExact(handle(), buf.handle(), size);
+            hb_feature_to_string.invokeExact(handle(), (Addressable) bufPOINTER.address(), (Addressable) sizePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        size.set(sizePOINTER.get(ValueLayout.JAVA_INT, 0));
+        java.lang.String[] bufARRAY = new java.lang.String[size.get().intValue()];
+        for (int I = 0; I < size.get().intValue(); I++) {
+            var OBJ = bufPOINTER.get(ValueLayout.ADDRESS, I);
+            bufARRAY[I] = OBJ.getUtf8String(0);
+        }
+        buf.set(bufARRAY);
     }
     
 }

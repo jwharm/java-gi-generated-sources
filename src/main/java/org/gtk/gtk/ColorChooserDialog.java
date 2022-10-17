@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A dialog for choosing a color.
@@ -29,14 +30,14 @@ public class ColorChooserDialog extends Dialog implements Accessible, Buildable,
         return new ColorChooserDialog(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_color_chooser_dialog_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_color_chooser_dialog_new = Interop.downcallHandle(
         "gtk_color_chooser_dialog_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(java.lang.String title, Window parent) {
+    private static Refcounted constructNew(@Nullable java.lang.String title, @Nullable Window parent) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_color_chooser_dialog_new.invokeExact(Interop.allocateNativeString(title).handle(), parent.handle()), false);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_color_chooser_dialog_new.invokeExact(Interop.allocateNativeString(title), parent.handle()), false);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -46,7 +47,7 @@ public class ColorChooserDialog extends Dialog implements Accessible, Buildable,
     /**
      * Creates a new {@code GtkColorChooserDialog}.
      */
-    public ColorChooserDialog(java.lang.String title, Window parent) {
+    public ColorChooserDialog(@Nullable java.lang.String title, @Nullable Window parent) {
         super(constructNew(title, parent));
     }
     

@@ -1,6 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Specifies the type of the print handler functions.
@@ -8,5 +9,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface PrintFunc {
-        void onPrintFunc(java.lang.String string);
+        void onPrintFunc(@NotNull java.lang.String string);
 }

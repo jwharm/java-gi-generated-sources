@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * GFileOutputStream provides output streams that write their
@@ -31,7 +32,7 @@ public class FileOutputStream extends OutputStream implements Seekable {
         return new FileOutputStream(gobject.refcounted());
     }
     
-    static final MethodHandle g_file_output_stream_get_etag = Interop.downcallHandle(
+    private static final MethodHandle g_file_output_stream_get_etag = Interop.downcallHandle(
         "g_file_output_stream_get_etag",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -41,16 +42,17 @@ public class FileOutputStream extends OutputStream implements Seekable {
      * This must be called after the stream has been written
      * and closed, as the etag can change while writing.
      */
-    public java.lang.String getEtag() {
+    public @Nullable java.lang.String getEtag() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_output_stream_get_etag.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_file_output_stream_get_etag.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_file_output_stream_query_info = Interop.downcallHandle(
+    private static final MethodHandle g_file_output_stream_query_info = Interop.downcallHandle(
         "g_file_output_stream_query_info",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -74,20 +76,21 @@ public class FileOutputStream extends OutputStream implements Seekable {
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be set, and {@code null} will
      * be returned.
      */
-    public FileInfo queryInfo(java.lang.String attributes, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull FileInfo queryInfo(@NotNull java.lang.String attributes, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_output_stream_query_info.invokeExact(handle(), Interop.allocateNativeString(attributes).handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileInfo(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_output_stream_query_info.invokeExact(handle(), Interop.allocateNativeString(attributes), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileInfo(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_file_output_stream_query_info_async = Interop.downcallHandle(
+    private static final MethodHandle g_file_output_stream_query_info_async = Interop.downcallHandle(
         "g_file_output_stream_query_info_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -100,21 +103,21 @@ public class FileOutputStream extends OutputStream implements Seekable {
      * For the synchronous version of this function, see
      * g_file_output_stream_query_info().
      */
-    public void queryInfoAsync(java.lang.String attributes, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public @NotNull void queryInfoAsync(@NotNull java.lang.String attributes, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
-            g_file_output_stream_query_info_async.invokeExact(handle(), Interop.allocateNativeString(attributes).handle(), ioPriority, cancellable.handle(), 
+            g_file_output_stream_query_info_async.invokeExact(handle(), Interop.allocateNativeString(attributes), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_file_output_stream_query_info_finish = Interop.downcallHandle(
+    private static final MethodHandle g_file_output_stream_query_info_finish = Interop.downcallHandle(
         "g_file_output_stream_query_info_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -123,17 +126,18 @@ public class FileOutputStream extends OutputStream implements Seekable {
      * Finalizes the asynchronous query started
      * by g_file_output_stream_query_info_async().
      */
-    public FileInfo queryInfoFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull FileInfo queryInfoFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_file_output_stream_query_info_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new FileInfo(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_file_output_stream_query_info_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new FileInfo(Refcounted.get(RESULT, true));
     }
     
 }

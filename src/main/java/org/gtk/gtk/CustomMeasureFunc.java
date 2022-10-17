@@ -1,11 +1,12 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A function to be used by {@code GtkCustomLayout} to measure a widget.
  */
 @FunctionalInterface
 public interface CustomMeasureFunc {
-        void onCustomMeasureFunc(Widget widget, Orientation orientation, int forSize, PointerInteger minimum, PointerInteger natural, PointerInteger minimumBaseline, PointerInteger naturalBaseline);
+        void onCustomMeasureFunc(@NotNull Widget widget, @NotNull Orientation orientation, @NotNull int forSize, @NotNull Out<Integer> minimum, @NotNull Out<Integer> natural, @NotNull Out<Integer> minimumBaseline, @NotNull Out<Integer> naturalBaseline);
 }

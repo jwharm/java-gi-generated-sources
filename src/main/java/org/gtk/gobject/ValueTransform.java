@@ -1,6 +1,7 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The type of value transformation functions which can be registered with
@@ -10,5 +11,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface ValueTransform {
-        void onValueTransform(Value srcValue, Value destValue);
+        void onValueTransform(@NotNull Value srcValue, @NotNull Value destValue);
 }

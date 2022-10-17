@@ -1,6 +1,7 @@
 package org.gtk.gdkpixbuf;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Saves a {@code GdkPixbuf} into a standard C file stream.
@@ -11,5 +12,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface PixbufModuleSaveFunc {
-        boolean onPixbufModuleSaveFunc(java.lang.foreign.MemoryAddress f, Pixbuf pixbuf, PointerString paramKeys, PointerString paramValues);
+        boolean onPixbufModuleSaveFunc(@Nullable java.lang.foreign.MemoryAddress f, @NotNull Pixbuf pixbuf, @Nullable PointerString paramKeys, @Nullable PointerString paramValues);
 }

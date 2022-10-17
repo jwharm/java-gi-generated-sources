@@ -3,6 +3,7 @@ package org.gnome.adw;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A page from {@link PreferencesWindow}.
@@ -14,13 +15,11 @@ import java.lang.invoke.*;
  * <p>
  * The {@code AdwPreferencesPage} widget gathers preferences groups into a single page
  * of a preferences window.
- * <p>
+ * 
  * <h2>CSS nodes</h2>
- * <p>
  * {@code AdwPreferencesPage} has a single CSS node with name {@code preferencespage}.
- * <p>
+ * 
  * <h2>Accessibility</h2>
- * <p>
  * {@code AdwPreferencesPage} uses the {@code GTK_ACCESSIBLE_ROLE_GROUP} role.
  */
 public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
@@ -34,7 +33,7 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         return new PreferencesPage(gobject.refcounted());
     }
     
-    static final MethodHandle adw_preferences_page_new = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_page_new = Interop.downcallHandle(
         "adw_preferences_page_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -55,7 +54,7 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         super(constructNew());
     }
     
-    static final MethodHandle adw_preferences_page_add = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_page_add = Interop.downcallHandle(
         "adw_preferences_page_add",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -63,7 +62,7 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     /**
      * Adds a preferences group to {@code self}.
      */
-    public void add(PreferencesGroup group) {
+    public @NotNull void add(@NotNull PreferencesGroup group) {
         try {
             adw_preferences_page_add.invokeExact(handle(), group.handle());
         } catch (Throwable ERR) {
@@ -71,7 +70,7 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         }
     }
     
-    static final MethodHandle adw_preferences_page_get_icon_name = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_page_get_icon_name = Interop.downcallHandle(
         "adw_preferences_page_get_icon_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -79,16 +78,17 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     /**
      * Gets the icon name for {@code self}.
      */
-    public java.lang.String getIconName() {
+    public @Nullable java.lang.String getIconName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_preferences_page_get_icon_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) adw_preferences_page_get_icon_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle adw_preferences_page_get_name = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_page_get_name = Interop.downcallHandle(
         "adw_preferences_page_get_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -96,16 +96,17 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     /**
      * Gets the name of {@code self}.
      */
-    public java.lang.String getName() {
+    public @Nullable java.lang.String getName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_preferences_page_get_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) adw_preferences_page_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle adw_preferences_page_get_title = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_page_get_title = Interop.downcallHandle(
         "adw_preferences_page_get_title",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -113,16 +114,17 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     /**
      * Gets the title of {@code self}.
      */
-    public java.lang.String getTitle() {
+    public @NotNull java.lang.String getTitle() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_preferences_page_get_title.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) adw_preferences_page_get_title.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle adw_preferences_page_get_use_underline = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_page_get_use_underline = Interop.downcallHandle(
         "adw_preferences_page_get_use_underline",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -131,15 +133,16 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
      * Gets whether an embedded underline in the title indicates a mnemonic.
      */
     public boolean getUseUnderline() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_preferences_page_get_use_underline.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) adw_preferences_page_get_use_underline.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_preferences_page_remove = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_page_remove = Interop.downcallHandle(
         "adw_preferences_page_remove",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -147,7 +150,7 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     /**
      * Removes a group from {@code self}.
      */
-    public void remove(PreferencesGroup group) {
+    public @NotNull void remove(@NotNull PreferencesGroup group) {
         try {
             adw_preferences_page_remove.invokeExact(handle(), group.handle());
         } catch (Throwable ERR) {
@@ -155,7 +158,7 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         }
     }
     
-    static final MethodHandle adw_preferences_page_set_icon_name = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_page_set_icon_name = Interop.downcallHandle(
         "adw_preferences_page_set_icon_name",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -163,15 +166,15 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     /**
      * Sets the icon name for {@code self}.
      */
-    public void setIconName(java.lang.String iconName) {
+    public @NotNull void setIconName(@Nullable java.lang.String iconName) {
         try {
-            adw_preferences_page_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName).handle());
+            adw_preferences_page_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle adw_preferences_page_set_name = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_page_set_name = Interop.downcallHandle(
         "adw_preferences_page_set_name",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -179,15 +182,15 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     /**
      * Sets the name of {@code self}.
      */
-    public void setName(java.lang.String name) {
+    public @NotNull void setName(@Nullable java.lang.String name) {
         try {
-            adw_preferences_page_set_name.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+            adw_preferences_page_set_name.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle adw_preferences_page_set_title = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_page_set_title = Interop.downcallHandle(
         "adw_preferences_page_set_title",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -195,15 +198,15 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     /**
      * Sets the title of {@code self}.
      */
-    public void setTitle(java.lang.String title) {
+    public @NotNull void setTitle(@NotNull java.lang.String title) {
         try {
-            adw_preferences_page_set_title.invokeExact(handle(), Interop.allocateNativeString(title).handle());
+            adw_preferences_page_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle adw_preferences_page_set_use_underline = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_page_set_use_underline = Interop.downcallHandle(
         "adw_preferences_page_set_use_underline",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -211,7 +214,7 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     /**
      * Sets whether an embedded underline in the title indicates a mnemonic.
      */
-    public void setUseUnderline(boolean useUnderline) {
+    public @NotNull void setUseUnderline(@NotNull boolean useUnderline) {
         try {
             adw_preferences_page_set_use_underline.invokeExact(handle(), useUnderline ? 1 : 0);
         } catch (Throwable ERR) {

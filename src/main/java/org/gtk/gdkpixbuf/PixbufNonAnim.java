@@ -3,6 +3,7 @@ package org.gtk.gdkpixbuf;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 public class PixbufNonAnim extends PixbufAnimation {
 
@@ -15,12 +16,12 @@ public class PixbufNonAnim extends PixbufAnimation {
         return new PixbufNonAnim(gobject.refcounted());
     }
     
-    static final MethodHandle gdk_pixbuf_non_anim_new = Interop.downcallHandle(
+    private static final MethodHandle gdk_pixbuf_non_anim_new = Interop.downcallHandle(
         "gdk_pixbuf_non_anim_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(Pixbuf pixbuf) {
+    private static Refcounted constructNew(@NotNull Pixbuf pixbuf) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_pixbuf_non_anim_new.invokeExact(pixbuf.handle()), true);
             return RESULT;
@@ -29,7 +30,7 @@ public class PixbufNonAnim extends PixbufAnimation {
         }
     }
     
-    public PixbufNonAnim(Pixbuf pixbuf) {
+    public PixbufNonAnim(@NotNull Pixbuf pixbuf) {
         super(constructNew(pixbuf));
     }
     

@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * This class contains a set of options for launching child processes,
@@ -25,12 +26,12 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
         return new SubprocessLauncher(gobject.refcounted());
     }
     
-    static final MethodHandle g_subprocess_launcher_new = Interop.downcallHandle(
+    private static final MethodHandle g_subprocess_launcher_new = Interop.downcallHandle(
         "g_subprocess_launcher_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNew(SubprocessFlags flags) {
+    private static Refcounted constructNew(@NotNull SubprocessFlags flags) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_subprocess_launcher_new.invokeExact(flags.getValue()), true);
             return RESULT;
@@ -46,11 +47,11 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * environment of the calling process is made at the time of this call
      * and will be used as the environment that the process is launched in.
      */
-    public SubprocessLauncher(SubprocessFlags flags) {
+    public SubprocessLauncher(@NotNull SubprocessFlags flags) {
         super(constructNew(flags));
     }
     
-    static final MethodHandle g_subprocess_launcher_close = Interop.downcallHandle(
+    private static final MethodHandle g_subprocess_launcher_close = Interop.downcallHandle(
         "g_subprocess_launcher_close",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -67,7 +68,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * is disposed, but is provided separately so that garbage collected
      * language bindings can call it earlier to guarantee when FDs are closed.
      */
-    public void close() {
+    public @NotNull void close() {
         try {
             g_subprocess_launcher_close.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -75,7 +76,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle g_subprocess_launcher_getenv = Interop.downcallHandle(
+    private static final MethodHandle g_subprocess_launcher_getenv = Interop.downcallHandle(
         "g_subprocess_launcher_getenv",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -87,16 +88,17 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * On UNIX, the returned string can be an arbitrary byte string.
      * On Windows, it will be UTF-8.
      */
-    public java.lang.String getenv(java.lang.String variable) {
+    public @Nullable java.lang.String getenv(@NotNull java.lang.String variable) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_subprocess_launcher_getenv.invokeExact(handle(), Interop.allocateNativeString(variable).handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_subprocess_launcher_getenv.invokeExact(handle(), Interop.allocateNativeString(variable));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_subprocess_launcher_set_child_setup = Interop.downcallHandle(
+    private static final MethodHandle g_subprocess_launcher_set_child_setup = Interop.downcallHandle(
         "g_subprocess_launcher_set_child_setup",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -116,7 +118,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * <p>
      * Child setup functions are only available on UNIX.
      */
-    public void setChildSetup(org.gtk.glib.SpawnChildSetupFunc childSetup) {
+    public @NotNull void setChildSetup(@NotNull org.gtk.glib.SpawnChildSetupFunc childSetup) {
         try {
             g_subprocess_launcher_set_child_setup.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -124,14 +126,14 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
                             MethodType.methodType(void.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup.hashCode(), childSetup)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(childSetup)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_subprocess_launcher_set_cwd = Interop.downcallHandle(
+    private static final MethodHandle g_subprocess_launcher_set_cwd = Interop.downcallHandle(
         "g_subprocess_launcher_set_cwd",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -143,15 +145,15 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * By default processes are launched with the current working directory
      * of the launching process at the time of launch.
      */
-    public void setCwd(java.lang.String cwd) {
+    public @NotNull void setCwd(@NotNull java.lang.String cwd) {
         try {
-            g_subprocess_launcher_set_cwd.invokeExact(handle(), Interop.allocateNativeString(cwd).handle());
+            g_subprocess_launcher_set_cwd.invokeExact(handle(), Interop.allocateNativeString(cwd));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_subprocess_launcher_set_environ = Interop.downcallHandle(
+    private static final MethodHandle g_subprocess_launcher_set_environ = Interop.downcallHandle(
         "g_subprocess_launcher_set_environ",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -177,15 +179,15 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * On UNIX, all strings in this array can be arbitrary byte strings.
      * On Windows, they should be in UTF-8.
      */
-    public void setEnviron(java.lang.String[] env) {
+    public @NotNull void setEnviron(@NotNull java.lang.String[] env) {
         try {
-            g_subprocess_launcher_set_environ.invokeExact(handle(), Interop.allocateNativeArray(env).handle());
+            g_subprocess_launcher_set_environ.invokeExact(handle(), Interop.allocateNativeArray(env));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_subprocess_launcher_set_flags = Interop.downcallHandle(
+    private static final MethodHandle g_subprocess_launcher_set_flags = Interop.downcallHandle(
         "g_subprocess_launcher_set_flags",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -204,7 +206,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * function like g_subprocess_launcher_set_stdin_file_path() or
      * g_subprocess_launcher_take_stdout_fd().
      */
-    public void setFlags(SubprocessFlags flags) {
+    public @NotNull void setFlags(@NotNull SubprocessFlags flags) {
         try {
             g_subprocess_launcher_set_flags.invokeExact(handle(), flags.getValue());
         } catch (Throwable ERR) {
@@ -212,7 +214,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle g_subprocess_launcher_set_stderr_file_path = Interop.downcallHandle(
+    private static final MethodHandle g_subprocess_launcher_set_stderr_file_path = Interop.downcallHandle(
         "g_subprocess_launcher_set_stderr_file_path",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -233,15 +235,15 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * <p>
      * This feature is only available on UNIX.
      */
-    public void setStderrFilePath(java.lang.String path) {
+    public @NotNull void setStderrFilePath(@Nullable java.lang.String path) {
         try {
-            g_subprocess_launcher_set_stderr_file_path.invokeExact(handle(), Interop.allocateNativeString(path).handle());
+            g_subprocess_launcher_set_stderr_file_path.invokeExact(handle(), Interop.allocateNativeString(path));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_subprocess_launcher_set_stdin_file_path = Interop.downcallHandle(
+    private static final MethodHandle g_subprocess_launcher_set_stdin_file_path = Interop.downcallHandle(
         "g_subprocess_launcher_set_stdin_file_path",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -258,15 +260,15 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * <p>
      * This feature is only available on UNIX.
      */
-    public void setStdinFilePath(java.lang.String path) {
+    public @NotNull void setStdinFilePath(@NotNull java.lang.String path) {
         try {
-            g_subprocess_launcher_set_stdin_file_path.invokeExact(handle(), Interop.allocateNativeString(path).handle());
+            g_subprocess_launcher_set_stdin_file_path.invokeExact(handle(), Interop.allocateNativeString(path));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_subprocess_launcher_set_stdout_file_path = Interop.downcallHandle(
+    private static final MethodHandle g_subprocess_launcher_set_stdout_file_path = Interop.downcallHandle(
         "g_subprocess_launcher_set_stdout_file_path",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -284,15 +286,15 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * <p>
      * This feature is only available on UNIX.
      */
-    public void setStdoutFilePath(java.lang.String path) {
+    public @NotNull void setStdoutFilePath(@Nullable java.lang.String path) {
         try {
-            g_subprocess_launcher_set_stdout_file_path.invokeExact(handle(), Interop.allocateNativeString(path).handle());
+            g_subprocess_launcher_set_stdout_file_path.invokeExact(handle(), Interop.allocateNativeString(path));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_subprocess_launcher_setenv = Interop.downcallHandle(
+    private static final MethodHandle g_subprocess_launcher_setenv = Interop.downcallHandle(
         "g_subprocess_launcher_setenv",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -305,15 +307,15 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * strings, except that the variable's name cannot contain '='.
      * On Windows, they should be in UTF-8.
      */
-    public void setenv(java.lang.String variable, java.lang.String value, boolean overwrite) {
+    public @NotNull void setenv(@NotNull java.lang.String variable, @NotNull java.lang.String value, @NotNull boolean overwrite) {
         try {
-            g_subprocess_launcher_setenv.invokeExact(handle(), Interop.allocateNativeString(variable).handle(), Interop.allocateNativeString(value).handle(), overwrite ? 1 : 0);
+            g_subprocess_launcher_setenv.invokeExact(handle(), Interop.allocateNativeString(variable), Interop.allocateNativeString(value), overwrite ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_subprocess_launcher_spawnv = Interop.downcallHandle(
+    private static final MethodHandle g_subprocess_launcher_spawnv = Interop.downcallHandle(
         "g_subprocess_launcher_spawnv",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -321,20 +323,21 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
     /**
      * Creates a {@link Subprocess} given a provided array of arguments.
      */
-    public Subprocess spawnv(java.lang.String[] argv) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull Subprocess spawnv(@NotNull java.lang.String[] argv) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_subprocess_launcher_spawnv.invokeExact(handle(), Interop.allocateNativeArray(argv).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new Subprocess(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_subprocess_launcher_spawnv.invokeExact(handle(), Interop.allocateNativeArray(argv), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new Subprocess(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_subprocess_launcher_take_fd = Interop.downcallHandle(
+    private static final MethodHandle g_subprocess_launcher_take_fd = Interop.downcallHandle(
         "g_subprocess_launcher_take_fd",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -353,7 +356,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * {@code --passphrase-fd} providing a file descriptor number where it expects
      * the passphrase to be written.
      */
-    public void takeFd(int sourceFd, int targetFd) {
+    public @NotNull void takeFd(@NotNull int sourceFd, @NotNull int targetFd) {
         try {
             g_subprocess_launcher_take_fd.invokeExact(handle(), sourceFd, targetFd);
         } catch (Throwable ERR) {
@@ -361,7 +364,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle g_subprocess_launcher_take_stderr_fd = Interop.downcallHandle(
+    private static final MethodHandle g_subprocess_launcher_take_stderr_fd = Interop.downcallHandle(
         "g_subprocess_launcher_take_stderr_fd",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -384,7 +387,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * <p>
      * This feature is only available on UNIX.
      */
-    public void takeStderrFd(int fd) {
+    public @NotNull void takeStderrFd(@NotNull int fd) {
         try {
             g_subprocess_launcher_take_stderr_fd.invokeExact(handle(), fd);
         } catch (Throwable ERR) {
@@ -392,7 +395,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle g_subprocess_launcher_take_stdin_fd = Interop.downcallHandle(
+    private static final MethodHandle g_subprocess_launcher_take_stdin_fd = Interop.downcallHandle(
         "g_subprocess_launcher_take_stdin_fd",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -417,7 +420,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * <p>
      * This feature is only available on UNIX.
      */
-    public void takeStdinFd(int fd) {
+    public @NotNull void takeStdinFd(@NotNull int fd) {
         try {
             g_subprocess_launcher_take_stdin_fd.invokeExact(handle(), fd);
         } catch (Throwable ERR) {
@@ -425,7 +428,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle g_subprocess_launcher_take_stdout_fd = Interop.downcallHandle(
+    private static final MethodHandle g_subprocess_launcher_take_stdout_fd = Interop.downcallHandle(
         "g_subprocess_launcher_take_stdout_fd",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -449,7 +452,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * <p>
      * This feature is only available on UNIX.
      */
-    public void takeStdoutFd(int fd) {
+    public @NotNull void takeStdoutFd(@NotNull int fd) {
         try {
             g_subprocess_launcher_take_stdout_fd.invokeExact(handle(), fd);
         } catch (Throwable ERR) {
@@ -457,7 +460,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle g_subprocess_launcher_unsetenv = Interop.downcallHandle(
+    private static final MethodHandle g_subprocess_launcher_unsetenv = Interop.downcallHandle(
         "g_subprocess_launcher_unsetenv",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -469,9 +472,9 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * On UNIX, the variable's name can be an arbitrary byte string not
      * containing '='. On Windows, it should be in UTF-8.
      */
-    public void unsetenv(java.lang.String variable) {
+    public @NotNull void unsetenv(@NotNull java.lang.String variable) {
         try {
-            g_subprocess_launcher_unsetenv.invokeExact(handle(), Interop.allocateNativeString(variable).handle());
+            g_subprocess_launcher_unsetenv.invokeExact(handle(), Interop.allocateNativeString(variable));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

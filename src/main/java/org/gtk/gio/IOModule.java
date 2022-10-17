@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Provides an interface and default functions for loading and unloading
@@ -20,14 +21,14 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
         return new IOModule(gobject.refcounted());
     }
     
-    static final MethodHandle g_io_module_new = Interop.downcallHandle(
+    private static final MethodHandle g_io_module_new = Interop.downcallHandle(
         "g_io_module_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(java.lang.String filename) {
+    private static Refcounted constructNew(@NotNull java.lang.String filename) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_io_module_new.invokeExact(Interop.allocateNativeString(filename).handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_io_module_new.invokeExact(Interop.allocateNativeString(filename)), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -38,11 +39,11 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      * Creates a new GIOModule that will load the specific
      * shared library when in use.
      */
-    public IOModule(java.lang.String filename) {
+    public IOModule(@NotNull java.lang.String filename) {
         super(constructNew(filename));
     }
     
-    static final MethodHandle g_io_module_load = Interop.downcallHandle(
+    private static final MethodHandle g_io_module_load = Interop.downcallHandle(
         "g_io_module_load",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -62,7 +63,7 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      * statically. The old symbol names continue to be supported, but cannot be used
      * for static builds.
      */
-    public void load() {
+    public @NotNull void load() {
         try {
             g_io_module_load.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -70,7 +71,7 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
         }
     }
     
-    static final MethodHandle g_io_module_unload = Interop.downcallHandle(
+    private static final MethodHandle g_io_module_unload = Interop.downcallHandle(
         "g_io_module_unload",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -89,7 +90,7 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      * statically. The old symbol names continue to be supported, but cannot be used
      * for static builds.
      */
-    public void unload() {
+    public @NotNull void unload() {
         try {
             g_io_module_unload.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -97,7 +98,7 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
         }
     }
     
-    static final MethodHandle g_io_module_query = Interop.downcallHandle(
+    private static final MethodHandle g_io_module_query = Interop.downcallHandle(
         "g_io_module_query",
         FunctionDescriptor.ofVoid()
     );
@@ -136,12 +137,13 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      * for static builds.
      */
     public static PointerString query() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_io_module_query.invokeExact();
-            return new PointerString(RESULT);
+            RESULT = (MemoryAddress) g_io_module_query.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PointerString(RESULT);
     }
     
 }

@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Represents a day between January 1, Year 1 and a few thousand years in
@@ -23,7 +24,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_date_new = Interop.downcallHandle(
+    private static final MethodHandle g_date_new = Interop.downcallHandle(
         "g_date_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -47,12 +48,12 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew());
     }
     
-    static final MethodHandle g_date_new_dmy = Interop.downcallHandle(
+    private static final MethodHandle g_date_new_dmy = Interop.downcallHandle(
         "g_date_new_dmy",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT, ValueLayout.JAVA_SHORT)
     );
     
-    private static Refcounted constructNewDmy(DateDay day, DateMonth month, DateYear year) {
+    private static Refcounted constructNewDmy(@NotNull DateDay day, @NotNull DateMonth month, @NotNull DateYear year) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_date_new_dmy.invokeExact(day.getValue(), month.getValue(), year.getValue()), true);
             return RESULT;
@@ -68,16 +69,16 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * if needed to validate it. The returned {@link Date} is guaranteed to be non-{@code null}
      * and valid.
      */
-    public static Date newDmy(DateDay day, DateMonth month, DateYear year) {
+    public static Date newDmy(@NotNull DateDay day, @NotNull DateMonth month, @NotNull DateYear year) {
         return new Date(constructNewDmy(day, month, year));
     }
     
-    static final MethodHandle g_date_new_julian = Interop.downcallHandle(
+    private static final MethodHandle g_date_new_julian = Interop.downcallHandle(
         "g_date_new_julian",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNewJulian(int julianDay) {
+    private static Refcounted constructNewJulian(@NotNull int julianDay) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_date_new_julian.invokeExact(julianDay), true);
             return RESULT;
@@ -93,11 +94,11 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * needed to validate it. The returned {@link Date} is guaranteed to be non-{@code null} and
      * valid.
      */
-    public static Date newJulian(int julianDay) {
+    public static Date newJulian(@NotNull int julianDay) {
         return new Date(constructNewJulian(julianDay));
     }
     
-    static final MethodHandle g_date_add_days = Interop.downcallHandle(
+    private static final MethodHandle g_date_add_days = Interop.downcallHandle(
         "g_date_add_days",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -107,7 +108,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * To move forward by weeks, add weeks*7 days.
      * The date must be valid.
      */
-    public void addDays(int nDays) {
+    public @NotNull void addDays(@NotNull int nDays) {
         try {
             g_date_add_days.invokeExact(handle(), nDays);
         } catch (Throwable ERR) {
@@ -115,7 +116,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_date_add_months = Interop.downcallHandle(
+    private static final MethodHandle g_date_add_months = Interop.downcallHandle(
         "g_date_add_months",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -127,7 +128,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * (because the destination month may not have
      * the current day in it). The date must be valid.
      */
-    public void addMonths(int nMonths) {
+    public @NotNull void addMonths(@NotNull int nMonths) {
         try {
             g_date_add_months.invokeExact(handle(), nMonths);
         } catch (Throwable ERR) {
@@ -135,7 +136,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_date_add_years = Interop.downcallHandle(
+    private static final MethodHandle g_date_add_years = Interop.downcallHandle(
         "g_date_add_years",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -146,7 +147,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * year is not a leap year, the date will be changed
      * to February 28. The date must be valid.
      */
-    public void addYears(int nYears) {
+    public @NotNull void addYears(@NotNull int nYears) {
         try {
             g_date_add_years.invokeExact(handle(), nYears);
         } catch (Throwable ERR) {
@@ -154,7 +155,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_date_clamp = Interop.downcallHandle(
+    private static final MethodHandle g_date_clamp = Interop.downcallHandle(
         "g_date_clamp",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -166,7 +167,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * Either of {@code min_date} and {@code max_date} may be {@code null}.
      * All non-{@code null} dates must be valid.
      */
-    public void clamp(Date minDate, Date maxDate) {
+    public @NotNull void clamp(@NotNull Date minDate, @NotNull Date maxDate) {
         try {
             g_date_clamp.invokeExact(handle(), minDate.handle(), maxDate.handle());
         } catch (Throwable ERR) {
@@ -174,7 +175,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_date_clear = Interop.downcallHandle(
+    private static final MethodHandle g_date_clear = Interop.downcallHandle(
         "g_date_clear",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -185,7 +186,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * not contain garbage. Useful to init a date declared on the stack.
      * Validity can be tested with g_date_valid().
      */
-    public void clear(int nDates) {
+    public @NotNull void clear(@NotNull int nDates) {
         try {
             g_date_clear.invokeExact(handle(), nDates);
         } catch (Throwable ERR) {
@@ -193,7 +194,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_date_compare = Interop.downcallHandle(
+    private static final MethodHandle g_date_compare = Interop.downcallHandle(
         "g_date_compare",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -202,16 +203,17 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * qsort()-style comparison function for dates.
      * Both dates must be valid.
      */
-    public int compare(Date rhs) {
+    public int compare(@NotNull Date rhs) {
+        int RESULT;
         try {
-            var RESULT = (int) g_date_compare.invokeExact(handle(), rhs.handle());
-            return RESULT;
+            RESULT = (int) g_date_compare.invokeExact(handle(), rhs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_date_copy = Interop.downcallHandle(
+    private static final MethodHandle g_date_copy = Interop.downcallHandle(
         "g_date_copy",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -221,16 +223,17 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * (as determined by g_date_valid()), the invalid state will be copied
      * as is into the new object.
      */
-    public Date copy() {
+    public @NotNull Date copy() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_date_copy.invokeExact(handle());
-            return new Date(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_date_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Date(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_date_days_between = Interop.downcallHandle(
+    private static final MethodHandle g_date_days_between = Interop.downcallHandle(
         "g_date_days_between",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -240,16 +243,17 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * If {@code date2} is prior to {@code date1}, the returned value is negative.
      * Both dates must be valid.
      */
-    public int daysBetween(Date date2) {
+    public int daysBetween(@NotNull Date date2) {
+        int RESULT;
         try {
-            var RESULT = (int) g_date_days_between.invokeExact(handle(), date2.handle());
-            return RESULT;
+            RESULT = (int) g_date_days_between.invokeExact(handle(), date2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_date_free = Interop.downcallHandle(
+    private static final MethodHandle g_date_free = Interop.downcallHandle(
         "g_date_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -257,7 +261,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Frees a {@link Date} returned from g_date_new().
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             g_date_free.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -265,7 +269,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_date_get_day = Interop.downcallHandle(
+    private static final MethodHandle g_date_get_day = Interop.downcallHandle(
         "g_date_get_day",
         FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.ADDRESS)
     );
@@ -273,16 +277,17 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the day of the month. The date must be valid.
      */
-    public DateDay getDay() {
+    public @NotNull DateDay getDay() {
+        byte RESULT;
         try {
-            var RESULT = (byte) g_date_get_day.invokeExact(handle());
-            return new DateDay(RESULT);
+            RESULT = (byte) g_date_get_day.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new DateDay(RESULT);
     }
     
-    static final MethodHandle g_date_get_day_of_year = Interop.downcallHandle(
+    private static final MethodHandle g_date_get_day_of_year = Interop.downcallHandle(
         "g_date_get_day_of_year",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -292,15 +297,16 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * year. The date must be valid.
      */
     public int getDayOfYear() {
+        int RESULT;
         try {
-            var RESULT = (int) g_date_get_day_of_year.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_date_get_day_of_year.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_date_get_iso8601_week_of_year = Interop.downcallHandle(
+    private static final MethodHandle g_date_get_iso8601_week_of_year = Interop.downcallHandle(
         "g_date_get_iso8601_week_of_year",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -310,15 +316,16 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * to ISO 8601.
      */
     public int getIso8601WeekOfYear() {
+        int RESULT;
         try {
-            var RESULT = (int) g_date_get_iso8601_week_of_year.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_date_get_iso8601_week_of_year.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_date_get_julian = Interop.downcallHandle(
+    private static final MethodHandle g_date_get_julian = Interop.downcallHandle(
         "g_date_get_julian",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -330,15 +337,16 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * etc. The date must be valid.
      */
     public int getJulian() {
+        int RESULT;
         try {
-            var RESULT = (int) g_date_get_julian.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_date_get_julian.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_date_get_monday_week_of_year = Interop.downcallHandle(
+    private static final MethodHandle g_date_get_monday_week_of_year = Interop.downcallHandle(
         "g_date_get_monday_week_of_year",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -349,15 +357,16 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * The date must be valid.
      */
     public int getMondayWeekOfYear() {
+        int RESULT;
         try {
-            var RESULT = (int) g_date_get_monday_week_of_year.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_date_get_monday_week_of_year.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_date_get_month = Interop.downcallHandle(
+    private static final MethodHandle g_date_get_month = Interop.downcallHandle(
         "g_date_get_month",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -365,16 +374,17 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the month of the year. The date must be valid.
      */
-    public DateMonth getMonth() {
+    public @NotNull DateMonth getMonth() {
+        int RESULT;
         try {
-            var RESULT = (int) g_date_get_month.invokeExact(handle());
-            return new DateMonth(RESULT);
+            RESULT = (int) g_date_get_month.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new DateMonth(RESULT);
     }
     
-    static final MethodHandle g_date_get_sunday_week_of_year = Interop.downcallHandle(
+    private static final MethodHandle g_date_get_sunday_week_of_year = Interop.downcallHandle(
         "g_date_get_sunday_week_of_year",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -385,15 +395,16 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * Can return 0 if the day is before the first Sunday of the year.
      */
     public int getSundayWeekOfYear() {
+        int RESULT;
         try {
-            var RESULT = (int) g_date_get_sunday_week_of_year.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_date_get_sunday_week_of_year.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_date_get_weekday = Interop.downcallHandle(
+    private static final MethodHandle g_date_get_weekday = Interop.downcallHandle(
         "g_date_get_weekday",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -401,16 +412,17 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the day of the week for a {@link Date}. The date must be valid.
      */
-    public DateWeekday getWeekday() {
+    public @NotNull DateWeekday getWeekday() {
+        int RESULT;
         try {
-            var RESULT = (int) g_date_get_weekday.invokeExact(handle());
-            return new DateWeekday(RESULT);
+            RESULT = (int) g_date_get_weekday.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new DateWeekday(RESULT);
     }
     
-    static final MethodHandle g_date_get_year = Interop.downcallHandle(
+    private static final MethodHandle g_date_get_year = Interop.downcallHandle(
         "g_date_get_year",
         FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS)
     );
@@ -418,16 +430,17 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the year of a {@link Date}. The date must be valid.
      */
-    public DateYear getYear() {
+    public @NotNull DateYear getYear() {
+        short RESULT;
         try {
-            var RESULT = (short) g_date_get_year.invokeExact(handle());
-            return new DateYear(RESULT);
+            RESULT = (short) g_date_get_year.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new DateYear(RESULT);
     }
     
-    static final MethodHandle g_date_is_first_of_month = Interop.downcallHandle(
+    private static final MethodHandle g_date_is_first_of_month = Interop.downcallHandle(
         "g_date_is_first_of_month",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -437,15 +450,16 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * The date must be valid.
      */
     public boolean isFirstOfMonth() {
+        int RESULT;
         try {
-            var RESULT = (int) g_date_is_first_of_month.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_date_is_first_of_month.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_date_is_last_of_month = Interop.downcallHandle(
+    private static final MethodHandle g_date_is_last_of_month = Interop.downcallHandle(
         "g_date_is_last_of_month",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -455,15 +469,16 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * The date must be valid.
      */
     public boolean isLastOfMonth() {
+        int RESULT;
         try {
-            var RESULT = (int) g_date_is_last_of_month.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_date_is_last_of_month.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_date_order = Interop.downcallHandle(
+    private static final MethodHandle g_date_order = Interop.downcallHandle(
         "g_date_order",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -472,7 +487,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * Checks if {@code date1} is less than or equal to {@code date2},
      * and swap the values if this is not the case.
      */
-    public void order(Date date2) {
+    public @NotNull void order(@NotNull Date date2) {
         try {
             g_date_order.invokeExact(handle(), date2.handle());
         } catch (Throwable ERR) {
@@ -480,7 +495,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_date_set_day = Interop.downcallHandle(
+    private static final MethodHandle g_date_set_day = Interop.downcallHandle(
         "g_date_set_day",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE)
     );
@@ -489,7 +504,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * Sets the day of the month for a {@link Date}. If the resulting
      * day-month-year triplet is invalid, the date will be invalid.
      */
-    public void setDay(DateDay day) {
+    public @NotNull void setDay(@NotNull DateDay day) {
         try {
             g_date_set_day.invokeExact(handle(), day.getValue());
         } catch (Throwable ERR) {
@@ -497,7 +512,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_date_set_dmy = Interop.downcallHandle(
+    private static final MethodHandle g_date_set_dmy = Interop.downcallHandle(
         "g_date_set_dmy",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT, ValueLayout.JAVA_SHORT)
     );
@@ -508,7 +523,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * sure it is, call g_date_valid_dmy() to check before you
      * set it.
      */
-    public void setDmy(DateDay day, DateMonth month, DateYear y) {
+    public @NotNull void setDmy(@NotNull DateDay day, @NotNull DateMonth month, @NotNull DateYear y) {
         try {
             g_date_set_dmy.invokeExact(handle(), day.getValue(), month.getValue(), y.getValue());
         } catch (Throwable ERR) {
@@ -516,7 +531,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_date_set_julian = Interop.downcallHandle(
+    private static final MethodHandle g_date_set_julian = Interop.downcallHandle(
         "g_date_set_julian",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -524,7 +539,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Sets the value of a {@link Date} from a Julian day number.
      */
-    public void setJulian(int julianDate) {
+    public @NotNull void setJulian(@NotNull int julianDate) {
         try {
             g_date_set_julian.invokeExact(handle(), julianDate);
         } catch (Throwable ERR) {
@@ -532,7 +547,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_date_set_month = Interop.downcallHandle(
+    private static final MethodHandle g_date_set_month = Interop.downcallHandle(
         "g_date_set_month",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -541,7 +556,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * Sets the month of the year for a {@link Date}.  If the resulting
      * day-month-year triplet is invalid, the date will be invalid.
      */
-    public void setMonth(DateMonth month) {
+    public @NotNull void setMonth(@NotNull DateMonth month) {
         try {
             g_date_set_month.invokeExact(handle(), month.getValue());
         } catch (Throwable ERR) {
@@ -549,7 +564,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_date_set_parse = Interop.downcallHandle(
+    private static final MethodHandle g_date_set_parse = Interop.downcallHandle(
         "g_date_set_parse",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -567,15 +582,15 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * means by a given string (and it does work pretty well in that
      * capacity).
      */
-    public void setParse(java.lang.String str) {
+    public @NotNull void setParse(@NotNull java.lang.String str) {
         try {
-            g_date_set_parse.invokeExact(handle(), Interop.allocateNativeString(str).handle());
+            g_date_set_parse.invokeExact(handle(), Interop.allocateNativeString(str));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_date_set_time_t = Interop.downcallHandle(
+    private static final MethodHandle g_date_set_time_t = Interop.downcallHandle(
         "g_date_set_time_t",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -593,7 +608,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      *  g_date_set_time_t (date, now);
      * }</pre>
      */
-    public void setTimeT(long timet) {
+    public @NotNull void setTimeT(@NotNull long timet) {
         try {
             g_date_set_time_t.invokeExact(handle(), timet);
         } catch (Throwable ERR) {
@@ -601,7 +616,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_date_set_year = Interop.downcallHandle(
+    private static final MethodHandle g_date_set_year = Interop.downcallHandle(
         "g_date_set_year",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT)
     );
@@ -610,7 +625,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * Sets the year for a {@link Date}. If the resulting day-month-year
      * triplet is invalid, the date will be invalid.
      */
-    public void setYear(DateYear year) {
+    public @NotNull void setYear(@NotNull DateYear year) {
         try {
             g_date_set_year.invokeExact(handle(), year.getValue());
         } catch (Throwable ERR) {
@@ -618,7 +633,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_date_subtract_days = Interop.downcallHandle(
+    private static final MethodHandle g_date_subtract_days = Interop.downcallHandle(
         "g_date_subtract_days",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -628,7 +643,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * To move by weeks, just move by weeks*7 days.
      * The date must be valid.
      */
-    public void subtractDays(int nDays) {
+    public @NotNull void subtractDays(@NotNull int nDays) {
         try {
             g_date_subtract_days.invokeExact(handle(), nDays);
         } catch (Throwable ERR) {
@@ -636,7 +651,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_date_subtract_months = Interop.downcallHandle(
+    private static final MethodHandle g_date_subtract_months = Interop.downcallHandle(
         "g_date_subtract_months",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -647,7 +662,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * the destination month, the day of the month
      * may change. The date must be valid.
      */
-    public void subtractMonths(int nMonths) {
+    public @NotNull void subtractMonths(@NotNull int nMonths) {
         try {
             g_date_subtract_months.invokeExact(handle(), nMonths);
         } catch (Throwable ERR) {
@@ -655,7 +670,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_date_subtract_years = Interop.downcallHandle(
+    private static final MethodHandle g_date_subtract_years = Interop.downcallHandle(
         "g_date_subtract_years",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -667,7 +682,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * then the day is changed to February 29. The date
      * must be valid.
      */
-    public void subtractYears(int nYears) {
+    public @NotNull void subtractYears(@NotNull int nYears) {
         try {
             g_date_subtract_years.invokeExact(handle(), nYears);
         } catch (Throwable ERR) {
@@ -675,7 +690,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_date_to_struct_tm = Interop.downcallHandle(
+    private static final MethodHandle g_date_to_struct_tm = Interop.downcallHandle(
         "g_date_to_struct_tm",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -684,7 +699,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * Fills in the date-related bits of a struct tm using the {@code date} value.
      * Initializes the non-date parts with something safe but meaningless.
      */
-    public void toStructTm(java.lang.foreign.MemoryAddress tm) {
+    public @NotNull void toStructTm(@NotNull java.lang.foreign.MemoryAddress tm) {
         try {
             g_date_to_struct_tm.invokeExact(handle(), tm);
         } catch (Throwable ERR) {
@@ -692,7 +707,7 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_date_valid = Interop.downcallHandle(
+    private static final MethodHandle g_date_valid = Interop.downcallHandle(
         "g_date_valid",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -703,15 +718,16 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * if it wasn't allocated by one of the g_date_new() variants.
      */
     public boolean valid() {
+        int RESULT;
         try {
-            var RESULT = (int) g_date_valid.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_date_valid.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_date_get_days_in_month = Interop.downcallHandle(
+    private static final MethodHandle g_date_get_days_in_month = Interop.downcallHandle(
         "g_date_get_days_in_month",
         FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT, ValueLayout.JAVA_SHORT)
     );
@@ -720,16 +736,17 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * Returns the number of days in a month, taking leap
      * years into account.
      */
-    public static byte getDaysInMonth(DateMonth month, DateYear year) {
+    public static byte getDaysInMonth(@NotNull DateMonth month, @NotNull DateYear year) {
+        byte RESULT;
         try {
-            var RESULT = (byte) g_date_get_days_in_month.invokeExact(month.getValue(), year.getValue());
-            return RESULT;
+            RESULT = (byte) g_date_get_days_in_month.invokeExact(month.getValue(), year.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_date_get_monday_weeks_in_year = Interop.downcallHandle(
+    private static final MethodHandle g_date_get_monday_weeks_in_year = Interop.downcallHandle(
         "g_date_get_monday_weeks_in_year",
         FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_SHORT)
     );
@@ -743,16 +760,17 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * Mondays are in the year, i.e. there are 53 Mondays if
      * one of the extra days happens to be a Monday.)
      */
-    public static byte getMondayWeeksInYear(DateYear year) {
+    public static byte getMondayWeeksInYear(@NotNull DateYear year) {
+        byte RESULT;
         try {
-            var RESULT = (byte) g_date_get_monday_weeks_in_year.invokeExact(year.getValue());
-            return RESULT;
+            RESULT = (byte) g_date_get_monday_weeks_in_year.invokeExact(year.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_date_get_sunday_weeks_in_year = Interop.downcallHandle(
+    private static final MethodHandle g_date_get_sunday_weeks_in_year = Interop.downcallHandle(
         "g_date_get_sunday_weeks_in_year",
         FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_SHORT)
     );
@@ -766,16 +784,17 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * Sundays are in the year, i.e. there are 53 Sundays if
      * one of the extra days happens to be a Sunday.)
      */
-    public static byte getSundayWeeksInYear(DateYear year) {
+    public static byte getSundayWeeksInYear(@NotNull DateYear year) {
+        byte RESULT;
         try {
-            var RESULT = (byte) g_date_get_sunday_weeks_in_year.invokeExact(year.getValue());
-            return RESULT;
+            RESULT = (byte) g_date_get_sunday_weeks_in_year.invokeExact(year.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_date_is_leap_year = Interop.downcallHandle(
+    private static final MethodHandle g_date_is_leap_year = Interop.downcallHandle(
         "g_date_is_leap_year",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_SHORT)
     );
@@ -788,16 +807,17 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * is divisible by 100 it would be a leap year only if that year
      * is also divisible by 400.
      */
-    public static boolean isLeapYear(DateYear year) {
+    public static boolean isLeapYear(@NotNull DateYear year) {
+        int RESULT;
         try {
-            var RESULT = (int) g_date_is_leap_year.invokeExact(year.getValue());
-            return RESULT != 0;
+            RESULT = (int) g_date_is_leap_year.invokeExact(year.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_date_strftime = Interop.downcallHandle(
+    private static final MethodHandle g_date_strftime = Interop.downcallHandle(
         "g_date_strftime",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -817,16 +837,17 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * make the \\{@code F} provided by the C99 strftime() work on Windows
      * where the C library only complies to C89.
      */
-    public static long strftime(java.lang.String s, long slen, java.lang.String format, Date date) {
+    public static long strftime(@NotNull java.lang.String s, @NotNull long slen, @NotNull java.lang.String format, @NotNull Date date) {
+        long RESULT;
         try {
-            var RESULT = (long) g_date_strftime.invokeExact(Interop.allocateNativeString(s).handle(), slen, Interop.allocateNativeString(format).handle(), date.handle());
-            return RESULT;
+            RESULT = (long) g_date_strftime.invokeExact(Interop.allocateNativeString(s), slen, Interop.allocateNativeString(format), date.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_date_valid_day = Interop.downcallHandle(
+    private static final MethodHandle g_date_valid_day = Interop.downcallHandle(
         "g_date_valid_day",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_BYTE)
     );
@@ -835,16 +856,17 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * Returns {@code true} if the day of the month is valid (a day is valid if it's
      * between 1 and 31 inclusive).
      */
-    public static boolean validDay(DateDay day) {
+    public static boolean validDay(@NotNull DateDay day) {
+        int RESULT;
         try {
-            var RESULT = (int) g_date_valid_day.invokeExact(day.getValue());
-            return RESULT != 0;
+            RESULT = (int) g_date_valid_day.invokeExact(day.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_date_valid_dmy = Interop.downcallHandle(
+    private static final MethodHandle g_date_valid_dmy = Interop.downcallHandle(
         "g_date_valid_dmy",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT, ValueLayout.JAVA_SHORT)
     );
@@ -854,16 +876,17 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * in the range of days {@link Date} understands (Year 1 or later, no more than
      * a few thousand years in the future).
      */
-    public static boolean validDmy(DateDay day, DateMonth month, DateYear year) {
+    public static boolean validDmy(@NotNull DateDay day, @NotNull DateMonth month, @NotNull DateYear year) {
+        int RESULT;
         try {
-            var RESULT = (int) g_date_valid_dmy.invokeExact(day.getValue(), month.getValue(), year.getValue());
-            return RESULT != 0;
+            RESULT = (int) g_date_valid_dmy.invokeExact(day.getValue(), month.getValue(), year.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_date_valid_julian = Interop.downcallHandle(
+    private static final MethodHandle g_date_valid_julian = Interop.downcallHandle(
         "g_date_valid_julian",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -872,16 +895,17 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * Returns {@code true} if the Julian day is valid. Anything greater than zero
      * is basically a valid Julian, though there is a 32-bit limit.
      */
-    public static boolean validJulian(int julianDate) {
+    public static boolean validJulian(@NotNull int julianDate) {
+        int RESULT;
         try {
-            var RESULT = (int) g_date_valid_julian.invokeExact(julianDate);
-            return RESULT != 0;
+            RESULT = (int) g_date_valid_julian.invokeExact(julianDate);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_date_valid_month = Interop.downcallHandle(
+    private static final MethodHandle g_date_valid_month = Interop.downcallHandle(
         "g_date_valid_month",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -890,16 +914,17 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * Returns {@code true} if the month value is valid. The 12 {@link DateMonth}
      * enumeration values are the only valid months.
      */
-    public static boolean validMonth(DateMonth month) {
+    public static boolean validMonth(@NotNull DateMonth month) {
+        int RESULT;
         try {
-            var RESULT = (int) g_date_valid_month.invokeExact(month.getValue());
-            return RESULT != 0;
+            RESULT = (int) g_date_valid_month.invokeExact(month.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_date_valid_weekday = Interop.downcallHandle(
+    private static final MethodHandle g_date_valid_weekday = Interop.downcallHandle(
         "g_date_valid_weekday",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -908,16 +933,17 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * Returns {@code true} if the weekday is valid. The seven {@link DateWeekday} enumeration
      * values are the only valid weekdays.
      */
-    public static boolean validWeekday(DateWeekday weekday) {
+    public static boolean validWeekday(@NotNull DateWeekday weekday) {
+        int RESULT;
         try {
-            var RESULT = (int) g_date_valid_weekday.invokeExact(weekday.getValue());
-            return RESULT != 0;
+            RESULT = (int) g_date_valid_weekday.invokeExact(weekday.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_date_valid_year = Interop.downcallHandle(
+    private static final MethodHandle g_date_valid_year = Interop.downcallHandle(
         "g_date_valid_year",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_SHORT)
     );
@@ -926,13 +952,14 @@ public class Date extends io.github.jwharm.javagi.ResourceBase {
      * Returns {@code true} if the year is valid. Any year greater than 0 is valid,
      * though there is a 16-bit limit to what {@link Date} will understand.
      */
-    public static boolean validYear(DateYear year) {
+    public static boolean validYear(@NotNull DateYear year) {
+        int RESULT;
         try {
-            var RESULT = (int) g_date_valid_year.invokeExact(year.getValue());
-            return RESULT != 0;
+            RESULT = (int) g_date_valid_year.invokeExact(year.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
 }

@@ -3,6 +3,7 @@ package org.gnome.adw;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@link org.gtk.gtk.ListBoxRow} used to present preferences.
@@ -26,7 +27,7 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
         return new PreferencesRow(gobject.refcounted());
     }
     
-    static final MethodHandle adw_preferences_row_new = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_row_new = Interop.downcallHandle(
         "adw_preferences_row_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -47,7 +48,7 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
         super(constructNew());
     }
     
-    static final MethodHandle adw_preferences_row_get_title = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_row_get_title = Interop.downcallHandle(
         "adw_preferences_row_get_title",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -55,16 +56,17 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
     /**
      * Gets the title of the preference represented by {@code self}.
      */
-    public java.lang.String getTitle() {
+    public @NotNull java.lang.String getTitle() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_preferences_row_get_title.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) adw_preferences_row_get_title.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle adw_preferences_row_get_title_selectable = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_row_get_title_selectable = Interop.downcallHandle(
         "adw_preferences_row_get_title_selectable",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -73,15 +75,16 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
      * Gets whether the user can copy the title from the label
      */
     public boolean getTitleSelectable() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_preferences_row_get_title_selectable.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) adw_preferences_row_get_title_selectable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_preferences_row_get_use_underline = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_row_get_use_underline = Interop.downcallHandle(
         "adw_preferences_row_get_use_underline",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -90,15 +93,16 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
      * Gets whether an embedded underline in the title indicates a mnemonic.
      */
     public boolean getUseUnderline() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_preferences_row_get_use_underline.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) adw_preferences_row_get_use_underline.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_preferences_row_set_title = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_row_set_title = Interop.downcallHandle(
         "adw_preferences_row_set_title",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -106,15 +110,15 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
     /**
      * Sets the title of the preference represented by {@code self}.
      */
-    public void setTitle(java.lang.String title) {
+    public @NotNull void setTitle(@NotNull java.lang.String title) {
         try {
-            adw_preferences_row_set_title.invokeExact(handle(), Interop.allocateNativeString(title).handle());
+            adw_preferences_row_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle adw_preferences_row_set_title_selectable = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_row_set_title_selectable = Interop.downcallHandle(
         "adw_preferences_row_set_title_selectable",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -122,7 +126,7 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
     /**
      * Sets whether the user can copy the title from the label
      */
-    public void setTitleSelectable(boolean titleSelectable) {
+    public @NotNull void setTitleSelectable(@NotNull boolean titleSelectable) {
         try {
             adw_preferences_row_set_title_selectable.invokeExact(handle(), titleSelectable ? 1 : 0);
         } catch (Throwable ERR) {
@@ -130,7 +134,7 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
         }
     }
     
-    static final MethodHandle adw_preferences_row_set_use_underline = Interop.downcallHandle(
+    private static final MethodHandle adw_preferences_row_set_use_underline = Interop.downcallHandle(
         "adw_preferences_row_set_use_underline",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -138,7 +142,7 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
     /**
      * Sets whether an embedded underline in the title indicates a mnemonic.
      */
-    public void setUseUnderline(boolean useUnderline) {
+    public @NotNull void setUseUnderline(@NotNull boolean useUnderline) {
         try {
             adw_preferences_row_set_use_underline.invokeExact(handle(), useUnderline ? 1 : 0);
         } catch (Throwable ERR) {

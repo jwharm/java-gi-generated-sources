@@ -1,6 +1,7 @@
 package org.harfbuzz;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A virtual method for the {@link font_funcs_t} of an {@link font_t} object.
@@ -10,5 +11,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface FontGetGlyphAdvanceFuncT {
-        PositionT onFontGetGlyphAdvanceFuncT(FontT font, java.lang.foreign.MemoryAddress fontData, CodepointT glyph, java.lang.foreign.MemoryAddress userData);
+        PositionT onFontGetGlyphAdvanceFuncT(@NotNull FontT font, @Nullable java.lang.foreign.MemoryAddress fontData, @NotNull CodepointT glyph, @Nullable java.lang.foreign.MemoryAddress userData);
 }

@@ -1,6 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Specifies the type of function which is called when an extended
@@ -14,5 +15,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface ErrorCopyFunc {
-        void onErrorCopyFunc(Error srcError, Error destError);
+        void onErrorCopyFunc(@NotNull Error srcError, @NotNull Error destError);
 }

@@ -3,6 +3,7 @@ package org.gtk.gobject;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * An interface that handles the lifecycle of dynamically loaded types.
@@ -56,7 +57,7 @@ import java.lang.invoke.*;
  */
 public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle g_type_plugin_complete_interface_info = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_type_plugin_complete_interface_info = Interop.downcallHandle(
         "g_type_plugin_complete_interface_info",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -66,7 +67,7 @@ public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
      * {@link TypePluginClass} of {@code plugin}. There should be no need to use this
      * function outside of the GObject type system itself.
      */
-    public default void completeInterfaceInfo(org.gtk.gobject.Type instanceType, org.gtk.gobject.Type interfaceType, InterfaceInfo info) {
+    default @NotNull void completeInterfaceInfo(@NotNull org.gtk.gobject.Type instanceType, @NotNull org.gtk.gobject.Type interfaceType, @NotNull InterfaceInfo info) {
         try {
             g_type_plugin_complete_interface_info.invokeExact(handle(), instanceType.getValue(), interfaceType.getValue(), info.handle());
         } catch (Throwable ERR) {
@@ -74,7 +75,7 @@ public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle g_type_plugin_complete_type_info = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_type_plugin_complete_type_info = Interop.downcallHandle(
         "g_type_plugin_complete_type_info",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -84,7 +85,7 @@ public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
      * There should be no need to use this function outside of the GObject
      * type system itself.
      */
-    public default void completeTypeInfo(org.gtk.gobject.Type gType, TypeInfo info, TypeValueTable valueTable) {
+    default @NotNull void completeTypeInfo(@NotNull org.gtk.gobject.Type gType, @NotNull TypeInfo info, @NotNull TypeValueTable valueTable) {
         try {
             g_type_plugin_complete_type_info.invokeExact(handle(), gType.getValue(), info.handle(), valueTable.handle());
         } catch (Throwable ERR) {
@@ -92,7 +93,7 @@ public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle g_type_plugin_unuse = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_type_plugin_unuse = Interop.downcallHandle(
         "g_type_plugin_unuse",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -102,7 +103,7 @@ public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
      * {@code plugin}.  There should be no need to use this function outside of
      * the GObject type system itself.
      */
-    public default void unuse() {
+    default @NotNull void unuse() {
         try {
             g_type_plugin_unuse.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -110,7 +111,7 @@ public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle g_type_plugin_use = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_type_plugin_use = Interop.downcallHandle(
         "g_type_plugin_use",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -120,7 +121,7 @@ public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
      * {@code plugin}.  There should be no need to use this function outside of
      * the GObject type system itself.
      */
-    public default void use() {
+    default @NotNull void use() {
         try {
             g_type_plugin_use.invokeExact(handle());
         } catch (Throwable ERR) {

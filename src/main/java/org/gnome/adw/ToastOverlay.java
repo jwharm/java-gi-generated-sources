@@ -3,6 +3,7 @@ package org.gnome.adw;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A widget showing toasts above its content.
@@ -15,9 +16,8 @@ import java.lang.invoke.*;
  * Toasts can be shown with {@link ToastOverlay#addToast}.
  * <p>
  * See {@link Toast} for details.
- * <p>
+ * 
  * <h2>CSS nodes</h2>
- * <p>
  * <pre>{@code 
  * toastoverlay
  * ├── [child]
@@ -33,9 +33,8 @@ import java.lang.invoke.*;
  * Each of the {@code toast} nodes contains a {@code label} subnode with the {@code .heading}
  * style class, optionally a {@code button} subnode, and another {@code button} subnode with
  * {@code .circular} and {@code .flat} style classes.
- * <p>
+ * 
  * <h2>Accessibility</h2>
- * <p>
  * {@code AdwToastOverlay} uses the {@code GTK_ACCESSIBLE_ROLE_TAB_GROUP} role.
  */
 public class ToastOverlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
@@ -49,7 +48,7 @@ public class ToastOverlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         return new ToastOverlay(gobject.refcounted());
     }
     
-    static final MethodHandle adw_toast_overlay_new = Interop.downcallHandle(
+    private static final MethodHandle adw_toast_overlay_new = Interop.downcallHandle(
         "adw_toast_overlay_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -70,7 +69,7 @@ public class ToastOverlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         super(constructNew());
     }
     
-    static final MethodHandle adw_toast_overlay_add_toast = Interop.downcallHandle(
+    private static final MethodHandle adw_toast_overlay_add_toast = Interop.downcallHandle(
         "adw_toast_overlay_add_toast",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -82,7 +81,7 @@ public class ToastOverlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * either {@code toast} or the original toast will be placed in a queue, depending on
      * the priority of {@code toast}. See {@code Toast:priority}.
      */
-    public void addToast(Toast toast) {
+    public @NotNull void addToast(@NotNull Toast toast) {
         try {
             adw_toast_overlay_add_toast.invokeExact(handle(), toast.refcounted().unowned().handle());
         } catch (Throwable ERR) {
@@ -90,7 +89,7 @@ public class ToastOverlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         }
     }
     
-    static final MethodHandle adw_toast_overlay_get_child = Interop.downcallHandle(
+    private static final MethodHandle adw_toast_overlay_get_child = Interop.downcallHandle(
         "adw_toast_overlay_get_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -98,16 +97,17 @@ public class ToastOverlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     /**
      * Gets the child widget of {@code self}.
      */
-    public org.gtk.gtk.Widget getChild() {
+    public @Nullable org.gtk.gtk.Widget getChild() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_toast_overlay_get_child.invokeExact(handle());
-            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_toast_overlay_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_toast_overlay_set_child = Interop.downcallHandle(
+    private static final MethodHandle adw_toast_overlay_set_child = Interop.downcallHandle(
         "adw_toast_overlay_set_child",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -115,7 +115,7 @@ public class ToastOverlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     /**
      * Sets the child widget of {@code self}.
      */
-    public void setChild(org.gtk.gtk.Widget child) {
+    public @NotNull void setChild(@Nullable org.gtk.gtk.Widget child) {
         try {
             adw_toast_overlay_set_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {

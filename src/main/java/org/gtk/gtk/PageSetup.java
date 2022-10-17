@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GtkPageSetup} object stores the page size, orientation and margins.
@@ -12,9 +13,8 @@ import java.lang.invoke.*;
  * The benefit of splitting this out of the {@code GtkPrintSettings} is that
  * these affect the actual layout of the page, and thus need to be set
  * long before user prints.
- * <p>
+ * 
  * <h2>Margins</h2>
- * <p>
  * The margins specified in this object are the “print margins”, i.e. the
  * parts of the page that the printer cannot print on. These are different
  * from the layout margins that a word processor uses; they are typically
@@ -23,9 +23,8 @@ import java.lang.invoke.*;
  * To obtain a {@code GtkPageSetup} use {@link PageSetup#PageSetup} to get the defaults,
  * or use {@link Gtk#printRunPageSetupDialog} to show the page setup dialog
  * and receive the resulting page setup.
- * <p>
+ * 
  * <h2>A page setup dialog</h2>
- * <p>
  * <pre>{@code c
  * static GtkPrintSettings *settings = NULL;
  * static GtkPageSetup *page_setup = NULL;
@@ -59,7 +58,7 @@ public class PageSetup extends org.gtk.gobject.Object {
         return new PageSetup(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_page_setup_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_new = Interop.downcallHandle(
         "gtk_page_setup_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -80,15 +79,15 @@ public class PageSetup extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
-    static final MethodHandle gtk_page_setup_new_from_file = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_new_from_file = Interop.downcallHandle(
         "gtk_page_setup_new_from_file",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewFromFile(java.lang.String fileName) throws GErrorException {
+    private static Refcounted constructNewFromFile(@NotNull java.lang.String fileName) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_page_setup_new_from_file.invokeExact(Interop.allocateNativeString(fileName).handle(), (Addressable) GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_page_setup_new_from_file.invokeExact(Interop.allocateNativeString(fileName), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -105,16 +104,16 @@ public class PageSetup extends org.gtk.gobject.Object {
      * page setup, or {@code null} if an error occurred.
      * See {@link PageSetup#toFile}.
      */
-    public static PageSetup newFromFile(java.lang.String fileName) throws GErrorException {
+    public static PageSetup newFromFile(@NotNull java.lang.String fileName) throws GErrorException {
         return new PageSetup(constructNewFromFile(fileName));
     }
     
-    static final MethodHandle gtk_page_setup_new_from_gvariant = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_new_from_gvariant = Interop.downcallHandle(
         "gtk_page_setup_new_from_gvariant",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewFromGvariant(org.gtk.glib.Variant variant) {
+    private static Refcounted constructNewFromGvariant(@NotNull org.gtk.glib.Variant variant) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_page_setup_new_from_gvariant.invokeExact(variant.handle()), true);
             return RESULT;
@@ -129,19 +128,19 @@ public class PageSetup extends org.gtk.gobject.Object {
      * The variant must be in the format produced by
      * {@link PageSetup#toGvariant}.
      */
-    public static PageSetup newFromGvariant(org.gtk.glib.Variant variant) {
+    public static PageSetup newFromGvariant(@NotNull org.gtk.glib.Variant variant) {
         return new PageSetup(constructNewFromGvariant(variant));
     }
     
-    static final MethodHandle gtk_page_setup_new_from_key_file = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_new_from_key_file = Interop.downcallHandle(
         "gtk_page_setup_new_from_key_file",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewFromKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
+    private static Refcounted constructNewFromKeyFile(@NotNull org.gtk.glib.KeyFile keyFile, @Nullable java.lang.String groupName) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_page_setup_new_from_key_file.invokeExact(keyFile.handle(), Interop.allocateNativeString(groupName).handle(), (Addressable) GERROR), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_page_setup_new_from_key_file.invokeExact(keyFile.handle(), Interop.allocateNativeString(groupName), (Addressable) GERROR), true);
             if (GErrorException.isErrorSet(GERROR)) {
                 throw new GErrorException(GERROR);
             }
@@ -158,11 +157,11 @@ public class PageSetup extends org.gtk.gobject.Object {
      * Returns a new {@code GtkPageSetup} object with the restored
      * page setup, or {@code null} if an error occurred.
      */
-    public static PageSetup newFromKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws GErrorException {
+    public static PageSetup newFromKeyFile(@NotNull org.gtk.glib.KeyFile keyFile, @Nullable java.lang.String groupName) throws GErrorException {
         return new PageSetup(constructNewFromKeyFile(keyFile, groupName));
     }
     
-    static final MethodHandle gtk_page_setup_copy = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_copy = Interop.downcallHandle(
         "gtk_page_setup_copy",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -170,16 +169,17 @@ public class PageSetup extends org.gtk.gobject.Object {
     /**
      * Copies a {@code GtkPageSetup}.
      */
-    public PageSetup copy() {
+    public @NotNull PageSetup copy() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_page_setup_copy.invokeExact(handle());
-            return new PageSetup(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_page_setup_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PageSetup(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_page_setup_get_bottom_margin = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_get_bottom_margin = Interop.downcallHandle(
         "gtk_page_setup_get_bottom_margin",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -187,16 +187,17 @@ public class PageSetup extends org.gtk.gobject.Object {
     /**
      * Gets the bottom margin in units of {@code unit}.
      */
-    public double getBottomMargin(Unit unit) {
+    public double getBottomMargin(@NotNull Unit unit) {
+        double RESULT;
         try {
-            var RESULT = (double) gtk_page_setup_get_bottom_margin.invokeExact(handle(), unit.getValue());
-            return RESULT;
+            RESULT = (double) gtk_page_setup_get_bottom_margin.invokeExact(handle(), unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_page_setup_get_left_margin = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_get_left_margin = Interop.downcallHandle(
         "gtk_page_setup_get_left_margin",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -204,16 +205,17 @@ public class PageSetup extends org.gtk.gobject.Object {
     /**
      * Gets the left margin in units of {@code unit}.
      */
-    public double getLeftMargin(Unit unit) {
+    public double getLeftMargin(@NotNull Unit unit) {
+        double RESULT;
         try {
-            var RESULT = (double) gtk_page_setup_get_left_margin.invokeExact(handle(), unit.getValue());
-            return RESULT;
+            RESULT = (double) gtk_page_setup_get_left_margin.invokeExact(handle(), unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_page_setup_get_orientation = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_get_orientation = Interop.downcallHandle(
         "gtk_page_setup_get_orientation",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -221,16 +223,17 @@ public class PageSetup extends org.gtk.gobject.Object {
     /**
      * Gets the page orientation of the {@code GtkPageSetup}.
      */
-    public PageOrientation getOrientation() {
+    public @NotNull PageOrientation getOrientation() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_page_setup_get_orientation.invokeExact(handle());
-            return new PageOrientation(RESULT);
+            RESULT = (int) gtk_page_setup_get_orientation.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PageOrientation(RESULT);
     }
     
-    static final MethodHandle gtk_page_setup_get_page_height = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_get_page_height = Interop.downcallHandle(
         "gtk_page_setup_get_page_height",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -242,16 +245,17 @@ public class PageSetup extends org.gtk.gobject.Object {
      * and margins into consideration.
      * See {@link PageSetup#getPaperHeight}.
      */
-    public double getPageHeight(Unit unit) {
+    public double getPageHeight(@NotNull Unit unit) {
+        double RESULT;
         try {
-            var RESULT = (double) gtk_page_setup_get_page_height.invokeExact(handle(), unit.getValue());
-            return RESULT;
+            RESULT = (double) gtk_page_setup_get_page_height.invokeExact(handle(), unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_page_setup_get_page_width = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_get_page_width = Interop.downcallHandle(
         "gtk_page_setup_get_page_width",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -263,16 +267,17 @@ public class PageSetup extends org.gtk.gobject.Object {
      * and margins into consideration.
      * See {@link PageSetup#getPaperWidth}.
      */
-    public double getPageWidth(Unit unit) {
+    public double getPageWidth(@NotNull Unit unit) {
+        double RESULT;
         try {
-            var RESULT = (double) gtk_page_setup_get_page_width.invokeExact(handle(), unit.getValue());
-            return RESULT;
+            RESULT = (double) gtk_page_setup_get_page_width.invokeExact(handle(), unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_page_setup_get_paper_height = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_get_paper_height = Interop.downcallHandle(
         "gtk_page_setup_get_paper_height",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -284,16 +289,17 @@ public class PageSetup extends org.gtk.gobject.Object {
      * but not margins into consideration.
      * See {@link PageSetup#getPageHeight}.
      */
-    public double getPaperHeight(Unit unit) {
+    public double getPaperHeight(@NotNull Unit unit) {
+        double RESULT;
         try {
-            var RESULT = (double) gtk_page_setup_get_paper_height.invokeExact(handle(), unit.getValue());
-            return RESULT;
+            RESULT = (double) gtk_page_setup_get_paper_height.invokeExact(handle(), unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_page_setup_get_paper_size = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_get_paper_size = Interop.downcallHandle(
         "gtk_page_setup_get_paper_size",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -301,16 +307,17 @@ public class PageSetup extends org.gtk.gobject.Object {
     /**
      * Gets the paper size of the {@code GtkPageSetup}.
      */
-    public PaperSize getPaperSize() {
+    public @NotNull PaperSize getPaperSize() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_page_setup_get_paper_size.invokeExact(handle());
-            return new PaperSize(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_page_setup_get_paper_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PaperSize(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_page_setup_get_paper_width = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_get_paper_width = Interop.downcallHandle(
         "gtk_page_setup_get_paper_width",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -322,16 +329,17 @@ public class PageSetup extends org.gtk.gobject.Object {
      * but not margins into consideration.
      * See {@link PageSetup#getPageWidth}.
      */
-    public double getPaperWidth(Unit unit) {
+    public double getPaperWidth(@NotNull Unit unit) {
+        double RESULT;
         try {
-            var RESULT = (double) gtk_page_setup_get_paper_width.invokeExact(handle(), unit.getValue());
-            return RESULT;
+            RESULT = (double) gtk_page_setup_get_paper_width.invokeExact(handle(), unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_page_setup_get_right_margin = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_get_right_margin = Interop.downcallHandle(
         "gtk_page_setup_get_right_margin",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -339,16 +347,17 @@ public class PageSetup extends org.gtk.gobject.Object {
     /**
      * Gets the right margin in units of {@code unit}.
      */
-    public double getRightMargin(Unit unit) {
+    public double getRightMargin(@NotNull Unit unit) {
+        double RESULT;
         try {
-            var RESULT = (double) gtk_page_setup_get_right_margin.invokeExact(handle(), unit.getValue());
-            return RESULT;
+            RESULT = (double) gtk_page_setup_get_right_margin.invokeExact(handle(), unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_page_setup_get_top_margin = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_get_top_margin = Interop.downcallHandle(
         "gtk_page_setup_get_top_margin",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -356,16 +365,17 @@ public class PageSetup extends org.gtk.gobject.Object {
     /**
      * Gets the top margin in units of {@code unit}.
      */
-    public double getTopMargin(Unit unit) {
+    public double getTopMargin(@NotNull Unit unit) {
+        double RESULT;
         try {
-            var RESULT = (double) gtk_page_setup_get_top_margin.invokeExact(handle(), unit.getValue());
-            return RESULT;
+            RESULT = (double) gtk_page_setup_get_top_margin.invokeExact(handle(), unit.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_page_setup_load_file = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_load_file = Interop.downcallHandle(
         "gtk_page_setup_load_file",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -375,20 +385,21 @@ public class PageSetup extends org.gtk.gobject.Object {
      * <p>
      * See {@link PageSetup#toFile}.
      */
-    public boolean loadFile(java.lang.String fileName) throws io.github.jwharm.javagi.GErrorException {
+    public boolean loadFile(@NotNull java.lang.String fileName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_page_setup_load_file.invokeExact(handle(), Interop.allocateNativeString(fileName).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gtk_page_setup_load_file.invokeExact(handle(), Interop.allocateNativeString(fileName), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_page_setup_load_key_file = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_load_key_file = Interop.downcallHandle(
         "gtk_page_setup_load_key_file",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -397,20 +408,21 @@ public class PageSetup extends org.gtk.gobject.Object {
      * Reads the page setup from the group {@code group_name} in the key file
      * {@code key_file}.
      */
-    public boolean loadKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) throws io.github.jwharm.javagi.GErrorException {
+    public boolean loadKeyFile(@NotNull org.gtk.glib.KeyFile keyFile, @Nullable java.lang.String groupName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_page_setup_load_key_file.invokeExact(handle(), keyFile.handle(), Interop.allocateNativeString(groupName).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gtk_page_setup_load_key_file.invokeExact(handle(), keyFile.handle(), Interop.allocateNativeString(groupName), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_page_setup_set_bottom_margin = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_set_bottom_margin = Interop.downcallHandle(
         "gtk_page_setup_set_bottom_margin",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
     );
@@ -418,7 +430,7 @@ public class PageSetup extends org.gtk.gobject.Object {
     /**
      * Sets the bottom margin of the {@code GtkPageSetup}.
      */
-    public void setBottomMargin(double margin, Unit unit) {
+    public @NotNull void setBottomMargin(@NotNull double margin, @NotNull Unit unit) {
         try {
             gtk_page_setup_set_bottom_margin.invokeExact(handle(), margin, unit.getValue());
         } catch (Throwable ERR) {
@@ -426,7 +438,7 @@ public class PageSetup extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_page_setup_set_left_margin = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_set_left_margin = Interop.downcallHandle(
         "gtk_page_setup_set_left_margin",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
     );
@@ -434,7 +446,7 @@ public class PageSetup extends org.gtk.gobject.Object {
     /**
      * Sets the left margin of the {@code GtkPageSetup}.
      */
-    public void setLeftMargin(double margin, Unit unit) {
+    public @NotNull void setLeftMargin(@NotNull double margin, @NotNull Unit unit) {
         try {
             gtk_page_setup_set_left_margin.invokeExact(handle(), margin, unit.getValue());
         } catch (Throwable ERR) {
@@ -442,7 +454,7 @@ public class PageSetup extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_page_setup_set_orientation = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_set_orientation = Interop.downcallHandle(
         "gtk_page_setup_set_orientation",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -450,7 +462,7 @@ public class PageSetup extends org.gtk.gobject.Object {
     /**
      * Sets the page orientation of the {@code GtkPageSetup}.
      */
-    public void setOrientation(PageOrientation orientation) {
+    public @NotNull void setOrientation(@NotNull PageOrientation orientation) {
         try {
             gtk_page_setup_set_orientation.invokeExact(handle(), orientation.getValue());
         } catch (Throwable ERR) {
@@ -458,7 +470,7 @@ public class PageSetup extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_page_setup_set_paper_size = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_set_paper_size = Interop.downcallHandle(
         "gtk_page_setup_set_paper_size",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -469,7 +481,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * <p>
      * See {@link PageSetup#setPaperSizeAndDefaultMargins}.
      */
-    public void setPaperSize(PaperSize size) {
+    public @NotNull void setPaperSize(@NotNull PaperSize size) {
         try {
             gtk_page_setup_set_paper_size.invokeExact(handle(), size.handle());
         } catch (Throwable ERR) {
@@ -477,7 +489,7 @@ public class PageSetup extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_page_setup_set_paper_size_and_default_margins = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_set_paper_size_and_default_margins = Interop.downcallHandle(
         "gtk_page_setup_set_paper_size_and_default_margins",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -486,7 +498,7 @@ public class PageSetup extends org.gtk.gobject.Object {
      * Sets the paper size of the {@code GtkPageSetup} and modifies
      * the margins according to the new paper size.
      */
-    public void setPaperSizeAndDefaultMargins(PaperSize size) {
+    public @NotNull void setPaperSizeAndDefaultMargins(@NotNull PaperSize size) {
         try {
             gtk_page_setup_set_paper_size_and_default_margins.invokeExact(handle(), size.handle());
         } catch (Throwable ERR) {
@@ -494,7 +506,7 @@ public class PageSetup extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_page_setup_set_right_margin = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_set_right_margin = Interop.downcallHandle(
         "gtk_page_setup_set_right_margin",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
     );
@@ -502,7 +514,7 @@ public class PageSetup extends org.gtk.gobject.Object {
     /**
      * Sets the right margin of the {@code GtkPageSetup}.
      */
-    public void setRightMargin(double margin, Unit unit) {
+    public @NotNull void setRightMargin(@NotNull double margin, @NotNull Unit unit) {
         try {
             gtk_page_setup_set_right_margin.invokeExact(handle(), margin, unit.getValue());
         } catch (Throwable ERR) {
@@ -510,7 +522,7 @@ public class PageSetup extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_page_setup_set_top_margin = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_set_top_margin = Interop.downcallHandle(
         "gtk_page_setup_set_top_margin",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
     );
@@ -518,7 +530,7 @@ public class PageSetup extends org.gtk.gobject.Object {
     /**
      * Sets the top margin of the {@code GtkPageSetup}.
      */
-    public void setTopMargin(double margin, Unit unit) {
+    public @NotNull void setTopMargin(@NotNull double margin, @NotNull Unit unit) {
         try {
             gtk_page_setup_set_top_margin.invokeExact(handle(), margin, unit.getValue());
         } catch (Throwable ERR) {
@@ -526,7 +538,7 @@ public class PageSetup extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_page_setup_to_file = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_to_file = Interop.downcallHandle(
         "gtk_page_setup_to_file",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -534,20 +546,21 @@ public class PageSetup extends org.gtk.gobject.Object {
     /**
      * This function saves the information from {@code setup} to {@code file_name}.
      */
-    public boolean toFile(java.lang.String fileName) throws io.github.jwharm.javagi.GErrorException {
+    public boolean toFile(@NotNull java.lang.String fileName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_page_setup_to_file.invokeExact(handle(), Interop.allocateNativeString(fileName).handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gtk_page_setup_to_file.invokeExact(handle(), Interop.allocateNativeString(fileName), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_page_setup_to_gvariant = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_to_gvariant = Interop.downcallHandle(
         "gtk_page_setup_to_gvariant",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -555,16 +568,17 @@ public class PageSetup extends org.gtk.gobject.Object {
     /**
      * Serialize page setup to an a{sv} variant.
      */
-    public org.gtk.glib.Variant toGvariant() {
+    public @NotNull org.gtk.glib.Variant toGvariant() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_page_setup_to_gvariant.invokeExact(handle());
-            return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_page_setup_to_gvariant.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_page_setup_to_key_file = Interop.downcallHandle(
+    private static final MethodHandle gtk_page_setup_to_key_file = Interop.downcallHandle(
         "gtk_page_setup_to_key_file",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -572,9 +586,9 @@ public class PageSetup extends org.gtk.gobject.Object {
     /**
      * This function adds the page setup from {@code setup} to {@code key_file}.
      */
-    public void toKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) {
+    public @NotNull void toKeyFile(@NotNull org.gtk.glib.KeyFile keyFile, @Nullable java.lang.String groupName) {
         try {
-            gtk_page_setup_to_key_file.invokeExact(handle(), keyFile.handle(), Interop.allocateNativeString(groupName).handle());
+            gtk_page_setup_to_key_file.invokeExact(handle(), keyFile.handle(), Interop.allocateNativeString(groupName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

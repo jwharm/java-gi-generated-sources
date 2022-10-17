@@ -3,6 +3,7 @@ package org.pango;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code PangoFontset} represents a set of {@code PangoFont} to use when rendering text.
@@ -23,7 +24,7 @@ public class Fontset extends org.gtk.gobject.Object {
         return new Fontset(gobject.refcounted());
     }
     
-    static final MethodHandle pango_fontset_foreach = Interop.downcallHandle(
+    private static final MethodHandle pango_fontset_foreach = Interop.downcallHandle(
         "pango_fontset_foreach",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -34,7 +35,7 @@ public class Fontset extends org.gtk.gobject.Object {
      * <p>
      * If {@code func} returns {@code true}, that stops the iteration.
      */
-    public void foreach(FontsetForeachFunc func) {
+    public @NotNull void foreach(@NotNull FontsetForeachFunc func) {
         try {
             pango_fontset_foreach.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -42,13 +43,13 @@ public class Fontset extends org.gtk.gobject.Object {
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle pango_fontset_get_font = Interop.downcallHandle(
+    private static final MethodHandle pango_fontset_get_font = Interop.downcallHandle(
         "pango_fontset_get_font",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -57,16 +58,17 @@ public class Fontset extends org.gtk.gobject.Object {
      * Returns the font in the fontset that contains the best
      * glyph for a Unicode character.
      */
-    public Font getFont(int wc) {
+    public @NotNull Font getFont(@NotNull int wc) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_fontset_get_font.invokeExact(handle(), wc);
-            return new Font(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_fontset_get_font.invokeExact(handle(), wc);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Font(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle pango_fontset_get_metrics = Interop.downcallHandle(
+    private static final MethodHandle pango_fontset_get_metrics = Interop.downcallHandle(
         "pango_fontset_get_metrics",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -74,13 +76,14 @@ public class Fontset extends org.gtk.gobject.Object {
     /**
      * Get overall metric information for the fonts in the fontset.
      */
-    public FontMetrics getMetrics() {
+    public @NotNull FontMetrics getMetrics() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_fontset_get_metrics.invokeExact(handle());
-            return new FontMetrics(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_fontset_get_metrics.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new FontMetrics(Refcounted.get(RESULT, true));
     }
     
 }

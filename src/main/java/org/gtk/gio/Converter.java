@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link Converter} is implemented by objects that convert
@@ -15,7 +16,7 @@ import java.lang.invoke.*;
  */
 public interface Converter extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle g_converter_convert = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_converter_convert = Interop.downcallHandle(
         "g_converter_convert",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -104,20 +105,25 @@ public interface Converter extends io.github.jwharm.javagi.Proxy {
      * to produce as much output as possible and then return an error
      * (typically {@link IOErrorEnum#PARTIAL_INPUT}).
      */
-    public default ConverterResult convert(byte[] inbuf, long inbufSize, byte[] outbuf, long outbufSize, ConverterFlags flags, PointerLong bytesRead, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull ConverterResult convert(@NotNull byte[] inbuf, @NotNull long inbufSize, @NotNull byte[] outbuf, @NotNull long outbufSize, @NotNull ConverterFlags flags, @NotNull Out<Long> bytesRead, @NotNull Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        int RESULT;
         try {
-            var RESULT = (int) g_converter_convert.invokeExact(handle(), Interop.allocateNativeArray(inbuf).handle(), inbufSize, Interop.allocateNativeArray(outbuf).handle(), outbufSize, flags.getValue(), bytesRead.handle(), bytesWritten.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new ConverterResult(RESULT);
+            RESULT = (int) g_converter_convert.invokeExact(handle(), Interop.allocateNativeArray(inbuf), inbufSize, Interop.allocateNativeArray(outbuf), outbufSize, flags.getValue(), (Addressable) bytesReadPOINTER.address(), (Addressable) bytesWrittenPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        bytesRead.set(bytesReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        bytesWritten.set(bytesWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new ConverterResult(RESULT);
     }
     
-    static final MethodHandle g_converter_reset = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_converter_reset = Interop.downcallHandle(
         "g_converter_reset",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -127,7 +133,7 @@ public interface Converter extends io.github.jwharm.javagi.Proxy {
      * as if it was just created. If the converter has any internal
      * state that would produce output then that output is lost.
      */
-    public default void reset() {
+    default @NotNull void reset() {
         try {
             g_converter_reset.invokeExact(handle());
         } catch (Throwable ERR) {

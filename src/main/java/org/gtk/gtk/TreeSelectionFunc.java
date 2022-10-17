@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A function used by gtk_tree_selection_set_select_function() to filter
@@ -12,5 +13,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface TreeSelectionFunc {
-        boolean onTreeSelectionFunc(TreeSelection selection, TreeModel model, TreePath path, boolean pathCurrentlySelected);
+        boolean onTreeSelectionFunc(@NotNull TreeSelection selection, @NotNull TreeModel model, @NotNull TreePath path, @NotNull boolean pathCurrentlySelected);
 }

@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link StaticResource} is an opaque data structure and can only be accessed
@@ -14,7 +15,7 @@ public class StaticResource extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_static_resource_fini = Interop.downcallHandle(
+    private static final MethodHandle g_static_resource_fini = Interop.downcallHandle(
         "g_static_resource_fini",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -26,7 +27,7 @@ public class StaticResource extends io.github.jwharm.javagi.ResourceBase {
      * [glib-compile-resources][glib-compile-resources]
      * and is not typically used by other code.
      */
-    public void fini() {
+    public @NotNull void fini() {
         try {
             g_static_resource_fini.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -34,7 +35,7 @@ public class StaticResource extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_static_resource_get_resource = Interop.downcallHandle(
+    private static final MethodHandle g_static_resource_get_resource = Interop.downcallHandle(
         "g_static_resource_get_resource",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -46,16 +47,17 @@ public class StaticResource extends io.github.jwharm.javagi.ResourceBase {
      * [glib-compile-resources][glib-compile-resources]
      * and is not typically used by other code.
      */
-    public Resource getResource() {
+    public @NotNull Resource getResource() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_static_resource_get_resource.invokeExact(handle());
-            return new Resource(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_static_resource_get_resource.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Resource(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_static_resource_init = Interop.downcallHandle(
+    private static final MethodHandle g_static_resource_init = Interop.downcallHandle(
         "g_static_resource_init",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -68,7 +70,7 @@ public class StaticResource extends io.github.jwharm.javagi.ResourceBase {
      * [glib-compile-resources][glib-compile-resources]
      * and is not typically used by other code.
      */
-    public void init() {
+    public @NotNull void init() {
         try {
             g_static_resource_init.invokeExact(handle());
         } catch (Throwable ERR) {

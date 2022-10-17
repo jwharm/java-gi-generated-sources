@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A GtkTreeRowReference tracks model changes so that it always refers to the
@@ -15,12 +16,12 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle gtk_tree_row_reference_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_row_reference_new = Interop.downcallHandle(
         "gtk_tree_row_reference_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(TreeModel model, TreePath path) {
+    private static Refcounted constructNew(@NotNull TreeModel model, @NotNull TreePath path) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_tree_row_reference_new.invokeExact(model.handle(), path.handle()), true);
             return RESULT;
@@ -37,16 +38,16 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
      * propagated, and the path is updated appropriately. If
      * {@code path} isn’t a valid path in {@code model}, then {@code null} is returned.
      */
-    public TreeRowReference(TreeModel model, TreePath path) {
+    public TreeRowReference(@NotNull TreeModel model, @NotNull TreePath path) {
         super(constructNew(model, path));
     }
     
-    static final MethodHandle gtk_tree_row_reference_new_proxy = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_row_reference_new_proxy = Interop.downcallHandle(
         "gtk_tree_row_reference_new_proxy",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewProxy(org.gtk.gobject.Object proxy, TreeModel model, TreePath path) {
+    private static Refcounted constructNewProxy(@NotNull org.gtk.gobject.Object proxy, @NotNull TreeModel model, @NotNull TreePath path) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_tree_row_reference_new_proxy.invokeExact(proxy.handle(), model.handle(), path.handle()), true);
             return RESULT;
@@ -81,11 +82,11 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
      * need to carefully monitor exactly when a row reference updates
      * itself, and is not generally needed by most applications.
      */
-    public static TreeRowReference newProxy(org.gtk.gobject.Object proxy, TreeModel model, TreePath path) {
+    public static TreeRowReference newProxy(@NotNull org.gtk.gobject.Object proxy, @NotNull TreeModel model, @NotNull TreePath path) {
         return new TreeRowReference(constructNewProxy(proxy, model, path));
     }
     
-    static final MethodHandle gtk_tree_row_reference_copy = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_row_reference_copy = Interop.downcallHandle(
         "gtk_tree_row_reference_copy",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -93,16 +94,17 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Copies a {@code GtkTreeRowReference}.
      */
-    public TreeRowReference copy() {
+    public @NotNull TreeRowReference copy() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_tree_row_reference_copy.invokeExact(handle());
-            return new TreeRowReference(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_tree_row_reference_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TreeRowReference(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_tree_row_reference_free = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_row_reference_free = Interop.downcallHandle(
         "gtk_tree_row_reference_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -110,7 +112,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Free’s {@code reference}. {@code reference} may be {@code null}
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             gtk_tree_row_reference_free.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -118,7 +120,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle gtk_tree_row_reference_get_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_row_reference_get_model = Interop.downcallHandle(
         "gtk_tree_row_reference_get_model",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -126,16 +128,17 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the model that the row reference is monitoring.
      */
-    public TreeModel getModel() {
+    public @NotNull TreeModel getModel() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_tree_row_reference_get_model.invokeExact(handle());
-            return new TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_tree_row_reference_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_tree_row_reference_get_path = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_row_reference_get_path = Interop.downcallHandle(
         "gtk_tree_row_reference_get_path",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -144,16 +147,17 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
      * Returns a path that the row reference currently points to,
      * or {@code null} if the path pointed to is no longer valid.
      */
-    public TreePath getPath() {
+    public @Nullable TreePath getPath() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_tree_row_reference_get_path.invokeExact(handle());
-            return new TreePath(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_tree_row_reference_get_path.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TreePath(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_tree_row_reference_valid = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_row_reference_valid = Interop.downcallHandle(
         "gtk_tree_row_reference_valid",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -163,15 +167,16 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
      * a current valid path.
      */
     public boolean valid() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_row_reference_valid.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_tree_row_reference_valid.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_tree_row_reference_deleted = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_row_reference_deleted = Interop.downcallHandle(
         "gtk_tree_row_reference_deleted",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -181,7 +186,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
      * gtk_tree_row_reference_new_proxy() know that the
      * model emitted the ::row-deleted signal.
      */
-    public static void deleted(org.gtk.gobject.Object proxy, TreePath path) {
+    public static @NotNull void deleted(@NotNull org.gtk.gobject.Object proxy, @NotNull TreePath path) {
         try {
             gtk_tree_row_reference_deleted.invokeExact(proxy.handle(), path.handle());
         } catch (Throwable ERR) {
@@ -189,7 +194,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle gtk_tree_row_reference_inserted = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_row_reference_inserted = Interop.downcallHandle(
         "gtk_tree_row_reference_inserted",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -199,7 +204,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
      * gtk_tree_row_reference_new_proxy() know that the
      * model emitted the ::row-inserted signal.
      */
-    public static void inserted(org.gtk.gobject.Object proxy, TreePath path) {
+    public static @NotNull void inserted(@NotNull org.gtk.gobject.Object proxy, @NotNull TreePath path) {
         try {
             gtk_tree_row_reference_inserted.invokeExact(proxy.handle(), path.handle());
         } catch (Throwable ERR) {
@@ -207,7 +212,7 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle gtk_tree_row_reference_reordered = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_row_reference_reordered = Interop.downcallHandle(
         "gtk_tree_row_reference_reordered",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -217,9 +222,9 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
      * gtk_tree_row_reference_new_proxy() know that the
      * model emitted the ::rows-reordered signal.
      */
-    public static void reordered(org.gtk.gobject.Object proxy, TreePath path, TreeIter iter, int[] newOrder) {
+    public static @NotNull void reordered(@NotNull org.gtk.gobject.Object proxy, @NotNull TreePath path, @NotNull TreeIter iter, @NotNull int[] newOrder) {
         try {
-            gtk_tree_row_reference_reordered.invokeExact(proxy.handle(), path.handle(), iter.handle(), Interop.allocateNativeArray(newOrder).handle());
+            gtk_tree_row_reference_reordered.invokeExact(proxy.handle(), path.handle(), iter.handle(), Interop.allocateNativeArray(newOrder));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

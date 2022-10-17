@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@code GtkEmojiChooser} is used by text widgets such as {@code GtkEntry} or
@@ -12,9 +13,8 @@ import java.lang.invoke.*;
  * <p>
  * {@code GtkEmojiChooser} emits the {@code Gtk.EmojiChooser::emoji-picked}
  * signal when an Emoji is selected.
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * <pre>{@code 
  * popover
  * ├── box.emoji-searchbar
@@ -45,7 +45,7 @@ public class EmojiChooser extends Popover implements Accessible, Buildable, Cons
         return new EmojiChooser(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_emoji_chooser_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_emoji_chooser_new = Interop.downcallHandle(
         "gtk_emoji_chooser_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -68,7 +68,7 @@ public class EmojiChooser extends Popover implements Accessible, Buildable, Cons
     
     @FunctionalInterface
     public interface EmojiPickedHandler {
-        void signalReceived(EmojiChooser source, java.lang.String text);
+        void signalReceived(EmojiChooser source, @NotNull java.lang.String text);
     }
     
     /**
@@ -78,13 +78,13 @@ public class EmojiChooser extends Popover implements Accessible, Buildable, Cons
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("emoji-picked").handle(),
+                Interop.allocateNativeString("emoji-picked"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(EmojiChooser.Callbacks.class, "signalEmojiChooserEmojiPicked",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

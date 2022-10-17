@@ -1,6 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@link SequenceIterCompareFunc} is a function used to compare iterators.
@@ -9,5 +10,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface SequenceIterCompareFunc {
-        int onSequenceIterCompareFunc(SequenceIter a, SequenceIter b);
+        int onSequenceIterCompareFunc(@NotNull SequenceIter a, @NotNull SequenceIter b);
 }

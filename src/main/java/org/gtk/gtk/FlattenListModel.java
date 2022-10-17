@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkFlattenListModel} is a list model that concatenates other list models.
@@ -21,12 +22,12 @@ public class FlattenListModel extends org.gtk.gobject.Object implements org.gtk.
         return new FlattenListModel(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_flatten_list_model_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_flatten_list_model_new = Interop.downcallHandle(
         "gtk_flatten_list_model_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(org.gtk.gio.ListModel model) {
+    private static Refcounted constructNew(@Nullable org.gtk.gio.ListModel model) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_flatten_list_model_new.invokeExact(model.refcounted().unowned().handle()), true);
             return RESULT;
@@ -38,11 +39,11 @@ public class FlattenListModel extends org.gtk.gobject.Object implements org.gtk.
     /**
      * Creates a new {@code GtkFlattenListModel} that flattens {@code list}.
      */
-    public FlattenListModel(org.gtk.gio.ListModel model) {
+    public FlattenListModel(@Nullable org.gtk.gio.ListModel model) {
         super(constructNew(model));
     }
     
-    static final MethodHandle gtk_flatten_list_model_get_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_flatten_list_model_get_model = Interop.downcallHandle(
         "gtk_flatten_list_model_get_model",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -50,16 +51,17 @@ public class FlattenListModel extends org.gtk.gobject.Object implements org.gtk.
     /**
      * Gets the model set via gtk_flatten_list_model_set_model().
      */
-    public org.gtk.gio.ListModel getModel() {
+    public @Nullable org.gtk.gio.ListModel getModel() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_flatten_list_model_get_model.invokeExact(handle());
-            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_flatten_list_model_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_flatten_list_model_get_model_for_item = Interop.downcallHandle(
+    private static final MethodHandle gtk_flatten_list_model_get_model_for_item = Interop.downcallHandle(
         "gtk_flatten_list_model_get_model_for_item",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -67,16 +69,17 @@ public class FlattenListModel extends org.gtk.gobject.Object implements org.gtk.
     /**
      * Returns the model containing the item at the given position.
      */
-    public org.gtk.gio.ListModel getModelForItem(int position) {
+    public @Nullable org.gtk.gio.ListModel getModelForItem(@NotNull int position) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_flatten_list_model_get_model_for_item.invokeExact(handle(), position);
-            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_flatten_list_model_get_model_for_item.invokeExact(handle(), position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_flatten_list_model_set_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_flatten_list_model_set_model = Interop.downcallHandle(
         "gtk_flatten_list_model_set_model",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -84,7 +87,7 @@ public class FlattenListModel extends org.gtk.gobject.Object implements org.gtk.
     /**
      * Sets a new model to be flattened.
      */
-    public void setModel(org.gtk.gio.ListModel model) {
+    public @NotNull void setModel(@Nullable org.gtk.gio.ListModel model) {
         try {
             gtk_flatten_list_model_set_model.invokeExact(handle(), model.handle());
         } catch (Throwable ERR) {

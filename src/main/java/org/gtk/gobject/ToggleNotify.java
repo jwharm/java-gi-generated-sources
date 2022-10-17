@@ -1,6 +1,7 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A callback function used for notification when the state
@@ -10,5 +11,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface ToggleNotify {
-        void onToggleNotify(Object object, boolean isLastRef);
+        void onToggleNotify(@NotNull Object object, @NotNull boolean isLastRef);
 }

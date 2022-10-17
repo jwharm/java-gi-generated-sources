@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Opaque datatype that records a start time.
@@ -13,7 +14,7 @@ public class Timer extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_timer_continue = Interop.downcallHandle(
+    private static final MethodHandle g_timer_continue = Interop.downcallHandle(
         "g_timer_continue",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -23,7 +24,7 @@ public class Timer extends io.github.jwharm.javagi.ResourceBase {
      * g_timer_stop(). g_timer_stop() must be called before using this
      * function.
      */
-    public void continue_() {
+    public @NotNull void continue_() {
         try {
             g_timer_continue.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -31,7 +32,7 @@ public class Timer extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_timer_destroy = Interop.downcallHandle(
+    private static final MethodHandle g_timer_destroy = Interop.downcallHandle(
         "g_timer_destroy",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -39,7 +40,7 @@ public class Timer extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Destroys a timer, freeing associated resources.
      */
-    public void destroy() {
+    public @NotNull void destroy() {
         try {
             g_timer_destroy.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -47,7 +48,7 @@ public class Timer extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_timer_elapsed = Interop.downcallHandle(
+    private static final MethodHandle g_timer_elapsed = Interop.downcallHandle(
         "g_timer_elapsed",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -60,16 +61,17 @@ public class Timer extends io.github.jwharm.javagi.ResourceBase {
      * including any fractional part. The {@code microseconds} out parameter is
      * essentially useless.
      */
-    public double elapsed(PointerLong microseconds) {
+    public double elapsed(@NotNull PointerLong microseconds) {
+        double RESULT;
         try {
-            var RESULT = (double) g_timer_elapsed.invokeExact(handle(), microseconds.handle());
-            return RESULT;
+            RESULT = (double) g_timer_elapsed.invokeExact(handle(), microseconds.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_timer_is_active = Interop.downcallHandle(
+    private static final MethodHandle g_timer_is_active = Interop.downcallHandle(
         "g_timer_is_active",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -78,15 +80,16 @@ public class Timer extends io.github.jwharm.javagi.ResourceBase {
      * Exposes whether the timer is currently active.
      */
     public boolean isActive() {
+        int RESULT;
         try {
-            var RESULT = (int) g_timer_is_active.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_timer_is_active.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_timer_reset = Interop.downcallHandle(
+    private static final MethodHandle g_timer_reset = Interop.downcallHandle(
         "g_timer_reset",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -96,7 +99,7 @@ public class Timer extends io.github.jwharm.javagi.ResourceBase {
      * already-started timer to reset the start time, so g_timer_reset()
      * serves no purpose.
      */
-    public void reset() {
+    public @NotNull void reset() {
         try {
             g_timer_reset.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -104,7 +107,7 @@ public class Timer extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_timer_start = Interop.downcallHandle(
+    private static final MethodHandle g_timer_start = Interop.downcallHandle(
         "g_timer_start",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -115,7 +118,7 @@ public class Timer extends io.github.jwharm.javagi.ResourceBase {
      * automatically marks the start time, so no need to call
      * g_timer_start() immediately after creating the timer.
      */
-    public void start() {
+    public @NotNull void start() {
         try {
             g_timer_start.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -123,7 +126,7 @@ public class Timer extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_timer_stop = Interop.downcallHandle(
+    private static final MethodHandle g_timer_stop = Interop.downcallHandle(
         "g_timer_stop",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -132,7 +135,7 @@ public class Timer extends io.github.jwharm.javagi.ResourceBase {
      * Marks an end time, so calls to g_timer_elapsed() will return the
      * difference between this end time and the start time.
      */
-    public void stop() {
+    public @NotNull void stop() {
         try {
             g_timer_stop.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -140,7 +143,7 @@ public class Timer extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_timer_new = Interop.downcallHandle(
+    private static final MethodHandle g_timer_new = Interop.downcallHandle(
         "g_timer_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -149,13 +152,14 @@ public class Timer extends io.github.jwharm.javagi.ResourceBase {
      * Creates a new timer, and starts timing (i.e. g_timer_start() is
      * implicitly called for you).
      */
-    public static Timer new_() {
+    public static @NotNull Timer new_() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_timer_new.invokeExact();
-            return new Timer(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_timer_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Timer(Refcounted.get(RESULT, false));
     }
     
 }

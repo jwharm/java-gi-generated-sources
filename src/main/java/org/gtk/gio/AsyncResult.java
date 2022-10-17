@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Provides a base class for implementing asynchronous function results.
@@ -79,9 +80,8 @@ import java.lang.invoke.*;
  * The callback for an asynchronous operation is called only once, and is
  * always called, even in the case of a cancelled operation. On cancellation
  * the result is a {@link IOErrorEnum#CANCELLED} error.
- * <p>
+ * 
  * <h2>I/O Priority # {#io-priority}</h2>
- * <p>
  * Many I/O-related asynchronous operations have a priority parameter,
  * which is used in certain cases to determine the order in which
  * operations are executed. They are not used to determine system-wide
@@ -92,7 +92,7 @@ import java.lang.invoke.*;
  */
 public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle g_async_result_get_source_object = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_async_result_get_source_object = Interop.downcallHandle(
         "g_async_result_get_source_object",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -100,16 +100,17 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets the source object from a {@link AsyncResult}.
      */
-    public default org.gtk.gobject.Object getSourceObject() {
+    default @Nullable org.gtk.gobject.Object getSourceObject() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_async_result_get_source_object.invokeExact(handle());
-            return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_async_result_get_source_object.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_async_result_get_user_data = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_async_result_get_user_data = Interop.downcallHandle(
         "g_async_result_get_user_data",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -117,16 +118,17 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets the user data from a {@link AsyncResult}.
      */
-    public default java.lang.foreign.MemoryAddress getUserData() {
+    default @Nullable java.lang.foreign.MemoryAddress getUserData() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_async_result_get_user_data.invokeExact(handle());
-            return RESULT;
+            RESULT = (MemoryAddress) g_async_result_get_user_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_async_result_is_tagged = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_async_result_is_tagged = Interop.downcallHandle(
         "g_async_result_is_tagged",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -135,16 +137,17 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
      * Checks if {@code res} has the given {@code source_tag} (generally a function
      * pointer indicating the function {@code res} was created by).
      */
-    public default boolean isTagged(java.lang.foreign.MemoryAddress sourceTag) {
+    default boolean isTagged(@Nullable java.lang.foreign.MemoryAddress sourceTag) {
+        int RESULT;
         try {
-            var RESULT = (int) g_async_result_is_tagged.invokeExact(handle(), sourceTag);
-            return RESULT != 0;
+            RESULT = (int) g_async_result_is_tagged.invokeExact(handle(), sourceTag);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_async_result_legacy_propagate_error = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_async_result_legacy_propagate_error = Interop.downcallHandle(
         "g_async_result_legacy_propagate_error",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -161,17 +164,18 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
      * set by virtual methods should also be extracted by virtual methods,
      * to enable subclasses to chain up correctly.
      */
-    public default boolean legacyPropagateError() throws io.github.jwharm.javagi.GErrorException {
+    default boolean legacyPropagateError() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_async_result_legacy_propagate_error.invokeExact(handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_async_result_legacy_propagate_error.invokeExact(handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
     class AsyncResultImpl extends org.gtk.gobject.Object implements AsyncResult {

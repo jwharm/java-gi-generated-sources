@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GtkBuilderScope} implementation for the C language.
@@ -33,7 +34,7 @@ public class BuilderCScope extends org.gtk.gobject.Object implements BuilderScop
         return new BuilderCScope(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_builder_cscope_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_builder_cscope_new = Interop.downcallHandle(
         "gtk_builder_cscope_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );

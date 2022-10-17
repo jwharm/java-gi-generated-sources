@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A visible column in a {@link TreeView} widget
@@ -27,7 +28,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         return new TreeViewColumn(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_tree_view_column_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_new = Interop.downcallHandle(
         "gtk_tree_view_column_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -48,12 +49,12 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         super(constructNew());
     }
     
-    static final MethodHandle gtk_tree_view_column_new_with_area = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_new_with_area = Interop.downcallHandle(
         "gtk_tree_view_column_new_with_area",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewWithArea(CellArea area) {
+    private static Refcounted constructNewWithArea(@NotNull CellArea area) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_tree_view_column_new_with_area.invokeExact(area.handle()), false);
             return RESULT;
@@ -65,11 +66,11 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     /**
      * Creates a new {@code GtkTreeViewColumn} using {@code area} to render its cells.
      */
-    public static TreeViewColumn newWithArea(CellArea area) {
+    public static TreeViewColumn newWithArea(@NotNull CellArea area) {
         return new TreeViewColumn(constructNewWithArea(area));
     }
     
-    static final MethodHandle gtk_tree_view_column_add_attribute = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_add_attribute = Interop.downcallHandle(
         "gtk_tree_view_column_add_attribute",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -84,15 +85,15 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * “text” attribute of a {@code GtkCellRendererText} get its values from
      * column 2.
      */
-    public void addAttribute(CellRenderer cellRenderer, java.lang.String attribute, int column) {
+    public @NotNull void addAttribute(@NotNull CellRenderer cellRenderer, @NotNull java.lang.String attribute, @NotNull int column) {
         try {
-            gtk_tree_view_column_add_attribute.invokeExact(handle(), cellRenderer.handle(), Interop.allocateNativeString(attribute).handle(), column);
+            gtk_tree_view_column_add_attribute.invokeExact(handle(), cellRenderer.handle(), Interop.allocateNativeString(attribute), column);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_tree_view_column_cell_get_position = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_cell_get_position = Interop.downcallHandle(
         "gtk_tree_view_column_cell_get_position",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -103,16 +104,21 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * If the  cell is not found in the column, {@code start_pos} and {@code width}
      * are not changed and {@code false} is returned.
      */
-    public boolean cellGetPosition(CellRenderer cellRenderer, PointerInteger xOffset, PointerInteger width) {
+    public boolean cellGetPosition(@NotNull CellRenderer cellRenderer, @NotNull Out<Integer> xOffset, @NotNull Out<Integer> width) {
+        MemorySegment xOffsetPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment widthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_view_column_cell_get_position.invokeExact(handle(), cellRenderer.handle(), xOffset.handle(), width.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_tree_view_column_cell_get_position.invokeExact(handle(), cellRenderer.handle(), (Addressable) xOffsetPOINTER.address(), (Addressable) widthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        xOffset.set(xOffsetPOINTER.get(ValueLayout.JAVA_INT, 0));
+        width.set(widthPOINTER.get(ValueLayout.JAVA_INT, 0));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_tree_view_column_cell_get_size = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_cell_get_size = Interop.downcallHandle(
         "gtk_tree_view_column_cell_get_size",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -121,15 +127,23 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Obtains the width and height needed to render the column.  This is used
      * primarily by the {@code GtkTreeView}.
      */
-    public void cellGetSize(PointerInteger xOffset, PointerInteger yOffset, PointerInteger width, PointerInteger height) {
+    public @NotNull void cellGetSize(@NotNull Out<Integer> xOffset, @NotNull Out<Integer> yOffset, @NotNull Out<Integer> width, @NotNull Out<Integer> height) {
+        MemorySegment xOffsetPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment yOffsetPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment widthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment heightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gtk_tree_view_column_cell_get_size.invokeExact(handle(), xOffset.handle(), yOffset.handle(), width.handle(), height.handle());
+            gtk_tree_view_column_cell_get_size.invokeExact(handle(), (Addressable) xOffsetPOINTER.address(), (Addressable) yOffsetPOINTER.address(), (Addressable) widthPOINTER.address(), (Addressable) heightPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        xOffset.set(xOffsetPOINTER.get(ValueLayout.JAVA_INT, 0));
+        yOffset.set(yOffsetPOINTER.get(ValueLayout.JAVA_INT, 0));
+        width.set(widthPOINTER.get(ValueLayout.JAVA_INT, 0));
+        height.set(heightPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    static final MethodHandle gtk_tree_view_column_cell_is_visible = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_cell_is_visible = Interop.downcallHandle(
         "gtk_tree_view_column_cell_is_visible",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -140,15 +154,16 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * gtk_tree_view_column_cell_set_cell_data()
      */
     public boolean cellIsVisible() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_view_column_cell_is_visible.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_tree_view_column_cell_is_visible.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_tree_view_column_cell_set_cell_data = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_cell_set_cell_data = Interop.downcallHandle(
         "gtk_tree_view_column_cell_set_cell_data",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -159,7 +174,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * column on the {@code iter}, and use that value to set the attribute on the cell
      * renderer.  This is used primarily by the {@code GtkTreeView}.
      */
-    public void cellSetCellData(TreeModel treeModel, TreeIter iter, boolean isExpander, boolean isExpanded) {
+    public @NotNull void cellSetCellData(@NotNull TreeModel treeModel, @NotNull TreeIter iter, @NotNull boolean isExpander, @NotNull boolean isExpanded) {
         try {
             gtk_tree_view_column_cell_set_cell_data.invokeExact(handle(), treeModel.handle(), iter.handle(), isExpander ? 1 : 0, isExpanded ? 1 : 0);
         } catch (Throwable ERR) {
@@ -167,7 +182,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         }
     }
     
-    static final MethodHandle gtk_tree_view_column_clear = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_clear = Interop.downcallHandle(
         "gtk_tree_view_column_clear",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -175,7 +190,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     /**
      * Unsets all the mappings on all renderers on the {@code tree_column}.
      */
-    public void clear() {
+    public @NotNull void clear() {
         try {
             gtk_tree_view_column_clear.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -183,7 +198,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         }
     }
     
-    static final MethodHandle gtk_tree_view_column_clear_attributes = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_clear_attributes = Interop.downcallHandle(
         "gtk_tree_view_column_clear_attributes",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -192,7 +207,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Clears all existing attributes previously set with
      * gtk_tree_view_column_set_attributes().
      */
-    public void clearAttributes(CellRenderer cellRenderer) {
+    public @NotNull void clearAttributes(@NotNull CellRenderer cellRenderer) {
         try {
             gtk_tree_view_column_clear_attributes.invokeExact(handle(), cellRenderer.handle());
         } catch (Throwable ERR) {
@@ -200,7 +215,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         }
     }
     
-    static final MethodHandle gtk_tree_view_column_clicked = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_clicked = Interop.downcallHandle(
         "gtk_tree_view_column_clicked",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -209,7 +224,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Emits the “clicked” signal on the column.  This function will only work if
      * {@code tree_column} is clickable.
      */
-    public void clicked() {
+    public @NotNull void clicked() {
         try {
             gtk_tree_view_column_clicked.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -217,7 +232,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         }
     }
     
-    static final MethodHandle gtk_tree_view_column_focus_cell = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_focus_cell = Interop.downcallHandle(
         "gtk_tree_view_column_focus_cell",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -226,7 +241,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Sets the current keyboard focus to be at {@code cell}, if the column contains
      * 2 or more editable and activatable cells.
      */
-    public void focusCell(CellRenderer cell) {
+    public @NotNull void focusCell(@NotNull CellRenderer cell) {
         try {
             gtk_tree_view_column_focus_cell.invokeExact(handle(), cell.handle());
         } catch (Throwable ERR) {
@@ -234,7 +249,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         }
     }
     
-    static final MethodHandle gtk_tree_view_column_get_alignment = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_get_alignment = Interop.downcallHandle(
         "gtk_tree_view_column_get_alignment",
         FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -244,15 +259,16 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * between 0.0 and 1.0.
      */
     public float getAlignment() {
+        float RESULT;
         try {
-            var RESULT = (float) gtk_tree_view_column_get_alignment.invokeExact(handle());
-            return RESULT;
+            RESULT = (float) gtk_tree_view_column_get_alignment.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_tree_view_column_get_button = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_get_button = Interop.downcallHandle(
         "gtk_tree_view_column_get_button",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -260,16 +276,17 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     /**
      * Returns the button used in the treeview column header
      */
-    public Widget getButton() {
+    public @NotNull Widget getButton() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_tree_view_column_get_button.invokeExact(handle());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_tree_view_column_get_button.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_tree_view_column_get_clickable = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_get_clickable = Interop.downcallHandle(
         "gtk_tree_view_column_get_clickable",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -278,15 +295,16 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Returns {@code true} if the user can click on the header for the column.
      */
     public boolean getClickable() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_view_column_get_clickable.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_tree_view_column_get_clickable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_tree_view_column_get_expand = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_get_expand = Interop.downcallHandle(
         "gtk_tree_view_column_get_expand",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -295,15 +313,16 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Returns {@code true} if the column expands to fill available space.
      */
     public boolean getExpand() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_view_column_get_expand.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_tree_view_column_get_expand.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_tree_view_column_get_fixed_width = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_get_fixed_width = Interop.downcallHandle(
         "gtk_tree_view_column_get_fixed_width",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -313,15 +332,16 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * width of the column; for that, use gtk_tree_view_column_get_width().
      */
     public int getFixedWidth() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_view_column_get_fixed_width.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_tree_view_column_get_fixed_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_tree_view_column_get_max_width = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_get_max_width = Interop.downcallHandle(
         "gtk_tree_view_column_get_max_width",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -331,15 +351,16 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * width is set.
      */
     public int getMaxWidth() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_view_column_get_max_width.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_tree_view_column_get_max_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_tree_view_column_get_min_width = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_get_min_width = Interop.downcallHandle(
         "gtk_tree_view_column_get_min_width",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -349,15 +370,16 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * width is set.
      */
     public int getMinWidth() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_view_column_get_min_width.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_tree_view_column_get_min_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_tree_view_column_get_reorderable = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_get_reorderable = Interop.downcallHandle(
         "gtk_tree_view_column_get_reorderable",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -366,15 +388,16 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Returns {@code true} if the {@code tree_column} can be reordered by the user.
      */
     public boolean getReorderable() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_view_column_get_reorderable.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_tree_view_column_get_reorderable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_tree_view_column_get_resizable = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_get_resizable = Interop.downcallHandle(
         "gtk_tree_view_column_get_resizable",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -383,15 +406,16 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Returns {@code true} if the {@code tree_column} can be resized by the end user.
      */
     public boolean getResizable() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_view_column_get_resizable.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_tree_view_column_get_resizable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_tree_view_column_get_sizing = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_get_sizing = Interop.downcallHandle(
         "gtk_tree_view_column_get_sizing",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -399,16 +423,17 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     /**
      * Returns the current type of {@code tree_column}.
      */
-    public TreeViewColumnSizing getSizing() {
+    public @NotNull TreeViewColumnSizing getSizing() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_view_column_get_sizing.invokeExact(handle());
-            return new TreeViewColumnSizing(RESULT);
+            RESULT = (int) gtk_tree_view_column_get_sizing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TreeViewColumnSizing(RESULT);
     }
     
-    static final MethodHandle gtk_tree_view_column_get_sort_column_id = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_get_sort_column_id = Interop.downcallHandle(
         "gtk_tree_view_column_get_sort_column_id",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -420,15 +445,16 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * See {@link TreeViewColumn#setSortColumnId}.
      */
     public int getSortColumnId() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_view_column_get_sort_column_id.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_tree_view_column_get_sort_column_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_tree_view_column_get_sort_indicator = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_get_sort_indicator = Interop.downcallHandle(
         "gtk_tree_view_column_get_sort_indicator",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -437,15 +463,16 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Gets the value set by gtk_tree_view_column_set_sort_indicator().
      */
     public boolean getSortIndicator() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_view_column_get_sort_indicator.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_tree_view_column_get_sort_indicator.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_tree_view_column_get_sort_order = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_get_sort_order = Interop.downcallHandle(
         "gtk_tree_view_column_get_sort_order",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -453,16 +480,17 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     /**
      * Gets the value set by gtk_tree_view_column_set_sort_order().
      */
-    public SortType getSortOrder() {
+    public @NotNull SortType getSortOrder() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_view_column_get_sort_order.invokeExact(handle());
-            return new SortType(RESULT);
+            RESULT = (int) gtk_tree_view_column_get_sort_order.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SortType(RESULT);
     }
     
-    static final MethodHandle gtk_tree_view_column_get_spacing = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_get_spacing = Interop.downcallHandle(
         "gtk_tree_view_column_get_spacing",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -471,15 +499,16 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Returns the spacing of {@code tree_column}.
      */
     public int getSpacing() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_view_column_get_spacing.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_tree_view_column_get_spacing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_tree_view_column_get_title = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_get_title = Interop.downcallHandle(
         "gtk_tree_view_column_get_title",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -487,16 +516,17 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     /**
      * Returns the title of the widget.
      */
-    public java.lang.String getTitle() {
+    public @NotNull java.lang.String getTitle() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_tree_view_column_get_title.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_tree_view_column_get_title.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_tree_view_column_get_tree_view = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_get_tree_view = Interop.downcallHandle(
         "gtk_tree_view_column_get_tree_view",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -506,16 +536,17 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * If {@code column} is currently not inserted in any tree view, {@code null} is
      * returned.
      */
-    public Widget getTreeView() {
+    public @Nullable Widget getTreeView() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_tree_view_column_get_tree_view.invokeExact(handle());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_tree_view_column_get_tree_view.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_tree_view_column_get_visible = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_get_visible = Interop.downcallHandle(
         "gtk_tree_view_column_get_visible",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -524,15 +555,16 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Returns {@code true} if {@code tree_column} is visible.
      */
     public boolean getVisible() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_view_column_get_visible.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_tree_view_column_get_visible.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_tree_view_column_get_widget = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_get_widget = Interop.downcallHandle(
         "gtk_tree_view_column_get_widget",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -542,16 +574,17 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * <p>
      * If a custom widget has not been set then {@code null} is returned.
      */
-    public Widget getWidget() {
+    public @Nullable Widget getWidget() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_tree_view_column_get_widget.invokeExact(handle());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_tree_view_column_get_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_tree_view_column_get_width = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_get_width = Interop.downcallHandle(
         "gtk_tree_view_column_get_width",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -560,15 +593,16 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Returns the current size of {@code tree_column} in pixels.
      */
     public int getWidth() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_view_column_get_width.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_tree_view_column_get_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_tree_view_column_get_x_offset = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_get_x_offset = Interop.downcallHandle(
         "gtk_tree_view_column_get_x_offset",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -577,15 +611,16 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Returns the current X offset of {@code tree_column} in pixels.
      */
     public int getXOffset() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_tree_view_column_get_x_offset.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_tree_view_column_get_x_offset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_tree_view_column_pack_end = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_pack_end = Interop.downcallHandle(
         "gtk_tree_view_column_pack_end",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -595,7 +630,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * is allocated no more space than it needs. Any unused space is divided
      * evenly between cells for which {@code expand} is {@code true}.
      */
-    public void packEnd(CellRenderer cell, boolean expand) {
+    public @NotNull void packEnd(@NotNull CellRenderer cell, @NotNull boolean expand) {
         try {
             gtk_tree_view_column_pack_end.invokeExact(handle(), cell.handle(), expand ? 1 : 0);
         } catch (Throwable ERR) {
@@ -603,7 +638,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         }
     }
     
-    static final MethodHandle gtk_tree_view_column_pack_start = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_pack_start = Interop.downcallHandle(
         "gtk_tree_view_column_pack_start",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -613,7 +648,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * the {@code cell} is allocated no more space than it needs. Any unused space is divided
      * evenly between cells for which {@code expand} is {@code true}.
      */
-    public void packStart(CellRenderer cell, boolean expand) {
+    public @NotNull void packStart(@NotNull CellRenderer cell, @NotNull boolean expand) {
         try {
             gtk_tree_view_column_pack_start.invokeExact(handle(), cell.handle(), expand ? 1 : 0);
         } catch (Throwable ERR) {
@@ -621,7 +656,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         }
     }
     
-    static final MethodHandle gtk_tree_view_column_queue_resize = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_queue_resize = Interop.downcallHandle(
         "gtk_tree_view_column_queue_resize",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -630,7 +665,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Flags the column, and the cell renderers added to this column, to have
      * their sizes renegotiated.
      */
-    public void queueResize() {
+    public @NotNull void queueResize() {
         try {
             gtk_tree_view_column_queue_resize.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -638,7 +673,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         }
     }
     
-    static final MethodHandle gtk_tree_view_column_set_alignment = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_set_alignment = Interop.downcallHandle(
         "gtk_tree_view_column_set_alignment",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
     );
@@ -648,7 +683,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * The alignment determines its location inside the button -- 0.0 for left, 0.5
      * for center, 1.0 for right.
      */
-    public void setAlignment(float xalign) {
+    public @NotNull void setAlignment(@NotNull float xalign) {
         try {
             gtk_tree_view_column_set_alignment.invokeExact(handle(), xalign);
         } catch (Throwable ERR) {
@@ -656,7 +691,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         }
     }
     
-    static final MethodHandle gtk_tree_view_column_set_cell_data_func = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_set_cell_data_func = Interop.downcallHandle(
         "gtk_tree_view_column_set_cell_data_func",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -670,7 +705,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * cell renderer as appropriate.  {@code func} may be {@code null} to remove an
      * older one.
      */
-    public void setCellDataFunc(CellRenderer cellRenderer, TreeCellDataFunc func) {
+    public @NotNull void setCellDataFunc(@NotNull CellRenderer cellRenderer, @Nullable TreeCellDataFunc func) {
         try {
             gtk_tree_view_column_set_cell_data_func.invokeExact(handle(), cellRenderer.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -678,14 +713,14 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_tree_view_column_set_clickable = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_set_clickable = Interop.downcallHandle(
         "gtk_tree_view_column_set_clickable",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -694,7 +729,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Sets the header to be active if {@code clickable} is {@code true}.  When the header is
      * active, then it can take keyboard focus, and can be clicked.
      */
-    public void setClickable(boolean clickable) {
+    public @NotNull void setClickable(@NotNull boolean clickable) {
         try {
             gtk_tree_view_column_set_clickable.invokeExact(handle(), clickable ? 1 : 0);
         } catch (Throwable ERR) {
@@ -702,7 +737,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         }
     }
     
-    static final MethodHandle gtk_tree_view_column_set_expand = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_set_expand = Interop.downcallHandle(
         "gtk_tree_view_column_set_expand",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -716,7 +751,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Along with “fixed-width”, the “expand” property changes when the column is
      * resized by the user.
      */
-    public void setExpand(boolean expand) {
+    public @NotNull void setExpand(@NotNull boolean expand) {
         try {
             gtk_tree_view_column_set_expand.invokeExact(handle(), expand ? 1 : 0);
         } catch (Throwable ERR) {
@@ -724,7 +759,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         }
     }
     
-    static final MethodHandle gtk_tree_view_column_set_fixed_width = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_set_fixed_width = Interop.downcallHandle(
         "gtk_tree_view_column_set_fixed_width",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -742,7 +777,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Along with “expand”, the “fixed-width” property changes when the column is
      * resized by the user.
      */
-    public void setFixedWidth(int fixedWidth) {
+    public @NotNull void setFixedWidth(@NotNull int fixedWidth) {
         try {
             gtk_tree_view_column_set_fixed_width.invokeExact(handle(), fixedWidth);
         } catch (Throwable ERR) {
@@ -750,7 +785,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         }
     }
     
-    static final MethodHandle gtk_tree_view_column_set_max_width = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_set_max_width = Interop.downcallHandle(
         "gtk_tree_view_column_set_max_width",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -761,7 +796,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * width if it’s the last column in a view.  In this case, the column expands to
      * fill any extra space.
      */
-    public void setMaxWidth(int maxWidth) {
+    public @NotNull void setMaxWidth(@NotNull int maxWidth) {
         try {
             gtk_tree_view_column_set_max_width.invokeExact(handle(), maxWidth);
         } catch (Throwable ERR) {
@@ -769,7 +804,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         }
     }
     
-    static final MethodHandle gtk_tree_view_column_set_min_width = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_set_min_width = Interop.downcallHandle(
         "gtk_tree_view_column_set_min_width",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -778,7 +813,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Sets the minimum width of the {@code tree_column}.  If {@code min_width} is -1, then the
      * minimum width is unset.
      */
-    public void setMinWidth(int minWidth) {
+    public @NotNull void setMinWidth(@NotNull int minWidth) {
         try {
             gtk_tree_view_column_set_min_width.invokeExact(handle(), minWidth);
         } catch (Throwable ERR) {
@@ -786,7 +821,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         }
     }
     
-    static final MethodHandle gtk_tree_view_column_set_reorderable = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_set_reorderable = Interop.downcallHandle(
         "gtk_tree_view_column_set_reorderable",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -795,7 +830,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * If {@code reorderable} is {@code true}, then the column can be reordered by the end user
      * dragging the header.
      */
-    public void setReorderable(boolean reorderable) {
+    public @NotNull void setReorderable(@NotNull boolean reorderable) {
         try {
             gtk_tree_view_column_set_reorderable.invokeExact(handle(), reorderable ? 1 : 0);
         } catch (Throwable ERR) {
@@ -803,7 +838,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         }
     }
     
-    static final MethodHandle gtk_tree_view_column_set_resizable = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_set_resizable = Interop.downcallHandle(
         "gtk_tree_view_column_set_resizable",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -816,7 +851,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * sizing mode of the column is {@link TreeViewColumnSizing#AUTOSIZE}, then the sizing
      * mode is changed to {@link TreeViewColumnSizing#GROW_ONLY}.
      */
-    public void setResizable(boolean resizable) {
+    public @NotNull void setResizable(@NotNull boolean resizable) {
         try {
             gtk_tree_view_column_set_resizable.invokeExact(handle(), resizable ? 1 : 0);
         } catch (Throwable ERR) {
@@ -824,7 +859,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         }
     }
     
-    static final MethodHandle gtk_tree_view_column_set_sizing = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_set_sizing = Interop.downcallHandle(
         "gtk_tree_view_column_set_sizing",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -832,7 +867,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     /**
      * Sets the growth behavior of {@code tree_column} to {@code type}.
      */
-    public void setSizing(TreeViewColumnSizing type) {
+    public @NotNull void setSizing(@NotNull TreeViewColumnSizing type) {
         try {
             gtk_tree_view_column_set_sizing.invokeExact(handle(), type.getValue());
         } catch (Throwable ERR) {
@@ -840,7 +875,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         }
     }
     
-    static final MethodHandle gtk_tree_view_column_set_sort_column_id = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_set_sort_column_id = Interop.downcallHandle(
         "gtk_tree_view_column_set_sort_column_id",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -849,7 +884,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Sets the logical {@code sort_column_id} that this column sorts on when this column
      * is selected for sorting.  Doing so makes the column header clickable.
      */
-    public void setSortColumnId(int sortColumnId) {
+    public @NotNull void setSortColumnId(@NotNull int sortColumnId) {
         try {
             gtk_tree_view_column_set_sort_column_id.invokeExact(handle(), sortColumnId);
         } catch (Throwable ERR) {
@@ -857,7 +892,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         }
     }
     
-    static final MethodHandle gtk_tree_view_column_set_sort_indicator = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_set_sort_indicator = Interop.downcallHandle(
         "gtk_tree_view_column_set_sort_indicator",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -868,7 +903,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * gtk_tree_view_column_set_sort_order() to change the direction of
      * the arrow.
      */
-    public void setSortIndicator(boolean setting) {
+    public @NotNull void setSortIndicator(@NotNull boolean setting) {
         try {
             gtk_tree_view_column_set_sort_indicator.invokeExact(handle(), setting ? 1 : 0);
         } catch (Throwable ERR) {
@@ -876,7 +911,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         }
     }
     
-    static final MethodHandle gtk_tree_view_column_set_sort_order = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_set_sort_order = Interop.downcallHandle(
         "gtk_tree_view_column_set_sort_order",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -894,7 +929,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Note that you must have the sort indicator enabled to see anything when
      * calling this function; see gtk_tree_view_column_set_sort_indicator().
      */
-    public void setSortOrder(SortType order) {
+    public @NotNull void setSortOrder(@NotNull SortType order) {
         try {
             gtk_tree_view_column_set_sort_order.invokeExact(handle(), order.getValue());
         } catch (Throwable ERR) {
@@ -902,7 +937,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         }
     }
     
-    static final MethodHandle gtk_tree_view_column_set_spacing = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_set_spacing = Interop.downcallHandle(
         "gtk_tree_view_column_set_spacing",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -911,7 +946,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Sets the spacing field of {@code tree_column}, which is the number of pixels to
      * place between cell renderers packed into it.
      */
-    public void setSpacing(int spacing) {
+    public @NotNull void setSpacing(@NotNull int spacing) {
         try {
             gtk_tree_view_column_set_spacing.invokeExact(handle(), spacing);
         } catch (Throwable ERR) {
@@ -919,7 +954,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         }
     }
     
-    static final MethodHandle gtk_tree_view_column_set_title = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_set_title = Interop.downcallHandle(
         "gtk_tree_view_column_set_title",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -928,15 +963,15 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Sets the title of the {@code tree_column}.  If a custom widget has been set, then
      * this value is ignored.
      */
-    public void setTitle(java.lang.String title) {
+    public @NotNull void setTitle(@NotNull java.lang.String title) {
         try {
-            gtk_tree_view_column_set_title.invokeExact(handle(), Interop.allocateNativeString(title).handle());
+            gtk_tree_view_column_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_tree_view_column_set_visible = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_set_visible = Interop.downcallHandle(
         "gtk_tree_view_column_set_visible",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -944,7 +979,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     /**
      * Sets the visibility of {@code tree_column}.
      */
-    public void setVisible(boolean visible) {
+    public @NotNull void setVisible(@NotNull boolean visible) {
         try {
             gtk_tree_view_column_set_visible.invokeExact(handle(), visible ? 1 : 0);
         } catch (Throwable ERR) {
@@ -952,7 +987,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         }
     }
     
-    static final MethodHandle gtk_tree_view_column_set_widget = Interop.downcallHandle(
+    private static final MethodHandle gtk_tree_view_column_set_widget = Interop.downcallHandle(
         "gtk_tree_view_column_set_widget",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -961,7 +996,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Sets the widget in the header to be {@code widget}.  If widget is {@code null}, then the
      * header button is set with a {@code GtkLabel} set to the title of {@code tree_column}.
      */
-    public void setWidget(Widget widget) {
+    public @NotNull void setWidget(@Nullable Widget widget) {
         try {
             gtk_tree_view_column_set_widget.invokeExact(handle(), widget.handle());
         } catch (Throwable ERR) {
@@ -981,13 +1016,13 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("clicked").handle(),
+                Interop.allocateNativeString("clicked"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TreeViewColumn.Callbacks.class, "signalTreeViewColumnClicked",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

@@ -1,6 +1,7 @@
 package org.gtk.gdk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The type of a function that can be registered with gdk_content_register_deserializer().
@@ -11,5 +12,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface ContentDeserializeFunc {
-        void onContentDeserializeFunc(ContentDeserializer deserializer);
+        void onContentDeserializeFunc(@NotNull ContentDeserializer deserializer);
 }

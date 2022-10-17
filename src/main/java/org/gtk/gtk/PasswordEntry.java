@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkPasswordEntry} is an entry that has been tailored for entering secrets.
@@ -19,9 +20,8 @@ import java.lang.invoke.*;
  * <p>
  * {@code GtkPasswordEntry} provides only minimal API and should be used with
  * the {@code Gtk.Editable} API.
- * <p>
+ * 
  * <h1>CSS Nodes</h1>
- * <p>
  * <pre>{@code 
  * entry.password
  * ╰── text
@@ -33,9 +33,8 @@ import java.lang.invoke.*;
  * a .passwordstyle class. The text Css node below it has a child with
  * name image and style class .caps-lock-indicator for the Caps Lock
  * icon, and possibly other children.
- * <p>
+ * 
  * <h1>Accessibility</h1>
- * <p>
  * {@code GtkPasswordEntry} uses the {@link AccessibleRole#TEXT_BOX} role.
  */
 public class PasswordEntry extends Widget implements Accessible, Buildable, ConstraintTarget, Editable {
@@ -49,7 +48,7 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
         return new PasswordEntry(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_password_entry_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_password_entry_new = Interop.downcallHandle(
         "gtk_password_entry_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -70,7 +69,7 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
         super(constructNew());
     }
     
-    static final MethodHandle gtk_password_entry_get_extra_menu = Interop.downcallHandle(
+    private static final MethodHandle gtk_password_entry_get_extra_menu = Interop.downcallHandle(
         "gtk_password_entry_get_extra_menu",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -78,16 +77,17 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
     /**
      * Gets the menu model set with gtk_password_entry_set_extra_menu().
      */
-    public org.gtk.gio.MenuModel getExtraMenu() {
+    public @Nullable org.gtk.gio.MenuModel getExtraMenu() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_password_entry_get_extra_menu.invokeExact(handle());
-            return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_password_entry_get_extra_menu.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_password_entry_get_show_peek_icon = Interop.downcallHandle(
+    private static final MethodHandle gtk_password_entry_get_show_peek_icon = Interop.downcallHandle(
         "gtk_password_entry_get_show_peek_icon",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -97,15 +97,16 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
      * reveal the contents.
      */
     public boolean getShowPeekIcon() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_password_entry_get_show_peek_icon.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_password_entry_get_show_peek_icon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_password_entry_set_extra_menu = Interop.downcallHandle(
+    private static final MethodHandle gtk_password_entry_set_extra_menu = Interop.downcallHandle(
         "gtk_password_entry_set_extra_menu",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -114,7 +115,7 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
      * Sets a menu model to add when constructing
      * the context menu for {@code entry}.
      */
-    public void setExtraMenu(org.gtk.gio.MenuModel model) {
+    public @NotNull void setExtraMenu(@Nullable org.gtk.gio.MenuModel model) {
         try {
             gtk_password_entry_set_extra_menu.invokeExact(handle(), model.handle());
         } catch (Throwable ERR) {
@@ -122,7 +123,7 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
         }
     }
     
-    static final MethodHandle gtk_password_entry_set_show_peek_icon = Interop.downcallHandle(
+    private static final MethodHandle gtk_password_entry_set_show_peek_icon = Interop.downcallHandle(
         "gtk_password_entry_set_show_peek_icon",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -133,7 +134,7 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
      * <p>
      * Setting this to {@code false} also hides the text again.
      */
-    public void setShowPeekIcon(boolean showPeekIcon) {
+    public @NotNull void setShowPeekIcon(@NotNull boolean showPeekIcon) {
         try {
             gtk_password_entry_set_show_peek_icon.invokeExact(handle(), showPeekIcon ? 1 : 0);
         } catch (Throwable ERR) {
@@ -155,13 +156,13 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("activate").handle(),
+                Interop.allocateNativeString("activate"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(PasswordEntry.Callbacks.class, "signalPasswordEntryActivate",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

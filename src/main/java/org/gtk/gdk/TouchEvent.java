@@ -3,6 +3,7 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * An event related to a touch-based device.
@@ -18,7 +19,7 @@ public class TouchEvent extends Event {
         return new TouchEvent(gobject.refcounted());
     }
     
-    static final MethodHandle gdk_touch_event_get_emulating_pointer = Interop.downcallHandle(
+    private static final MethodHandle gdk_touch_event_get_emulating_pointer = Interop.downcallHandle(
         "gdk_touch_event_get_emulating_pointer",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -27,12 +28,13 @@ public class TouchEvent extends Event {
      * Extracts whether a touch event is emulating a pointer event.
      */
     public boolean getEmulatingPointer() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_touch_event_get_emulating_pointer.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_touch_event_get_emulating_pointer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
 }

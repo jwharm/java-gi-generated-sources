@@ -1,6 +1,7 @@
 package org.gtk.gdkpixbuf;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Save functions used by {@link Pixbuf#saveToCallback}.
@@ -14,5 +15,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface PixbufSaveFunc {
-        boolean onPixbufSaveFunc(PointerByte buf, long count);
+        boolean onPixbufSaveFunc(@NotNull PointerByte buf, @NotNull long count);
 }

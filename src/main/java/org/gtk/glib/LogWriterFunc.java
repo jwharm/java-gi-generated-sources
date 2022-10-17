@@ -1,6 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Writer function for log entries. A log entry is a collection of one or more
@@ -24,5 +25,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface LogWriterFunc {
-        LogWriterOutput onLogWriterFunc(LogLevelFlags logLevel, PointerProxy<LogField> fields, long nFields);
+        LogWriterOutput onLogWriterFunc(@NotNull LogLevelFlags logLevel, @NotNull PointerProxy<LogField> fields, @NotNull long nFields);
 }

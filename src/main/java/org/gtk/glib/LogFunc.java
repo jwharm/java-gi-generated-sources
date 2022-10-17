@@ -1,6 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Specifies the prototype of log handler functions.
@@ -16,5 +17,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface LogFunc {
-        void onLogFunc(java.lang.String logDomain, LogLevelFlags logLevel, java.lang.String message);
+        void onLogFunc(@NotNull java.lang.String logDomain, @NotNull LogLevelFlags logLevel, @NotNull java.lang.String message);
 }

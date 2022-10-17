@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GtkShortcutAction} that activates an action by name.
@@ -18,14 +19,14 @@ public class NamedAction extends ShortcutAction {
         return new NamedAction(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_named_action_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_named_action_new = Interop.downcallHandle(
         "gtk_named_action_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(java.lang.String name) {
+    private static Refcounted constructNew(@NotNull java.lang.String name) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_named_action_new.invokeExact(Interop.allocateNativeString(name).handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_named_action_new.invokeExact(Interop.allocateNativeString(name)), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -41,11 +42,11 @@ public class NamedAction extends ShortcutAction {
      * See {@link Widget#insertActionGroup} for
      * how to add actions to widgets.
      */
-    public NamedAction(java.lang.String name) {
+    public NamedAction(@NotNull java.lang.String name) {
         super(constructNew(name));
     }
     
-    static final MethodHandle gtk_named_action_get_action_name = Interop.downcallHandle(
+    private static final MethodHandle gtk_named_action_get_action_name = Interop.downcallHandle(
         "gtk_named_action_get_action_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -53,13 +54,14 @@ public class NamedAction extends ShortcutAction {
     /**
      * Returns the name of the action that will be activated.
      */
-    public java.lang.String getActionName() {
+    public @NotNull java.lang.String getActionName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_named_action_get_action_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_named_action_get_action_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
 }

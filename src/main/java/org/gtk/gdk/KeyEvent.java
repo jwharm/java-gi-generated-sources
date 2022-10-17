@@ -3,6 +3,7 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * An event related to a key-based device.
@@ -18,7 +19,7 @@ public class KeyEvent extends Event {
         return new KeyEvent(gobject.refcounted());
     }
     
-    static final MethodHandle gdk_key_event_get_consumed_modifiers = Interop.downcallHandle(
+    private static final MethodHandle gdk_key_event_get_consumed_modifiers = Interop.downcallHandle(
         "gdk_key_event_get_consumed_modifiers",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -26,16 +27,17 @@ public class KeyEvent extends Event {
     /**
      * Extracts the consumed modifiers from a key event.
      */
-    public ModifierType getConsumedModifiers() {
+    public @NotNull ModifierType getConsumedModifiers() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_key_event_get_consumed_modifiers.invokeExact(handle());
-            return new ModifierType(RESULT);
+            RESULT = (int) gdk_key_event_get_consumed_modifiers.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ModifierType(RESULT);
     }
     
-    static final MethodHandle gdk_key_event_get_keycode = Interop.downcallHandle(
+    private static final MethodHandle gdk_key_event_get_keycode = Interop.downcallHandle(
         "gdk_key_event_get_keycode",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -44,15 +46,16 @@ public class KeyEvent extends Event {
      * Extracts the keycode from a key event.
      */
     public int getKeycode() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_key_event_get_keycode.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gdk_key_event_get_keycode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gdk_key_event_get_keyval = Interop.downcallHandle(
+    private static final MethodHandle gdk_key_event_get_keyval = Interop.downcallHandle(
         "gdk_key_event_get_keyval",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -61,15 +64,16 @@ public class KeyEvent extends Event {
      * Extracts the keyval from a key event.
      */
     public int getKeyval() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_key_event_get_keyval.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gdk_key_event_get_keyval.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gdk_key_event_get_layout = Interop.downcallHandle(
+    private static final MethodHandle gdk_key_event_get_layout = Interop.downcallHandle(
         "gdk_key_event_get_layout",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -78,15 +82,16 @@ public class KeyEvent extends Event {
      * Extracts the layout from a key event.
      */
     public int getLayout() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_key_event_get_layout.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gdk_key_event_get_layout.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gdk_key_event_get_level = Interop.downcallHandle(
+    private static final MethodHandle gdk_key_event_get_level = Interop.downcallHandle(
         "gdk_key_event_get_level",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -95,15 +100,16 @@ public class KeyEvent extends Event {
      * Extracts the shift level from a key event.
      */
     public int getLevel() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_key_event_get_level.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gdk_key_event_get_level.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gdk_key_event_get_match = Interop.downcallHandle(
+    private static final MethodHandle gdk_key_event_get_match = Interop.downcallHandle(
         "gdk_key_event_get_match",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -114,16 +120,21 @@ public class KeyEvent extends Event {
      * <p>
      * See {@link KeyEvent#matches}.
      */
-    public boolean getMatch(PointerInteger keyval, ModifierType modifiers) {
+    public boolean getMatch(@NotNull Out<Integer> keyval, @NotNull Out<ModifierType> modifiers) {
+        MemorySegment keyvalPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment modifiersPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        int RESULT;
         try {
-            var RESULT = (int) gdk_key_event_get_match.invokeExact(handle(), keyval.handle(), new PointerInteger(modifiers.getValue()).handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_key_event_get_match.invokeExact(handle(), (Addressable) keyvalPOINTER.address(), (Addressable) modifiersPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        keyval.set(keyvalPOINTER.get(ValueLayout.JAVA_INT, 0));
+        modifiers.set(new ModifierType(modifiersPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_key_event_is_modifier = Interop.downcallHandle(
+    private static final MethodHandle gdk_key_event_is_modifier = Interop.downcallHandle(
         "gdk_key_event_is_modifier",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -132,15 +143,16 @@ public class KeyEvent extends Event {
      * Extracts whether the key event is for a modifier key.
      */
     public boolean isModifier() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_key_event_is_modifier.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_key_event_is_modifier.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_key_event_matches = Interop.downcallHandle(
+    private static final MethodHandle gdk_key_event_matches = Interop.downcallHandle(
         "gdk_key_event_matches",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -155,13 +167,14 @@ public class KeyEvent extends Event {
      * <p>
      * Note that we ignore Caps Lock for matching.
      */
-    public KeyMatch matches(int keyval, ModifierType modifiers) {
+    public @NotNull KeyMatch matches(@NotNull int keyval, @NotNull ModifierType modifiers) {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_key_event_matches.invokeExact(handle(), keyval, modifiers.getValue());
-            return new KeyMatch(RESULT);
+            RESULT = (int) gdk_key_event_matches.invokeExact(handle(), keyval, modifiers.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new KeyMatch(RESULT);
     }
     
 }

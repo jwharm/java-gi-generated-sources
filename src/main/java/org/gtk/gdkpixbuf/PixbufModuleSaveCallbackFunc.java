@@ -1,6 +1,7 @@
 package org.gtk.gdkpixbuf;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Saves a {@code GdkPixbuf} by calling the provided function.
@@ -11,5 +12,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface PixbufModuleSaveCallbackFunc {
-        boolean onPixbufModuleSaveCallbackFunc(PixbufSaveFunc saveFunc, Pixbuf pixbuf, PointerString optionKeys, PointerString optionValues);
+        boolean onPixbufModuleSaveCallbackFunc(@NotNull PixbufSaveFunc saveFunc, @NotNull Pixbuf pixbuf, @Nullable PointerString optionKeys, @Nullable PointerString optionValues);
 }

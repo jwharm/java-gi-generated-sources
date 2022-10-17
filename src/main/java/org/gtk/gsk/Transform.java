@@ -3,6 +3,7 @@ package org.gtk.gsk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GskTransform} is an object to describe transform matrices.
@@ -21,7 +22,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle gsk_transform_new = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_new = Interop.downcallHandle(
         "gsk_transform_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -39,7 +40,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew());
     }
     
-    static final MethodHandle gsk_transform_equal = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_equal = Interop.downcallHandle(
         "gsk_transform_equal",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -47,16 +48,17 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Checks two transforms for equality.
      */
-    public boolean equal(Transform second) {
+    public boolean equal(@Nullable Transform second) {
+        int RESULT;
         try {
-            var RESULT = (int) gsk_transform_equal.invokeExact(handle(), second.handle());
-            return RESULT != 0;
+            RESULT = (int) gsk_transform_equal.invokeExact(handle(), second.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gsk_transform_get_category = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_get_category = Interop.downcallHandle(
         "gsk_transform_get_category",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -64,16 +66,17 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the category this transform belongs to.
      */
-    public TransformCategory getCategory() {
+    public @NotNull TransformCategory getCategory() {
+        int RESULT;
         try {
-            var RESULT = (int) gsk_transform_get_category.invokeExact(handle());
-            return new TransformCategory(RESULT);
+            RESULT = (int) gsk_transform_get_category.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TransformCategory(RESULT);
     }
     
-    static final MethodHandle gsk_transform_invert = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_invert = Interop.downcallHandle(
         "gsk_transform_invert",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -87,16 +90,17 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
      * between those cases, you should check {@code self} is not {@code null}
      * before calling this function.
      */
-    public Transform invert() {
+    public @Nullable Transform invert() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_transform_invert.invokeExact(handle());
-            return new Transform(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gsk_transform_invert.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Transform(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gsk_transform_matrix = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_matrix = Interop.downcallHandle(
         "gsk_transform_matrix",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -104,16 +108,17 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Multiplies {@code next} with the given {@code matrix}.
      */
-    public Transform matrix(org.gtk.graphene.Matrix matrix) {
+    public @NotNull Transform matrix(@NotNull org.gtk.graphene.Matrix matrix) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_transform_matrix.invokeExact(handle(), matrix.handle());
-            return new Transform(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gsk_transform_matrix.invokeExact(handle(), matrix.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Transform(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gsk_transform_perspective = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_perspective = Interop.downcallHandle(
         "gsk_transform_perspective",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
     );
@@ -126,16 +131,17 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
      * those with negative Z values towards the origin. Points
      * on the z=0 plane are unchanged.
      */
-    public Transform perspective(float depth) {
+    public @NotNull Transform perspective(@NotNull float depth) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_transform_perspective.invokeExact(handle(), depth);
-            return new Transform(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gsk_transform_perspective.invokeExact(handle(), depth);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Transform(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gsk_transform_print = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_print = Interop.downcallHandle(
         "gsk_transform_print",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -147,7 +153,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
      * The result of this function can later be parsed with
      * {@link Gsk#Transform}.
      */
-    public void print(org.gtk.glib.String string) {
+    public @NotNull void print(@NotNull org.gtk.glib.String string) {
         try {
             gsk_transform_print.invokeExact(handle(), string.handle());
         } catch (Throwable ERR) {
@@ -155,7 +161,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle gsk_transform_ref = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_ref = Interop.downcallHandle(
         "gsk_transform_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -163,16 +169,17 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Acquires a reference on the given {@code GskTransform}.
      */
-    public Transform ref() {
+    public @Nullable Transform ref() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_transform_ref.invokeExact(handle());
-            return new Transform(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gsk_transform_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Transform(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gsk_transform_rotate = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_rotate = Interop.downcallHandle(
         "gsk_transform_rotate",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
     );
@@ -180,16 +187,17 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Rotates {@code next} {@code angle} degrees in 2D - or in 3D-speak, around the z axis.
      */
-    public Transform rotate(float angle) {
+    public @Nullable Transform rotate(@NotNull float angle) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_transform_rotate.invokeExact(handle(), angle);
-            return new Transform(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gsk_transform_rotate.invokeExact(handle(), angle);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Transform(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gsk_transform_rotate_3d = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_rotate_3d = Interop.downcallHandle(
         "gsk_transform_rotate_3d",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -199,16 +207,17 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * For a rotation in 2D space, use {@link Transform#rotate}
      */
-    public Transform rotate3d(float angle, org.gtk.graphene.Vec3 axis) {
+    public @Nullable Transform rotate3d(@NotNull float angle, @NotNull org.gtk.graphene.Vec3 axis) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_transform_rotate_3d.invokeExact(handle(), angle, axis.handle());
-            return new Transform(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gsk_transform_rotate_3d.invokeExact(handle(), angle, axis.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Transform(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gsk_transform_scale = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_scale = Interop.downcallHandle(
         "gsk_transform_scale",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
     );
@@ -218,16 +227,17 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Use {@link Transform#scale3d} to scale in all 3 dimensions.
      */
-    public Transform scale(float factorX, float factorY) {
+    public @Nullable Transform scale(@NotNull float factorX, @NotNull float factorY) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_transform_scale.invokeExact(handle(), factorX, factorY);
-            return new Transform(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gsk_transform_scale.invokeExact(handle(), factorX, factorY);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Transform(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gsk_transform_scale_3d = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_scale_3d = Interop.downcallHandle(
         "gsk_transform_scale_3d",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
     );
@@ -235,16 +245,17 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Scales {@code next} by the given factors.
      */
-    public Transform scale3d(float factorX, float factorY, float factorZ) {
+    public @Nullable Transform scale3d(@NotNull float factorX, @NotNull float factorY, @NotNull float factorZ) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_transform_scale_3d.invokeExact(handle(), factorX, factorY, factorZ);
-            return new Transform(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gsk_transform_scale_3d.invokeExact(handle(), factorX, factorY, factorZ);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Transform(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gsk_transform_skew = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_skew = Interop.downcallHandle(
         "gsk_transform_skew",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
     );
@@ -252,16 +263,17 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Applies a skew transform.
      */
-    public Transform skew(float skewX, float skewY) {
+    public @Nullable Transform skew(@NotNull float skewX, @NotNull float skewY) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_transform_skew.invokeExact(handle(), skewX, skewY);
-            return new Transform(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gsk_transform_skew.invokeExact(handle(), skewX, skewY);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Transform(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gsk_transform_to_2d = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_to_2d = Interop.downcallHandle(
         "gsk_transform_to_2d",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -274,7 +286,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
      * {@link TransformCategory#_2D} to check.
      * <p>
      * The returned values have the following layout:
-     * <p>
+     * 
      * <pre>{@code 
      *   | xx yx |   |  a  b  0 |
      *   | xy yy | = |  c  d  0 |
@@ -285,15 +297,27 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
      * and a matrix type from other 2D drawing libraries, in particular
      * Cairo.
      */
-    public void to2d(PointerFloat outXx, PointerFloat outYx, PointerFloat outXy, PointerFloat outYy, PointerFloat outDx, PointerFloat outDy) {
+    public @NotNull void to2d(@NotNull Out<Float> outXx, @NotNull Out<Float> outYx, @NotNull Out<Float> outXy, @NotNull Out<Float> outYy, @NotNull Out<Float> outDx, @NotNull Out<Float> outDy) {
+        MemorySegment outXxPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment outYxPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment outXyPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment outYyPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment outDxPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment outDyPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
         try {
-            gsk_transform_to_2d.invokeExact(handle(), outXx.handle(), outYx.handle(), outXy.handle(), outYy.handle(), outDx.handle(), outDy.handle());
+            gsk_transform_to_2d.invokeExact(handle(), (Addressable) outXxPOINTER.address(), (Addressable) outYxPOINTER.address(), (Addressable) outXyPOINTER.address(), (Addressable) outYyPOINTER.address(), (Addressable) outDxPOINTER.address(), (Addressable) outDyPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        outXx.set(outXxPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        outYx.set(outYxPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        outXy.set(outXyPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        outYy.set(outYyPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        outDx.set(outDxPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        outDy.set(outDyPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
     }
     
-    static final MethodHandle gsk_transform_to_2d_components = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_to_2d_components = Interop.downcallHandle(
         "gsk_transform_to_2d_components",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -318,15 +342,29 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * to check.
      */
-    public void to2dComponents(PointerFloat outSkewX, PointerFloat outSkewY, PointerFloat outScaleX, PointerFloat outScaleY, PointerFloat outAngle, PointerFloat outDx, PointerFloat outDy) {
+    public @NotNull void to2dComponents(@NotNull Out<Float> outSkewX, @NotNull Out<Float> outSkewY, @NotNull Out<Float> outScaleX, @NotNull Out<Float> outScaleY, @NotNull Out<Float> outAngle, @NotNull Out<Float> outDx, @NotNull Out<Float> outDy) {
+        MemorySegment outSkewXPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment outSkewYPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment outScaleXPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment outScaleYPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment outAnglePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment outDxPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment outDyPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
         try {
-            gsk_transform_to_2d_components.invokeExact(handle(), outSkewX.handle(), outSkewY.handle(), outScaleX.handle(), outScaleY.handle(), outAngle.handle(), outDx.handle(), outDy.handle());
+            gsk_transform_to_2d_components.invokeExact(handle(), (Addressable) outSkewXPOINTER.address(), (Addressable) outSkewYPOINTER.address(), (Addressable) outScaleXPOINTER.address(), (Addressable) outScaleYPOINTER.address(), (Addressable) outAnglePOINTER.address(), (Addressable) outDxPOINTER.address(), (Addressable) outDyPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        outSkewX.set(outSkewXPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        outSkewY.set(outSkewYPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        outScaleX.set(outScaleXPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        outScaleY.set(outScaleYPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        outAngle.set(outAnglePOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        outDx.set(outDxPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        outDy.set(outDyPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
     }
     
-    static final MethodHandle gsk_transform_to_affine = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_to_affine = Interop.downcallHandle(
         "gsk_transform_to_affine",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -348,15 +386,23 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * to check.
      */
-    public void toAffine(PointerFloat outScaleX, PointerFloat outScaleY, PointerFloat outDx, PointerFloat outDy) {
+    public @NotNull void toAffine(@NotNull Out<Float> outScaleX, @NotNull Out<Float> outScaleY, @NotNull Out<Float> outDx, @NotNull Out<Float> outDy) {
+        MemorySegment outScaleXPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment outScaleYPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment outDxPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment outDyPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
         try {
-            gsk_transform_to_affine.invokeExact(handle(), outScaleX.handle(), outScaleY.handle(), outDx.handle(), outDy.handle());
+            gsk_transform_to_affine.invokeExact(handle(), (Addressable) outScaleXPOINTER.address(), (Addressable) outScaleYPOINTER.address(), (Addressable) outDxPOINTER.address(), (Addressable) outDyPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        outScaleX.set(outScaleXPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        outScaleY.set(outScaleYPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        outDx.set(outDxPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        outDy.set(outDyPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
     }
     
-    static final MethodHandle gsk_transform_to_matrix = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_to_matrix = Interop.downcallHandle(
         "gsk_transform_to_matrix",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -366,15 +412,17 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The previous value of {@code out_matrix} will be ignored.
      */
-    public void toMatrix(org.gtk.graphene.Matrix outMatrix) {
+    public @NotNull void toMatrix(@NotNull Out<org.gtk.graphene.Matrix> outMatrix) {
+        MemorySegment outMatrixPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gsk_transform_to_matrix.invokeExact(handle(), outMatrix.handle());
+            gsk_transform_to_matrix.invokeExact(handle(), (Addressable) outMatrixPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        outMatrix.set(new org.gtk.graphene.Matrix(Refcounted.get(outMatrixPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle gsk_transform_to_string = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_to_string = Interop.downcallHandle(
         "gsk_transform_to_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -386,16 +434,17 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This is a wrapper around {@link Transform#print}.
      */
-    public java.lang.String toString() {
+    public @NotNull java.lang.String toString() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_transform_to_string.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gsk_transform_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gsk_transform_to_translate = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_to_translate = Interop.downcallHandle(
         "gsk_transform_to_translate",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -410,15 +459,19 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * to check.
      */
-    public void toTranslate(PointerFloat outDx, PointerFloat outDy) {
+    public @NotNull void toTranslate(@NotNull Out<Float> outDx, @NotNull Out<Float> outDy) {
+        MemorySegment outDxPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
+        MemorySegment outDyPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_FLOAT);
         try {
-            gsk_transform_to_translate.invokeExact(handle(), outDx.handle(), outDy.handle());
+            gsk_transform_to_translate.invokeExact(handle(), (Addressable) outDxPOINTER.address(), (Addressable) outDyPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        outDx.set(outDxPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
+        outDy.set(outDyPOINTER.get(ValueLayout.JAVA_FLOAT, 0));
     }
     
-    static final MethodHandle gsk_transform_transform = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_transform = Interop.downcallHandle(
         "gsk_transform_transform",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -426,16 +479,17 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Applies all the operations from {@code other} to {@code next}.
      */
-    public Transform transform(Transform other) {
+    public @Nullable Transform transform(@Nullable Transform other) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_transform_transform.invokeExact(handle(), other.handle());
-            return new Transform(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gsk_transform_transform.invokeExact(handle(), other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Transform(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gsk_transform_transform_bounds = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_transform_bounds = Interop.downcallHandle(
         "gsk_transform_transform_bounds",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -445,15 +499,17 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The result is the bounding box containing the coplanar quad.
      */
-    public void transformBounds(org.gtk.graphene.Rect rect, org.gtk.graphene.Rect outRect) {
+    public @NotNull void transformBounds(@NotNull org.gtk.graphene.Rect rect, @NotNull Out<org.gtk.graphene.Rect> outRect) {
+        MemorySegment outRectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gsk_transform_transform_bounds.invokeExact(handle(), rect.handle(), outRect.handle());
+            gsk_transform_transform_bounds.invokeExact(handle(), rect.handle(), (Addressable) outRectPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        outRect.set(new org.gtk.graphene.Rect(Refcounted.get(outRectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle gsk_transform_transform_point = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_transform_point = Interop.downcallHandle(
         "gsk_transform_transform_point",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -461,15 +517,17 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Transforms a {@code graphene_point_t} using the given transform {@code self}.
      */
-    public void transformPoint(org.gtk.graphene.Point point, org.gtk.graphene.Point outPoint) {
+    public @NotNull void transformPoint(@NotNull org.gtk.graphene.Point point, @NotNull Out<org.gtk.graphene.Point> outPoint) {
+        MemorySegment outPointPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gsk_transform_transform_point.invokeExact(handle(), point.handle(), outPoint.handle());
+            gsk_transform_transform_point.invokeExact(handle(), point.handle(), (Addressable) outPointPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        outPoint.set(new org.gtk.graphene.Point(Refcounted.get(outPointPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle gsk_transform_translate = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_translate = Interop.downcallHandle(
         "gsk_transform_translate",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -477,16 +535,17 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Translates {@code next} in 2-dimensional space by {@code point}.
      */
-    public Transform translate(org.gtk.graphene.Point point) {
+    public @Nullable Transform translate(@NotNull org.gtk.graphene.Point point) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_transform_translate.invokeExact(handle(), point.handle());
-            return new Transform(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gsk_transform_translate.invokeExact(handle(), point.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Transform(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gsk_transform_translate_3d = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_translate_3d = Interop.downcallHandle(
         "gsk_transform_translate_3d",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -494,16 +553,17 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Translates {@code next} by {@code point}.
      */
-    public Transform translate3d(org.gtk.graphene.Point3D point) {
+    public @Nullable Transform translate3d(@NotNull org.gtk.graphene.Point3D point) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_transform_translate_3d.invokeExact(handle(), point.handle());
-            return new Transform(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gsk_transform_translate_3d.invokeExact(handle(), point.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Transform(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gsk_transform_unref = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_unref = Interop.downcallHandle(
         "gsk_transform_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -514,7 +574,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
      * If the reference was the last, the resources associated to the {@code self} are
      * freed.
      */
-    public void unref() {
+    public @NotNull void unref() {
         try {
             gsk_transform_unref.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -522,7 +582,7 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle gsk_transform_parse = Interop.downcallHandle(
+    private static final MethodHandle gsk_transform_parse = Interop.downcallHandle(
         "gsk_transform_parse",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -537,13 +597,16 @@ public class Transform extends io.github.jwharm.javagi.ResourceBase {
      * If {@code string} does not describe a valid transform, {@code false} is
      * returned and {@code null} is put in {@code out_transform}.
      */
-    public static boolean parse(java.lang.String string, PointerProxy<Transform> outTransform) {
+    public static boolean parse(@NotNull java.lang.String string, @NotNull Out<Transform> outTransform) {
+        MemorySegment outTransformPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gsk_transform_parse.invokeExact(Interop.allocateNativeString(string).handle(), outTransform.handle());
-            return RESULT != 0;
+            RESULT = (int) gsk_transform_parse.invokeExact(Interop.allocateNativeString(string), (Addressable) outTransformPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        outTransform.set(new Transform(Refcounted.get(outTransformPOINTER.get(ValueLayout.ADDRESS, 0), true)));
+        return RESULT != 0;
     }
     
 }

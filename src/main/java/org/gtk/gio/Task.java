@@ -3,12 +3,12 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@link Task} represents and manages a cancellable "task".
- * <p>
+ * 
  * <h2>Asynchronous operations</h2>
- * <p>
  * The most common usage of {@link Task} is as a {@link AsyncResult}, to
  * manage data during an asynchronous operation. You call
  * g_task_new() in the "start" method, followed by
@@ -124,9 +124,8 @@ import java.lang.invoke.*;
  *       return g_task_propagate_pointer (G_TASK (result), error);
  *     }
  * }</pre>
- * <p>
+ * 
  * <h2>Chained asynchronous operations</h2>
- * <p>
  * {@link Task} also tries to simplify asynchronous operations that
  * internally chain together several smaller asynchronous
  * operations. g_task_get_cancellable(), g_task_get_context(),
@@ -263,9 +262,8 @@ import java.lang.invoke.*;
  *       return g_task_propagate_pointer (G_TASK (result), error);
  *     }
  * }</pre>
- * <p>
+ * 
  * <h2>Asynchronous operations from synchronous ones</h2>
- * <p>
  * You can use g_task_run_in_thread() to turn a synchronous
  * operation into an asynchronous one, by running it in a thread.
  * When it completes, the result will be dispatched to the
@@ -342,9 +340,8 @@ import java.lang.invoke.*;
  *       return g_task_propagate_pointer (G_TASK (result), error);
  *     }
  * }</pre>
- * <p>
+ * 
  * <h2>Adding cancellability to uncancellable tasks</h2>
- * <p>
  * Finally, g_task_run_in_thread() and g_task_run_in_thread_sync()
  * can be used to turn an uncancellable operation into a
  * cancellable one. If you call g_task_set_return_on_cancel(),
@@ -448,9 +445,8 @@ import java.lang.invoke.*;
  *       return cake;
  *     }
  * }</pre>
- * <p>
+ * 
  * <h2>Porting from GSimpleAsyncResult</h2>
- * <p>
  * {@link Task}'s API attempts to be simpler than {@link SimpleAsyncResult}'s
  * in several ways:
  * <ul>
@@ -517,12 +513,12 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
         return new Task(gobject.refcounted());
     }
     
-    static final MethodHandle g_task_new = Interop.downcallHandle(
+    private static final MethodHandle g_task_new = Interop.downcallHandle(
         "g_task_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(org.gtk.gobject.Object sourceObject, Cancellable cancellable, AsyncReadyCallback callback) {
+    private static Refcounted constructNew(@Nullable org.gtk.gobject.Object sourceObject, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_task_new.invokeExact(sourceObject.handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -530,7 +526,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback))), true);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback))), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -555,11 +551,11 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * do not want this behavior, you can use
      * g_task_set_check_cancellable() to change it.
      */
-    public Task(org.gtk.gobject.Object sourceObject, Cancellable cancellable, AsyncReadyCallback callback) {
+    public Task(@Nullable org.gtk.gobject.Object sourceObject, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         super(constructNew(sourceObject, cancellable, callback));
     }
     
-    static final MethodHandle g_task_get_cancellable = Interop.downcallHandle(
+    private static final MethodHandle g_task_get_cancellable = Interop.downcallHandle(
         "g_task_get_cancellable",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -567,16 +563,17 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     /**
      * Gets {@code task}'s {@link Cancellable}
      */
-    public Cancellable getCancellable() {
+    public @NotNull Cancellable getCancellable() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_task_get_cancellable.invokeExact(handle());
-            return new Cancellable(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_task_get_cancellable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Cancellable(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_task_get_check_cancellable = Interop.downcallHandle(
+    private static final MethodHandle g_task_get_check_cancellable = Interop.downcallHandle(
         "g_task_get_check_cancellable",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -586,15 +583,16 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * g_task_set_check_cancellable() for more details.
      */
     public boolean getCheckCancellable() {
+        int RESULT;
         try {
-            var RESULT = (int) g_task_get_check_cancellable.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_task_get_check_cancellable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_task_get_completed = Interop.downcallHandle(
+    private static final MethodHandle g_task_get_completed = Interop.downcallHandle(
         "g_task_get_completed",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -605,15 +603,16 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * the callback.
      */
     public boolean getCompleted() {
+        int RESULT;
         try {
-            var RESULT = (int) g_task_get_completed.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_task_get_completed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_task_get_context = Interop.downcallHandle(
+    private static final MethodHandle g_task_get_context = Interop.downcallHandle(
         "g_task_get_context",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -627,16 +626,17 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * This will always return a non-{@code null} value, even if the task's
      * context is the default {@link org.gtk.glib.MainContext}.
      */
-    public org.gtk.glib.MainContext getContext() {
+    public @NotNull org.gtk.glib.MainContext getContext() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_task_get_context.invokeExact(handle());
-            return new org.gtk.glib.MainContext(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_task_get_context.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.MainContext(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_task_get_name = Interop.downcallHandle(
+    private static final MethodHandle g_task_get_name = Interop.downcallHandle(
         "g_task_get_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -644,16 +644,17 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     /**
      * Gets {@code task}’s name. See g_task_set_name().
      */
-    public java.lang.String getName() {
+    public @Nullable java.lang.String getName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_task_get_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_task_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_task_get_priority = Interop.downcallHandle(
+    private static final MethodHandle g_task_get_priority = Interop.downcallHandle(
         "g_task_get_priority",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -662,15 +663,16 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * Gets {@code task}'s priority
      */
     public int getPriority() {
+        int RESULT;
         try {
-            var RESULT = (int) g_task_get_priority.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_task_get_priority.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_task_get_return_on_cancel = Interop.downcallHandle(
+    private static final MethodHandle g_task_get_return_on_cancel = Interop.downcallHandle(
         "g_task_get_return_on_cancel",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -680,15 +682,16 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * g_task_set_return_on_cancel() for more details.
      */
     public boolean getReturnOnCancel() {
+        int RESULT;
         try {
-            var RESULT = (int) g_task_get_return_on_cancel.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_task_get_return_on_cancel.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_task_get_source_object = Interop.downcallHandle(
+    private static final MethodHandle g_task_get_source_object = Interop.downcallHandle(
         "g_task_get_source_object",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -697,16 +700,17 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * Gets the source object from {@code task}. Like
      * g_async_result_get_source_object(), but does not ref the object.
      */
-    public org.gtk.gobject.Object getSourceObject() {
+    public @Nullable org.gtk.gobject.Object getSourceObject() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_task_get_source_object.invokeExact(handle());
-            return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_task_get_source_object.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_task_get_source_tag = Interop.downcallHandle(
+    private static final MethodHandle g_task_get_source_tag = Interop.downcallHandle(
         "g_task_get_source_tag",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -714,16 +718,17 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     /**
      * Gets {@code task}'s source tag. See g_task_set_source_tag().
      */
-    public java.lang.foreign.MemoryAddress getSourceTag() {
+    public @Nullable java.lang.foreign.MemoryAddress getSourceTag() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_task_get_source_tag.invokeExact(handle());
-            return RESULT;
+            RESULT = (MemoryAddress) g_task_get_source_tag.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_task_get_task_data = Interop.downcallHandle(
+    private static final MethodHandle g_task_get_task_data = Interop.downcallHandle(
         "g_task_get_task_data",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -731,16 +736,17 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     /**
      * Gets {@code task}'s {@code task_data}.
      */
-    public java.lang.foreign.MemoryAddress getTaskData() {
+    public @Nullable java.lang.foreign.MemoryAddress getTaskData() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_task_get_task_data.invokeExact(handle());
-            return RESULT;
+            RESULT = (MemoryAddress) g_task_get_task_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_task_had_error = Interop.downcallHandle(
+    private static final MethodHandle g_task_had_error = Interop.downcallHandle(
         "g_task_had_error",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -749,15 +755,16 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * Tests if {@code task} resulted in an error.
      */
     public boolean hadError() {
+        int RESULT;
         try {
-            var RESULT = (int) g_task_had_error.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_task_had_error.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_task_propagate_boolean = Interop.downcallHandle(
+    private static final MethodHandle g_task_propagate_boolean = Interop.downcallHandle(
         "g_task_propagate_boolean",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -773,18 +780,19 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      */
     public boolean propagateBoolean() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_task_propagate_boolean.invokeExact(handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_task_propagate_boolean.invokeExact(handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_task_propagate_int = Interop.downcallHandle(
+    private static final MethodHandle g_task_propagate_int = Interop.downcallHandle(
         "g_task_propagate_int",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -800,18 +808,19 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      */
     public long propagateInt() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        long RESULT;
         try {
-            var RESULT = (long) g_task_propagate_int.invokeExact(handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = (long) g_task_propagate_int.invokeExact(handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
-    static final MethodHandle g_task_propagate_pointer = Interop.downcallHandle(
+    private static final MethodHandle g_task_propagate_pointer = Interop.downcallHandle(
         "g_task_propagate_pointer",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -826,20 +835,21 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * Since this method transfers ownership of the return value (or
      * error) to the caller, you may only call it once.
      */
-    public java.lang.foreign.MemoryAddress propagatePointer() throws io.github.jwharm.javagi.GErrorException {
+    public @Nullable java.lang.foreign.MemoryAddress propagatePointer() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_task_propagate_pointer.invokeExact(handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = (MemoryAddress) g_task_propagate_pointer.invokeExact(handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
-    static final MethodHandle g_task_propagate_value = Interop.downcallHandle(
+    private static final MethodHandle g_task_propagate_value = Interop.downcallHandle(
         "g_task_propagate_value",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -856,20 +866,23 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * Since this method transfers ownership of the return value (or
      * error) to the caller, you may only call it once.
      */
-    public boolean propagateValue(org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
+    public boolean propagateValue(@NotNull Out<org.gtk.gobject.Value> value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_task_propagate_value.invokeExact(handle(), value.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_task_propagate_value.invokeExact(handle(), (Addressable) valuePOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        value.set(new org.gtk.gobject.Value(Refcounted.get(valuePOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_task_return_boolean = Interop.downcallHandle(
+    private static final MethodHandle g_task_return_boolean = Interop.downcallHandle(
         "g_task_return_boolean",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -879,7 +892,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * g_task_return_pointer() for more discussion of exactly what this
      * means).
      */
-    public void returnBoolean(boolean result) {
+    public @NotNull void returnBoolean(@NotNull boolean result) {
         try {
             g_task_return_boolean.invokeExact(handle(), result ? 1 : 0);
         } catch (Throwable ERR) {
@@ -887,7 +900,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
         }
     }
     
-    static final MethodHandle g_task_return_error = Interop.downcallHandle(
+    private static final MethodHandle g_task_return_error = Interop.downcallHandle(
         "g_task_return_error",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -905,7 +918,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * <p>
      * See also g_task_return_new_error().
      */
-    public void returnError(org.gtk.glib.Error error) {
+    public @NotNull void returnError(@NotNull org.gtk.glib.Error error) {
         try {
             g_task_return_error.invokeExact(handle(), error.refcounted().unowned().handle());
         } catch (Throwable ERR) {
@@ -913,7 +926,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
         }
     }
     
-    static final MethodHandle g_task_return_error_if_cancelled = Interop.downcallHandle(
+    private static final MethodHandle g_task_return_error_if_cancelled = Interop.downcallHandle(
         "g_task_return_error_if_cancelled",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -925,15 +938,16 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * means).
      */
     public boolean returnErrorIfCancelled() {
+        int RESULT;
         try {
-            var RESULT = (int) g_task_return_error_if_cancelled.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_task_return_error_if_cancelled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_task_return_int = Interop.downcallHandle(
+    private static final MethodHandle g_task_return_int = Interop.downcallHandle(
         "g_task_return_int",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -943,7 +957,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * g_task_return_pointer() for more discussion of exactly what this
      * means).
      */
-    public void returnInt(long result) {
+    public @NotNull void returnInt(@NotNull long result) {
         try {
             g_task_return_int.invokeExact(handle(), result);
         } catch (Throwable ERR) {
@@ -951,7 +965,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
         }
     }
     
-    static final MethodHandle g_task_return_value = Interop.downcallHandle(
+    private static final MethodHandle g_task_return_value = Interop.downcallHandle(
         "g_task_return_value",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -966,7 +980,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * by language bindings; for C code, g_task_return_pointer() and the
      * like will normally be much easier to use.
      */
-    public void returnValue(org.gtk.gobject.Value result) {
+    public @NotNull void returnValue(@Nullable org.gtk.gobject.Value result) {
         try {
             g_task_return_value.invokeExact(handle(), result.handle());
         } catch (Throwable ERR) {
@@ -974,7 +988,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
         }
     }
     
-    static final MethodHandle g_task_set_check_cancellable = Interop.downcallHandle(
+    private static final MethodHandle g_task_set_check_cancellable = Interop.downcallHandle(
         "g_task_set_check_cancellable",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -995,7 +1009,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * If you are using g_task_set_return_on_cancel() as well, then
      * you must leave check-cancellable set {@code true}.
      */
-    public void setCheckCancellable(boolean checkCancellable) {
+    public @NotNull void setCheckCancellable(@NotNull boolean checkCancellable) {
         try {
             g_task_set_check_cancellable.invokeExact(handle(), checkCancellable ? 1 : 0);
         } catch (Throwable ERR) {
@@ -1003,7 +1017,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
         }
     }
     
-    static final MethodHandle g_task_set_name = Interop.downcallHandle(
+    private static final MethodHandle g_task_set_name = Interop.downcallHandle(
         "g_task_set_name",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1020,15 +1034,15 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * other than the one it was constructed in. It is called automatically by
      * g_task_set_source_tag() if not called already.
      */
-    public void setName(java.lang.String name) {
+    public @NotNull void setName(@Nullable java.lang.String name) {
         try {
-            g_task_set_name.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+            g_task_set_name.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_task_set_priority = Interop.downcallHandle(
+    private static final MethodHandle g_task_set_priority = Interop.downcallHandle(
         "g_task_set_priority",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1042,7 +1056,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * and can also be explicitly retrieved later via
      * g_task_get_priority().
      */
-    public void setPriority(int priority) {
+    public @NotNull void setPriority(@NotNull int priority) {
         try {
             g_task_set_priority.invokeExact(handle(), priority);
         } catch (Throwable ERR) {
@@ -1050,7 +1064,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
         }
     }
     
-    static final MethodHandle g_task_set_return_on_cancel = Interop.downcallHandle(
+    private static final MethodHandle g_task_set_return_on_cancel = Interop.downcallHandle(
         "g_task_set_return_on_cancel",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1085,16 +1099,17 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * {@link TaskThreadFunc} will still be run (for consistency), but the task
      * will also be completed right away.
      */
-    public boolean setReturnOnCancel(boolean returnOnCancel) {
+    public boolean setReturnOnCancel(@NotNull boolean returnOnCancel) {
+        int RESULT;
         try {
-            var RESULT = (int) g_task_set_return_on_cancel.invokeExact(handle(), returnOnCancel ? 1 : 0);
-            return RESULT != 0;
+            RESULT = (int) g_task_set_return_on_cancel.invokeExact(handle(), returnOnCancel ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_task_set_source_tag = Interop.downcallHandle(
+    private static final MethodHandle g_task_set_source_tag = Interop.downcallHandle(
         "g_task_set_source_tag",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1113,7 +1128,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * task’s name to the string form of {@code source_tag} if it’s not already
      * set, for convenience.
      */
-    public void setSourceTag(java.lang.foreign.MemoryAddress sourceTag) {
+    public @NotNull void setSourceTag(@Nullable java.lang.foreign.MemoryAddress sourceTag) {
         try {
             g_task_set_source_tag.invokeExact(handle(), sourceTag);
         } catch (Throwable ERR) {
@@ -1121,7 +1136,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
         }
     }
     
-    static final MethodHandle g_task_set_task_data = Interop.downcallHandle(
+    private static final MethodHandle g_task_set_task_data = Interop.downcallHandle(
         "g_task_set_task_data",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1129,7 +1144,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
     /**
      * Sets {@code task}'s task data (freeing the existing task data, if any).
      */
-    public void setTaskData(java.lang.foreign.MemoryAddress taskData, org.gtk.glib.DestroyNotify taskDataDestroy) {
+    public @NotNull void setTaskData(@Nullable java.lang.foreign.MemoryAddress taskData, @Nullable org.gtk.glib.DestroyNotify taskDataDestroy) {
         try {
             g_task_set_task_data.invokeExact(handle(), taskData, 
                     Interop.cbDestroyNotifySymbol());
@@ -1138,7 +1153,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
         }
     }
     
-    static final MethodHandle g_task_is_valid = Interop.downcallHandle(
+    private static final MethodHandle g_task_is_valid = Interop.downcallHandle(
         "g_task_is_valid",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1148,16 +1163,17 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * source object (or that {@code source_object} is {@code null} and {@code result} has no
      * source object). This can be used in g_return_if_fail() checks.
      */
-    public static boolean isValid(AsyncResult result, org.gtk.gobject.Object sourceObject) {
+    public static boolean isValid(@NotNull AsyncResult result, @Nullable org.gtk.gobject.Object sourceObject) {
+        int RESULT;
         try {
-            var RESULT = (int) g_task_is_valid.invokeExact(result.handle(), sourceObject.handle());
-            return RESULT != 0;
+            RESULT = (int) g_task_is_valid.invokeExact(result.handle(), sourceObject.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_task_report_error = Interop.downcallHandle(
+    private static final MethodHandle g_task_report_error = Interop.downcallHandle(
         "g_task_report_error",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1172,7 +1188,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
      * <p>
      * See also g_task_report_new_error().
      */
-    public static void reportError(org.gtk.gobject.Object sourceObject, AsyncReadyCallback callback, java.lang.foreign.MemoryAddress sourceTag, org.gtk.glib.Error error) {
+    public static @NotNull void reportError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable AsyncReadyCallback callback, @Nullable java.lang.foreign.MemoryAddress sourceTag, @NotNull org.gtk.glib.Error error) {
         try {
             g_task_report_error.invokeExact(sourceObject.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -1180,7 +1196,7 @@ public class Task extends org.gtk.gobject.Object implements AsyncResult {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)), sourceTag, error.refcounted().unowned().handle());
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)), sourceTag, error.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

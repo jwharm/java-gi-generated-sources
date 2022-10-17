@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * GCancellable is a thread-safe operation cancellation stack used
@@ -20,7 +21,7 @@ public class Cancellable extends org.gtk.gobject.Object {
         return new Cancellable(gobject.refcounted());
     }
     
-    static final MethodHandle g_cancellable_new = Interop.downcallHandle(
+    private static final MethodHandle g_cancellable_new = Interop.downcallHandle(
         "g_cancellable_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -48,7 +49,7 @@ public class Cancellable extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
-    static final MethodHandle g_cancellable_cancel = Interop.downcallHandle(
+    private static final MethodHandle g_cancellable_cancel = Interop.downcallHandle(
         "g_cancellable_cancel",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -71,7 +72,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * then the operation's {@link AsyncReadyCallback} will not be invoked until
      * the application returns to the main loop.
      */
-    public void cancel() {
+    public @NotNull void cancel() {
         try {
             g_cancellable_cancel.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -79,7 +80,7 @@ public class Cancellable extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle g_cancellable_connect = Interop.downcallHandle(
+    private static final MethodHandle g_cancellable_connect = Interop.downcallHandle(
         "g_cancellable_connect",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -104,23 +105,24 @@ public class Cancellable extends org.gtk.gobject.Object {
      * earlier GLib versions which now makes it easier to write cleanup
      * code that unconditionally invokes e.g. g_cancellable_cancel().
      */
-    public long connect(org.gtk.gobject.Callback callback) {
+    public long connect(@NotNull org.gtk.gobject.Callback callback) {
+        long RESULT;
         try {
-            var RESULT = (long) g_cancellable_connect.invokeExact(handle(), 
+            RESULT = (long) g_cancellable_connect.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbCallback",
                             MethodType.methodType(void.class)),
                         FunctionDescriptor.ofVoid(),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)), 
                     Interop.cbDestroyNotifySymbol());
-            return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_cancellable_disconnect = Interop.downcallHandle(
+    private static final MethodHandle g_cancellable_disconnect = Interop.downcallHandle(
         "g_cancellable_disconnect",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -141,7 +143,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * If {@code cancellable} is {@code null} or {@code handler_id} is {@code 0} this function does
      * nothing.
      */
-    public void disconnect(long handlerId) {
+    public @NotNull void disconnect(@NotNull long handlerId) {
         try {
             g_cancellable_disconnect.invokeExact(handle(), handlerId);
         } catch (Throwable ERR) {
@@ -149,7 +151,7 @@ public class Cancellable extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle g_cancellable_get_fd = Interop.downcallHandle(
+    private static final MethodHandle g_cancellable_get_fd = Interop.downcallHandle(
         "g_cancellable_get_fd",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -170,15 +172,16 @@ public class Cancellable extends org.gtk.gobject.Object {
      * See also g_cancellable_make_pollfd().
      */
     public int getFd() {
+        int RESULT;
         try {
-            var RESULT = (int) g_cancellable_get_fd.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) g_cancellable_get_fd.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_cancellable_is_cancelled = Interop.downcallHandle(
+    private static final MethodHandle g_cancellable_is_cancelled = Interop.downcallHandle(
         "g_cancellable_is_cancelled",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -187,15 +190,16 @@ public class Cancellable extends org.gtk.gobject.Object {
      * Checks if a cancellable job has been cancelled.
      */
     public boolean isCancelled() {
+        int RESULT;
         try {
-            var RESULT = (int) g_cancellable_is_cancelled.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_cancellable_is_cancelled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_cancellable_make_pollfd = Interop.downcallHandle(
+    private static final MethodHandle g_cancellable_make_pollfd = Interop.downcallHandle(
         "g_cancellable_make_pollfd",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -220,16 +224,17 @@ public class Cancellable extends org.gtk.gobject.Object {
      * readable status. Reading to unset the readable status is done
      * with g_cancellable_reset().
      */
-    public boolean makePollfd(org.gtk.glib.PollFD pollfd) {
+    public boolean makePollfd(@NotNull org.gtk.glib.PollFD pollfd) {
+        int RESULT;
         try {
-            var RESULT = (int) g_cancellable_make_pollfd.invokeExact(handle(), pollfd.handle());
-            return RESULT != 0;
+            RESULT = (int) g_cancellable_make_pollfd.invokeExact(handle(), pollfd.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_cancellable_pop_current = Interop.downcallHandle(
+    private static final MethodHandle g_cancellable_pop_current = Interop.downcallHandle(
         "g_cancellable_pop_current",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -238,7 +243,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * Pops {@code cancellable} off the cancellable stack (verifying that {@code cancellable}
      * is on the top of the stack).
      */
-    public void popCurrent() {
+    public @NotNull void popCurrent() {
         try {
             g_cancellable_pop_current.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -246,7 +251,7 @@ public class Cancellable extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle g_cancellable_push_current = Interop.downcallHandle(
+    private static final MethodHandle g_cancellable_push_current = Interop.downcallHandle(
         "g_cancellable_push_current",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -261,7 +266,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * This is typically called automatically by e.g. {@link File} operations,
      * so you rarely have to call this yourself.
      */
-    public void pushCurrent() {
+    public @NotNull void pushCurrent() {
         try {
             g_cancellable_push_current.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -269,7 +274,7 @@ public class Cancellable extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle g_cancellable_release_fd = Interop.downcallHandle(
+    private static final MethodHandle g_cancellable_release_fd = Interop.downcallHandle(
         "g_cancellable_release_fd",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -285,7 +290,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * is not called. This can cause the application to run out of file
      * descriptors when many {@code GCancellables} are used at the same time.
      */
-    public void releaseFd() {
+    public @NotNull void releaseFd() {
         try {
             g_cancellable_release_fd.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -293,7 +298,7 @@ public class Cancellable extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle g_cancellable_reset = Interop.downcallHandle(
+    private static final MethodHandle g_cancellable_reset = Interop.downcallHandle(
         "g_cancellable_reset",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -311,7 +316,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * and let it die with the outstanding async operations. You should
      * create a fresh cancellable for further async operations.
      */
-    public void reset() {
+    public @NotNull void reset() {
         try {
             g_cancellable_reset.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -319,7 +324,7 @@ public class Cancellable extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle g_cancellable_set_error_if_cancelled = Interop.downcallHandle(
+    private static final MethodHandle g_cancellable_set_error_if_cancelled = Interop.downcallHandle(
         "g_cancellable_set_error_if_cancelled",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -330,18 +335,19 @@ public class Cancellable extends org.gtk.gobject.Object {
      */
     public boolean setErrorIfCancelled() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_cancellable_set_error_if_cancelled.invokeExact(handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_cancellable_set_error_if_cancelled.invokeExact(handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_cancellable_source_new = Interop.downcallHandle(
+    private static final MethodHandle g_cancellable_source_new = Interop.downcallHandle(
         "g_cancellable_source_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -357,16 +363,17 @@ public class Cancellable extends org.gtk.gobject.Object {
      * <p>
      * The new {@link org.gtk.glib.Source} will hold a reference to the {@link Cancellable}.
      */
-    public org.gtk.glib.Source sourceNew() {
+    public @NotNull org.gtk.glib.Source sourceNew() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_cancellable_source_new.invokeExact(handle());
-            return new org.gtk.glib.Source(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_cancellable_source_new.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.Source(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_cancellable_get_current = Interop.downcallHandle(
+    private static final MethodHandle g_cancellable_get_current = Interop.downcallHandle(
         "g_cancellable_get_current",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -374,13 +381,14 @@ public class Cancellable extends org.gtk.gobject.Object {
     /**
      * Gets the top cancellable from the stack.
      */
-    public static Cancellable getCurrent() {
+    public static @Nullable Cancellable getCurrent() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_cancellable_get_current.invokeExact();
-            return new Cancellable(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_cancellable_get_current.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Cancellable(Refcounted.get(RESULT, false));
     }
     
     @FunctionalInterface
@@ -445,13 +453,13 @@ public class Cancellable extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("cancelled").handle(),
+                Interop.allocateNativeString("cancelled"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Cancellable.Callbacks.class, "signalCancellableCancelled",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

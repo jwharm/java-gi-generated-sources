@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * An opaque structure representing a test case.
@@ -13,7 +14,7 @@ public class TestCase extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_test_case_free = Interop.downcallHandle(
+    private static final MethodHandle g_test_case_free = Interop.downcallHandle(
         "g_test_case_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -21,7 +22,7 @@ public class TestCase extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Free the {@code test_case}.
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             g_test_case_free.invokeExact(handle());
         } catch (Throwable ERR) {

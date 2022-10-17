@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link SimpleActionGroup} is a hash table filled with {@link Action} objects,
@@ -19,7 +20,7 @@ public class SimpleActionGroup extends org.gtk.gobject.Object implements ActionG
         return new SimpleActionGroup(gobject.refcounted());
     }
     
-    static final MethodHandle g_simple_action_group_new = Interop.downcallHandle(
+    private static final MethodHandle g_simple_action_group_new = Interop.downcallHandle(
         "g_simple_action_group_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );

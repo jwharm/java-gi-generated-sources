@@ -3,6 +3,7 @@ package org.gtk.graphene;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A size.
@@ -13,7 +14,7 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle graphene_size_alloc = Interop.downcallHandle(
+    private static final MethodHandle graphene_size_alloc = Interop.downcallHandle(
         "graphene_size_alloc",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -36,7 +37,7 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
         return new Size(constructAlloc());
     }
     
-    static final MethodHandle graphene_size_equal = Interop.downcallHandle(
+    private static final MethodHandle graphene_size_equal = Interop.downcallHandle(
         "graphene_size_equal",
         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -44,16 +45,17 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Checks whether the two give {@link Size} are equal.
      */
-    public boolean equal(Size b) {
+    public boolean equal(@NotNull Size b) {
+        boolean RESULT;
         try {
-            var RESULT = (boolean) graphene_size_equal.invokeExact(handle(), b.handle());
-            return RESULT;
+            RESULT = (boolean) graphene_size_equal.invokeExact(handle(), b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_size_free = Interop.downcallHandle(
+    private static final MethodHandle graphene_size_free = Interop.downcallHandle(
         "graphene_size_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -61,7 +63,7 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Frees the resources allocated by graphene_size_alloc().
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             graphene_size_free.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -69,7 +71,7 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle graphene_size_init = Interop.downcallHandle(
+    private static final MethodHandle graphene_size_init = Interop.downcallHandle(
         "graphene_size_init",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
     );
@@ -77,16 +79,17 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Initializes a {@link Size} using the given {@code width} and {@code height}.
      */
-    public Size init(float width, float height) {
+    public @NotNull Size init(@NotNull float width, @NotNull float height) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_size_init.invokeExact(handle(), width, height);
-            return new Size(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_size_init.invokeExact(handle(), width, height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Size(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_size_init_from_size = Interop.downcallHandle(
+    private static final MethodHandle graphene_size_init_from_size = Interop.downcallHandle(
         "graphene_size_init_from_size",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -95,16 +98,17 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
      * Initializes a {@link Size} using the width and height of
      * the given {@code src}.
      */
-    public Size initFromSize(Size src) {
+    public @NotNull Size initFromSize(@NotNull Size src) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_size_init_from_size.invokeExact(handle(), src.handle());
-            return new Size(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_size_init_from_size.invokeExact(handle(), src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Size(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_size_interpolate = Interop.downcallHandle(
+    private static final MethodHandle graphene_size_interpolate = Interop.downcallHandle(
         "graphene_size_interpolate",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -113,15 +117,17 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
      * Linearly interpolates the two given {@link Size} using the given
      * interpolation {@code factor}.
      */
-    public void interpolate(Size b, double factor, Size res) {
+    public @NotNull void interpolate(@NotNull Size b, @NotNull double factor, @NotNull Out<Size> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_size_interpolate.invokeExact(handle(), b.handle(), factor, res.handle());
+            graphene_size_interpolate.invokeExact(handle(), b.handle(), factor, (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Size(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_size_scale = Interop.downcallHandle(
+    private static final MethodHandle graphene_size_scale = Interop.downcallHandle(
         "graphene_size_scale",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -129,15 +135,17 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Scales the components of a {@link Size} using the given {@code factor}.
      */
-    public void scale(float factor, Size res) {
+    public @NotNull void scale(@NotNull float factor, @NotNull Out<Size> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_size_scale.invokeExact(handle(), factor, res.handle());
+            graphene_size_scale.invokeExact(handle(), factor, (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Size(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_size_zero = Interop.downcallHandle(
+    private static final MethodHandle graphene_size_zero = Interop.downcallHandle(
         "graphene_size_zero",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -146,13 +154,14 @@ public class Size extends io.github.jwharm.javagi.ResourceBase {
      * A constant pointer to a zero {@link Size}, useful for
      * equality checks and interpolations.
      */
-    public static Size zero() {
+    public static @NotNull Size zero() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_size_zero.invokeExact();
-            return new Size(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_size_zero.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Size(Refcounted.get(RESULT, false));
     }
     
 }

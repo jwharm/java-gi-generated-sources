@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkAppChooserDialog} shows a {@code GtkAppChooserWidget} inside a {@code GtkDialog}.
@@ -29,12 +30,12 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
         return new AppChooserDialog(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_app_chooser_dialog_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_app_chooser_dialog_new = Interop.downcallHandle(
         "gtk_app_chooser_dialog_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(Window parent, DialogFlags flags, org.gtk.gio.File file) {
+    private static Refcounted constructNew(@Nullable Window parent, @NotNull DialogFlags flags, @NotNull org.gtk.gio.File file) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_app_chooser_dialog_new.invokeExact(parent.handle(), flags.getValue(), file.handle()), false);
             return RESULT;
@@ -48,18 +49,18 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
      * <p>
      * The dialog will show applications that can open the file.
      */
-    public AppChooserDialog(Window parent, DialogFlags flags, org.gtk.gio.File file) {
+    public AppChooserDialog(@Nullable Window parent, @NotNull DialogFlags flags, @NotNull org.gtk.gio.File file) {
         super(constructNew(parent, flags, file));
     }
     
-    static final MethodHandle gtk_app_chooser_dialog_new_for_content_type = Interop.downcallHandle(
+    private static final MethodHandle gtk_app_chooser_dialog_new_for_content_type = Interop.downcallHandle(
         "gtk_app_chooser_dialog_new_for_content_type",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewForContentType(Window parent, DialogFlags flags, java.lang.String contentType) {
+    private static Refcounted constructNewForContentType(@Nullable Window parent, @NotNull DialogFlags flags, @NotNull java.lang.String contentType) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_app_chooser_dialog_new_for_content_type.invokeExact(parent.handle(), flags.getValue(), Interop.allocateNativeString(contentType).handle()), false);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_app_chooser_dialog_new_for_content_type.invokeExact(parent.handle(), flags.getValue(), Interop.allocateNativeString(contentType)), false);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -71,11 +72,11 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
      * <p>
      * The dialog will show applications that can open the content type.
      */
-    public static AppChooserDialog newForContentType(Window parent, DialogFlags flags, java.lang.String contentType) {
+    public static AppChooserDialog newForContentType(@Nullable Window parent, @NotNull DialogFlags flags, @NotNull java.lang.String contentType) {
         return new AppChooserDialog(constructNewForContentType(parent, flags, contentType));
     }
     
-    static final MethodHandle gtk_app_chooser_dialog_get_heading = Interop.downcallHandle(
+    private static final MethodHandle gtk_app_chooser_dialog_get_heading = Interop.downcallHandle(
         "gtk_app_chooser_dialog_get_heading",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -83,16 +84,17 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
     /**
      * Returns the text to display at the top of the dialog.
      */
-    public java.lang.String getHeading() {
+    public @Nullable java.lang.String getHeading() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_app_chooser_dialog_get_heading.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_app_chooser_dialog_get_heading.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_app_chooser_dialog_get_widget = Interop.downcallHandle(
+    private static final MethodHandle gtk_app_chooser_dialog_get_widget = Interop.downcallHandle(
         "gtk_app_chooser_dialog_get_widget",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -100,16 +102,17 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
     /**
      * Returns the {@code GtkAppChooserWidget} of this dialog.
      */
-    public Widget getWidget() {
+    public @NotNull Widget getWidget() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_app_chooser_dialog_get_widget.invokeExact(handle());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_app_chooser_dialog_get_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_app_chooser_dialog_set_heading = Interop.downcallHandle(
+    private static final MethodHandle gtk_app_chooser_dialog_set_heading = Interop.downcallHandle(
         "gtk_app_chooser_dialog_set_heading",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -119,9 +122,9 @@ public class AppChooserDialog extends Dialog implements Accessible, AppChooser, 
      * <p>
      * If the heading is not set, the dialog displays a default text.
      */
-    public void setHeading(java.lang.String heading) {
+    public @NotNull void setHeading(@NotNull java.lang.String heading) {
         try {
-            gtk_app_chooser_dialog_set_heading.invokeExact(handle(), Interop.allocateNativeString(heading).handle());
+            gtk_app_chooser_dialog_set_heading.invokeExact(handle(), Interop.allocateNativeString(heading));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

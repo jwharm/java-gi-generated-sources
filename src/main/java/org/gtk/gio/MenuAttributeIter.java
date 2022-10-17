@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link MenuAttributeIter} is an opaque structure type.  You must access it
@@ -19,7 +20,7 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
         return new MenuAttributeIter(gobject.refcounted());
     }
     
-    static final MethodHandle g_menu_attribute_iter_get_name = Interop.downcallHandle(
+    private static final MethodHandle g_menu_attribute_iter_get_name = Interop.downcallHandle(
         "g_menu_attribute_iter_get_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -30,16 +31,17 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      * <p>
      * The iterator is not advanced.
      */
-    public java.lang.String getName() {
+    public @NotNull java.lang.String getName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_menu_attribute_iter_get_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_menu_attribute_iter_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_menu_attribute_iter_get_next = Interop.downcallHandle(
+    private static final MethodHandle g_menu_attribute_iter_get_next = Interop.downcallHandle(
         "g_menu_attribute_iter_get_next",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -61,16 +63,21 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      * remains at the current position.  The value returned in {@code value} must
      * be unreffed using g_variant_unref() when it is no longer in use.
      */
-    public boolean getNext(PointerString outName, PointerProxy<org.gtk.glib.Variant> value) {
+    public boolean getNext(@NotNull Out<java.lang.String> outName, @NotNull Out<org.gtk.glib.Variant> value) {
+        MemorySegment outNamePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_menu_attribute_iter_get_next.invokeExact(handle(), outName.handle(), value.handle());
-            return RESULT != 0;
+            RESULT = (int) g_menu_attribute_iter_get_next.invokeExact(handle(), (Addressable) outNamePOINTER.address(), (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        outName.set(outNamePOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        value.set(new org.gtk.glib.Variant(Refcounted.get(valuePOINTER.get(ValueLayout.ADDRESS, 0), true)));
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_menu_attribute_iter_get_value = Interop.downcallHandle(
+    private static final MethodHandle g_menu_attribute_iter_get_value = Interop.downcallHandle(
         "g_menu_attribute_iter_get_value",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -80,16 +87,17 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      * <p>
      * The iterator is not advanced.
      */
-    public org.gtk.glib.Variant getValue() {
+    public @NotNull org.gtk.glib.Variant getValue() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_menu_attribute_iter_get_value.invokeExact(handle());
-            return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_menu_attribute_iter_get_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_menu_attribute_iter_next = Interop.downcallHandle(
+    private static final MethodHandle g_menu_attribute_iter_next = Interop.downcallHandle(
         "g_menu_attribute_iter_next",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -106,12 +114,13 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      * attribute exists at all).
      */
     public boolean next() {
+        int RESULT;
         try {
-            var RESULT = (int) g_menu_attribute_iter_next.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_menu_attribute_iter_next.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
 }

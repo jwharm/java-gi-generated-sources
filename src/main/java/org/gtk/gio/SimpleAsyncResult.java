@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * As of GLib 2.46, {@link SimpleAsyncResult} is deprecated in favor of
@@ -182,12 +183,12 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements AsyncRe
         return new SimpleAsyncResult(gobject.refcounted());
     }
     
-    static final MethodHandle g_simple_async_result_new_from_error = Interop.downcallHandle(
+    private static final MethodHandle g_simple_async_result_new_from_error = Interop.downcallHandle(
         "g_simple_async_result_new_from_error",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewFromError(org.gtk.gobject.Object sourceObject, AsyncReadyCallback callback, org.gtk.glib.Error error) {
+    private static Refcounted constructNewFromError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable AsyncReadyCallback callback, @NotNull org.gtk.glib.Error error) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_simple_async_result_new_from_error.invokeExact(sourceObject.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -195,7 +196,7 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements AsyncRe
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)), error.handle()), true);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)), error.handle()), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -205,16 +206,16 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements AsyncRe
     /**
      * Creates a {@link SimpleAsyncResult} from an error condition.
      */
-    public static SimpleAsyncResult newFromError(org.gtk.gobject.Object sourceObject, AsyncReadyCallback callback, org.gtk.glib.Error error) {
+    public static SimpleAsyncResult newFromError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable AsyncReadyCallback callback, @NotNull org.gtk.glib.Error error) {
         return new SimpleAsyncResult(constructNewFromError(sourceObject, callback, error));
     }
     
-    static final MethodHandle g_simple_async_result_new_take_error = Interop.downcallHandle(
+    private static final MethodHandle g_simple_async_result_new_take_error = Interop.downcallHandle(
         "g_simple_async_result_new_take_error",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewTakeError(org.gtk.gobject.Object sourceObject, AsyncReadyCallback callback, org.gtk.glib.Error error) {
+    private static Refcounted constructNewTakeError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable AsyncReadyCallback callback, @NotNull org.gtk.glib.Error error) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_simple_async_result_new_take_error.invokeExact(sourceObject.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -222,7 +223,7 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements AsyncRe
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)), error.handle()), true);
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)), error.handle()), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -233,7 +234,7 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements AsyncRe
      * Creates a {@link SimpleAsyncResult} from an error condition, and takes over the
      * caller's ownership of {@code error}, so the caller does not need to free it anymore.
      */
-    public static SimpleAsyncResult newTakeError(org.gtk.gobject.Object sourceObject, AsyncReadyCallback callback, org.gtk.glib.Error error) {
+    public static SimpleAsyncResult newTakeError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable AsyncReadyCallback callback, @NotNull org.gtk.glib.Error error) {
         return new SimpleAsyncResult(constructNewTakeError(sourceObject, callback, error));
     }
     

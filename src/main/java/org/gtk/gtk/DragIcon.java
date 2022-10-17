@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkDragIcon} is a {@code GtkRoot} implementation for drag icons.
@@ -28,7 +29,7 @@ public class DragIcon extends Widget implements Accessible, Buildable, Constrain
         return new DragIcon(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_drag_icon_get_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_drag_icon_get_child = Interop.downcallHandle(
         "gtk_drag_icon_get_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -36,16 +37,17 @@ public class DragIcon extends Widget implements Accessible, Buildable, Constrain
     /**
      * Gets the widget currently used as drag icon.
      */
-    public Widget getChild() {
+    public @Nullable Widget getChild() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_drag_icon_get_child.invokeExact(handle());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_drag_icon_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_drag_icon_set_child = Interop.downcallHandle(
+    private static final MethodHandle gtk_drag_icon_set_child = Interop.downcallHandle(
         "gtk_drag_icon_set_child",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -53,7 +55,7 @@ public class DragIcon extends Widget implements Accessible, Buildable, Constrain
     /**
      * Sets the widget to display as the drag icon.
      */
-    public void setChild(Widget child) {
+    public @NotNull void setChild(@Nullable Widget child) {
         try {
             gtk_drag_icon_set_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -61,7 +63,7 @@ public class DragIcon extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_drag_icon_create_widget_for_value = Interop.downcallHandle(
+    private static final MethodHandle gtk_drag_icon_create_widget_for_value = Interop.downcallHandle(
         "gtk_drag_icon_create_widget_for_value",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -78,16 +80,17 @@ public class DragIcon extends Widget implements Accessible, Buildable, Constrain
      * operations started by {@code GtkDragSource}, so you don't need to set
      * a drag icon using this function there.
      */
-    public static Widget createWidgetForValue(org.gtk.gobject.Value value) {
+    public static @Nullable Widget createWidgetForValue(@NotNull org.gtk.gobject.Value value) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_drag_icon_create_widget_for_value.invokeExact(value.handle());
-            return new Widget(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_drag_icon_create_widget_for_value.invokeExact(value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_drag_icon_get_for_drag = Interop.downcallHandle(
+    private static final MethodHandle gtk_drag_icon_get_for_drag = Interop.downcallHandle(
         "gtk_drag_icon_get_for_drag",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -98,16 +101,17 @@ public class DragIcon extends Widget implements Accessible, Buildable, Constrain
      * If no drag icon exists yet, a new one will be created
      * and shown.
      */
-    public static Widget getForDrag(org.gtk.gdk.Drag drag) {
+    public static @NotNull Widget getForDrag(@NotNull org.gtk.gdk.Drag drag) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_drag_icon_get_for_drag.invokeExact(drag.handle());
-            return new Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_drag_icon_get_for_drag.invokeExact(drag.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_drag_icon_set_from_paintable = Interop.downcallHandle(
+    private static final MethodHandle gtk_drag_icon_set_from_paintable = Interop.downcallHandle(
         "gtk_drag_icon_set_from_paintable",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -119,7 +123,7 @@ public class DragIcon extends Widget implements Accessible, Buildable, Constrain
      * The hotspot position on the paintable is aligned with the
      * hotspot of the cursor.
      */
-    public static void setFromPaintable(org.gtk.gdk.Drag drag, org.gtk.gdk.Paintable paintable, int hotX, int hotY) {
+    public static @NotNull void setFromPaintable(@NotNull org.gtk.gdk.Drag drag, @NotNull org.gtk.gdk.Paintable paintable, @NotNull int hotX, @NotNull int hotY) {
         try {
             gtk_drag_icon_set_from_paintable.invokeExact(drag.handle(), paintable.handle(), hotX, hotY);
         } catch (Throwable ERR) {

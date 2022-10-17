@@ -3,6 +3,7 @@ package org.pango;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code PangoRenderer} is a base class for objects that can render text
@@ -23,7 +24,7 @@ public class Renderer extends org.gtk.gobject.Object {
         return new Renderer(gobject.refcounted());
     }
     
-    static final MethodHandle pango_renderer_activate = Interop.downcallHandle(
+    private static final MethodHandle pango_renderer_activate = Interop.downcallHandle(
         "pango_renderer_activate",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -39,7 +40,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * {@link Renderer#deactivate} can be nested and the
      * renderer will only be initialized and deinitialized once.
      */
-    public void activate() {
+    public @NotNull void activate() {
         try {
             pango_renderer_activate.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -47,7 +48,7 @@ public class Renderer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle pango_renderer_deactivate = Interop.downcallHandle(
+    private static final MethodHandle pango_renderer_deactivate = Interop.downcallHandle(
         "pango_renderer_deactivate",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -57,7 +58,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * <p>
      * See docs for {@link Renderer#activate}.
      */
-    public void deactivate() {
+    public @NotNull void deactivate() {
         try {
             pango_renderer_deactivate.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -65,7 +66,7 @@ public class Renderer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle pango_renderer_draw_error_underline = Interop.downcallHandle(
+    private static final MethodHandle pango_renderer_draw_error_underline = Interop.downcallHandle(
         "pango_renderer_draw_error_underline",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -81,7 +82,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * This should be called while {@code renderer} is already active.
      * Use {@link Renderer#activate} to activate a renderer.
      */
-    public void drawErrorUnderline(int x, int y, int width, int height) {
+    public @NotNull void drawErrorUnderline(@NotNull int x, @NotNull int y, @NotNull int width, @NotNull int height) {
         try {
             pango_renderer_draw_error_underline.invokeExact(handle(), x, y, width, height);
         } catch (Throwable ERR) {
@@ -89,7 +90,7 @@ public class Renderer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle pango_renderer_draw_glyph = Interop.downcallHandle(
+    private static final MethodHandle pango_renderer_draw_glyph = Interop.downcallHandle(
         "pango_renderer_draw_glyph",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
     );
@@ -97,7 +98,7 @@ public class Renderer extends org.gtk.gobject.Object {
     /**
      * Draws a single glyph with coordinates in device space.
      */
-    public void drawGlyph(Font font, Glyph glyph, double x, double y) {
+    public @NotNull void drawGlyph(@NotNull Font font, @NotNull Glyph glyph, @NotNull double x, @NotNull double y) {
         try {
             pango_renderer_draw_glyph.invokeExact(handle(), font.handle(), glyph.getValue(), x, y);
         } catch (Throwable ERR) {
@@ -105,7 +106,7 @@ public class Renderer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle pango_renderer_draw_glyph_item = Interop.downcallHandle(
+    private static final MethodHandle pango_renderer_draw_glyph_item = Interop.downcallHandle(
         "pango_renderer_draw_glyph_item",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -130,15 +131,15 @@ public class Renderer extends org.gtk.gobject.Object {
      * The default implementation of this method simply falls back to
      * {@link Renderer#drawGlyphs}.
      */
-    public void drawGlyphItem(java.lang.String text, GlyphItem glyphItem, int x, int y) {
+    public @NotNull void drawGlyphItem(@Nullable java.lang.String text, @NotNull GlyphItem glyphItem, @NotNull int x, @NotNull int y) {
         try {
-            pango_renderer_draw_glyph_item.invokeExact(handle(), Interop.allocateNativeString(text).handle(), glyphItem.handle(), x, y);
+            pango_renderer_draw_glyph_item.invokeExact(handle(), Interop.allocateNativeString(text), glyphItem.handle(), x, y);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle pango_renderer_draw_glyphs = Interop.downcallHandle(
+    private static final MethodHandle pango_renderer_draw_glyphs = Interop.downcallHandle(
         "pango_renderer_draw_glyphs",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -146,7 +147,7 @@ public class Renderer extends org.gtk.gobject.Object {
     /**
      * Draws the glyphs in {@code glyphs} with the specified {@code PangoRenderer}.
      */
-    public void drawGlyphs(Font font, GlyphString glyphs, int x, int y) {
+    public @NotNull void drawGlyphs(@NotNull Font font, @NotNull GlyphString glyphs, @NotNull int x, @NotNull int y) {
         try {
             pango_renderer_draw_glyphs.invokeExact(handle(), font.handle(), glyphs.handle(), x, y);
         } catch (Throwable ERR) {
@@ -154,7 +155,7 @@ public class Renderer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle pango_renderer_draw_layout = Interop.downcallHandle(
+    private static final MethodHandle pango_renderer_draw_layout = Interop.downcallHandle(
         "pango_renderer_draw_layout",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -165,7 +166,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * This is equivalent to drawing the lines of the layout, at their
      * respective positions relative to @x, @y.
      */
-    public void drawLayout(Layout layout, int x, int y) {
+    public @NotNull void drawLayout(@NotNull Layout layout, @NotNull int x, @NotNull int y) {
         try {
             pango_renderer_draw_layout.invokeExact(handle(), layout.handle(), x, y);
         } catch (Throwable ERR) {
@@ -173,7 +174,7 @@ public class Renderer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle pango_renderer_draw_layout_line = Interop.downcallHandle(
+    private static final MethodHandle pango_renderer_draw_layout_line = Interop.downcallHandle(
         "pango_renderer_draw_layout_line",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -185,7 +186,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * shapes, backgrounds and lines that are specified by the attributes
      * of those items.
      */
-    public void drawLayoutLine(LayoutLine line, int x, int y) {
+    public @NotNull void drawLayoutLine(@NotNull LayoutLine line, @NotNull int x, @NotNull int y) {
         try {
             pango_renderer_draw_layout_line.invokeExact(handle(), line.handle(), x, y);
         } catch (Throwable ERR) {
@@ -193,7 +194,7 @@ public class Renderer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle pango_renderer_draw_rectangle = Interop.downcallHandle(
+    private static final MethodHandle pango_renderer_draw_rectangle = Interop.downcallHandle(
         "pango_renderer_draw_rectangle",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -205,7 +206,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * This should be called while {@code renderer} is already active.
      * Use {@link Renderer#activate} to activate a renderer.
      */
-    public void drawRectangle(RenderPart part, int x, int y, int width, int height) {
+    public @NotNull void drawRectangle(@NotNull RenderPart part, @NotNull int x, @NotNull int y, @NotNull int width, @NotNull int height) {
         try {
             pango_renderer_draw_rectangle.invokeExact(handle(), part.getValue(), x, y, width, height);
         } catch (Throwable ERR) {
@@ -213,7 +214,7 @@ public class Renderer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle pango_renderer_draw_trapezoid = Interop.downcallHandle(
+    private static final MethodHandle pango_renderer_draw_trapezoid = Interop.downcallHandle(
         "pango_renderer_draw_trapezoid",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
     );
@@ -222,7 +223,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * Draws a trapezoid with the parallel sides aligned with the X axis
      * using the given {@code PangoRenderer}; coordinates are in device space.
      */
-    public void drawTrapezoid(RenderPart part, double y1, double x11, double x21, double y2, double x12, double x22) {
+    public @NotNull void drawTrapezoid(@NotNull RenderPart part, @NotNull double y1, @NotNull double x11, @NotNull double x21, @NotNull double y2, @NotNull double x12, @NotNull double x22) {
         try {
             pango_renderer_draw_trapezoid.invokeExact(handle(), part.getValue(), y1, x11, x21, y2, x12, x22);
         } catch (Throwable ERR) {
@@ -230,7 +231,7 @@ public class Renderer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle pango_renderer_get_alpha = Interop.downcallHandle(
+    private static final MethodHandle pango_renderer_get_alpha = Interop.downcallHandle(
         "pango_renderer_get_alpha",
         FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -238,16 +239,17 @@ public class Renderer extends org.gtk.gobject.Object {
     /**
      * Gets the current alpha for the specified part.
      */
-    public short getAlpha(RenderPart part) {
+    public short getAlpha(@NotNull RenderPart part) {
+        short RESULT;
         try {
-            var RESULT = (short) pango_renderer_get_alpha.invokeExact(handle(), part.getValue());
-            return RESULT;
+            RESULT = (short) pango_renderer_get_alpha.invokeExact(handle(), part.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle pango_renderer_get_color = Interop.downcallHandle(
+    private static final MethodHandle pango_renderer_get_color = Interop.downcallHandle(
         "pango_renderer_get_color",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -255,16 +257,17 @@ public class Renderer extends org.gtk.gobject.Object {
     /**
      * Gets the current rendering color for the specified part.
      */
-    public Color getColor(RenderPart part) {
+    public @Nullable Color getColor(@NotNull RenderPart part) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_renderer_get_color.invokeExact(handle(), part.getValue());
-            return new Color(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) pango_renderer_get_color.invokeExact(handle(), part.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Color(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle pango_renderer_get_layout = Interop.downcallHandle(
+    private static final MethodHandle pango_renderer_get_layout = Interop.downcallHandle(
         "pango_renderer_get_layout",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -278,16 +281,17 @@ public class Renderer extends org.gtk.gobject.Object {
      * The returned layout should not be modified while still being
      * rendered.
      */
-    public Layout getLayout() {
+    public @Nullable Layout getLayout() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_renderer_get_layout.invokeExact(handle());
-            return new Layout(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) pango_renderer_get_layout.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Layout(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle pango_renderer_get_layout_line = Interop.downcallHandle(
+    private static final MethodHandle pango_renderer_get_layout_line = Interop.downcallHandle(
         "pango_renderer_get_layout_line",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -301,16 +305,17 @@ public class Renderer extends org.gtk.gobject.Object {
      * The returned layout line should not be modified while still being
      * rendered.
      */
-    public LayoutLine getLayoutLine() {
+    public @Nullable LayoutLine getLayoutLine() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_renderer_get_layout_line.invokeExact(handle());
-            return new LayoutLine(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) pango_renderer_get_layout_line.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new LayoutLine(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle pango_renderer_get_matrix = Interop.downcallHandle(
+    private static final MethodHandle pango_renderer_get_matrix = Interop.downcallHandle(
         "pango_renderer_get_matrix",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -321,16 +326,17 @@ public class Renderer extends org.gtk.gobject.Object {
      * <p>
      * See {@link Renderer#setMatrix}.
      */
-    public Matrix getMatrix() {
+    public @Nullable Matrix getMatrix() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_renderer_get_matrix.invokeExact(handle());
-            return new Matrix(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) pango_renderer_get_matrix.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Matrix(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle pango_renderer_part_changed = Interop.downcallHandle(
+    private static final MethodHandle pango_renderer_part_changed = Interop.downcallHandle(
         "pango_renderer_part_changed",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -343,7 +349,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * prevent multiple pieces being joined together into one drawing call.
      * For instance, if a subclass of {@code PangoRenderer} was to add a stipple
      * option for drawing underlines, it needs to call
-     * <p>
+     * 
      * <pre>{@code 
      * pango_renderer_part_changed (render, PANGO_RENDER_PART_UNDERLINE);
      * }</pre>
@@ -352,7 +358,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * might be joined together. Pango automatically calls this for
      * changes to colors. (See {@link Renderer#setColor})
      */
-    public void partChanged(RenderPart part) {
+    public @NotNull void partChanged(@NotNull RenderPart part) {
         try {
             pango_renderer_part_changed.invokeExact(handle(), part.getValue());
         } catch (Throwable ERR) {
@@ -360,7 +366,7 @@ public class Renderer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle pango_renderer_set_alpha = Interop.downcallHandle(
+    private static final MethodHandle pango_renderer_set_alpha = Interop.downcallHandle(
         "pango_renderer_set_alpha",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_SHORT)
     );
@@ -371,7 +377,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * Note that the alpha may only be used if a color is
      * specified for {@code part} as well.
      */
-    public void setAlpha(RenderPart part, short alpha) {
+    public @NotNull void setAlpha(@NotNull RenderPart part, @NotNull short alpha) {
         try {
             pango_renderer_set_alpha.invokeExact(handle(), part.getValue(), alpha);
         } catch (Throwable ERR) {
@@ -379,7 +385,7 @@ public class Renderer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle pango_renderer_set_color = Interop.downcallHandle(
+    private static final MethodHandle pango_renderer_set_color = Interop.downcallHandle(
         "pango_renderer_set_color",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -389,7 +395,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * <p>
      * Also see {@link Renderer#setAlpha}.
      */
-    public void setColor(RenderPart part, Color color) {
+    public @NotNull void setColor(@NotNull RenderPart part, @Nullable Color color) {
         try {
             pango_renderer_set_color.invokeExact(handle(), part.getValue(), color.handle());
         } catch (Throwable ERR) {
@@ -397,7 +403,7 @@ public class Renderer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle pango_renderer_set_matrix = Interop.downcallHandle(
+    private static final MethodHandle pango_renderer_set_matrix = Interop.downcallHandle(
         "pango_renderer_set_matrix",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -405,7 +411,7 @@ public class Renderer extends org.gtk.gobject.Object {
     /**
      * Sets the transformation matrix that will be applied when rendering.
      */
-    public void setMatrix(Matrix matrix) {
+    public @NotNull void setMatrix(@Nullable Matrix matrix) {
         try {
             pango_renderer_set_matrix.invokeExact(handle(), matrix.handle());
         } catch (Throwable ERR) {

@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link Menu} is a simple implementation of {@link MenuModel}.
@@ -25,7 +26,7 @@ public class Menu extends MenuModel {
         return new Menu(gobject.refcounted());
     }
     
-    static final MethodHandle g_menu_new = Interop.downcallHandle(
+    private static final MethodHandle g_menu_new = Interop.downcallHandle(
         "g_menu_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -48,7 +49,7 @@ public class Menu extends MenuModel {
         super(constructNew());
     }
     
-    static final MethodHandle g_menu_append = Interop.downcallHandle(
+    private static final MethodHandle g_menu_append = Interop.downcallHandle(
         "g_menu_append",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -58,15 +59,15 @@ public class Menu extends MenuModel {
      * {@code menu}.  Combine g_menu_item_new() and g_menu_insert_item() for a more
      * flexible alternative.
      */
-    public void append(java.lang.String label, java.lang.String detailedAction) {
+    public @NotNull void append(@Nullable java.lang.String label, @Nullable java.lang.String detailedAction) {
         try {
-            g_menu_append.invokeExact(handle(), Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(detailedAction).handle());
+            g_menu_append.invokeExact(handle(), Interop.allocateNativeString(label), Interop.allocateNativeString(detailedAction));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_menu_append_item = Interop.downcallHandle(
+    private static final MethodHandle g_menu_append_item = Interop.downcallHandle(
         "g_menu_append_item",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -76,7 +77,7 @@ public class Menu extends MenuModel {
      * <p>
      * See g_menu_insert_item() for more information.
      */
-    public void appendItem(MenuItem item) {
+    public @NotNull void appendItem(@NotNull MenuItem item) {
         try {
             g_menu_append_item.invokeExact(handle(), item.handle());
         } catch (Throwable ERR) {
@@ -84,7 +85,7 @@ public class Menu extends MenuModel {
         }
     }
     
-    static final MethodHandle g_menu_append_section = Interop.downcallHandle(
+    private static final MethodHandle g_menu_append_section = Interop.downcallHandle(
         "g_menu_append_section",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -94,15 +95,15 @@ public class Menu extends MenuModel {
      * {@code menu}.  Combine g_menu_item_new_section() and g_menu_insert_item() for a
      * more flexible alternative.
      */
-    public void appendSection(java.lang.String label, MenuModel section) {
+    public @NotNull void appendSection(@Nullable java.lang.String label, @NotNull MenuModel section) {
         try {
-            g_menu_append_section.invokeExact(handle(), Interop.allocateNativeString(label).handle(), section.handle());
+            g_menu_append_section.invokeExact(handle(), Interop.allocateNativeString(label), section.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_menu_append_submenu = Interop.downcallHandle(
+    private static final MethodHandle g_menu_append_submenu = Interop.downcallHandle(
         "g_menu_append_submenu",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -112,15 +113,15 @@ public class Menu extends MenuModel {
      * {@code menu}.  Combine g_menu_item_new_submenu() and g_menu_insert_item() for a
      * more flexible alternative.
      */
-    public void appendSubmenu(java.lang.String label, MenuModel submenu) {
+    public @NotNull void appendSubmenu(@Nullable java.lang.String label, @NotNull MenuModel submenu) {
         try {
-            g_menu_append_submenu.invokeExact(handle(), Interop.allocateNativeString(label).handle(), submenu.handle());
+            g_menu_append_submenu.invokeExact(handle(), Interop.allocateNativeString(label), submenu.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_menu_freeze = Interop.downcallHandle(
+    private static final MethodHandle g_menu_freeze = Interop.downcallHandle(
         "g_menu_freeze",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -135,7 +136,7 @@ public class Menu extends MenuModel {
      * This function causes g_menu_model_is_mutable() to begin returning
      * {@code false}, which has some positive performance implications.
      */
-    public void freeze() {
+    public @NotNull void freeze() {
         try {
             g_menu_freeze.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -143,7 +144,7 @@ public class Menu extends MenuModel {
         }
     }
     
-    static final MethodHandle g_menu_insert = Interop.downcallHandle(
+    private static final MethodHandle g_menu_insert = Interop.downcallHandle(
         "g_menu_insert",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -153,15 +154,15 @@ public class Menu extends MenuModel {
      * Combine g_menu_item_new() and g_menu_insert_item() for a more flexible
      * alternative.
      */
-    public void insert(int position, java.lang.String label, java.lang.String detailedAction) {
+    public @NotNull void insert(@NotNull int position, @Nullable java.lang.String label, @Nullable java.lang.String detailedAction) {
         try {
-            g_menu_insert.invokeExact(handle(), position, Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(detailedAction).handle());
+            g_menu_insert.invokeExact(handle(), position, Interop.allocateNativeString(label), Interop.allocateNativeString(detailedAction));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_menu_insert_item = Interop.downcallHandle(
+    private static final MethodHandle g_menu_insert_item = Interop.downcallHandle(
         "g_menu_insert_item",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -185,7 +186,7 @@ public class Menu extends MenuModel {
      * g_menu_insert_submenu() as well as "prepend" and "append" variants of
      * each of these functions.
      */
-    public void insertItem(int position, MenuItem item) {
+    public @NotNull void insertItem(@NotNull int position, @NotNull MenuItem item) {
         try {
             g_menu_insert_item.invokeExact(handle(), position, item.handle());
         } catch (Throwable ERR) {
@@ -193,7 +194,7 @@ public class Menu extends MenuModel {
         }
     }
     
-    static final MethodHandle g_menu_insert_section = Interop.downcallHandle(
+    private static final MethodHandle g_menu_insert_section = Interop.downcallHandle(
         "g_menu_insert_section",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -203,15 +204,15 @@ public class Menu extends MenuModel {
      * Combine g_menu_item_new_section() and g_menu_insert_item() for a more
      * flexible alternative.
      */
-    public void insertSection(int position, java.lang.String label, MenuModel section) {
+    public @NotNull void insertSection(@NotNull int position, @Nullable java.lang.String label, @NotNull MenuModel section) {
         try {
-            g_menu_insert_section.invokeExact(handle(), position, Interop.allocateNativeString(label).handle(), section.handle());
+            g_menu_insert_section.invokeExact(handle(), position, Interop.allocateNativeString(label), section.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_menu_insert_submenu = Interop.downcallHandle(
+    private static final MethodHandle g_menu_insert_submenu = Interop.downcallHandle(
         "g_menu_insert_submenu",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -221,15 +222,15 @@ public class Menu extends MenuModel {
      * Combine g_menu_item_new_submenu() and g_menu_insert_item() for a more
      * flexible alternative.
      */
-    public void insertSubmenu(int position, java.lang.String label, MenuModel submenu) {
+    public @NotNull void insertSubmenu(@NotNull int position, @Nullable java.lang.String label, @NotNull MenuModel submenu) {
         try {
-            g_menu_insert_submenu.invokeExact(handle(), position, Interop.allocateNativeString(label).handle(), submenu.handle());
+            g_menu_insert_submenu.invokeExact(handle(), position, Interop.allocateNativeString(label), submenu.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_menu_prepend = Interop.downcallHandle(
+    private static final MethodHandle g_menu_prepend = Interop.downcallHandle(
         "g_menu_prepend",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -239,15 +240,15 @@ public class Menu extends MenuModel {
      * of {@code menu}.  Combine g_menu_item_new() and g_menu_insert_item() for a more
      * flexible alternative.
      */
-    public void prepend(java.lang.String label, java.lang.String detailedAction) {
+    public @NotNull void prepend(@Nullable java.lang.String label, @Nullable java.lang.String detailedAction) {
         try {
-            g_menu_prepend.invokeExact(handle(), Interop.allocateNativeString(label).handle(), Interop.allocateNativeString(detailedAction).handle());
+            g_menu_prepend.invokeExact(handle(), Interop.allocateNativeString(label), Interop.allocateNativeString(detailedAction));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_menu_prepend_item = Interop.downcallHandle(
+    private static final MethodHandle g_menu_prepend_item = Interop.downcallHandle(
         "g_menu_prepend_item",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -257,7 +258,7 @@ public class Menu extends MenuModel {
      * <p>
      * See g_menu_insert_item() for more information.
      */
-    public void prependItem(MenuItem item) {
+    public @NotNull void prependItem(@NotNull MenuItem item) {
         try {
             g_menu_prepend_item.invokeExact(handle(), item.handle());
         } catch (Throwable ERR) {
@@ -265,7 +266,7 @@ public class Menu extends MenuModel {
         }
     }
     
-    static final MethodHandle g_menu_prepend_section = Interop.downcallHandle(
+    private static final MethodHandle g_menu_prepend_section = Interop.downcallHandle(
         "g_menu_prepend_section",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -275,15 +276,15 @@ public class Menu extends MenuModel {
      * of {@code menu}.  Combine g_menu_item_new_section() and g_menu_insert_item() for
      * a more flexible alternative.
      */
-    public void prependSection(java.lang.String label, MenuModel section) {
+    public @NotNull void prependSection(@Nullable java.lang.String label, @NotNull MenuModel section) {
         try {
-            g_menu_prepend_section.invokeExact(handle(), Interop.allocateNativeString(label).handle(), section.handle());
+            g_menu_prepend_section.invokeExact(handle(), Interop.allocateNativeString(label), section.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_menu_prepend_submenu = Interop.downcallHandle(
+    private static final MethodHandle g_menu_prepend_submenu = Interop.downcallHandle(
         "g_menu_prepend_submenu",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -293,15 +294,15 @@ public class Menu extends MenuModel {
      * of {@code menu}.  Combine g_menu_item_new_submenu() and g_menu_insert_item() for
      * a more flexible alternative.
      */
-    public void prependSubmenu(java.lang.String label, MenuModel submenu) {
+    public @NotNull void prependSubmenu(@Nullable java.lang.String label, @NotNull MenuModel submenu) {
         try {
-            g_menu_prepend_submenu.invokeExact(handle(), Interop.allocateNativeString(label).handle(), submenu.handle());
+            g_menu_prepend_submenu.invokeExact(handle(), Interop.allocateNativeString(label), submenu.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_menu_remove = Interop.downcallHandle(
+    private static final MethodHandle g_menu_remove = Interop.downcallHandle(
         "g_menu_remove",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -318,7 +319,7 @@ public class Menu extends MenuModel {
      * to the menu simply by copying their links and attributes (ie:
      * identity of the item itself is not preserved).
      */
-    public void remove(int position) {
+    public @NotNull void remove(@NotNull int position) {
         try {
             g_menu_remove.invokeExact(handle(), position);
         } catch (Throwable ERR) {
@@ -326,7 +327,7 @@ public class Menu extends MenuModel {
         }
     }
     
-    static final MethodHandle g_menu_remove_all = Interop.downcallHandle(
+    private static final MethodHandle g_menu_remove_all = Interop.downcallHandle(
         "g_menu_remove_all",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -334,7 +335,7 @@ public class Menu extends MenuModel {
     /**
      * Removes all items in the menu.
      */
-    public void removeAll() {
+    public @NotNull void removeAll() {
         try {
             g_menu_remove_all.invokeExact(handle());
         } catch (Throwable ERR) {

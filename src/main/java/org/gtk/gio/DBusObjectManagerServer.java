@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link DBusObjectManagerServer} is used to export {@link DBusObject} instances using
@@ -39,14 +40,14 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
         return new DBusObjectManagerServer(gobject.refcounted());
     }
     
-    static final MethodHandle g_dbus_object_manager_server_new = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_object_manager_server_new = Interop.downcallHandle(
         "g_dbus_object_manager_server_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(java.lang.String objectPath) {
+    private static Refcounted constructNew(@NotNull java.lang.String objectPath) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_object_manager_server_new.invokeExact(Interop.allocateNativeString(objectPath).handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_object_manager_server_new.invokeExact(Interop.allocateNativeString(objectPath)), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -62,11 +63,11 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
      * <a href="http://dbus.freedesktop.org/doc/dbus-specification.html#standard-interfaces-objectmanager">InterfacesAdded</a>
      * signals being emitted.
      */
-    public DBusObjectManagerServer(java.lang.String objectPath) {
+    public DBusObjectManagerServer(@NotNull java.lang.String objectPath) {
         super(constructNew(objectPath));
     }
     
-    static final MethodHandle g_dbus_object_manager_server_export = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_object_manager_server_export = Interop.downcallHandle(
         "g_dbus_object_manager_server_export",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -83,7 +84,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
      * Note that {@code manager} will take a reference on {@code object} for as long as
      * it is exported.
      */
-    public void export(DBusObjectSkeleton object) {
+    public @NotNull void export(@NotNull DBusObjectSkeleton object) {
         try {
             g_dbus_object_manager_server_export.invokeExact(handle(), object.handle());
         } catch (Throwable ERR) {
@@ -91,7 +92,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
         }
     }
     
-    static final MethodHandle g_dbus_object_manager_server_export_uniquely = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_object_manager_server_export_uniquely = Interop.downcallHandle(
         "g_dbus_object_manager_server_export_uniquely",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -102,7 +103,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
      * if an object with the given path already exists. As such, the
      * {@link DBusObjectProxy}:g-object-path property of {@code object} may be modified.
      */
-    public void exportUniquely(DBusObjectSkeleton object) {
+    public @NotNull void exportUniquely(@NotNull DBusObjectSkeleton object) {
         try {
             g_dbus_object_manager_server_export_uniquely.invokeExact(handle(), object.handle());
         } catch (Throwable ERR) {
@@ -110,7 +111,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
         }
     }
     
-    static final MethodHandle g_dbus_object_manager_server_get_connection = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_object_manager_server_get_connection = Interop.downcallHandle(
         "g_dbus_object_manager_server_get_connection",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -118,16 +119,17 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
     /**
      * Gets the {@link DBusConnection} used by {@code manager}.
      */
-    public DBusConnection getConnection() {
+    public @Nullable DBusConnection getConnection() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_dbus_object_manager_server_get_connection.invokeExact(handle());
-            return new DBusConnection(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_dbus_object_manager_server_get_connection.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new DBusConnection(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_dbus_object_manager_server_is_exported = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_object_manager_server_is_exported = Interop.downcallHandle(
         "g_dbus_object_manager_server_is_exported",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -135,16 +137,17 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
     /**
      * Returns whether {@code object} is currently exported on {@code manager}.
      */
-    public boolean isExported(DBusObjectSkeleton object) {
+    public boolean isExported(@NotNull DBusObjectSkeleton object) {
+        int RESULT;
         try {
-            var RESULT = (int) g_dbus_object_manager_server_is_exported.invokeExact(handle(), object.handle());
-            return RESULT != 0;
+            RESULT = (int) g_dbus_object_manager_server_is_exported.invokeExact(handle(), object.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_dbus_object_manager_server_set_connection = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_object_manager_server_set_connection = Interop.downcallHandle(
         "g_dbus_object_manager_server_set_connection",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -153,7 +156,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
      * Exports all objects managed by {@code manager} on {@code connection}. If
      * {@code connection} is {@code null}, stops exporting objects.
      */
-    public void setConnection(DBusConnection connection) {
+    public @NotNull void setConnection(@Nullable DBusConnection connection) {
         try {
             g_dbus_object_manager_server_set_connection.invokeExact(handle(), connection.handle());
         } catch (Throwable ERR) {
@@ -161,7 +164,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
         }
     }
     
-    static final MethodHandle g_dbus_object_manager_server_unexport = Interop.downcallHandle(
+    private static final MethodHandle g_dbus_object_manager_server_unexport = Interop.downcallHandle(
         "g_dbus_object_manager_server_unexport",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -173,13 +176,14 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
      * Note that {@code object_path} must be in the hierarchy rooted by the
      * object path for {@code manager}.
      */
-    public boolean unexport(java.lang.String objectPath) {
+    public boolean unexport(@NotNull java.lang.String objectPath) {
+        int RESULT;
         try {
-            var RESULT = (int) g_dbus_object_manager_server_unexport.invokeExact(handle(), Interop.allocateNativeString(objectPath).handle());
-            return RESULT != 0;
+            RESULT = (int) g_dbus_object_manager_server_unexport.invokeExact(handle(), Interop.allocateNativeString(objectPath));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
 }

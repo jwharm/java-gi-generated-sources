@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GtkShortcutsWindow} shows information about the keyboard shortcuts
@@ -18,9 +19,8 @@ import java.lang.invoke.*;
  * {@link Builder}, by populating a {@code GtkShortcutsWindow} with one or
  * more {@code GtkShortcutsSection} objects, which contain {@code GtkShortcutsGroups}
  * that in turn contain objects of class {@code GtkShortcutsShortcut}.
- * <p>
+ * 
  * <h1>A simple example:</h1>
- * <p>
  * ![](gedit-shortcuts.png)
  * <p>
  * This example has as single section. As you can see, the shortcut groups
@@ -28,18 +28,16 @@ import java.lang.invoke.*;
  * many to find on a single page.
  * <p>
  * The .ui file for this example can be found <a href="https://gitlab.gnome.org/GNOME/gtk/tree/main/demos/gtk-demo/shortcuts-gedit.ui">here</a>.
- * <p>
+ * 
  * <h1>An example with multiple views:</h1>
- * <p>
  * ![](clocks-shortcuts.png)
  * <p>
  * This example shows a {@code GtkShortcutsWindow} that has been configured to show only
  * the shortcuts relevant to the "stopwatch" view.
  * <p>
  * The .ui file for this example can be found <a href="https://gitlab.gnome.org/GNOME/gtk/tree/main/demos/gtk-demo/shortcuts-clocks.ui">here</a>.
- * <p>
+ * 
  * <h1>An example with multiple sections:</h1>
- * <p>
  * ![](builder-shortcuts.png)
  * <p>
  * This example shows a {@code GtkShortcutsWindow} with two sections, "Editor Shortcuts"
@@ -74,13 +72,13 @@ public class ShortcutsWindow extends Window implements Accessible, Buildable, Co
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("close").handle(),
+                Interop.allocateNativeString("close"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ShortcutsWindow.Callbacks.class, "signalShortcutsWindowClose",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -104,13 +102,13 @@ public class ShortcutsWindow extends Window implements Accessible, Buildable, Co
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("search").handle(),
+                Interop.allocateNativeString("search"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(ShortcutsWindow.Callbacks.class, "signalShortcutsWindowSearch",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

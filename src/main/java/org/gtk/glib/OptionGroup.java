@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GOptionGroup} struct defines the options in a single
@@ -19,14 +20,14 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_option_group_new = Interop.downcallHandle(
+    private static final MethodHandle g_option_group_new = Interop.downcallHandle(
         "g_option_group_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(java.lang.String name, java.lang.String description, java.lang.String helpDescription, java.lang.foreign.MemoryAddress userData, DestroyNotify destroy) {
+    private static Refcounted constructNew(@NotNull java.lang.String name, @NotNull java.lang.String description, @NotNull java.lang.String helpDescription, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable DestroyNotify destroy) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_option_group_new.invokeExact(Interop.allocateNativeString(name).handle(), Interop.allocateNativeString(description).handle(), Interop.allocateNativeString(helpDescription).handle(), userData, 
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_option_group_new.invokeExact(Interop.allocateNativeString(name), Interop.allocateNativeString(description), Interop.allocateNativeString(helpDescription), userData, 
                     Interop.cbDestroyNotifySymbol()), true);
             return RESULT;
         } catch (Throwable ERR) {
@@ -37,11 +38,11 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a new {@link OptionGroup}.
      */
-    public OptionGroup(java.lang.String name, java.lang.String description, java.lang.String helpDescription, java.lang.foreign.MemoryAddress userData, DestroyNotify destroy) {
+    public OptionGroup(@NotNull java.lang.String name, @NotNull java.lang.String description, @NotNull java.lang.String helpDescription, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable DestroyNotify destroy) {
         super(constructNew(name, description, helpDescription, userData, destroy));
     }
     
-    static final MethodHandle g_option_group_add_entries = Interop.downcallHandle(
+    private static final MethodHandle g_option_group_add_entries = Interop.downcallHandle(
         "g_option_group_add_entries",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -49,15 +50,15 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Adds the options specified in {@code entries} to {@code group}.
      */
-    public void addEntries(OptionEntry[] entries) {
+    public @NotNull void addEntries(@NotNull OptionEntry[] entries) {
         try {
-            g_option_group_add_entries.invokeExact(handle(), Interop.allocateNativeArray(entries).handle());
+            g_option_group_add_entries.invokeExact(handle(), Interop.allocateNativeArray(entries));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_option_group_ref = Interop.downcallHandle(
+    private static final MethodHandle g_option_group_ref = Interop.downcallHandle(
         "g_option_group_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -65,16 +66,17 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Increments the reference count of {@code group} by one.
      */
-    public OptionGroup ref() {
+    public @NotNull OptionGroup ref() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_option_group_ref.invokeExact(handle());
-            return new OptionGroup(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_option_group_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new OptionGroup(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_option_group_set_translate_func = Interop.downcallHandle(
+    private static final MethodHandle g_option_group_set_translate_func = Interop.downcallHandle(
         "g_option_group_set_translate_func",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -87,7 +89,7 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
      * If you are using gettext(), you only need to set the translation
      * domain, see g_option_group_set_translation_domain().
      */
-    public void setTranslateFunc(TranslateFunc func) {
+    public @NotNull void setTranslateFunc(@Nullable TranslateFunc func) {
         try {
             g_option_group_set_translate_func.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -95,14 +97,14 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)), 
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_option_group_set_translation_domain = Interop.downcallHandle(
+    private static final MethodHandle g_option_group_set_translation_domain = Interop.downcallHandle(
         "g_option_group_set_translation_domain",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -111,15 +113,15 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
      * A convenience function to use gettext() for translating
      * user-visible strings.
      */
-    public void setTranslationDomain(java.lang.String domain) {
+    public @NotNull void setTranslationDomain(@NotNull java.lang.String domain) {
         try {
-            g_option_group_set_translation_domain.invokeExact(handle(), Interop.allocateNativeString(domain).handle());
+            g_option_group_set_translation_domain.invokeExact(handle(), Interop.allocateNativeString(domain));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_option_group_unref = Interop.downcallHandle(
+    private static final MethodHandle g_option_group_unref = Interop.downcallHandle(
         "g_option_group_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -129,7 +131,7 @@ public class OptionGroup extends io.github.jwharm.javagi.ResourceBase {
      * If the reference count drops to 0, the {@code group} will be freed.
      * and all memory allocated by the {@code group} is released.
      */
-    public void unref() {
+    public @NotNull void unref() {
         try {
             g_option_group_unref.invokeExact(handle());
         } catch (Throwable ERR) {

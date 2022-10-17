@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@link Private} struct is an opaque data structure to represent a
@@ -29,7 +30,7 @@ public class Private extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_private_get = Interop.downcallHandle(
+    private static final MethodHandle g_private_get = Interop.downcallHandle(
         "g_private_get",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -41,16 +42,17 @@ public class Private extends io.github.jwharm.javagi.ResourceBase {
      * Values are never copied between threads (when a new thread is
      * created, for example).
      */
-    public java.lang.foreign.MemoryAddress get() {
+    public @Nullable java.lang.foreign.MemoryAddress get() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_private_get.invokeExact(handle());
-            return RESULT;
+            RESULT = (MemoryAddress) g_private_get.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_private_replace = Interop.downcallHandle(
+    private static final MethodHandle g_private_replace = Interop.downcallHandle(
         "g_private_replace",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -63,7 +65,7 @@ public class Private extends io.github.jwharm.javagi.ResourceBase {
      * the previous value was non-{@code null} then the {@link DestroyNotify} handler for
      * {@code key} is run on it.
      */
-    public void replace(java.lang.foreign.MemoryAddress value) {
+    public @NotNull void replace(@Nullable java.lang.foreign.MemoryAddress value) {
         try {
             g_private_replace.invokeExact(handle(), value);
         } catch (Throwable ERR) {
@@ -71,7 +73,7 @@ public class Private extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_private_set = Interop.downcallHandle(
+    private static final MethodHandle g_private_set = Interop.downcallHandle(
         "g_private_set",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -83,7 +85,7 @@ public class Private extends io.github.jwharm.javagi.ResourceBase {
      * This function differs from g_private_replace() in the following way:
      * the {@link DestroyNotify} for {@code key} is not called on the old value.
      */
-    public void set(java.lang.foreign.MemoryAddress value) {
+    public @NotNull void set(@Nullable java.lang.foreign.MemoryAddress value) {
         try {
             g_private_set.invokeExact(handle(), value);
         } catch (Throwable ERR) {

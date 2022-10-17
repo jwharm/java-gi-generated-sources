@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A socket address of some unknown native type.
@@ -18,12 +19,12 @@ public class NativeSocketAddress extends SocketAddress implements SocketConnecta
         return new NativeSocketAddress(gobject.refcounted());
     }
     
-    static final MethodHandle g_native_socket_address_new = Interop.downcallHandle(
+    private static final MethodHandle g_native_socket_address_new = Interop.downcallHandle(
         "g_native_socket_address_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
     
-    private static Refcounted constructNew(java.lang.foreign.MemoryAddress native_, long len) {
+    private static Refcounted constructNew(@Nullable java.lang.foreign.MemoryAddress native_, @NotNull long len) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_native_socket_address_new.invokeExact(native_, len), true);
             return RESULT;
@@ -35,7 +36,7 @@ public class NativeSocketAddress extends SocketAddress implements SocketConnecta
     /**
      * Creates a new {@link NativeSocketAddress} for {@code native} and {@code len}.
      */
-    public NativeSocketAddress(java.lang.foreign.MemoryAddress native_, long len) {
+    public NativeSocketAddress(@Nullable java.lang.foreign.MemoryAddress native_, @NotNull long len) {
         super(constructNew(native_, len));
     }
     

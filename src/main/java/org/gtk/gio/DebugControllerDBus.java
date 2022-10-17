@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link DebugControllerDBus} is an implementation of {@link DebugController} which exposes
@@ -123,12 +124,12 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements Debug
         return new DebugControllerDBus(gobject.refcounted());
     }
     
-    static final MethodHandle g_debug_controller_dbus_new = Interop.downcallHandle(
+    private static final MethodHandle g_debug_controller_dbus_new = Interop.downcallHandle(
         "g_debug_controller_dbus_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(DBusConnection connection, Cancellable cancellable) throws GErrorException {
+    private static Refcounted constructNew(@NotNull DBusConnection connection, @Nullable Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_debug_controller_dbus_new.invokeExact(connection.handle(), cancellable.handle(), (Addressable) GERROR), true);
@@ -150,11 +151,11 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements Debug
      * <p>
      * Initialization may fail if registering the object on {@code connection} fails.
      */
-    public DebugControllerDBus(DBusConnection connection, Cancellable cancellable) throws GErrorException {
+    public DebugControllerDBus(@NotNull DBusConnection connection, @Nullable Cancellable cancellable) throws GErrorException {
         super(constructNew(connection, cancellable));
     }
     
-    static final MethodHandle g_debug_controller_dbus_stop = Interop.downcallHandle(
+    private static final MethodHandle g_debug_controller_dbus_stop = Interop.downcallHandle(
         "g_debug_controller_dbus_stop",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -177,7 +178,7 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements Debug
      * Calling this method from within a {@link DebugControllerDBus}::authorize signal
      * handler will cause a deadlock and must not be done.
      */
-    public void stop() {
+    public @NotNull void stop() {
         try {
             g_debug_controller_dbus_stop.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -187,7 +188,7 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements Debug
     
     @FunctionalInterface
     public interface AuthorizeHandler {
-        boolean signalReceived(DebugControllerDBus source, DBusMethodInvocation invocation);
+        boolean signalReceived(DebugControllerDBus source, @NotNull DBusMethodInvocation invocation);
     }
     
     /**
@@ -213,13 +214,13 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements Debug
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("authorize").handle(),
+                Interop.allocateNativeString("authorize"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DebugControllerDBus.Callbacks.class, "signalDebugControllerDBusAuthorize",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

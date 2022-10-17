@@ -3,6 +3,7 @@ package org.gtk.gsk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A render node applying a blending function between its two child nodes.
@@ -18,12 +19,12 @@ public class BlendNode extends RenderNode {
         return new BlendNode(gobject.refcounted());
     }
     
-    static final MethodHandle gsk_blend_node_new = Interop.downcallHandle(
+    private static final MethodHandle gsk_blend_node_new = Interop.downcallHandle(
         "gsk_blend_node_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNew(RenderNode bottom, RenderNode top, BlendMode blendMode) {
+    private static Refcounted constructNew(@NotNull RenderNode bottom, @NotNull RenderNode top, @NotNull BlendMode blendMode) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_blend_node_new.invokeExact(bottom.handle(), top.handle(), blendMode.getValue()), true);
             return RESULT;
@@ -36,11 +37,11 @@ public class BlendNode extends RenderNode {
      * Creates a {@code GskRenderNode} that will use {@code blend_mode} to blend the {@code top}
      * node onto the {@code bottom} node.
      */
-    public BlendNode(RenderNode bottom, RenderNode top, BlendMode blendMode) {
+    public BlendNode(@NotNull RenderNode bottom, @NotNull RenderNode top, @NotNull BlendMode blendMode) {
         super(constructNew(bottom, top, blendMode));
     }
     
-    static final MethodHandle gsk_blend_node_get_blend_mode = Interop.downcallHandle(
+    private static final MethodHandle gsk_blend_node_get_blend_mode = Interop.downcallHandle(
         "gsk_blend_node_get_blend_mode",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -48,16 +49,17 @@ public class BlendNode extends RenderNode {
     /**
      * Retrieves the blend mode used by {@code node}.
      */
-    public BlendMode getBlendMode() {
+    public @NotNull BlendMode getBlendMode() {
+        int RESULT;
         try {
-            var RESULT = (int) gsk_blend_node_get_blend_mode.invokeExact(handle());
-            return new BlendMode(RESULT);
+            RESULT = (int) gsk_blend_node_get_blend_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new BlendMode(RESULT);
     }
     
-    static final MethodHandle gsk_blend_node_get_bottom_child = Interop.downcallHandle(
+    private static final MethodHandle gsk_blend_node_get_bottom_child = Interop.downcallHandle(
         "gsk_blend_node_get_bottom_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -65,16 +67,17 @@ public class BlendNode extends RenderNode {
     /**
      * Retrieves the bottom {@code GskRenderNode} child of the {@code node}.
      */
-    public RenderNode getBottomChild() {
+    public @NotNull RenderNode getBottomChild() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_blend_node_get_bottom_child.invokeExact(handle());
-            return new RenderNode(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gsk_blend_node_get_bottom_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new RenderNode(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gsk_blend_node_get_top_child = Interop.downcallHandle(
+    private static final MethodHandle gsk_blend_node_get_top_child = Interop.downcallHandle(
         "gsk_blend_node_get_top_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -82,13 +85,14 @@ public class BlendNode extends RenderNode {
     /**
      * Retrieves the top {@code GskRenderNode} child of the {@code node}.
      */
-    public RenderNode getTopChild() {
+    public @NotNull RenderNode getTopChild() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gsk_blend_node_get_top_child.invokeExact(handle());
-            return new RenderNode(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gsk_blend_node_get_top_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new RenderNode(Refcounted.get(RESULT, false));
     }
     
 }

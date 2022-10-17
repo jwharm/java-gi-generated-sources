@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The type of function that is used for deciding what fonts get
@@ -10,5 +11,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface FontFilterFunc {
-        boolean onFontFilterFunc(org.pango.FontFamily family, org.pango.FontFace face);
+        boolean onFontFilterFunc(@NotNull org.pango.FontFamily family, @NotNull org.pango.FontFace face);
 }

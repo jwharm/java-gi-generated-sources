@@ -1,6 +1,7 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@link WeakNotify} function can be added to an object as a callback that gets
@@ -17,5 +18,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface WeakNotify {
-        void onWeakNotify(Object whereTheObjectWas);
+        void onWeakNotify(@NotNull Object whereTheObjectWas);
 }

@@ -3,6 +3,7 @@ package org.pango;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@code PangoItem} structure stores information about a segment of text.
@@ -16,7 +17,7 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle pango_item_new = Interop.downcallHandle(
+    private static final MethodHandle pango_item_new = Interop.downcallHandle(
         "pango_item_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -37,7 +38,7 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew());
     }
     
-    static final MethodHandle pango_item_apply_attrs = Interop.downcallHandle(
+    private static final MethodHandle pango_item_apply_attrs = Interop.downcallHandle(
         "pango_item_apply_attrs",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -55,7 +56,7 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
      * in a loop over the items resulting from itemization, while passing
      * the iter to each call.
      */
-    public void applyAttrs(AttrIterator iter) {
+    public @NotNull void applyAttrs(@NotNull AttrIterator iter) {
         try {
             pango_item_apply_attrs.invokeExact(handle(), iter.handle());
         } catch (Throwable ERR) {
@@ -63,7 +64,7 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle pango_item_copy = Interop.downcallHandle(
+    private static final MethodHandle pango_item_copy = Interop.downcallHandle(
         "pango_item_copy",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -71,16 +72,17 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Copy an existing {@code PangoItem} structure.
      */
-    public Item copy() {
+    public @Nullable Item copy() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_item_copy.invokeExact(handle());
-            return new Item(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_item_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Item(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle pango_item_free = Interop.downcallHandle(
+    private static final MethodHandle pango_item_free = Interop.downcallHandle(
         "pango_item_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -88,7 +90,7 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Free a {@code PangoItem} and all associated memory.
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             pango_item_free.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -96,7 +98,7 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle pango_item_split = Interop.downcallHandle(
+    private static final MethodHandle pango_item_split = Interop.downcallHandle(
         "pango_item_split",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -115,13 +117,14 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
      * so {@code pango_item_split()} can't count the char length of the split items
      * itself.
      */
-    public Item split(int splitIndex, int splitOffset) {
+    public @NotNull Item split(@NotNull int splitIndex, @NotNull int splitOffset) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_item_split.invokeExact(handle(), splitIndex, splitOffset);
-            return new Item(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_item_split.invokeExact(handle(), splitIndex, splitOffset);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Item(Refcounted.get(RESULT, true));
     }
     
 }

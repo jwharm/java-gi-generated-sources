@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkIconView} is a widget which displays data in a grid of icons.
@@ -18,9 +19,8 @@ import java.lang.invoke.*;
  * opposed to a flat list where the mapping to icons is obvious),
  * {@code GtkIconView} will only display the first level of the tree and
  * ignore the tree’s branches.
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * <pre>{@code 
  * iconview.view
  * ╰── [rubberband]
@@ -40,7 +40,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         return new IconView(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_icon_view_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_new = Interop.downcallHandle(
         "gtk_icon_view_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -61,12 +61,12 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         super(constructNew());
     }
     
-    static final MethodHandle gtk_icon_view_new_with_area = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_new_with_area = Interop.downcallHandle(
         "gtk_icon_view_new_with_area",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewWithArea(CellArea area) {
+    private static Refcounted constructNewWithArea(@NotNull CellArea area) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_icon_view_new_with_area.invokeExact(area.handle()), false);
             return RESULT;
@@ -79,16 +79,16 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Creates a new {@code GtkIconView} widget using the
      * specified {@code area} to layout cells inside the icons.
      */
-    public static IconView newWithArea(CellArea area) {
+    public static IconView newWithArea(@NotNull CellArea area) {
         return new IconView(constructNewWithArea(area));
     }
     
-    static final MethodHandle gtk_icon_view_new_with_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_new_with_model = Interop.downcallHandle(
         "gtk_icon_view_new_with_model",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewWithModel(TreeModel model) {
+    private static Refcounted constructNewWithModel(@NotNull TreeModel model) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_icon_view_new_with_model.invokeExact(model.handle()), false);
             return RESULT;
@@ -100,11 +100,11 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * Creates a new {@code GtkIconView} widget with the model {@code model}.
      */
-    public static IconView newWithModel(TreeModel model) {
+    public static IconView newWithModel(@NotNull TreeModel model) {
         return new IconView(constructNewWithModel(model));
     }
     
-    static final MethodHandle gtk_icon_view_create_drag_icon = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_create_drag_icon = Interop.downcallHandle(
         "gtk_icon_view_create_drag_icon",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -113,16 +113,17 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Creates a {@code GdkPaintable} representation of the item at {@code path}.
      * This image is used for a drag icon.
      */
-    public org.gtk.gdk.Paintable createDragIcon(TreePath path) {
+    public @Nullable org.gtk.gdk.Paintable createDragIcon(@NotNull TreePath path) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_icon_view_create_drag_icon.invokeExact(handle(), path.handle());
-            return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_icon_view_create_drag_icon.invokeExact(handle(), path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_icon_view_enable_model_drag_dest = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_enable_model_drag_dest = Interop.downcallHandle(
         "gtk_icon_view_enable_model_drag_dest",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -131,7 +132,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Turns {@code icon_view} into a drop destination for automatic DND. Calling this
      * method sets {@code GtkIconView}:reorderable to {@code false}.
      */
-    public void enableModelDragDest(org.gtk.gdk.ContentFormats formats, org.gtk.gdk.DragAction actions) {
+    public @NotNull void enableModelDragDest(@NotNull org.gtk.gdk.ContentFormats formats, @NotNull org.gtk.gdk.DragAction actions) {
         try {
             gtk_icon_view_enable_model_drag_dest.invokeExact(handle(), formats.handle(), actions.getValue());
         } catch (Throwable ERR) {
@@ -139,7 +140,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_enable_model_drag_source = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_enable_model_drag_source = Interop.downcallHandle(
         "gtk_icon_view_enable_model_drag_source",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -148,7 +149,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Turns {@code icon_view} into a drag source for automatic DND. Calling this
      * method sets {@code GtkIconView}:reorderable to {@code false}.
      */
-    public void enableModelDragSource(org.gtk.gdk.ModifierType startButtonMask, org.gtk.gdk.ContentFormats formats, org.gtk.gdk.DragAction actions) {
+    public @NotNull void enableModelDragSource(@NotNull org.gtk.gdk.ModifierType startButtonMask, @NotNull org.gtk.gdk.ContentFormats formats, @NotNull org.gtk.gdk.DragAction actions) {
         try {
             gtk_icon_view_enable_model_drag_source.invokeExact(handle(), startButtonMask.getValue(), formats.handle(), actions.getValue());
         } catch (Throwable ERR) {
@@ -156,7 +157,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_get_activate_on_single_click = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_activate_on_single_click = Interop.downcallHandle(
         "gtk_icon_view_get_activate_on_single_click",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -165,15 +166,16 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Gets the setting set by gtk_icon_view_set_activate_on_single_click().
      */
     public boolean getActivateOnSingleClick() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_icon_view_get_activate_on_single_click.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_icon_view_get_activate_on_single_click.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_icon_view_get_cell_rect = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_cell_rect = Interop.downcallHandle(
         "gtk_icon_view_get_cell_rect",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -184,16 +186,19 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * <p>
      * This function is only valid if {@code icon_view} is realized.
      */
-    public boolean getCellRect(TreePath path, CellRenderer cell, org.gtk.gdk.Rectangle rect) {
+    public boolean getCellRect(@NotNull TreePath path, @Nullable CellRenderer cell, @NotNull Out<org.gtk.gdk.Rectangle> rect) {
+        MemorySegment rectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_icon_view_get_cell_rect.invokeExact(handle(), path.handle(), cell.handle(), rect.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_icon_view_get_cell_rect.invokeExact(handle(), path.handle(), cell.handle(), (Addressable) rectPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        rect.set(new org.gtk.gdk.Rectangle(Refcounted.get(rectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_icon_view_get_column_spacing = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_column_spacing = Interop.downcallHandle(
         "gtk_icon_view_get_column_spacing",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -202,15 +207,16 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Returns the value of the ::column-spacing property.
      */
     public int getColumnSpacing() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_icon_view_get_column_spacing.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_icon_view_get_column_spacing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_icon_view_get_columns = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_columns = Interop.downcallHandle(
         "gtk_icon_view_get_columns",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -219,15 +225,16 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Returns the value of the ::columns property.
      */
     public int getColumns() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_icon_view_get_columns.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_icon_view_get_columns.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_icon_view_get_cursor = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_cursor = Interop.downcallHandle(
         "gtk_icon_view_get_cursor",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -239,16 +246,21 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * <p>
      * The returned {@code GtkTreePath} must be freed with gtk_tree_path_free().
      */
-    public boolean getCursor(PointerProxy<TreePath> path, PointerProxy<CellRenderer> cell) {
+    public boolean getCursor(@NotNull Out<TreePath> path, @NotNull Out<CellRenderer> cell) {
+        MemorySegment pathPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment cellPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_icon_view_get_cursor.invokeExact(handle(), path.handle(), cell.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_icon_view_get_cursor.invokeExact(handle(), (Addressable) pathPOINTER.address(), (Addressable) cellPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        path.set(new TreePath(Refcounted.get(pathPOINTER.get(ValueLayout.ADDRESS, 0), true)));
+        cell.set(new CellRenderer(Refcounted.get(cellPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_icon_view_get_dest_item_at_pos = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_dest_item_at_pos = Interop.downcallHandle(
         "gtk_icon_view_get_dest_item_at_pos",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -256,16 +268,21 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * Determines the destination item for a given position.
      */
-    public boolean getDestItemAtPos(int dragX, int dragY, PointerProxy<TreePath> path, IconViewDropPosition pos) {
+    public boolean getDestItemAtPos(@NotNull int dragX, @NotNull int dragY, @NotNull Out<TreePath> path, @NotNull Out<IconViewDropPosition> pos) {
+        MemorySegment pathPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment posPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_icon_view_get_dest_item_at_pos.invokeExact(handle(), dragX, dragY, path.handle(), new PointerInteger(pos.getValue()).handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_icon_view_get_dest_item_at_pos.invokeExact(handle(), dragX, dragY, (Addressable) pathPOINTER.address(), (Addressable) posPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        path.set(new TreePath(Refcounted.get(pathPOINTER.get(ValueLayout.ADDRESS, 0), true)));
+        pos.set(new IconViewDropPosition(posPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_icon_view_get_drag_dest_item = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_drag_dest_item = Interop.downcallHandle(
         "gtk_icon_view_get_drag_dest_item",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -273,15 +290,19 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * Gets information about the item that is highlighted for feedback.
      */
-    public void getDragDestItem(PointerProxy<TreePath> path, IconViewDropPosition pos) {
+    public @NotNull void getDragDestItem(@Nullable Out<TreePath> path, @NotNull Out<IconViewDropPosition> pos) {
+        MemorySegment pathPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment posPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gtk_icon_view_get_drag_dest_item.invokeExact(handle(), path.handle(), new PointerInteger(pos.getValue()).handle());
+            gtk_icon_view_get_drag_dest_item.invokeExact(handle(), (Addressable) pathPOINTER.address(), (Addressable) posPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        path.set(new TreePath(Refcounted.get(pathPOINTER.get(ValueLayout.ADDRESS, 0), true)));
+        pos.set(new IconViewDropPosition(posPOINTER.get(ValueLayout.JAVA_INT, 0)));
     }
     
-    static final MethodHandle gtk_icon_view_get_item_at_pos = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_item_at_pos = Interop.downcallHandle(
         "gtk_icon_view_get_item_at_pos",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -289,16 +310,21 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * Gets the path and cell for the icon at the given position.
      */
-    public boolean getItemAtPos(int x, int y, PointerProxy<TreePath> path, PointerProxy<CellRenderer> cell) {
+    public boolean getItemAtPos(@NotNull int x, @NotNull int y, @NotNull Out<TreePath> path, @NotNull Out<CellRenderer> cell) {
+        MemorySegment pathPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment cellPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_icon_view_get_item_at_pos.invokeExact(handle(), x, y, path.handle(), cell.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_icon_view_get_item_at_pos.invokeExact(handle(), x, y, (Addressable) pathPOINTER.address(), (Addressable) cellPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        path.set(new TreePath(Refcounted.get(pathPOINTER.get(ValueLayout.ADDRESS, 0), true)));
+        cell.set(new CellRenderer(Refcounted.get(cellPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_icon_view_get_item_column = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_item_column = Interop.downcallHandle(
         "gtk_icon_view_get_item_column",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -307,16 +333,17 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Gets the column in which the item {@code path} is currently
      * displayed. Column numbers start at 0.
      */
-    public int getItemColumn(TreePath path) {
+    public int getItemColumn(@NotNull TreePath path) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_icon_view_get_item_column.invokeExact(handle(), path.handle());
-            return RESULT;
+            RESULT = (int) gtk_icon_view_get_item_column.invokeExact(handle(), path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_icon_view_get_item_orientation = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_item_orientation = Interop.downcallHandle(
         "gtk_icon_view_get_item_orientation",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -325,16 +352,17 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Returns the value of the ::item-orientation property which determines
      * whether the labels are drawn beside the icons instead of below.
      */
-    public Orientation getItemOrientation() {
+    public @NotNull Orientation getItemOrientation() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_icon_view_get_item_orientation.invokeExact(handle());
-            return new Orientation(RESULT);
+            RESULT = (int) gtk_icon_view_get_item_orientation.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Orientation(RESULT);
     }
     
-    static final MethodHandle gtk_icon_view_get_item_padding = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_item_padding = Interop.downcallHandle(
         "gtk_icon_view_get_item_padding",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -343,15 +371,16 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Returns the value of the ::item-padding property.
      */
     public int getItemPadding() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_icon_view_get_item_padding.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_icon_view_get_item_padding.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_icon_view_get_item_row = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_item_row = Interop.downcallHandle(
         "gtk_icon_view_get_item_row",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -360,16 +389,17 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Gets the row in which the item {@code path} is currently
      * displayed. Row numbers start at 0.
      */
-    public int getItemRow(TreePath path) {
+    public int getItemRow(@NotNull TreePath path) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_icon_view_get_item_row.invokeExact(handle(), path.handle());
-            return RESULT;
+            RESULT = (int) gtk_icon_view_get_item_row.invokeExact(handle(), path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_icon_view_get_item_width = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_item_width = Interop.downcallHandle(
         "gtk_icon_view_get_item_width",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -378,15 +408,16 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Returns the value of the ::item-width property.
      */
     public int getItemWidth() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_icon_view_get_item_width.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_icon_view_get_item_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_icon_view_get_margin = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_margin = Interop.downcallHandle(
         "gtk_icon_view_get_margin",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -395,15 +426,16 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Returns the value of the ::margin property.
      */
     public int getMargin() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_icon_view_get_margin.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_icon_view_get_margin.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_icon_view_get_markup_column = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_markup_column = Interop.downcallHandle(
         "gtk_icon_view_get_markup_column",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -412,15 +444,16 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Returns the column with markup text for {@code icon_view}.
      */
     public int getMarkupColumn() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_icon_view_get_markup_column.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_icon_view_get_markup_column.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_icon_view_get_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_model = Interop.downcallHandle(
         "gtk_icon_view_get_model",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -429,16 +462,17 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Returns the model the {@code GtkIconView} is based on.  Returns {@code null} if the
      * model is unset.
      */
-    public TreeModel getModel() {
+    public @Nullable TreeModel getModel() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_icon_view_get_model.invokeExact(handle());
-            return new TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_icon_view_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_icon_view_get_path_at_pos = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_path_at_pos = Interop.downcallHandle(
         "gtk_icon_view_get_path_at_pos",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -446,16 +480,17 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * Gets the path for the icon at the given position.
      */
-    public TreePath getPathAtPos(int x, int y) {
+    public @Nullable TreePath getPathAtPos(@NotNull int x, @NotNull int y) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_icon_view_get_path_at_pos.invokeExact(handle(), x, y);
-            return new TreePath(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_icon_view_get_path_at_pos.invokeExact(handle(), x, y);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TreePath(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_icon_view_get_pixbuf_column = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_pixbuf_column = Interop.downcallHandle(
         "gtk_icon_view_get_pixbuf_column",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -464,15 +499,16 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Returns the column with pixbufs for {@code icon_view}.
      */
     public int getPixbufColumn() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_icon_view_get_pixbuf_column.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_icon_view_get_pixbuf_column.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_icon_view_get_reorderable = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_reorderable = Interop.downcallHandle(
         "gtk_icon_view_get_reorderable",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -482,15 +518,16 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * See gtk_icon_view_set_reorderable().
      */
     public boolean getReorderable() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_icon_view_get_reorderable.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_icon_view_get_reorderable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_icon_view_get_row_spacing = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_row_spacing = Interop.downcallHandle(
         "gtk_icon_view_get_row_spacing",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -499,15 +536,16 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Returns the value of the ::row-spacing property.
      */
     public int getRowSpacing() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_icon_view_get_row_spacing.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_icon_view_get_row_spacing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_icon_view_get_selected_items = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_selected_items = Interop.downcallHandle(
         "gtk_icon_view_get_selected_items",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -530,16 +568,17 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * g_list_free_full (list, (GDestroyNotify) gtk_tree_path_free);
      * }</pre>
      */
-    public org.gtk.glib.List getSelectedItems() {
+    public @NotNull org.gtk.glib.List getSelectedItems() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_icon_view_get_selected_items.invokeExact(handle());
-            return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_icon_view_get_selected_items.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_icon_view_get_selection_mode = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_selection_mode = Interop.downcallHandle(
         "gtk_icon_view_get_selection_mode",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -547,16 +586,17 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * Gets the selection mode of the {@code icon_view}.
      */
-    public SelectionMode getSelectionMode() {
+    public @NotNull SelectionMode getSelectionMode() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_icon_view_get_selection_mode.invokeExact(handle());
-            return new SelectionMode(RESULT);
+            RESULT = (int) gtk_icon_view_get_selection_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new SelectionMode(RESULT);
     }
     
-    static final MethodHandle gtk_icon_view_get_spacing = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_spacing = Interop.downcallHandle(
         "gtk_icon_view_get_spacing",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -565,15 +605,16 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Returns the value of the ::spacing property.
      */
     public int getSpacing() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_icon_view_get_spacing.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_icon_view_get_spacing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_icon_view_get_text_column = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_text_column = Interop.downcallHandle(
         "gtk_icon_view_get_text_column",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -582,15 +623,16 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Returns the column with text for {@code icon_view}.
      */
     public int getTextColumn() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_icon_view_get_text_column.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_icon_view_get_text_column.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_icon_view_get_tooltip_column = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_tooltip_column = Interop.downcallHandle(
         "gtk_icon_view_get_tooltip_column",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -600,15 +642,16 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * displaying tooltips on {@code icon_view}’s rows.
      */
     public int getTooltipColumn() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_icon_view_get_tooltip_column.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_icon_view_get_tooltip_column.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_icon_view_get_tooltip_context = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_tooltip_context = Interop.downcallHandle(
         "gtk_icon_view_get_tooltip_context",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -625,16 +668,23 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * {@code model}, {@code path} and {@code iter} which have been provided will be set to point to
      * that row and the corresponding model.
      */
-    public boolean getTooltipContext(int x, int y, boolean keyboardTip, PointerProxy<TreeModel> model, PointerProxy<TreePath> path, TreeIter iter) {
+    public boolean getTooltipContext(@NotNull int x, @NotNull int y, @NotNull boolean keyboardTip, @NotNull Out<TreeModel> model, @NotNull Out<TreePath> path, @NotNull Out<TreeIter> iter) {
+        MemorySegment modelPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment pathPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_icon_view_get_tooltip_context.invokeExact(handle(), x, y, keyboardTip ? 1 : 0, model.handle(), path.handle(), iter.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_icon_view_get_tooltip_context.invokeExact(handle(), x, y, keyboardTip ? 1 : 0, (Addressable) modelPOINTER.address(), (Addressable) pathPOINTER.address(), (Addressable) iterPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        model.set(new TreeModel.TreeModelImpl(Refcounted.get(modelPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        path.set(new TreePath(Refcounted.get(pathPOINTER.get(ValueLayout.ADDRESS, 0), true)));
+        iter.set(new TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_icon_view_get_visible_range = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_get_visible_range = Interop.downcallHandle(
         "gtk_icon_view_get_visible_range",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -645,16 +695,21 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * <p>
      * Both paths should be freed with gtk_tree_path_free() after use.
      */
-    public boolean getVisibleRange(PointerProxy<TreePath> startPath, PointerProxy<TreePath> endPath) {
+    public boolean getVisibleRange(@NotNull Out<TreePath> startPath, @NotNull Out<TreePath> endPath) {
+        MemorySegment startPathPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment endPathPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_icon_view_get_visible_range.invokeExact(handle(), startPath.handle(), endPath.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_icon_view_get_visible_range.invokeExact(handle(), (Addressable) startPathPOINTER.address(), (Addressable) endPathPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        startPath.set(new TreePath(Refcounted.get(startPathPOINTER.get(ValueLayout.ADDRESS, 0), true)));
+        endPath.set(new TreePath(Refcounted.get(endPathPOINTER.get(ValueLayout.ADDRESS, 0), true)));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_icon_view_item_activated = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_item_activated = Interop.downcallHandle(
         "gtk_icon_view_item_activated",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -662,7 +717,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * Activates the item determined by {@code path}.
      */
-    public void itemActivated(TreePath path) {
+    public @NotNull void itemActivated(@NotNull TreePath path) {
         try {
             gtk_icon_view_item_activated.invokeExact(handle(), path.handle());
         } catch (Throwable ERR) {
@@ -670,7 +725,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_path_is_selected = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_path_is_selected = Interop.downcallHandle(
         "gtk_icon_view_path_is_selected",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -679,16 +734,17 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Returns {@code true} if the icon pointed to by {@code path} is currently
      * selected. If {@code path} does not point to a valid location, {@code false} is returned.
      */
-    public boolean pathIsSelected(TreePath path) {
+    public boolean pathIsSelected(@NotNull TreePath path) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_icon_view_path_is_selected.invokeExact(handle(), path.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_icon_view_path_is_selected.invokeExact(handle(), path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_icon_view_scroll_to_path = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_scroll_to_path = Interop.downcallHandle(
         "gtk_icon_view_scroll_to_path",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
     );
@@ -709,7 +765,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * the model. If the model changes before the {@code icon_view} is realized, the
      * centered path will be modified to reflect this change.
      */
-    public void scrollToPath(TreePath path, boolean useAlign, float rowAlign, float colAlign) {
+    public @NotNull void scrollToPath(@NotNull TreePath path, @NotNull boolean useAlign, @NotNull float rowAlign, @NotNull float colAlign) {
         try {
             gtk_icon_view_scroll_to_path.invokeExact(handle(), path.handle(), useAlign ? 1 : 0, rowAlign, colAlign);
         } catch (Throwable ERR) {
@@ -717,7 +773,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_select_all = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_select_all = Interop.downcallHandle(
         "gtk_icon_view_select_all",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -726,7 +782,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Selects all the icons. {@code icon_view} must has its selection mode set
      * to {@link SelectionMode#MULTIPLE}.
      */
-    public void selectAll() {
+    public @NotNull void selectAll() {
         try {
             gtk_icon_view_select_all.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -734,7 +790,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_select_path = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_select_path = Interop.downcallHandle(
         "gtk_icon_view_select_path",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -742,7 +798,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * Selects the row at {@code path}.
      */
-    public void selectPath(TreePath path) {
+    public @NotNull void selectPath(@NotNull TreePath path) {
         try {
             gtk_icon_view_select_path.invokeExact(handle(), path.handle());
         } catch (Throwable ERR) {
@@ -750,7 +806,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_selected_foreach = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_selected_foreach = Interop.downcallHandle(
         "gtk_icon_view_selected_foreach",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -759,7 +815,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Calls a function for each selected icon. Note that the model or
      * selection cannot be modified from within this function.
      */
-    public void selectedForeach(IconViewForeachFunc func) {
+    public @NotNull void selectedForeach(@NotNull IconViewForeachFunc func) {
         try {
             gtk_icon_view_selected_foreach.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -767,13 +823,13 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_icon_view_set_activate_on_single_click = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_set_activate_on_single_click = Interop.downcallHandle(
         "gtk_icon_view_set_activate_on_single_click",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -782,7 +838,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Causes the {@code GtkIconView}::item-activated signal to be emitted on
      * a single click instead of a double click.
      */
-    public void setActivateOnSingleClick(boolean single) {
+    public @NotNull void setActivateOnSingleClick(@NotNull boolean single) {
         try {
             gtk_icon_view_set_activate_on_single_click.invokeExact(handle(), single ? 1 : 0);
         } catch (Throwable ERR) {
@@ -790,7 +846,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_set_column_spacing = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_set_column_spacing = Interop.downcallHandle(
         "gtk_icon_view_set_column_spacing",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -799,7 +855,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Sets the ::column-spacing property which specifies the space
      * which is inserted between the columns of the icon view.
      */
-    public void setColumnSpacing(int columnSpacing) {
+    public @NotNull void setColumnSpacing(@NotNull int columnSpacing) {
         try {
             gtk_icon_view_set_column_spacing.invokeExact(handle(), columnSpacing);
         } catch (Throwable ERR) {
@@ -807,7 +863,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_set_columns = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_set_columns = Interop.downcallHandle(
         "gtk_icon_view_set_columns",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -818,7 +874,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * -1, the number of columns will be chosen automatically
      * to fill the available area.
      */
-    public void setColumns(int columns) {
+    public @NotNull void setColumns(@NotNull int columns) {
         try {
             gtk_icon_view_set_columns.invokeExact(handle(), columns);
         } catch (Throwable ERR) {
@@ -826,7 +882,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_set_cursor = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_set_cursor = Interop.downcallHandle(
         "gtk_icon_view_set_cursor",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -842,7 +898,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * (icon_view)} in order to give keyboard focus to the widget.
      * Please note that editing can only happen when the widget is realized.
      */
-    public void setCursor(TreePath path, CellRenderer cell, boolean startEditing) {
+    public @NotNull void setCursor(@NotNull TreePath path, @Nullable CellRenderer cell, @NotNull boolean startEditing) {
         try {
             gtk_icon_view_set_cursor.invokeExact(handle(), path.handle(), cell.handle(), startEditing ? 1 : 0);
         } catch (Throwable ERR) {
@@ -850,7 +906,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_set_drag_dest_item = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_set_drag_dest_item = Interop.downcallHandle(
         "gtk_icon_view_set_drag_dest_item",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -858,7 +914,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * Sets the item that is highlighted for feedback.
      */
-    public void setDragDestItem(TreePath path, IconViewDropPosition pos) {
+    public @NotNull void setDragDestItem(@Nullable TreePath path, @NotNull IconViewDropPosition pos) {
         try {
             gtk_icon_view_set_drag_dest_item.invokeExact(handle(), path.handle(), pos.getValue());
         } catch (Throwable ERR) {
@@ -866,7 +922,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_set_item_orientation = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_set_item_orientation = Interop.downcallHandle(
         "gtk_icon_view_set_item_orientation",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -875,7 +931,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Sets the ::item-orientation property which determines whether the labels
      * are drawn beside the icons instead of below.
      */
-    public void setItemOrientation(Orientation orientation) {
+    public @NotNull void setItemOrientation(@NotNull Orientation orientation) {
         try {
             gtk_icon_view_set_item_orientation.invokeExact(handle(), orientation.getValue());
         } catch (Throwable ERR) {
@@ -883,7 +939,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_set_item_padding = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_set_item_padding = Interop.downcallHandle(
         "gtk_icon_view_set_item_padding",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -892,7 +948,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Sets the {@code GtkIconView}:item-padding property which specifies the padding
      * around each of the icon view’s items.
      */
-    public void setItemPadding(int itemPadding) {
+    public @NotNull void setItemPadding(@NotNull int itemPadding) {
         try {
             gtk_icon_view_set_item_padding.invokeExact(handle(), itemPadding);
         } catch (Throwable ERR) {
@@ -900,7 +956,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_set_item_width = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_set_item_width = Interop.downcallHandle(
         "gtk_icon_view_set_item_width",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -910,7 +966,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * to use for each item. If it is set to -1, the icon view will
      * automatically determine a suitable item size.
      */
-    public void setItemWidth(int itemWidth) {
+    public @NotNull void setItemWidth(@NotNull int itemWidth) {
         try {
             gtk_icon_view_set_item_width.invokeExact(handle(), itemWidth);
         } catch (Throwable ERR) {
@@ -918,7 +974,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_set_margin = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_set_margin = Interop.downcallHandle(
         "gtk_icon_view_set_margin",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -928,7 +984,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * which is inserted at the top, bottom, left and right
      * of the icon view.
      */
-    public void setMargin(int margin) {
+    public @NotNull void setMargin(@NotNull int margin) {
         try {
             gtk_icon_view_set_margin.invokeExact(handle(), margin);
         } catch (Throwable ERR) {
@@ -936,7 +992,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_set_markup_column = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_set_markup_column = Interop.downcallHandle(
         "gtk_icon_view_set_markup_column",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -947,7 +1003,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * If the markup column is set to something, it overrides
      * the text column set by gtk_icon_view_set_text_column().
      */
-    public void setMarkupColumn(int column) {
+    public @NotNull void setMarkupColumn(@NotNull int column) {
         try {
             gtk_icon_view_set_markup_column.invokeExact(handle(), column);
         } catch (Throwable ERR) {
@@ -955,7 +1011,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_set_model = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_set_model = Interop.downcallHandle(
         "gtk_icon_view_set_model",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -966,7 +1022,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * it before setting the new model.  If {@code model} is {@code null}, then
      * it will unset the old model.
      */
-    public void setModel(TreeModel model) {
+    public @NotNull void setModel(@Nullable TreeModel model) {
         try {
             gtk_icon_view_set_model.invokeExact(handle(), model.handle());
         } catch (Throwable ERR) {
@@ -974,7 +1030,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_set_pixbuf_column = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_set_pixbuf_column = Interop.downcallHandle(
         "gtk_icon_view_set_pixbuf_column",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -983,7 +1039,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Sets the column with pixbufs for {@code icon_view} to be {@code column}. The pixbuf
      * column must be of type {@code GDK_TYPE_PIXBUF}
      */
-    public void setPixbufColumn(int column) {
+    public @NotNull void setPixbufColumn(@NotNull int column) {
         try {
             gtk_icon_view_set_pixbuf_column.invokeExact(handle(), column);
         } catch (Throwable ERR) {
@@ -991,7 +1047,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_set_reorderable = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_set_reorderable = Interop.downcallHandle(
         "gtk_icon_view_set_reorderable",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1010,7 +1066,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * reordering is allowed.  If more control is needed, you should probably
      * handle drag and drop manually.
      */
-    public void setReorderable(boolean reorderable) {
+    public @NotNull void setReorderable(@NotNull boolean reorderable) {
         try {
             gtk_icon_view_set_reorderable.invokeExact(handle(), reorderable ? 1 : 0);
         } catch (Throwable ERR) {
@@ -1018,7 +1074,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_set_row_spacing = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_set_row_spacing = Interop.downcallHandle(
         "gtk_icon_view_set_row_spacing",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1027,7 +1083,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Sets the ::row-spacing property which specifies the space
      * which is inserted between the rows of the icon view.
      */
-    public void setRowSpacing(int rowSpacing) {
+    public @NotNull void setRowSpacing(@NotNull int rowSpacing) {
         try {
             gtk_icon_view_set_row_spacing.invokeExact(handle(), rowSpacing);
         } catch (Throwable ERR) {
@@ -1035,7 +1091,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_set_selection_mode = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_set_selection_mode = Interop.downcallHandle(
         "gtk_icon_view_set_selection_mode",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1043,7 +1099,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * Sets the selection mode of the {@code icon_view}.
      */
-    public void setSelectionMode(SelectionMode mode) {
+    public @NotNull void setSelectionMode(@NotNull SelectionMode mode) {
         try {
             gtk_icon_view_set_selection_mode.invokeExact(handle(), mode.getValue());
         } catch (Throwable ERR) {
@@ -1051,7 +1107,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_set_spacing = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_set_spacing = Interop.downcallHandle(
         "gtk_icon_view_set_spacing",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1061,7 +1117,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * which is inserted between the cells (i.e. the icon and
      * the text) of an item.
      */
-    public void setSpacing(int spacing) {
+    public @NotNull void setSpacing(@NotNull int spacing) {
         try {
             gtk_icon_view_set_spacing.invokeExact(handle(), spacing);
         } catch (Throwable ERR) {
@@ -1069,7 +1125,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_set_text_column = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_set_text_column = Interop.downcallHandle(
         "gtk_icon_view_set_text_column",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1078,7 +1134,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Sets the column with text for {@code icon_view} to be {@code column}. The text
      * column must be of type {@code G_TYPE_STRING}.
      */
-    public void setTextColumn(int column) {
+    public @NotNull void setTextColumn(@NotNull int column) {
         try {
             gtk_icon_view_set_text_column.invokeExact(handle(), column);
         } catch (Throwable ERR) {
@@ -1086,7 +1142,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_set_tooltip_cell = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_set_tooltip_cell = Interop.downcallHandle(
         "gtk_icon_view_set_tooltip_cell",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1097,7 +1153,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * <p>
      * See also gtk_icon_view_set_tooltip_column() for a simpler alternative.
      */
-    public void setTooltipCell(Tooltip tooltip, TreePath path, CellRenderer cell) {
+    public @NotNull void setTooltipCell(@NotNull Tooltip tooltip, @NotNull TreePath path, @Nullable CellRenderer cell) {
         try {
             gtk_icon_view_set_tooltip_cell.invokeExact(handle(), tooltip.handle(), path.handle(), cell.handle());
         } catch (Throwable ERR) {
@@ -1105,7 +1161,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_set_tooltip_column = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_set_tooltip_column = Interop.downcallHandle(
         "gtk_icon_view_set_tooltip_column",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1122,7 +1178,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Note that the signal handler sets the text with gtk_tooltip_set_markup(),
      * so &, <, etc have to be escaped in the text.
      */
-    public void setTooltipColumn(int column) {
+    public @NotNull void setTooltipColumn(@NotNull int column) {
         try {
             gtk_icon_view_set_tooltip_column.invokeExact(handle(), column);
         } catch (Throwable ERR) {
@@ -1130,7 +1186,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_set_tooltip_item = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_set_tooltip_item = Interop.downcallHandle(
         "gtk_icon_view_set_tooltip_item",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1140,7 +1196,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * See also gtk_icon_view_set_tooltip_column() for a simpler alternative.
      * See also gtk_tooltip_set_tip_area().
      */
-    public void setTooltipItem(Tooltip tooltip, TreePath path) {
+    public @NotNull void setTooltipItem(@NotNull Tooltip tooltip, @NotNull TreePath path) {
         try {
             gtk_icon_view_set_tooltip_item.invokeExact(handle(), tooltip.handle(), path.handle());
         } catch (Throwable ERR) {
@@ -1148,7 +1204,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_unselect_all = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_unselect_all = Interop.downcallHandle(
         "gtk_icon_view_unselect_all",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -1156,7 +1212,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * Unselects all the icons.
      */
-    public void unselectAll() {
+    public @NotNull void unselectAll() {
         try {
             gtk_icon_view_unselect_all.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -1164,7 +1220,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_unselect_path = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_unselect_path = Interop.downcallHandle(
         "gtk_icon_view_unselect_path",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1172,7 +1228,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     /**
      * Unselects the row at {@code path}.
      */
-    public void unselectPath(TreePath path) {
+    public @NotNull void unselectPath(@NotNull TreePath path) {
         try {
             gtk_icon_view_unselect_path.invokeExact(handle(), path.handle());
         } catch (Throwable ERR) {
@@ -1180,7 +1236,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_unset_model_drag_dest = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_unset_model_drag_dest = Interop.downcallHandle(
         "gtk_icon_view_unset_model_drag_dest",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -1189,7 +1245,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Undoes the effect of gtk_icon_view_enable_model_drag_dest(). Calling this
      * method sets {@code GtkIconView}:reorderable to {@code false}.
      */
-    public void unsetModelDragDest() {
+    public @NotNull void unsetModelDragDest() {
         try {
             gtk_icon_view_unset_model_drag_dest.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -1197,7 +1253,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         }
     }
     
-    static final MethodHandle gtk_icon_view_unset_model_drag_source = Interop.downcallHandle(
+    private static final MethodHandle gtk_icon_view_unset_model_drag_source = Interop.downcallHandle(
         "gtk_icon_view_unset_model_drag_source",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -1206,7 +1262,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
      * Undoes the effect of gtk_icon_view_enable_model_drag_source(). Calling this
      * method sets {@code GtkIconView}:reorderable to {@code false}.
      */
-    public void unsetModelDragSource() {
+    public @NotNull void unsetModelDragSource() {
         try {
             gtk_icon_view_unset_model_drag_source.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -1234,13 +1290,13 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("activate-cursor-item").handle(),
+                Interop.allocateNativeString("activate-cursor-item"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(IconView.Callbacks.class, "signalIconViewActivateCursorItem",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1250,7 +1306,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     
     @FunctionalInterface
     public interface ItemActivatedHandler {
-        void signalReceived(IconView source, TreePath path);
+        void signalReceived(IconView source, @NotNull TreePath path);
     }
     
     /**
@@ -1266,13 +1322,13 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("item-activated").handle(),
+                Interop.allocateNativeString("item-activated"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(IconView.Callbacks.class, "signalIconViewItemActivated",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1282,7 +1338,7 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
     
     @FunctionalInterface
     public interface MoveCursorHandler {
-        boolean signalReceived(IconView source, MovementStep step, int count, boolean extend, boolean modify);
+        boolean signalReceived(IconView source, @NotNull MovementStep step, @NotNull int count, @NotNull boolean extend, @NotNull boolean modify);
     }
     
     /**
@@ -1306,13 +1362,13 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("move-cursor").handle(),
+                Interop.allocateNativeString("move-cursor"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(IconView.Callbacks.class, "signalIconViewMoveCursor",
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1339,13 +1395,13 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("select-all").handle(),
+                Interop.allocateNativeString("select-all"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(IconView.Callbacks.class, "signalIconViewSelectAll",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1373,13 +1429,13 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("select-cursor-item").handle(),
+                Interop.allocateNativeString("select-cursor-item"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(IconView.Callbacks.class, "signalIconViewSelectCursorItem",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1400,13 +1456,13 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("selection-changed").handle(),
+                Interop.allocateNativeString("selection-changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(IconView.Callbacks.class, "signalIconViewSelectionChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1435,13 +1491,13 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("toggle-cursor-item").handle(),
+                Interop.allocateNativeString("toggle-cursor-item"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(IconView.Callbacks.class, "signalIconViewToggleCursorItem",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1468,13 +1524,13 @@ public class IconView extends Widget implements Accessible, Buildable, CellLayou
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("unselect-all").handle(),
+                Interop.allocateNativeString("unselect-all"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(IconView.Callbacks.class, "signalIconViewUnselectAll",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

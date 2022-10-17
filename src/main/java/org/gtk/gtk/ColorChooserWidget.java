@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@code GtkColorChooserWidget} widget lets the user select a color.
@@ -25,9 +26,8 @@ import java.lang.invoke.*;
  * <p>
  * The {@code GtkColorChooserWidget} is used in the {@link ColorChooserDialog}
  * to provide a dialog for selecting colors.
- * <p>
+ * 
  * <h1>CSS names</h1>
- * <p>
  * {@code GtkColorChooserWidget} has a single CSS node with name colorchooser.
  */
 public class ColorChooserWidget extends Widget implements Accessible, Buildable, ColorChooser, ConstraintTarget {
@@ -41,7 +41,7 @@ public class ColorChooserWidget extends Widget implements Accessible, Buildable,
         return new ColorChooserWidget(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_color_chooser_widget_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_color_chooser_widget_new = Interop.downcallHandle(
         "gtk_color_chooser_widget_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );

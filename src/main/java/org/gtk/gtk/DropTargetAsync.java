@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkDropTargetAsync} is an event controller to receive Drag-and-Drop
@@ -51,12 +52,12 @@ public class DropTargetAsync extends EventController {
         return new DropTargetAsync(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_drop_target_async_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_drop_target_async_new = Interop.downcallHandle(
         "gtk_drop_target_async_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNew(org.gtk.gdk.ContentFormats formats, org.gtk.gdk.DragAction actions) {
+    private static Refcounted constructNew(@Nullable org.gtk.gdk.ContentFormats formats, @NotNull org.gtk.gdk.DragAction actions) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_drop_target_async_new.invokeExact(formats.refcounted().unowned().handle(), actions.getValue()), true);
             return RESULT;
@@ -68,11 +69,11 @@ public class DropTargetAsync extends EventController {
     /**
      * Creates a new {@code GtkDropTargetAsync} object.
      */
-    public DropTargetAsync(org.gtk.gdk.ContentFormats formats, org.gtk.gdk.DragAction actions) {
+    public DropTargetAsync(@Nullable org.gtk.gdk.ContentFormats formats, @NotNull org.gtk.gdk.DragAction actions) {
         super(constructNew(formats, actions));
     }
     
-    static final MethodHandle gtk_drop_target_async_get_actions = Interop.downcallHandle(
+    private static final MethodHandle gtk_drop_target_async_get_actions = Interop.downcallHandle(
         "gtk_drop_target_async_get_actions",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -80,16 +81,17 @@ public class DropTargetAsync extends EventController {
     /**
      * Gets the actions that this drop target supports.
      */
-    public org.gtk.gdk.DragAction getActions() {
+    public @NotNull org.gtk.gdk.DragAction getActions() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_drop_target_async_get_actions.invokeExact(handle());
-            return new org.gtk.gdk.DragAction(RESULT);
+            RESULT = (int) gtk_drop_target_async_get_actions.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gdk.DragAction(RESULT);
     }
     
-    static final MethodHandle gtk_drop_target_async_get_formats = Interop.downcallHandle(
+    private static final MethodHandle gtk_drop_target_async_get_formats = Interop.downcallHandle(
         "gtk_drop_target_async_get_formats",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -99,16 +101,17 @@ public class DropTargetAsync extends EventController {
      * <p>
      * If the result is {@code null}, all formats are expected to be supported.
      */
-    public org.gtk.gdk.ContentFormats getFormats() {
+    public @Nullable org.gtk.gdk.ContentFormats getFormats() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_drop_target_async_get_formats.invokeExact(handle());
-            return new org.gtk.gdk.ContentFormats(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_drop_target_async_get_formats.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gdk.ContentFormats(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_drop_target_async_reject_drop = Interop.downcallHandle(
+    private static final MethodHandle gtk_drop_target_async_reject_drop = Interop.downcallHandle(
         "gtk_drop_target_async_reject_drop",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -120,7 +123,7 @@ public class DropTargetAsync extends EventController {
      * on whether to accept a drag or not until after reading
      * the data.
      */
-    public void rejectDrop(org.gtk.gdk.Drop drop) {
+    public @NotNull void rejectDrop(@NotNull org.gtk.gdk.Drop drop) {
         try {
             gtk_drop_target_async_reject_drop.invokeExact(handle(), drop.handle());
         } catch (Throwable ERR) {
@@ -128,7 +131,7 @@ public class DropTargetAsync extends EventController {
         }
     }
     
-    static final MethodHandle gtk_drop_target_async_set_actions = Interop.downcallHandle(
+    private static final MethodHandle gtk_drop_target_async_set_actions = Interop.downcallHandle(
         "gtk_drop_target_async_set_actions",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -136,7 +139,7 @@ public class DropTargetAsync extends EventController {
     /**
      * Sets the actions that this drop target supports.
      */
-    public void setActions(org.gtk.gdk.DragAction actions) {
+    public @NotNull void setActions(@NotNull org.gtk.gdk.DragAction actions) {
         try {
             gtk_drop_target_async_set_actions.invokeExact(handle(), actions.getValue());
         } catch (Throwable ERR) {
@@ -144,7 +147,7 @@ public class DropTargetAsync extends EventController {
         }
     }
     
-    static final MethodHandle gtk_drop_target_async_set_formats = Interop.downcallHandle(
+    private static final MethodHandle gtk_drop_target_async_set_formats = Interop.downcallHandle(
         "gtk_drop_target_async_set_formats",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -152,7 +155,7 @@ public class DropTargetAsync extends EventController {
     /**
      * Sets the data formats that this drop target will accept.
      */
-    public void setFormats(org.gtk.gdk.ContentFormats formats) {
+    public @NotNull void setFormats(@Nullable org.gtk.gdk.ContentFormats formats) {
         try {
             gtk_drop_target_async_set_formats.invokeExact(handle(), formats.handle());
         } catch (Throwable ERR) {
@@ -162,7 +165,7 @@ public class DropTargetAsync extends EventController {
     
     @FunctionalInterface
     public interface AcceptHandler {
-        boolean signalReceived(DropTargetAsync source, org.gtk.gdk.Drop drop);
+        boolean signalReceived(DropTargetAsync source, @NotNull org.gtk.gdk.Drop drop);
     }
     
     /**
@@ -186,13 +189,13 @@ public class DropTargetAsync extends EventController {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("accept").handle(),
+                Interop.allocateNativeString("accept"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DropTargetAsync.Callbacks.class, "signalDropTargetAsyncAccept",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -202,7 +205,7 @@ public class DropTargetAsync extends EventController {
     
     @FunctionalInterface
     public interface DragEnterHandler {
-        void signalReceived(DropTargetAsync source, org.gtk.gdk.Drop drop, double x, double y);
+        void signalReceived(DropTargetAsync source, @NotNull org.gtk.gdk.Drop drop, @NotNull double x, @NotNull double y);
     }
     
     /**
@@ -214,13 +217,13 @@ public class DropTargetAsync extends EventController {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("drag-enter").handle(),
+                Interop.allocateNativeString("drag-enter"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DropTargetAsync.Callbacks.class, "signalDropTargetAsyncDragEnter",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -230,7 +233,7 @@ public class DropTargetAsync extends EventController {
     
     @FunctionalInterface
     public interface DragLeaveHandler {
-        void signalReceived(DropTargetAsync source, org.gtk.gdk.Drop drop);
+        void signalReceived(DropTargetAsync source, @NotNull org.gtk.gdk.Drop drop);
     }
     
     /**
@@ -243,13 +246,13 @@ public class DropTargetAsync extends EventController {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("drag-leave").handle(),
+                Interop.allocateNativeString("drag-leave"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DropTargetAsync.Callbacks.class, "signalDropTargetAsyncDragLeave",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -259,7 +262,7 @@ public class DropTargetAsync extends EventController {
     
     @FunctionalInterface
     public interface DragMotionHandler {
-        void signalReceived(DropTargetAsync source, org.gtk.gdk.Drop drop, double x, double y);
+        void signalReceived(DropTargetAsync source, @NotNull org.gtk.gdk.Drop drop, @NotNull double x, @NotNull double y);
     }
     
     /**
@@ -269,13 +272,13 @@ public class DropTargetAsync extends EventController {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("drag-motion").handle(),
+                Interop.allocateNativeString("drag-motion"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DropTargetAsync.Callbacks.class, "signalDropTargetAsyncDragMotion",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -285,7 +288,7 @@ public class DropTargetAsync extends EventController {
     
     @FunctionalInterface
     public interface DropHandler {
-        boolean signalReceived(DropTargetAsync source, org.gtk.gdk.Drop drop, double x, double y);
+        boolean signalReceived(DropTargetAsync source, @NotNull org.gtk.gdk.Drop drop, @NotNull double x, @NotNull double y);
     }
     
     /**
@@ -308,13 +311,13 @@ public class DropTargetAsync extends EventController {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("drop").handle(),
+                Interop.allocateNativeString("drop"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DropTargetAsync.Callbacks.class, "signalDropTargetAsyncDrop",
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

@@ -1,6 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A function of this signature is used to copy the node data
@@ -8,5 +9,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface CopyFunc {
-        java.lang.foreign.MemoryAddress onCopyFunc(java.lang.foreign.MemoryAddress src);
+        java.lang.foreign.MemoryAddress onCopyFunc(@NotNull java.lang.foreign.MemoryAddress src);
 }

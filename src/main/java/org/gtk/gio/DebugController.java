@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link DebugController} is an interface to expose control of debugging features and
@@ -23,7 +24,7 @@ import java.lang.invoke.*;
  */
 public interface DebugController extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle g_debug_controller_get_debug_enabled = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_debug_controller_get_debug_enabled = Interop.downcallHandle(
         "g_debug_controller_get_debug_enabled",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -31,16 +32,17 @@ public interface DebugController extends io.github.jwharm.javagi.Proxy {
     /**
      * Get the value of {@link DebugController}:debug-enabled.
      */
-    public default boolean getDebugEnabled() {
+    default boolean getDebugEnabled() {
+        int RESULT;
         try {
-            var RESULT = (int) g_debug_controller_get_debug_enabled.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_debug_controller_get_debug_enabled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_debug_controller_set_debug_enabled = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_debug_controller_set_debug_enabled = Interop.downcallHandle(
         "g_debug_controller_set_debug_enabled",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -48,7 +50,7 @@ public interface DebugController extends io.github.jwharm.javagi.Proxy {
     /**
      * Set the value of {@link DebugController}:debug-enabled.
      */
-    public default void setDebugEnabled(boolean debugEnabled) {
+    default @NotNull void setDebugEnabled(@NotNull boolean debugEnabled) {
         try {
             g_debug_controller_set_debug_enabled.invokeExact(handle(), debugEnabled ? 1 : 0);
         } catch (Throwable ERR) {

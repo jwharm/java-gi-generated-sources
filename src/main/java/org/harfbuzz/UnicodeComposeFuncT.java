@@ -1,6 +1,7 @@
 package org.harfbuzz;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A virtual method for the {@link unicode_funcs_t} structure.
@@ -13,5 +14,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface UnicodeComposeFuncT {
-        BoolT onUnicodeComposeFuncT(UnicodeFuncsT ufuncs, CodepointT a, CodepointT b, CodepointT ab, java.lang.foreign.MemoryAddress userData);
+        BoolT onUnicodeComposeFuncT(@NotNull UnicodeFuncsT ufuncs, @NotNull CodepointT a, @NotNull CodepointT b, @NotNull Out<CodepointT> ab, @Nullable java.lang.foreign.MemoryAddress userData);
 }

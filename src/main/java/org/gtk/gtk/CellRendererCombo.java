@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Renders a combobox in a cell
@@ -29,7 +30,7 @@ public class CellRendererCombo extends CellRendererText {
         return new CellRendererCombo(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_cell_renderer_combo_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_renderer_combo_new = Interop.downcallHandle(
         "gtk_cell_renderer_combo_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -58,7 +59,7 @@ public class CellRendererCombo extends CellRendererText {
     
     @FunctionalInterface
     public interface ChangedHandler {
-        void signalReceived(CellRendererCombo source, java.lang.String pathString, TreeIter newIter);
+        void signalReceived(CellRendererCombo source, @NotNull java.lang.String pathString, @NotNull TreeIter newIter);
     }
     
     /**
@@ -78,13 +79,13 @@ public class CellRendererCombo extends CellRendererText {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("changed").handle(),
+                Interop.allocateNativeString("changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(CellRendererCombo.Callbacks.class, "signalCellRendererComboChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

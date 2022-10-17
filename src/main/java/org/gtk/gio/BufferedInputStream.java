@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Buffered input stream implements {@link FilterInputStream} and provides
@@ -31,12 +32,12 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
         return new BufferedInputStream(gobject.refcounted());
     }
     
-    static final MethodHandle g_buffered_input_stream_new = Interop.downcallHandle(
+    private static final MethodHandle g_buffered_input_stream_new = Interop.downcallHandle(
         "g_buffered_input_stream_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(InputStream baseStream) {
+    private static Refcounted constructNew(@NotNull InputStream baseStream) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_buffered_input_stream_new.invokeExact(baseStream.handle()), true);
             return RESULT;
@@ -49,16 +50,16 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * Creates a new {@link InputStream} from the given {@code base_stream}, with
      * a buffer set to the default size (4 kilobytes).
      */
-    public BufferedInputStream(InputStream baseStream) {
+    public BufferedInputStream(@NotNull InputStream baseStream) {
         super(constructNew(baseStream));
     }
     
-    static final MethodHandle g_buffered_input_stream_new_sized = Interop.downcallHandle(
+    private static final MethodHandle g_buffered_input_stream_new_sized = Interop.downcallHandle(
         "g_buffered_input_stream_new_sized",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
     
-    private static Refcounted constructNewSized(InputStream baseStream, long size) {
+    private static Refcounted constructNewSized(@NotNull InputStream baseStream, @NotNull long size) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_buffered_input_stream_new_sized.invokeExact(baseStream.handle(), size), true);
             return RESULT;
@@ -71,11 +72,11 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * Creates a new {@link BufferedInputStream} from the given {@code base_stream},
      * with a buffer set to {@code size}.
      */
-    public static BufferedInputStream newSized(InputStream baseStream, long size) {
+    public static BufferedInputStream newSized(@NotNull InputStream baseStream, @NotNull long size) {
         return new BufferedInputStream(constructNewSized(baseStream, size));
     }
     
-    static final MethodHandle g_buffered_input_stream_fill = Interop.downcallHandle(
+    private static final MethodHandle g_buffered_input_stream_fill = Interop.downcallHandle(
         "g_buffered_input_stream_fill",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -106,20 +107,21 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * For the asynchronous, non-blocking, version of this function, see
      * g_buffered_input_stream_fill_async().
      */
-    public long fill(long count, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public long fill(@NotNull long count, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        long RESULT;
         try {
-            var RESULT = (long) g_buffered_input_stream_fill.invokeExact(handle(), count, cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = (long) g_buffered_input_stream_fill.invokeExact(handle(), count, cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
-    static final MethodHandle g_buffered_input_stream_fill_async = Interop.downcallHandle(
+    private static final MethodHandle g_buffered_input_stream_fill_async = Interop.downcallHandle(
         "g_buffered_input_stream_fill_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -132,7 +134,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * If {@code count} is -1 then the attempted read size is equal to the number
      * of bytes that are required to fill the buffer.
      */
-    public void fillAsync(long count, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public @NotNull void fillAsync(@NotNull long count, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_buffered_input_stream_fill_async.invokeExact(handle(), count, ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -140,13 +142,13 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_buffered_input_stream_fill_finish = Interop.downcallHandle(
+    private static final MethodHandle g_buffered_input_stream_fill_finish = Interop.downcallHandle(
         "g_buffered_input_stream_fill_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -154,20 +156,21 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
     /**
      * Finishes an asynchronous read.
      */
-    public long fillFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public long fillFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        long RESULT;
         try {
-            var RESULT = (long) g_buffered_input_stream_fill_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = (long) g_buffered_input_stream_fill_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
-    static final MethodHandle g_buffered_input_stream_get_available = Interop.downcallHandle(
+    private static final MethodHandle g_buffered_input_stream_get_available = Interop.downcallHandle(
         "g_buffered_input_stream_get_available",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -176,15 +179,16 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * Gets the size of the available data within the stream.
      */
     public long getAvailable() {
+        long RESULT;
         try {
-            var RESULT = (long) g_buffered_input_stream_get_available.invokeExact(handle());
-            return RESULT;
+            RESULT = (long) g_buffered_input_stream_get_available.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_buffered_input_stream_get_buffer_size = Interop.downcallHandle(
+    private static final MethodHandle g_buffered_input_stream_get_buffer_size = Interop.downcallHandle(
         "g_buffered_input_stream_get_buffer_size",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -193,15 +197,16 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * Gets the size of the input buffer.
      */
     public long getBufferSize() {
+        long RESULT;
         try {
-            var RESULT = (long) g_buffered_input_stream_get_buffer_size.invokeExact(handle());
-            return RESULT;
+            RESULT = (long) g_buffered_input_stream_get_buffer_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_buffered_input_stream_peek = Interop.downcallHandle(
+    private static final MethodHandle g_buffered_input_stream_peek = Interop.downcallHandle(
         "g_buffered_input_stream_peek",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG)
     );
@@ -210,16 +215,17 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * Peeks in the buffer, copying data of size {@code count} into {@code buffer},
      * offset {@code offset} bytes.
      */
-    public long peek(byte[] buffer, long offset, long count) {
+    public long peek(@NotNull byte[] buffer, @NotNull long offset, @NotNull long count) {
+        long RESULT;
         try {
-            var RESULT = (long) g_buffered_input_stream_peek.invokeExact(handle(), Interop.allocateNativeArray(buffer).handle(), offset, count);
-            return RESULT;
+            RESULT = (long) g_buffered_input_stream_peek.invokeExact(handle(), Interop.allocateNativeArray(buffer), offset, count);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_buffered_input_stream_peek_buffer = Interop.downcallHandle(
+    private static final MethodHandle g_buffered_input_stream_peek_buffer = Interop.downcallHandle(
         "g_buffered_input_stream_peek_buffer",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -229,16 +235,19 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * buffer must not be modified and will become invalid when reading from
      * the stream or filling the buffer.
      */
-    public PointerByte peekBuffer(PointerLong count) {
+    public byte[] peekBuffer(@NotNull Out<Long> count) {
+        MemorySegment countPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_buffered_input_stream_peek_buffer.invokeExact(handle(), count.handle());
-            return new PointerByte(RESULT);
+            RESULT = (MemoryAddress) g_buffered_input_stream_peek_buffer.invokeExact(handle(), (Addressable) countPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        count.set(countPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        return MemorySegment.ofAddress(RESULT.get(ValueLayout.ADDRESS, 0), count.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE);
     }
     
-    static final MethodHandle g_buffered_input_stream_read_byte = Interop.downcallHandle(
+    private static final MethodHandle g_buffered_input_stream_read_byte = Interop.downcallHandle(
         "g_buffered_input_stream_read_byte",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -258,20 +267,21 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * <p>
      * On error -1 is returned and {@code error} is set accordingly.
      */
-    public int readInt(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public int readInt(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_buffered_input_stream_read_byte.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = (int) g_buffered_input_stream_read_byte.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
-    static final MethodHandle g_buffered_input_stream_set_buffer_size = Interop.downcallHandle(
+    private static final MethodHandle g_buffered_input_stream_set_buffer_size = Interop.downcallHandle(
         "g_buffered_input_stream_set_buffer_size",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -281,7 +291,7 @@ public class BufferedInputStream extends FilterInputStream implements Seekable {
      * size of the contents of the buffer. The buffer can never be resized
      * smaller than its current contents.
      */
-    public void setBufferSize(long size) {
+    public @NotNull void setBufferSize(@NotNull long size) {
         try {
             g_buffered_input_stream_set_buffer_size.invokeExact(handle(), size);
         } catch (Throwable ERR) {

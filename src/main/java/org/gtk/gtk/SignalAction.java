@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GtkShortcut}Action that emits a signal.
@@ -21,14 +22,14 @@ public class SignalAction extends ShortcutAction {
         return new SignalAction(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_signal_action_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_signal_action_new = Interop.downcallHandle(
         "gtk_signal_action_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(java.lang.String signalName) {
+    private static Refcounted constructNew(@NotNull java.lang.String signalName) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_signal_action_new.invokeExact(Interop.allocateNativeString(signalName).handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_signal_action_new.invokeExact(Interop.allocateNativeString(signalName)), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -41,11 +42,11 @@ public class SignalAction extends ShortcutAction {
      * <p>
      * It will also unpack the args into arguments passed to the signal.
      */
-    public SignalAction(java.lang.String signalName) {
+    public SignalAction(@NotNull java.lang.String signalName) {
         super(constructNew(signalName));
     }
     
-    static final MethodHandle gtk_signal_action_get_signal_name = Interop.downcallHandle(
+    private static final MethodHandle gtk_signal_action_get_signal_name = Interop.downcallHandle(
         "gtk_signal_action_get_signal_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -53,13 +54,14 @@ public class SignalAction extends ShortcutAction {
     /**
      * Returns the name of the signal that will be emitted.
      */
-    public java.lang.String getSignalName() {
+    public @NotNull java.lang.String getSignalName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_signal_action_get_signal_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_signal_action_get_signal_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
 }

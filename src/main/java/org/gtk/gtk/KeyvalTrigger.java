@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GtkShortcutTrigger} that triggers when a specific keyval and modifiers are pressed.
@@ -18,12 +19,12 @@ public class KeyvalTrigger extends ShortcutTrigger {
         return new KeyvalTrigger(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_keyval_trigger_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_keyval_trigger_new = Interop.downcallHandle(
         "gtk_keyval_trigger_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNew(int keyval, org.gtk.gdk.ModifierType modifiers) {
+    private static Refcounted constructNew(@NotNull int keyval, @NotNull org.gtk.gdk.ModifierType modifiers) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_keyval_trigger_new.invokeExact(keyval, modifiers.getValue()), true);
             return RESULT;
@@ -36,11 +37,11 @@ public class KeyvalTrigger extends ShortcutTrigger {
      * Creates a {@code GtkShortcutTrigger} that will trigger whenever
      * the key with the given {@code keyval} and {@code modifiers} is pressed.
      */
-    public KeyvalTrigger(int keyval, org.gtk.gdk.ModifierType modifiers) {
+    public KeyvalTrigger(@NotNull int keyval, @NotNull org.gtk.gdk.ModifierType modifiers) {
         super(constructNew(keyval, modifiers));
     }
     
-    static final MethodHandle gtk_keyval_trigger_get_keyval = Interop.downcallHandle(
+    private static final MethodHandle gtk_keyval_trigger_get_keyval = Interop.downcallHandle(
         "gtk_keyval_trigger_get_keyval",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -50,15 +51,16 @@ public class KeyvalTrigger extends ShortcutTrigger {
      * triggering {@code self}.
      */
     public int getKeyval() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_keyval_trigger_get_keyval.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_keyval_trigger_get_keyval.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_keyval_trigger_get_modifiers = Interop.downcallHandle(
+    private static final MethodHandle gtk_keyval_trigger_get_modifiers = Interop.downcallHandle(
         "gtk_keyval_trigger_get_modifiers",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -67,13 +69,14 @@ public class KeyvalTrigger extends ShortcutTrigger {
      * Gets the modifiers that must be present to succeed
      * triggering {@code self}.
      */
-    public org.gtk.gdk.ModifierType getModifiers() {
+    public @NotNull org.gtk.gdk.ModifierType getModifiers() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_keyval_trigger_get_modifiers.invokeExact(handle());
-            return new org.gtk.gdk.ModifierType(RESULT);
+            RESULT = (int) gtk_keyval_trigger_get_modifiers.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gdk.ModifierType(RESULT);
     }
     
 }

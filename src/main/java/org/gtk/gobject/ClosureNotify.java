@@ -1,6 +1,7 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The type used for the various notification callbacks which can be registered
@@ -8,5 +9,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface ClosureNotify {
-        void onClosureNotify(Closure closure);
+        void onClosureNotify(@NotNull Closure closure);
 }

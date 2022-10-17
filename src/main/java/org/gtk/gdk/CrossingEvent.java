@@ -3,6 +3,7 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * An event caused by a pointing device moving between surfaces.
@@ -18,7 +19,7 @@ public class CrossingEvent extends Event {
         return new CrossingEvent(gobject.refcounted());
     }
     
-    static final MethodHandle gdk_crossing_event_get_detail = Interop.downcallHandle(
+    private static final MethodHandle gdk_crossing_event_get_detail = Interop.downcallHandle(
         "gdk_crossing_event_get_detail",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -26,16 +27,17 @@ public class CrossingEvent extends Event {
     /**
      * Extracts the notify detail from a crossing event.
      */
-    public NotifyType getDetail() {
+    public @NotNull NotifyType getDetail() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_crossing_event_get_detail.invokeExact(handle());
-            return new NotifyType(RESULT);
+            RESULT = (int) gdk_crossing_event_get_detail.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new NotifyType(RESULT);
     }
     
-    static final MethodHandle gdk_crossing_event_get_focus = Interop.downcallHandle(
+    private static final MethodHandle gdk_crossing_event_get_focus = Interop.downcallHandle(
         "gdk_crossing_event_get_focus",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -44,15 +46,16 @@ public class CrossingEvent extends Event {
      * Checks if the {@code event} surface is the focus surface.
      */
     public boolean getFocus() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_crossing_event_get_focus.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_crossing_event_get_focus.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_crossing_event_get_mode = Interop.downcallHandle(
+    private static final MethodHandle gdk_crossing_event_get_mode = Interop.downcallHandle(
         "gdk_crossing_event_get_mode",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -60,13 +63,14 @@ public class CrossingEvent extends Event {
     /**
      * Extracts the crossing mode from a crossing event.
      */
-    public CrossingMode getMode() {
+    public @NotNull CrossingMode getMode() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_crossing_event_get_mode.invokeExact(handle());
-            return new CrossingMode(RESULT);
+            RESULT = (int) gdk_crossing_event_get_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new CrossingMode(RESULT);
     }
     
 }

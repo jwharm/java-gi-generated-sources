@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkGestureClick} is a {@code GtkGesture} implementation for clicks.
@@ -24,7 +25,7 @@ public class GestureClick extends GestureSingle {
         return new GestureClick(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_gesture_click_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_gesture_click_new = Interop.downcallHandle(
         "gtk_gesture_click_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -48,7 +49,7 @@ public class GestureClick extends GestureSingle {
     
     @FunctionalInterface
     public interface PressedHandler {
-        void signalReceived(GestureClick source, int nPress, double x, double y);
+        void signalReceived(GestureClick source, @NotNull int nPress, @NotNull double x, @NotNull double y);
     }
     
     /**
@@ -58,13 +59,13 @@ public class GestureClick extends GestureSingle {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("pressed").handle(),
+                Interop.allocateNativeString("pressed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureClick.Callbacks.class, "signalGestureClickPressed",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -74,7 +75,7 @@ public class GestureClick extends GestureSingle {
     
     @FunctionalInterface
     public interface ReleasedHandler {
-        void signalReceived(GestureClick source, int nPress, double x, double y);
+        void signalReceived(GestureClick source, @NotNull int nPress, @NotNull double x, @NotNull double y);
     }
     
     /**
@@ -89,13 +90,13 @@ public class GestureClick extends GestureSingle {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("released").handle(),
+                Interop.allocateNativeString("released"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureClick.Callbacks.class, "signalGestureClickReleased",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -115,13 +116,13 @@ public class GestureClick extends GestureSingle {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("stopped").handle(),
+                Interop.allocateNativeString("stopped"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureClick.Callbacks.class, "signalGestureClickStopped",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -131,7 +132,7 @@ public class GestureClick extends GestureSingle {
     
     @FunctionalInterface
     public interface UnpairedReleaseHandler {
-        void signalReceived(GestureClick source, double x, double y, int button, org.gtk.gdk.EventSequence sequence);
+        void signalReceived(GestureClick source, @NotNull double x, @NotNull double y, @NotNull int button, @NotNull org.gtk.gdk.EventSequence sequence);
     }
     
     /**
@@ -146,13 +147,13 @@ public class GestureClick extends GestureSingle {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("unpaired-release").handle(),
+                Interop.allocateNativeString("unpaired-release"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureClick.Callbacks.class, "signalGestureClickUnpairedRelease",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

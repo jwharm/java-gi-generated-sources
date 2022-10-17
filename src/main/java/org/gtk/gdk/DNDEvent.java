@@ -3,6 +3,7 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * An event related to drag and drop operations.
@@ -18,7 +19,7 @@ public class DNDEvent extends Event {
         return new DNDEvent(gobject.refcounted());
     }
     
-    static final MethodHandle gdk_dnd_event_get_drop = Interop.downcallHandle(
+    private static final MethodHandle gdk_dnd_event_get_drop = Interop.downcallHandle(
         "gdk_dnd_event_get_drop",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -26,13 +27,14 @@ public class DNDEvent extends Event {
     /**
      * Gets the {@code GdkDrop} object from a DND event.
      */
-    public Drop getDrop() {
+    public @Nullable Drop getDrop() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_dnd_event_get_drop.invokeExact(handle());
-            return new Drop(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_dnd_event_get_drop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Drop(Refcounted.get(RESULT, false));
     }
     
 }

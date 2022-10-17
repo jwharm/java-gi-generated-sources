@@ -1,6 +1,7 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Signature for function used in g_dbus_connection_add_filter().
@@ -65,5 +66,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface DBusMessageFilterFunction {
-        DBusMessage onDBusMessageFilterFunction(DBusConnection connection, DBusMessage message, boolean incoming);
+        DBusMessage onDBusMessageFilterFunction(@NotNull DBusConnection connection, @NotNull DBusMessage message, @NotNull boolean incoming);
 }

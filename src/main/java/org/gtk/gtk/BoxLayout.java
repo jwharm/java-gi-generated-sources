@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkBoxLayout} is a layout manager that arranges children in a single
@@ -31,12 +32,12 @@ public class BoxLayout extends LayoutManager implements Orientable {
         return new BoxLayout(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_box_layout_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_box_layout_new = Interop.downcallHandle(
         "gtk_box_layout_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNew(Orientation orientation) {
+    private static Refcounted constructNew(@NotNull Orientation orientation) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_box_layout_new.invokeExact(orientation.getValue()), true);
             return RESULT;
@@ -48,11 +49,11 @@ public class BoxLayout extends LayoutManager implements Orientable {
     /**
      * Creates a new {@code GtkBoxLayout}.
      */
-    public BoxLayout(Orientation orientation) {
+    public BoxLayout(@NotNull Orientation orientation) {
         super(constructNew(orientation));
     }
     
-    static final MethodHandle gtk_box_layout_get_baseline_position = Interop.downcallHandle(
+    private static final MethodHandle gtk_box_layout_get_baseline_position = Interop.downcallHandle(
         "gtk_box_layout_get_baseline_position",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -60,16 +61,17 @@ public class BoxLayout extends LayoutManager implements Orientable {
     /**
      * Gets the value set by gtk_box_layout_set_baseline_position().
      */
-    public BaselinePosition getBaselinePosition() {
+    public @NotNull BaselinePosition getBaselinePosition() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_box_layout_get_baseline_position.invokeExact(handle());
-            return new BaselinePosition(RESULT);
+            RESULT = (int) gtk_box_layout_get_baseline_position.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new BaselinePosition(RESULT);
     }
     
-    static final MethodHandle gtk_box_layout_get_homogeneous = Interop.downcallHandle(
+    private static final MethodHandle gtk_box_layout_get_homogeneous = Interop.downcallHandle(
         "gtk_box_layout_get_homogeneous",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -78,15 +80,16 @@ public class BoxLayout extends LayoutManager implements Orientable {
      * Returns whether the layout is set to be homogeneous.
      */
     public boolean getHomogeneous() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_box_layout_get_homogeneous.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_box_layout_get_homogeneous.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_box_layout_get_spacing = Interop.downcallHandle(
+    private static final MethodHandle gtk_box_layout_get_spacing = Interop.downcallHandle(
         "gtk_box_layout_get_spacing",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -95,15 +98,16 @@ public class BoxLayout extends LayoutManager implements Orientable {
      * Returns the space that {@code box_layout} puts between children.
      */
     public int getSpacing() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_box_layout_get_spacing.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_box_layout_get_spacing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_box_layout_set_baseline_position = Interop.downcallHandle(
+    private static final MethodHandle gtk_box_layout_set_baseline_position = Interop.downcallHandle(
         "gtk_box_layout_set_baseline_position",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -117,7 +121,7 @@ public class BoxLayout extends LayoutManager implements Orientable {
      * given {@code position} is used to allocate the baseline within the extra
      * space available.
      */
-    public void setBaselinePosition(BaselinePosition position) {
+    public @NotNull void setBaselinePosition(@NotNull BaselinePosition position) {
         try {
             gtk_box_layout_set_baseline_position.invokeExact(handle(), position.getValue());
         } catch (Throwable ERR) {
@@ -125,7 +129,7 @@ public class BoxLayout extends LayoutManager implements Orientable {
         }
     }
     
-    static final MethodHandle gtk_box_layout_set_homogeneous = Interop.downcallHandle(
+    private static final MethodHandle gtk_box_layout_set_homogeneous = Interop.downcallHandle(
         "gtk_box_layout_set_homogeneous",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -134,7 +138,7 @@ public class BoxLayout extends LayoutManager implements Orientable {
      * Sets whether the box layout will allocate the same
      * size to all children.
      */
-    public void setHomogeneous(boolean homogeneous) {
+    public @NotNull void setHomogeneous(@NotNull boolean homogeneous) {
         try {
             gtk_box_layout_set_homogeneous.invokeExact(handle(), homogeneous ? 1 : 0);
         } catch (Throwable ERR) {
@@ -142,7 +146,7 @@ public class BoxLayout extends LayoutManager implements Orientable {
         }
     }
     
-    static final MethodHandle gtk_box_layout_set_spacing = Interop.downcallHandle(
+    private static final MethodHandle gtk_box_layout_set_spacing = Interop.downcallHandle(
         "gtk_box_layout_set_spacing",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -150,7 +154,7 @@ public class BoxLayout extends LayoutManager implements Orientable {
     /**
      * Sets how much spacing to put between children.
      */
-    public void setSpacing(int spacing) {
+    public @NotNull void setSpacing(@NotNull int spacing) {
         try {
             gtk_box_layout_set_spacing.invokeExact(handle(), spacing);
         } catch (Throwable ERR) {

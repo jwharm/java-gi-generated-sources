@@ -3,6 +3,7 @@ package org.gnome.adw;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A widget with one child.
@@ -29,7 +30,7 @@ public class Bin extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
         return new Bin(gobject.refcounted());
     }
     
-    static final MethodHandle adw_bin_new = Interop.downcallHandle(
+    private static final MethodHandle adw_bin_new = Interop.downcallHandle(
         "adw_bin_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -50,7 +51,7 @@ public class Bin extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
         super(constructNew());
     }
     
-    static final MethodHandle adw_bin_get_child = Interop.downcallHandle(
+    private static final MethodHandle adw_bin_get_child = Interop.downcallHandle(
         "adw_bin_get_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -58,16 +59,17 @@ public class Bin extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
     /**
      * Gets the child widget of {@code self}.
      */
-    public org.gtk.gtk.Widget getChild() {
+    public @Nullable org.gtk.gtk.Widget getChild() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_bin_get_child.invokeExact(handle());
-            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_bin_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_bin_set_child = Interop.downcallHandle(
+    private static final MethodHandle adw_bin_set_child = Interop.downcallHandle(
         "adw_bin_set_child",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -75,7 +77,7 @@ public class Bin extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
     /**
      * Sets the child widget of {@code self}.
      */
-    public void setChild(org.gtk.gtk.Widget child) {
+    public @NotNull void setChild(@Nullable org.gtk.gtk.Widget child) {
         try {
             adw_bin_set_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {

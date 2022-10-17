@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link MemoryMonitor} will monitor system memory and suggest to the application
@@ -56,7 +57,7 @@ import java.lang.invoke.*;
  */
 public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle g_memory_monitor_dup_default = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_memory_monitor_dup_default = Interop.downcallHandle(
         "g_memory_monitor_dup_default",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -64,18 +65,19 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets a reference to the default {@link MemoryMonitor} for the system.
      */
-    public static MemoryMonitor dupDefault() {
+    public static @NotNull MemoryMonitor dupDefault() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_memory_monitor_dup_default.invokeExact();
-            return new MemoryMonitor.MemoryMonitorImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_memory_monitor_dup_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new MemoryMonitor.MemoryMonitorImpl(Refcounted.get(RESULT, true));
     }
     
     @FunctionalInterface
     public interface LowMemoryWarningHandler {
-        void signalReceived(MemoryMonitor source, MemoryMonitorWarningLevel level);
+        void signalReceived(MemoryMonitor source, @NotNull MemoryMonitorWarningLevel level);
     }
     
     /**
@@ -88,13 +90,13 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("low-memory-warning").handle(),
+                Interop.allocateNativeString("low-memory-warning"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(MemoryMonitor.Callbacks.class, "signalMemoryMonitorLowMemoryWarning",
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

@@ -1,6 +1,7 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The type of the function that is used to convert from a value stored
@@ -16,5 +17,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface SettingsGetMapping {
-        boolean onSettingsGetMapping(org.gtk.glib.Variant value, java.lang.foreign.MemoryAddress result);
+        boolean onSettingsGetMapping(@NotNull org.gtk.glib.Variant value, @Nullable Out<java.lang.foreign.MemoryAddress> result);
 }

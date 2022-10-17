@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkFileChooser} is an interface that can be implemented by file
@@ -19,31 +20,21 @@ import java.lang.invoke.*;
  * In the default implementation these are displayed in the left pane. It
  * may be a bit confusing at first that these shortcuts come from various
  * sources and in various flavours, so lets explain the terminology here:
- * <p>
  * <ul>
  * <li>Bookmarks: are created by the user, by dragging folders from the
  *   right pane to the left pane, or by using the “Add”. Bookmarks
  *   can be renamed and deleted by the user.
- * </ul>
- * <p>
- * <ul>
  * <li>Shortcuts: can be provided by the application. For example, a Paint
  *   program may want to add a shortcut for a Clipart folder. Shortcuts
  *   cannot be modified by the user.
- * </ul>
- * <p>
- * <ul>
  * <li>Volumes: are provided by the underlying filesystem abstraction. They are
  *   the “roots” of the filesystem.
- * </ul>
- * <p>
+ * 
  * <h1>File Names and Encodings</h1>
- * <p>
  * When the user is finished selecting files in a {@code GtkFileChooser}, your
  * program can get the selected filenames as {@code GFile}s.
- * <p>
+ * 
  * <h1>Adding options</h1>
- * <p>
  * You can add extra widgets to a file chooser to provide options
  * that are not present in the default design, by using
  * {@link FileChooser#addChoice}. Each choice has an identifier and
@@ -54,7 +45,7 @@ import java.lang.invoke.*;
  */
 public interface FileChooser extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle gtk_file_chooser_add_choice = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_file_chooser_add_choice = Interop.downcallHandle(
         "gtk_file_chooser_add_choice",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -69,15 +60,15 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
      * {@code Gtk.Dialog::response} signal handler using
      * {@link FileChooser#getChoice}.
      */
-    public default void addChoice(java.lang.String id, java.lang.String label, java.lang.String[] options, java.lang.String[] optionLabels) {
+    default @NotNull void addChoice(@NotNull java.lang.String id, @NotNull java.lang.String label, @Nullable java.lang.String[] options, @Nullable java.lang.String[] optionLabels) {
         try {
-            gtk_file_chooser_add_choice.invokeExact(handle(), Interop.allocateNativeString(id).handle(), Interop.allocateNativeString(label).handle(), Interop.allocateNativeArray(options).handle(), Interop.allocateNativeArray(optionLabels).handle());
+            gtk_file_chooser_add_choice.invokeExact(handle(), Interop.allocateNativeString(id), Interop.allocateNativeString(label), Interop.allocateNativeArray(options), Interop.allocateNativeArray(optionLabels));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_file_chooser_add_filter = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_file_chooser_add_filter = Interop.downcallHandle(
         "gtk_file_chooser_add_filter",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -91,7 +82,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
      * Note that the {@code chooser} takes ownership of the filter if it is floating,
      * so you have to ref and sink it if you want to keep a reference.
      */
-    public default void addFilter(FileFilter filter) {
+    default @NotNull void addFilter(@NotNull FileFilter filter) {
         try {
             gtk_file_chooser_add_filter.invokeExact(handle(), filter.handle());
         } catch (Throwable ERR) {
@@ -99,7 +90,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_file_chooser_add_shortcut_folder = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_file_chooser_add_shortcut_folder = Interop.downcallHandle(
         "gtk_file_chooser_add_shortcut_folder",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -108,20 +99,21 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
      * Adds a folder to be displayed with the shortcut folders
      * in a file chooser.
      */
-    public default boolean addShortcutFolder(org.gtk.gio.File folder) throws io.github.jwharm.javagi.GErrorException {
+    default boolean addShortcutFolder(@NotNull org.gtk.gio.File folder) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_file_chooser_add_shortcut_folder.invokeExact(handle(), folder.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gtk_file_chooser_add_shortcut_folder.invokeExact(handle(), folder.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_file_chooser_get_action = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_file_chooser_get_action = Interop.downcallHandle(
         "gtk_file_chooser_get_action",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -129,16 +121,17 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets the type of operation that the file chooser is performing.
      */
-    public default FileChooserAction getAction() {
+    default @NotNull FileChooserAction getAction() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_file_chooser_get_action.invokeExact(handle());
-            return new FileChooserAction(RESULT);
+            RESULT = (int) gtk_file_chooser_get_action.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new FileChooserAction(RESULT);
     }
     
-    static final MethodHandle gtk_file_chooser_get_choice = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_file_chooser_get_choice = Interop.downcallHandle(
         "gtk_file_chooser_get_choice",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -146,16 +139,17 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets the currently selected option in the 'choice' with the given ID.
      */
-    public default java.lang.String getChoice(java.lang.String id) {
+    default @Nullable java.lang.String getChoice(@NotNull java.lang.String id) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_file_chooser_get_choice.invokeExact(handle(), Interop.allocateNativeString(id).handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_file_chooser_get_choice.invokeExact(handle(), Interop.allocateNativeString(id));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_file_chooser_get_create_folders = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_file_chooser_get_create_folders = Interop.downcallHandle(
         "gtk_file_chooser_get_create_folders",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -163,16 +157,17 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets whether file chooser will offer to create new folders.
      */
-    public default boolean getCreateFolders() {
+    default boolean getCreateFolders() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_file_chooser_get_create_folders.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_file_chooser_get_create_folders.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_file_chooser_get_current_folder = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_file_chooser_get_current_folder = Interop.downcallHandle(
         "gtk_file_chooser_get_current_folder",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -180,16 +175,17 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets the current folder of {@code chooser} as {@code GFile}.
      */
-    public default org.gtk.gio.File getCurrentFolder() {
+    default @Nullable org.gtk.gio.File getCurrentFolder() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_file_chooser_get_current_folder.invokeExact(handle());
-            return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_file_chooser_get_current_folder.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_file_chooser_get_current_name = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_file_chooser_get_current_name = Interop.downcallHandle(
         "gtk_file_chooser_get_current_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -200,16 +196,17 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
      * This is meant to be used in save dialogs, to get the currently typed
      * filename when the file itself does not exist yet.
      */
-    public default java.lang.String getCurrentName() {
+    default @Nullable java.lang.String getCurrentName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_file_chooser_get_current_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_file_chooser_get_current_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_file_chooser_get_file = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_file_chooser_get_file = Interop.downcallHandle(
         "gtk_file_chooser_get_file",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -224,16 +221,17 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
      * If the file chooser is in folder mode, this function returns
      * the selected folder.
      */
-    public default org.gtk.gio.File getFile() {
+    default @Nullable org.gtk.gio.File getFile() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_file_chooser_get_file.invokeExact(handle());
-            return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_file_chooser_get_file.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_file_chooser_get_files = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_file_chooser_get_files = Interop.downcallHandle(
         "gtk_file_chooser_get_files",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -242,16 +240,17 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
      * Lists all the selected files and subfolders in the current folder
      * of {@code chooser} as {@code GFile}.
      */
-    public default org.gtk.gio.ListModel getFiles() {
+    default @NotNull org.gtk.gio.ListModel getFiles() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_file_chooser_get_files.invokeExact(handle());
-            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_file_chooser_get_files.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_file_chooser_get_filter = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_file_chooser_get_filter = Interop.downcallHandle(
         "gtk_file_chooser_get_filter",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -259,16 +258,17 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets the current filter.
      */
-    public default FileFilter getFilter() {
+    default @Nullable FileFilter getFilter() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_file_chooser_get_filter.invokeExact(handle());
-            return new FileFilter(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_file_chooser_get_filter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new FileFilter(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_file_chooser_get_filters = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_file_chooser_get_filters = Interop.downcallHandle(
         "gtk_file_chooser_get_filters",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -282,16 +282,17 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
      * You should not modify the returned list model. Future changes to
      * {@code chooser} may or may not affect the returned model.
      */
-    public default org.gtk.gio.ListModel getFilters() {
+    default @NotNull org.gtk.gio.ListModel getFilters() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_file_chooser_get_filters.invokeExact(handle());
-            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_file_chooser_get_filters.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_file_chooser_get_select_multiple = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_file_chooser_get_select_multiple = Interop.downcallHandle(
         "gtk_file_chooser_get_select_multiple",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -300,16 +301,17 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
      * Gets whether multiple files can be selected in the file
      * chooser.
      */
-    public default boolean getSelectMultiple() {
+    default boolean getSelectMultiple() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_file_chooser_get_select_multiple.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_file_chooser_get_select_multiple.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_file_chooser_get_shortcut_folders = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_file_chooser_get_shortcut_folders = Interop.downcallHandle(
         "gtk_file_chooser_get_shortcut_folders",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -320,16 +322,17 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
      * You should not modify the returned list model. Future changes to
      * {@code chooser} may or may not affect the returned model.
      */
-    public default org.gtk.gio.ListModel getShortcutFolders() {
+    default @NotNull org.gtk.gio.ListModel getShortcutFolders() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_file_chooser_get_shortcut_folders.invokeExact(handle());
-            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_file_chooser_get_shortcut_folders.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_file_chooser_remove_choice = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_file_chooser_remove_choice = Interop.downcallHandle(
         "gtk_file_chooser_remove_choice",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -337,15 +340,15 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
     /**
      * Removes a 'choice' that has been added with gtk_file_chooser_add_choice().
      */
-    public default void removeChoice(java.lang.String id) {
+    default @NotNull void removeChoice(@NotNull java.lang.String id) {
         try {
-            gtk_file_chooser_remove_choice.invokeExact(handle(), Interop.allocateNativeString(id).handle());
+            gtk_file_chooser_remove_choice.invokeExact(handle(), Interop.allocateNativeString(id));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_file_chooser_remove_filter = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_file_chooser_remove_filter = Interop.downcallHandle(
         "gtk_file_chooser_remove_filter",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -353,7 +356,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
     /**
      * Removes {@code filter} from the list of filters that the user can select between.
      */
-    public default void removeFilter(FileFilter filter) {
+    default @NotNull void removeFilter(@NotNull FileFilter filter) {
         try {
             gtk_file_chooser_remove_filter.invokeExact(handle(), filter.handle());
         } catch (Throwable ERR) {
@@ -361,7 +364,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_file_chooser_remove_shortcut_folder = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_file_chooser_remove_shortcut_folder = Interop.downcallHandle(
         "gtk_file_chooser_remove_shortcut_folder",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -369,20 +372,21 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
     /**
      * Removes a folder from the shortcut folders in a file chooser.
      */
-    public default boolean removeShortcutFolder(org.gtk.gio.File folder) throws io.github.jwharm.javagi.GErrorException {
+    default boolean removeShortcutFolder(@NotNull org.gtk.gio.File folder) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_file_chooser_remove_shortcut_folder.invokeExact(handle(), folder.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gtk_file_chooser_remove_shortcut_folder.invokeExact(handle(), folder.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_file_chooser_set_action = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_file_chooser_set_action = Interop.downcallHandle(
         "gtk_file_chooser_set_action",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -396,7 +400,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
      * if the action is {@link FileChooserAction#SAVE} but not if the
      * action is {@link FileChooserAction#OPEN}.
      */
-    public default void setAction(FileChooserAction action) {
+    default @NotNull void setAction(@NotNull FileChooserAction action) {
         try {
             gtk_file_chooser_set_action.invokeExact(handle(), action.getValue());
         } catch (Throwable ERR) {
@@ -404,7 +408,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_file_chooser_set_choice = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_file_chooser_set_choice = Interop.downcallHandle(
         "gtk_file_chooser_set_choice",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -415,15 +419,15 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
      * <p>
      * For a boolean choice, the possible options are "true" and "false".
      */
-    public default void setChoice(java.lang.String id, java.lang.String option) {
+    default @NotNull void setChoice(@NotNull java.lang.String id, @NotNull java.lang.String option) {
         try {
-            gtk_file_chooser_set_choice.invokeExact(handle(), Interop.allocateNativeString(id).handle(), Interop.allocateNativeString(option).handle());
+            gtk_file_chooser_set_choice.invokeExact(handle(), Interop.allocateNativeString(id), Interop.allocateNativeString(option));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_file_chooser_set_create_folders = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_file_chooser_set_create_folders = Interop.downcallHandle(
         "gtk_file_chooser_set_create_folders",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -434,7 +438,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
      * This is only relevant if the action is not set to be
      * {@link FileChooserAction#OPEN}.
      */
-    public default void setCreateFolders(boolean createFolders) {
+    default @NotNull void setCreateFolders(@NotNull boolean createFolders) {
         try {
             gtk_file_chooser_set_create_folders.invokeExact(handle(), createFolders ? 1 : 0);
         } catch (Throwable ERR) {
@@ -442,7 +446,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_file_chooser_set_current_folder = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_file_chooser_set_current_folder = Interop.downcallHandle(
         "gtk_file_chooser_set_current_folder",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -450,20 +454,21 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
     /**
      * Sets the current folder for {@code chooser} from a {@code GFile}.
      */
-    public default boolean setCurrentFolder(org.gtk.gio.File file) throws io.github.jwharm.javagi.GErrorException {
+    default boolean setCurrentFolder(@Nullable org.gtk.gio.File file) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_file_chooser_set_current_folder.invokeExact(handle(), file.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gtk_file_chooser_set_current_folder.invokeExact(handle(), file.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_file_chooser_set_current_name = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_file_chooser_set_current_name = Interop.downcallHandle(
         "gtk_file_chooser_set_current_name",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -483,15 +488,15 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
      * Please see the documentation for those functions for an example
      * of using {@link FileChooser#setCurrentName} as well.
      */
-    public default void setCurrentName(java.lang.String name) {
+    default @NotNull void setCurrentName(@NotNull java.lang.String name) {
         try {
-            gtk_file_chooser_set_current_name.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+            gtk_file_chooser_set_current_name.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_file_chooser_set_file = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_file_chooser_set_file = Interop.downcallHandle(
         "gtk_file_chooser_set_file",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -516,7 +521,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
      * a new file and is saving it for the first time, do not call this function.
      * <p>
      * Instead, use something similar to this:
-     * <p>
+     * 
      * <pre>{@code c
      * static void
      * prepare_file_chooser (GtkFileChooser *chooser,
@@ -540,20 +545,21 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
      * }
      * }</pre>
      */
-    public default boolean setFile(org.gtk.gio.File file) throws io.github.jwharm.javagi.GErrorException {
+    default boolean setFile(@NotNull org.gtk.gio.File file) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_file_chooser_set_file.invokeExact(handle(), file.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) gtk_file_chooser_set_file.invokeExact(handle(), file.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_file_chooser_set_filter = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_file_chooser_set_filter = Interop.downcallHandle(
         "gtk_file_chooser_set_filter",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -569,7 +575,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
      * empty is useful if you want to restrict the displayed
      * set of files without letting the user change it.
      */
-    public default void setFilter(FileFilter filter) {
+    default @NotNull void setFilter(@NotNull FileFilter filter) {
         try {
             gtk_file_chooser_set_filter.invokeExact(handle(), filter.handle());
         } catch (Throwable ERR) {
@@ -577,7 +583,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    static final MethodHandle gtk_file_chooser_set_select_multiple = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle gtk_file_chooser_set_select_multiple = Interop.downcallHandle(
         "gtk_file_chooser_set_select_multiple",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -589,7 +595,7 @@ public interface FileChooser extends io.github.jwharm.javagi.Proxy {
      * {@link FileChooserAction#OPEN} or
      * {@link FileChooserAction#SELECT_FOLDER}.
      */
-    public default void setSelectMultiple(boolean selectMultiple) {
+    default @NotNull void setSelectMultiple(@NotNull boolean selectMultiple) {
         try {
             gtk_file_chooser_set_select_multiple.invokeExact(handle(), selectMultiple ? 1 : 0);
         } catch (Throwable ERR) {

@@ -3,6 +3,7 @@ package org.gtk.gdk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A singleton object that offers notification when displays appear or
@@ -20,16 +21,15 @@ import java.lang.invoke.*;
  * In the rare case that you need to influence which of the backends
  * is being used, you can use {@link Gdk#setAllowedBackends}. Note
  * that you need to call this function before initializing GTK.
- * <p>
+ * 
  * <h2>Backend-specific code</h2>
- * <p>
  * When writing backend-specific code that is supposed to work with
  * multiple GDK backends, you have to consider both compile time and
  * runtime. At compile time, use the {@code GDK_WINDOWING_X11}, {@code GDK_WINDOWING_WIN32}
  * macros, etc. to find out which backends are present in the GDK library
  * you are building your application against. At runtime, use type-check
  * macros like GDK_IS_X11_DISPLAY() to find out which backend is in use:
- * <p>
+ * 
  * <pre>{@code c
  * #ifdef GDK_WINDOWING_X11
  *   if (GDK_IS_X11_DISPLAY (display))
@@ -59,7 +59,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
         return new DisplayManager(gobject.refcounted());
     }
     
-    static final MethodHandle gdk_display_manager_get_default_display = Interop.downcallHandle(
+    private static final MethodHandle gdk_display_manager_get_default_display = Interop.downcallHandle(
         "gdk_display_manager_get_default_display",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -67,16 +67,17 @@ public class DisplayManager extends org.gtk.gobject.Object {
     /**
      * Gets the default {@code GdkDisplay}.
      */
-    public Display getDefaultDisplay() {
+    public @Nullable Display getDefaultDisplay() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_display_manager_get_default_display.invokeExact(handle());
-            return new Display(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_display_manager_get_default_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Display(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_display_manager_list_displays = Interop.downcallHandle(
+    private static final MethodHandle gdk_display_manager_list_displays = Interop.downcallHandle(
         "gdk_display_manager_list_displays",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -84,16 +85,17 @@ public class DisplayManager extends org.gtk.gobject.Object {
     /**
      * List all currently open displays.
      */
-    public org.gtk.glib.SList listDisplays() {
+    public @NotNull org.gtk.glib.SList listDisplays() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_display_manager_list_displays.invokeExact(handle());
-            return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_display_manager_list_displays.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_display_manager_open_display = Interop.downcallHandle(
+    private static final MethodHandle gdk_display_manager_open_display = Interop.downcallHandle(
         "gdk_display_manager_open_display",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -101,16 +103,17 @@ public class DisplayManager extends org.gtk.gobject.Object {
     /**
      * Opens a display.
      */
-    public Display openDisplay(java.lang.String name) {
+    public @Nullable Display openDisplay(@NotNull java.lang.String name) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_display_manager_open_display.invokeExact(handle(), Interop.allocateNativeString(name).handle());
-            return new Display(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_display_manager_open_display.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Display(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gdk_display_manager_set_default_display = Interop.downcallHandle(
+    private static final MethodHandle gdk_display_manager_set_default_display = Interop.downcallHandle(
         "gdk_display_manager_set_default_display",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -118,7 +121,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
     /**
      * Sets {@code display} as the default display.
      */
-    public void setDefaultDisplay(Display display) {
+    public @NotNull void setDefaultDisplay(@NotNull Display display) {
         try {
             gdk_display_manager_set_default_display.invokeExact(handle(), display.handle());
         } catch (Throwable ERR) {
@@ -126,7 +129,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gdk_display_manager_get = Interop.downcallHandle(
+    private static final MethodHandle gdk_display_manager_get = Interop.downcallHandle(
         "gdk_display_manager_get",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -142,18 +145,19 @@ public class DisplayManager extends org.gtk.gobject.Object {
      * Applications can use {@link set_allowed_backends#null} to limit what
      * backends wil be used.
      */
-    public static DisplayManager get() {
+    public static @NotNull DisplayManager get() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_display_manager_get.invokeExact();
-            return new DisplayManager(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gdk_display_manager_get.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new DisplayManager(Refcounted.get(RESULT, false));
     }
     
     @FunctionalInterface
     public interface DisplayOpenedHandler {
-        void signalReceived(DisplayManager source, Display display);
+        void signalReceived(DisplayManager source, @NotNull Display display);
     }
     
     /**
@@ -163,13 +167,13 @@ public class DisplayManager extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("display-opened").handle(),
+                Interop.allocateNativeString("display-opened"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(DisplayManager.Callbacks.class, "signalDisplayManagerDisplayOpened",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

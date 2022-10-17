@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link Emblem} is an implementation of {@link Icon} that supports
@@ -23,12 +24,12 @@ public class Emblem extends org.gtk.gobject.Object implements Icon {
         return new Emblem(gobject.refcounted());
     }
     
-    static final MethodHandle g_emblem_new = Interop.downcallHandle(
+    private static final MethodHandle g_emblem_new = Interop.downcallHandle(
         "g_emblem_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(Icon icon) {
+    private static Refcounted constructNew(@NotNull Icon icon) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_emblem_new.invokeExact(icon.handle()), true);
             return RESULT;
@@ -40,16 +41,16 @@ public class Emblem extends org.gtk.gobject.Object implements Icon {
     /**
      * Creates a new emblem for {@code icon}.
      */
-    public Emblem(Icon icon) {
+    public Emblem(@NotNull Icon icon) {
         super(constructNew(icon));
     }
     
-    static final MethodHandle g_emblem_new_with_origin = Interop.downcallHandle(
+    private static final MethodHandle g_emblem_new_with_origin = Interop.downcallHandle(
         "g_emblem_new_with_origin",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNewWithOrigin(Icon icon, EmblemOrigin origin) {
+    private static Refcounted constructNewWithOrigin(@NotNull Icon icon, @NotNull EmblemOrigin origin) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_emblem_new_with_origin.invokeExact(icon.handle(), origin.getValue()), true);
             return RESULT;
@@ -61,11 +62,11 @@ public class Emblem extends org.gtk.gobject.Object implements Icon {
     /**
      * Creates a new emblem for {@code icon}.
      */
-    public static Emblem newWithOrigin(Icon icon, EmblemOrigin origin) {
+    public static Emblem newWithOrigin(@NotNull Icon icon, @NotNull EmblemOrigin origin) {
         return new Emblem(constructNewWithOrigin(icon, origin));
     }
     
-    static final MethodHandle g_emblem_get_icon = Interop.downcallHandle(
+    private static final MethodHandle g_emblem_get_icon = Interop.downcallHandle(
         "g_emblem_get_icon",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -73,16 +74,17 @@ public class Emblem extends org.gtk.gobject.Object implements Icon {
     /**
      * Gives back the icon from {@code emblem}.
      */
-    public Icon getIcon() {
+    public @NotNull Icon getIcon() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_emblem_get_icon.invokeExact(handle());
-            return new Icon.IconImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_emblem_get_icon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Icon.IconImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_emblem_get_origin = Interop.downcallHandle(
+    private static final MethodHandle g_emblem_get_origin = Interop.downcallHandle(
         "g_emblem_get_origin",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -90,13 +92,14 @@ public class Emblem extends org.gtk.gobject.Object implements Icon {
     /**
      * Gets the origin of the emblem.
      */
-    public EmblemOrigin getOrigin() {
+    public @NotNull EmblemOrigin getOrigin() {
+        int RESULT;
         try {
-            var RESULT = (int) g_emblem_get_origin.invokeExact(handle());
-            return new EmblemOrigin(RESULT);
+            RESULT = (int) g_emblem_get_origin.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new EmblemOrigin(RESULT);
     }
     
 }

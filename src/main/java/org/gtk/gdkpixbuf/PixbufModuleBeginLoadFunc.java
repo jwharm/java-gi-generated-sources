@@ -1,6 +1,7 @@
 package org.gtk.gdkpixbuf;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Sets up the image loading state.
@@ -15,5 +16,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface PixbufModuleBeginLoadFunc {
-        java.lang.foreign.MemoryAddress onPixbufModuleBeginLoadFunc(PixbufModuleSizeFunc sizeFunc, PixbufModulePreparedFunc preparedFunc, PixbufModuleUpdatedFunc updatedFunc);
+        java.lang.foreign.MemoryAddress onPixbufModuleBeginLoadFunc(@NotNull PixbufModuleSizeFunc sizeFunc, @NotNull PixbufModulePreparedFunc preparedFunc, @NotNull PixbufModuleUpdatedFunc updatedFunc);
 }

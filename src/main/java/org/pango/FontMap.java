@@ -3,6 +3,7 @@ package org.pango;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code PangoFontMap} represents the set of fonts available for a
@@ -22,7 +23,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
         return new FontMap(gobject.refcounted());
     }
     
-    static final MethodHandle pango_font_map_changed = Interop.downcallHandle(
+    private static final MethodHandle pango_font_map_changed = Interop.downcallHandle(
         "pango_font_map_changed",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -36,7 +37,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      * call this function if they have attached extra data to the
      * context and such data is changed.
      */
-    public void changed() {
+    public @NotNull void changed() {
         try {
             pango_font_map_changed.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -44,7 +45,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
         }
     }
     
-    static final MethodHandle pango_font_map_create_context = Interop.downcallHandle(
+    private static final MethodHandle pango_font_map_create_context = Interop.downcallHandle(
         "pango_font_map_create_context",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -60,16 +61,17 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      * For instance, the GTK toolkit has, among others,
      * gtk_widget_get_pango_context(). Use those instead.
      */
-    public Context createContext() {
+    public @NotNull Context createContext() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_font_map_create_context.invokeExact(handle());
-            return new Context(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_font_map_create_context.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Context(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle pango_font_map_get_family = Interop.downcallHandle(
+    private static final MethodHandle pango_font_map_get_family = Interop.downcallHandle(
         "pango_font_map_get_family",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -77,16 +79,17 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
     /**
      * Gets a font family by name.
      */
-    public FontFamily getFamily(java.lang.String name) {
+    public @NotNull FontFamily getFamily(@NotNull java.lang.String name) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_font_map_get_family.invokeExact(handle(), Interop.allocateNativeString(name).handle());
-            return new FontFamily(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) pango_font_map_get_family.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new FontFamily(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle pango_font_map_get_serial = Interop.downcallHandle(
+    private static final MethodHandle pango_font_map_get_serial = Interop.downcallHandle(
         "pango_font_map_get_serial",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -106,15 +109,16 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      * like in {@code PangoContext}.
      */
     public int getSerial() {
+        int RESULT;
         try {
-            var RESULT = (int) pango_font_map_get_serial.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) pango_font_map_get_serial.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle pango_font_map_list_families = Interop.downcallHandle(
+    private static final MethodHandle pango_font_map_list_families = Interop.downcallHandle(
         "pango_font_map_list_families",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -127,15 +131,24 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      * {@code PangoFontMap} also implemented the {@code Gio.ListModel} interface
      * for enumerating families.
      */
-    public void listFamilies(PointerProxy<FontFamily> families, PointerInteger nFamilies) {
+    public @NotNull void listFamilies(@NotNull Out<FontFamily[]> families, @NotNull Out<Integer> nFamilies) {
+        MemorySegment familiesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment nFamiliesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            pango_font_map_list_families.invokeExact(handle(), families.handle(), nFamilies.handle());
+            pango_font_map_list_families.invokeExact(handle(), (Addressable) familiesPOINTER.address(), (Addressable) nFamiliesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        nFamilies.set(nFamiliesPOINTER.get(ValueLayout.JAVA_INT, 0));
+        FontFamily[] familiesARRAY = new FontFamily[nFamilies.get().intValue()];
+        for (int I = 0; I < nFamilies.get().intValue(); I++) {
+            var OBJ = familiesPOINTER.get(ValueLayout.ADDRESS, I);
+            familiesARRAY[I] = new FontFamily(Refcounted.get(OBJ, false));
+        }
+        families.set(familiesARRAY);
     }
     
-    static final MethodHandle pango_font_map_load_font = Interop.downcallHandle(
+    private static final MethodHandle pango_font_map_load_font = Interop.downcallHandle(
         "pango_font_map_load_font",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -143,16 +156,17 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
     /**
      * Load the font in the fontmap that is the closest match for {@code desc}.
      */
-    public Font loadFont(Context context, FontDescription desc) {
+    public @Nullable Font loadFont(@NotNull Context context, @NotNull FontDescription desc) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_font_map_load_font.invokeExact(handle(), context.handle(), desc.handle());
-            return new Font(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_font_map_load_font.invokeExact(handle(), context.handle(), desc.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Font(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle pango_font_map_load_fontset = Interop.downcallHandle(
+    private static final MethodHandle pango_font_map_load_fontset = Interop.downcallHandle(
         "pango_font_map_load_fontset",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -161,13 +175,14 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      * Load a set of fonts in the fontmap that can be used to render
      * a font matching {@code desc}.
      */
-    public Fontset loadFontset(Context context, FontDescription desc, Language language) {
+    public @Nullable Fontset loadFontset(@NotNull Context context, @NotNull FontDescription desc, @NotNull Language language) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_font_map_load_fontset.invokeExact(handle(), context.handle(), desc.handle(), language.handle());
-            return new Fontset(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_font_map_load_fontset.invokeExact(handle(), context.handle(), desc.handle(), language.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Fontset(Refcounted.get(RESULT, true));
     }
     
 }

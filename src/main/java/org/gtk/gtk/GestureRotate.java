@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkGestureRotate} is a {@code GtkGesture} for 2-finger rotations.
@@ -21,7 +22,7 @@ public class GestureRotate extends Gesture {
         return new GestureRotate(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_gesture_rotate_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_gesture_rotate_new = Interop.downcallHandle(
         "gtk_gesture_rotate_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -43,7 +44,7 @@ public class GestureRotate extends Gesture {
         super(constructNew());
     }
     
-    static final MethodHandle gtk_gesture_rotate_get_angle_delta = Interop.downcallHandle(
+    private static final MethodHandle gtk_gesture_rotate_get_angle_delta = Interop.downcallHandle(
         "gtk_gesture_rotate_get_angle_delta",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -56,17 +57,18 @@ public class GestureRotate extends Gesture {
      * not active, 0 is returned.
      */
     public double getAngleDelta() {
+        double RESULT;
         try {
-            var RESULT = (double) gtk_gesture_rotate_get_angle_delta.invokeExact(handle());
-            return RESULT;
+            RESULT = (double) gtk_gesture_rotate_get_angle_delta.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     @FunctionalInterface
     public interface AngleChangedHandler {
-        void signalReceived(GestureRotate source, double angle, double angleDelta);
+        void signalReceived(GestureRotate source, @NotNull double angle, @NotNull double angleDelta);
     }
     
     /**
@@ -76,13 +78,13 @@ public class GestureRotate extends Gesture {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("angle-changed").handle(),
+                Interop.allocateNativeString("angle-changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureRotate.Callbacks.class, "signalGestureRotateAngleChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

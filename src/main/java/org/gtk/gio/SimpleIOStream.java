@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * GSimpleIOStream creates a {@link IOStream} from an arbitrary {@link InputStream} and
@@ -25,12 +26,12 @@ public class SimpleIOStream extends IOStream {
         return new SimpleIOStream(gobject.refcounted());
     }
     
-    static final MethodHandle g_simple_io_stream_new = Interop.downcallHandle(
+    private static final MethodHandle g_simple_io_stream_new = Interop.downcallHandle(
         "g_simple_io_stream_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(InputStream inputStream, OutputStream outputStream) {
+    private static Refcounted constructNew(@NotNull InputStream inputStream, @NotNull OutputStream outputStream) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_simple_io_stream_new.invokeExact(inputStream.handle(), outputStream.handle()), true);
             return RESULT;
@@ -43,7 +44,7 @@ public class SimpleIOStream extends IOStream {
      * Creates a new {@link SimpleIOStream} wrapping {@code input_stream} and {@code output_stream}.
      * See also {@link IOStream}.
      */
-    public SimpleIOStream(InputStream inputStream, OutputStream outputStream) {
+    public SimpleIOStream(@NotNull InputStream inputStream, @NotNull OutputStream outputStream) {
         super(constructNew(inputStream, outputStream));
     }
     

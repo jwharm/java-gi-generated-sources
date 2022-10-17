@@ -1,6 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Specifies the type of function passed to g_node_children_foreach().
@@ -9,5 +10,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface NodeForeachFunc {
-        void onNodeForeachFunc(Node node);
+        void onNodeForeachFunc(@NotNull Node node);
 }

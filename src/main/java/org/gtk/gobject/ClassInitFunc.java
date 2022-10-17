@@ -1,6 +1,7 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A callback function used by the type system to initialize the class
@@ -9,7 +10,6 @@ import io.github.jwharm.javagi.*;
  * This function should initialize all static class members.
  * <p>
  * The initialization process of a class involves:
- * <p>
  * <ul>
  * <li>Copying common members from the parent class over to the
  *   derived class structure.
@@ -105,5 +105,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface ClassInitFunc {
-        void onClassInitFunc(TypeClass gClass);
+        void onClassInitFunc(@NotNull TypeClass gClass);
 }

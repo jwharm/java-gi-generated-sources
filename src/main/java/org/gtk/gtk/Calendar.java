@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkCalendar} is a widget that displays a Gregorian calendar, one month
@@ -27,9 +28,8 @@ import java.lang.invoke.*;
  * legal calendar in most countries, it was adopted progressively
  * between 1582 and 1929. Display before these dates is likely to be
  * historically incorrect.
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * <pre>{@code 
  * calendar.view
  * ├── header
@@ -66,7 +66,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
         return new Calendar(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_calendar_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_calendar_new = Interop.downcallHandle(
         "gtk_calendar_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -87,7 +87,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
         super(constructNew());
     }
     
-    static final MethodHandle gtk_calendar_clear_marks = Interop.downcallHandle(
+    private static final MethodHandle gtk_calendar_clear_marks = Interop.downcallHandle(
         "gtk_calendar_clear_marks",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -95,7 +95,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
     /**
      * Remove all visual markers.
      */
-    public void clearMarks() {
+    public @NotNull void clearMarks() {
         try {
             gtk_calendar_clear_marks.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -103,7 +103,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_calendar_get_date = Interop.downcallHandle(
+    private static final MethodHandle gtk_calendar_get_date = Interop.downcallHandle(
         "gtk_calendar_get_date",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -114,16 +114,17 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
      * <p>
      * The returned date is in the local time zone.
      */
-    public org.gtk.glib.DateTime getDate() {
+    public @NotNull org.gtk.glib.DateTime getDate() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_calendar_get_date.invokeExact(handle());
-            return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_calendar_get_date.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_calendar_get_day_is_marked = Interop.downcallHandle(
+    private static final MethodHandle gtk_calendar_get_day_is_marked = Interop.downcallHandle(
         "gtk_calendar_get_day_is_marked",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -131,16 +132,17 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
     /**
      * Returns if the {@code day} of the {@code calendar} is already marked.
      */
-    public boolean getDayIsMarked(int day) {
+    public boolean getDayIsMarked(@NotNull int day) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_calendar_get_day_is_marked.invokeExact(handle(), day);
-            return RESULT != 0;
+            RESULT = (int) gtk_calendar_get_day_is_marked.invokeExact(handle(), day);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_calendar_get_show_day_names = Interop.downcallHandle(
+    private static final MethodHandle gtk_calendar_get_show_day_names = Interop.downcallHandle(
         "gtk_calendar_get_show_day_names",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -153,15 +155,16 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
      * property.
      */
     public boolean getShowDayNames() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_calendar_get_show_day_names.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_calendar_get_show_day_names.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_calendar_get_show_heading = Interop.downcallHandle(
+    private static final MethodHandle gtk_calendar_get_show_heading = Interop.downcallHandle(
         "gtk_calendar_get_show_heading",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -173,15 +176,16 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
      * property.
      */
     public boolean getShowHeading() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_calendar_get_show_heading.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_calendar_get_show_heading.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_calendar_get_show_week_numbers = Interop.downcallHandle(
+    private static final MethodHandle gtk_calendar_get_show_week_numbers = Interop.downcallHandle(
         "gtk_calendar_get_show_week_numbers",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -194,15 +198,16 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
      * property.
      */
     public boolean getShowWeekNumbers() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_calendar_get_show_week_numbers.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_calendar_get_show_week_numbers.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_calendar_mark_day = Interop.downcallHandle(
+    private static final MethodHandle gtk_calendar_mark_day = Interop.downcallHandle(
         "gtk_calendar_mark_day",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -210,7 +215,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
     /**
      * Places a visual marker on a particular day.
      */
-    public void markDay(int day) {
+    public @NotNull void markDay(@NotNull int day) {
         try {
             gtk_calendar_mark_day.invokeExact(handle(), day);
         } catch (Throwable ERR) {
@@ -218,7 +223,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_calendar_select_day = Interop.downcallHandle(
+    private static final MethodHandle gtk_calendar_select_day = Interop.downcallHandle(
         "gtk_calendar_select_day",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -226,7 +231,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
     /**
      * Switches to {@code date}'s year and month and select its day.
      */
-    public void selectDay(org.gtk.glib.DateTime date) {
+    public @NotNull void selectDay(@NotNull org.gtk.glib.DateTime date) {
         try {
             gtk_calendar_select_day.invokeExact(handle(), date.handle());
         } catch (Throwable ERR) {
@@ -234,7 +239,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_calendar_set_show_day_names = Interop.downcallHandle(
+    private static final MethodHandle gtk_calendar_set_show_day_names = Interop.downcallHandle(
         "gtk_calendar_set_show_day_names",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -242,7 +247,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
     /**
      * Sets whether the calendar shows day names.
      */
-    public void setShowDayNames(boolean value) {
+    public @NotNull void setShowDayNames(@NotNull boolean value) {
         try {
             gtk_calendar_set_show_day_names.invokeExact(handle(), value ? 1 : 0);
         } catch (Throwable ERR) {
@@ -250,7 +255,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_calendar_set_show_heading = Interop.downcallHandle(
+    private static final MethodHandle gtk_calendar_set_show_heading = Interop.downcallHandle(
         "gtk_calendar_set_show_heading",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -261,7 +266,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
      * The heading contains the current year and month as well as
      * buttons for changing both.
      */
-    public void setShowHeading(boolean value) {
+    public @NotNull void setShowHeading(@NotNull boolean value) {
         try {
             gtk_calendar_set_show_heading.invokeExact(handle(), value ? 1 : 0);
         } catch (Throwable ERR) {
@@ -269,7 +274,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_calendar_set_show_week_numbers = Interop.downcallHandle(
+    private static final MethodHandle gtk_calendar_set_show_week_numbers = Interop.downcallHandle(
         "gtk_calendar_set_show_week_numbers",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -277,7 +282,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
     /**
      * Sets whether week numbers are shown in the calendar.
      */
-    public void setShowWeekNumbers(boolean value) {
+    public @NotNull void setShowWeekNumbers(@NotNull boolean value) {
         try {
             gtk_calendar_set_show_week_numbers.invokeExact(handle(), value ? 1 : 0);
         } catch (Throwable ERR) {
@@ -285,7 +290,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_calendar_unmark_day = Interop.downcallHandle(
+    private static final MethodHandle gtk_calendar_unmark_day = Interop.downcallHandle(
         "gtk_calendar_unmark_day",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -293,7 +298,7 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
     /**
      * Removes the visual marker from a particular day.
      */
-    public void unmarkDay(int day) {
+    public @NotNull void unmarkDay(@NotNull int day) {
         try {
             gtk_calendar_unmark_day.invokeExact(handle(), day);
         } catch (Throwable ERR) {
@@ -313,13 +318,13 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("day-selected").handle(),
+                Interop.allocateNativeString("day-selected"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Calendar.Callbacks.class, "signalCalendarDaySelected",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -339,13 +344,13 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("next-month").handle(),
+                Interop.allocateNativeString("next-month"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Calendar.Callbacks.class, "signalCalendarNextMonth",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -365,13 +370,13 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("next-year").handle(),
+                Interop.allocateNativeString("next-year"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Calendar.Callbacks.class, "signalCalendarNextYear",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -391,13 +396,13 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("prev-month").handle(),
+                Interop.allocateNativeString("prev-month"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Calendar.Callbacks.class, "signalCalendarPrevMonth",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -417,13 +422,13 @@ public class Calendar extends Widget implements Accessible, Buildable, Constrain
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("prev-year").handle(),
+                Interop.allocateNativeString("prev-year"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Calendar.Callbacks.class, "signalCalendarPrevYear",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

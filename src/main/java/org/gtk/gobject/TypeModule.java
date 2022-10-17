@@ -3,6 +3,7 @@ package org.gtk.gobject;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link TypeModule} provides a simple implementation of the {@link TypePlugin}
@@ -47,7 +48,7 @@ public class TypeModule extends Object implements TypePlugin {
         return new TypeModule(gobject.refcounted());
     }
     
-    static final MethodHandle g_type_module_add_interface = Interop.downcallHandle(
+    private static final MethodHandle g_type_module_add_interface = Interop.downcallHandle(
         "g_type_module_add_interface",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -63,7 +64,7 @@ public class TypeModule extends Object implements TypePlugin {
      * Since 2.56 if {@code module} is {@code null} this will call g_type_add_interface_static()
      * instead. This can be used when making a static build of the module.
      */
-    public void addInterface(org.gtk.gobject.Type instanceType, org.gtk.gobject.Type interfaceType, InterfaceInfo interfaceInfo) {
+    public @NotNull void addInterface(@NotNull org.gtk.gobject.Type instanceType, @NotNull org.gtk.gobject.Type interfaceType, @NotNull InterfaceInfo interfaceInfo) {
         try {
             g_type_module_add_interface.invokeExact(handle(), instanceType.getValue(), interfaceType.getValue(), interfaceInfo.handle());
         } catch (Throwable ERR) {
@@ -71,7 +72,7 @@ public class TypeModule extends Object implements TypePlugin {
         }
     }
     
-    static final MethodHandle g_type_module_register_enum = Interop.downcallHandle(
+    private static final MethodHandle g_type_module_register_enum = Interop.downcallHandle(
         "g_type_module_register_enum",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -88,16 +89,17 @@ public class TypeModule extends Object implements TypePlugin {
      * Since 2.56 if {@code module} is {@code null} this will call g_type_register_static()
      * instead. This can be used when making a static build of the module.
      */
-    public org.gtk.gobject.Type registerEnum(java.lang.String name, EnumValue constStaticValues) {
+    public @NotNull org.gtk.gobject.Type registerEnum(@NotNull java.lang.String name, @NotNull EnumValue constStaticValues) {
+        long RESULT;
         try {
-            var RESULT = (long) g_type_module_register_enum.invokeExact(handle(), Interop.allocateNativeString(name).handle(), constStaticValues.handle());
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) g_type_module_register_enum.invokeExact(handle(), Interop.allocateNativeString(name), constStaticValues.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle g_type_module_register_flags = Interop.downcallHandle(
+    private static final MethodHandle g_type_module_register_flags = Interop.downcallHandle(
         "g_type_module_register_flags",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -114,16 +116,17 @@ public class TypeModule extends Object implements TypePlugin {
      * Since 2.56 if {@code module} is {@code null} this will call g_type_register_static()
      * instead. This can be used when making a static build of the module.
      */
-    public org.gtk.gobject.Type registerFlags(java.lang.String name, FlagsValue constStaticValues) {
+    public @NotNull org.gtk.gobject.Type registerFlags(@NotNull java.lang.String name, @NotNull FlagsValue constStaticValues) {
+        long RESULT;
         try {
-            var RESULT = (long) g_type_module_register_flags.invokeExact(handle(), Interop.allocateNativeString(name).handle(), constStaticValues.handle());
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) g_type_module_register_flags.invokeExact(handle(), Interop.allocateNativeString(name), constStaticValues.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle g_type_module_register_type = Interop.downcallHandle(
+    private static final MethodHandle g_type_module_register_type = Interop.downcallHandle(
         "g_type_module_register_type",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -144,16 +147,17 @@ public class TypeModule extends Object implements TypePlugin {
      * Since 2.56 if {@code module} is {@code null} this will call g_type_register_static()
      * instead. This can be used when making a static build of the module.
      */
-    public org.gtk.gobject.Type registerType(org.gtk.gobject.Type parentType, java.lang.String typeName, TypeInfo typeInfo, TypeFlags flags) {
+    public @NotNull org.gtk.gobject.Type registerType(@NotNull org.gtk.gobject.Type parentType, @NotNull java.lang.String typeName, @NotNull TypeInfo typeInfo, @NotNull TypeFlags flags) {
+        long RESULT;
         try {
-            var RESULT = (long) g_type_module_register_type.invokeExact(handle(), parentType.getValue(), Interop.allocateNativeString(typeName).handle(), typeInfo.handle(), flags.getValue());
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) g_type_module_register_type.invokeExact(handle(), parentType.getValue(), Interop.allocateNativeString(typeName), typeInfo.handle(), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle g_type_module_set_name = Interop.downcallHandle(
+    private static final MethodHandle g_type_module_set_name = Interop.downcallHandle(
         "g_type_module_set_name",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -161,15 +165,15 @@ public class TypeModule extends Object implements TypePlugin {
     /**
      * Sets the name for a {@link TypeModule}
      */
-    public void setName(java.lang.String name) {
+    public @NotNull void setName(@NotNull java.lang.String name) {
         try {
-            g_type_module_set_name.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+            g_type_module_set_name.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_type_module_unuse = Interop.downcallHandle(
+    private static final MethodHandle g_type_module_unuse = Interop.downcallHandle(
         "g_type_module_unuse",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -181,7 +185,7 @@ public class TypeModule extends Object implements TypePlugin {
      * {@link TypeModule} are not unregistered. Once a {@link TypeModule} is
      * initialized, it must exist forever.)
      */
-    public void unuse() {
+    public @NotNull void unuse() {
         try {
             g_type_module_unuse.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -189,7 +193,7 @@ public class TypeModule extends Object implements TypePlugin {
         }
     }
     
-    static final MethodHandle g_type_module_use = Interop.downcallHandle(
+    private static final MethodHandle g_type_module_use = Interop.downcallHandle(
         "g_type_module_use",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -201,12 +205,13 @@ public class TypeModule extends Object implements TypePlugin {
      * its prior value.
      */
     public boolean useTypeModule() {
+        int RESULT;
         try {
-            var RESULT = (int) g_type_module_use.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_type_module_use.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
 }

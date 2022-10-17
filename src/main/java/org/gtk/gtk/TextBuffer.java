@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Stores text and attributes for display in a {@code GtkTextView}.
@@ -26,12 +27,12 @@ public class TextBuffer extends org.gtk.gobject.Object {
         return new TextBuffer(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_text_buffer_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_new = Interop.downcallHandle(
         "gtk_text_buffer_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(TextTagTable table) {
+    private static Refcounted constructNew(@Nullable TextTagTable table) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_text_buffer_new.invokeExact(table.handle()), true);
             return RESULT;
@@ -43,11 +44,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
     /**
      * Creates a new text buffer.
      */
-    public TextBuffer(TextTagTable table) {
+    public TextBuffer(@Nullable TextTagTable table) {
         super(constructNew(table));
     }
     
-    static final MethodHandle gtk_text_buffer_add_mark = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_add_mark = Interop.downcallHandle(
         "gtk_text_buffer_add_mark",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -62,7 +63,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * Emits the {@code Gtk.TextBuffer::mark-set} signal as notification
      * of the mark's initial placement.
      */
-    public void addMark(TextMark mark, TextIter where) {
+    public @NotNull void addMark(@NotNull TextMark mark, @NotNull TextIter where) {
         try {
             gtk_text_buffer_add_mark.invokeExact(handle(), mark.handle(), where.handle());
         } catch (Throwable ERR) {
@@ -70,7 +71,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_buffer_add_selection_clipboard = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_add_selection_clipboard = Interop.downcallHandle(
         "gtk_text_buffer_add_selection_clipboard",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -82,7 +83,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * In most cases, {@code clipboard} will be the {@code GdkClipboard} returned by
      * {@link Widget#getPrimaryClipboard} for a view of {@code buffer}.
      */
-    public void addSelectionClipboard(org.gtk.gdk.Clipboard clipboard) {
+    public @NotNull void addSelectionClipboard(@NotNull org.gtk.gdk.Clipboard clipboard) {
         try {
             gtk_text_buffer_add_selection_clipboard.invokeExact(handle(), clipboard.handle());
         } catch (Throwable ERR) {
@@ -90,7 +91,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_buffer_apply_tag = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_apply_tag = Interop.downcallHandle(
         "gtk_text_buffer_apply_tag",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -102,7 +103,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * {@code tag} to the given range. {@code start} and {@code end} do
      * not have to be in order.
      */
-    public void applyTag(TextTag tag, TextIter start, TextIter end) {
+    public @NotNull void applyTag(@NotNull TextTag tag, @NotNull TextIter start, @NotNull TextIter end) {
         try {
             gtk_text_buffer_apply_tag.invokeExact(handle(), tag.handle(), start.handle(), end.handle());
         } catch (Throwable ERR) {
@@ -110,7 +111,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_buffer_apply_tag_by_name = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_apply_tag_by_name = Interop.downcallHandle(
         "gtk_text_buffer_apply_tag_by_name",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -122,15 +123,15 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * tag table to get a {@code GtkTextTag}, then calls
      * {@link TextBuffer#applyTag}.
      */
-    public void applyTagByName(java.lang.String name, TextIter start, TextIter end) {
+    public @NotNull void applyTagByName(@NotNull java.lang.String name, @NotNull TextIter start, @NotNull TextIter end) {
         try {
-            gtk_text_buffer_apply_tag_by_name.invokeExact(handle(), Interop.allocateNativeString(name).handle(), start.handle(), end.handle());
+            gtk_text_buffer_apply_tag_by_name.invokeExact(handle(), Interop.allocateNativeString(name), start.handle(), end.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_text_buffer_backspace = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_backspace = Interop.downcallHandle(
         "gtk_text_buffer_backspace",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -148,16 +149,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * invalid after calling this function; however, the {@code iter} will be
      * re-initialized to point to the location where text was deleted.
      */
-    public boolean backspace(TextIter iter, boolean interactive, boolean defaultEditable) {
+    public boolean backspace(@NotNull TextIter iter, @NotNull boolean interactive, @NotNull boolean defaultEditable) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_buffer_backspace.invokeExact(handle(), iter.handle(), interactive ? 1 : 0, defaultEditable ? 1 : 0);
-            return RESULT != 0;
+            RESULT = (int) gtk_text_buffer_backspace.invokeExact(handle(), iter.handle(), interactive ? 1 : 0, defaultEditable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_buffer_begin_irreversible_action = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_begin_irreversible_action = Interop.downcallHandle(
         "gtk_text_buffer_begin_irreversible_action",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -175,7 +177,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * You may nest calls to gtk_text_buffer_begin_irreversible_action()
      * and gtk_text_buffer_end_irreversible_action() pairs.
      */
-    public void beginIrreversibleAction() {
+    public @NotNull void beginIrreversibleAction() {
         try {
             gtk_text_buffer_begin_irreversible_action.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -183,7 +185,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_buffer_begin_user_action = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_begin_user_action = Interop.downcallHandle(
         "gtk_text_buffer_begin_user_action",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -208,7 +210,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * so there's no need to add extra calls if you user action consists
      * solely of a single call to one of those functions.
      */
-    public void beginUserAction() {
+    public @NotNull void beginUserAction() {
         try {
             gtk_text_buffer_begin_user_action.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -216,7 +218,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_buffer_copy_clipboard = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_copy_clipboard = Interop.downcallHandle(
         "gtk_text_buffer_copy_clipboard",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -224,7 +226,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     /**
      * Copies the currently-selected text to a clipboard.
      */
-    public void copyClipboard(org.gtk.gdk.Clipboard clipboard) {
+    public @NotNull void copyClipboard(@NotNull org.gtk.gdk.Clipboard clipboard) {
         try {
             gtk_text_buffer_copy_clipboard.invokeExact(handle(), clipboard.handle());
         } catch (Throwable ERR) {
@@ -232,7 +234,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_buffer_create_child_anchor = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_create_child_anchor = Interop.downcallHandle(
         "gtk_text_buffer_create_child_anchor",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -247,16 +249,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * The new anchor is owned by the buffer; no reference count is
      * returned to the caller of this function.
      */
-    public TextChildAnchor createChildAnchor(TextIter iter) {
+    public @NotNull TextChildAnchor createChildAnchor(@NotNull TextIter iter) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_text_buffer_create_child_anchor.invokeExact(handle(), iter.handle());
-            return new TextChildAnchor(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_text_buffer_create_child_anchor.invokeExact(handle(), iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TextChildAnchor(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_text_buffer_create_mark = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_create_mark = Interop.downcallHandle(
         "gtk_text_buffer_create_mark",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -282,16 +285,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * Emits the {@code Gtk.TextBuffer::mark-set} signal as notification
      * of the mark's initial placement.
      */
-    public TextMark createMark(java.lang.String markName, TextIter where, boolean leftGravity) {
+    public @NotNull TextMark createMark(@Nullable java.lang.String markName, @NotNull TextIter where, @NotNull boolean leftGravity) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_text_buffer_create_mark.invokeExact(handle(), Interop.allocateNativeString(markName).handle(), where.handle(), leftGravity ? 1 : 0);
-            return new TextMark(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_text_buffer_create_mark.invokeExact(handle(), Interop.allocateNativeString(markName), where.handle(), leftGravity ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TextMark(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_text_buffer_cut_clipboard = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_cut_clipboard = Interop.downcallHandle(
         "gtk_text_buffer_cut_clipboard",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -300,7 +304,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * Copies the currently-selected text to a clipboard,
      * then deletes said text if it’s editable.
      */
-    public void cutClipboard(org.gtk.gdk.Clipboard clipboard, boolean defaultEditable) {
+    public @NotNull void cutClipboard(@NotNull org.gtk.gdk.Clipboard clipboard, @NotNull boolean defaultEditable) {
         try {
             gtk_text_buffer_cut_clipboard.invokeExact(handle(), clipboard.handle(), defaultEditable ? 1 : 0);
         } catch (Throwable ERR) {
@@ -308,7 +312,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_buffer_delete = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_delete = Interop.downcallHandle(
         "gtk_text_buffer_delete",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -325,7 +329,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * calling this function; however, the {@code start} and {@code end} will be
      * re-initialized to point to the location where text was deleted.
      */
-    public void delete(TextIter start, TextIter end) {
+    public @NotNull void delete(@NotNull TextIter start, @NotNull TextIter end) {
         try {
             gtk_text_buffer_delete.invokeExact(handle(), start.handle(), end.handle());
         } catch (Throwable ERR) {
@@ -333,7 +337,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_buffer_delete_interactive = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_delete_interactive = Interop.downcallHandle(
         "gtk_text_buffer_delete_interactive",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -346,16 +350,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * to point to the location of the last deleted range, or left
      * untouched if no text was deleted.
      */
-    public boolean deleteInteractive(TextIter startIter, TextIter endIter, boolean defaultEditable) {
+    public boolean deleteInteractive(@NotNull TextIter startIter, @NotNull TextIter endIter, @NotNull boolean defaultEditable) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_buffer_delete_interactive.invokeExact(handle(), startIter.handle(), endIter.handle(), defaultEditable ? 1 : 0);
-            return RESULT != 0;
+            RESULT = (int) gtk_text_buffer_delete_interactive.invokeExact(handle(), startIter.handle(), endIter.handle(), defaultEditable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_buffer_delete_mark = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_delete_mark = Interop.downcallHandle(
         "gtk_text_buffer_delete_mark",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -374,7 +379,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * The {@code Gtk.TextBuffer::mark-deleted} signal will be emitted as
      * notification after the mark is deleted.
      */
-    public void deleteMark(TextMark mark) {
+    public @NotNull void deleteMark(@NotNull TextMark mark) {
         try {
             gtk_text_buffer_delete_mark.invokeExact(handle(), mark.handle());
         } catch (Throwable ERR) {
@@ -382,7 +387,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_buffer_delete_mark_by_name = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_delete_mark_by_name = Interop.downcallHandle(
         "gtk_text_buffer_delete_mark_by_name",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -392,15 +397,15 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * <p>
      * See {@link TextBuffer#deleteMark} for details.
      */
-    public void deleteMarkByName(java.lang.String name) {
+    public @NotNull void deleteMarkByName(@NotNull java.lang.String name) {
         try {
-            gtk_text_buffer_delete_mark_by_name.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+            gtk_text_buffer_delete_mark_by_name.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_text_buffer_delete_selection = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_delete_selection = Interop.downcallHandle(
         "gtk_text_buffer_delete_selection",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -412,16 +417,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * If {@code interactive} is {@code true}, the editability of the selection will be
      * considered (users can’t delete uneditable text).
      */
-    public boolean deleteSelection(boolean interactive, boolean defaultEditable) {
+    public boolean deleteSelection(@NotNull boolean interactive, @NotNull boolean defaultEditable) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_buffer_delete_selection.invokeExact(handle(), interactive ? 1 : 0, defaultEditable ? 1 : 0);
-            return RESULT != 0;
+            RESULT = (int) gtk_text_buffer_delete_selection.invokeExact(handle(), interactive ? 1 : 0, defaultEditable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_buffer_end_irreversible_action = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_end_irreversible_action = Interop.downcallHandle(
         "gtk_text_buffer_end_irreversible_action",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -439,7 +445,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * You may nest calls to gtk_text_buffer_begin_irreversible_action()
      * and gtk_text_buffer_end_irreversible_action() pairs.
      */
-    public void endIrreversibleAction() {
+    public @NotNull void endIrreversibleAction() {
         try {
             gtk_text_buffer_end_irreversible_action.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -447,7 +453,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_buffer_end_user_action = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_end_user_action = Interop.downcallHandle(
         "gtk_text_buffer_end_user_action",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -459,7 +465,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * {@link TextBuffer#beginUserAction}.
      * See that function for a full explanation.
      */
-    public void endUserAction() {
+    public @NotNull void endUserAction() {
         try {
             gtk_text_buffer_end_user_action.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -467,7 +473,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_buffer_get_bounds = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_get_bounds = Interop.downcallHandle(
         "gtk_text_buffer_get_bounds",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -476,15 +482,19 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * Retrieves the first and last iterators in the buffer, i.e. the
      * entire buffer lies within the range [{@code start},{@code end}).
      */
-    public void getBounds(TextIter start, TextIter end) {
+    public @NotNull void getBounds(@NotNull Out<TextIter> start, @NotNull Out<TextIter> end) {
+        MemorySegment startPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment endPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_text_buffer_get_bounds.invokeExact(handle(), start.handle(), end.handle());
+            gtk_text_buffer_get_bounds.invokeExact(handle(), (Addressable) startPOINTER.address(), (Addressable) endPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        start.set(new TextIter(Refcounted.get(startPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        end.set(new TextIter(Refcounted.get(endPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle gtk_text_buffer_get_can_redo = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_get_can_redo = Interop.downcallHandle(
         "gtk_text_buffer_get_can_redo",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -493,15 +503,16 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * Gets whether there is a redoable action in the history.
      */
     public boolean getCanRedo() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_buffer_get_can_redo.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_text_buffer_get_can_redo.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_buffer_get_can_undo = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_get_can_undo = Interop.downcallHandle(
         "gtk_text_buffer_get_can_undo",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -510,15 +521,16 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * Gets whether there is an undoable action in the history.
      */
     public boolean getCanUndo() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_buffer_get_can_undo.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_text_buffer_get_can_undo.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_buffer_get_char_count = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_get_char_count = Interop.downcallHandle(
         "gtk_text_buffer_get_char_count",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -533,15 +545,16 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * The character count is cached, so this function is very fast.
      */
     public int getCharCount() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_buffer_get_char_count.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_text_buffer_get_char_count.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_text_buffer_get_enable_undo = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_get_enable_undo = Interop.downcallHandle(
         "gtk_text_buffer_get_enable_undo",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -555,15 +568,16 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * changes to the buffer that cannot be undone.
      */
     public boolean getEnableUndo() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_buffer_get_enable_undo.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_text_buffer_get_enable_undo.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_buffer_get_end_iter = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_get_end_iter = Interop.downcallHandle(
         "gtk_text_buffer_get_end_iter",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -578,15 +592,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * the buffer (call {@link TextBuffer#getStartIter} to get
      * character position 0) to the end iterator.
      */
-    public void getEndIter(TextIter iter) {
+    public @NotNull void getEndIter(@NotNull Out<TextIter> iter) {
+        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_text_buffer_get_end_iter.invokeExact(handle(), iter.handle());
+            gtk_text_buffer_get_end_iter.invokeExact(handle(), (Addressable) iterPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        iter.set(new TextIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle gtk_text_buffer_get_has_selection = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_get_has_selection = Interop.downcallHandle(
         "gtk_text_buffer_get_has_selection",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -595,15 +611,16 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * Indicates whether the buffer has some text currently selected.
      */
     public boolean getHasSelection() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_buffer_get_has_selection.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_text_buffer_get_has_selection.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_buffer_get_insert = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_get_insert = Interop.downcallHandle(
         "gtk_text_buffer_get_insert",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -615,16 +632,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * to get the mark named “insert”, but very slightly more
      * efficient, and involves less typing.
      */
-    public TextMark getInsert() {
+    public @NotNull TextMark getInsert() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_text_buffer_get_insert.invokeExact(handle());
-            return new TextMark(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_text_buffer_get_insert.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TextMark(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_text_buffer_get_iter_at_child_anchor = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_get_iter_at_child_anchor = Interop.downcallHandle(
         "gtk_text_buffer_get_iter_at_child_anchor",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -632,15 +650,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
     /**
      * Obtains the location of {@code anchor} within {@code buffer}.
      */
-    public void getIterAtChildAnchor(TextIter iter, TextChildAnchor anchor) {
+    public @NotNull void getIterAtChildAnchor(@NotNull Out<TextIter> iter, @NotNull TextChildAnchor anchor) {
+        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_text_buffer_get_iter_at_child_anchor.invokeExact(handle(), iter.handle(), anchor.handle());
+            gtk_text_buffer_get_iter_at_child_anchor.invokeExact(handle(), (Addressable) iterPOINTER.address(), anchor.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        iter.set(new TextIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle gtk_text_buffer_get_iter_at_line = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_get_iter_at_line = Interop.downcallHandle(
         "gtk_text_buffer_get_iter_at_line",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -651,16 +671,19 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * If {@code line_number} is greater than or equal to the number of lines
      * in the {@code buffer}, the end iterator is returned.
      */
-    public boolean getIterAtLine(TextIter iter, int lineNumber) {
+    public boolean getIterAtLine(@NotNull Out<TextIter> iter, @NotNull int lineNumber) {
+        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_buffer_get_iter_at_line.invokeExact(handle(), iter.handle(), lineNumber);
-            return RESULT != 0;
+            RESULT = (int) gtk_text_buffer_get_iter_at_line.invokeExact(handle(), (Addressable) iterPOINTER.address(), lineNumber);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        iter.set(new TextIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_buffer_get_iter_at_line_index = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_get_iter_at_line_index = Interop.downcallHandle(
         "gtk_text_buffer_get_iter_at_line_index",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -675,16 +698,19 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * the end iterator is returned. And if {@code byte_index} is off the
      * end of the line, the iterator at the end of the line is returned.
      */
-    public boolean getIterAtLineIndex(TextIter iter, int lineNumber, int byteIndex) {
+    public boolean getIterAtLineIndex(@NotNull Out<TextIter> iter, @NotNull int lineNumber, @NotNull int byteIndex) {
+        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_buffer_get_iter_at_line_index.invokeExact(handle(), iter.handle(), lineNumber, byteIndex);
-            return RESULT != 0;
+            RESULT = (int) gtk_text_buffer_get_iter_at_line_index.invokeExact(handle(), (Addressable) iterPOINTER.address(), lineNumber, byteIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        iter.set(new TextIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_buffer_get_iter_at_line_offset = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_get_iter_at_line_offset = Interop.downcallHandle(
         "gtk_text_buffer_get_iter_at_line_offset",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -699,16 +725,19 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * the end iterator is returned. And if {@code char_offset} is off the
      * end of the line, the iterator at the end of the line is returned.
      */
-    public boolean getIterAtLineOffset(TextIter iter, int lineNumber, int charOffset) {
+    public boolean getIterAtLineOffset(@NotNull Out<TextIter> iter, @NotNull int lineNumber, @NotNull int charOffset) {
+        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_buffer_get_iter_at_line_offset.invokeExact(handle(), iter.handle(), lineNumber, charOffset);
-            return RESULT != 0;
+            RESULT = (int) gtk_text_buffer_get_iter_at_line_offset.invokeExact(handle(), (Addressable) iterPOINTER.address(), lineNumber, charOffset);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        iter.set(new TextIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_buffer_get_iter_at_mark = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_get_iter_at_mark = Interop.downcallHandle(
         "gtk_text_buffer_get_iter_at_mark",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -716,15 +745,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
     /**
      * Initializes {@code iter} with the current position of {@code mark}.
      */
-    public void getIterAtMark(TextIter iter, TextMark mark) {
+    public @NotNull void getIterAtMark(@NotNull Out<TextIter> iter, @NotNull TextMark mark) {
+        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_text_buffer_get_iter_at_mark.invokeExact(handle(), iter.handle(), mark.handle());
+            gtk_text_buffer_get_iter_at_mark.invokeExact(handle(), (Addressable) iterPOINTER.address(), mark.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        iter.set(new TextIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle gtk_text_buffer_get_iter_at_offset = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_get_iter_at_offset = Interop.downcallHandle(
         "gtk_text_buffer_get_iter_at_offset",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -737,15 +768,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * of characters in the buffer, {@code iter} is initialized to the end iterator,
      * the iterator one past the last valid character in the buffer.
      */
-    public void getIterAtOffset(TextIter iter, int charOffset) {
+    public @NotNull void getIterAtOffset(@NotNull Out<TextIter> iter, @NotNull int charOffset) {
+        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_text_buffer_get_iter_at_offset.invokeExact(handle(), iter.handle(), charOffset);
+            gtk_text_buffer_get_iter_at_offset.invokeExact(handle(), (Addressable) iterPOINTER.address(), charOffset);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        iter.set(new TextIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle gtk_text_buffer_get_line_count = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_get_line_count = Interop.downcallHandle(
         "gtk_text_buffer_get_line_count",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -756,15 +789,16 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * This value is cached, so the function is very fast.
      */
     public int getLineCount() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_buffer_get_line_count.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_text_buffer_get_line_count.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_text_buffer_get_mark = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_get_mark = Interop.downcallHandle(
         "gtk_text_buffer_get_mark",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -773,16 +807,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * Returns the mark named {@code name} in buffer {@code buffer}, or {@code null} if no such
      * mark exists in the buffer.
      */
-    public TextMark getMark(java.lang.String name) {
+    public @Nullable TextMark getMark(@NotNull java.lang.String name) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_text_buffer_get_mark.invokeExact(handle(), Interop.allocateNativeString(name).handle());
-            return new TextMark(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_text_buffer_get_mark.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TextMark(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_text_buffer_get_max_undo_levels = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_get_max_undo_levels = Interop.downcallHandle(
         "gtk_text_buffer_get_max_undo_levels",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -795,15 +830,16 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * copy of the inserted or removed text within the text buffer.
      */
     public int getMaxUndoLevels() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_buffer_get_max_undo_levels.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_text_buffer_get_max_undo_levels.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_text_buffer_get_modified = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_get_modified = Interop.downcallHandle(
         "gtk_text_buffer_get_modified",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -816,15 +852,16 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * Used for example to enable a “save” function in a text editor.
      */
     public boolean getModified() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_buffer_get_modified.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_text_buffer_get_modified.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_buffer_get_selection_bound = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_get_selection_bound = Interop.downcallHandle(
         "gtk_text_buffer_get_selection_bound",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -843,16 +880,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * function for handling the selection, if you just want to know whether
      * there’s a selection and what its bounds are.
      */
-    public TextMark getSelectionBound() {
+    public @NotNull TextMark getSelectionBound() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_text_buffer_get_selection_bound.invokeExact(handle());
-            return new TextMark(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_text_buffer_get_selection_bound.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TextMark(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_text_buffer_get_selection_bounds = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_get_selection_bounds = Interop.downcallHandle(
         "gtk_text_buffer_get_selection_bounds",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -866,16 +904,21 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * If {@code start} and {@code end} are {@code null}, then they are not filled in, but the
      * return value still indicates whether text is selected.
      */
-    public boolean getSelectionBounds(TextIter start, TextIter end) {
+    public boolean getSelectionBounds(@NotNull Out<TextIter> start, @NotNull Out<TextIter> end) {
+        MemorySegment startPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment endPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_buffer_get_selection_bounds.invokeExact(handle(), start.handle(), end.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_text_buffer_get_selection_bounds.invokeExact(handle(), (Addressable) startPOINTER.address(), (Addressable) endPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        start.set(new TextIter(Refcounted.get(startPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        end.set(new TextIter(Refcounted.get(endPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_buffer_get_selection_content = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_get_selection_content = Interop.downcallHandle(
         "gtk_text_buffer_get_selection_content",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -886,16 +929,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * It can be used to make the content of {@code buffer} available
      * in a {@code GdkClipboard}, see {@link org.gtk.gdk.Clipboard#setContent}.
      */
-    public org.gtk.gdk.ContentProvider getSelectionContent() {
+    public @NotNull org.gtk.gdk.ContentProvider getSelectionContent() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_text_buffer_get_selection_content.invokeExact(handle());
-            return new org.gtk.gdk.ContentProvider(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_text_buffer_get_selection_content.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gdk.ContentProvider(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_text_buffer_get_slice = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_get_slice = Interop.downcallHandle(
         "gtk_text_buffer_get_slice",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -912,16 +956,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * Note that 0xFFFC can occur in normal text as well, so it is not a
      * reliable indicator that a paintable or widget is in the buffer.
      */
-    public java.lang.String getSlice(TextIter start, TextIter end, boolean includeHiddenChars) {
+    public @NotNull java.lang.String getSlice(@NotNull TextIter start, @NotNull TextIter end, @NotNull boolean includeHiddenChars) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_text_buffer_get_slice.invokeExact(handle(), start.handle(), end.handle(), includeHiddenChars ? 1 : 0);
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_text_buffer_get_slice.invokeExact(handle(), start.handle(), end.handle(), includeHiddenChars ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_text_buffer_get_start_iter = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_get_start_iter = Interop.downcallHandle(
         "gtk_text_buffer_get_start_iter",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -932,15 +977,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * This is the same as using {@link TextBuffer#getIterAtOffset}
      * to get the iter at character offset 0.
      */
-    public void getStartIter(TextIter iter) {
+    public @NotNull void getStartIter(@NotNull Out<TextIter> iter) {
+        MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_text_buffer_get_start_iter.invokeExact(handle(), iter.handle());
+            gtk_text_buffer_get_start_iter.invokeExact(handle(), (Addressable) iterPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        iter.set(new TextIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle gtk_text_buffer_get_tag_table = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_get_tag_table = Interop.downcallHandle(
         "gtk_text_buffer_get_tag_table",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -948,16 +995,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
     /**
      * Get the {@code GtkTextTagTable} associated with this buffer.
      */
-    public TextTagTable getTagTable() {
+    public @NotNull TextTagTable getTagTable() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_text_buffer_get_tag_table.invokeExact(handle());
-            return new TextTagTable(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_text_buffer_get_tag_table.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TextTagTable(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_text_buffer_get_text = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_get_text = Interop.downcallHandle(
         "gtk_text_buffer_get_text",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -972,16 +1020,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * correspond to byte and character indexes into the buffer.
      * Contrast with {@link TextBuffer#getSlice}.
      */
-    public java.lang.String getText(TextIter start, TextIter end, boolean includeHiddenChars) {
+    public @NotNull java.lang.String getText(@NotNull TextIter start, @NotNull TextIter end, @NotNull boolean includeHiddenChars) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_text_buffer_get_text.invokeExact(handle(), start.handle(), end.handle(), includeHiddenChars ? 1 : 0);
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_text_buffer_get_text.invokeExact(handle(), start.handle(), end.handle(), includeHiddenChars ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_text_buffer_insert = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_insert = Interop.downcallHandle(
         "gtk_text_buffer_insert",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -996,15 +1045,15 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * default signal handler revalidates it to point to the end of the
      * inserted text.
      */
-    public void insert(TextIter iter, java.lang.String text, int len) {
+    public @NotNull void insert(@NotNull TextIter iter, @NotNull java.lang.String text, @NotNull int len) {
         try {
-            gtk_text_buffer_insert.invokeExact(handle(), iter.handle(), Interop.allocateNativeString(text).handle(), len);
+            gtk_text_buffer_insert.invokeExact(handle(), iter.handle(), Interop.allocateNativeString(text), len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_text_buffer_insert_at_cursor = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_insert_at_cursor = Interop.downcallHandle(
         "gtk_text_buffer_insert_at_cursor",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1015,15 +1064,15 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * Simply calls {@link TextBuffer#insert},
      * using the current cursor position as the insertion point.
      */
-    public void insertAtCursor(java.lang.String text, int len) {
+    public @NotNull void insertAtCursor(@NotNull java.lang.String text, @NotNull int len) {
         try {
-            gtk_text_buffer_insert_at_cursor.invokeExact(handle(), Interop.allocateNativeString(text).handle(), len);
+            gtk_text_buffer_insert_at_cursor.invokeExact(handle(), Interop.allocateNativeString(text), len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_text_buffer_insert_child_anchor = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_insert_child_anchor = Interop.downcallHandle(
         "gtk_text_buffer_insert_child_anchor",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1043,7 +1092,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * convenient alternative to this function. The buffer will add a
      * reference to the anchor, so you can unref it after insertion.
      */
-    public void insertChildAnchor(TextIter iter, TextChildAnchor anchor) {
+    public @NotNull void insertChildAnchor(@NotNull TextIter iter, @NotNull TextChildAnchor anchor) {
         try {
             gtk_text_buffer_insert_child_anchor.invokeExact(handle(), iter.handle(), anchor.handle());
         } catch (Throwable ERR) {
@@ -1051,7 +1100,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_buffer_insert_interactive = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_insert_interactive = Interop.downcallHandle(
         "gtk_text_buffer_insert_interactive",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -1068,16 +1117,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * have a tag affecting editability applied to it. Typically the
      * result of {@link TextView#getEditable} is appropriate here.
      */
-    public boolean insertInteractive(TextIter iter, java.lang.String text, int len, boolean defaultEditable) {
+    public boolean insertInteractive(@NotNull TextIter iter, @NotNull java.lang.String text, @NotNull int len, @NotNull boolean defaultEditable) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_buffer_insert_interactive.invokeExact(handle(), iter.handle(), Interop.allocateNativeString(text).handle(), len, defaultEditable ? 1 : 0);
-            return RESULT != 0;
+            RESULT = (int) gtk_text_buffer_insert_interactive.invokeExact(handle(), iter.handle(), Interop.allocateNativeString(text), len, defaultEditable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_buffer_insert_interactive_at_cursor = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_insert_interactive_at_cursor = Interop.downcallHandle(
         "gtk_text_buffer_insert_interactive_at_cursor",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -1092,16 +1142,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * have a tag affecting editability applied to it. Typically the
      * result of {@link TextView#getEditable} is appropriate here.
      */
-    public boolean insertInteractiveAtCursor(java.lang.String text, int len, boolean defaultEditable) {
+    public boolean insertInteractiveAtCursor(@NotNull java.lang.String text, @NotNull int len, @NotNull boolean defaultEditable) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_buffer_insert_interactive_at_cursor.invokeExact(handle(), Interop.allocateNativeString(text).handle(), len, defaultEditable ? 1 : 0);
-            return RESULT != 0;
+            RESULT = (int) gtk_text_buffer_insert_interactive_at_cursor.invokeExact(handle(), Interop.allocateNativeString(text), len, defaultEditable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_buffer_insert_markup = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_insert_markup = Interop.downcallHandle(
         "gtk_text_buffer_insert_markup",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1114,15 +1165,15 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * possibly multiple times; insertion actually occurs in the default handler
      * for the signal. {@code iter} will point to the end of the inserted text on return.
      */
-    public void insertMarkup(TextIter iter, java.lang.String markup, int len) {
+    public @NotNull void insertMarkup(@NotNull TextIter iter, @NotNull java.lang.String markup, @NotNull int len) {
         try {
-            gtk_text_buffer_insert_markup.invokeExact(handle(), iter.handle(), Interop.allocateNativeString(markup).handle(), len);
+            gtk_text_buffer_insert_markup.invokeExact(handle(), iter.handle(), Interop.allocateNativeString(markup), len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_text_buffer_insert_paintable = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_insert_paintable = Interop.downcallHandle(
         "gtk_text_buffer_insert_paintable",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1138,7 +1189,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * variants do not. e.g. see {@link TextBuffer#getSlice} and
      * {@link TextBuffer#getText}.
      */
-    public void insertPaintable(TextIter iter, org.gtk.gdk.Paintable paintable) {
+    public @NotNull void insertPaintable(@NotNull TextIter iter, @NotNull org.gtk.gdk.Paintable paintable) {
         try {
             gtk_text_buffer_insert_paintable.invokeExact(handle(), iter.handle(), paintable.handle());
         } catch (Throwable ERR) {
@@ -1146,7 +1197,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_buffer_insert_range = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_insert_range = Interop.downcallHandle(
         "gtk_text_buffer_insert_range",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1164,7 +1215,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * Implemented via emissions of the ::insert-text and ::apply-tag signals,
      * so expect those.
      */
-    public void insertRange(TextIter iter, TextIter start, TextIter end) {
+    public @NotNull void insertRange(@NotNull TextIter iter, @NotNull TextIter start, @NotNull TextIter end) {
         try {
             gtk_text_buffer_insert_range.invokeExact(handle(), iter.handle(), start.handle(), end.handle());
         } catch (Throwable ERR) {
@@ -1172,7 +1223,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_buffer_insert_range_interactive = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_insert_range_interactive = Interop.downcallHandle(
         "gtk_text_buffer_insert_range_interactive",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1187,16 +1238,17 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * no tags enclosing {@code iter} affect editability. Typically the result
      * of {@link TextView#getEditable} is appropriate here.
      */
-    public boolean insertRangeInteractive(TextIter iter, TextIter start, TextIter end, boolean defaultEditable) {
+    public boolean insertRangeInteractive(@NotNull TextIter iter, @NotNull TextIter start, @NotNull TextIter end, @NotNull boolean defaultEditable) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_buffer_insert_range_interactive.invokeExact(handle(), iter.handle(), start.handle(), end.handle(), defaultEditable ? 1 : 0);
-            return RESULT != 0;
+            RESULT = (int) gtk_text_buffer_insert_range_interactive.invokeExact(handle(), iter.handle(), start.handle(), end.handle(), defaultEditable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_buffer_move_mark = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_move_mark = Interop.downcallHandle(
         "gtk_text_buffer_move_mark",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1207,7 +1259,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * Emits the {@code Gtk.TextBuffer::mark-set} signal
      * as notification of the move.
      */
-    public void moveMark(TextMark mark, TextIter where) {
+    public @NotNull void moveMark(@NotNull TextMark mark, @NotNull TextIter where) {
         try {
             gtk_text_buffer_move_mark.invokeExact(handle(), mark.handle(), where.handle());
         } catch (Throwable ERR) {
@@ -1215,7 +1267,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_buffer_move_mark_by_name = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_move_mark_by_name = Interop.downcallHandle(
         "gtk_text_buffer_move_mark_by_name",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1225,15 +1277,15 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * <p>
      * See {@link TextBuffer#moveMark} for details.
      */
-    public void moveMarkByName(java.lang.String name, TextIter where) {
+    public @NotNull void moveMarkByName(@NotNull java.lang.String name, @NotNull TextIter where) {
         try {
-            gtk_text_buffer_move_mark_by_name.invokeExact(handle(), Interop.allocateNativeString(name).handle(), where.handle());
+            gtk_text_buffer_move_mark_by_name.invokeExact(handle(), Interop.allocateNativeString(name), where.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_text_buffer_paste_clipboard = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_paste_clipboard = Interop.downcallHandle(
         "gtk_text_buffer_paste_clipboard",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1249,7 +1301,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * and return, and at some point later after the main loop runs, the paste
      * data will be inserted.
      */
-    public void pasteClipboard(org.gtk.gdk.Clipboard clipboard, TextIter overrideLocation, boolean defaultEditable) {
+    public @NotNull void pasteClipboard(@NotNull org.gtk.gdk.Clipboard clipboard, @Nullable TextIter overrideLocation, @NotNull boolean defaultEditable) {
         try {
             gtk_text_buffer_paste_clipboard.invokeExact(handle(), clipboard.handle(), overrideLocation.handle(), defaultEditable ? 1 : 0);
         } catch (Throwable ERR) {
@@ -1257,7 +1309,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_buffer_place_cursor = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_place_cursor = Interop.downcallHandle(
         "gtk_text_buffer_place_cursor",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1273,7 +1325,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * to be recalculated. This function moves them as a unit, which can
      * be optimized.
      */
-    public void placeCursor(TextIter where) {
+    public @NotNull void placeCursor(@NotNull TextIter where) {
         try {
             gtk_text_buffer_place_cursor.invokeExact(handle(), where.handle());
         } catch (Throwable ERR) {
@@ -1281,7 +1333,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_buffer_redo = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_redo = Interop.downcallHandle(
         "gtk_text_buffer_redo",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -1289,7 +1341,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     /**
      * Redoes the next redoable action on the buffer, if there is one.
      */
-    public void redo() {
+    public @NotNull void redo() {
         try {
             gtk_text_buffer_redo.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -1297,7 +1349,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_buffer_remove_all_tags = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_remove_all_tags = Interop.downcallHandle(
         "gtk_text_buffer_remove_all_tags",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1310,7 +1362,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * function is probably a bad idea if you have two or more unrelated
      * code sections that add tags.
      */
-    public void removeAllTags(TextIter start, TextIter end) {
+    public @NotNull void removeAllTags(@NotNull TextIter start, @NotNull TextIter end) {
         try {
             gtk_text_buffer_remove_all_tags.invokeExact(handle(), start.handle(), end.handle());
         } catch (Throwable ERR) {
@@ -1318,7 +1370,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_buffer_remove_selection_clipboard = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_remove_selection_clipboard = Interop.downcallHandle(
         "gtk_text_buffer_remove_selection_clipboard",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1327,7 +1379,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * Removes a {@code GdkClipboard} added with
      * gtk_text_buffer_add_selection_clipboard().
      */
-    public void removeSelectionClipboard(org.gtk.gdk.Clipboard clipboard) {
+    public @NotNull void removeSelectionClipboard(@NotNull org.gtk.gdk.Clipboard clipboard) {
         try {
             gtk_text_buffer_remove_selection_clipboard.invokeExact(handle(), clipboard.handle());
         } catch (Throwable ERR) {
@@ -1335,7 +1387,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_buffer_remove_tag = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_remove_tag = Interop.downcallHandle(
         "gtk_text_buffer_remove_tag",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1347,7 +1399,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * of {@code tag} from the given range. {@code start} and {@code end} don’t have
      * to be in order.
      */
-    public void removeTag(TextTag tag, TextIter start, TextIter end) {
+    public @NotNull void removeTag(@NotNull TextTag tag, @NotNull TextIter start, @NotNull TextIter end) {
         try {
             gtk_text_buffer_remove_tag.invokeExact(handle(), tag.handle(), start.handle(), end.handle());
         } catch (Throwable ERR) {
@@ -1355,7 +1407,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_buffer_remove_tag_by_name = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_remove_tag_by_name = Interop.downcallHandle(
         "gtk_text_buffer_remove_tag_by_name",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1367,15 +1419,15 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * tag table to get a {@code GtkTextTag}, then calls
      * {@link TextBuffer#removeTag}.
      */
-    public void removeTagByName(java.lang.String name, TextIter start, TextIter end) {
+    public @NotNull void removeTagByName(@NotNull java.lang.String name, @NotNull TextIter start, @NotNull TextIter end) {
         try {
-            gtk_text_buffer_remove_tag_by_name.invokeExact(handle(), Interop.allocateNativeString(name).handle(), start.handle(), end.handle());
+            gtk_text_buffer_remove_tag_by_name.invokeExact(handle(), Interop.allocateNativeString(name), start.handle(), end.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_text_buffer_select_range = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_select_range = Interop.downcallHandle(
         "gtk_text_buffer_select_range",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -1391,7 +1443,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * to be recalculated. This function moves them as a unit, which can
      * be optimized.
      */
-    public void selectRange(TextIter ins, TextIter bound) {
+    public @NotNull void selectRange(@NotNull TextIter ins, @NotNull TextIter bound) {
         try {
             gtk_text_buffer_select_range.invokeExact(handle(), ins.handle(), bound.handle());
         } catch (Throwable ERR) {
@@ -1399,7 +1451,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_buffer_set_enable_undo = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_set_enable_undo = Interop.downcallHandle(
         "gtk_text_buffer_set_enable_undo",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1417,7 +1469,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * {@link TextBuffer#endIrreversibleAction} to create
      * changes to the buffer that cannot be undone.
      */
-    public void setEnableUndo(boolean enableUndo) {
+    public @NotNull void setEnableUndo(@NotNull boolean enableUndo) {
         try {
             gtk_text_buffer_set_enable_undo.invokeExact(handle(), enableUndo ? 1 : 0);
         } catch (Throwable ERR) {
@@ -1425,7 +1477,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_buffer_set_max_undo_levels = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_set_max_undo_levels = Interop.downcallHandle(
         "gtk_text_buffer_set_max_undo_levels",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1437,7 +1489,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * have a memory usage impact as it requires storing an additional
      * copy of the inserted or removed text within the text buffer.
      */
-    public void setMaxUndoLevels(int maxUndoLevels) {
+    public @NotNull void setMaxUndoLevels(@NotNull int maxUndoLevels) {
         try {
             gtk_text_buffer_set_max_undo_levels.invokeExact(handle(), maxUndoLevels);
         } catch (Throwable ERR) {
@@ -1445,7 +1497,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_buffer_set_modified = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_set_modified = Interop.downcallHandle(
         "gtk_text_buffer_set_modified",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1461,7 +1513,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * bit flips, the buffer emits the
      * {@code Gtk.TextBuffer::modified-changed} signal.
      */
-    public void setModified(boolean setting) {
+    public @NotNull void setModified(@NotNull boolean setting) {
         try {
             gtk_text_buffer_set_modified.invokeExact(handle(), setting ? 1 : 0);
         } catch (Throwable ERR) {
@@ -1469,7 +1521,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle gtk_text_buffer_set_text = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_set_text = Interop.downcallHandle(
         "gtk_text_buffer_set_text",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -1480,15 +1532,15 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * If {@code len} is -1, {@code text} must be nul-terminated.
      * {@code text} must be valid UTF-8.
      */
-    public void setText(java.lang.String text, int len) {
+    public @NotNull void setText(@NotNull java.lang.String text, @NotNull int len) {
         try {
-            gtk_text_buffer_set_text.invokeExact(handle(), Interop.allocateNativeString(text).handle(), len);
+            gtk_text_buffer_set_text.invokeExact(handle(), Interop.allocateNativeString(text), len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_text_buffer_undo = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_buffer_undo = Interop.downcallHandle(
         "gtk_text_buffer_undo",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -1496,7 +1548,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     /**
      * Undoes the last undoable action on the buffer, if there is one.
      */
-    public void undo() {
+    public @NotNull void undo() {
         try {
             gtk_text_buffer_undo.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -1506,7 +1558,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ApplyTagHandler {
-        void signalReceived(TextBuffer source, TextTag tag, TextIter start, TextIter end);
+        void signalReceived(TextBuffer source, @NotNull TextTag tag, @NotNull TextIter start, @NotNull TextIter end);
     }
     
     /**
@@ -1527,13 +1579,13 @@ public class TextBuffer extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("apply-tag").handle(),
+                Interop.allocateNativeString("apply-tag"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferApplyTag",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1562,13 +1614,13 @@ public class TextBuffer extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("begin-user-action").handle(),
+                Interop.allocateNativeString("begin-user-action"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferBeginUserAction",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1588,13 +1640,13 @@ public class TextBuffer extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("changed").handle(),
+                Interop.allocateNativeString("changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1604,7 +1656,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DeleteRangeHandler {
-        void signalReceived(TextBuffer source, TextIter start, TextIter end);
+        void signalReceived(TextBuffer source, @NotNull TextIter start, @NotNull TextIter end);
     }
     
     /**
@@ -1624,13 +1676,13 @@ public class TextBuffer extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("delete-range").handle(),
+                Interop.allocateNativeString("delete-range"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferDeleteRange",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1660,13 +1712,13 @@ public class TextBuffer extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("end-user-action").handle(),
+                Interop.allocateNativeString("end-user-action"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferEndUserAction",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1676,7 +1728,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface InsertChildAnchorHandler {
-        void signalReceived(TextBuffer source, TextIter location, TextChildAnchor anchor);
+        void signalReceived(TextBuffer source, @NotNull TextIter location, @NotNull TextChildAnchor anchor);
     }
     
     /**
@@ -1695,13 +1747,13 @@ public class TextBuffer extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("insert-child-anchor").handle(),
+                Interop.allocateNativeString("insert-child-anchor"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferInsertChildAnchor",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1711,7 +1763,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface InsertPaintableHandler {
-        void signalReceived(TextBuffer source, TextIter location, org.gtk.gdk.Paintable paintable);
+        void signalReceived(TextBuffer source, @NotNull TextIter location, @NotNull org.gtk.gdk.Paintable paintable);
     }
     
     /**
@@ -1730,13 +1782,13 @@ public class TextBuffer extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("insert-paintable").handle(),
+                Interop.allocateNativeString("insert-paintable"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferInsertPaintable",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1746,7 +1798,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface InsertTextHandler {
-        void signalReceived(TextBuffer source, TextIter location, java.lang.String text, int len);
+        void signalReceived(TextBuffer source, @NotNull TextIter location, @NotNull java.lang.String text, @NotNull int len);
     }
     
     /**
@@ -1766,13 +1818,13 @@ public class TextBuffer extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("insert-text").handle(),
+                Interop.allocateNativeString("insert-text"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferInsertText",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1782,7 +1834,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface MarkDeletedHandler {
-        void signalReceived(TextBuffer source, TextMark mark);
+        void signalReceived(TextBuffer source, @NotNull TextMark mark);
     }
     
     /**
@@ -1794,13 +1846,13 @@ public class TextBuffer extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("mark-deleted").handle(),
+                Interop.allocateNativeString("mark-deleted"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferMarkDeleted",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1810,7 +1862,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface MarkSetHandler {
-        void signalReceived(TextBuffer source, TextIter location, TextMark mark);
+        void signalReceived(TextBuffer source, @NotNull TextIter location, @NotNull TextMark mark);
     }
     
     /**
@@ -1824,13 +1876,13 @@ public class TextBuffer extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("mark-set").handle(),
+                Interop.allocateNativeString("mark-set"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferMarkSet",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1852,13 +1904,13 @@ public class TextBuffer extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("modified-changed").handle(),
+                Interop.allocateNativeString("modified-changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferModifiedChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1868,7 +1920,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface PasteDoneHandler {
-        void signalReceived(TextBuffer source, org.gtk.gdk.Clipboard clipboard);
+        void signalReceived(TextBuffer source, @NotNull org.gtk.gdk.Clipboard clipboard);
     }
     
     /**
@@ -1882,13 +1934,13 @@ public class TextBuffer extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("paste-done").handle(),
+                Interop.allocateNativeString("paste-done"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferPasteDone",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1909,13 +1961,13 @@ public class TextBuffer extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("redo").handle(),
+                Interop.allocateNativeString("redo"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferRedo",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1925,7 +1977,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface RemoveTagHandler {
-        void signalReceived(TextBuffer source, TextTag tag, TextIter start, TextIter end);
+        void signalReceived(TextBuffer source, @NotNull TextTag tag, @NotNull TextIter start, @NotNull TextIter end);
     }
     
     /**
@@ -1944,13 +1996,13 @@ public class TextBuffer extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("remove-tag").handle(),
+                Interop.allocateNativeString("remove-tag"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferRemoveTag",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -1972,13 +2024,13 @@ public class TextBuffer extends org.gtk.gobject.Object {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("undo").handle(),
+                Interop.allocateNativeString("undo"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferUndo",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

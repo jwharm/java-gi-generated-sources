@@ -7,7 +7,7 @@ public class PointerIterator<T> implements Iterator<T> {
     public PointerIterator(Pointer<T> pointer) {
         this.pointer = pointer;
     }
-    
+
     private final Pointer<T> pointer;
     private int index = 0;
 

@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * User-provided callback function to create a popup for a
@@ -12,5 +13,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface MenuButtonCreatePopupFunc {
-        void onMenuButtonCreatePopupFunc(MenuButton menuButton);
+        void onMenuButtonCreatePopupFunc(@NotNull MenuButton menuButton);
 }

@@ -3,6 +3,7 @@ package org.pango;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@code PangoColor} structure is used to
@@ -14,7 +15,7 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle pango_color_copy = Interop.downcallHandle(
+    private static final MethodHandle pango_color_copy = Interop.downcallHandle(
         "pango_color_copy",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -27,16 +28,17 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
      * otherwise (since colors can just be copied by assignment
      * in C).
      */
-    public Color copy() {
+    public @Nullable Color copy() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_color_copy.invokeExact(handle());
-            return new Color(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_color_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Color(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle pango_color_free = Interop.downcallHandle(
+    private static final MethodHandle pango_color_free = Interop.downcallHandle(
         "pango_color_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -44,7 +46,7 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Frees a color allocated by {@link Color#copy}.
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             pango_color_free.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -52,7 +54,7 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle pango_color_parse = Interop.downcallHandle(
+    private static final MethodHandle pango_color_parse = Interop.downcallHandle(
         "pango_color_parse",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -68,16 +70,17 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
      * of the color, respectively. (White in the four forms is
      * {@code #fff}, {@code #ffffff}, {@code #fffffffff} and {@code #ffffffffffff}.)
      */
-    public boolean parse(java.lang.String spec) {
+    public boolean parse(@NotNull java.lang.String spec) {
+        int RESULT;
         try {
-            var RESULT = (int) pango_color_parse.invokeExact(handle(), Interop.allocateNativeString(spec).handle());
-            return RESULT != 0;
+            RESULT = (int) pango_color_parse.invokeExact(handle(), Interop.allocateNativeString(spec));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle pango_color_parse_with_alpha = Interop.downcallHandle(
+    private static final MethodHandle pango_color_parse_with_alpha = Interop.downcallHandle(
         "pango_color_parse_with_alpha",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -99,16 +102,19 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
      * component is found in {@code spec}, {@code alpha} is set to 0xffff (for a
      * solid color).
      */
-    public boolean parseWithAlpha(PointerShort alpha, java.lang.String spec) {
+    public boolean parseWithAlpha(@NotNull Out<Short> alpha, @NotNull java.lang.String spec) {
+        MemorySegment alphaPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_SHORT);
+        int RESULT;
         try {
-            var RESULT = (int) pango_color_parse_with_alpha.invokeExact(handle(), alpha.handle(), Interop.allocateNativeString(spec).handle());
-            return RESULT != 0;
+            RESULT = (int) pango_color_parse_with_alpha.invokeExact(handle(), (Addressable) alphaPOINTER.address(), Interop.allocateNativeString(spec));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        alpha.set(alphaPOINTER.get(ValueLayout.JAVA_SHORT, 0));
+        return RESULT != 0;
     }
     
-    static final MethodHandle pango_color_to_string = Interop.downcallHandle(
+    private static final MethodHandle pango_color_to_string = Interop.downcallHandle(
         "pango_color_to_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -120,13 +126,14 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
      * where {@code r}, {@code g} and {@code b} are hex digits representing the
      * red, green, and blue components respectively.
      */
-    public java.lang.String toString() {
+    public @NotNull java.lang.String toString() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_color_to_string.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) pango_color_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
 }

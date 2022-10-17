@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The collection of tags in a {@code GtkTextBuffer}
@@ -11,9 +12,8 @@ import java.lang.invoke.*;
  * <a href="section-text-widget.html">text widget conceptual overview</a>,
  * which gives an overview of all the objects and data types
  * related to the text widget and how they work together.
- * <p>
+ * 
  * <h1>GtkTextTagTables as GtkBuildable</h1>
- * <p>
  * The {@code GtkTextTagTable} implementation of the {@code GtkBuildable} interface
  * supports adding tags by specifying “tag” as the “type” attribute
  * of a &lt;child&gt; element.
@@ -38,7 +38,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
         return new TextTagTable(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_text_tag_table_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_tag_table_new = Interop.downcallHandle(
         "gtk_text_tag_table_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -61,7 +61,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
         super(constructNew());
     }
     
-    static final MethodHandle gtk_text_tag_table_add = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_tag_table_add = Interop.downcallHandle(
         "gtk_text_tag_table_add",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -74,16 +74,17 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
      * {@code tag} must not be in a tag table already, and may not have
      * the same name as an already-added tag.
      */
-    public boolean add(TextTag tag) {
+    public boolean add(@NotNull TextTag tag) {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_tag_table_add.invokeExact(handle(), tag.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_text_tag_table_add.invokeExact(handle(), tag.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_text_tag_table_foreach = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_tag_table_foreach = Interop.downcallHandle(
         "gtk_text_tag_table_foreach",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -94,7 +95,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
      * Note that the table may not be modified while iterating
      * over it (you can’t add/remove tags).
      */
-    public void foreach(TextTagTableForeach func) {
+    public @NotNull void foreach(@NotNull TextTagTableForeach func) {
         try {
             gtk_text_tag_table_foreach.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -102,13 +103,13 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func.hashCode(), func)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_text_tag_table_get_size = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_tag_table_get_size = Interop.downcallHandle(
         "gtk_text_tag_table_get_size",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -117,15 +118,16 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
      * Returns the size of the table (number of tags)
      */
     public int getSize() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_text_tag_table_get_size.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) gtk_text_tag_table_get_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_text_tag_table_lookup = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_tag_table_lookup = Interop.downcallHandle(
         "gtk_text_tag_table_lookup",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -133,16 +135,17 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
     /**
      * Look up a named tag.
      */
-    public TextTag lookup(java.lang.String name) {
+    public @Nullable TextTag lookup(@NotNull java.lang.String name) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_text_tag_table_lookup.invokeExact(handle(), Interop.allocateNativeString(name).handle());
-            return new TextTag(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_text_tag_table_lookup.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TextTag(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_text_tag_table_remove = Interop.downcallHandle(
+    private static final MethodHandle gtk_text_tag_table_remove = Interop.downcallHandle(
         "gtk_text_tag_table_remove",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -155,7 +158,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
      * removed, so the tag will end up destroyed if you don’t have
      * a reference to it.
      */
-    public void remove(TextTag tag) {
+    public @NotNull void remove(@NotNull TextTag tag) {
         try {
             gtk_text_tag_table_remove.invokeExact(handle(), tag.handle());
         } catch (Throwable ERR) {
@@ -165,7 +168,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
     
     @FunctionalInterface
     public interface TagAddedHandler {
-        void signalReceived(TextTagTable source, TextTag tag);
+        void signalReceived(TextTagTable source, @NotNull TextTag tag);
     }
     
     /**
@@ -175,13 +178,13 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("tag-added").handle(),
+                Interop.allocateNativeString("tag-added"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextTagTable.Callbacks.class, "signalTextTagTableTagAdded",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -191,7 +194,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
     
     @FunctionalInterface
     public interface TagChangedHandler {
-        void signalReceived(TextTagTable source, TextTag tag, boolean sizeChanged);
+        void signalReceived(TextTagTable source, @NotNull TextTag tag, @NotNull boolean sizeChanged);
     }
     
     /**
@@ -201,13 +204,13 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("tag-changed").handle(),
+                Interop.allocateNativeString("tag-changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextTagTable.Callbacks.class, "signalTextTagTableTagChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -217,7 +220,7 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
     
     @FunctionalInterface
     public interface TagRemovedHandler {
-        void signalReceived(TextTagTable source, TextTag tag);
+        void signalReceived(TextTagTable source, @NotNull TextTag tag);
     }
     
     /**
@@ -230,13 +233,13 @@ public class TextTagTable extends org.gtk.gobject.Object implements Buildable {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("tag-removed").handle(),
+                Interop.allocateNativeString("tag-removed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(TextTagTable.Callbacks.class, "signalTextTagTableTagRemoved",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

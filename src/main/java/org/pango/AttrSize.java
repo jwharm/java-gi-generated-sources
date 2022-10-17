@@ -3,6 +3,7 @@ package org.pango;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@code PangoAttrSize} structure is used to represent attributes which
@@ -14,7 +15,7 @@ public class AttrSize extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle pango_attr_size_new = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_size_new = Interop.downcallHandle(
         "pango_attr_size_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -22,16 +23,17 @@ public class AttrSize extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Create a new font-size attribute in fractional points.
      */
-    public static Attribute new_(int size) {
+    public static @NotNull Attribute new_(@NotNull int size) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_attr_size_new.invokeExact(size);
-            return new Attribute(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_attr_size_new.invokeExact(size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle pango_attr_size_new_absolute = Interop.downcallHandle(
+    private static final MethodHandle pango_attr_size_new_absolute = Interop.downcallHandle(
         "pango_attr_size_new_absolute",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -39,13 +41,14 @@ public class AttrSize extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Create a new font-size attribute in device units.
      */
-    public static Attribute newAbsolute(int size) {
+    public static @NotNull Attribute newAbsolute(@NotNull int size) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_attr_size_new_absolute.invokeExact(size);
-            return new Attribute(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_attr_size_new_absolute.invokeExact(size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Attribute(Refcounted.get(RESULT, true));
     }
     
 }

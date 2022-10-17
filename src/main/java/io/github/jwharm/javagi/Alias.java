@@ -1,21 +1,25 @@
 package io.github.jwharm.javagi;
 
 public abstract class Alias<T> {
-    
+
     private T value;
-    
-    public Alias(T initialValue) {
+
+    public Alias(T value) {
         this.value = value;
     }
-    
+
     public void setValue(T value) {
         this.value = value;
     }
-    
+
     public T getValue() {
         return this.value;
     }
     
+    public boolean equals(Alias<T> other) {
+    	return this.value.equals(other.value);
+    }
+
     public static boolean[] getBooleanValues(Alias<Boolean>[] array) {
         boolean[] values = new boolean[array.length];
         for (int i = 0; i < array.length; i++) {

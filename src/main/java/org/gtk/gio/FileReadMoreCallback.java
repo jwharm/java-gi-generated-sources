@@ -1,6 +1,7 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * When loading the partial contents of a file with g_file_load_partial_contents_async(),
@@ -10,5 +11,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface FileReadMoreCallback {
-        boolean onFileReadMoreCallback(java.lang.String fileContents, long fileSize);
+        boolean onFileReadMoreCallback(@NotNull java.lang.String fileContents, @NotNull long fileSize);
 }

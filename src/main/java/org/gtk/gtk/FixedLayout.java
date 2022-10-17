@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkFixedLayout} is a layout manager which can place child widgets
@@ -13,20 +14,13 @@ import java.lang.invoke.*;
  * positioned and sized. Other layout managers perform this kind of work
  * internally so that application developers don't need to do it. Specifically,
  * widgets positioned in a fixed layout manager will need to take into account:
- * <p>
  * <ul>
  * <li>Themes, which may change widget sizes.
- * </ul>
- * <p>
- * <ul>
  * <li>Fonts other than the one you used to write the app will of course
  *   change the size of widgets containing text; keep in mind that
  *   users may use a larger font because of difficulty reading the
  *   default, or they may be using a different OS that provides different
  *   fonts.
- * </ul>
- * <p>
- * <ul>
  * <li>Translation of text into other languages changes its size. Also,
  *   display of non-English text will use a different font in many
  *   cases.
@@ -54,7 +48,7 @@ public class FixedLayout extends LayoutManager {
         return new FixedLayout(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_fixed_layout_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_fixed_layout_new = Interop.downcallHandle(
         "gtk_fixed_layout_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );

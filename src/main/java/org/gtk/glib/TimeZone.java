@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link TimeZone} is an opaque structure whose members cannot be accessed
@@ -14,14 +15,14 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_time_zone_new_identifier = Interop.downcallHandle(
+    private static final MethodHandle g_time_zone_new_identifier = Interop.downcallHandle(
         "g_time_zone_new_identifier",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewIdentifier(java.lang.String identifier) {
+    private static Refcounted constructNewIdentifier(@Nullable java.lang.String identifier) {
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_time_zone_new_identifier.invokeExact(Interop.allocateNativeString(identifier).handle()), true);
+            Refcounted RESULT = Refcounted.get((MemoryAddress) g_time_zone_new_identifier.invokeExact(Interop.allocateNativeString(identifier)), true);
             return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -95,11 +96,11 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
      * You should release the return value by calling g_time_zone_unref()
      * when you are done with it.
      */
-    public static TimeZone newIdentifier(java.lang.String identifier) {
+    public static TimeZone newIdentifier(@Nullable java.lang.String identifier) {
         return new TimeZone(constructNewIdentifier(identifier));
     }
     
-    static final MethodHandle g_time_zone_new_local = Interop.downcallHandle(
+    private static final MethodHandle g_time_zone_new_local = Interop.downcallHandle(
         "g_time_zone_new_local",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -128,12 +129,12 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
         return new TimeZone(constructNewLocal());
     }
     
-    static final MethodHandle g_time_zone_new_offset = Interop.downcallHandle(
+    private static final MethodHandle g_time_zone_new_offset = Interop.downcallHandle(
         "g_time_zone_new_offset",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNewOffset(int seconds) {
+    private static Refcounted constructNewOffset(@NotNull int seconds) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_time_zone_new_offset.invokeExact(seconds), true);
             return RESULT;
@@ -149,11 +150,11 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
      * This is equivalent to calling g_time_zone_new() with a string in the form
      * {@code [+|-]hh[:mm[:ss]]}.
      */
-    public static TimeZone newOffset(int seconds) {
+    public static TimeZone newOffset(@NotNull int seconds) {
         return new TimeZone(constructNewOffset(seconds));
     }
     
-    static final MethodHandle g_time_zone_new_utc = Interop.downcallHandle(
+    private static final MethodHandle g_time_zone_new_utc = Interop.downcallHandle(
         "g_time_zone_new_utc",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -180,7 +181,7 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
         return new TimeZone(constructNewUtc());
     }
     
-    static final MethodHandle g_time_zone_adjust_time = Interop.downcallHandle(
+    private static final MethodHandle g_time_zone_adjust_time = Interop.downcallHandle(
         "g_time_zone_adjust_time",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -203,16 +204,17 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
      * adjust {@code time_} to be 03:00 and return the interval containing the
      * adjusted time.
      */
-    public int adjustTime(TimeType type, PointerLong time) {
+    public int adjustTime(@NotNull TimeType type, @NotNull PointerLong time) {
+        int RESULT;
         try {
-            var RESULT = (int) g_time_zone_adjust_time.invokeExact(handle(), type.getValue(), time.handle());
-            return RESULT;
+            RESULT = (int) g_time_zone_adjust_time.invokeExact(handle(), type.getValue(), time.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_time_zone_find_interval = Interop.downcallHandle(
+    private static final MethodHandle g_time_zone_find_interval = Interop.downcallHandle(
         "g_time_zone_find_interval",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG)
     );
@@ -237,16 +239,17 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
      * forward to begin daylight savings time).  -1 is returned in that
      * case.
      */
-    public int findInterval(TimeType type, long time) {
+    public int findInterval(@NotNull TimeType type, @NotNull long time) {
+        int RESULT;
         try {
-            var RESULT = (int) g_time_zone_find_interval.invokeExact(handle(), type.getValue(), time);
-            return RESULT;
+            RESULT = (int) g_time_zone_find_interval.invokeExact(handle(), type.getValue(), time);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_time_zone_get_abbreviation = Interop.downcallHandle(
+    private static final MethodHandle g_time_zone_get_abbreviation = Interop.downcallHandle(
         "g_time_zone_get_abbreviation",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -259,16 +262,17 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
      * months and "EDT" during the summer months when daylight savings time
      * is in effect.
      */
-    public java.lang.String getAbbreviation(int interval) {
+    public @NotNull java.lang.String getAbbreviation(@NotNull int interval) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_time_zone_get_abbreviation.invokeExact(handle(), interval);
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_time_zone_get_abbreviation.invokeExact(handle(), interval);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_time_zone_get_identifier = Interop.downcallHandle(
+    private static final MethodHandle g_time_zone_get_identifier = Interop.downcallHandle(
         "g_time_zone_get_identifier",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -283,16 +287,17 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
      * construction time: if provided as a time offset, that will be returned by
      * this function.
      */
-    public java.lang.String getIdentifier() {
+    public @NotNull java.lang.String getIdentifier() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_time_zone_get_identifier.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_time_zone_get_identifier.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_time_zone_get_offset = Interop.downcallHandle(
+    private static final MethodHandle g_time_zone_get_offset = Interop.downcallHandle(
         "g_time_zone_get_offset",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -305,16 +310,17 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
      * arrive at local time for {@code tz} (ie: negative numbers for time zones
      * west of GMT, positive numbers for east).
      */
-    public int getOffset(int interval) {
+    public int getOffset(@NotNull int interval) {
+        int RESULT;
         try {
-            var RESULT = (int) g_time_zone_get_offset.invokeExact(handle(), interval);
-            return RESULT;
+            RESULT = (int) g_time_zone_get_offset.invokeExact(handle(), interval);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle g_time_zone_is_dst = Interop.downcallHandle(
+    private static final MethodHandle g_time_zone_is_dst = Interop.downcallHandle(
         "g_time_zone_is_dst",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -323,16 +329,17 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
      * Determines if daylight savings time is in effect during a particular
      * {@code interval} of time in the time zone {@code tz}.
      */
-    public boolean isDst(int interval) {
+    public boolean isDst(@NotNull int interval) {
+        int RESULT;
         try {
-            var RESULT = (int) g_time_zone_is_dst.invokeExact(handle(), interval);
-            return RESULT != 0;
+            RESULT = (int) g_time_zone_is_dst.invokeExact(handle(), interval);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_time_zone_ref = Interop.downcallHandle(
+    private static final MethodHandle g_time_zone_ref = Interop.downcallHandle(
         "g_time_zone_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -340,16 +347,17 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Increases the reference count on {@code tz}.
      */
-    public TimeZone ref() {
+    public @NotNull TimeZone ref() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_time_zone_ref.invokeExact(handle());
-            return new TimeZone(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_time_zone_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TimeZone(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_time_zone_unref = Interop.downcallHandle(
+    private static final MethodHandle g_time_zone_unref = Interop.downcallHandle(
         "g_time_zone_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -357,7 +365,7 @@ public class TimeZone extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Decreases the reference count on {@code tz}.
      */
-    public void unref() {
+    public @NotNull void unref() {
         try {
             g_time_zone_unref.invokeExact(handle());
         } catch (Throwable ERR) {

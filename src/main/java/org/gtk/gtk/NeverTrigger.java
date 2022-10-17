@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GtkShortcutTrigger} that never triggers.
@@ -18,7 +19,7 @@ public class NeverTrigger extends ShortcutTrigger {
         return new NeverTrigger(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_never_trigger_get = Interop.downcallHandle(
+    private static final MethodHandle gtk_never_trigger_get = Interop.downcallHandle(
         "gtk_never_trigger_get",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -30,13 +31,14 @@ public class NeverTrigger extends ShortcutTrigger {
      * Use this trigger instead of {@code null} because it implements
      * all virtual functions.
      */
-    public static NeverTrigger get() {
+    public static @NotNull NeverTrigger get() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_never_trigger_get.invokeExact();
-            return new NeverTrigger(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_never_trigger_get.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new NeverTrigger(Refcounted.get(RESULT, false));
     }
     
 }

@@ -1,6 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Specifies the type of function passed to g_tree_traverse(). It is
@@ -10,5 +11,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface TraverseFunc {
-        boolean onTraverseFunc(java.lang.foreign.MemoryAddress key, java.lang.foreign.MemoryAddress value);
+        boolean onTraverseFunc(@Nullable java.lang.foreign.MemoryAddress key, @Nullable java.lang.foreign.MemoryAddress value);
 }

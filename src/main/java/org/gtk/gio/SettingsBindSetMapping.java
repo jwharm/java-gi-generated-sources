@@ -1,6 +1,7 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The type for the function that is used to convert an object property
@@ -8,5 +9,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface SettingsBindSetMapping {
-        org.gtk.glib.Variant onSettingsBindSetMapping(org.gtk.gobject.Value value, org.gtk.glib.VariantType expectedType);
+        org.gtk.glib.Variant onSettingsBindSetMapping(@NotNull org.gtk.gobject.Value value, @NotNull org.gtk.glib.VariantType expectedType);
 }

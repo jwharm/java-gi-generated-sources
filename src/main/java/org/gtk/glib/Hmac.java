@@ -3,6 +3,7 @@ package org.gtk.glib;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * An opaque structure representing a HMAC operation.
@@ -15,7 +16,7 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_hmac_copy = Interop.downcallHandle(
+    private static final MethodHandle g_hmac_copy = Interop.downcallHandle(
         "g_hmac_copy",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -25,16 +26,17 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
      * g_hmac_get_string() or g_hmac_get_digest(), the copied
      * HMAC will be closed as well.
      */
-    public Hmac copy() {
+    public @NotNull Hmac copy() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_hmac_copy.invokeExact(handle());
-            return new Hmac(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_hmac_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Hmac(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_hmac_get_digest = Interop.downcallHandle(
+    private static final MethodHandle g_hmac_get_digest = Interop.downcallHandle(
         "g_hmac_get_digest",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -46,15 +48,17 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
      * Once this function has been called, the {@link Hmac} is closed and can
      * no longer be updated with g_checksum_update().
      */
-    public void getDigest(byte[] buffer, PointerLong digestLen) {
+    public @NotNull void getDigest(@NotNull byte[] buffer, @NotNull Out<Long> digestLen) {
+        MemorySegment digestLenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         try {
-            g_hmac_get_digest.invokeExact(handle(), Interop.allocateNativeArray(buffer).handle(), digestLen.handle());
+            g_hmac_get_digest.invokeExact(handle(), Interop.allocateNativeArray(buffer), (Addressable) digestLenPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        digestLen.set(digestLenPOINTER.get(ValueLayout.JAVA_LONG, 0));
     }
     
-    static final MethodHandle g_hmac_get_string = Interop.downcallHandle(
+    private static final MethodHandle g_hmac_get_string = Interop.downcallHandle(
         "g_hmac_get_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -67,16 +71,17 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The hexadecimal characters will be lower case.
      */
-    public java.lang.String getString() {
+    public @NotNull java.lang.String getString() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_hmac_get_string.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_hmac_get_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_hmac_ref = Interop.downcallHandle(
+    private static final MethodHandle g_hmac_ref = Interop.downcallHandle(
         "g_hmac_ref",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -86,16 +91,17 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function is MT-safe and may be called from any thread.
      */
-    public Hmac ref() {
+    public @NotNull Hmac ref() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_hmac_ref.invokeExact(handle());
-            return new Hmac(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_hmac_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Hmac(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_hmac_unref = Interop.downcallHandle(
+    private static final MethodHandle g_hmac_unref = Interop.downcallHandle(
         "g_hmac_unref",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -108,7 +114,7 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
      * This function is MT-safe and may be called from any thread.
      * Frees the memory allocated for {@code hmac}.
      */
-    public void unref() {
+    public @NotNull void unref() {
         try {
             g_hmac_unref.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -116,7 +122,7 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_hmac_update = Interop.downcallHandle(
+    private static final MethodHandle g_hmac_update = Interop.downcallHandle(
         "g_hmac_update",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -127,15 +133,15 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
      * The HMAC must still be open, that is g_hmac_get_string() or
      * g_hmac_get_digest() must not have been called on {@code hmac}.
      */
-    public void update(byte[] data, long length) {
+    public @NotNull void update(@NotNull byte[] data, @NotNull long length) {
         try {
-            g_hmac_update.invokeExact(handle(), Interop.allocateNativeArray(data).handle(), length);
+            g_hmac_update.invokeExact(handle(), Interop.allocateNativeArray(data), length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_hmac_new = Interop.downcallHandle(
+    private static final MethodHandle g_hmac_new = Interop.downcallHandle(
         "g_hmac_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -158,13 +164,14 @@ public class Hmac extends io.github.jwharm.javagi.ResourceBase {
      * Support for digests of type {@link ChecksumType#SHA512} has been added in GLib 2.42.
      * Support for {@link ChecksumType#SHA384} was added in GLib 2.52.
      */
-    public static Hmac new_(ChecksumType digestType, byte[] key, long keyLen) {
+    public static @NotNull Hmac new_(@NotNull ChecksumType digestType, @NotNull byte[] key, @NotNull long keyLen) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_hmac_new.invokeExact(digestType.getValue(), Interop.allocateNativeArray(key).handle(), keyLen);
-            return new Hmac(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_hmac_new.invokeExact(digestType.getValue(), Interop.allocateNativeArray(key), keyLen);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Hmac(Refcounted.get(RESULT, false));
     }
     
 }

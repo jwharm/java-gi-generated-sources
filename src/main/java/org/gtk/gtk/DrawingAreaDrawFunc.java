@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Whenever {@code drawing_area} needs to redraw, this function will be called.
@@ -10,5 +11,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface DrawingAreaDrawFunc {
-        void onDrawingAreaDrawFunc(DrawingArea drawingArea, org.cairographics.Context cr, int width, int height);
+        void onDrawingAreaDrawFunc(@NotNull DrawingArea drawingArea, @NotNull org.cairographics.Context cr, @NotNull int width, @NotNull int height);
 }

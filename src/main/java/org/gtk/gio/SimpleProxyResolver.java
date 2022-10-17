@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link SimpleProxyResolver} is a simple {@link ProxyResolver} implementation
@@ -25,7 +26,7 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements Proxy
         return new SimpleProxyResolver(gobject.refcounted());
     }
     
-    static final MethodHandle g_simple_proxy_resolver_set_default_proxy = Interop.downcallHandle(
+    private static final MethodHandle g_simple_proxy_resolver_set_default_proxy = Interop.downcallHandle(
         "g_simple_proxy_resolver_set_default_proxy",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -39,15 +40,15 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements Proxy
      * {@link SimpleProxyResolver} will treat it as referring to all three of
      * the socks5, socks4a, and socks4 proxy types.
      */
-    public void setDefaultProxy(java.lang.String defaultProxy) {
+    public @NotNull void setDefaultProxy(@NotNull java.lang.String defaultProxy) {
         try {
-            g_simple_proxy_resolver_set_default_proxy.invokeExact(handle(), Interop.allocateNativeString(defaultProxy).handle());
+            g_simple_proxy_resolver_set_default_proxy.invokeExact(handle(), Interop.allocateNativeString(defaultProxy));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_simple_proxy_resolver_set_ignore_hosts = Interop.downcallHandle(
+    private static final MethodHandle g_simple_proxy_resolver_set_ignore_hosts = Interop.downcallHandle(
         "g_simple_proxy_resolver_set_ignore_hosts",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -58,15 +59,15 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements Proxy
      * See {@link SimpleProxyResolver}:ignore-hosts for more details on how the
      * {@code ignore_hosts} argument is interpreted.
      */
-    public void setIgnoreHosts(java.lang.String[] ignoreHosts) {
+    public @NotNull void setIgnoreHosts(@NotNull java.lang.String[] ignoreHosts) {
         try {
-            g_simple_proxy_resolver_set_ignore_hosts.invokeExact(handle(), Interop.allocateNativeArray(ignoreHosts).handle());
+            g_simple_proxy_resolver_set_ignore_hosts.invokeExact(handle(), Interop.allocateNativeArray(ignoreHosts));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_simple_proxy_resolver_set_uri_proxy = Interop.downcallHandle(
+    private static final MethodHandle g_simple_proxy_resolver_set_uri_proxy = Interop.downcallHandle(
         "g_simple_proxy_resolver_set_uri_proxy",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -81,15 +82,15 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements Proxy
      * as referring to all three of the socks5, socks4a, and socks4 proxy
      * types.
      */
-    public void setUriProxy(java.lang.String uriScheme, java.lang.String proxy) {
+    public @NotNull void setUriProxy(@NotNull java.lang.String uriScheme, @NotNull java.lang.String proxy) {
         try {
-            g_simple_proxy_resolver_set_uri_proxy.invokeExact(handle(), Interop.allocateNativeString(uriScheme).handle(), Interop.allocateNativeString(proxy).handle());
+            g_simple_proxy_resolver_set_uri_proxy.invokeExact(handle(), Interop.allocateNativeString(uriScheme), Interop.allocateNativeString(proxy));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_simple_proxy_resolver_new = Interop.downcallHandle(
+    private static final MethodHandle g_simple_proxy_resolver_new = Interop.downcallHandle(
         "g_simple_proxy_resolver_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -100,13 +101,14 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements Proxy
      * {@link SimpleProxyResolver}:ignore-hosts for more details on how the
      * arguments are interpreted.
      */
-    public static ProxyResolver new_(java.lang.String defaultProxy, java.lang.String[] ignoreHosts) {
+    public static @NotNull ProxyResolver new_(@Nullable java.lang.String defaultProxy, @Nullable java.lang.String[] ignoreHosts) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_simple_proxy_resolver_new.invokeExact(Interop.allocateNativeString(defaultProxy).handle(), Interop.allocateNativeArray(ignoreHosts).handle());
-            return new ProxyResolver.ProxyResolverImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_simple_proxy_resolver_new.invokeExact(Interop.allocateNativeString(defaultProxy), Interop.allocateNativeArray(ignoreHosts));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ProxyResolver.ProxyResolverImpl(Refcounted.get(RESULT, true));
     }
     
 }

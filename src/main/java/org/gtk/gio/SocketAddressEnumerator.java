@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link SocketAddressEnumerator} is an enumerator type for {@link SocketAddress}
@@ -31,7 +32,7 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
         return new SocketAddressEnumerator(gobject.refcounted());
     }
     
-    static final MethodHandle g_socket_address_enumerator_next = Interop.downcallHandle(
+    private static final MethodHandle g_socket_address_enumerator_next = Interop.downcallHandle(
         "g_socket_address_enumerator_next",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -51,20 +52,21 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
      * internal errors (other than {@code cancellable} being triggered) will be
      * ignored.
      */
-    public SocketAddress next(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull SocketAddress next(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_socket_address_enumerator_next.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new SocketAddress(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_socket_address_enumerator_next.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new SocketAddress(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_socket_address_enumerator_next_async = Interop.downcallHandle(
+    private static final MethodHandle g_socket_address_enumerator_next_async = Interop.downcallHandle(
         "g_socket_address_enumerator_next_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -76,7 +78,7 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
      * <p>
      * It is an error to call this multiple times before the previous callback has finished.
      */
-    public void nextAsync(Cancellable cancellable, AsyncReadyCallback callback) {
+    public @NotNull void nextAsync(@Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_socket_address_enumerator_next_async.invokeExact(handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -84,13 +86,13 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_socket_address_enumerator_next_finish = Interop.downcallHandle(
+    private static final MethodHandle g_socket_address_enumerator_next_finish = Interop.downcallHandle(
         "g_socket_address_enumerator_next_finish",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -101,17 +103,18 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
      * g_socket_address_enumerator_next() for more information about
      * error handling.
      */
-    public SocketAddress nextFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull SocketAddress nextFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_socket_address_enumerator_next_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new SocketAddress(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_socket_address_enumerator_next_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new SocketAddress(Refcounted.get(RESULT, true));
     }
     
 }

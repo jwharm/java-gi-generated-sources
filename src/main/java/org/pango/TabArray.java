@@ -3,6 +3,7 @@ package org.pango;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code PangoTabArray} contains an array of tab stops.
@@ -17,12 +18,12 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle pango_tab_array_new = Interop.downcallHandle(
+    private static final MethodHandle pango_tab_array_new = Interop.downcallHandle(
         "pango_tab_array_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNew(int initialSize, boolean positionsInPixels) {
+    private static Refcounted constructNew(@NotNull int initialSize, @NotNull boolean positionsInPixels) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) pango_tab_array_new.invokeExact(initialSize, positionsInPixels ? 1 : 0), true);
             return RESULT;
@@ -37,11 +38,11 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
      * Tab stops are specified in pixel units if {@code positions_in_pixels} is {@code true},
      * otherwise in Pango units. All stops are initially at position 0.
      */
-    public TabArray(int initialSize, boolean positionsInPixels) {
+    public TabArray(@NotNull int initialSize, @NotNull boolean positionsInPixels) {
         super(constructNew(initialSize, positionsInPixels));
     }
     
-    static final MethodHandle pango_tab_array_copy = Interop.downcallHandle(
+    private static final MethodHandle pango_tab_array_copy = Interop.downcallHandle(
         "pango_tab_array_copy",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -49,16 +50,17 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Copies a {@code PangoTabArray}.
      */
-    public TabArray copy() {
+    public @NotNull TabArray copy() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_tab_array_copy.invokeExact(handle());
-            return new TabArray(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_tab_array_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TabArray(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle pango_tab_array_free = Interop.downcallHandle(
+    private static final MethodHandle pango_tab_array_free = Interop.downcallHandle(
         "pango_tab_array_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -66,7 +68,7 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Frees a tab array and associated resources.
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             pango_tab_array_free.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -74,7 +76,7 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle pango_tab_array_get_decimal_point = Interop.downcallHandle(
+    private static final MethodHandle pango_tab_array_get_decimal_point = Interop.downcallHandle(
         "pango_tab_array_get_decimal_point",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -89,16 +91,17 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
      * The default value of 0 means that Pango will use the
      * decimal point according to the current locale.
      */
-    public int getDecimalPoint(int tabIndex) {
+    public int getDecimalPoint(@NotNull int tabIndex) {
+        int RESULT;
         try {
-            var RESULT = (int) pango_tab_array_get_decimal_point.invokeExact(handle(), tabIndex);
-            return RESULT;
+            RESULT = (int) pango_tab_array_get_decimal_point.invokeExact(handle(), tabIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle pango_tab_array_get_positions_in_pixels = Interop.downcallHandle(
+    private static final MethodHandle pango_tab_array_get_positions_in_pixels = Interop.downcallHandle(
         "pango_tab_array_get_positions_in_pixels",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -108,15 +111,16 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
      * {@code false} if they are in Pango units.
      */
     public boolean getPositionsInPixels() {
+        int RESULT;
         try {
-            var RESULT = (int) pango_tab_array_get_positions_in_pixels.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) pango_tab_array_get_positions_in_pixels.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle pango_tab_array_get_size = Interop.downcallHandle(
+    private static final MethodHandle pango_tab_array_get_size = Interop.downcallHandle(
         "pango_tab_array_get_size",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -125,15 +129,16 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
      * Gets the number of tab stops in {@code tab_array}.
      */
     public int getSize() {
+        int RESULT;
         try {
-            var RESULT = (int) pango_tab_array_get_size.invokeExact(handle());
-            return RESULT;
+            RESULT = (int) pango_tab_array_get_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle pango_tab_array_get_tab = Interop.downcallHandle(
+    private static final MethodHandle pango_tab_array_get_tab = Interop.downcallHandle(
         "pango_tab_array_get_tab",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -141,35 +146,19 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the alignment and position of a tab stop.
      */
-    public void getTab(int tabIndex, TabAlign alignment, PointerInteger location) {
+    public @NotNull void getTab(@NotNull int tabIndex, @NotNull Out<TabAlign> alignment, @NotNull Out<Integer> location) {
+        MemorySegment alignmentPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment locationPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            pango_tab_array_get_tab.invokeExact(handle(), tabIndex, new PointerInteger(alignment.getValue()).handle(), location.handle());
+            pango_tab_array_get_tab.invokeExact(handle(), tabIndex, (Addressable) alignmentPOINTER.address(), (Addressable) locationPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        alignment.set(new TabAlign(alignmentPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        location.set(locationPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    static final MethodHandle pango_tab_array_get_tabs = Interop.downcallHandle(
-        "pango_tab_array_get_tabs",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
-    /**
-     * If non-{@code null}, {@code alignments} and {@code locations} are filled with allocated
-     * arrays.
-     * <p>
-     * The arrays are of length {@link TabArray#getSize}.
-     * You must free the returned array.
-     */
-    public void getTabs(PointerEnumeration alignments, PointerInteger locations) {
-        try {
-            pango_tab_array_get_tabs.invokeExact(handle(), alignments.handle(), locations.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-    }
-    
-    static final MethodHandle pango_tab_array_resize = Interop.downcallHandle(
+    private static final MethodHandle pango_tab_array_resize = Interop.downcallHandle(
         "pango_tab_array_resize",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -180,7 +169,7 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
      * You must subsequently initialize any tabs
      * that were added as a result of growing the array.
      */
-    public void resize(int newSize) {
+    public @NotNull void resize(@NotNull int newSize) {
         try {
             pango_tab_array_resize.invokeExact(handle(), newSize);
         } catch (Throwable ERR) {
@@ -188,7 +177,7 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle pango_tab_array_set_decimal_point = Interop.downcallHandle(
+    private static final MethodHandle pango_tab_array_set_decimal_point = Interop.downcallHandle(
         "pango_tab_array_set_decimal_point",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -203,7 +192,7 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
      * By default, Pango uses the decimal point according
      * to the current locale.
      */
-    public void setDecimalPoint(int tabIndex, int decimalPoint) {
+    public @NotNull void setDecimalPoint(@NotNull int tabIndex, @NotNull int decimalPoint) {
         try {
             pango_tab_array_set_decimal_point.invokeExact(handle(), tabIndex, decimalPoint);
         } catch (Throwable ERR) {
@@ -211,7 +200,7 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle pango_tab_array_set_positions_in_pixels = Interop.downcallHandle(
+    private static final MethodHandle pango_tab_array_set_positions_in_pixels = Interop.downcallHandle(
         "pango_tab_array_set_positions_in_pixels",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -220,7 +209,7 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
      * Sets whether positions in this array are specified in
      * pixels.
      */
-    public void setPositionsInPixels(boolean positionsInPixels) {
+    public @NotNull void setPositionsInPixels(@NotNull boolean positionsInPixels) {
         try {
             pango_tab_array_set_positions_in_pixels.invokeExact(handle(), positionsInPixels ? 1 : 0);
         } catch (Throwable ERR) {
@@ -228,7 +217,7 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle pango_tab_array_set_tab = Interop.downcallHandle(
+    private static final MethodHandle pango_tab_array_set_tab = Interop.downcallHandle(
         "pango_tab_array_set_tab",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
     );
@@ -236,7 +225,7 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Sets the alignment and location of a tab stop.
      */
-    public void setTab(int tabIndex, TabAlign alignment, int location) {
+    public @NotNull void setTab(@NotNull int tabIndex, @NotNull TabAlign alignment, @NotNull int location) {
         try {
             pango_tab_array_set_tab.invokeExact(handle(), tabIndex, alignment.getValue(), location);
         } catch (Throwable ERR) {
@@ -244,7 +233,7 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle pango_tab_array_sort = Interop.downcallHandle(
+    private static final MethodHandle pango_tab_array_sort = Interop.downcallHandle(
         "pango_tab_array_sort",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -252,7 +241,7 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Utility function to ensure that the tab stops are in increasing order.
      */
-    public void sort() {
+    public @NotNull void sort() {
         try {
             pango_tab_array_sort.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -260,7 +249,7 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle pango_tab_array_to_string = Interop.downcallHandle(
+    private static final MethodHandle pango_tab_array_to_string = Interop.downcallHandle(
         "pango_tab_array_to_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -275,16 +264,17 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
      * debugging. The format is not meant as a permanent
      * storage format.
      */
-    public java.lang.String toString() {
+    public @NotNull java.lang.String toString() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_tab_array_to_string.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) pango_tab_array_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle pango_tab_array_from_string = Interop.downcallHandle(
+    private static final MethodHandle pango_tab_array_from_string = Interop.downcallHandle(
         "pango_tab_array_from_string",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -295,13 +285,14 @@ public class TabArray extends io.github.jwharm.javagi.ResourceBase {
      * This is the counterpart to {@link TabArray#toString}.
      * See that functions for details about the format.
      */
-    public static TabArray fromString(java.lang.String text) {
+    public static @Nullable TabArray fromString(@NotNull java.lang.String text) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) pango_tab_array_from_string.invokeExact(Interop.allocateNativeString(text).handle());
-            return new TabArray(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) pango_tab_array_from_string.invokeExact(Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TabArray(Refcounted.get(RESULT, true));
     }
     
 }

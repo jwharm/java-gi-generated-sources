@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkGestureZoom} is a {@code GtkGesture} for 2-finger pinch/zoom gestures.
@@ -22,7 +23,7 @@ public class GestureZoom extends Gesture {
         return new GestureZoom(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_gesture_zoom_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_gesture_zoom_new = Interop.downcallHandle(
         "gtk_gesture_zoom_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -44,7 +45,7 @@ public class GestureZoom extends Gesture {
         super(constructNew());
     }
     
-    static final MethodHandle gtk_gesture_zoom_get_scale_delta = Interop.downcallHandle(
+    private static final MethodHandle gtk_gesture_zoom_get_scale_delta = Interop.downcallHandle(
         "gtk_gesture_zoom_get_scale_delta",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -58,17 +59,18 @@ public class GestureZoom extends Gesture {
      * active, 1 is returned.
      */
     public double getScaleDelta() {
+        double RESULT;
         try {
-            var RESULT = (double) gtk_gesture_zoom_get_scale_delta.invokeExact(handle());
-            return RESULT;
+            RESULT = (double) gtk_gesture_zoom_get_scale_delta.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     @FunctionalInterface
     public interface ScaleChangedHandler {
-        void signalReceived(GestureZoom source, double scale);
+        void signalReceived(GestureZoom source, @NotNull double scale);
     }
     
     /**
@@ -78,13 +80,13 @@ public class GestureZoom extends Gesture {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("scale-changed").handle(),
+                Interop.allocateNativeString("scale-changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(GestureZoom.Callbacks.class, "signalGestureZoomScaleChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

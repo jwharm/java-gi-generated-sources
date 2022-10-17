@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkSignalListItemFactory} is a {@code GtkListItemFactory} that emits signals
@@ -57,7 +58,7 @@ public class SignalListItemFactory extends ListItemFactory {
         return new SignalListItemFactory(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_signal_list_item_factory_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_signal_list_item_factory_new = Interop.downcallHandle(
         "gtk_signal_list_item_factory_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -82,7 +83,7 @@ public class SignalListItemFactory extends ListItemFactory {
     
     @FunctionalInterface
     public interface BindHandler {
-        void signalReceived(SignalListItemFactory source, ListItem listitem);
+        void signalReceived(SignalListItemFactory source, @NotNull ListItem listitem);
     }
     
     /**
@@ -100,13 +101,13 @@ public class SignalListItemFactory extends ListItemFactory {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("bind").handle(),
+                Interop.allocateNativeString("bind"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SignalListItemFactory.Callbacks.class, "signalSignalListItemFactoryBind",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -116,7 +117,7 @@ public class SignalListItemFactory extends ListItemFactory {
     
     @FunctionalInterface
     public interface SetupHandler {
-        void signalReceived(SignalListItemFactory source, ListItem listitem);
+        void signalReceived(SignalListItemFactory source, @NotNull ListItem listitem);
     }
     
     /**
@@ -131,13 +132,13 @@ public class SignalListItemFactory extends ListItemFactory {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("setup").handle(),
+                Interop.allocateNativeString("setup"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SignalListItemFactory.Callbacks.class, "signalSignalListItemFactorySetup",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -147,7 +148,7 @@ public class SignalListItemFactory extends ListItemFactory {
     
     @FunctionalInterface
     public interface TeardownHandler {
-        void signalReceived(SignalListItemFactory source, ListItem listitem);
+        void signalReceived(SignalListItemFactory source, @NotNull ListItem listitem);
     }
     
     /**
@@ -162,13 +163,13 @@ public class SignalListItemFactory extends ListItemFactory {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("teardown").handle(),
+                Interop.allocateNativeString("teardown"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SignalListItemFactory.Callbacks.class, "signalSignalListItemFactoryTeardown",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -178,7 +179,7 @@ public class SignalListItemFactory extends ListItemFactory {
     
     @FunctionalInterface
     public interface UnbindHandler {
-        void signalReceived(SignalListItemFactory source, ListItem listitem);
+        void signalReceived(SignalListItemFactory source, @NotNull ListItem listitem);
     }
     
     /**
@@ -192,13 +193,13 @@ public class SignalListItemFactory extends ListItemFactory {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("unbind").handle(),
+                Interop.allocateNativeString("unbind"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(SignalListItemFactory.Callbacks.class, "signalSignalListItemFactoryUnbind",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

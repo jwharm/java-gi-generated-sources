@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@code GtkFontChooserWidget} widget lets the user select a font.
@@ -18,9 +19,8 @@ import java.lang.invoke.*;
  * <p>
  * To change the text which is shown in the preview area, use
  * {@link FontChooser#setPreviewText}.
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * {@code GtkFontChooserWidget} has a single CSS node with name fontchooser.
  */
 public class FontChooserWidget extends Widget implements Accessible, Buildable, ConstraintTarget, FontChooser {
@@ -34,7 +34,7 @@ public class FontChooserWidget extends Widget implements Accessible, Buildable, 
         return new FontChooserWidget(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_font_chooser_widget_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_font_chooser_widget_new = Interop.downcallHandle(
         "gtk_font_chooser_widget_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );

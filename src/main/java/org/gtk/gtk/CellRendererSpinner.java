@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Renders a spinning animation in a cell
@@ -29,7 +30,7 @@ public class CellRendererSpinner extends CellRenderer {
         return new CellRendererSpinner(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_cell_renderer_spinner_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_renderer_spinner_new = Interop.downcallHandle(
         "gtk_cell_renderer_spinner_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );

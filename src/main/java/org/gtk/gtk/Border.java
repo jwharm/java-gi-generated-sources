@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A struct that specifies a border around a rectangular area.
@@ -15,7 +16,7 @@ public class Border extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle gtk_border_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_border_new = Interop.downcallHandle(
         "gtk_border_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -36,7 +37,7 @@ public class Border extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew());
     }
     
-    static final MethodHandle gtk_border_copy = Interop.downcallHandle(
+    private static final MethodHandle gtk_border_copy = Interop.downcallHandle(
         "gtk_border_copy",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -44,16 +45,17 @@ public class Border extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Copies a {@code GtkBorder}.
      */
-    public Border copy() {
+    public @NotNull Border copy() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_border_copy.invokeExact(handle());
-            return new Border(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_border_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Border(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_border_free = Interop.downcallHandle(
+    private static final MethodHandle gtk_border_free = Interop.downcallHandle(
         "gtk_border_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -61,7 +63,7 @@ public class Border extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Frees a {@code GtkBorder}.
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             gtk_border_free.invokeExact(handle());
         } catch (Throwable ERR) {

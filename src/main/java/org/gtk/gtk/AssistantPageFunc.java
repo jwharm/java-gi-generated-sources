@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Type of callback used to calculate the next page in a {@code GtkAssistant}.
@@ -12,5 +13,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface AssistantPageFunc {
-        int onAssistantPageFunc(int currentPage);
+        int onAssistantPageFunc(@NotNull int currentPage);
 }

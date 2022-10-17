@@ -1,6 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Defines the type of function used to compare {@link Hook} elements in
@@ -8,5 +9,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface HookCompareFunc {
-        int onHookCompareFunc(Hook newHook, Hook sibling);
+        int onHookCompareFunc(@NotNull Hook newHook, @NotNull Hook sibling);
 }

@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A layout manager using constraints to describe relations between widgets.
@@ -10,9 +11,8 @@ import java.lang.invoke.*;
  * {@code GtkConstraintLayout} is a layout manager that uses relations between
  * widget attributes, expressed via {@link Constraint} instances, to
  * measure and allocate widgets.
- * <p>
+ * 
  * <h3>How do constraints work</h3>
- * <p>
  * Constraints are objects defining the relationship between attributes
  * of a widget; you can read the description of the {@link Constraint}
  * class to have a more in depth definition.
@@ -40,15 +40,14 @@ import java.lang.invoke.*;
  * A constraint-based layout with conflicting constraints may be unsolvable,
  * and lead to an unstable layout. You can use the {@code Gtk.Constraint:strength}
  * property of {@link Constraint} to "nudge" the layout towards a solution.
- * <p>
+ * 
  * <h3>GtkConstraintLayout as GtkBuildable</h3>
- * <p>
  * {@code GtkConstraintLayout} implements the {@code Gtk.Buildable} interface and
  * has a custom "constraints" element which allows describing constraints in
  * a {@link Builder} UI file.
  * <p>
  * An example of a UI definition fragment specifying a constraint:
- * <p>
+ * 
  * <pre>{@code xml
  *   <object class="GtkConstraintLayout">
  *     <constraints>
@@ -94,7 +93,7 @@ import java.lang.invoke.*;
  * <p>
  * Additionally, the "constraints" element can also contain a description
  * of the {@code GtkConstraintGuides} used by the layout:
- * <p>
+ * 
  * <pre>{@code xml
  *   <constraints>
  *     <guide min-width="100" max-width="500" name="hspace"/>
@@ -113,12 +112,11 @@ import java.lang.invoke.*;
  *     size of the guide; if not specified, the constraint is assumed to
  *     have a medium strength
  * <li>"name" describes a name for the guide, useful when debugging
- * </ul>
- * <p>
+ * 
  * <h3>Using the Visual Format Language</h3>
- * <p>
  * Complex constraints can be described using a compact syntax called VFL,
  * or <strong>Visual Format Language</strong>.
+ * </ul>
  * <p>
  * The Visual Format Language describes all the constraints on a row or
  * column, typically starting from the leading edge towards the trailing
@@ -126,7 +124,7 @@ import java.lang.invoke.*;
  * a {@code Gtk.ConstraintTarget}.
  * <p>
  * For instance:
- * <p>
+ * 
  * <pre>{@code 
  *   [button]-[textField]
  * }</pre>
@@ -136,7 +134,7 @@ import java.lang.invoke.*;
  * <p>
  * Using VFL is also possible to specify predicates that describe constraints
  * on attributes like width and height:
- * <p>
+ * 
  * <pre>{@code 
  *   // Width must be greater than, or equal to 50
  *   [button(>=50)]
@@ -147,7 +145,7 @@ import java.lang.invoke.*;
  * <p>
  * The default orientation for a VFL description is horizontal, unless
  * otherwise specified:
- * <p>
+ * 
  * <pre>{@code 
  *   // horizontal orientation, default attribute: width
  *   H:[button(>=150)]
@@ -158,7 +156,7 @@ import java.lang.invoke.*;
  * <p>
  * It's also possible to specify multiple predicates, as well as their
  * strength:
- * <p>
+ * 
  * <pre>{@code 
  *   // minimum width of button must be 150
  *   // natural width of button can be 250
@@ -166,7 +164,7 @@ import java.lang.invoke.*;
  * }</pre>
  * <p>
  * Finally, it's also possible to use simple arithmetic operators:
- * <p>
+ * 
  * <pre>{@code 
  *   // width of button1 must be equal to width of button2
  *   // divided by 2 plus 12
@@ -184,7 +182,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
         return new ConstraintLayout(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_constraint_layout_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_constraint_layout_new = Interop.downcallHandle(
         "gtk_constraint_layout_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -205,7 +203,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
         super(constructNew());
     }
     
-    static final MethodHandle gtk_constraint_layout_add_constraint = Interop.downcallHandle(
+    private static final MethodHandle gtk_constraint_layout_add_constraint = Interop.downcallHandle(
         "gtk_constraint_layout_add_constraint",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -227,7 +225,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      * The {@code layout} acquires the ownership of {@code constraint} after calling
      * this function.
      */
-    public void addConstraint(Constraint constraint) {
+    public @NotNull void addConstraint(@NotNull Constraint constraint) {
         try {
             gtk_constraint_layout_add_constraint.invokeExact(handle(), constraint.refcounted().unowned().handle());
         } catch (Throwable ERR) {
@@ -235,7 +233,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
         }
     }
     
-    static final MethodHandle gtk_constraint_layout_add_constraints_from_descriptionv = Interop.downcallHandle(
+    private static final MethodHandle gtk_constraint_layout_add_constraints_from_descriptionv = Interop.downcallHandle(
         "gtk_constraint_layout_add_constraints_from_descriptionv",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -249,7 +247,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      * instances to the symbolic view name inside the VFL.
      * <p>
      * The VFL grammar is:
-     * <p>
+     * 
      * <pre>{@code 
      *        <visualFormatString> = (<orientation>)?
      *                               (<superview><connection>)?
@@ -283,7 +281,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      * simple arithmetic operations inside predicates.
      * <p>
      * Examples of VFL descriptions are:
-     * <p>
+     * 
      * <pre>{@code 
      *   // Default spacing
      *   [button]-[textField]
@@ -319,20 +317,21 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      *   [button1(==button2.height)]
      * }</pre>
      */
-    public org.gtk.glib.List addConstraintsFromDescriptionv(java.lang.String[] lines, long nLines, int hspacing, int vspacing, org.gtk.glib.HashTable views) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.glib.List addConstraintsFromDescriptionv(@NotNull java.lang.String[] lines, @NotNull long nLines, @NotNull int hspacing, @NotNull int vspacing, @NotNull org.gtk.glib.HashTable views) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_constraint_layout_add_constraints_from_descriptionv.invokeExact(handle(), Interop.allocateNativeArray(lines).handle(), nLines, hspacing, vspacing, views.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) gtk_constraint_layout_add_constraints_from_descriptionv.invokeExact(handle(), Interop.allocateNativeArray(lines), nLines, hspacing, vspacing, views.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle gtk_constraint_layout_add_guide = Interop.downcallHandle(
+    private static final MethodHandle gtk_constraint_layout_add_guide = Interop.downcallHandle(
         "gtk_constraint_layout_add_guide",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -346,7 +345,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      * The {@code layout} acquires the ownership of {@code guide} after calling
      * this function.
      */
-    public void addGuide(ConstraintGuide guide) {
+    public @NotNull void addGuide(@NotNull ConstraintGuide guide) {
         try {
             gtk_constraint_layout_add_guide.invokeExact(handle(), guide.refcounted().unowned().handle());
         } catch (Throwable ERR) {
@@ -354,7 +353,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
         }
     }
     
-    static final MethodHandle gtk_constraint_layout_observe_constraints = Interop.downcallHandle(
+    private static final MethodHandle gtk_constraint_layout_observe_constraints = Interop.downcallHandle(
         "gtk_constraint_layout_observe_constraints",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -370,16 +369,17 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      * Applications should try hard to avoid calling this function
      * because of the slowdowns.
      */
-    public org.gtk.gio.ListModel observeConstraints() {
+    public @NotNull org.gtk.gio.ListModel observeConstraints() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_constraint_layout_observe_constraints.invokeExact(handle());
-            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_constraint_layout_observe_constraints.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_constraint_layout_observe_guides = Interop.downcallHandle(
+    private static final MethodHandle gtk_constraint_layout_observe_guides = Interop.downcallHandle(
         "gtk_constraint_layout_observe_guides",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -395,16 +395,17 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      * Applications should try hard to avoid calling this function
      * because of the slowdowns.
      */
-    public org.gtk.gio.ListModel observeGuides() {
+    public @NotNull org.gtk.gio.ListModel observeGuides() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_constraint_layout_observe_guides.invokeExact(handle());
-            return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gtk_constraint_layout_observe_guides.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gtk_constraint_layout_remove_all_constraints = Interop.downcallHandle(
+    private static final MethodHandle gtk_constraint_layout_remove_all_constraints = Interop.downcallHandle(
         "gtk_constraint_layout_remove_all_constraints",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -412,7 +413,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
     /**
      * Removes all constraints from the layout manager.
      */
-    public void removeAllConstraints() {
+    public @NotNull void removeAllConstraints() {
         try {
             gtk_constraint_layout_remove_all_constraints.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -420,7 +421,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
         }
     }
     
-    static final MethodHandle gtk_constraint_layout_remove_constraint = Interop.downcallHandle(
+    private static final MethodHandle gtk_constraint_layout_remove_constraint = Interop.downcallHandle(
         "gtk_constraint_layout_remove_constraint",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -429,7 +430,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      * Removes {@code constraint} from the layout manager,
      * so that it no longer influences the layout.
      */
-    public void removeConstraint(Constraint constraint) {
+    public @NotNull void removeConstraint(@NotNull Constraint constraint) {
         try {
             gtk_constraint_layout_remove_constraint.invokeExact(handle(), constraint.handle());
         } catch (Throwable ERR) {
@@ -437,7 +438,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
         }
     }
     
-    static final MethodHandle gtk_constraint_layout_remove_guide = Interop.downcallHandle(
+    private static final MethodHandle gtk_constraint_layout_remove_guide = Interop.downcallHandle(
         "gtk_constraint_layout_remove_guide",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -446,7 +447,7 @@ public class ConstraintLayout extends LayoutManager implements Buildable {
      * Removes {@code guide} from the layout manager,
      * so that it no longer influences the layout.
      */
-    public void removeGuide(ConstraintGuide guide) {
+    public @NotNull void removeGuide(@NotNull ConstraintGuide guide) {
         try {
             gtk_constraint_layout_remove_guide.invokeExact(handle(), guide.handle());
         } catch (Throwable ERR) {

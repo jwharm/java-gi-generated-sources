@@ -3,6 +3,7 @@ package org.gnome.adw;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A page used for empty/error states and similar use-cases.
@@ -14,9 +15,8 @@ import java.lang.invoke.*;
  * <p>
  * The {@code AdwStatusPage} widget can have an icon, a title, a description and a
  * custom widget which is displayed below them.
- * <p>
+ * 
  * <h2>CSS nodes</h2>
- * <p>
  * {@code AdwStatusPage} has a main CSS node with name {@code statuspage}.
  * <p>
  * {@code AdwStatusPage} can use the
@@ -34,7 +34,7 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         return new StatusPage(gobject.refcounted());
     }
     
-    static final MethodHandle adw_status_page_new = Interop.downcallHandle(
+    private static final MethodHandle adw_status_page_new = Interop.downcallHandle(
         "adw_status_page_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -55,7 +55,7 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         super(constructNew());
     }
     
-    static final MethodHandle adw_status_page_get_child = Interop.downcallHandle(
+    private static final MethodHandle adw_status_page_get_child = Interop.downcallHandle(
         "adw_status_page_get_child",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -63,16 +63,17 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     /**
      * Gets the child widget of {@code self}.
      */
-    public org.gtk.gtk.Widget getChild() {
+    public @Nullable org.gtk.gtk.Widget getChild() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_status_page_get_child.invokeExact(handle());
-            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_status_page_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_status_page_get_description = Interop.downcallHandle(
+    private static final MethodHandle adw_status_page_get_description = Interop.downcallHandle(
         "adw_status_page_get_description",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -80,16 +81,17 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     /**
      * Gets the description for {@code self}.
      */
-    public java.lang.String getDescription() {
+    public @Nullable java.lang.String getDescription() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_status_page_get_description.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) adw_status_page_get_description.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle adw_status_page_get_icon_name = Interop.downcallHandle(
+    private static final MethodHandle adw_status_page_get_icon_name = Interop.downcallHandle(
         "adw_status_page_get_icon_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -97,16 +99,17 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     /**
      * Gets the icon name for {@code self}.
      */
-    public java.lang.String getIconName() {
+    public @Nullable java.lang.String getIconName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_status_page_get_icon_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) adw_status_page_get_icon_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle adw_status_page_get_paintable = Interop.downcallHandle(
+    private static final MethodHandle adw_status_page_get_paintable = Interop.downcallHandle(
         "adw_status_page_get_paintable",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -114,16 +117,17 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     /**
      * Gets the paintable for {@code self}.
      */
-    public org.gtk.gdk.Paintable getPaintable() {
+    public @Nullable org.gtk.gdk.Paintable getPaintable() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_status_page_get_paintable.invokeExact(handle());
-            return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_status_page_get_paintable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_status_page_get_title = Interop.downcallHandle(
+    private static final MethodHandle adw_status_page_get_title = Interop.downcallHandle(
         "adw_status_page_get_title",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -131,16 +135,17 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     /**
      * Gets the title for {@code self}.
      */
-    public java.lang.String getTitle() {
+    public @NotNull java.lang.String getTitle() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_status_page_get_title.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) adw_status_page_get_title.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle adw_status_page_set_child = Interop.downcallHandle(
+    private static final MethodHandle adw_status_page_set_child = Interop.downcallHandle(
         "adw_status_page_set_child",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -148,7 +153,7 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     /**
      * Sets the child widget of {@code self}.
      */
-    public void setChild(org.gtk.gtk.Widget child) {
+    public @NotNull void setChild(@Nullable org.gtk.gtk.Widget child) {
         try {
             adw_status_page_set_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
@@ -156,7 +161,7 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         }
     }
     
-    static final MethodHandle adw_status_page_set_description = Interop.downcallHandle(
+    private static final MethodHandle adw_status_page_set_description = Interop.downcallHandle(
         "adw_status_page_set_description",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -164,15 +169,15 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     /**
      * Sets the description for {@code self}.
      */
-    public void setDescription(java.lang.String description) {
+    public @NotNull void setDescription(@Nullable java.lang.String description) {
         try {
-            adw_status_page_set_description.invokeExact(handle(), Interop.allocateNativeString(description).handle());
+            adw_status_page_set_description.invokeExact(handle(), Interop.allocateNativeString(description));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle adw_status_page_set_icon_name = Interop.downcallHandle(
+    private static final MethodHandle adw_status_page_set_icon_name = Interop.downcallHandle(
         "adw_status_page_set_icon_name",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -180,15 +185,15 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     /**
      * Sets the icon name for {@code self}.
      */
-    public void setIconName(java.lang.String iconName) {
+    public @NotNull void setIconName(@Nullable java.lang.String iconName) {
         try {
-            adw_status_page_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName).handle());
+            adw_status_page_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle adw_status_page_set_paintable = Interop.downcallHandle(
+    private static final MethodHandle adw_status_page_set_paintable = Interop.downcallHandle(
         "adw_status_page_set_paintable",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -196,7 +201,7 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     /**
      * Sets the paintable for {@code self}.
      */
-    public void setPaintable(org.gtk.gdk.Paintable paintable) {
+    public @NotNull void setPaintable(@Nullable org.gtk.gdk.Paintable paintable) {
         try {
             adw_status_page_set_paintable.invokeExact(handle(), paintable.handle());
         } catch (Throwable ERR) {
@@ -204,7 +209,7 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         }
     }
     
-    static final MethodHandle adw_status_page_set_title = Interop.downcallHandle(
+    private static final MethodHandle adw_status_page_set_title = Interop.downcallHandle(
         "adw_status_page_set_title",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -212,9 +217,9 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     /**
      * Sets the title for {@code self}.
      */
-    public void setTitle(java.lang.String title) {
+    public @NotNull void setTitle(@NotNull java.lang.String title) {
         try {
-            adw_status_page_set_title.invokeExact(handle(), Interop.allocateNativeString(title).handle());
+            adw_status_page_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The type of the callback functions used for iterating over
@@ -8,5 +9,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface CellCallback {
-        boolean onCellCallback(CellRenderer renderer);
+        boolean onCellCallback(@NotNull CellRenderer renderer);
 }

@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link Drive} - this represent a piece of hardware connected to the machine.
@@ -34,7 +35,7 @@ import java.lang.invoke.*;
  */
 public interface Drive extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle g_drive_can_eject = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_can_eject = Interop.downcallHandle(
         "g_drive_can_eject",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -42,16 +43,17 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     /**
      * Checks if a drive can be ejected.
      */
-    public default boolean canEject() {
+    default boolean canEject() {
+        int RESULT;
         try {
-            var RESULT = (int) g_drive_can_eject.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_drive_can_eject.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_drive_can_poll_for_media = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_can_poll_for_media = Interop.downcallHandle(
         "g_drive_can_poll_for_media",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -59,16 +61,17 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     /**
      * Checks if a drive can be polled for media changes.
      */
-    public default boolean canPollForMedia() {
+    default boolean canPollForMedia() {
+        int RESULT;
         try {
-            var RESULT = (int) g_drive_can_poll_for_media.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_drive_can_poll_for_media.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_drive_can_start = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_can_start = Interop.downcallHandle(
         "g_drive_can_start",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -76,16 +79,17 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     /**
      * Checks if a drive can be started.
      */
-    public default boolean canStart() {
+    default boolean canStart() {
+        int RESULT;
         try {
-            var RESULT = (int) g_drive_can_start.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_drive_can_start.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_drive_can_start_degraded = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_can_start_degraded = Interop.downcallHandle(
         "g_drive_can_start_degraded",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -93,16 +97,17 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     /**
      * Checks if a drive can be started degraded.
      */
-    public default boolean canStartDegraded() {
+    default boolean canStartDegraded() {
+        int RESULT;
         try {
-            var RESULT = (int) g_drive_can_start_degraded.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_drive_can_start_degraded.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_drive_can_stop = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_can_stop = Interop.downcallHandle(
         "g_drive_can_stop",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -110,16 +115,17 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     /**
      * Checks if a drive can be stopped.
      */
-    public default boolean canStop() {
+    default boolean canStop() {
+        int RESULT;
         try {
-            var RESULT = (int) g_drive_can_stop.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_drive_can_stop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_drive_eject_with_operation = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_eject_with_operation = Interop.downcallHandle(
         "g_drive_eject_with_operation",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -129,7 +135,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      * finished by calling g_drive_eject_with_operation_finish() with the {@code drive}
      * and {@link AsyncResult} data returned in the {@code callback}.
      */
-    public default void ejectWithOperation(MountUnmountFlags flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void ejectWithOperation(@NotNull MountUnmountFlags flags, @Nullable MountOperation mountOperation, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_drive_eject_with_operation.invokeExact(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -137,13 +143,13 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_drive_eject_with_operation_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_eject_with_operation_finish = Interop.downcallHandle(
         "g_drive_eject_with_operation_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -152,20 +158,21 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      * Finishes ejecting a drive. If any errors occurred during the operation,
      * {@code error} will be set to contain the errors and {@code false} will be returned.
      */
-    public default boolean ejectWithOperationFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    default boolean ejectWithOperationFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_drive_eject_with_operation_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_drive_eject_with_operation_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_drive_enumerate_identifiers = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_enumerate_identifiers = Interop.downcallHandle(
         "g_drive_enumerate_identifiers",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -175,16 +182,17 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      * Use g_drive_get_identifier() to obtain the identifiers
      * themselves.
      */
-    public default PointerString enumerateIdentifiers() {
+    default PointerString enumerateIdentifiers() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_drive_enumerate_identifiers.invokeExact(handle());
-            return new PointerString(RESULT);
+            RESULT = (MemoryAddress) g_drive_enumerate_identifiers.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PointerString(RESULT);
     }
     
-    static final MethodHandle g_drive_get_icon = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_get_icon = Interop.downcallHandle(
         "g_drive_get_icon",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -192,16 +200,17 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets the icon for {@code drive}.
      */
-    public default Icon getIcon() {
+    default @NotNull Icon getIcon() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_drive_get_icon.invokeExact(handle());
-            return new Icon.IconImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_drive_get_icon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Icon.IconImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_drive_get_identifier = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_get_identifier = Interop.downcallHandle(
         "g_drive_get_identifier",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -211,16 +220,17 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      * identifier currently available is
      * {@code G_DRIVE_IDENTIFIER_KIND_UNIX_DEVICE}.
      */
-    public default java.lang.String getIdentifier(java.lang.String kind) {
+    default @Nullable java.lang.String getIdentifier(@NotNull java.lang.String kind) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_drive_get_identifier.invokeExact(handle(), Interop.allocateNativeString(kind).handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_drive_get_identifier.invokeExact(handle(), Interop.allocateNativeString(kind));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_drive_get_name = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_get_name = Interop.downcallHandle(
         "g_drive_get_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -228,16 +238,17 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets the name of {@code drive}.
      */
-    public default java.lang.String getName() {
+    default @NotNull java.lang.String getName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_drive_get_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_drive_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_drive_get_sort_key = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_get_sort_key = Interop.downcallHandle(
         "g_drive_get_sort_key",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -245,16 +256,17 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets the sort key for {@code drive}, if any.
      */
-    public default java.lang.String getSortKey() {
+    default @Nullable java.lang.String getSortKey() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_drive_get_sort_key.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_drive_get_sort_key.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_drive_get_start_stop_type = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_get_start_stop_type = Interop.downcallHandle(
         "g_drive_get_start_stop_type",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -262,16 +274,17 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets a hint about how a drive can be started/stopped.
      */
-    public default DriveStartStopType getStartStopType() {
+    default @NotNull DriveStartStopType getStartStopType() {
+        int RESULT;
         try {
-            var RESULT = (int) g_drive_get_start_stop_type.invokeExact(handle());
-            return new DriveStartStopType(RESULT);
+            RESULT = (int) g_drive_get_start_stop_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new DriveStartStopType(RESULT);
     }
     
-    static final MethodHandle g_drive_get_symbolic_icon = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_get_symbolic_icon = Interop.downcallHandle(
         "g_drive_get_symbolic_icon",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -279,16 +292,17 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     /**
      * Gets the icon for {@code drive}.
      */
-    public default Icon getSymbolicIcon() {
+    default @NotNull Icon getSymbolicIcon() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_drive_get_symbolic_icon.invokeExact(handle());
-            return new Icon.IconImpl(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_drive_get_symbolic_icon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Icon.IconImpl(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_drive_get_volumes = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_get_volumes = Interop.downcallHandle(
         "g_drive_get_volumes",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -299,16 +313,17 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      * The returned list should be freed with g_list_free(), after
      * its elements have been unreffed with g_object_unref().
      */
-    public default org.gtk.glib.List getVolumes() {
+    default @NotNull org.gtk.glib.List getVolumes() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_drive_get_volumes.invokeExact(handle());
-            return new org.gtk.glib.List(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_drive_get_volumes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle g_drive_has_media = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_has_media = Interop.downcallHandle(
         "g_drive_has_media",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -318,16 +333,17 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      * the drive for media changes; see g_drive_is_media_check_automatic()
      * for more details.
      */
-    public default boolean hasMedia() {
+    default boolean hasMedia() {
+        int RESULT;
         try {
-            var RESULT = (int) g_drive_has_media.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_drive_has_media.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_drive_has_volumes = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_has_volumes = Interop.downcallHandle(
         "g_drive_has_volumes",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -335,16 +351,17 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     /**
      * Check if {@code drive} has any mountable volumes.
      */
-    public default boolean hasVolumes() {
+    default boolean hasVolumes() {
+        int RESULT;
         try {
-            var RESULT = (int) g_drive_has_volumes.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_drive_has_volumes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_drive_is_media_check_automatic = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_is_media_check_automatic = Interop.downcallHandle(
         "g_drive_is_media_check_automatic",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -352,16 +369,17 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     /**
      * Checks if {@code drive} is capable of automatically detecting media changes.
      */
-    public default boolean isMediaCheckAutomatic() {
+    default boolean isMediaCheckAutomatic() {
+        int RESULT;
         try {
-            var RESULT = (int) g_drive_is_media_check_automatic.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_drive_is_media_check_automatic.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_drive_is_media_removable = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_is_media_removable = Interop.downcallHandle(
         "g_drive_is_media_removable",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -369,16 +387,17 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     /**
      * Checks if the {@code drive} supports removable media.
      */
-    public default boolean isMediaRemovable() {
+    default boolean isMediaRemovable() {
+        int RESULT;
         try {
-            var RESULT = (int) g_drive_is_media_removable.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_drive_is_media_removable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_drive_is_removable = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_is_removable = Interop.downcallHandle(
         "g_drive_is_removable",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -387,16 +406,17 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      * Checks if the {@link Drive} and/or its media is considered removable by the user.
      * See g_drive_is_media_removable().
      */
-    public default boolean isRemovable() {
+    default boolean isRemovable() {
+        int RESULT;
         try {
-            var RESULT = (int) g_drive_is_removable.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_drive_is_removable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_drive_poll_for_media = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_poll_for_media = Interop.downcallHandle(
         "g_drive_poll_for_media",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -408,7 +428,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      * You can then call g_drive_poll_for_media_finish() to obtain the
      * result of the operation.
      */
-    public default void pollForMedia(Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void pollForMedia(@Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_drive_poll_for_media.invokeExact(handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -416,13 +436,13 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_drive_poll_for_media_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_poll_for_media_finish = Interop.downcallHandle(
         "g_drive_poll_for_media_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -430,20 +450,21 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     /**
      * Finishes an operation started with g_drive_poll_for_media() on a drive.
      */
-    public default boolean pollForMediaFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    default boolean pollForMediaFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_drive_poll_for_media_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_drive_poll_for_media_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_drive_start = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_start = Interop.downcallHandle(
         "g_drive_start",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -455,7 +476,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      * You can then call g_drive_start_finish() to obtain the
      * result of the operation.
      */
-    public default void start(DriveStartFlags flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void start(@NotNull DriveStartFlags flags, @Nullable MountOperation mountOperation, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_drive_start.invokeExact(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -463,13 +484,13 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_drive_start_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_start_finish = Interop.downcallHandle(
         "g_drive_start_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -477,20 +498,21 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     /**
      * Finishes starting a drive.
      */
-    public default boolean startFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    default boolean startFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_drive_start_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_drive_start_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_drive_stop = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_stop = Interop.downcallHandle(
         "g_drive_stop",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -502,7 +524,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      * You can then call g_drive_stop_finish() to obtain the
      * result of the operation.
      */
-    public default void stop(MountUnmountFlags flags, MountOperation mountOperation, Cancellable cancellable, AsyncReadyCallback callback) {
+    default @NotNull void stop(@NotNull MountUnmountFlags flags, @Nullable MountOperation mountOperation, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_drive_stop.invokeExact(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -510,13 +532,13 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_drive_stop_finish = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_drive_stop_finish = Interop.downcallHandle(
         "g_drive_stop_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -524,17 +546,18 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     /**
      * Finishes stopping a drive.
      */
-    public default boolean stopFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    default boolean stopFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_drive_stop_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_drive_stop_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
     @FunctionalInterface
@@ -549,13 +572,13 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("changed").handle(),
+                Interop.allocateNativeString("changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Drive.Callbacks.class, "signalDriveChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -578,13 +601,13 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("disconnected").handle(),
+                Interop.allocateNativeString("disconnected"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Drive.Callbacks.class, "signalDriveDisconnected",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -605,13 +628,13 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("eject-button").handle(),
+                Interop.allocateNativeString("eject-button"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Drive.Callbacks.class, "signalDriveEjectButton",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {
@@ -632,13 +655,13 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("stop-button").handle(),
+                Interop.allocateNativeString("stop-button"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(Drive.Callbacks.class, "signalDriveStopButton",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

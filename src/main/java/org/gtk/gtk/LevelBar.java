@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkLevelBar} is a widget that can be used as a level indicator.
@@ -22,9 +23,8 @@ import java.lang.invoke.*;
  * Note that it is your responsibility to update preexisting offsets
  * when changing the minimum or maximum value. GTK will simply clamp
  * them to the new range.
- * <p>
+ * 
  * <h2>Adding a custom offset on the bar</h2>
- * <p>
  * <pre>{@code c
  * static GtkWidget *
  * create_level_bar (void)
@@ -70,15 +70,13 @@ import java.lang.invoke.*;
  * For instance, to build a bar rendered with five blocks, it’s sufficient to
  * set the minimum value to 0 and the maximum value to 5 after changing the
  * indicator mode to discrete.
- * <p>
+ * 
  * <h1>GtkLevelBar as GtkBuildable</h1>
- * <p>
  * The {@code GtkLevelBar} implementation of the {@code GtkBuildable} interface supports a
- * custom &lt;offsets> element, which can contain any number of <offset&gt; elements,
+ * custom &lt;offsets&gt; element, which can contain any number of &lt;offset&gt; elements,
  * each of which must have name and value attributes.
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * <pre>{@code 
  * levelbar[.discrete]
  * ╰── trough
@@ -98,9 +96,8 @@ import java.lang.invoke.*;
  * <p>
  * In horizontal orientation, the nodes are always arranged from left to right,
  * regardless of text direction.
- * <p>
+ * 
  * <h1>Accessibility</h1>
- * <p>
  * {@code GtkLevelBar} uses the {@link AccessibleRole#METER} role.
  */
 public class LevelBar extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
@@ -114,7 +111,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
         return new LevelBar(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_level_bar_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_level_bar_new = Interop.downcallHandle(
         "gtk_level_bar_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -135,12 +132,12 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
         super(constructNew());
     }
     
-    static final MethodHandle gtk_level_bar_new_for_interval = Interop.downcallHandle(
+    private static final MethodHandle gtk_level_bar_new_for_interval = Interop.downcallHandle(
         "gtk_level_bar_new_for_interval",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
     );
     
-    private static Refcounted constructNewForInterval(double minValue, double maxValue) {
+    private static Refcounted constructNewForInterval(@NotNull double minValue, @NotNull double maxValue) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_level_bar_new_for_interval.invokeExact(minValue, maxValue), false);
             return RESULT;
@@ -152,11 +149,11 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
     /**
      * Creates a new {@code GtkLevelBar} for the specified interval.
      */
-    public static LevelBar newForInterval(double minValue, double maxValue) {
+    public static LevelBar newForInterval(@NotNull double minValue, @NotNull double maxValue) {
         return new LevelBar(constructNewForInterval(minValue, maxValue));
     }
     
-    static final MethodHandle gtk_level_bar_add_offset_value = Interop.downcallHandle(
+    private static final MethodHandle gtk_level_bar_add_offset_value = Interop.downcallHandle(
         "gtk_level_bar_add_offset_value",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
     );
@@ -172,15 +169,15 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
      * If another offset marker named {@code name} exists, its value will be
      * replaced by {@code value}.
      */
-    public void addOffsetValue(java.lang.String name, double value) {
+    public @NotNull void addOffsetValue(@NotNull java.lang.String name, @NotNull double value) {
         try {
-            gtk_level_bar_add_offset_value.invokeExact(handle(), Interop.allocateNativeString(name).handle(), value);
+            gtk_level_bar_add_offset_value.invokeExact(handle(), Interop.allocateNativeString(name), value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_level_bar_get_inverted = Interop.downcallHandle(
+    private static final MethodHandle gtk_level_bar_get_inverted = Interop.downcallHandle(
         "gtk_level_bar_get_inverted",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -189,15 +186,16 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
      * Returns whether the levelbar is inverted.
      */
     public boolean getInverted() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_level_bar_get_inverted.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_level_bar_get_inverted.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_level_bar_get_max_value = Interop.downcallHandle(
+    private static final MethodHandle gtk_level_bar_get_max_value = Interop.downcallHandle(
         "gtk_level_bar_get_max_value",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -206,15 +204,16 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
      * Returns the {@code max-value} of the {@code GtkLevelBar}.
      */
     public double getMaxValue() {
+        double RESULT;
         try {
-            var RESULT = (double) gtk_level_bar_get_max_value.invokeExact(handle());
-            return RESULT;
+            RESULT = (double) gtk_level_bar_get_max_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_level_bar_get_min_value = Interop.downcallHandle(
+    private static final MethodHandle gtk_level_bar_get_min_value = Interop.downcallHandle(
         "gtk_level_bar_get_min_value",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -223,15 +222,16 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
      * Returns the {@code min-value of the }GtkLevelBar`.
      */
     public double getMinValue() {
+        double RESULT;
         try {
-            var RESULT = (double) gtk_level_bar_get_min_value.invokeExact(handle());
-            return RESULT;
+            RESULT = (double) gtk_level_bar_get_min_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_level_bar_get_mode = Interop.downcallHandle(
+    private static final MethodHandle gtk_level_bar_get_mode = Interop.downcallHandle(
         "gtk_level_bar_get_mode",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -239,16 +239,17 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
     /**
      * Returns the {@code mode} of the {@code GtkLevelBar}.
      */
-    public LevelBarMode getMode() {
+    public @NotNull LevelBarMode getMode() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_level_bar_get_mode.invokeExact(handle());
-            return new LevelBarMode(RESULT);
+            RESULT = (int) gtk_level_bar_get_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new LevelBarMode(RESULT);
     }
     
-    static final MethodHandle gtk_level_bar_get_offset_value = Interop.downcallHandle(
+    private static final MethodHandle gtk_level_bar_get_offset_value = Interop.downcallHandle(
         "gtk_level_bar_get_offset_value",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -256,16 +257,19 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
     /**
      * Fetches the value specified for the offset marker {@code name} in {@code self}.
      */
-    public boolean getOffsetValue(java.lang.String name, PointerDouble value) {
+    public boolean getOffsetValue(@Nullable java.lang.String name, @NotNull Out<Double> value) {
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
+        int RESULT;
         try {
-            var RESULT = (int) gtk_level_bar_get_offset_value.invokeExact(handle(), Interop.allocateNativeString(name).handle(), value.handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_level_bar_get_offset_value.invokeExact(handle(), Interop.allocateNativeString(name), (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        value.set(valuePOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_level_bar_get_value = Interop.downcallHandle(
+    private static final MethodHandle gtk_level_bar_get_value = Interop.downcallHandle(
         "gtk_level_bar_get_value",
         FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
     );
@@ -274,15 +278,16 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
      * Returns the {@code value} of the {@code GtkLevelBar}.
      */
     public double getValue() {
+        double RESULT;
         try {
-            var RESULT = (double) gtk_level_bar_get_value.invokeExact(handle());
-            return RESULT;
+            RESULT = (double) gtk_level_bar_get_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle gtk_level_bar_remove_offset_value = Interop.downcallHandle(
+    private static final MethodHandle gtk_level_bar_remove_offset_value = Interop.downcallHandle(
         "gtk_level_bar_remove_offset_value",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -293,15 +298,15 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
      * The marker must have been previously added with
      * {@link LevelBar#addOffsetValue}.
      */
-    public void removeOffsetValue(java.lang.String name) {
+    public @NotNull void removeOffsetValue(@Nullable java.lang.String name) {
         try {
-            gtk_level_bar_remove_offset_value.invokeExact(handle(), Interop.allocateNativeString(name).handle());
+            gtk_level_bar_remove_offset_value.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_level_bar_set_inverted = Interop.downcallHandle(
+    private static final MethodHandle gtk_level_bar_set_inverted = Interop.downcallHandle(
         "gtk_level_bar_set_inverted",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -309,7 +314,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
     /**
      * Sets whether the {@code GtkLevelBar} is inverted.
      */
-    public void setInverted(boolean inverted) {
+    public @NotNull void setInverted(@NotNull boolean inverted) {
         try {
             gtk_level_bar_set_inverted.invokeExact(handle(), inverted ? 1 : 0);
         } catch (Throwable ERR) {
@@ -317,7 +322,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_level_bar_set_max_value = Interop.downcallHandle(
+    private static final MethodHandle gtk_level_bar_set_max_value = Interop.downcallHandle(
         "gtk_level_bar_set_max_value",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
     );
@@ -328,7 +333,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
      * You probably want to update preexisting level offsets after calling
      * this function.
      */
-    public void setMaxValue(double value) {
+    public @NotNull void setMaxValue(@NotNull double value) {
         try {
             gtk_level_bar_set_max_value.invokeExact(handle(), value);
         } catch (Throwable ERR) {
@@ -336,7 +341,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_level_bar_set_min_value = Interop.downcallHandle(
+    private static final MethodHandle gtk_level_bar_set_min_value = Interop.downcallHandle(
         "gtk_level_bar_set_min_value",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
     );
@@ -347,7 +352,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
      * You probably want to update preexisting level offsets after calling
      * this function.
      */
-    public void setMinValue(double value) {
+    public @NotNull void setMinValue(@NotNull double value) {
         try {
             gtk_level_bar_set_min_value.invokeExact(handle(), value);
         } catch (Throwable ERR) {
@@ -355,7 +360,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_level_bar_set_mode = Interop.downcallHandle(
+    private static final MethodHandle gtk_level_bar_set_mode = Interop.downcallHandle(
         "gtk_level_bar_set_mode",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -363,7 +368,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
     /**
      * Sets the {@code mode} of the {@code GtkLevelBar}.
      */
-    public void setMode(LevelBarMode mode) {
+    public @NotNull void setMode(@NotNull LevelBarMode mode) {
         try {
             gtk_level_bar_set_mode.invokeExact(handle(), mode.getValue());
         } catch (Throwable ERR) {
@@ -371,7 +376,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
         }
     }
     
-    static final MethodHandle gtk_level_bar_set_value = Interop.downcallHandle(
+    private static final MethodHandle gtk_level_bar_set_value = Interop.downcallHandle(
         "gtk_level_bar_set_value",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
     );
@@ -379,7 +384,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
     /**
      * Sets the value of the {@code GtkLevelBar}.
      */
-    public void setValue(double value) {
+    public @NotNull void setValue(@NotNull double value) {
         try {
             gtk_level_bar_set_value.invokeExact(handle(), value);
         } catch (Throwable ERR) {
@@ -389,7 +394,7 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
     
     @FunctionalInterface
     public interface OffsetChangedHandler {
-        void signalReceived(LevelBar source, java.lang.String name);
+        void signalReceived(LevelBar source, @NotNull java.lang.String name);
     }
     
     /**
@@ -406,13 +411,13 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("offset-changed").handle(),
+                Interop.allocateNativeString("offset-changed"),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(LevelBar.Callbacks.class, "signalLevelBarOffsetChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler.hashCode(), handler)),
+                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
                 (Addressable) MemoryAddress.NULL, 0);
             return new SignalHandle(handle(), RESULT);
         } catch (Throwable ERR) {

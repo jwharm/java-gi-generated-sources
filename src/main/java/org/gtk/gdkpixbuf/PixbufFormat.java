@@ -3,6 +3,7 @@ package org.gtk.gdkpixbuf;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A {@code GdkPixbufFormat} contains information about the image format accepted
@@ -17,7 +18,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle gdk_pixbuf_format_copy = Interop.downcallHandle(
+    private static final MethodHandle gdk_pixbuf_format_copy = Interop.downcallHandle(
         "gdk_pixbuf_format_copy",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -25,16 +26,17 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Creates a copy of {@code format}.
      */
-    public PixbufFormat copy() {
+    public @NotNull PixbufFormat copy() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_pixbuf_format_copy.invokeExact(handle());
-            return new PixbufFormat(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) gdk_pixbuf_format_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PixbufFormat(Refcounted.get(RESULT, true));
     }
     
-    static final MethodHandle gdk_pixbuf_format_free = Interop.downcallHandle(
+    private static final MethodHandle gdk_pixbuf_format_free = Interop.downcallHandle(
         "gdk_pixbuf_format_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -43,7 +45,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
      * Frees the resources allocated when copying a {@code GdkPixbufFormat}
      * using gdk_pixbuf_format_copy()
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             gdk_pixbuf_format_free.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -51,7 +53,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle gdk_pixbuf_format_get_description = Interop.downcallHandle(
+    private static final MethodHandle gdk_pixbuf_format_get_description = Interop.downcallHandle(
         "gdk_pixbuf_format_get_description",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -59,16 +61,17 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns a description of the format.
      */
-    public java.lang.String getDescription() {
+    public @NotNull java.lang.String getDescription() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_pixbuf_format_get_description.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gdk_pixbuf_format_get_description.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gdk_pixbuf_format_get_extensions = Interop.downcallHandle(
+    private static final MethodHandle gdk_pixbuf_format_get_extensions = Interop.downcallHandle(
         "gdk_pixbuf_format_get_extensions",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -78,15 +81,16 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
      * given format.
      */
     public PointerString getExtensions() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_pixbuf_format_get_extensions.invokeExact(handle());
-            return new PointerString(RESULT);
+            RESULT = (MemoryAddress) gdk_pixbuf_format_get_extensions.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PointerString(RESULT);
     }
     
-    static final MethodHandle gdk_pixbuf_format_get_license = Interop.downcallHandle(
+    private static final MethodHandle gdk_pixbuf_format_get_license = Interop.downcallHandle(
         "gdk_pixbuf_format_get_license",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -97,16 +101,17 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
      * The returned string should be a shorthand for a well known license, e.g.
      * "LGPL", "GPL", "QPL", "GPL/QPL", or "other" to indicate some other license.
      */
-    public java.lang.String getLicense() {
+    public @NotNull java.lang.String getLicense() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_pixbuf_format_get_license.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gdk_pixbuf_format_get_license.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gdk_pixbuf_format_get_mime_types = Interop.downcallHandle(
+    private static final MethodHandle gdk_pixbuf_format_get_mime_types = Interop.downcallHandle(
         "gdk_pixbuf_format_get_mime_types",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -115,15 +120,16 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
      * Returns the mime types supported by the format.
      */
     public PointerString getMimeTypes() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_pixbuf_format_get_mime_types.invokeExact(handle());
-            return new PointerString(RESULT);
+            RESULT = (MemoryAddress) gdk_pixbuf_format_get_mime_types.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PointerString(RESULT);
     }
     
-    static final MethodHandle gdk_pixbuf_format_get_name = Interop.downcallHandle(
+    private static final MethodHandle gdk_pixbuf_format_get_name = Interop.downcallHandle(
         "gdk_pixbuf_format_get_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -131,16 +137,17 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Returns the name of the format.
      */
-    public java.lang.String getName() {
+    public @NotNull java.lang.String getName() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gdk_pixbuf_format_get_name.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gdk_pixbuf_format_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gdk_pixbuf_format_is_disabled = Interop.downcallHandle(
+    private static final MethodHandle gdk_pixbuf_format_is_disabled = Interop.downcallHandle(
         "gdk_pixbuf_format_is_disabled",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -151,15 +158,16 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
      * See gdk_pixbuf_format_set_disabled().
      */
     public boolean isDisabled() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_pixbuf_format_is_disabled.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_pixbuf_format_is_disabled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_pixbuf_format_is_save_option_supported = Interop.downcallHandle(
+    private static final MethodHandle gdk_pixbuf_format_is_save_option_supported = Interop.downcallHandle(
         "gdk_pixbuf_format_is_save_option_supported",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -170,16 +178,17 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * See gdk_pixbuf_save() for more information about option keys.
      */
-    public boolean isSaveOptionSupported(java.lang.String optionKey) {
+    public boolean isSaveOptionSupported(@NotNull java.lang.String optionKey) {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_pixbuf_format_is_save_option_supported.invokeExact(handle(), Interop.allocateNativeString(optionKey).handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_pixbuf_format_is_save_option_supported.invokeExact(handle(), Interop.allocateNativeString(optionKey));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_pixbuf_format_is_scalable = Interop.downcallHandle(
+    private static final MethodHandle gdk_pixbuf_format_is_scalable = Interop.downcallHandle(
         "gdk_pixbuf_format_is_scalable",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -192,15 +201,16 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
      * scaling the resulting pixbuf to the desired size.
      */
     public boolean isScalable() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_pixbuf_format_is_scalable.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_pixbuf_format_is_scalable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_pixbuf_format_is_writable = Interop.downcallHandle(
+    private static final MethodHandle gdk_pixbuf_format_is_writable = Interop.downcallHandle(
         "gdk_pixbuf_format_is_writable",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -209,15 +219,16 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
      * Returns whether pixbufs can be saved in the given format.
      */
     public boolean isWritable() {
+        int RESULT;
         try {
-            var RESULT = (int) gdk_pixbuf_format_is_writable.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gdk_pixbuf_format_is_writable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gdk_pixbuf_format_set_disabled = Interop.downcallHandle(
+    private static final MethodHandle gdk_pixbuf_format_set_disabled = Interop.downcallHandle(
         "gdk_pixbuf_format_set_disabled",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -231,7 +242,7 @@ public class PixbufFormat extends io.github.jwharm.javagi.ResourceBase {
      * Applications can use this to avoid using image loaders with an
      * inappropriate license, see gdk_pixbuf_format_get_license().
      */
-    public void setDisabled(boolean disabled) {
+    public @NotNull void setDisabled(@NotNull boolean disabled) {
         try {
             gdk_pixbuf_format_set_disabled.invokeExact(handle(), disabled ? 1 : 0);
         } catch (Throwable ERR) {

@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A helper class for testing code which uses D-Bus without touching the user's
@@ -13,9 +14,8 @@ import java.lang.invoke.*;
  * threads are spawned, or should have appropriate locking to ensure no access
  * conflicts to environment variables shared between {@link TestDBus} and other
  * threads.
- * <p>
+ * 
  * <h2>Creating unit tests using GTestDBus</h2>
- * <p>
  * Testing of D-Bus services can be tricky because normally we only ever run
  * D-Bus services over an existing instance of the D-Bus daemon thus we
  * usually don't activate D-Bus services that are not yet installed into the
@@ -89,12 +89,12 @@ public class TestDBus extends org.gtk.gobject.Object {
         return new TestDBus(gobject.refcounted());
     }
     
-    static final MethodHandle g_test_dbus_new = Interop.downcallHandle(
+    private static final MethodHandle g_test_dbus_new = Interop.downcallHandle(
         "g_test_dbus_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNew(TestDBusFlags flags) {
+    private static Refcounted constructNew(@NotNull TestDBusFlags flags) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_test_dbus_new.invokeExact(flags.getValue()), true);
             return RESULT;
@@ -106,11 +106,11 @@ public class TestDBus extends org.gtk.gobject.Object {
     /**
      * Create a new {@link TestDBus} object.
      */
-    public TestDBus(TestDBusFlags flags) {
+    public TestDBus(@NotNull TestDBusFlags flags) {
         super(constructNew(flags));
     }
     
-    static final MethodHandle g_test_dbus_add_service_dir = Interop.downcallHandle(
+    private static final MethodHandle g_test_dbus_add_service_dir = Interop.downcallHandle(
         "g_test_dbus_add_service_dir",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -119,15 +119,15 @@ public class TestDBus extends org.gtk.gobject.Object {
      * Add a path where dbus-daemon will look up .service files. This can't be
      * called after g_test_dbus_up().
      */
-    public void addServiceDir(java.lang.String path) {
+    public @NotNull void addServiceDir(@NotNull java.lang.String path) {
         try {
-            g_test_dbus_add_service_dir.invokeExact(handle(), Interop.allocateNativeString(path).handle());
+            g_test_dbus_add_service_dir.invokeExact(handle(), Interop.allocateNativeString(path));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_test_dbus_down = Interop.downcallHandle(
+    private static final MethodHandle g_test_dbus_down = Interop.downcallHandle(
         "g_test_dbus_down",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -139,7 +139,7 @@ public class TestDBus extends org.gtk.gobject.Object {
      * to be destroyed. This is done to ensure that the next unit test won't get a
      * leaked singleton from this test.
      */
-    public void down() {
+    public @NotNull void down() {
         try {
             g_test_dbus_down.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -147,7 +147,7 @@ public class TestDBus extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle g_test_dbus_get_bus_address = Interop.downcallHandle(
+    private static final MethodHandle g_test_dbus_get_bus_address = Interop.downcallHandle(
         "g_test_dbus_get_bus_address",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -157,16 +157,17 @@ public class TestDBus extends org.gtk.gobject.Object {
      * been called yet, {@code null} is returned. This can be used with
      * g_dbus_connection_new_for_address().
      */
-    public java.lang.String getBusAddress() {
+    public @Nullable java.lang.String getBusAddress() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_test_dbus_get_bus_address.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) g_test_dbus_get_bus_address.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle g_test_dbus_get_flags = Interop.downcallHandle(
+    private static final MethodHandle g_test_dbus_get_flags = Interop.downcallHandle(
         "g_test_dbus_get_flags",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -174,16 +175,17 @@ public class TestDBus extends org.gtk.gobject.Object {
     /**
      * Get the flags of the {@link TestDBus} object.
      */
-    public TestDBusFlags getFlags() {
+    public @NotNull TestDBusFlags getFlags() {
+        int RESULT;
         try {
-            var RESULT = (int) g_test_dbus_get_flags.invokeExact(handle());
-            return new TestDBusFlags(RESULT);
+            RESULT = (int) g_test_dbus_get_flags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new TestDBusFlags(RESULT);
     }
     
-    static final MethodHandle g_test_dbus_stop = Interop.downcallHandle(
+    private static final MethodHandle g_test_dbus_stop = Interop.downcallHandle(
         "g_test_dbus_stop",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -196,7 +198,7 @@ public class TestDBus extends org.gtk.gobject.Object {
      * tests wanting to verify behaviour after the session bus has been stopped
      * can use this function but should still call g_test_dbus_down() when done.
      */
-    public void stop() {
+    public @NotNull void stop() {
         try {
             g_test_dbus_stop.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -204,7 +206,7 @@ public class TestDBus extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle g_test_dbus_up = Interop.downcallHandle(
+    private static final MethodHandle g_test_dbus_up = Interop.downcallHandle(
         "g_test_dbus_up",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -219,7 +221,7 @@ public class TestDBus extends org.gtk.gobject.Object {
      * If this function is called from unit test's main(), then g_test_dbus_down()
      * must be called after g_test_run().
      */
-    public void up() {
+    public @NotNull void up() {
         try {
             g_test_dbus_up.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -227,7 +229,7 @@ public class TestDBus extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle g_test_dbus_unset = Interop.downcallHandle(
+    private static final MethodHandle g_test_dbus_unset = Interop.downcallHandle(
         "g_test_dbus_unset",
         FunctionDescriptor.ofVoid()
     );
@@ -240,7 +242,7 @@ public class TestDBus extends org.gtk.gobject.Object {
      * bus is running. It is not necessary to call this if unit test already calls
      * g_test_dbus_up() before acquiring the session bus.
      */
-    public static void unset() {
+    public static @NotNull void unset() {
         try {
             g_test_dbus_unset.invokeExact();
         } catch (Throwable ERR) {

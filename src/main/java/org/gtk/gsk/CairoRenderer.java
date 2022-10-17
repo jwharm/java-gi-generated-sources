@@ -3,6 +3,7 @@ package org.gtk.gsk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A GSK renderer that is using cairo.
@@ -21,7 +22,7 @@ public class CairoRenderer extends Renderer {
         return new CairoRenderer(gobject.refcounted());
     }
     
-    static final MethodHandle gsk_cairo_renderer_new = Interop.downcallHandle(
+    private static final MethodHandle gsk_cairo_renderer_new = Interop.downcallHandle(
         "gsk_cairo_renderer_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );

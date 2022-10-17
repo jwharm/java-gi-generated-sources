@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link OutputStream} has functions to write to a stream (g_output_stream_write()),
@@ -28,7 +29,7 @@ public class OutputStream extends org.gtk.gobject.Object {
         return new OutputStream(gobject.refcounted());
     }
     
-    static final MethodHandle g_output_stream_clear_pending = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_clear_pending = Interop.downcallHandle(
         "g_output_stream_clear_pending",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -36,7 +37,7 @@ public class OutputStream extends org.gtk.gobject.Object {
     /**
      * Clears the pending flag on {@code stream}.
      */
-    public void clearPending() {
+    public @NotNull void clearPending() {
         try {
             g_output_stream_clear_pending.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -44,7 +45,7 @@ public class OutputStream extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle g_output_stream_close = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_close = Interop.downcallHandle(
         "g_output_stream_close",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -80,20 +81,21 @@ public class OutputStream extends org.gtk.gobject.Object {
      * cancellation (as with any error) there is no guarantee that all written
      * data will reach the target.
      */
-    public boolean close(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public boolean close(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_output_stream_close.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_output_stream_close.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_output_stream_close_async = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_close_async = Interop.downcallHandle(
         "g_output_stream_close_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -110,7 +112,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * to implement asynchronicity, so they are optional for inheriting
      * classes. However, if you override one you must override all.
      */
-    public void closeAsync(int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public @NotNull void closeAsync(@NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_output_stream_close_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -118,13 +120,13 @@ public class OutputStream extends org.gtk.gobject.Object {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_output_stream_close_finish = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_close_finish = Interop.downcallHandle(
         "g_output_stream_close_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -132,20 +134,21 @@ public class OutputStream extends org.gtk.gobject.Object {
     /**
      * Closes an output stream.
      */
-    public boolean closeFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public boolean closeFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_output_stream_close_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_output_stream_close_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_output_stream_flush = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_flush = Interop.downcallHandle(
         "g_output_stream_flush",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -161,20 +164,21 @@ public class OutputStream extends org.gtk.gobject.Object {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      */
-    public boolean flush(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public boolean flush(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_output_stream_flush.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_output_stream_flush.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_output_stream_flush_async = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_flush_async = Interop.downcallHandle(
         "g_output_stream_flush_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -188,7 +192,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * called. You can then call g_output_stream_flush_finish() to get the
      * result of the operation.
      */
-    public void flushAsync(int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public @NotNull void flushAsync(@NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_output_stream_flush_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -196,13 +200,13 @@ public class OutputStream extends org.gtk.gobject.Object {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_output_stream_flush_finish = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_flush_finish = Interop.downcallHandle(
         "g_output_stream_flush_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -210,20 +214,21 @@ public class OutputStream extends org.gtk.gobject.Object {
     /**
      * Finishes flushing an output stream.
      */
-    public boolean flushFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public boolean flushFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_output_stream_flush_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_output_stream_flush_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_output_stream_has_pending = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_has_pending = Interop.downcallHandle(
         "g_output_stream_has_pending",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -232,15 +237,16 @@ public class OutputStream extends org.gtk.gobject.Object {
      * Checks if an output stream has pending actions.
      */
     public boolean hasPending() {
+        int RESULT;
         try {
-            var RESULT = (int) g_output_stream_has_pending.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_output_stream_has_pending.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_output_stream_is_closed = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_is_closed = Interop.downcallHandle(
         "g_output_stream_is_closed",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -249,15 +255,16 @@ public class OutputStream extends org.gtk.gobject.Object {
      * Checks if an output stream has already been closed.
      */
     public boolean isClosed() {
+        int RESULT;
         try {
-            var RESULT = (int) g_output_stream_is_closed.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_output_stream_is_closed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_output_stream_is_closing = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_is_closing = Interop.downcallHandle(
         "g_output_stream_is_closing",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -269,15 +276,16 @@ public class OutputStream extends org.gtk.gobject.Object {
      * the closing operation.
      */
     public boolean isClosing() {
+        int RESULT;
         try {
-            var RESULT = (int) g_output_stream_is_closing.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) g_output_stream_is_closing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_output_stream_set_pending = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_set_pending = Interop.downcallHandle(
         "g_output_stream_set_pending",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -289,18 +297,19 @@ public class OutputStream extends org.gtk.gobject.Object {
      */
     public boolean setPending() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_output_stream_set_pending.invokeExact(handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_output_stream_set_pending.invokeExact(handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_output_stream_splice = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_splice = Interop.downcallHandle(
         "g_output_stream_splice",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -308,20 +317,21 @@ public class OutputStream extends org.gtk.gobject.Object {
     /**
      * Splices an input stream into an output stream.
      */
-    public long splice(InputStream source, OutputStreamSpliceFlags flags, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public long splice(@NotNull InputStream source, @NotNull OutputStreamSpliceFlags flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        long RESULT;
         try {
-            var RESULT = (long) g_output_stream_splice.invokeExact(handle(), source.handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = (long) g_output_stream_splice.invokeExact(handle(), source.handle(), flags.getValue(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
-    static final MethodHandle g_output_stream_splice_async = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_splice_async = Interop.downcallHandle(
         "g_output_stream_splice_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -335,7 +345,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * For the synchronous, blocking version of this function, see
      * g_output_stream_splice().
      */
-    public void spliceAsync(InputStream source, OutputStreamSpliceFlags flags, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public @NotNull void spliceAsync(@NotNull InputStream source, @NotNull OutputStreamSpliceFlags flags, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_output_stream_splice_async.invokeExact(handle(), source.handle(), flags.getValue(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -343,13 +353,13 @@ public class OutputStream extends org.gtk.gobject.Object {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_output_stream_splice_finish = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_splice_finish = Interop.downcallHandle(
         "g_output_stream_splice_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -357,20 +367,21 @@ public class OutputStream extends org.gtk.gobject.Object {
     /**
      * Finishes an asynchronous stream splice operation.
      */
-    public long spliceFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public long spliceFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        long RESULT;
         try {
-            var RESULT = (long) g_output_stream_splice_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = (long) g_output_stream_splice_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
-    static final MethodHandle g_output_stream_vprintf = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_vprintf = Interop.downcallHandle(
         "g_output_stream_vprintf",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -389,16 +400,19 @@ public class OutputStream extends org.gtk.gobject.Object {
      * create you own printf()-like wrapper around g_output_stream_write()
      * or g_output_stream_write_all().
      */
-    public boolean vprintf(PointerLong bytesWritten, Cancellable cancellable, org.gtk.glib.Error[] error, java.lang.String format, VaList args) {
+    public boolean vprintf(@NotNull Out<Long> bytesWritten, @Nullable Cancellable cancellable, @NotNull PointerProxy<org.gtk.glib.Error> error, @NotNull java.lang.String format, @NotNull VaList args) {
+        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        int RESULT;
         try {
-            var RESULT = (int) g_output_stream_vprintf.invokeExact(handle(), bytesWritten.handle(), cancellable.handle(), Interop.allocateNativeArray(error).handle(), Interop.allocateNativeString(format).handle(), args);
-            return RESULT != 0;
+            RESULT = (int) g_output_stream_vprintf.invokeExact(handle(), (Addressable) bytesWrittenPOINTER.address(), cancellable.handle(), error.handle(), Interop.allocateNativeString(format), args);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        bytesWritten.set(bytesWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_output_stream_write = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_write = Interop.downcallHandle(
         "g_output_stream_write",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -425,20 +439,21 @@ public class OutputStream extends org.gtk.gobject.Object {
      * <p>
      * On error -1 is returned and {@code error} is set accordingly.
      */
-    public long write(byte[] buffer, long count, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public long write(@NotNull byte[] buffer, @NotNull long count, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        long RESULT;
         try {
-            var RESULT = (long) g_output_stream_write.invokeExact(handle(), Interop.allocateNativeArray(buffer).handle(), count, cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = (long) g_output_stream_write.invokeExact(handle(), Interop.allocateNativeArray(buffer), count, cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
-    static final MethodHandle g_output_stream_write_all = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_write_all = Interop.downcallHandle(
         "g_output_stream_write_all",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -464,20 +479,23 @@ public class OutputStream extends org.gtk.gobject.Object {
      * language then you must write your own loop around
      * g_output_stream_write().
      */
-    public boolean writeAll(byte[] buffer, long count, PointerLong bytesWritten, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public boolean writeAll(@NotNull byte[] buffer, @NotNull long count, @NotNull Out<Long> bytesWritten, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        int RESULT;
         try {
-            var RESULT = (int) g_output_stream_write_all.invokeExact(handle(), Interop.allocateNativeArray(buffer).handle(), count, bytesWritten.handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_output_stream_write_all.invokeExact(handle(), Interop.allocateNativeArray(buffer), count, (Addressable) bytesWrittenPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        bytesWritten.set(bytesWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_output_stream_write_all_async = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_write_all_async = Interop.downcallHandle(
         "g_output_stream_write_all_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -499,21 +517,21 @@ public class OutputStream extends org.gtk.gobject.Object {
      * Note that no copy of {@code buffer} will be made, so it must stay valid
      * until {@code callback} is called.
      */
-    public void writeAllAsync(byte[] buffer, long count, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public @NotNull void writeAllAsync(@NotNull byte[] buffer, @NotNull long count, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
-            g_output_stream_write_all_async.invokeExact(handle(), Interop.allocateNativeArray(buffer).handle(), count, ioPriority, cancellable.handle(), 
+            g_output_stream_write_all_async.invokeExact(handle(), Interop.allocateNativeArray(buffer), count, ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_output_stream_write_all_finish = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_write_all_finish = Interop.downcallHandle(
         "g_output_stream_write_all_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -530,20 +548,23 @@ public class OutputStream extends org.gtk.gobject.Object {
      * language then you must write your own loop around
      * g_output_stream_write_async().
      */
-    public boolean writeAllFinish(AsyncResult result, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
+    public boolean writeAllFinish(@NotNull AsyncResult result, @NotNull Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        int RESULT;
         try {
-            var RESULT = (int) g_output_stream_write_all_finish.invokeExact(handle(), result.handle(), bytesWritten.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_output_stream_write_all_finish.invokeExact(handle(), result.handle(), (Addressable) bytesWrittenPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        bytesWritten.set(bytesWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_output_stream_write_async = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_write_async = Interop.downcallHandle(
         "g_output_stream_write_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -585,21 +606,21 @@ public class OutputStream extends org.gtk.gobject.Object {
      * for a {@link org.gtk.glib.Bytes} version that will automatically hold a reference to
      * the contents (without copying) for the duration of the call.
      */
-    public void writeAsync(byte[] buffer, long count, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public @NotNull void writeAsync(@NotNull byte[] buffer, @NotNull long count, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
-            g_output_stream_write_async.invokeExact(handle(), Interop.allocateNativeArray(buffer).handle(), count, ioPriority, cancellable.handle(), 
+            g_output_stream_write_async.invokeExact(handle(), Interop.allocateNativeArray(buffer), count, ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_output_stream_write_bytes = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_write_bytes = Interop.downcallHandle(
         "g_output_stream_write_bytes",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -617,20 +638,21 @@ public class OutputStream extends org.gtk.gobject.Object {
      * {@link org.gtk.glib.Bytes} instance multiple times potentially can result in duplicated
      * data in the output stream.
      */
-    public long writeBytes(org.gtk.glib.Bytes bytes, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public long writeBytes(@NotNull org.gtk.glib.Bytes bytes, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        long RESULT;
         try {
-            var RESULT = (long) g_output_stream_write_bytes.invokeExact(handle(), bytes.handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = (long) g_output_stream_write_bytes.invokeExact(handle(), bytes.handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
-    static final MethodHandle g_output_stream_write_bytes_async = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_write_bytes_async = Interop.downcallHandle(
         "g_output_stream_write_bytes_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -650,7 +672,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * For the synchronous, blocking version of this function, see
      * g_output_stream_write_bytes().
      */
-    public void writeBytesAsync(org.gtk.glib.Bytes bytes, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public @NotNull void writeBytesAsync(@NotNull org.gtk.glib.Bytes bytes, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
             g_output_stream_write_bytes_async.invokeExact(handle(), bytes.handle(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
@@ -658,13 +680,13 @@ public class OutputStream extends org.gtk.gobject.Object {
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_output_stream_write_bytes_finish = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_write_bytes_finish = Interop.downcallHandle(
         "g_output_stream_write_bytes_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -672,20 +694,21 @@ public class OutputStream extends org.gtk.gobject.Object {
     /**
      * Finishes a stream write-from-{@link org.gtk.glib.Bytes} operation.
      */
-    public long writeBytesFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public long writeBytesFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        long RESULT;
         try {
-            var RESULT = (long) g_output_stream_write_bytes_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = (long) g_output_stream_write_bytes_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
-    static final MethodHandle g_output_stream_write_finish = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_write_finish = Interop.downcallHandle(
         "g_output_stream_write_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -693,20 +716,21 @@ public class OutputStream extends org.gtk.gobject.Object {
     /**
      * Finishes a stream write operation.
      */
-    public long writeFinish(AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public long writeFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        long RESULT;
         try {
-            var RESULT = (long) g_output_stream_write_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = (long) g_output_stream_write_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
-    static final MethodHandle g_output_stream_writev = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_writev = Interop.downcallHandle(
         "g_output_stream_writev",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -736,20 +760,23 @@ public class OutputStream extends org.gtk.gobject.Object {
      * are exceeded. For example, when writing to a local file on UNIX platforms,
      * the aggregate buffer size must not exceed {@code G_MAXSSIZE} bytes.
      */
-    public boolean writev(OutputVector[] vectors, long nVectors, PointerLong bytesWritten, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public boolean writev(@NotNull OutputVector[] vectors, @NotNull long nVectors, @NotNull Out<Long> bytesWritten, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        int RESULT;
         try {
-            var RESULT = (int) g_output_stream_writev.invokeExact(handle(), Interop.allocateNativeArray(vectors).handle(), nVectors, bytesWritten.handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_output_stream_writev.invokeExact(handle(), Interop.allocateNativeArray(vectors), nVectors, (Addressable) bytesWrittenPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        bytesWritten.set(bytesWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_output_stream_writev_all = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_writev_all = Interop.downcallHandle(
         "g_output_stream_writev_all",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -778,20 +805,23 @@ public class OutputStream extends org.gtk.gobject.Object {
      * The content of the individual elements of {@code vectors} might be changed by this
      * function.
      */
-    public boolean writevAll(OutputVector[] vectors, long nVectors, PointerLong bytesWritten, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public boolean writevAll(@NotNull OutputVector[] vectors, @NotNull long nVectors, @NotNull Out<Long> bytesWritten, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        int RESULT;
         try {
-            var RESULT = (int) g_output_stream_writev_all.invokeExact(handle(), Interop.allocateNativeArray(vectors).handle(), nVectors, bytesWritten.handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_output_stream_writev_all.invokeExact(handle(), Interop.allocateNativeArray(vectors), nVectors, (Addressable) bytesWrittenPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        bytesWritten.set(bytesWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_output_stream_writev_all_async = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_writev_all_async = Interop.downcallHandle(
         "g_output_stream_writev_all_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -814,21 +844,21 @@ public class OutputStream extends org.gtk.gobject.Object {
      * until {@code callback} is called. The content of the individual elements
      * of {@code vectors} might be changed by this function.
      */
-    public void writevAllAsync(OutputVector[] vectors, long nVectors, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public @NotNull void writevAllAsync(@NotNull OutputVector[] vectors, @NotNull long nVectors, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
-            g_output_stream_writev_all_async.invokeExact(handle(), Interop.allocateNativeArray(vectors).handle(), nVectors, ioPriority, cancellable.handle(), 
+            g_output_stream_writev_all_async.invokeExact(handle(), Interop.allocateNativeArray(vectors), nVectors, ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_output_stream_writev_all_finish = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_writev_all_finish = Interop.downcallHandle(
         "g_output_stream_writev_all_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -845,20 +875,23 @@ public class OutputStream extends org.gtk.gobject.Object {
      * language then you must write your own loop around
      * g_output_stream_writev_async().
      */
-    public boolean writevAllFinish(AsyncResult result, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
+    public boolean writevAllFinish(@NotNull AsyncResult result, @NotNull Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        int RESULT;
         try {
-            var RESULT = (int) g_output_stream_writev_all_finish.invokeExact(handle(), result.handle(), bytesWritten.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_output_stream_writev_all_finish.invokeExact(handle(), result.handle(), (Addressable) bytesWrittenPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        bytesWritten.set(bytesWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_output_stream_writev_async = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_writev_async = Interop.downcallHandle(
         "g_output_stream_writev_async",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -895,21 +928,21 @@ public class OutputStream extends org.gtk.gobject.Object {
      * Note that no copy of {@code vectors} will be made, so it must stay valid
      * until {@code callback} is called.
      */
-    public void writevAsync(OutputVector[] vectors, long nVectors, int ioPriority, Cancellable cancellable, AsyncReadyCallback callback) {
+    public @NotNull void writevAsync(@NotNull OutputVector[] vectors, @NotNull long nVectors, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
         try {
-            g_output_stream_writev_async.invokeExact(handle(), Interop.allocateNativeArray(vectors).handle(), nVectors, ioPriority, cancellable.handle(), 
+            g_output_stream_writev_async.invokeExact(handle(), Interop.allocateNativeArray(vectors), nVectors, ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
                         MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback.hashCode(), callback)));
+                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle g_output_stream_writev_finish = Interop.downcallHandle(
+    private static final MethodHandle g_output_stream_writev_finish = Interop.downcallHandle(
         "g_output_stream_writev_finish",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -917,17 +950,20 @@ public class OutputStream extends org.gtk.gobject.Object {
     /**
      * Finishes a stream writev operation.
      */
-    public boolean writevFinish(AsyncResult result, PointerLong bytesWritten) throws io.github.jwharm.javagi.GErrorException {
+    public boolean writevFinish(@NotNull AsyncResult result, @NotNull Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        int RESULT;
         try {
-            var RESULT = (int) g_output_stream_writev_finish.invokeExact(handle(), result.handle(), bytesWritten.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_output_stream_writev_finish.invokeExact(handle(), result.handle(), (Addressable) bytesWrittenPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        bytesWritten.set(bytesWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
 }

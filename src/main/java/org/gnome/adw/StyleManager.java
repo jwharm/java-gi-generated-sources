@@ -3,6 +3,7 @@ package org.gnome.adw;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A class for managing application-wide styling.
@@ -25,7 +26,7 @@ public class StyleManager extends org.gtk.gobject.Object {
         return new StyleManager(gobject.refcounted());
     }
     
-    static final MethodHandle adw_style_manager_get_color_scheme = Interop.downcallHandle(
+    private static final MethodHandle adw_style_manager_get_color_scheme = Interop.downcallHandle(
         "adw_style_manager_get_color_scheme",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -33,16 +34,17 @@ public class StyleManager extends org.gtk.gobject.Object {
     /**
      * Gets the requested application color scheme.
      */
-    public ColorScheme getColorScheme() {
+    public @NotNull ColorScheme getColorScheme() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_style_manager_get_color_scheme.invokeExact(handle());
-            return new ColorScheme(RESULT);
+            RESULT = (int) adw_style_manager_get_color_scheme.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ColorScheme(RESULT);
     }
     
-    static final MethodHandle adw_style_manager_get_dark = Interop.downcallHandle(
+    private static final MethodHandle adw_style_manager_get_dark = Interop.downcallHandle(
         "adw_style_manager_get_dark",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -51,15 +53,16 @@ public class StyleManager extends org.gtk.gobject.Object {
      * Gets whether the application is using dark appearance.
      */
     public boolean getDark() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_style_manager_get_dark.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) adw_style_manager_get_dark.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_style_manager_get_display = Interop.downcallHandle(
+    private static final MethodHandle adw_style_manager_get_display = Interop.downcallHandle(
         "adw_style_manager_get_display",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -70,16 +73,17 @@ public class StyleManager extends org.gtk.gobject.Object {
      * The display will be {@code NULL} for the style manager returned by
      * {@link StyleManager#getDefault}.
      */
-    public org.gtk.gdk.Display getDisplay() {
+    public @NotNull org.gtk.gdk.Display getDisplay() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_style_manager_get_display.invokeExact(handle());
-            return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_style_manager_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_style_manager_get_high_contrast = Interop.downcallHandle(
+    private static final MethodHandle adw_style_manager_get_high_contrast = Interop.downcallHandle(
         "adw_style_manager_get_high_contrast",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -88,15 +92,16 @@ public class StyleManager extends org.gtk.gobject.Object {
      * Gets whether the application is using high contrast appearance.
      */
     public boolean getHighContrast() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_style_manager_get_high_contrast.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) adw_style_manager_get_high_contrast.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_style_manager_get_system_supports_color_schemes = Interop.downcallHandle(
+    private static final MethodHandle adw_style_manager_get_system_supports_color_schemes = Interop.downcallHandle(
         "adw_style_manager_get_system_supports_color_schemes",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -105,15 +110,16 @@ public class StyleManager extends org.gtk.gobject.Object {
      * Gets whether the system supports color schemes.
      */
     public boolean getSystemSupportsColorSchemes() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_style_manager_get_system_supports_color_schemes.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) adw_style_manager_get_system_supports_color_schemes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle adw_style_manager_set_color_scheme = Interop.downcallHandle(
+    private static final MethodHandle adw_style_manager_set_color_scheme = Interop.downcallHandle(
         "adw_style_manager_set_color_scheme",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -126,7 +132,7 @@ public class StyleManager extends org.gtk.gobject.Object {
      * {@code StyleManager:dark} property can be used to query the current
      * effective appearance.
      */
-    public void setColorScheme(ColorScheme colorScheme) {
+    public @NotNull void setColorScheme(@NotNull ColorScheme colorScheme) {
         try {
             adw_style_manager_set_color_scheme.invokeExact(handle(), colorScheme.getValue());
         } catch (Throwable ERR) {
@@ -134,7 +140,7 @@ public class StyleManager extends org.gtk.gobject.Object {
         }
     }
     
-    static final MethodHandle adw_style_manager_get_default = Interop.downcallHandle(
+    private static final MethodHandle adw_style_manager_get_default = Interop.downcallHandle(
         "adw_style_manager_get_default",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -147,16 +153,17 @@ public class StyleManager extends org.gtk.gobject.Object {
      * <p>
      * See {@link StyleManager#getForDisplay}.
      */
-    public static StyleManager getDefault() {
+    public static @NotNull StyleManager getDefault() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_style_manager_get_default.invokeExact();
-            return new StyleManager(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_style_manager_get_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new StyleManager(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_style_manager_get_for_display = Interop.downcallHandle(
+    private static final MethodHandle adw_style_manager_get_for_display = Interop.downcallHandle(
         "adw_style_manager_get_for_display",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -169,13 +176,14 @@ public class StyleManager extends org.gtk.gobject.Object {
      * <p>
      * Most applications should use {@link StyleManager#getDefault} instead.
      */
-    public static StyleManager getForDisplay(org.gtk.gdk.Display display) {
+    public static @NotNull StyleManager getForDisplay(@NotNull org.gtk.gdk.Display display) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_style_manager_get_for_display.invokeExact(display.handle());
-            return new StyleManager(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_style_manager_get_for_display.invokeExact(display.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new StyleManager(Refcounted.get(RESULT, false));
     }
     
 }

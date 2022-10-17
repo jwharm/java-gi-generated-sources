@@ -3,6 +3,7 @@ package org.gnome.adw;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * An adaptive view switcher.
@@ -22,14 +23,12 @@ import java.lang.invoke.*;
  * <p>
  * Most applications should be using {@link ViewSwitcherBar} and
  * {@link ViewSwitcherTitle}.
- * <p>
+ * 
  * <h2>CSS nodes</h2>
- * <p>
  * {@code AdwViewSwitcher} has a single CSS node with name {@code viewswitcher}. It can have
  * the style classes {@code .wide} and {@code .narrow}, matching its policy.
- * <p>
+ * 
  * <h2>Accessibility</h2>
- * <p>
  * {@code AdwViewSwitcher} uses the {@code GTK_ACCESSIBLE_ROLE_TAB_LIST} role and uses the
  * {@code GTK_ACCESSIBLE_ROLE_TAB} for its buttons.
  */
@@ -44,7 +43,7 @@ public class ViewSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         return new ViewSwitcher(gobject.refcounted());
     }
     
-    static final MethodHandle adw_view_switcher_new = Interop.downcallHandle(
+    private static final MethodHandle adw_view_switcher_new = Interop.downcallHandle(
         "adw_view_switcher_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -65,7 +64,7 @@ public class ViewSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         super(constructNew());
     }
     
-    static final MethodHandle adw_view_switcher_get_policy = Interop.downcallHandle(
+    private static final MethodHandle adw_view_switcher_get_policy = Interop.downcallHandle(
         "adw_view_switcher_get_policy",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -73,16 +72,17 @@ public class ViewSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     /**
      * Gets the policy of {@code self}.
      */
-    public ViewSwitcherPolicy getPolicy() {
+    public @NotNull ViewSwitcherPolicy getPolicy() {
+        int RESULT;
         try {
-            var RESULT = (int) adw_view_switcher_get_policy.invokeExact(handle());
-            return new ViewSwitcherPolicy(RESULT);
+            RESULT = (int) adw_view_switcher_get_policy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ViewSwitcherPolicy(RESULT);
     }
     
-    static final MethodHandle adw_view_switcher_get_stack = Interop.downcallHandle(
+    private static final MethodHandle adw_view_switcher_get_stack = Interop.downcallHandle(
         "adw_view_switcher_get_stack",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -90,16 +90,17 @@ public class ViewSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     /**
      * Gets the stack controlled by {@code self}.
      */
-    public ViewStack getStack() {
+    public @Nullable ViewStack getStack() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_view_switcher_get_stack.invokeExact(handle());
-            return new ViewStack(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_view_switcher_get_stack.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new ViewStack(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_view_switcher_set_policy = Interop.downcallHandle(
+    private static final MethodHandle adw_view_switcher_set_policy = Interop.downcallHandle(
         "adw_view_switcher_set_policy",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -107,7 +108,7 @@ public class ViewSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     /**
      * Sets the policy of {@code self}.
      */
-    public void setPolicy(ViewSwitcherPolicy policy) {
+    public @NotNull void setPolicy(@NotNull ViewSwitcherPolicy policy) {
         try {
             adw_view_switcher_set_policy.invokeExact(handle(), policy.getValue());
         } catch (Throwable ERR) {
@@ -115,7 +116,7 @@ public class ViewSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         }
     }
     
-    static final MethodHandle adw_view_switcher_set_stack = Interop.downcallHandle(
+    private static final MethodHandle adw_view_switcher_set_stack = Interop.downcallHandle(
         "adw_view_switcher_set_stack",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -123,7 +124,7 @@ public class ViewSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     /**
      * Sets the stack controlled by {@code self}.
      */
-    public void setStack(ViewStack stack) {
+    public @NotNull void setStack(@Nullable ViewStack stack) {
         try {
             adw_view_switcher_set_stack.invokeExact(handle(), stack.handle());
         } catch (Throwable ERR) {

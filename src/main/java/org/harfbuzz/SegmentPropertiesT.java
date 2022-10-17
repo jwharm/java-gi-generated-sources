@@ -3,6 +3,7 @@ package org.harfbuzz;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The structure that holds various text properties of an {@link buffer_t}. Can be

@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Renders a pixbuf in a cell
@@ -31,7 +32,7 @@ public class CellRendererPixbuf extends CellRenderer {
         return new CellRendererPixbuf(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_cell_renderer_pixbuf_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_cell_renderer_pixbuf_new = Interop.downcallHandle(
         "gtk_cell_renderer_pixbuf_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );

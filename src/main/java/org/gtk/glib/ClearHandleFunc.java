@@ -1,6 +1,7 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Specifies the type of function passed to g_clear_handle_id().
@@ -10,5 +11,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface ClearHandleFunc {
-        void onClearHandleFunc(int handleId);
+        void onClearHandleFunc(@NotNull int handleId);
 }

@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * This {@link SocketControlMessage} contains a {@link Credentials} instance.  It
@@ -36,7 +37,7 @@ public class UnixCredentialsMessage extends SocketControlMessage {
         return new UnixCredentialsMessage(gobject.refcounted());
     }
     
-    static final MethodHandle g_unix_credentials_message_new = Interop.downcallHandle(
+    private static final MethodHandle g_unix_credentials_message_new = Interop.downcallHandle(
         "g_unix_credentials_message_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -57,12 +58,12 @@ public class UnixCredentialsMessage extends SocketControlMessage {
         super(constructNew());
     }
     
-    static final MethodHandle g_unix_credentials_message_new_with_credentials = Interop.downcallHandle(
+    private static final MethodHandle g_unix_credentials_message_new_with_credentials = Interop.downcallHandle(
         "g_unix_credentials_message_new_with_credentials",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNewWithCredentials(Credentials credentials) {
+    private static Refcounted constructNewWithCredentials(@NotNull Credentials credentials) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) g_unix_credentials_message_new_with_credentials.invokeExact(credentials.handle()), true);
             return RESULT;
@@ -74,11 +75,11 @@ public class UnixCredentialsMessage extends SocketControlMessage {
     /**
      * Creates a new {@link UnixCredentialsMessage} holding {@code credentials}.
      */
-    public static UnixCredentialsMessage newWithCredentials(Credentials credentials) {
+    public static UnixCredentialsMessage newWithCredentials(@NotNull Credentials credentials) {
         return new UnixCredentialsMessage(constructNewWithCredentials(credentials));
     }
     
-    static final MethodHandle g_unix_credentials_message_get_credentials = Interop.downcallHandle(
+    private static final MethodHandle g_unix_credentials_message_get_credentials = Interop.downcallHandle(
         "g_unix_credentials_message_get_credentials",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -86,16 +87,17 @@ public class UnixCredentialsMessage extends SocketControlMessage {
     /**
      * Gets the credentials stored in {@code message}.
      */
-    public Credentials getCredentials() {
+    public @NotNull Credentials getCredentials() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_unix_credentials_message_get_credentials.invokeExact(handle());
-            return new Credentials(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_unix_credentials_message_get_credentials.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Credentials(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_unix_credentials_message_is_supported = Interop.downcallHandle(
+    private static final MethodHandle g_unix_credentials_message_is_supported = Interop.downcallHandle(
         "g_unix_credentials_message_is_supported",
         FunctionDescriptor.of(ValueLayout.JAVA_INT)
     );
@@ -104,12 +106,13 @@ public class UnixCredentialsMessage extends SocketControlMessage {
      * Checks if passing {@link Credentials} on a {@link Socket} is supported on this platform.
      */
     public static boolean isSupported() {
+        int RESULT;
         try {
-            var RESULT = (int) g_unix_credentials_message_is_supported.invokeExact();
-            return RESULT != 0;
+            RESULT = (int) g_unix_credentials_message_is_supported.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
 }

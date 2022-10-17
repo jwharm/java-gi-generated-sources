@@ -1,6 +1,7 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A callback function used by the type system to finalize those portions
@@ -14,5 +15,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface BaseFinalizeFunc {
-        void onBaseFinalizeFunc(TypeClass gClass);
+        void onBaseFinalizeFunc(@NotNull TypeClass gClass);
 }

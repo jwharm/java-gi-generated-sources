@@ -3,6 +3,7 @@ package org.gtk.graphene;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A 2D plane that extends infinitely in a 3D volume.
@@ -16,7 +17,7 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle graphene_plane_alloc = Interop.downcallHandle(
+    private static final MethodHandle graphene_plane_alloc = Interop.downcallHandle(
         "graphene_plane_alloc",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -39,7 +40,7 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
         return new Plane(constructAlloc());
     }
     
-    static final MethodHandle graphene_plane_distance = Interop.downcallHandle(
+    private static final MethodHandle graphene_plane_distance = Interop.downcallHandle(
         "graphene_plane_distance",
         FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -47,16 +48,17 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Computes the distance of {@code point} from a {@link Plane}.
      */
-    public float distance(Point3D point) {
+    public float distance(@NotNull Point3D point) {
+        float RESULT;
         try {
-            var RESULT = (float) graphene_plane_distance.invokeExact(handle(), point.handle());
-            return RESULT;
+            RESULT = (float) graphene_plane_distance.invokeExact(handle(), point.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_plane_equal = Interop.downcallHandle(
+    private static final MethodHandle graphene_plane_equal = Interop.downcallHandle(
         "graphene_plane_equal",
         FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -64,16 +66,17 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Checks whether the two given {@link Plane} are equal.
      */
-    public boolean equal(Plane b) {
+    public boolean equal(@NotNull Plane b) {
+        boolean RESULT;
         try {
-            var RESULT = (boolean) graphene_plane_equal.invokeExact(handle(), b.handle());
-            return RESULT;
+            RESULT = (boolean) graphene_plane_equal.invokeExact(handle(), b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_plane_free = Interop.downcallHandle(
+    private static final MethodHandle graphene_plane_free = Interop.downcallHandle(
         "graphene_plane_free",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
     );
@@ -81,7 +84,7 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Frees the resources allocated by graphene_plane_alloc().
      */
-    public void free() {
+    public @NotNull void free() {
         try {
             graphene_plane_free.invokeExact(handle());
         } catch (Throwable ERR) {
@@ -89,7 +92,7 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle graphene_plane_get_constant = Interop.downcallHandle(
+    private static final MethodHandle graphene_plane_get_constant = Interop.downcallHandle(
         "graphene_plane_get_constant",
         FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
     );
@@ -99,15 +102,16 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
      * given {@link Plane} from the origin.
      */
     public float getConstant() {
+        float RESULT;
         try {
-            var RESULT = (float) graphene_plane_get_constant.invokeExact(handle());
-            return RESULT;
+            RESULT = (float) graphene_plane_get_constant.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    static final MethodHandle graphene_plane_get_normal = Interop.downcallHandle(
+    private static final MethodHandle graphene_plane_get_normal = Interop.downcallHandle(
         "graphene_plane_get_normal",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -116,15 +120,17 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
      * Retrieves the normal vector pointing towards the origin of the
      * given {@link Plane}.
      */
-    public void getNormal(Vec3 normal) {
+    public @NotNull void getNormal(@NotNull Out<Vec3> normal) {
+        MemorySegment normalPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_plane_get_normal.invokeExact(handle(), normal.handle());
+            graphene_plane_get_normal.invokeExact(handle(), (Addressable) normalPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        normal.set(new Vec3(Refcounted.get(normalPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_plane_init = Interop.downcallHandle(
+    private static final MethodHandle graphene_plane_init = Interop.downcallHandle(
         "graphene_plane_init",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
     );
@@ -133,16 +139,17 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
      * Initializes the given {@link Plane} using the given {@code normal} vector
      * and {@code constant} values.
      */
-    public Plane init(Vec3 normal, float constant) {
+    public @NotNull Plane init(@Nullable Vec3 normal, @NotNull float constant) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_plane_init.invokeExact(handle(), normal.handle(), constant);
-            return new Plane(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_plane_init.invokeExact(handle(), normal.handle(), constant);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Plane(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_plane_init_from_plane = Interop.downcallHandle(
+    private static final MethodHandle graphene_plane_init_from_plane = Interop.downcallHandle(
         "graphene_plane_init_from_plane",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -151,16 +158,17 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
      * Initializes the given {@link Plane} using the normal
      * vector and constant of another {@link Plane}.
      */
-    public Plane initFromPlane(Plane src) {
+    public @NotNull Plane initFromPlane(@NotNull Plane src) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_plane_init_from_plane.invokeExact(handle(), src.handle());
-            return new Plane(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_plane_init_from_plane.invokeExact(handle(), src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Plane(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_plane_init_from_point = Interop.downcallHandle(
+    private static final MethodHandle graphene_plane_init_from_point = Interop.downcallHandle(
         "graphene_plane_init_from_point",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -169,16 +177,17 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
      * Initializes the given {@link Plane} using the given normal vector
      * and an arbitrary co-planar point.
      */
-    public Plane initFromPoint(Vec3 normal, Point3D point) {
+    public @NotNull Plane initFromPoint(@NotNull Vec3 normal, @NotNull Point3D point) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_plane_init_from_point.invokeExact(handle(), normal.handle(), point.handle());
-            return new Plane(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_plane_init_from_point.invokeExact(handle(), normal.handle(), point.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Plane(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_plane_init_from_points = Interop.downcallHandle(
+    private static final MethodHandle graphene_plane_init_from_points = Interop.downcallHandle(
         "graphene_plane_init_from_points",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -190,16 +199,17 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
      * The winding order is counter-clockwise, and determines which direction
      * the normal vector will point.
      */
-    public Plane initFromPoints(Point3D a, Point3D b, Point3D c) {
+    public @NotNull Plane initFromPoints(@NotNull Point3D a, @NotNull Point3D b, @NotNull Point3D c) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_plane_init_from_points.invokeExact(handle(), a.handle(), b.handle(), c.handle());
-            return new Plane(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_plane_init_from_points.invokeExact(handle(), a.handle(), b.handle(), c.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Plane(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_plane_init_from_vec4 = Interop.downcallHandle(
+    private static final MethodHandle graphene_plane_init_from_vec4 = Interop.downcallHandle(
         "graphene_plane_init_from_vec4",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -208,16 +218,17 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
      * Initializes the given {@link Plane} using the components of
      * the given {@link Vec4} vector.
      */
-    public Plane initFromVec4(Vec4 src) {
+    public @NotNull Plane initFromVec4(@NotNull Vec4 src) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) graphene_plane_init_from_vec4.invokeExact(handle(), src.handle());
-            return new Plane(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) graphene_plane_init_from_vec4.invokeExact(handle(), src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new Plane(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle graphene_plane_negate = Interop.downcallHandle(
+    private static final MethodHandle graphene_plane_negate = Interop.downcallHandle(
         "graphene_plane_negate",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -226,15 +237,17 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
      * Negates the normal vector and constant of a {@link Plane}, effectively
      * mirroring the plane across the origin.
      */
-    public void negate(Plane res) {
+    public @NotNull void negate(@NotNull Out<Plane> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_plane_negate.invokeExact(handle(), res.handle());
+            graphene_plane_negate.invokeExact(handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Plane(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_plane_normalize = Interop.downcallHandle(
+    private static final MethodHandle graphene_plane_normalize = Interop.downcallHandle(
         "graphene_plane_normalize",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -243,15 +256,17 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
      * Normalizes the vector of the given {@link Plane},
      * and adjusts the constant accordingly.
      */
-    public void normalize(Plane res) {
+    public @NotNull void normalize(@NotNull Out<Plane> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_plane_normalize.invokeExact(handle(), res.handle());
+            graphene_plane_normalize.invokeExact(handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Plane(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    static final MethodHandle graphene_plane_transform = Interop.downcallHandle(
+    private static final MethodHandle graphene_plane_transform = Interop.downcallHandle(
         "graphene_plane_transform",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -266,12 +281,14 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
      * the normal matrix beforehand to avoid incurring in the cost of
      * recomputing it every time.
      */
-    public void transform(Matrix matrix, Matrix normalMatrix, Plane res) {
+    public @NotNull void transform(@NotNull Matrix matrix, @Nullable Matrix normalMatrix, @NotNull Out<Plane> res) {
+        MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_plane_transform.invokeExact(handle(), matrix.handle(), normalMatrix.handle(), res.handle());
+            graphene_plane_transform.invokeExact(handle(), matrix.handle(), normalMatrix.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        res.set(new Plane(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
 }

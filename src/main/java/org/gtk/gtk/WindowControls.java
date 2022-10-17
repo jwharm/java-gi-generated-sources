@@ -3,6 +3,7 @@ package org.gtk.gtk;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@code GtkWindowControls} shows window frame controls.
@@ -15,7 +16,7 @@ import java.lang.invoke.*;
  * {@code GtkWindowControls} only displays start or end side of the controls (see
  * {@code Gtk.WindowControls:side}), so it's intended to be always used
  * in pair with another {@code GtkWindowControls} for the opposite side, for example:
- * <p>
+ * 
  * <pre>{@code xml
  * <object class="GtkBox">
  *   <child>
@@ -33,9 +34,8 @@ import java.lang.invoke.*;
  *   </child>
  * </object>
  * }</pre>
- * <p>
+ * 
  * <h1>CSS nodes</h1>
- * <p>
  * <pre>{@code 
  * windowcontrols
  * ├── [image.icon]
@@ -51,9 +51,8 @@ import java.lang.invoke.*;
  * <p>
  * When {@code Gtk.WindowControls:empty} is {@code true}, it gets the .empty
  * style class.
- * <p>
+ * 
  * <h1>Accessibility</h1>
- * <p>
  * {@code GtkWindowControls} uses the {@link AccessibleRole#GROUP} role.
  */
 public class WindowControls extends Widget implements Accessible, Buildable, ConstraintTarget {
@@ -67,12 +66,12 @@ public class WindowControls extends Widget implements Accessible, Buildable, Con
         return new WindowControls(gobject.refcounted());
     }
     
-    static final MethodHandle gtk_window_controls_new = Interop.downcallHandle(
+    private static final MethodHandle gtk_window_controls_new = Interop.downcallHandle(
         "gtk_window_controls_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
     
-    private static Refcounted constructNew(PackType side) {
+    private static Refcounted constructNew(@NotNull PackType side) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_window_controls_new.invokeExact(side.getValue()), false);
             return RESULT;
@@ -84,11 +83,11 @@ public class WindowControls extends Widget implements Accessible, Buildable, Con
     /**
      * Creates a new {@code GtkWindowControls}.
      */
-    public WindowControls(PackType side) {
+    public WindowControls(@NotNull PackType side) {
         super(constructNew(side));
     }
     
-    static final MethodHandle gtk_window_controls_get_decoration_layout = Interop.downcallHandle(
+    private static final MethodHandle gtk_window_controls_get_decoration_layout = Interop.downcallHandle(
         "gtk_window_controls_get_decoration_layout",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -96,16 +95,17 @@ public class WindowControls extends Widget implements Accessible, Buildable, Con
     /**
      * Gets the decoration layout of this {@code GtkWindowControls}.
      */
-    public java.lang.String getDecorationLayout() {
+    public @Nullable java.lang.String getDecorationLayout() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) gtk_window_controls_get_decoration_layout.invokeExact(handle());
-            return RESULT.getUtf8String(0);
+            RESULT = (MemoryAddress) gtk_window_controls_get_decoration_layout.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT.getUtf8String(0);
     }
     
-    static final MethodHandle gtk_window_controls_get_empty = Interop.downcallHandle(
+    private static final MethodHandle gtk_window_controls_get_empty = Interop.downcallHandle(
         "gtk_window_controls_get_empty",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -114,15 +114,16 @@ public class WindowControls extends Widget implements Accessible, Buildable, Con
      * Gets whether the widget has any window buttons.
      */
     public boolean getEmpty() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_window_controls_get_empty.invokeExact(handle());
-            return RESULT != 0;
+            RESULT = (int) gtk_window_controls_get_empty.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT != 0;
     }
     
-    static final MethodHandle gtk_window_controls_get_side = Interop.downcallHandle(
+    private static final MethodHandle gtk_window_controls_get_side = Interop.downcallHandle(
         "gtk_window_controls_get_side",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
     );
@@ -130,16 +131,17 @@ public class WindowControls extends Widget implements Accessible, Buildable, Con
     /**
      * Gets the side to which this {@code GtkWindowControls} instance belongs.
      */
-    public PackType getSide() {
+    public @NotNull PackType getSide() {
+        int RESULT;
         try {
-            var RESULT = (int) gtk_window_controls_get_side.invokeExact(handle());
-            return new PackType(RESULT);
+            RESULT = (int) gtk_window_controls_get_side.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new PackType(RESULT);
     }
     
-    static final MethodHandle gtk_window_controls_set_decoration_layout = Interop.downcallHandle(
+    private static final MethodHandle gtk_window_controls_set_decoration_layout = Interop.downcallHandle(
         "gtk_window_controls_set_decoration_layout",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -161,15 +163,15 @@ public class WindowControls extends Widget implements Accessible, Buildable, Con
      * If {@code Gtk.WindowControls:side} value is {@code GTK_PACK_START}, {@code self}
      * will display the part before the colon, otherwise after that.
      */
-    public void setDecorationLayout(java.lang.String layout) {
+    public @NotNull void setDecorationLayout(@Nullable java.lang.String layout) {
         try {
-            gtk_window_controls_set_decoration_layout.invokeExact(handle(), Interop.allocateNativeString(layout).handle());
+            gtk_window_controls_set_decoration_layout.invokeExact(handle(), Interop.allocateNativeString(layout));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    static final MethodHandle gtk_window_controls_set_side = Interop.downcallHandle(
+    private static final MethodHandle gtk_window_controls_set_side = Interop.downcallHandle(
         "gtk_window_controls_set_side",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -179,7 +181,7 @@ public class WindowControls extends Widget implements Accessible, Buildable, Con
      * <p>
      * See {@code Gtk.WindowControls:decoration-layout}.
      */
-    public void setSide(PackType side) {
+    public @NotNull void setSide(@NotNull PackType side) {
         try {
             gtk_window_controls_set_side.invokeExact(handle(), side.getValue());
         } catch (Throwable ERR) {

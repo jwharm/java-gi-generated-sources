@@ -1,6 +1,7 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Function type for determining whether {@code column} can be dropped in a
@@ -14,5 +15,5 @@ import io.github.jwharm.javagi.*;
  */
 @FunctionalInterface
 public interface TreeViewColumnDropFunc {
-        boolean onTreeViewColumnDropFunc(TreeView treeView, TreeViewColumn column, TreeViewColumn prevColumn, TreeViewColumn nextColumn);
+        boolean onTreeViewColumnDropFunc(@NotNull TreeView treeView, @NotNull TreeViewColumn column, @NotNull TreeViewColumn prevColumn, @NotNull TreeViewColumn nextColumn);
 }

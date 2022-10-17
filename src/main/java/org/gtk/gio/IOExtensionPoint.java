@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link IOExtensionPoint} is an opaque data structure and can only be accessed
@@ -14,7 +15,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
         super(ref);
     }
     
-    static final MethodHandle g_io_extension_point_get_extension_by_name = Interop.downcallHandle(
+    private static final MethodHandle g_io_extension_point_get_extension_by_name = Interop.downcallHandle(
         "g_io_extension_point_get_extension_by_name",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -22,16 +23,17 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Finds a {@link IOExtension} for an extension point by name.
      */
-    public IOExtension getExtensionByName(java.lang.String name) {
+    public @NotNull IOExtension getExtensionByName(@NotNull java.lang.String name) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_io_extension_point_get_extension_by_name.invokeExact(handle(), Interop.allocateNativeString(name).handle());
-            return new IOExtension(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_io_extension_point_get_extension_by_name.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new IOExtension(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_io_extension_point_get_extensions = Interop.downcallHandle(
+    private static final MethodHandle g_io_extension_point_get_extensions = Interop.downcallHandle(
         "g_io_extension_point_get_extensions",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -40,16 +42,17 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
      * Gets a list of all extensions that implement this extension point.
      * The list is sorted by priority, beginning with the highest priority.
      */
-    public org.gtk.glib.List getExtensions() {
+    public @NotNull org.gtk.glib.List getExtensions() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_io_extension_point_get_extensions.invokeExact(handle());
-            return new org.gtk.glib.List(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_io_extension_point_get_extensions.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_io_extension_point_get_required_type = Interop.downcallHandle(
+    private static final MethodHandle g_io_extension_point_get_required_type = Interop.downcallHandle(
         "g_io_extension_point_get_required_type",
         FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
     );
@@ -57,16 +60,17 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Gets the required type for {@code extension_point}.
      */
-    public org.gtk.gobject.Type getRequiredType() {
+    public @NotNull org.gtk.gobject.Type getRequiredType() {
+        long RESULT;
         try {
-            var RESULT = (long) g_io_extension_point_get_required_type.invokeExact(handle());
-            return new org.gtk.gobject.Type(RESULT);
+            RESULT = (long) g_io_extension_point_get_required_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gobject.Type(RESULT);
     }
     
-    static final MethodHandle g_io_extension_point_set_required_type = Interop.downcallHandle(
+    private static final MethodHandle g_io_extension_point_set_required_type = Interop.downcallHandle(
         "g_io_extension_point_set_required_type",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
     );
@@ -75,7 +79,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
      * Sets the required type for {@code extension_point} to {@code type}.
      * All implementations must henceforth have this type.
      */
-    public void setRequiredType(org.gtk.gobject.Type type) {
+    public @NotNull void setRequiredType(@NotNull org.gtk.gobject.Type type) {
         try {
             g_io_extension_point_set_required_type.invokeExact(handle(), type.getValue());
         } catch (Throwable ERR) {
@@ -83,7 +87,7 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
         }
     }
     
-    static final MethodHandle g_io_extension_point_implement = Interop.downcallHandle(
+    private static final MethodHandle g_io_extension_point_implement = Interop.downcallHandle(
         "g_io_extension_point_implement",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
     );
@@ -95,16 +99,17 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
      * If {@code type} has already been registered as an extension for this
      * extension point, the existing {@link IOExtension} object is returned.
      */
-    public static IOExtension implement(java.lang.String extensionPointName, org.gtk.gobject.Type type, java.lang.String extensionName, int priority) {
+    public static @NotNull IOExtension implement(@NotNull java.lang.String extensionPointName, @NotNull org.gtk.gobject.Type type, @NotNull java.lang.String extensionName, @NotNull int priority) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_io_extension_point_implement.invokeExact(Interop.allocateNativeString(extensionPointName).handle(), type.getValue(), Interop.allocateNativeString(extensionName).handle(), priority);
-            return new IOExtension(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_io_extension_point_implement.invokeExact(Interop.allocateNativeString(extensionPointName), type.getValue(), Interop.allocateNativeString(extensionName), priority);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new IOExtension(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_io_extension_point_lookup = Interop.downcallHandle(
+    private static final MethodHandle g_io_extension_point_lookup = Interop.downcallHandle(
         "g_io_extension_point_lookup",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -112,16 +117,17 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Looks up an existing extension point.
      */
-    public static IOExtensionPoint lookup(java.lang.String name) {
+    public static @NotNull IOExtensionPoint lookup(@NotNull java.lang.String name) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_io_extension_point_lookup.invokeExact(Interop.allocateNativeString(name).handle());
-            return new IOExtensionPoint(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_io_extension_point_lookup.invokeExact(Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new IOExtensionPoint(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle g_io_extension_point_register = Interop.downcallHandle(
+    private static final MethodHandle g_io_extension_point_register = Interop.downcallHandle(
         "g_io_extension_point_register",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -129,13 +135,14 @@ public class IOExtensionPoint extends io.github.jwharm.javagi.ResourceBase {
     /**
      * Registers an extension point.
      */
-    public static IOExtensionPoint register(java.lang.String name) {
+    public static @NotNull IOExtensionPoint register(@NotNull java.lang.String name) {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_io_extension_point_register.invokeExact(Interop.allocateNativeString(name).handle());
-            return new IOExtensionPoint(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) g_io_extension_point_register.invokeExact(Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new IOExtensionPoint(Refcounted.get(RESULT, false));
     }
     
 }

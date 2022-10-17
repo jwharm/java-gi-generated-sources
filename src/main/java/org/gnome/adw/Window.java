@@ -3,6 +3,7 @@ package org.gnome.adw;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A freeform window.
@@ -14,7 +15,7 @@ import java.lang.invoke.*;
  * <p>
  * The {@code AdwWindow} widget is a subclass of {@link org.gtk.gtk.Window} which has no
  * titlebar area. It means {@link org.gtk.gtk.HeaderBar} can be used as follows:
- * <p>
+ * 
  * <pre>{@code xml
  * <object class="AdwWindow">
  *   <property name="content">
@@ -45,7 +46,7 @@ public class Window extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
         return new Window(gobject.refcounted());
     }
     
-    static final MethodHandle adw_window_new = Interop.downcallHandle(
+    private static final MethodHandle adw_window_new = Interop.downcallHandle(
         "adw_window_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS)
     );
@@ -66,7 +67,7 @@ public class Window extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
         super(constructNew());
     }
     
-    static final MethodHandle adw_window_get_content = Interop.downcallHandle(
+    private static final MethodHandle adw_window_get_content = Interop.downcallHandle(
         "adw_window_get_content",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -76,16 +77,17 @@ public class Window extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
      * <p>
      * This method should always be used instead of {@link org.gtk.gtk.Window#getChild}.
      */
-    public org.gtk.gtk.Widget getContent() {
+    public @Nullable org.gtk.gtk.Widget getContent() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_window_get_content.invokeExact(handle());
-            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_window_get_content.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_window_set_content = Interop.downcallHandle(
+    private static final MethodHandle adw_window_set_content = Interop.downcallHandle(
         "adw_window_set_content",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -95,7 +97,7 @@ public class Window extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
      * <p>
      * This method should always be used instead of {@link org.gtk.gtk.Window#setChild}.
      */
-    public void setContent(org.gtk.gtk.Widget content) {
+    public @NotNull void setContent(@Nullable org.gtk.gtk.Widget content) {
         try {
             adw_window_set_content.invokeExact(handle(), content.handle());
         } catch (Throwable ERR) {

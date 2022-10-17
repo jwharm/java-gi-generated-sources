@@ -3,6 +3,7 @@ package org.gtk.gio;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * {@link Initable} is implemented by objects that can fail during
@@ -32,7 +33,7 @@ import java.lang.invoke.*;
  */
 public interface Initable extends io.github.jwharm.javagi.Proxy {
 
-    static final MethodHandle g_initable_init = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_initable_init = Interop.downcallHandle(
         "g_initable_init",
         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -77,20 +78,21 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
      * on the result of g_object_new(), regardless of whether it is in fact a new
      * instance.
      */
-    public default boolean init(Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default boolean init(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
         try {
-            var RESULT = (int) g_initable_init.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT != 0;
+            RESULT = (int) g_initable_init.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
     }
     
-    static final MethodHandle g_initable_new_valist = Interop.downcallHandle(
+    @ApiStatus.Internal static final MethodHandle g_initable_new_valist = Interop.downcallHandle(
         "g_initable_new_valist",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -100,17 +102,18 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
      * similar to g_object_new_valist() but also initializes the object
      * and returns {@code null}, setting an error on failure.
      */
-    public static org.gtk.gobject.Object newValist(org.gtk.gobject.Type objectType, java.lang.String firstPropertyName, VaList varArgs, Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public static @NotNull org.gtk.gobject.Object newValist(@NotNull org.gtk.gobject.Type objectType, @NotNull java.lang.String firstPropertyName, @NotNull VaList varArgs, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) g_initable_new_valist.invokeExact(objectType.getValue(), Interop.allocateNativeString(firstPropertyName).handle(), varArgs, cancellable.handle(), (Addressable) GERROR);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
+            RESULT = (MemoryAddress) g_initable_new_valist.invokeExact(objectType.getValue(), Interop.allocateNativeString(firstPropertyName), varArgs, cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
     }
     
     class InitableImpl extends org.gtk.gobject.Object implements Initable {

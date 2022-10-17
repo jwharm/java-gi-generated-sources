@@ -3,6 +3,7 @@ package org.gnome.adw;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * A freeform application window.
@@ -31,12 +32,12 @@ public class ApplicationWindow extends org.gtk.gtk.ApplicationWindow implements 
         return new ApplicationWindow(gobject.refcounted());
     }
     
-    static final MethodHandle adw_application_window_new = Interop.downcallHandle(
+    private static final MethodHandle adw_application_window_new = Interop.downcallHandle(
         "adw_application_window_new",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
     
-    private static Refcounted constructNew(org.gtk.gtk.Application app) {
+    private static Refcounted constructNew(@NotNull org.gtk.gtk.Application app) {
         try {
             Refcounted RESULT = Refcounted.get((MemoryAddress) adw_application_window_new.invokeExact(app.handle()), false);
             return RESULT;
@@ -48,11 +49,11 @@ public class ApplicationWindow extends org.gtk.gtk.ApplicationWindow implements 
     /**
      * Creates a new {@code AdwApplicationWindow} for {@code app}.
      */
-    public ApplicationWindow(org.gtk.gtk.Application app) {
+    public ApplicationWindow(@NotNull org.gtk.gtk.Application app) {
         super(constructNew(app));
     }
     
-    static final MethodHandle adw_application_window_get_content = Interop.downcallHandle(
+    private static final MethodHandle adw_application_window_get_content = Interop.downcallHandle(
         "adw_application_window_get_content",
         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -62,16 +63,17 @@ public class ApplicationWindow extends org.gtk.gtk.ApplicationWindow implements 
      * <p>
      * This method should always be used instead of {@link org.gtk.gtk.Window#getChild}.
      */
-    public org.gtk.gtk.Widget getContent() {
+    public @Nullable org.gtk.gtk.Widget getContent() {
+        MemoryAddress RESULT;
         try {
-            var RESULT = (MemoryAddress) adw_application_window_get_content.invokeExact(handle());
-            return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
+            RESULT = (MemoryAddress) adw_application_window_get_content.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
-    static final MethodHandle adw_application_window_set_content = Interop.downcallHandle(
+    private static final MethodHandle adw_application_window_set_content = Interop.downcallHandle(
         "adw_application_window_set_content",
         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
     );
@@ -81,7 +83,7 @@ public class ApplicationWindow extends org.gtk.gtk.ApplicationWindow implements 
      * <p>
      * This method should always be used instead of {@link org.gtk.gtk.Window#setChild}.
      */
-    public void setContent(org.gtk.gtk.Widget content) {
+    public @NotNull void setContent(@Nullable org.gtk.gtk.Widget content) {
         try {
             adw_application_window_set_content.invokeExact(handle(), content.handle());
         } catch (Throwable ERR) {

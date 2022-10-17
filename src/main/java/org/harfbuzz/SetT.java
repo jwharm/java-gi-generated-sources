@@ -3,6 +3,7 @@ package org.harfbuzz;
 import io.github.jwharm.javagi.*;
 import java.lang.foreign.*;
 import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * Data type for holding a set of integers. {@link set_t}'s are
