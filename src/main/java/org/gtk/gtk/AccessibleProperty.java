@@ -1,10 +1,23 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The possible accessible properties of a {@code Accessible}.
  */
 public class AccessibleProperty extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Indicates whether inputting text
      *    could trigger display of one or more predictions of the user's intended
@@ -131,4 +144,21 @@ public class AccessibleProperty extends io.github.jwharm.javagi.Enumeration {
         super(value);
     }
     
+    public static void initValue(@NotNull org.gtk.gtk.AccessibleProperty property, @NotNull org.gtk.gobject.Value value) {
+        java.util.Objects.requireNonNull(property, "Parameter 'property' must not be null");
+        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+        try {
+            DowncallHandles.gtk_accessible_property_init_value.invokeExact(property.getValue(), value.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_accessible_property_init_value = Interop.downcallHandle(
+            "gtk_accessible_property_init_value",
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+    }
 }

@@ -1,12 +1,25 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * GtkShortcutType specifies the kind of shortcut that is being described.
  * <p>
  * More values may be added to this enumeration over time.
  */
 public class ShortcutType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The shortcut is a keyboard accelerator. The GtkShortcutsShortcut:accelerator
      *   property will be used.
@@ -62,5 +75,4 @@ public class ShortcutType extends io.github.jwharm.javagi.Enumeration {
     public ShortcutType(int value) {
         super(value);
     }
-    
 }

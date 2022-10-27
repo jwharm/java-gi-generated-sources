@@ -1,12 +1,25 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * {@link AskPasswordFlags} are used to request specific information from the
  * user, or to notify the user of their choices in an authentication
  * situation.
  */
 public class AskPasswordFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * operation requires a password.
      */
@@ -40,5 +53,4 @@ public class AskPasswordFlags extends io.github.jwharm.javagi.Bitfield {
     public AskPasswordFlags(int value) {
         super(value);
     }
-    
 }

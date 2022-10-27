@@ -1,6 +1,8 @@
 package org.gtk.gdkpixbuf;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -10,5 +12,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PixbufModuleLoadFunc {
-        Pixbuf onPixbufModuleLoadFunc(@Nullable java.lang.foreign.MemoryAddress f);
+        org.gtk.gdkpixbuf.Pixbuf onPixbufModuleLoadFunc(@Nullable java.lang.foreign.MemoryAddress f);
 }

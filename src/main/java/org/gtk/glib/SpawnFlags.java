@@ -1,10 +1,23 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Flags passed to g_spawn_sync(), g_spawn_async() and g_spawn_async_with_pipes().
  */
 public class SpawnFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * no flags, default behaviour
      */
@@ -71,5 +84,4 @@ public class SpawnFlags extends io.github.jwharm.javagi.Bitfield {
     public SpawnFlags(int value) {
         super(value);
     }
-    
 }

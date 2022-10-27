@@ -1,5 +1,10 @@
 package org.pango;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * {@code PangoCoverageLevel} is used to indicate how well a font can
  * represent a particular Unicode character for a particular script.
@@ -8,7 +13,15 @@ package org.pango;
  * will be returned.
  */
 public class CoverageLevel extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The character is not representable with
      *   the font.
@@ -40,5 +53,4 @@ public class CoverageLevel extends io.github.jwharm.javagi.Enumeration {
     public CoverageLevel(int value) {
         super(value);
     }
-    
 }

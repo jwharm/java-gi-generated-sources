@@ -1,21 +1,35 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Specifies the type of traversal performed by g_tree_traverse(),
  * g_node_traverse() and g_node_find(). The different orders are
  * illustrated here:
  * <ul>
  * <li>In order: A, B, C, D, E, F, G, H, I
- *   ![](Sorted_binary_tree_inorder.svg)
+ *   <img src="./doc-files/Sorted_binary_tree_inorder.svg" alt="">
  * <li>Pre order: F, B, A, D, C, E, G, I, H
- *   ![](Sorted_binary_tree_preorder.svg)
+ *   <img src="./doc-files/Sorted_binary_tree_preorder.svg" alt="">
  * <li>Post order: A, C, E, D, B, H, I, G, F
- *   ![](Sorted_binary_tree_postorder.svg)
+ *   <img src="./doc-files/Sorted_binary_tree_postorder.svg" alt="">
  * <li>Level order: F, B, G, A, D, I, C, E, H
- *   ![](Sorted_binary_tree_breadth-first_traversal.svg)
+ *   <img src="./doc-files/Sorted_binary_tree_breadth-first_traversal.svg" alt="">
+ * </ul>
  */
 public class TraverseType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * vists a node's left child first, then the node itself,
      *              then its right child. This is the one to use if you
@@ -47,5 +61,4 @@ public class TraverseType extends io.github.jwharm.javagi.Enumeration {
     public TraverseType(int value) {
         super(value);
     }
-    
 }

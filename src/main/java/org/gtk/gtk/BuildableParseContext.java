@@ -9,15 +9,22 @@ import org.jetbrains.annotations.*;
  * An opaque context struct for {@code GtkBuildableParser}.
  */
 public class BuildableParseContext extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public BuildableParseContext(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
-    private static final MethodHandle gtk_buildable_parse_context_get_element = Interop.downcallHandle(
-        "gtk_buildable_parse_context_get_element",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves the name of the currently open element.
@@ -25,21 +32,17 @@ public class BuildableParseContext extends io.github.jwharm.javagi.ResourceBase 
      * If called from the start_element or end_element handlers this will
      * give the element_name as passed to those functions. For the parent
      * elements, see gtk_buildable_parse_context_get_element_stack().
+     * @return the name of the currently open element
      */
     public @Nullable java.lang.String getElement() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_buildable_parse_context_get_element.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_buildable_parse_context_get_element.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle gtk_buildable_parse_context_get_element_stack = Interop.downcallHandle(
-        "gtk_buildable_parse_context_get_element_stack",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves the element stack from the internal state of the parser.
@@ -53,44 +56,39 @@ public class BuildableParseContext extends io.github.jwharm.javagi.ResourceBase 
      * end_element handlers where gtk_buildable_parse_context_get_element()
      * would merely return the name of the element that is being
      * processed.
+     * @return the element stack, which must not be modified
      */
-    public PointerString getElementStack() {
+    public @NotNull PointerString getElementStack() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_buildable_parse_context_get_element_stack.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_buildable_parse_context_get_element_stack.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerString(RESULT);
     }
     
-    private static final MethodHandle gtk_buildable_parse_context_get_position = Interop.downcallHandle(
-        "gtk_buildable_parse_context_get_position",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Retrieves the current line number and the number of the character on
      * that line. Intended for use in error messages; there are no strict
      * semantics for what constitutes the "current" line number other than
      * "the best number we could come up with for error messages."
+     * @param lineNumber return location for a line number
+     * @param charNumber return location for a char-on-line number
      */
-    public @NotNull void getPosition(@NotNull Out<Integer> lineNumber, @NotNull Out<Integer> charNumber) {
+    public void getPosition(Out<Integer> lineNumber, Out<Integer> charNumber) {
+        java.util.Objects.requireNonNull(lineNumber, "Parameter 'lineNumber' must not be null");
+        java.util.Objects.requireNonNull(charNumber, "Parameter 'charNumber' must not be null");
         MemorySegment lineNumberPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment charNumberPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gtk_buildable_parse_context_get_position.invokeExact(handle(), (Addressable) lineNumberPOINTER.address(), (Addressable) charNumberPOINTER.address());
+            DowncallHandles.gtk_buildable_parse_context_get_position.invokeExact(handle(), (Addressable) lineNumberPOINTER.address(), (Addressable) charNumberPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         lineNumber.set(lineNumberPOINTER.get(ValueLayout.JAVA_INT, 0));
         charNumber.set(charNumberPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
-    
-    private static final MethodHandle gtk_buildable_parse_context_pop = Interop.downcallHandle(
-        "gtk_buildable_parse_context_pop",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Completes the process of a temporary sub-parser redirection.
@@ -106,21 +104,17 @@ public class BuildableParseContext extends io.github.jwharm.javagi.ResourceBase 
      * interested in invoking subparsers. Instead, it is intended to
      * be used by the subparsers themselves to implement a higher-level
      * interface.
+     * @return the user data passed to gtk_buildable_parse_context_push()
      */
     public @Nullable java.lang.foreign.MemoryAddress pop() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_buildable_parse_context_pop.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_buildable_parse_context_pop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle gtk_buildable_parse_context_push = Interop.downcallHandle(
-        "gtk_buildable_parse_context_push",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Temporarily redirects markup data to a sub-parser.
@@ -152,13 +146,43 @@ public class BuildableParseContext extends io.github.jwharm.javagi.ResourceBase 
      * <p>
      * For an example of how to use this, see g_markup_parse_context_push() which
      * has the same kind of API.
+     * @param parser a {@code GtkBuildableParser}
+     * @param userData user data to pass to {@code GtkBuildableParser} functions
      */
-    public @NotNull void push(@NotNull BuildableParser parser, @Nullable java.lang.foreign.MemoryAddress userData) {
+    public void push(@NotNull org.gtk.gtk.BuildableParser parser, @Nullable java.lang.foreign.MemoryAddress userData) {
+        java.util.Objects.requireNonNull(parser, "Parameter 'parser' must not be null");
         try {
-            gtk_buildable_parse_context_push.invokeExact(handle(), parser.handle(), userData);
+            DowncallHandles.gtk_buildable_parse_context_push.invokeExact(handle(), parser.handle(), userData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_buildable_parse_context_get_element = Interop.downcallHandle(
+            "gtk_buildable_parse_context_get_element",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_buildable_parse_context_get_element_stack = Interop.downcallHandle(
+            "gtk_buildable_parse_context_get_element_stack",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_buildable_parse_context_get_position = Interop.downcallHandle(
+            "gtk_buildable_parse_context_get_position",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_buildable_parse_context_pop = Interop.downcallHandle(
+            "gtk_buildable_parse_context_pop",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_buildable_parse_context_push = Interop.downcallHandle(
+            "gtk_buildable_parse_context_push",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

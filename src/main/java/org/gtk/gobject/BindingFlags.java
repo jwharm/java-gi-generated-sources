@@ -1,13 +1,27 @@
 package org.gtk.gobject;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Flags to be passed to g_object_bind_property() or
  * g_object_bind_property_full().
  * <p>
  * This enumeration can be extended at later date.
+ * @version 2.26
  */
 public class BindingFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The default binding; if the source property
      *   changes, the target property is updated with its value.
@@ -40,5 +54,4 @@ public class BindingFlags extends io.github.jwharm.javagi.Bitfield {
     public BindingFlags(int value) {
         super(value);
     }
-    
 }

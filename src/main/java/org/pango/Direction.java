@@ -1,15 +1,20 @@
 package org.pango;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * {@code PangoDirection} represents a direction in the Unicode bidirectional
  * algorithm.
  * <p>
  * Not every value in this enumeration makes sense for every usage of
- * {@code PangoDirection}; for example, the return value of {@link unichar_direction#null}
- * and {@link find_base_dir#null} cannot be {@code PANGO_DIRECTION_WEAK_LTR} or
+ * {@code PangoDirection}; for example, the return value of {@link Pango#unicharDirection}
+ * and {@link Pango#findBaseDir} cannot be {@code PANGO_DIRECTION_WEAK_LTR} or
  * {@code PANGO_DIRECTION_WEAK_RTL}, since every character is either neutral
  * or has a strong direction; on the other hand {@code PANGO_DIRECTION_NEUTRAL}
- * doesn't make sense to pass to {@link itemize_with_base_dir#null}.
+ * doesn't make sense to pass to {@link Pango#itemizeWithBaseDir}.
  * <p>
  * The {@code PANGO_DIRECTION_TTB_LTR}, {@code PANGO_DIRECTION_TTB_RTL} values come from
  * an earlier interpretation of this enumeration as the writing direction
@@ -21,7 +26,15 @@ package org.pango;
  * public apis.
  */
 public class Direction extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * A strong left-to-right direction
      */
@@ -62,5 +75,4 @@ public class Direction extends io.github.jwharm.javagi.Enumeration {
     public Direction(int value) {
         super(value);
     }
-    
 }

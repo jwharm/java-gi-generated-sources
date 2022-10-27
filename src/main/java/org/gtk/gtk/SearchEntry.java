@@ -36,8 +36,8 @@ import org.jetbrains.annotations.*;
  * <p>
  * {@code GtkSearchEntry} provides only minimal API and should be used with
  * the {@code Gtk.Editable} API.
- * 
- * <h2>CSS Nodes</h2>
+ * <p>
+ * <strong>CSS Nodes</strong><br/>
  * <pre>{@code 
  * entry.search
  * ╰── text
@@ -45,12 +45,24 @@ import org.jetbrains.annotations.*;
  * <p>
  * {@code GtkSearchEntry} has a single CSS node with name entry that carries
  * a {@code .search} style class, and the text node is a child of that.
- * 
- * <h2>Accessibility</h2>
+ * <p>
+ * <strong>Accessibility</strong><br/>
  * {@code GtkSearchEntry} uses the {@link AccessibleRole#SEARCH_BOX} role.
  */
-public class SearchEntry extends Widget implements Accessible, Buildable, ConstraintTarget, Editable {
-
+public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Editable {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public SearchEntry(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -60,18 +72,14 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
         return new SearchEntry(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_search_entry_new = Interop.downcallHandle(
-        "gtk_search_entry_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_search_entry_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_search_entry_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -81,28 +89,19 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_search_entry_get_key_capture_widget = Interop.downcallHandle(
-        "gtk_search_entry_get_key_capture_widget",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the widget that {@code entry} is capturing key events from.
+     * @return The key capture widget.
      */
-    public @Nullable Widget getKeyCaptureWidget() {
+    public @Nullable org.gtk.gtk.Widget getKeyCaptureWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_search_entry_get_key_capture_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_search_entry_get_key_capture_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_search_entry_set_key_capture_widget = Interop.downcallHandle(
-        "gtk_search_entry_set_key_capture_widget",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets {@code widget} as the widget that {@code entry} will capture key
@@ -122,17 +121,19 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
      * before it gets captured. If that is not desired, you can
      * capture and forward the events yourself with
      * {@link EventControllerKey#forward}.
+     * @param widget a {@code GtkWidget}
      */
-    public @NotNull void setKeyCaptureWidget(@Nullable Widget widget) {
+    public void setKeyCaptureWidget(@Nullable org.gtk.gtk.Widget widget) {
+        java.util.Objects.requireNonNullElse(widget, MemoryAddress.NULL);
         try {
-            gtk_search_entry_set_key_capture_widget.invokeExact(handle(), widget.handle());
+            DowncallHandles.gtk_search_entry_set_key_capture_widget.invokeExact(handle(), widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ActivateHandler {
+    public interface Activate {
         void signalReceived(SearchEntry source);
     }
     
@@ -141,7 +142,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
      * <p>
      * The keybindings for this signal are all forms of the Enter key.
      */
-    public SignalHandle onActivate(ActivateHandler handler) {
+    public Signal<SearchEntry.Activate> onActivate(SearchEntry.Activate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -151,16 +152,16 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<SearchEntry.Activate>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface NextMatchHandler {
+    public interface NextMatch {
         void signalReceived(SearchEntry source);
     }
     
@@ -175,7 +176,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
      * <p>
      * The default bindings for this signal is Ctrl-g.
      */
-    public SignalHandle onNextMatch(NextMatchHandler handler) {
+    public Signal<SearchEntry.NextMatch> onNextMatch(SearchEntry.NextMatch handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -185,16 +186,16 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<SearchEntry.NextMatch>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface PreviousMatchHandler {
+    public interface PreviousMatch {
         void signalReceived(SearchEntry source);
     }
     
@@ -209,7 +210,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
      * <p>
      * The default bindings for this signal is Ctrl-Shift-g.
      */
-    public SignalHandle onPreviousMatch(PreviousMatchHandler handler) {
+    public Signal<SearchEntry.PreviousMatch> onPreviousMatch(SearchEntry.PreviousMatch handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -219,16 +220,16 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<SearchEntry.PreviousMatch>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface SearchChangedHandler {
+    public interface SearchChanged {
         void signalReceived(SearchEntry source);
     }
     
@@ -236,7 +237,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
      * Emitted with a short delay of 150 milliseconds after the
      * last change to the entry text.
      */
-    public SignalHandle onSearchChanged(SearchChangedHandler handler) {
+    public Signal<SearchEntry.SearchChanged> onSearchChanged(SearchEntry.SearchChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -246,23 +247,23 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<SearchEntry.SearchChanged>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface SearchStartedHandler {
+    public interface SearchStarted {
         void signalReceived(SearchEntry source);
     }
     
     /**
      * Emitted when the user initiated a search on the entry.
      */
-    public SignalHandle onSearchStarted(SearchStartedHandler handler) {
+    public Signal<SearchEntry.SearchStarted> onSearchStarted(SearchEntry.SearchStarted handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -272,16 +273,16 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<SearchEntry.SearchStarted>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface StopSearchHandler {
+    public interface StopSearch {
         void signalReceived(SearchEntry source);
     }
     
@@ -295,7 +296,7 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
      * <p>
      * The default bindings for this signal is Escape.
      */
-    public SignalHandle onStopSearch(StopSearchHandler handler) {
+    public Signal<SearchEntry.StopSearch> onStopSearch(SearchEntry.StopSearch handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -305,51 +306,68 @@ public class SearchEntry extends Widget implements Accessible, Buildable, Constr
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<SearchEntry.StopSearch>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_search_entry_new = Interop.downcallHandle(
+            "gtk_search_entry_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_search_entry_get_key_capture_widget = Interop.downcallHandle(
+            "gtk_search_entry_get_key_capture_widget",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_search_entry_set_key_capture_widget = Interop.downcallHandle(
+            "gtk_search_entry_set_key_capture_widget",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static void signalSearchEntryActivate(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (SearchEntry.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SearchEntry(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (SearchEntry.Activate) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new SearchEntry(Refcounted.get(source)));
         }
         
         public static void signalSearchEntryNextMatch(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (SearchEntry.NextMatchHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SearchEntry(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (SearchEntry.NextMatch) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new SearchEntry(Refcounted.get(source)));
         }
         
         public static void signalSearchEntryPreviousMatch(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (SearchEntry.PreviousMatchHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SearchEntry(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (SearchEntry.PreviousMatch) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new SearchEntry(Refcounted.get(source)));
         }
         
         public static void signalSearchEntrySearchChanged(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (SearchEntry.SearchChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SearchEntry(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (SearchEntry.SearchChanged) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new SearchEntry(Refcounted.get(source)));
         }
         
         public static void signalSearchEntrySearchStarted(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (SearchEntry.SearchStartedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SearchEntry(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (SearchEntry.SearchStarted) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new SearchEntry(Refcounted.get(source)));
         }
         
         public static void signalSearchEntryStopSearch(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (SearchEntry.StopSearchHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SearchEntry(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (SearchEntry.StopSearch) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new SearchEntry(Refcounted.get(source)));
         }
-        
     }
 }

@@ -28,9 +28,22 @@ import org.jetbrains.annotations.*;
  * Each child will get the style  classes .large when it reached its maximum
  * size, .small when it's allocated the full size, .medium in-between, or none
  * if it hasn't been allocated yet.
+ * @version 1.0
  */
 public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.Orientable {
-
+    
+    static {
+        Adw.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public ClampLayout(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -40,18 +53,14 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
         return new ClampLayout(gobject.refcounted());
     }
     
-    private static final MethodHandle adw_clamp_layout_new = Interop.downcallHandle(
-        "adw_clamp_layout_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_clamp_layout_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_clamp_layout_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -61,72 +70,83 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
         super(constructNew());
     }
     
-    private static final MethodHandle adw_clamp_layout_get_maximum_size = Interop.downcallHandle(
-        "adw_clamp_layout_get_maximum_size",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the maximum size allocated to the children.
+     * @return the maximum size to allocate to the children
      */
     public int getMaximumSize() {
         int RESULT;
         try {
-            RESULT = (int) adw_clamp_layout_get_maximum_size.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_clamp_layout_get_maximum_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle adw_clamp_layout_get_tightening_threshold = Interop.downcallHandle(
-        "adw_clamp_layout_get_tightening_threshold",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the size above which the children are clamped.
+     * @return the size above which the children are clamped
      */
     public int getTighteningThreshold() {
         int RESULT;
         try {
-            RESULT = (int) adw_clamp_layout_get_tightening_threshold.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_clamp_layout_get_tightening_threshold.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle adw_clamp_layout_set_maximum_size = Interop.downcallHandle(
-        "adw_clamp_layout_set_maximum_size",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Sets the maximum size allocated to the children.
+     * @param maximumSize the maximum size
      */
-    public @NotNull void setMaximumSize(@NotNull int maximumSize) {
+    public void setMaximumSize(int maximumSize) {
         try {
-            adw_clamp_layout_set_maximum_size.invokeExact(handle(), maximumSize);
+            DowncallHandles.adw_clamp_layout_set_maximum_size.invokeExact(handle(), maximumSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_clamp_layout_set_tightening_threshold = Interop.downcallHandle(
-        "adw_clamp_layout_set_tightening_threshold",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the size above which the children are clamped.
+     * @param tighteningThreshold the tightening threshold
      */
-    public @NotNull void setTighteningThreshold(@NotNull int tighteningThreshold) {
+    public void setTighteningThreshold(int tighteningThreshold) {
         try {
-            adw_clamp_layout_set_tightening_threshold.invokeExact(handle(), tighteningThreshold);
+            DowncallHandles.adw_clamp_layout_set_tightening_threshold.invokeExact(handle(), tighteningThreshold);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle adw_clamp_layout_new = Interop.downcallHandle(
+            "adw_clamp_layout_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_clamp_layout_get_maximum_size = Interop.downcallHandle(
+            "adw_clamp_layout_get_maximum_size",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_clamp_layout_get_tightening_threshold = Interop.downcallHandle(
+            "adw_clamp_layout_get_tightening_threshold",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_clamp_layout_set_maximum_size = Interop.downcallHandle(
+            "adw_clamp_layout_set_maximum_size",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle adw_clamp_layout_set_tightening_threshold = Interop.downcallHandle(
+            "adw_clamp_layout_set_tightening_threshold",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
 }

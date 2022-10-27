@@ -21,8 +21,8 @@ import org.jetbrains.annotations.*;
  * you can use {@link PopoverMenu#addChild}.
  * <p>
  * For more dialog-like behavior, use a plain {@code GtkPopover}.
- * 
- * <h2>Menu models</h2>
+ * <p>
+ * <strong>Menu models</strong><br/>
  * The XML format understood by {@code GtkBuilder} for {@code GMenuModel} consists
  * of a toplevel {@code <menu>} element, which contains one or more {@code <item>}
  * elements. Each {@code <item>} element contains {@code <attribute>} and {@code <link>}
@@ -30,7 +30,6 @@ import org.jetbrains.annotations.*;
  * same content model as {@code <menu>}. Instead of {@code <link name="submenu">}
  * or {@code <link name="section">}, you can use {@code <submenu>} or {@code <section>}
  * elements.
- * 
  * <pre>{@code xml
  * <menu id='app-menu'>
  *   <section>
@@ -70,7 +69,7 @@ import org.jetbrains.annotations.*;
  *      Possible values include "action-disabled", "action-missing", "macos-menubar".
  *      This is mainly useful for exported menus, see {@link Application#setMenubar}.
  * <li>"custom": a string used to match against the ID of a custom child added with
- *      {@code Gtk.PopoverMenuBar.add_child},
+ *      {@link PopoverMenu#addChild}, {@link PopoverMenuBar#addChild},
  *      or in the ui file with {@code <child type="ID">}.
  * </ul>
  * <p>
@@ -96,21 +95,33 @@ import org.jetbrains.annotations.*;
  * with actions via {@link Application#setAccelsForAction},
  * {@link WidgetClass#addBindingAction} or
  * {@link ShortcutController#addShortcut}.
- * 
- * <h1>CSS Nodes</h1>
+ * <p>
+ * <strong>CSS Nodes</strong><br/>
  * {@code GtkPopoverMenu} is just a subclass of {@code GtkPopover} that adds custom content
  * to it, therefore it has the same CSS nodes. It is one of the cases that add
  * a .menu style class to the popover's main node.
- * 
- * <h1>Accessibility</h1>
+ * <p>
+ * <strong>Accessibility</strong><br/>
  * {@code GtkPopoverMenu} uses the {@link AccessibleRole#MENU} role, and its
  * items use the {@link AccessibleRole#MENU_ITEM},
  * {@link AccessibleRole#MENU_ITEM_CHECKBOX} or
  * {@link AccessibleRole#MENU_ITEM_RADIO} roles, depending on the
  * action they are connected to.
  */
-public class PopoverMenu extends Popover implements Accessible, Buildable, ConstraintTarget, Native, ShortcutManager {
-
+public class PopoverMenu extends org.gtk.gtk.Popover implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Native, org.gtk.gtk.ShortcutManager {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public PopoverMenu(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -120,18 +131,15 @@ public class PopoverMenu extends Popover implements Accessible, Buildable, Const
         return new PopoverMenu(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_popover_menu_new_from_model = Interop.downcallHandle(
-        "gtk_popover_menu_new_from_model",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNewFromModel(@Nullable org.gtk.gio.MenuModel model) {
+        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_popover_menu_new_from_model.invokeExact(model.handle()), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_popover_menu_new_from_model.invokeExact(model.handle()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -148,23 +156,23 @@ public class PopoverMenu extends Popover implements Accessible, Buildable, Const
      * This function creates menus with sliding submenus.
      * See {@link PopoverMenu#newFromModelFull} for a way
      * to control this.
+     * @param model a {@code GMenuModel}
+     * @return the new {@code GtkPopoverMenu}
      */
     public static PopoverMenu newFromModel(@Nullable org.gtk.gio.MenuModel model) {
         return new PopoverMenu(constructNewFromModel(model));
     }
     
-    private static final MethodHandle gtk_popover_menu_new_from_model_full = Interop.downcallHandle(
-        "gtk_popover_menu_new_from_model_full",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
-    private static Refcounted constructNewFromModelFull(@NotNull org.gtk.gio.MenuModel model, @NotNull PopoverMenuFlags flags) {
+    private static Refcounted constructNewFromModelFull(@NotNull org.gtk.gio.MenuModel model, @NotNull org.gtk.gtk.PopoverMenuFlags flags) {
+        java.util.Objects.requireNonNull(model, "Parameter 'model' must not be null");
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_popover_menu_new_from_model_full.invokeExact(model.handle(), flags.getValue()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_popover_menu_new_from_model_full.invokeExact(model.handle(), flags.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -179,73 +187,65 @@ public class PopoverMenu extends Popover implements Accessible, Buildable, Const
      * The only flag that is supported currently is
      * {@link PopoverMenuFlags#NESTED}, which makes GTK create traditional,
      * nested submenus instead of the default sliding submenus.
+     * @param model a {@code GMenuModel}
+     * @param flags flags that affect how the menu is created
+     * @return the new {@code GtkPopoverMenu}
      */
-    public static PopoverMenu newFromModelFull(@NotNull org.gtk.gio.MenuModel model, @NotNull PopoverMenuFlags flags) {
+    public static PopoverMenu newFromModelFull(@NotNull org.gtk.gio.MenuModel model, @NotNull org.gtk.gtk.PopoverMenuFlags flags) {
         return new PopoverMenu(constructNewFromModelFull(model, flags));
     }
-    
-    private static final MethodHandle gtk_popover_menu_add_child = Interop.downcallHandle(
-        "gtk_popover_menu_add_child",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Adds a custom widget to a generated menu.
      * <p>
      * For this to work, the menu model of {@code popover} must have
      * an item with a {@code custom} attribute that matches {@code id}.
+     * @param child the {@code GtkWidget} to add
+     * @param id the ID to insert {@code child} at
+     * @return {@code true} if {@code id} was found and the widget added
      */
-    public boolean addChild(@NotNull Widget child, @NotNull java.lang.String id) {
+    public boolean addChild(@NotNull org.gtk.gtk.Widget child, @NotNull java.lang.String id) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+        java.util.Objects.requireNonNull(id, "Parameter 'id' must not be null");
         int RESULT;
         try {
-            RESULT = (int) gtk_popover_menu_add_child.invokeExact(handle(), child.handle(), Interop.allocateNativeString(id));
+            RESULT = (int) DowncallHandles.gtk_popover_menu_add_child.invokeExact(handle(), child.handle(), Interop.allocateNativeString(id));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_popover_menu_get_menu_model = Interop.downcallHandle(
-        "gtk_popover_menu_get_menu_model",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the menu model used to populate the popover.
+     * @return the menu model of {@code popover}
      */
     public @Nullable org.gtk.gio.MenuModel getMenuModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_popover_menu_get_menu_model.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_popover_menu_get_menu_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle gtk_popover_menu_remove_child = Interop.downcallHandle(
-        "gtk_popover_menu_remove_child",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Removes a widget that has previously been added with
      * gtk_popover_menu_add_child().
+     * @param child the {@code GtkWidget} to remove
+     * @return {@code true} if the widget was removed
      */
-    public boolean removeChild(@NotNull Widget child) {
+    public boolean removeChild(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         int RESULT;
         try {
-            RESULT = (int) gtk_popover_menu_remove_child.invokeExact(handle(), child.handle());
+            RESULT = (int) DowncallHandles.gtk_popover_menu_remove_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gtk_popover_menu_set_menu_model = Interop.downcallHandle(
-        "gtk_popover_menu_set_menu_model",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets a new menu model on {@code popover}.
@@ -253,13 +253,47 @@ public class PopoverMenu extends Popover implements Accessible, Buildable, Const
      * The existing contents of {@code popover} are removed, and
      * the {@code popover} is populated with new contents according
      * to {@code model}.
+     * @param model a {@code GMenuModel}
      */
-    public @NotNull void setMenuModel(@Nullable org.gtk.gio.MenuModel model) {
+    public void setMenuModel(@Nullable org.gtk.gio.MenuModel model) {
+        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         try {
-            gtk_popover_menu_set_menu_model.invokeExact(handle(), model.handle());
+            DowncallHandles.gtk_popover_menu_set_menu_model.invokeExact(handle(), model.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_popover_menu_new_from_model = Interop.downcallHandle(
+            "gtk_popover_menu_new_from_model",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_popover_menu_new_from_model_full = Interop.downcallHandle(
+            "gtk_popover_menu_new_from_model_full",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_popover_menu_add_child = Interop.downcallHandle(
+            "gtk_popover_menu_add_child",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_popover_menu_get_menu_model = Interop.downcallHandle(
+            "gtk_popover_menu_get_menu_model",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_popover_menu_remove_child = Interop.downcallHandle(
+            "gtk_popover_menu_remove_child",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_popover_menu_set_menu_model = Interop.downcallHandle(
+            "gtk_popover_menu_set_menu_model",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

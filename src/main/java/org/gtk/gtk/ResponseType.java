@@ -1,5 +1,10 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Predefined values for use as response ids in gtk_dialog_add_button().
  * <p>
@@ -7,7 +12,15 @@ package org.gtk.gtk;
  * application-defined response ids.
  */
 public class ResponseType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Returned if an action widget has no response id,
      *   or if the dialog gets programmatically hidden or destroyed
@@ -67,5 +80,4 @@ public class ResponseType extends io.github.jwharm.javagi.Enumeration {
     public ResponseType(int value) {
         super(value);
     }
-    
 }

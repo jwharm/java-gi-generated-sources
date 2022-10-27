@@ -7,113 +7,118 @@ import org.jetbrains.annotations.*;
 
 public final class HarfBuzz {
     
+    static {
+        System.loadLibrary("harfbuzz");
+    }
+    
+    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    
     /**
      * Used when getting or setting AAT feature selectors. Indicates that
      * there is no selector index corresponding to the selector of interest.
      */
     public static final int AAT_LAYOUT_NO_SELECTOR_INDEX = 65535;
-
+    
     /**
      * The default code point for replacing invalid characters in a given encoding.
      * Set to U+FFFD REPLACEMENT CHARACTER.
      */
     public static final int BUFFER_REPLACEMENT_CODEPOINT_DEFAULT = 65533;
-
+    
     /**
-     * Special setting for {@link feature_t}.start to apply the feature from the start
+     * Special setting for {@link FeatureT}.start to apply the feature from the start
      * of the buffer.
      */
     public static final int FEATURE_GLOBAL_START = 0;
-
+    
     /**
-     * Unset {@link map_t} value.
+     * Unset {@link MapT} value.
      */
+    
     /**
      * Special value for language index indicating default or unsupported language.
      */
     public static final int OT_LAYOUT_DEFAULT_LANGUAGE_INDEX = 65535;
-
+    
     /**
      * Special value for feature index indicating unsupported feature.
      */
     public static final int OT_LAYOUT_NO_FEATURE_INDEX = 65535;
-
+    
     /**
      * Special value for script index indicating unsupported script.
      */
     public static final int OT_LAYOUT_NO_SCRIPT_INDEX = 65535;
-
+    
     /**
      * Special value for variations index indicating unsupported variation.
      */
+    
     /**
-     * Maximum number of OpenType tags that can correspond to a give {@link language_t}.
+     * Maximum number of OpenType tags that can correspond to a give {@link LanguageT}.
      */
     public static final int OT_MAX_TAGS_PER_LANGUAGE = 3;
-
+    
     /**
-     * Maximum number of OpenType tags that can correspond to a give {@link script_t}.
+     * Maximum number of OpenType tags that can correspond to a give {@link ScriptT}.
      */
     public static final int OT_MAX_TAGS_PER_SCRIPT = 3;
-
+    
     /**
      * Do not use.
      */
+    
     /**
-     * Unset {@link set_t} value.
+     * Unset {@link SetT} value.
      */
+    
     /**
      * Maximum valid Unicode code point.
      */
     public static final int UNICODE_MAX = 1114111;
-
+    
     /**
      * See Unicode 6.1 for details on the maximum decomposition length.
      */
     public static final int UNICODE_MAX_DECOMPOSITION_LEN = 19;
-
+    
     /**
      * The major component of the library version available at compile-time.
      */
     public static final int VERSION_MAJOR = 4;
-
+    
     /**
      * The micro component of the library version available at compile-time.
      */
     public static final int VERSION_MICRO = 0;
-
+    
     /**
      * The minor component of the library version available at compile-time.
      */
     public static final int VERSION_MINOR = 0;
-
+    
     /**
      * A string literal containing the library version available at compile-time.
      */
     public static final java.lang.String VERSION_STRING = "4.0.0";
-
-    private static final MethodHandle hb_aat_layout_feature_type_get_name_id = Interop.downcallHandle(
-        "hb_aat_layout_feature_type_get_name_id",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the name identifier of the specified feature type in the face's {@code name} table.
+     * @param face {@link FaceT} to work upon
+     * @param featureType The {@link AatLayoutFeatureTypeT} of the requested feature type
+     * @return Name identifier of the requested feature type
      */
-    public static @NotNull OtNameIdT aatLayoutFeatureTypeGetNameId(@NotNull FaceT face, @NotNull AatLayoutFeatureTypeT featureType) {
+    public static @NotNull org.harfbuzz.OtNameIdT aatLayoutFeatureTypeGetNameId(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.AatLayoutFeatureTypeT featureType) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(featureType, "Parameter 'featureType' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_aat_layout_feature_type_get_name_id.invokeExact(face.handle(), featureType.getValue());
+            RESULT = (int) DowncallHandles.hb_aat_layout_feature_type_get_name_id.invokeExact(face.handle(), featureType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new OtNameIdT(RESULT);
+        return new org.harfbuzz.OtNameIdT(RESULT);
     }
-    
-    private static final MethodHandle hb_aat_layout_feature_type_get_selector_infos = Interop.downcallHandle(
-        "hb_aat_layout_feature_type_get_selector_infos",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches a list of the selectors available for the specified feature in the given face.
@@ -121,176 +126,211 @@ public final class HarfBuzz {
      * If upon return, {@code default_index} is set to {@code HB_AAT_LAYOUT_NO_SELECTOR_INDEX}, then
      * the feature type is non-exclusive.  Otherwise, {@code default_index} is the index of
      * the selector that is selected by default.
+     * @param face {@link FaceT} to work upon
+     * @param featureType The {@link AatLayoutFeatureTypeT} of the requested feature type
+     * @param startOffset offset of the first feature type to retrieve
+     * @param selectorCount Input = the maximum number of selectors to return;
+     *                  Output = the actual number of selectors returned (may be zero)
+     * @param selectors A buffer pointer. The selectors available for the feature type queries.
+     * @param defaultIndex The index of the feature's default selector, if any
+     * @return Number of all available feature selectors
      */
-    public static int aatLayoutFeatureTypeGetSelectorInfos(@NotNull FaceT face, @NotNull AatLayoutFeatureTypeT featureType, @NotNull int startOffset, @NotNull Out<Integer> selectorCount, @NotNull Out<AatLayoutFeatureSelectorInfoT[]> selectors, @NotNull Out<Integer> defaultIndex) {
+    public static int aatLayoutFeatureTypeGetSelectorInfos(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.AatLayoutFeatureTypeT featureType, int startOffset, Out<Integer> selectorCount, Out<org.harfbuzz.AatLayoutFeatureSelectorInfoT[]> selectors, Out<Integer> defaultIndex) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(featureType, "Parameter 'featureType' must not be null");
+        java.util.Objects.requireNonNull(selectorCount, "Parameter 'selectorCount' must not be null");
+        java.util.Objects.requireNonNull(selectors, "Parameter 'selectors' must not be null");
+        java.util.Objects.requireNonNull(defaultIndex, "Parameter 'defaultIndex' must not be null");
         MemorySegment selectorCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment selectorsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment defaultIndexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_aat_layout_feature_type_get_selector_infos.invokeExact(face.handle(), featureType.getValue(), startOffset, (Addressable) selectorCountPOINTER.address(), (Addressable) selectorsPOINTER.address(), (Addressable) defaultIndexPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_aat_layout_feature_type_get_selector_infos.invokeExact(face.handle(), featureType.getValue(), startOffset, (Addressable) selectorCountPOINTER.address(), (Addressable) selectorsPOINTER.address(), (Addressable) defaultIndexPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         selectorCount.set(selectorCountPOINTER.get(ValueLayout.JAVA_INT, 0));
         defaultIndex.set(defaultIndexPOINTER.get(ValueLayout.JAVA_INT, 0));
-        AatLayoutFeatureSelectorInfoT[] selectorsARRAY = new AatLayoutFeatureSelectorInfoT[selectorCount.get().intValue()];
+        org.harfbuzz.AatLayoutFeatureSelectorInfoT[] selectorsARRAY = new org.harfbuzz.AatLayoutFeatureSelectorInfoT[selectorCount.get().intValue()];
         for (int I = 0; I < selectorCount.get().intValue(); I++) {
             var OBJ = selectorsPOINTER.get(ValueLayout.ADDRESS, I);
-            selectorsARRAY[I] = new AatLayoutFeatureSelectorInfoT(Refcounted.get(OBJ, false));
+            selectorsARRAY[I] = new org.harfbuzz.AatLayoutFeatureSelectorInfoT(Refcounted.get(OBJ, false));
         }
         selectors.set(selectorsARRAY);
         return RESULT;
     }
     
-    private static final MethodHandle hb_aat_layout_get_feature_types = Interop.downcallHandle(
-        "hb_aat_layout_get_feature_types",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Fetches a list of the AAT feature types included in the specified face.
+     * @param face {@link FaceT} to work upon
+     * @param startOffset offset of the first feature type to retrieve
+     * @param featureCount Input = the maximum number of feature types to return;
+     *                 Output = the actual number of feature types returned (may be zero)
+     * @param features Array of feature types found
+     * @return Number of all available feature types.
      */
-    public static int aatLayoutGetFeatureTypes(@NotNull FaceT face, @NotNull int startOffset, @NotNull Out<Integer> featureCount, @NotNull Out<AatLayoutFeatureTypeT[]> features) {
+    public static int aatLayoutGetFeatureTypes(@NotNull org.harfbuzz.FaceT face, int startOffset, Out<Integer> featureCount, Out<org.harfbuzz.AatLayoutFeatureTypeT[]> features) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(featureCount, "Parameter 'featureCount' must not be null");
+        java.util.Objects.requireNonNull(features, "Parameter 'features' must not be null");
         MemorySegment featureCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment featuresPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_aat_layout_get_feature_types.invokeExact(face.handle(), startOffset, (Addressable) featureCountPOINTER.address(), (Addressable) featuresPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_aat_layout_get_feature_types.invokeExact(face.handle(), startOffset, (Addressable) featureCountPOINTER.address(), (Addressable) featuresPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         featureCount.set(featureCountPOINTER.get(ValueLayout.JAVA_INT, 0));
-        AatLayoutFeatureTypeT[] featuresARRAY = new AatLayoutFeatureTypeT[featureCount.get().intValue()];
+        org.harfbuzz.AatLayoutFeatureTypeT[] featuresARRAY = new org.harfbuzz.AatLayoutFeatureTypeT[featureCount.get().intValue()];
         for (int I = 0; I < featureCount.get().intValue(); I++) {
             var OBJ = featuresPOINTER.get(ValueLayout.JAVA_INT, I);
-            featuresARRAY[I] = new AatLayoutFeatureTypeT(OBJ);
+            featuresARRAY[I] = new org.harfbuzz.AatLayoutFeatureTypeT(OBJ);
         }
         features.set(featuresARRAY);
         return RESULT;
     }
-    
-    private static final MethodHandle hb_aat_layout_has_positioning = Interop.downcallHandle(
-        "hb_aat_layout_has_positioning",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tests whether the specified face includes any positioning information
      * in the {@code kerx} table.
      * <p>
      * &lt;note&gt;Note: does not examine the {@code GPOS} table.&lt;/note&gt;
+     * @param face {@link FaceT} to work upon
+     * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull BoolT aatLayoutHasPositioning(@NotNull FaceT face) {
+    public static @NotNull org.harfbuzz.BoolT aatLayoutHasPositioning(@NotNull org.harfbuzz.FaceT face) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_aat_layout_has_positioning.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_aat_layout_has_positioning.invokeExact(face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_aat_layout_has_substitution = Interop.downcallHandle(
-        "hb_aat_layout_has_substitution",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tests whether the specified face includes any substitutions in the
      * {@code morx} or {@code mort} tables.
      * <p>
      * &lt;note&gt;Note: does not examine the {@code GSUB} table.&lt;/note&gt;
+     * @param face {@link FaceT} to work upon
+     * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull BoolT aatLayoutHasSubstitution(@NotNull FaceT face) {
+    public static @NotNull org.harfbuzz.BoolT aatLayoutHasSubstitution(@NotNull org.harfbuzz.FaceT face) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_aat_layout_has_substitution.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_aat_layout_has_substitution.invokeExact(face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_aat_layout_has_tracking = Interop.downcallHandle(
-        "hb_aat_layout_has_tracking",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tests whether the specified face includes any tracking information
      * in the {@code trak} table.
+     * @param face {@link FaceT} to work upon
+     * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull BoolT aatLayoutHasTracking(@NotNull FaceT face) {
+    public static @NotNull org.harfbuzz.BoolT aatLayoutHasTracking(@NotNull org.harfbuzz.FaceT face) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_aat_layout_has_tracking.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_aat_layout_has_tracking.invokeExact(face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_blob_copy_writable_or_fail = Interop.downcallHandle(
-        "hb_blob_copy_writable_or_fail",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Makes a writable copy of {@code blob}.
+     * @param blob A blob.
+     * @return The new blob, or nullptr if allocation failed
      */
-    public static @NotNull BlobT blobCopyWritableOrFail(@NotNull BlobT blob) {
+    public static @NotNull org.harfbuzz.BlobT blobCopyWritableOrFail(@NotNull org.harfbuzz.BlobT blob) {
+        java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_blob_copy_writable_or_fail.invokeExact(blob.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_blob_copy_writable_or_fail.invokeExact(blob.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BlobT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BlobT(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle hb_blob_create_from_file = Interop.downcallHandle(
-        "hb_blob_create_from_file",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Creates a new "blob" object wrapping {@code data}.  The {@code mode} parameter is used
+     * to negotiate ownership and lifecycle of {@code data}.
+     * @param data Pointer to blob data.
+     * @param length Length of {@code data} in bytes.
+     * @param mode Memory mode for {@code data}.
+     * @param userData Data parameter to pass to {@code destroy}.
+     * @param destroy Callback to call when {@code data} is not needed anymore.
+     * @return New blob, or the empty blob if something failed or if {@code length} is
+     * zero.  Destroy with hb_blob_destroy().
+     */
+    public static @NotNull org.harfbuzz.BlobT blobCreate(@NotNull java.lang.String data, int length, @NotNull org.harfbuzz.MemoryModeT mode, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Creates a new blob containing the data from the
      * specified binary font file.
+     * @param fileName A font filename
+     * @return An {@link BlobT} pointer with the content of the file,
+     * or hb_blob_get_empty() if failed.
      */
-    public static @NotNull BlobT blobCreateFromFile(@NotNull java.lang.String fileName) {
+    public static @NotNull org.harfbuzz.BlobT blobCreateFromFile(@NotNull java.lang.String fileName) {
+        java.util.Objects.requireNonNull(fileName, "Parameter 'fileName' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_blob_create_from_file.invokeExact(Interop.allocateNativeString(fileName));
+            RESULT = (MemoryAddress) DowncallHandles.hb_blob_create_from_file.invokeExact(Interop.allocateNativeString(fileName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BlobT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BlobT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_blob_create_from_file_or_fail = Interop.downcallHandle(
-        "hb_blob_create_from_file_or_fail",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Creates a new blob containing the data from the
      * specified binary font file.
+     * @param fileName A font filename
+     * @return An {@link BlobT} pointer with the content of the file,
+     * or {@code null} if failed.
      */
-    public static @NotNull BlobT blobCreateFromFileOrFail(@NotNull java.lang.String fileName) {
+    public static @NotNull org.harfbuzz.BlobT blobCreateFromFileOrFail(@NotNull java.lang.String fileName) {
+        java.util.Objects.requireNonNull(fileName, "Parameter 'fileName' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_blob_create_from_file_or_fail.invokeExact(Interop.allocateNativeString(fileName));
+            RESULT = (MemoryAddress) DowncallHandles.hb_blob_create_from_file_or_fail.invokeExact(Interop.allocateNativeString(fileName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BlobT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BlobT(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle hb_blob_create_sub_blob = Interop.downcallHandle(
-        "hb_blob_create_sub_blob",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
+    /**
+     * Creates a new "blob" object wrapping {@code data}.  The {@code mode} parameter is used
+     * to negotiate ownership and lifecycle of {@code data}.
+     * <p>
+     * Note that this function returns a freshly-allocated empty blob even if {@code length}
+     * is zero. This is in contrast to hb_blob_create(), which returns the singleton
+     * empty blob (as returned by hb_blob_get_empty()) if {@code length} is zero.
+     * @param data Pointer to blob data.
+     * @param length Length of {@code data} in bytes.
+     * @param mode Memory mode for {@code data}.
+     * @param userData Data parameter to pass to {@code destroy}.
+     * @param destroy Callback to call when {@code data} is not needed anymore.
+     * @return New blob, or {@code null} if failed.  Destroy with hb_blob_destroy().
+     */
+    public static @NotNull org.harfbuzz.BlobT blobCreateOrFail(@NotNull java.lang.String data, int length, @NotNull org.harfbuzz.MemoryModeT mode, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Returns a blob that represents a range of bytes in {@code parent}.  The new
@@ -300,21 +340,23 @@ public final class HarfBuzz {
      * is.
      * <p>
      * Makes {@code parent} immutable.
+     * @param parent Parent blob.
+     * @param offset Start offset of sub-blob within {@code parent}, in bytes.
+     * @param length Length of sub-blob.
+     * @return New blob, or the empty blob if something failed or if
+     * {@code length} is zero or {@code offset} is beyond the end of {@code parent}'s data.  Destroy
+     * with hb_blob_destroy().
      */
-    public static @NotNull BlobT blobCreateSubBlob(@NotNull BlobT parent, @NotNull int offset, @NotNull int length) {
+    public static @NotNull org.harfbuzz.BlobT blobCreateSubBlob(@NotNull org.harfbuzz.BlobT parent, int offset, int length) {
+        java.util.Objects.requireNonNull(parent, "Parameter 'parent' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_blob_create_sub_blob.invokeExact(parent.handle(), offset, length);
+            RESULT = (MemoryAddress) DowncallHandles.hb_blob_create_sub_blob.invokeExact(parent.handle(), offset, length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BlobT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BlobT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_blob_destroy = Interop.downcallHandle(
-        "hb_blob_destroy",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Decreases the reference count on {@code blob}, and if it reaches zero, destroys
@@ -322,28 +364,30 @@ public final class HarfBuzz {
      * was created for if it has not been called already.
      * <p>
      * See TODO:link object types for more information.
+     * @param blob a blob.
      */
-    public static @NotNull void blobDestroy(@NotNull BlobT blob) {
+    public static void blobDestroy(@NotNull org.harfbuzz.BlobT blob) {
+        java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
         try {
-            hb_blob_destroy.invokeExact(blob.handle());
+            DowncallHandles.hb_blob_destroy.invokeExact(blob.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle hb_blob_get_data = Interop.downcallHandle(
-        "hb_blob_get_data",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Fetches the data from a blob.
+     * @param blob a blob.
+     * @param length The length in bytes of the data retrieved
+     * @return the byte data of {@code blob}.
      */
-    public static java.lang.String[] blobGetData(@NotNull BlobT blob, @NotNull Out<Integer> length) {
+    public static @NotNull java.lang.String[] blobGetData(@NotNull org.harfbuzz.BlobT blob, Out<Integer> length) {
+        java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
+        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_blob_get_data.invokeExact(blob.handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.hb_blob_get_data.invokeExact(blob.handle(), (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -355,11 +399,6 @@ public final class HarfBuzz {
         }
         return resultARRAY;
     }
-    
-    private static final MethodHandle hb_blob_get_data_writable = Interop.downcallHandle(
-        "hb_blob_get_data_writable",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tries to make blob data writable (possibly copying it) and
@@ -367,12 +406,18 @@ public final class HarfBuzz {
      * <p>
      * Fails if blob has been made immutable, or if memory allocation
      * fails.
+     * @param blob a blob.
+     * @param length output length of the writable data.
+     * @return Writable blob data,
+     * or {@code null} if failed.
      */
-    public static java.lang.String[] blobGetDataWritable(@NotNull BlobT blob, @NotNull Out<Integer> length) {
+    public static @NotNull java.lang.String[] blobGetDataWritable(@NotNull org.harfbuzz.BlobT blob, Out<Integer> length) {
+        java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
+        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_blob_get_data_writable.invokeExact(blob.handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.hb_blob_get_data_writable.invokeExact(blob.handle(), (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -385,144 +430,139 @@ public final class HarfBuzz {
         return resultARRAY;
     }
     
-    private static final MethodHandle hb_blob_get_empty = Interop.downcallHandle(
-        "hb_blob_get_empty",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the singleton empty blob.
      * <p>
      * See TODO:link object types for more information.
+     * @return The empty blob.
      */
-    public static @NotNull BlobT blobGetEmpty() {
+    public static @NotNull org.harfbuzz.BlobT blobGetEmpty() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_blob_get_empty.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.hb_blob_get_empty.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BlobT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BlobT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_blob_get_length = Interop.downcallHandle(
-        "hb_blob_get_length",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the length of a blob's data.
+     * @param blob a blob.
+     * @return the length of {@code blob} data in bytes.
      */
-    public static int blobGetLength(@NotNull BlobT blob) {
+    public static int blobGetLength(@NotNull org.harfbuzz.BlobT blob) {
+        java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_blob_get_length.invokeExact(blob.handle());
+            RESULT = (int) DowncallHandles.hb_blob_get_length.invokeExact(blob.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle hb_blob_get_user_data = Interop.downcallHandle(
-        "hb_blob_get_user_data",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the user data associated with the specified key,
      * attached to the specified font-functions structure.
+     * @param blob a blob
+     * @param key The user-data key to query
+     * @return A pointer to the user data
      */
-    public static @Nullable java.lang.foreign.MemoryAddress blobGetUserData(@NotNull BlobT blob, @NotNull UserDataKeyT key) {
+    public static @Nullable java.lang.foreign.MemoryAddress blobGetUserData(@NotNull org.harfbuzz.BlobT blob, @NotNull org.harfbuzz.UserDataKeyT key) {
+        java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
+        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_blob_get_user_data.invokeExact(blob.handle(), key.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_blob_get_user_data.invokeExact(blob.handle(), key.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle hb_blob_is_immutable = Interop.downcallHandle(
-        "hb_blob_is_immutable",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Tests whether a blob is immutable.
+     * @param blob a blob.
+     * @return {@code true} if {@code blob} is immutable, {@code false} otherwise
      */
-    public static @NotNull BoolT blobIsImmutable(@NotNull BlobT blob) {
+    public static @NotNull org.harfbuzz.BoolT blobIsImmutable(@NotNull org.harfbuzz.BlobT blob) {
+        java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_blob_is_immutable.invokeExact(blob.handle());
+            RESULT = (int) DowncallHandles.hb_blob_is_immutable.invokeExact(blob.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_blob_make_immutable = Interop.downcallHandle(
-        "hb_blob_make_immutable",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Makes a blob immutable.
+     * @param blob a blob
      */
-    public static @NotNull void blobMakeImmutable(@NotNull BlobT blob) {
+    public static void blobMakeImmutable(@NotNull org.harfbuzz.BlobT blob) {
+        java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
         try {
-            hb_blob_make_immutable.invokeExact(blob.handle());
+            DowncallHandles.hb_blob_make_immutable.invokeExact(blob.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_blob_reference = Interop.downcallHandle(
-        "hb_blob_reference",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Increases the reference count on {@code blob}.
      * <p>
      * See TODO:link object types for more information.
+     * @param blob a blob.
+     * @return {@code blob}.
      */
-    public static @NotNull BlobT blobReference(@NotNull BlobT blob) {
+    public static @NotNull org.harfbuzz.BlobT blobReference(@NotNull org.harfbuzz.BlobT blob) {
+        java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_blob_reference.invokeExact(blob.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_blob_reference.invokeExact(blob.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BlobT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BlobT(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle hb_buffer_add = Interop.downcallHandle(
-        "hb_buffer_add",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
+    /**
+     * Attaches a user-data key/data pair to the specified blob.
+     * @param blob An {@link BlobT}
+     * @param key The user-data key to set
+     * @param data A pointer to the user data to set
+     * @param destroy A callback to call when {@code data} is not needed anymore
+     * @param replace Whether to replace an existing data with the same key
+     * @return {@code true} if success, {@code false} otherwise
+     */
+    public static @NotNull org.harfbuzz.BoolT blobSetUserData(@NotNull org.harfbuzz.BlobT blob, @NotNull org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, @NotNull org.harfbuzz.BoolT replace) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Appends a character with the Unicode value of {@code codepoint} to {@code buffer}, and
      * gives it the initial cluster value of {@code cluster}. Clusters can be any thing
      * the client wants, they are usually used to refer to the index of the
      * character in the input text stream and are output in
-     * {@link glyph_info_t}.cluster field.
+     * {@link GlyphInfoT}.cluster field.
      * <p>
      * This function does not check the validity of {@code codepoint}, it is up to the
      * caller to ensure it is a valid Unicode code point.
+     * @param buffer An {@link BufferT}
+     * @param codepoint A Unicode code point.
+     * @param cluster The cluster value of {@code codepoint}.
      */
-    public static @NotNull void bufferAdd(@NotNull BufferT buffer, @NotNull CodepointT codepoint, @NotNull int cluster) {
+    public static void bufferAdd(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.CodepointT codepoint, int cluster) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(codepoint, "Parameter 'codepoint' must not be null");
         try {
-            hb_buffer_add.invokeExact(buffer.handle(), codepoint.getValue(), cluster);
+            DowncallHandles.hb_buffer_add.invokeExact(buffer.handle(), codepoint.getValue(), cluster);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_buffer_add_codepoints = Interop.downcallHandle(
-        "hb_buffer_add_codepoints",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Appends characters from {@code text} array to {@code buffer}. The {@code item_offset} is the
@@ -537,382 +577,395 @@ public final class HarfBuzz {
      * <p>
      * This function does not check the validity of {@code text}, it is up to the caller
      * to ensure it contains a valid Unicode code points.
+     * @param buffer a {@link BufferT} to append characters to.
+     * @param text an array of Unicode code points to append.
+     * @param textLength the length of the {@code text}, or -1 if it is {@code null} terminated.
+     * @param itemOffset the offset of the first code point to add to the {@code buffer}.
+     * @param itemLength the number of code points to add to the {@code buffer}, or -1 for the
+     *               end of {@code text} (assuming it is {@code null} terminated).
      */
-    public static @NotNull void bufferAddCodepoints(@NotNull BufferT buffer, @NotNull CodepointT[] text, @NotNull int textLength, @NotNull int itemOffset, @NotNull int itemLength) {
+    public static void bufferAddCodepoints(@NotNull org.harfbuzz.BufferT buffer, org.harfbuzz.CodepointT[] text, int textLength, int itemOffset, int itemLength) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
-            hb_buffer_add_codepoints.invokeExact(buffer.handle(), Interop.allocateNativeArray(CodepointT.getIntegerValues(text)), textLength, itemOffset, itemLength);
+            DowncallHandles.hb_buffer_add_codepoints.invokeExact(buffer.handle(), Interop.allocateNativeArray(org.harfbuzz.CodepointT.getIntegerValues(text), false), textLength, itemOffset, itemLength);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_buffer_add_latin1 = Interop.downcallHandle(
-        "hb_buffer_add_latin1",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Similar to hb_buffer_add_codepoints(), but allows only access to first 256
      * Unicode code points that can fit in 8-bit strings.
      * <p>
      * &lt;note&gt;Has nothing to do with non-Unicode Latin-1 encoding.&lt;/note&gt;
+     * @param buffer An {@link BufferT}
+     * @param text an array of UTF-8
+     *               characters to append
+     * @param textLength the length of the {@code text}, or -1 if it is {@code null} terminated
+     * @param itemOffset the offset of the first character to add to the {@code buffer}
+     * @param itemLength the number of characters to add to the {@code buffer}, or -1 for the
+     *               end of {@code text} (assuming it is {@code null} terminated)
      */
-    public static @NotNull void bufferAddLatin1(@NotNull BufferT buffer, @NotNull byte[] text, @NotNull int textLength, @NotNull int itemOffset, @NotNull int itemLength) {
+    public static void bufferAddLatin1(@NotNull org.harfbuzz.BufferT buffer, byte[] text, int textLength, int itemOffset, int itemLength) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
-            hb_buffer_add_latin1.invokeExact(buffer.handle(), Interop.allocateNativeArray(text), textLength, itemOffset, itemLength);
+            DowncallHandles.hb_buffer_add_latin1.invokeExact(buffer.handle(), Interop.allocateNativeArray(text, false), textLength, itemOffset, itemLength);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_buffer_add_utf16 = Interop.downcallHandle(
-        "hb_buffer_add_utf16",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * See hb_buffer_add_codepoints().
      * <p>
      * Replaces invalid UTF-16 characters with the {@code buffer} replacement code point,
      * see hb_buffer_set_replacement_codepoint().
+     * @param buffer An {@link BufferT}
+     * @param text An array of UTF-16 characters to append
+     * @param textLength The length of the {@code text}, or -1 if it is {@code null} terminated
+     * @param itemOffset The offset of the first character to add to the {@code buffer}
+     * @param itemLength The number of characters to add to the {@code buffer}, or -1 for the
+     *               end of {@code text} (assuming it is {@code null} terminated)
      */
-    public static @NotNull void bufferAddUtf16(@NotNull BufferT buffer, @NotNull short[] text, @NotNull int textLength, @NotNull int itemOffset, @NotNull int itemLength) {
+    public static void bufferAddUtf16(@NotNull org.harfbuzz.BufferT buffer, short[] text, int textLength, int itemOffset, int itemLength) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
-            hb_buffer_add_utf16.invokeExact(buffer.handle(), Interop.allocateNativeArray(text), textLength, itemOffset, itemLength);
+            DowncallHandles.hb_buffer_add_utf16.invokeExact(buffer.handle(), Interop.allocateNativeArray(text, false), textLength, itemOffset, itemLength);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_buffer_add_utf32 = Interop.downcallHandle(
-        "hb_buffer_add_utf32",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * See hb_buffer_add_codepoints().
      * <p>
      * Replaces invalid UTF-32 characters with the {@code buffer} replacement code point,
      * see hb_buffer_set_replacement_codepoint().
+     * @param buffer An {@link BufferT}
+     * @param text An array of UTF-32 characters to append
+     * @param textLength The length of the {@code text}, or -1 if it is {@code null} terminated
+     * @param itemOffset The offset of the first character to add to the {@code buffer}
+     * @param itemLength The number of characters to add to the {@code buffer}, or -1 for the
+     *               end of {@code text} (assuming it is {@code null} terminated)
      */
-    public static @NotNull void bufferAddUtf32(@NotNull BufferT buffer, @NotNull int[] text, @NotNull int textLength, @NotNull int itemOffset, @NotNull int itemLength) {
+    public static void bufferAddUtf32(@NotNull org.harfbuzz.BufferT buffer, int[] text, int textLength, int itemOffset, int itemLength) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
-            hb_buffer_add_utf32.invokeExact(buffer.handle(), Interop.allocateNativeArray(text), textLength, itemOffset, itemLength);
+            DowncallHandles.hb_buffer_add_utf32.invokeExact(buffer.handle(), Interop.allocateNativeArray(text, false), textLength, itemOffset, itemLength);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_buffer_add_utf8 = Interop.downcallHandle(
-        "hb_buffer_add_utf8",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * See hb_buffer_add_codepoints().
      * <p>
      * Replaces invalid UTF-8 characters with the {@code buffer} replacement code point,
      * see hb_buffer_set_replacement_codepoint().
+     * @param buffer An {@link BufferT}
+     * @param text An array of UTF-8
+     *               characters to append.
+     * @param textLength The length of the {@code text}, or -1 if it is {@code null} terminated.
+     * @param itemOffset The offset of the first character to add to the {@code buffer}.
+     * @param itemLength The number of characters to add to the {@code buffer}, or -1 for the
+     *               end of {@code text} (assuming it is {@code null} terminated).
      */
-    public static @NotNull void bufferAddUtf8(@NotNull BufferT buffer, @NotNull byte[] text, @NotNull int textLength, @NotNull int itemOffset, @NotNull int itemLength) {
+    public static void bufferAddUtf8(@NotNull org.harfbuzz.BufferT buffer, byte[] text, int textLength, int itemOffset, int itemLength) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
-            hb_buffer_add_utf8.invokeExact(buffer.handle(), Interop.allocateNativeArray(text), textLength, itemOffset, itemLength);
+            DowncallHandles.hb_buffer_add_utf8.invokeExact(buffer.handle(), Interop.allocateNativeArray(text, false), textLength, itemOffset, itemLength);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_buffer_allocation_successful = Interop.downcallHandle(
-        "hb_buffer_allocation_successful",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Check if allocating memory for the buffer succeeded.
+     * @param buffer An {@link BufferT}
+     * @return {@code true} if {@code buffer} memory allocation succeeded, {@code false} otherwise.
      */
-    public static @NotNull BoolT bufferAllocationSuccessful(@NotNull BufferT buffer) {
+    public static @NotNull org.harfbuzz.BoolT bufferAllocationSuccessful(@NotNull org.harfbuzz.BufferT buffer) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_buffer_allocation_successful.invokeExact(buffer.handle());
+            RESULT = (int) DowncallHandles.hb_buffer_allocation_successful.invokeExact(buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_buffer_append = Interop.downcallHandle(
-        "hb_buffer_append",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Append (part of) contents of another buffer to this buffer.
+     * @param buffer An {@link BufferT}
+     * @param source source {@link BufferT}
+     * @param start start index into source buffer to copy.  Use 0 to copy from start of buffer.
+     * @param end end index into source buffer to copy.  Use {@code HB_FEATURE_GLOBAL_END} to copy to end of buffer.
      */
-    public static @NotNull void bufferAppend(@NotNull BufferT buffer, @NotNull BufferT source, @NotNull int start, @NotNull int end) {
+    public static void bufferAppend(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.BufferT source, int start, int end) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(source, "Parameter 'source' must not be null");
         try {
-            hb_buffer_append.invokeExact(buffer.handle(), source.handle(), start, end);
+            DowncallHandles.hb_buffer_append.invokeExact(buffer.handle(), source.handle(), start, end);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_buffer_clear_contents = Interop.downcallHandle(
-        "hb_buffer_clear_contents",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Similar to hb_buffer_reset(), but does not clear the Unicode functions and
      * the replacement code point.
+     * @param buffer An {@link BufferT}
      */
-    public static @NotNull void bufferClearContents(@NotNull BufferT buffer) {
+    public static void bufferClearContents(@NotNull org.harfbuzz.BufferT buffer) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         try {
-            hb_buffer_clear_contents.invokeExact(buffer.handle());
+            DowncallHandles.hb_buffer_clear_contents.invokeExact(buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle hb_buffer_create = Interop.downcallHandle(
-        "hb_buffer_create",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Creates a new {@link buffer_t} with all properties to defaults.
+     * Creates a new {@link BufferT} with all properties to defaults.
+     * @return A newly allocated {@link BufferT} with a reference count of 1. The initial
+     * reference count should be released with hb_buffer_destroy() when you are done
+     * using the {@link BufferT}. This function never returns {@code null}. If memory cannot
+     * be allocated, a special {@link BufferT} object will be returned on which
+     * hb_buffer_allocation_successful() returns {@code false}.
      */
-    public static @NotNull BufferT bufferCreate() {
+    public static @NotNull org.harfbuzz.BufferT bufferCreate() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_buffer_create.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_create.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BufferT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BufferT(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle hb_buffer_create_similar = Interop.downcallHandle(
-        "hb_buffer_create_similar",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Creates a new {@link buffer_t}, similar to hb_buffer_create(). The only
+     * Creates a new {@link BufferT}, similar to hb_buffer_create(). The only
      * difference is that the buffer is configured similarly to {@code src}.
+     * @param src An {@link BufferT}
+     * @return A newly allocated {@link BufferT}, similar to hb_buffer_create().
      */
-    public static @NotNull BufferT bufferCreateSimilar(@NotNull BufferT src) {
+    public static @NotNull org.harfbuzz.BufferT bufferCreateSimilar(@NotNull org.harfbuzz.BufferT src) {
+        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_buffer_create_similar.invokeExact(src.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_create_similar.invokeExact(src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BufferT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BufferT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_buffer_deserialize_glyphs = Interop.downcallHandle(
-        "hb_buffer_deserialize_glyphs",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Deserializes glyphs {@code buffer} from textual representation in the format
      * produced by hb_buffer_serialize_glyphs().
+     * @param buffer an {@link BufferT} buffer.
+     * @param buf string to deserialize
+     * @param bufLen the size of {@code buf}, or -1 if it is {@code null}-terminated
+     * @param endPtr output pointer to the character after last
+     *                               consumed one.
+     * @param font font for getting glyph IDs
+     * @param format the {@link BufferSerializeFormatT} of the input {@code buf}
+     * @return {@code true} if {@code buf} is not fully consumed, {@code false} otherwise.
      */
-    public static @NotNull BoolT bufferDeserializeGlyphs(@NotNull BufferT buffer, @NotNull java.lang.String[] buf, @NotNull int bufLen, @NotNull Out<java.lang.String> endPtr, @Nullable FontT font, @NotNull BufferSerializeFormatT format) {
+    public static @NotNull org.harfbuzz.BoolT bufferDeserializeGlyphs(@NotNull org.harfbuzz.BufferT buffer, java.lang.String[] buf, int bufLen, @NotNull Out<java.lang.String> endPtr, @Nullable org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferSerializeFormatT format) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
+        java.util.Objects.requireNonNull(endPtr, "Parameter 'endPtr' must not be null");
+        java.util.Objects.requireNonNullElse(font, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
         MemorySegment endPtrPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_buffer_deserialize_glyphs.invokeExact(buffer.handle(), Interop.allocateNativeArray(buf), bufLen, (Addressable) endPtrPOINTER.address(), font.handle(), format.getValue());
+            RESULT = (int) DowncallHandles.hb_buffer_deserialize_glyphs.invokeExact(buffer.handle(), Interop.allocateNativeArray(buf, false), bufLen, (Addressable) endPtrPOINTER.address(), font.handle(), format.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         endPtr.set(endPtrPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_buffer_deserialize_unicode = Interop.downcallHandle(
-        "hb_buffer_deserialize_unicode",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Deserializes Unicode {@code buffer} from textual representation in the format
      * produced by hb_buffer_serialize_unicode().
+     * @param buffer an {@link BufferT} buffer.
+     * @param buf string to deserialize
+     * @param bufLen the size of {@code buf}, or -1 if it is {@code null}-terminated
+     * @param endPtr output pointer to the character after last
+     *                               consumed one.
+     * @param format the {@link BufferSerializeFormatT} of the input {@code buf}
+     * @return {@code true} if {@code buf} is not fully consumed, {@code false} otherwise.
      */
-    public static @NotNull BoolT bufferDeserializeUnicode(@NotNull BufferT buffer, @NotNull java.lang.String[] buf, @NotNull int bufLen, @NotNull Out<java.lang.String> endPtr, @NotNull BufferSerializeFormatT format) {
+    public static @NotNull org.harfbuzz.BoolT bufferDeserializeUnicode(@NotNull org.harfbuzz.BufferT buffer, java.lang.String[] buf, int bufLen, @NotNull Out<java.lang.String> endPtr, @NotNull org.harfbuzz.BufferSerializeFormatT format) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
+        java.util.Objects.requireNonNull(endPtr, "Parameter 'endPtr' must not be null");
+        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
         MemorySegment endPtrPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_buffer_deserialize_unicode.invokeExact(buffer.handle(), Interop.allocateNativeArray(buf), bufLen, (Addressable) endPtrPOINTER.address(), format.getValue());
+            RESULT = (int) DowncallHandles.hb_buffer_deserialize_unicode.invokeExact(buffer.handle(), Interop.allocateNativeArray(buf, false), bufLen, (Addressable) endPtrPOINTER.address(), format.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         endPtr.set(endPtrPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_buffer_destroy = Interop.downcallHandle(
-        "hb_buffer_destroy",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Deallocate the {@code buffer}.
      * Decreases the reference count on {@code buffer} by one. If the result is zero, then
      * {@code buffer} and all associated resources are freed. See hb_buffer_reference().
+     * @param buffer An {@link BufferT}
      */
-    public static @NotNull void bufferDestroy(@NotNull BufferT buffer) {
+    public static void bufferDestroy(@NotNull org.harfbuzz.BufferT buffer) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         try {
-            hb_buffer_destroy.invokeExact(buffer.handle());
+            DowncallHandles.hb_buffer_destroy.invokeExact(buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_buffer_diff = Interop.downcallHandle(
-        "hb_buffer_diff",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * If dottedcircle_glyph is (hb_codepoint_t) -1 then {@code HB_BUFFER_DIFF_FLAG_DOTTED_CIRCLE_PRESENT}
      * and {@code HB_BUFFER_DIFF_FLAG_NOTDEF_PRESENT} are never returned.  This should be used by most
      * callers if just comparing two buffers is needed.
+     * @param buffer a buffer.
+     * @param reference other buffer to compare to.
+     * @param dottedcircleGlyph glyph id of U+25CC DOTTED CIRCLE, or (hb_codepont_t) -1.
+     * @param positionFuzz allowed absolute difference in position values.
      */
-    public static @NotNull BufferDiffFlagsT bufferDiff(@NotNull BufferT buffer, @NotNull BufferT reference, @NotNull CodepointT dottedcircleGlyph, @NotNull int positionFuzz) {
+    public static @NotNull org.harfbuzz.BufferDiffFlagsT bufferDiff(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.BufferT reference, @NotNull org.harfbuzz.CodepointT dottedcircleGlyph, int positionFuzz) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(reference, "Parameter 'reference' must not be null");
+        java.util.Objects.requireNonNull(dottedcircleGlyph, "Parameter 'dottedcircleGlyph' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_buffer_diff.invokeExact(buffer.handle(), reference.handle(), dottedcircleGlyph.getValue(), positionFuzz);
+            RESULT = (int) DowncallHandles.hb_buffer_diff.invokeExact(buffer.handle(), reference.handle(), dottedcircleGlyph.getValue(), positionFuzz);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BufferDiffFlagsT(RESULT);
+        return new org.harfbuzz.BufferDiffFlagsT(RESULT);
     }
-    
-    private static final MethodHandle hb_buffer_get_cluster_level = Interop.downcallHandle(
-        "hb_buffer_get_cluster_level",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
-     * Fetches the cluster level of a buffer. The {@link buffer_cluster_level_t}
+     * Fetches the cluster level of a buffer. The {@link BufferClusterLevelT}
      * dictates one aspect of how HarfBuzz will treat non-base characters
      * during shaping.
+     * @param buffer An {@link BufferT}
+     * @return The cluster level of {@code buffer}
      */
-    public static @NotNull BufferClusterLevelT bufferGetClusterLevel(@NotNull BufferT buffer) {
+    public static @NotNull org.harfbuzz.BufferClusterLevelT bufferGetClusterLevel(@NotNull org.harfbuzz.BufferT buffer) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_buffer_get_cluster_level.invokeExact(buffer.handle());
+            RESULT = (int) DowncallHandles.hb_buffer_get_cluster_level.invokeExact(buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BufferClusterLevelT(RESULT);
+        return new org.harfbuzz.BufferClusterLevelT(RESULT);
     }
-    
-    private static final MethodHandle hb_buffer_get_content_type = Interop.downcallHandle(
-        "hb_buffer_get_content_type",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the type of {@code buffer} contents. Buffers are either empty, contain
      * characters (before shaping), or contain glyphs (the result of shaping).
+     * @param buffer An {@link BufferT}
+     * @return The type of {@code buffer} contents
      */
-    public static @NotNull BufferContentTypeT bufferGetContentType(@NotNull BufferT buffer) {
+    public static @NotNull org.harfbuzz.BufferContentTypeT bufferGetContentType(@NotNull org.harfbuzz.BufferT buffer) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_buffer_get_content_type.invokeExact(buffer.handle());
+            RESULT = (int) DowncallHandles.hb_buffer_get_content_type.invokeExact(buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BufferContentTypeT(RESULT);
+        return new org.harfbuzz.BufferContentTypeT(RESULT);
     }
-    
-    private static final MethodHandle hb_buffer_get_direction = Interop.downcallHandle(
-        "hb_buffer_get_direction",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * See hb_buffer_set_direction()
+     * @param buffer An {@link BufferT}
+     * @return The direction of the {@code buffer}.
      */
-    public static @NotNull DirectionT bufferGetDirection(@NotNull BufferT buffer) {
+    public static @NotNull org.harfbuzz.DirectionT bufferGetDirection(@NotNull org.harfbuzz.BufferT buffer) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_buffer_get_direction.invokeExact(buffer.handle());
+            RESULT = (int) DowncallHandles.hb_buffer_get_direction.invokeExact(buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new DirectionT(RESULT);
+        return new org.harfbuzz.DirectionT(RESULT);
     }
     
-    private static final MethodHandle hb_buffer_get_empty = Interop.downcallHandle(
-        "hb_buffer_get_empty",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Fetches an empty {@link buffer_t}.
+     * Fetches an empty {@link BufferT}.
+     * @return The empty buffer
      */
-    public static @NotNull BufferT bufferGetEmpty() {
+    public static @NotNull org.harfbuzz.BufferT bufferGetEmpty() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_buffer_get_empty.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_get_empty.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BufferT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BufferT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_buffer_get_flags = Interop.downcallHandle(
-        "hb_buffer_get_flags",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
-     * Fetches the {@link buffer_flags_t} of {@code buffer}.
+     * Fetches the {@link BufferFlagsT} of {@code buffer}.
+     * @param buffer An {@link BufferT}
+     * @return The {@code buffer} flags
      */
-    public static @NotNull BufferFlagsT bufferGetFlags(@NotNull BufferT buffer) {
+    public static @NotNull org.harfbuzz.BufferFlagsT bufferGetFlags(@NotNull org.harfbuzz.BufferT buffer) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_buffer_get_flags.invokeExact(buffer.handle());
+            RESULT = (int) DowncallHandles.hb_buffer_get_flags.invokeExact(buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BufferFlagsT(RESULT);
+        return new org.harfbuzz.BufferFlagsT(RESULT);
     }
-    
-    private static final MethodHandle hb_buffer_get_glyph_infos = Interop.downcallHandle(
-        "hb_buffer_get_glyph_infos",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns {@code buffer} glyph information array.  Returned pointer
      * is valid as long as {@code buffer} contents are not modified.
+     * @param buffer An {@link BufferT}
+     * @param length The output-array length.
+     * @return The {@code buffer} glyph information array.
+     * The value valid as long as buffer has not been modified.
      */
-    public static GlyphInfoT[] bufferGetGlyphInfos(@NotNull BufferT buffer, @NotNull Out<Integer> length) {
+    public static @NotNull org.harfbuzz.GlyphInfoT[] bufferGetGlyphInfos(@NotNull org.harfbuzz.BufferT buffer, Out<Integer> length) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_buffer_get_glyph_infos.invokeExact(buffer.handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_get_glyph_infos.invokeExact(buffer.handle(), (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         length.set(lengthPOINTER.get(ValueLayout.JAVA_INT, 0));
-        GlyphInfoT[] resultARRAY = new GlyphInfoT[length.get().intValue()];
+        org.harfbuzz.GlyphInfoT[] resultARRAY = new org.harfbuzz.GlyphInfoT[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = new GlyphInfoT(Refcounted.get(OBJ, false));
+            resultARRAY[I] = new org.harfbuzz.GlyphInfoT(Refcounted.get(OBJ, false));
         }
         return resultARRAY;
     }
-    
-    private static final MethodHandle hb_buffer_get_glyph_positions = Interop.downcallHandle(
-        "hb_buffer_get_glyph_positions",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns {@code buffer} glyph position array.  Returned pointer
@@ -922,192 +975,179 @@ public final class HarfBuzz {
      * initialized to zeros, unless this function is called from
      * within a buffer message callback (see hb_buffer_set_message_func()),
      * in which case {@code null} is returned.
+     * @param buffer An {@link BufferT}
+     * @param length The output length
+     * @return The {@code buffer} glyph position array.
+     * The value valid as long as buffer has not been modified.
      */
-    public static GlyphPositionT[] bufferGetGlyphPositions(@NotNull BufferT buffer, @NotNull Out<Integer> length) {
+    public static @NotNull org.harfbuzz.GlyphPositionT[] bufferGetGlyphPositions(@NotNull org.harfbuzz.BufferT buffer, Out<Integer> length) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_buffer_get_glyph_positions.invokeExact(buffer.handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_get_glyph_positions.invokeExact(buffer.handle(), (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         length.set(lengthPOINTER.get(ValueLayout.JAVA_INT, 0));
-        GlyphPositionT[] resultARRAY = new GlyphPositionT[length.get().intValue()];
+        org.harfbuzz.GlyphPositionT[] resultARRAY = new org.harfbuzz.GlyphPositionT[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = new GlyphPositionT(Refcounted.get(OBJ, false));
+            resultARRAY[I] = new org.harfbuzz.GlyphPositionT(Refcounted.get(OBJ, false));
         }
         return resultARRAY;
     }
     
-    private static final MethodHandle hb_buffer_get_invisible_glyph = Interop.downcallHandle(
-        "hb_buffer_get_invisible_glyph",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * See hb_buffer_set_invisible_glyph().
+     * @param buffer An {@link BufferT}
+     * @return The {@code buffer} invisible {@link CodepointT}
      */
-    public static @NotNull CodepointT bufferGetInvisibleGlyph(@NotNull BufferT buffer) {
+    public static @NotNull org.harfbuzz.CodepointT bufferGetInvisibleGlyph(@NotNull org.harfbuzz.BufferT buffer) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_buffer_get_invisible_glyph.invokeExact(buffer.handle());
+            RESULT = (int) DowncallHandles.hb_buffer_get_invisible_glyph.invokeExact(buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new CodepointT(RESULT);
+        return new org.harfbuzz.CodepointT(RESULT);
     }
-    
-    private static final MethodHandle hb_buffer_get_language = Interop.downcallHandle(
-        "hb_buffer_get_language",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * See hb_buffer_set_language().
+     * @param buffer An {@link BufferT}
+     * @return The {@link LanguageT} of the buffer. Must not be freed by the caller.
      */
-    public static @NotNull LanguageT bufferGetLanguage(@NotNull BufferT buffer) {
+    public static @NotNull org.harfbuzz.LanguageT bufferGetLanguage(@NotNull org.harfbuzz.BufferT buffer) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_buffer_get_language.invokeExact(buffer.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_get_language.invokeExact(buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new LanguageT(Refcounted.get(RESULT, false));
+        return new org.harfbuzz.LanguageT(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle hb_buffer_get_length = Interop.downcallHandle(
-        "hb_buffer_get_length",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the number of items in the buffer.
+     * @param buffer An {@link BufferT}
+     * @return The {@code buffer} length.
+     * The value valid as long as buffer has not been modified.
      */
-    public static int bufferGetLength(@NotNull BufferT buffer) {
+    public static int bufferGetLength(@NotNull org.harfbuzz.BufferT buffer) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_buffer_get_length.invokeExact(buffer.handle());
+            RESULT = (int) DowncallHandles.hb_buffer_get_length.invokeExact(buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle hb_buffer_get_not_found_glyph = Interop.downcallHandle(
-        "hb_buffer_get_not_found_glyph",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * See hb_buffer_set_not_found_glyph().
+     * @param buffer An {@link BufferT}
+     * @return The {@code buffer} not-found {@link CodepointT}
      */
-    public static @NotNull CodepointT bufferGetNotFoundGlyph(@NotNull BufferT buffer) {
+    public static @NotNull org.harfbuzz.CodepointT bufferGetNotFoundGlyph(@NotNull org.harfbuzz.BufferT buffer) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_buffer_get_not_found_glyph.invokeExact(buffer.handle());
+            RESULT = (int) DowncallHandles.hb_buffer_get_not_found_glyph.invokeExact(buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new CodepointT(RESULT);
+        return new org.harfbuzz.CodepointT(RESULT);
     }
-    
-    private static final MethodHandle hb_buffer_get_replacement_codepoint = Interop.downcallHandle(
-        "hb_buffer_get_replacement_codepoint",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
-     * Fetches the {@link codepoint_t} that replaces invalid entries for a given encoding
+     * Fetches the {@link CodepointT} that replaces invalid entries for a given encoding
      * when adding text to {@code buffer}.
+     * @param buffer An {@link BufferT}
+     * @return The {@code buffer} replacement {@link CodepointT}
      */
-    public static @NotNull CodepointT bufferGetReplacementCodepoint(@NotNull BufferT buffer) {
+    public static @NotNull org.harfbuzz.CodepointT bufferGetReplacementCodepoint(@NotNull org.harfbuzz.BufferT buffer) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_buffer_get_replacement_codepoint.invokeExact(buffer.handle());
+            RESULT = (int) DowncallHandles.hb_buffer_get_replacement_codepoint.invokeExact(buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new CodepointT(RESULT);
+        return new org.harfbuzz.CodepointT(RESULT);
     }
-    
-    private static final MethodHandle hb_buffer_get_script = Interop.downcallHandle(
-        "hb_buffer_get_script",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the script of {@code buffer}.
+     * @param buffer An {@link BufferT}
+     * @return The {@link ScriptT} of the {@code buffer}
      */
-    public static @NotNull ScriptT bufferGetScript(@NotNull BufferT buffer) {
+    public static @NotNull org.harfbuzz.ScriptT bufferGetScript(@NotNull org.harfbuzz.BufferT buffer) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_buffer_get_script.invokeExact(buffer.handle());
+            RESULT = (int) DowncallHandles.hb_buffer_get_script.invokeExact(buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ScriptT(RESULT);
+        return new org.harfbuzz.ScriptT(RESULT);
     }
-    
-    private static final MethodHandle hb_buffer_get_segment_properties = Interop.downcallHandle(
-        "hb_buffer_get_segment_properties",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
-     * Sets {@code props} to the {@link segment_properties_t} of {@code buffer}.
+     * Sets {@code props} to the {@link SegmentPropertiesT} of {@code buffer}.
+     * @param buffer An {@link BufferT}
+     * @param props The output {@link SegmentPropertiesT}
      */
-    public static @NotNull void bufferGetSegmentProperties(@NotNull BufferT buffer, @NotNull Out<SegmentPropertiesT> props) {
+    public static void bufferGetSegmentProperties(@NotNull org.harfbuzz.BufferT buffer, @NotNull Out<org.harfbuzz.SegmentPropertiesT> props) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(props, "Parameter 'props' must not be null");
         MemorySegment propsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            hb_buffer_get_segment_properties.invokeExact(buffer.handle(), (Addressable) propsPOINTER.address());
+            DowncallHandles.hb_buffer_get_segment_properties.invokeExact(buffer.handle(), (Addressable) propsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        props.set(new SegmentPropertiesT(Refcounted.get(propsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        props.set(new org.harfbuzz.SegmentPropertiesT(Refcounted.get(propsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle hb_buffer_get_unicode_funcs = Interop.downcallHandle(
-        "hb_buffer_get_unicode_funcs",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the Unicode-functions structure of a buffer.
+     * @param buffer An {@link BufferT}
+     * @return The Unicode-functions structure
      */
-    public static @NotNull UnicodeFuncsT bufferGetUnicodeFuncs(@NotNull BufferT buffer) {
+    public static @NotNull org.harfbuzz.UnicodeFuncsT bufferGetUnicodeFuncs(@NotNull org.harfbuzz.BufferT buffer) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_buffer_get_unicode_funcs.invokeExact(buffer.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_get_unicode_funcs.invokeExact(buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new UnicodeFuncsT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.UnicodeFuncsT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_buffer_get_user_data = Interop.downcallHandle(
-        "hb_buffer_get_user_data",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the user data associated with the specified key,
      * attached to the specified buffer.
+     * @param buffer An {@link BufferT}
+     * @param key The user-data key to query
+     * @return A pointer to the user data
      */
-    public static @Nullable java.lang.foreign.MemoryAddress bufferGetUserData(@NotNull BufferT buffer, @NotNull UserDataKeyT key) {
+    public static @Nullable java.lang.foreign.MemoryAddress bufferGetUserData(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.UserDataKeyT key) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_buffer_get_user_data.invokeExact(buffer.handle(), key.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_get_user_data.invokeExact(buffer.handle(), key.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle hb_buffer_guess_segment_properties = Interop.downcallHandle(
-        "hb_buffer_guess_segment_properties",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets unset buffer segment properties based on buffer Unicode
@@ -1131,162 +1171,141 @@ public final class HarfBuzz {
      * taking buffer script into consideration when choosing a language.
      * Note that hb_language_get_default() is NOT threadsafe the first time
      * it is called.  See documentation for that function for details.
+     * @param buffer An {@link BufferT}
      */
-    public static @NotNull void bufferGuessSegmentProperties(@NotNull BufferT buffer) {
+    public static void bufferGuessSegmentProperties(@NotNull org.harfbuzz.BufferT buffer) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         try {
-            hb_buffer_guess_segment_properties.invokeExact(buffer.handle());
+            DowncallHandles.hb_buffer_guess_segment_properties.invokeExact(buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_buffer_has_positions = Interop.downcallHandle(
-        "hb_buffer_has_positions",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns whether {@code buffer} has glyph position data.
      * A buffer gains position data when hb_buffer_get_glyph_positions() is called on it,
      * and cleared of position data when hb_buffer_clear_contents() is called.
+     * @param buffer an {@link BufferT}.
+     * @return {@code true} if the {@code buffer} has position array, {@code false} otherwise.
      */
-    public static @NotNull BoolT bufferHasPositions(@NotNull BufferT buffer) {
+    public static @NotNull org.harfbuzz.BoolT bufferHasPositions(@NotNull org.harfbuzz.BufferT buffer) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_buffer_has_positions.invokeExact(buffer.handle());
+            RESULT = (int) DowncallHandles.hb_buffer_has_positions.invokeExact(buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_buffer_normalize_glyphs = Interop.downcallHandle(
-        "hb_buffer_normalize_glyphs",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Reorders a glyph buffer to have canonical in-cluster glyph order / position.
      * The resulting clusters should behave identical to pre-reordering clusters.
      * <p>
      * &lt;note&gt;This has nothing to do with Unicode normalization.&lt;/note&gt;
+     * @param buffer An {@link BufferT}
      */
-    public static @NotNull void bufferNormalizeGlyphs(@NotNull BufferT buffer) {
+    public static void bufferNormalizeGlyphs(@NotNull org.harfbuzz.BufferT buffer) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         try {
-            hb_buffer_normalize_glyphs.invokeExact(buffer.handle());
+            DowncallHandles.hb_buffer_normalize_glyphs.invokeExact(buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_buffer_pre_allocate = Interop.downcallHandle(
-        "hb_buffer_pre_allocate",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Pre allocates memory for {@code buffer} to fit at least {@code size} number of items.
+     * @param buffer An {@link BufferT}
+     * @param size Number of items to pre allocate.
+     * @return {@code true} if {@code buffer} memory allocation succeeded, {@code false} otherwise
      */
-    public static @NotNull BoolT bufferPreAllocate(@NotNull BufferT buffer, @NotNull int size) {
+    public static @NotNull org.harfbuzz.BoolT bufferPreAllocate(@NotNull org.harfbuzz.BufferT buffer, int size) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_buffer_pre_allocate.invokeExact(buffer.handle(), size);
+            RESULT = (int) DowncallHandles.hb_buffer_pre_allocate.invokeExact(buffer.handle(), size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_buffer_reference = Interop.downcallHandle(
-        "hb_buffer_reference",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Increases the reference count on {@code buffer} by one. This prevents {@code buffer} from
      * being destroyed until a matching call to hb_buffer_destroy() is made.
+     * @param buffer An {@link BufferT}
+     * @return The referenced {@link BufferT}.
      */
-    public static @NotNull BufferT bufferReference(@NotNull BufferT buffer) {
+    public static @NotNull org.harfbuzz.BufferT bufferReference(@NotNull org.harfbuzz.BufferT buffer) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_buffer_reference.invokeExact(buffer.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_reference.invokeExact(buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BufferT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BufferT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_buffer_reset = Interop.downcallHandle(
-        "hb_buffer_reset",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Resets the buffer to its initial status, as if it was just newly created
      * with hb_buffer_create().
+     * @param buffer An {@link BufferT}
      */
-    public static @NotNull void bufferReset(@NotNull BufferT buffer) {
+    public static void bufferReset(@NotNull org.harfbuzz.BufferT buffer) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         try {
-            hb_buffer_reset.invokeExact(buffer.handle());
+            DowncallHandles.hb_buffer_reset.invokeExact(buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_buffer_reverse = Interop.downcallHandle(
-        "hb_buffer_reverse",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Reverses buffer contents.
+     * @param buffer An {@link BufferT}
      */
-    public static @NotNull void bufferReverse(@NotNull BufferT buffer) {
+    public static void bufferReverse(@NotNull org.harfbuzz.BufferT buffer) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         try {
-            hb_buffer_reverse.invokeExact(buffer.handle());
+            DowncallHandles.hb_buffer_reverse.invokeExact(buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_buffer_reverse_clusters = Interop.downcallHandle(
-        "hb_buffer_reverse_clusters",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Reverses buffer clusters.  That is, the buffer contents are
      * reversed, then each cluster (consecutive items having the
      * same cluster number) are reversed again.
+     * @param buffer An {@link BufferT}
      */
-    public static @NotNull void bufferReverseClusters(@NotNull BufferT buffer) {
+    public static void bufferReverseClusters(@NotNull org.harfbuzz.BufferT buffer) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         try {
-            hb_buffer_reverse_clusters.invokeExact(buffer.handle());
+            DowncallHandles.hb_buffer_reverse_clusters.invokeExact(buffer.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_buffer_reverse_range = Interop.downcallHandle(
-        "hb_buffer_reverse_range",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Reverses buffer contents between {@code start} and {@code end}.
+     * @param buffer An {@link BufferT}
+     * @param start start index
+     * @param end end index
      */
-    public static @NotNull void bufferReverseRange(@NotNull BufferT buffer, @NotNull int start, @NotNull int end) {
+    public static void bufferReverseRange(@NotNull org.harfbuzz.BufferT buffer, int start, int end) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         try {
-            hb_buffer_reverse_range.invokeExact(buffer.handle(), start, end);
+            DowncallHandles.hb_buffer_reverse_range.invokeExact(buffer.handle(), start, end);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_buffer_serialize = Interop.downcallHandle(
-        "hb_buffer_serialize",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Serializes {@code buffer} into a textual representation of its content, whether
@@ -1294,14 +1313,33 @@ public final class HarfBuzz {
      * useful for showing the contents of the buffer, for example during debugging.
      * See the documentation of hb_buffer_serialize_unicode() and
      * hb_buffer_serialize_glyphs() for a description of the output format.
+     * @param buffer an {@link BufferT} buffer.
+     * @param start the first item in {@code buffer} to serialize.
+     * @param end the last item in {@code buffer} to serialize.
+     * @param buf output string to
+     *       write serialized buffer into.
+     * @param bufSize the size of {@code buf}.
+     * @param bufConsumed if not {@code null}, will be set to the number of byes written into {@code buf}.
+     * @param font the {@link FontT} used to shape this buffer, needed to
+     *        read glyph names and extents. If {@code null}, and empty font will be used.
+     * @param format the {@link BufferSerializeFormatT} to use for formatting the output.
+     * @param flags the {@link BufferSerializeFlagsT} that control what glyph properties
+     *         to serialize.
+     * @return The number of serialized items.
      */
-    public static int bufferSerialize(@NotNull BufferT buffer, @NotNull int start, @NotNull int end, @NotNull Out<byte[]> buf, @NotNull Out<Integer> bufSize, @NotNull Out<Integer> bufConsumed, @Nullable FontT font, @NotNull BufferSerializeFormatT format, @NotNull BufferSerializeFlagsT flags) {
+    public static int bufferSerialize(@NotNull org.harfbuzz.BufferT buffer, int start, int end, Out<byte[]> buf, Out<Integer> bufSize, Out<Integer> bufConsumed, @Nullable org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferSerializeFormatT format, @NotNull org.harfbuzz.BufferSerializeFlagsT flags) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
+        java.util.Objects.requireNonNull(bufConsumed, "Parameter 'bufConsumed' must not be null");
+        java.util.Objects.requireNonNullElse(font, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment bufSizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment bufConsumedPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_buffer_serialize.invokeExact(buffer.handle(), start, end, (Addressable) bufPOINTER.address(), (Addressable) bufSizePOINTER.address(), (Addressable) bufConsumedPOINTER.address(), font.handle(), format.getValue(), flags.getValue());
+            RESULT = (int) DowncallHandles.hb_buffer_serialize.invokeExact(buffer.handle(), start, end, (Addressable) bufPOINTER.address(), (Addressable) bufSizePOINTER.address(), (Addressable) bufConsumedPOINTER.address(), font.handle(), format.getValue(), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1311,59 +1349,50 @@ public final class HarfBuzz {
         return RESULT;
     }
     
-    private static final MethodHandle hb_buffer_serialize_format_from_string = Interop.downcallHandle(
-        "hb_buffer_serialize_format_from_string",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
-     * Parses a string into an {@link buffer_serialize_format_t}. Does not check if
+     * Parses a string into an {@link BufferSerializeFormatT}. Does not check if
      * {@code str} is a valid buffer serialization format, use
      * hb_buffer_serialize_list_formats() to get the list of supported formats.
+     * @param str a string to parse
+     * @param len length of {@code str}, or -1 if string is {@code null} terminated
+     * @return The parsed {@link BufferSerializeFormatT}.
      */
-    public static @NotNull BufferSerializeFormatT bufferSerializeFormatFromString(@NotNull byte[] str, @NotNull int len) {
+    public static @NotNull org.harfbuzz.BufferSerializeFormatT bufferSerializeFormatFromString(byte[] str, int len) {
+        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_buffer_serialize_format_from_string.invokeExact(Interop.allocateNativeArray(str), len);
+            RESULT = (int) DowncallHandles.hb_buffer_serialize_format_from_string.invokeExact(Interop.allocateNativeArray(str, false), len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BufferSerializeFormatT(RESULT);
+        return new org.harfbuzz.BufferSerializeFormatT(RESULT);
     }
-    
-    private static final MethodHandle hb_buffer_serialize_format_to_string = Interop.downcallHandle(
-        "hb_buffer_serialize_format_to_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Converts {@code format} to the string corresponding it, or {@code null} if it is not a valid
-     * {@link buffer_serialize_format_t}.
+     * {@link BufferSerializeFormatT}.
+     * @param format an {@link BufferSerializeFormatT} to convert.
+     * @return A {@code null} terminated string corresponding to {@code format}. Should not be freed.
      */
-    public static @NotNull java.lang.String bufferSerializeFormatToString(@NotNull BufferSerializeFormatT format) {
+    public static @NotNull java.lang.String bufferSerializeFormatToString(@NotNull org.harfbuzz.BufferSerializeFormatT format) {
+        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_buffer_serialize_format_to_string.invokeExact(format.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_serialize_format_to_string.invokeExact(format.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle hb_buffer_serialize_glyphs = Interop.downcallHandle(
-        "hb_buffer_serialize_glyphs",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Serializes {@code buffer} into a textual representation of its glyph content,
      * useful for showing the contents of the buffer, for example during debugging.
      * There are currently two supported serialization formats:
-     * 
-     * <h2>text</h2>
+     * <p>
+     * <strong>text</strong><br/>
      * A human-readable, plain text format.
      * The serialized glyphs will look something like:
-     * 
      * <pre>{@code 
      * [uni0651=0@518,0+0|uni0628=0+1897]
      * }</pre>
@@ -1372,42 +1401,61 @@ public final class HarfBuzz {
      * <li>Glyphs are separated with {@code |}
      * <li>Each glyph starts with glyph name, or glyph index if
      *   {@code HB_BUFFER_SERIALIZE_FLAG_NO_GLYPH_NAMES} flag is set. Then,
-     * <li>If {@code HB_BUFFER_SERIALIZE_FLAG_NO_CLUSTERS} is not set, {@code =} then {@link glyph_info_t}.cluster.
-     * <li>If {@code HB_BUFFER_SERIALIZE_FLAG_NO_POSITIONS} is not set, the {@link glyph_position_t} in the format:
-     * <li>If both {@link glyph_position_t}.x_offset and {@link glyph_position_t}.y_offset are not 0, {@code @x_offset,y_offset}. Then,
-     * <li>{@code +x_advance}, then {@code ,y_advance} if {@link glyph_position_t}.y_advance is not 0. Then,
-     * <li>If {@code HB_BUFFER_SERIALIZE_FLAG_GLYPH_EXTENTS} is set, the {@link glyph_extents_t} in the format {@code <x_bearing,y_bearing,width,height>}
-     * 
-     * <h2>json</h2>
+     * <li>If {@code HB_BUFFER_SERIALIZE_FLAG_NO_CLUSTERS} is not set, {@code =} then {@link GlyphInfoT}.cluster.
+     * <li>If {@code HB_BUFFER_SERIALIZE_FLAG_NO_POSITIONS} is not set, the {@link GlyphPositionT} in the format:
+     * <li>If both {@link GlyphPositionT}.x_offset and {@link GlyphPositionT}.y_offset are not 0, {@code @x_offset,y_offset}. Then,
+     * <li>{@code +x_advance}, then {@code ,y_advance} if {@link GlyphPositionT}.y_advance is not 0. Then,
+     * <li>If {@code HB_BUFFER_SERIALIZE_FLAG_GLYPH_EXTENTS} is set, the {@link GlyphExtentsT} in the format {@code <x_bearing,y_bearing,width,height>}
+     * </ul>
+     * <p>
+     * <strong>json</strong><br/>
      * A machine-readable, structured format.
      * The serialized glyphs will look something like:
-     * 
      * <pre>{@code 
      * [{"g":"uni0651","cl":0,"dx":518,"dy":0,"ax":0,"ay":0},
      * {"g":"uni0628","cl":0,"dx":0,"dy":0,"ax":1897,"ay":0}]
      * }</pre>
-     * </ul>
      * <p>
      * Each glyph is a JSON object, with the following properties:
      * <ul>
      * <li>{@code g}: the glyph name or glyph index if
      *   {@code HB_BUFFER_SERIALIZE_FLAG_NO_GLYPH_NAMES} flag is set.
-     * <li>{@code cl}: {@link glyph_info_t}.cluster if
+     * <li>{@code cl}: {@link GlyphInfoT}.cluster if
      *   {@code HB_BUFFER_SERIALIZE_FLAG_NO_CLUSTERS} is not set.
-     * <li>{@code dx},{@code dy},{@code ax},{@code ay}: {@link glyph_position_t}.x_offset, {@link glyph_position_t}.y_offset,
-     *    {@link glyph_position_t}.x_advance and {@link glyph_position_t}.y_advance
+     * <li>{@code dx},{@code dy},{@code ax},{@code ay}: {@link GlyphPositionT}.x_offset, {@link GlyphPositionT}.y_offset,
+     *    {@link GlyphPositionT}.x_advance and {@link GlyphPositionT}.y_advance
      *    respectively, if {@code HB_BUFFER_SERIALIZE_FLAG_NO_POSITIONS} is not set.
-     * <li>{@code xb},{@code yb},{@code w},{@code h}: {@link glyph_extents_t}.x_bearing, {@link glyph_extents_t}.y_bearing,
-     *    {@link glyph_extents_t}.width and {@link glyph_extents_t}.height respectively if
+     * <li>{@code xb},{@code yb},{@code w},{@code h}: {@link GlyphExtentsT}.x_bearing, {@link GlyphExtentsT}.y_bearing,
+     *    {@link GlyphExtentsT}.width and {@link GlyphExtentsT}.height respectively if
      *    {@code HB_BUFFER_SERIALIZE_FLAG_GLYPH_EXTENTS} is set.
+     * </ul>
+     * @param buffer an {@link BufferT} buffer.
+     * @param start the first item in {@code buffer} to serialize.
+     * @param end the last item in {@code buffer} to serialize.
+     * @param buf output string to
+     *       write serialized buffer into.
+     * @param bufSize the size of {@code buf}.
+     * @param bufConsumed if not {@code null}, will be set to the number of byes written into {@code buf}.
+     * @param font the {@link FontT} used to shape this buffer, needed to
+     *        read glyph names and extents. If {@code null}, and empty font will be used.
+     * @param format the {@link BufferSerializeFormatT} to use for formatting the output.
+     * @param flags the {@link BufferSerializeFlagsT} that control what glyph properties
+     *         to serialize.
+     * @return The number of serialized items.
      */
-    public static int bufferSerializeGlyphs(@NotNull BufferT buffer, @NotNull int start, @NotNull int end, @NotNull Out<byte[]> buf, @NotNull Out<Integer> bufSize, @NotNull Out<Integer> bufConsumed, @Nullable FontT font, @NotNull BufferSerializeFormatT format, @NotNull BufferSerializeFlagsT flags) {
+    public static int bufferSerializeGlyphs(@NotNull org.harfbuzz.BufferT buffer, int start, int end, Out<byte[]> buf, Out<Integer> bufSize, Out<Integer> bufConsumed, @Nullable org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferSerializeFormatT format, @NotNull org.harfbuzz.BufferSerializeFlagsT flags) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
+        java.util.Objects.requireNonNull(bufConsumed, "Parameter 'bufConsumed' must not be null");
+        java.util.Objects.requireNonNullElse(font, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment bufSizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment bufConsumedPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_buffer_serialize_glyphs.invokeExact(buffer.handle(), start, end, (Addressable) bufPOINTER.address(), (Addressable) bufSizePOINTER.address(), (Addressable) bufConsumedPOINTER.address(), font.handle(), format.getValue(), flags.getValue());
+            RESULT = (int) DowncallHandles.hb_buffer_serialize_glyphs.invokeExact(buffer.handle(), start, end, (Addressable) bufPOINTER.address(), (Addressable) bufSizePOINTER.address(), (Addressable) bufConsumedPOINTER.address(), font.handle(), format.getValue(), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1417,39 +1465,29 @@ public final class HarfBuzz {
         return RESULT;
     }
     
-    private static final MethodHandle hb_buffer_serialize_list_formats = Interop.downcallHandle(
-        "hb_buffer_serialize_list_formats",
-        FunctionDescriptor.ofVoid()
-    );
-    
     /**
      * Returns a list of supported buffer serialization formats.
+     * @return A string array of buffer serialization formats. Should not be freed.
      */
-    public static PointerString bufferSerializeListFormats() {
+    public static @NotNull PointerString bufferSerializeListFormats() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_buffer_serialize_list_formats.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.hb_buffer_serialize_list_formats.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerString(RESULT);
     }
     
-    private static final MethodHandle hb_buffer_serialize_unicode = Interop.downcallHandle(
-        "hb_buffer_serialize_unicode",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Serializes {@code buffer} into a textual representation of its content,
      * when the buffer contains Unicode codepoints (i.e., before shaping). This is
      * useful for showing the contents of the buffer, for example during debugging.
      * There are currently two supported serialization formats:
-     * 
-     * <h2>text</h2>
+     * <p>
+     * <strong>text</strong><br/>
      * A human-readable, plain text format.
      * The serialized codepoints will look something like:
-     * 
      * <pre>{@code 
      *  <U+0651=0|U+0628=1>
      * }</pre>
@@ -1458,30 +1496,47 @@ public final class HarfBuzz {
      * <li>Unicode codepoints are expressed as zero-padded four (or more)
      *   digit hexadecimal numbers preceded by {@code U+}
      * <li>If {@code HB_BUFFER_SERIALIZE_FLAG_NO_CLUSTERS} is not set, the cluster
-     *   will be indicated with a {@code =} then {@link glyph_info_t}.cluster.
-     * 
-     * <h2>json</h2>
+     *   will be indicated with a {@code =} then {@link GlyphInfoT}.cluster.
+     * </ul>
+     * <p>
+     * <strong>json</strong><br/>
      * A machine-readable, structured format.
      * The serialized codepoints will be a list of objects with the following
      * properties:
+     * <ul>
      * <li>{@code u}: the Unicode codepoint as a decimal integer
-     * <li>{@code cl}: {@link glyph_info_t}.cluster if
+     * <li>{@code cl}: {@link GlyphInfoT}.cluster if
      *   {@code HB_BUFFER_SERIALIZE_FLAG_NO_CLUSTERS} is not set.
      * </ul>
      * <p>
      * For example:
-     * 
      * <pre>{@code 
      * [{u:1617,cl:0},{u:1576,cl:1}]
      * }</pre>
+     * @param buffer an {@link BufferT} buffer.
+     * @param start the first item in {@code buffer} to serialize.
+     * @param end the last item in {@code buffer} to serialize.
+     * @param buf output string to
+     *       write serialized buffer into.
+     * @param bufSize the size of {@code buf}.
+     * @param bufConsumed if not {@code null}, will be set to the number of byes written into {@code buf}.
+     * @param format the {@link BufferSerializeFormatT} to use for formatting the output.
+     * @param flags the {@link BufferSerializeFlagsT} that control what glyph properties
+     *         to serialize.
+     * @return The number of serialized items.
      */
-    public static int bufferSerializeUnicode(@NotNull BufferT buffer, @NotNull int start, @NotNull int end, @NotNull Out<byte[]> buf, @NotNull Out<Integer> bufSize, @NotNull Out<Integer> bufConsumed, @NotNull BufferSerializeFormatT format, @NotNull BufferSerializeFlagsT flags) {
+    public static int bufferSerializeUnicode(@NotNull org.harfbuzz.BufferT buffer, int start, int end, Out<byte[]> buf, Out<Integer> bufSize, Out<Integer> bufConsumed, @NotNull org.harfbuzz.BufferSerializeFormatT format, @NotNull org.harfbuzz.BufferSerializeFlagsT flags) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
+        java.util.Objects.requireNonNull(bufConsumed, "Parameter 'bufConsumed' must not be null");
+        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment bufSizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment bufConsumedPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_buffer_serialize_unicode.invokeExact(buffer.handle(), start, end, (Addressable) bufPOINTER.address(), (Addressable) bufSizePOINTER.address(), (Addressable) bufConsumedPOINTER.address(), format.getValue(), flags.getValue());
+            RESULT = (int) DowncallHandles.hb_buffer_serialize_unicode.invokeExact(buffer.handle(), start, end, (Addressable) bufPOINTER.address(), (Addressable) bufSizePOINTER.address(), (Addressable) bufConsumedPOINTER.address(), format.getValue(), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1491,45 +1546,38 @@ public final class HarfBuzz {
         return RESULT;
     }
     
-    private static final MethodHandle hb_buffer_set_cluster_level = Interop.downcallHandle(
-        "hb_buffer_set_cluster_level",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
-     * Sets the cluster level of a buffer. The {@link buffer_cluster_level_t}
+     * Sets the cluster level of a buffer. The {@link BufferClusterLevelT}
      * dictates one aspect of how HarfBuzz will treat non-base characters
      * during shaping.
+     * @param buffer An {@link BufferT}
+     * @param clusterLevel The cluster level to set on the buffer
      */
-    public static @NotNull void bufferSetClusterLevel(@NotNull BufferT buffer, @NotNull BufferClusterLevelT clusterLevel) {
+    public static void bufferSetClusterLevel(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.BufferClusterLevelT clusterLevel) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(clusterLevel, "Parameter 'clusterLevel' must not be null");
         try {
-            hb_buffer_set_cluster_level.invokeExact(buffer.handle(), clusterLevel.getValue());
+            DowncallHandles.hb_buffer_set_cluster_level.invokeExact(buffer.handle(), clusterLevel.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_buffer_set_content_type = Interop.downcallHandle(
-        "hb_buffer_set_content_type",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the type of {@code buffer} contents. Buffers are either empty, contain
      * characters (before shaping), or contain glyphs (the result of shaping).
+     * @param buffer An {@link BufferT}
+     * @param contentType The type of buffer contents to set
      */
-    public static @NotNull void bufferSetContentType(@NotNull BufferT buffer, @NotNull BufferContentTypeT contentType) {
+    public static void bufferSetContentType(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.BufferContentTypeT contentType) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
         try {
-            hb_buffer_set_content_type.invokeExact(buffer.handle(), contentType.getValue());
+            DowncallHandles.hb_buffer_set_content_type.invokeExact(buffer.handle(), contentType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_buffer_set_direction = Interop.downcallHandle(
-        "hb_buffer_set_direction",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Set the text flow direction of the buffer. No shaping can happen without
@@ -1539,54 +1587,51 @@ public final class HarfBuzz {
      * reversing RTL text before shaping, then shaping with LTR direction is not
      * the same as keeping the text in logical order and shaping with RTL
      * direction.
+     * @param buffer An {@link BufferT}
+     * @param direction the {@link DirectionT} of the {@code buffer}
      */
-    public static @NotNull void bufferSetDirection(@NotNull BufferT buffer, @NotNull DirectionT direction) {
+    public static void bufferSetDirection(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.DirectionT direction) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
         try {
-            hb_buffer_set_direction.invokeExact(buffer.handle(), direction.getValue());
+            DowncallHandles.hb_buffer_set_direction.invokeExact(buffer.handle(), direction.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle hb_buffer_set_flags = Interop.downcallHandle(
-        "hb_buffer_set_flags",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
-     * Sets {@code buffer} flags to {@code flags}. See {@link buffer_flags_t}.
+     * Sets {@code buffer} flags to {@code flags}. See {@link BufferFlagsT}.
+     * @param buffer An {@link BufferT}
+     * @param flags The buffer flags to set
      */
-    public static @NotNull void bufferSetFlags(@NotNull BufferT buffer, @NotNull BufferFlagsT flags) {
+    public static void bufferSetFlags(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.BufferFlagsT flags) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         try {
-            hb_buffer_set_flags.invokeExact(buffer.handle(), flags.getValue());
+            DowncallHandles.hb_buffer_set_flags.invokeExact(buffer.handle(), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle hb_buffer_set_invisible_glyph = Interop.downcallHandle(
-        "hb_buffer_set_invisible_glyph",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
-     * Sets the {@link codepoint_t} that replaces invisible characters in
+     * Sets the {@link CodepointT} that replaces invisible characters in
      * the shaping result.  If set to zero (default), the glyph for the
      * U+0020 SPACE character is used.  Otherwise, this value is used
      * verbatim.
+     * @param buffer An {@link BufferT}
+     * @param invisible the invisible {@link CodepointT}
      */
-    public static @NotNull void bufferSetInvisibleGlyph(@NotNull BufferT buffer, @NotNull CodepointT invisible) {
+    public static void bufferSetInvisibleGlyph(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.CodepointT invisible) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(invisible, "Parameter 'invisible' must not be null");
         try {
-            hb_buffer_set_invisible_glyph.invokeExact(buffer.handle(), invisible.getValue());
+            DowncallHandles.hb_buffer_set_invisible_glyph.invokeExact(buffer.handle(), invisible.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_buffer_set_language = Interop.downcallHandle(
-        "hb_buffer_set_language",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the language of {@code buffer} to {@code language}.
@@ -1597,78 +1642,85 @@ public final class HarfBuzz {
      * different concepts and should not be confused with each other.
      * <p>
      * Use hb_language_from_string() to convert from BCP 47 language tags to
-     * {@link language_t}.
+     * {@link LanguageT}.
+     * @param buffer An {@link BufferT}
+     * @param language An hb_language_t to set
      */
-    public static @NotNull void bufferSetLanguage(@NotNull BufferT buffer, @NotNull LanguageT language) {
+    public static void bufferSetLanguage(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.LanguageT language) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
         try {
-            hb_buffer_set_language.invokeExact(buffer.handle(), language.handle());
+            DowncallHandles.hb_buffer_set_language.invokeExact(buffer.handle(), language.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_buffer_set_length = Interop.downcallHandle(
-        "hb_buffer_set_length",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Similar to hb_buffer_pre_allocate(), but clears any new items added at the
      * end.
+     * @param buffer An {@link BufferT}
+     * @param length The new length of {@code buffer}
+     * @return {@code true} if {@code buffer} memory allocation succeeded, {@code false} otherwise.
      */
-    public static @NotNull BoolT bufferSetLength(@NotNull BufferT buffer, @NotNull int length) {
+    public static @NotNull org.harfbuzz.BoolT bufferSetLength(@NotNull org.harfbuzz.BufferT buffer, int length) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_buffer_set_length.invokeExact(buffer.handle(), length);
+            RESULT = (int) DowncallHandles.hb_buffer_set_length.invokeExact(buffer.handle(), length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
     
-    private static final MethodHandle hb_buffer_set_not_found_glyph = Interop.downcallHandle(
-        "hb_buffer_set_not_found_glyph",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
+    /**
+     * Sets the implementation function for {@link BufferMessageFuncT}.
+     * @param buffer An {@link BufferT}
+     * @param func Callback function
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void bufferSetMessageFunc(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.BufferMessageFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
-     * Sets the {@link codepoint_t} that replaces characters not found in
+     * Sets the {@link CodepointT} that replaces characters not found in
      * the font during shaping.
      * <p>
      * The not-found glyph defaults to zero, sometimes knows as the
      * ".notdef" glyph.  This API allows for differentiating the two.
+     * @param buffer An {@link BufferT}
+     * @param notFound the not-found {@link CodepointT}
      */
-    public static @NotNull void bufferSetNotFoundGlyph(@NotNull BufferT buffer, @NotNull CodepointT notFound) {
+    public static void bufferSetNotFoundGlyph(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.CodepointT notFound) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(notFound, "Parameter 'notFound' must not be null");
         try {
-            hb_buffer_set_not_found_glyph.invokeExact(buffer.handle(), notFound.getValue());
+            DowncallHandles.hb_buffer_set_not_found_glyph.invokeExact(buffer.handle(), notFound.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle hb_buffer_set_replacement_codepoint = Interop.downcallHandle(
-        "hb_buffer_set_replacement_codepoint",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
-     * Sets the {@link codepoint_t} that replaces invalid entries for a given encoding
+     * Sets the {@link CodepointT} that replaces invalid entries for a given encoding
      * when adding text to {@code buffer}.
      * <p>
      * Default is {@code HB_BUFFER_REPLACEMENT_CODEPOINT_DEFAULT}.
+     * @param buffer An {@link BufferT}
+     * @param replacement the replacement {@link CodepointT}
      */
-    public static @NotNull void bufferSetReplacementCodepoint(@NotNull BufferT buffer, @NotNull CodepointT replacement) {
+    public static void bufferSetReplacementCodepoint(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.CodepointT replacement) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(replacement, "Parameter 'replacement' must not be null");
         try {
-            hb_buffer_set_replacement_codepoint.invokeExact(buffer.handle(), replacement.getValue());
+            DowncallHandles.hb_buffer_set_replacement_codepoint.invokeExact(buffer.handle(), replacement.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_buffer_set_script = Interop.downcallHandle(
-        "hb_buffer_set_script",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the script of {@code buffer} to {@code script}.
@@ -1677,447 +1729,504 @@ public final class HarfBuzz {
      * require it (e.g. Arabic) and the which OpenType features defined in the font
      * to be applied.
      * <p>
-     * You can pass one of the predefined {@link script_t} values, or use
+     * You can pass one of the predefined {@link ScriptT} values, or use
      * hb_script_from_string() or hb_script_from_iso15924_tag() to get the
      * corresponding script from an ISO 15924 script tag.
+     * @param buffer An {@link BufferT}
+     * @param script An {@link ScriptT} to set.
      */
-    public static @NotNull void bufferSetScript(@NotNull BufferT buffer, @NotNull ScriptT script) {
+    public static void bufferSetScript(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.ScriptT script) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
         try {
-            hb_buffer_set_script.invokeExact(buffer.handle(), script.getValue());
+            DowncallHandles.hb_buffer_set_script.invokeExact(buffer.handle(), script.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_buffer_set_segment_properties = Interop.downcallHandle(
-        "hb_buffer_set_segment_properties",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the segment properties of the buffer, a shortcut for calling
      * hb_buffer_set_direction(), hb_buffer_set_script() and
      * hb_buffer_set_language() individually.
+     * @param buffer An {@link BufferT}
+     * @param props An {@link SegmentPropertiesT} to use
      */
-    public static @NotNull void bufferSetSegmentProperties(@NotNull BufferT buffer, @NotNull SegmentPropertiesT props) {
+    public static void bufferSetSegmentProperties(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.SegmentPropertiesT props) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(props, "Parameter 'props' must not be null");
         try {
-            hb_buffer_set_segment_properties.invokeExact(buffer.handle(), props.handle());
+            DowncallHandles.hb_buffer_set_segment_properties.invokeExact(buffer.handle(), props.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_buffer_set_unicode_funcs = Interop.downcallHandle(
-        "hb_buffer_set_unicode_funcs",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the Unicode-functions structure of a buffer to
      * {@code unicode_funcs}.
+     * @param buffer An {@link BufferT}
+     * @param unicodeFuncs The Unicode-functions structure
      */
-    public static @NotNull void bufferSetUnicodeFuncs(@NotNull BufferT buffer, @NotNull UnicodeFuncsT unicodeFuncs) {
+    public static void bufferSetUnicodeFuncs(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.UnicodeFuncsT unicodeFuncs) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(unicodeFuncs, "Parameter 'unicodeFuncs' must not be null");
         try {
-            hb_buffer_set_unicode_funcs.invokeExact(buffer.handle(), unicodeFuncs.handle());
+            DowncallHandles.hb_buffer_set_unicode_funcs.invokeExact(buffer.handle(), unicodeFuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle hb_color_get_alpha = Interop.downcallHandle(
-        "hb_color_get_alpha",
-        FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT)
-    );
+    /**
+     * Attaches a user-data key/data pair to the specified buffer.
+     * @param buffer An {@link BufferT}
+     * @param key The user-data key
+     * @param data A pointer to the user data
+     * @param destroy A callback to call when {@code data} is not needed anymore
+     * @param replace Whether to replace an existing data with the same key
+     * @return {@code true} if success, {@code false} otherwise
+     */
+    public static @NotNull org.harfbuzz.BoolT bufferSetUserData(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, @NotNull org.harfbuzz.BoolT replace) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Fetches the alpha channel of the given {@code color}.
+     * @param color an {@link ColorT} we are interested in its channels.
+     * @return Alpha channel value
      */
-    public static byte colorGetAlpha(@NotNull ColorT color) {
+    public static byte colorGetAlpha(@NotNull org.harfbuzz.ColorT color) {
+        java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
         byte RESULT;
         try {
-            RESULT = (byte) hb_color_get_alpha.invokeExact(color.getValue());
+            RESULT = (byte) DowncallHandles.hb_color_get_alpha.invokeExact(color.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle hb_color_get_blue = Interop.downcallHandle(
-        "hb_color_get_blue",
-        FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the blue channel of the given {@code color}.
+     * @param color an {@link ColorT} we are interested in its channels.
+     * @return Blue channel value
      */
-    public static byte colorGetBlue(@NotNull ColorT color) {
+    public static byte colorGetBlue(@NotNull org.harfbuzz.ColorT color) {
+        java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
         byte RESULT;
         try {
-            RESULT = (byte) hb_color_get_blue.invokeExact(color.getValue());
+            RESULT = (byte) DowncallHandles.hb_color_get_blue.invokeExact(color.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle hb_color_get_green = Interop.downcallHandle(
-        "hb_color_get_green",
-        FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the green channel of the given {@code color}.
+     * @param color an {@link ColorT} we are interested in its channels.
+     * @return Green channel value
      */
-    public static byte colorGetGreen(@NotNull ColorT color) {
+    public static byte colorGetGreen(@NotNull org.harfbuzz.ColorT color) {
+        java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
         byte RESULT;
         try {
-            RESULT = (byte) hb_color_get_green.invokeExact(color.getValue());
+            RESULT = (byte) DowncallHandles.hb_color_get_green.invokeExact(color.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle hb_color_get_red = Interop.downcallHandle(
-        "hb_color_get_red",
-        FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the red channel of the given {@code color}.
+     * @param color an {@link ColorT} we are interested in its channels.
+     * @return Red channel value
      */
-    public static byte colorGetRed(@NotNull ColorT color) {
+    public static byte colorGetRed(@NotNull org.harfbuzz.ColorT color) {
+        java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
         byte RESULT;
         try {
-            RESULT = (byte) hb_color_get_red.invokeExact(color.getValue());
+            RESULT = (byte) DowncallHandles.hb_color_get_red.invokeExact(color.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle hb_direction_from_string = Interop.downcallHandle(
-        "hb_direction_from_string",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
-     * Converts a string to an {@link direction_t}.
+     * Converts a string to an {@link DirectionT}.
      * <p>
      * Matching is loose and applies only to the first letter. For
      * examples, "LTR" and "left-to-right" will both return {@code HB_DIRECTION_LTR}.
      * <p>
      * Unmatched strings will return {@code HB_DIRECTION_INVALID}.
+     * @param str String to convert
+     * @param len Length of {@code str}, or -1 if it is {@code null}-terminated
+     * @return The {@link DirectionT} matching {@code str}
      */
-    public static @NotNull DirectionT directionFromString(@NotNull byte[] str, @NotNull int len) {
+    public static @NotNull org.harfbuzz.DirectionT directionFromString(byte[] str, int len) {
+        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_direction_from_string.invokeExact(Interop.allocateNativeArray(str), len);
+            RESULT = (int) DowncallHandles.hb_direction_from_string.invokeExact(Interop.allocateNativeArray(str, false), len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new DirectionT(RESULT);
+        return new org.harfbuzz.DirectionT(RESULT);
     }
     
-    private static final MethodHandle hb_direction_to_string = Interop.downcallHandle(
-        "hb_direction_to_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
-     * Converts an {@link direction_t} to a string.
+     * Converts an {@link DirectionT} to a string.
+     * @param direction The {@link DirectionT} to convert
+     * @return The string corresponding to {@code direction}
      */
-    public static @NotNull java.lang.String directionToString(@NotNull DirectionT direction) {
+    public static @NotNull java.lang.String directionToString(@NotNull org.harfbuzz.DirectionT direction) {
+        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_direction_to_string.invokeExact(direction.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.hb_direction_to_string.invokeExact(direction.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle hb_draw_close_path = Interop.downcallHandle(
-        "hb_draw_close_path",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Perform a "close-path" draw operation.
+     * @param dfuncs draw functions
+     * @param drawData associated draw data passed by the caller
+     * @param st current draw state
      */
-    public static @NotNull void drawClosePath(@NotNull DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, @NotNull DrawStateT st) {
+    public static void drawClosePath(@NotNull org.harfbuzz.DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, @NotNull org.harfbuzz.DrawStateT st) {
+        java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
+        java.util.Objects.requireNonNullElse(drawData, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(st, "Parameter 'st' must not be null");
         try {
-            hb_draw_close_path.invokeExact(dfuncs.handle(), drawData, st.handle());
+            DowncallHandles.hb_draw_close_path.invokeExact(dfuncs.handle(), drawData, st.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_draw_cubic_to = Interop.downcallHandle(
-        "hb_draw_cubic_to",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
-    );
     
     /**
      * Perform a "cubic-to" draw operation.
+     * @param dfuncs draw functions
+     * @param drawData associated draw data passed by the caller
+     * @param st current draw state
+     * @param control1X X component of first control point
+     * @param control1Y Y component of first control point
+     * @param control2X X component of second control point
+     * @param control2Y Y component of second control point
+     * @param toX X component of target point
+     * @param toY Y component of target point
      */
-    public static @NotNull void drawCubicTo(@NotNull DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, @NotNull DrawStateT st, @NotNull float control1X, @NotNull float control1Y, @NotNull float control2X, @NotNull float control2Y, @NotNull float toX, @NotNull float toY) {
+    public static void drawCubicTo(@NotNull org.harfbuzz.DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, @NotNull org.harfbuzz.DrawStateT st, float control1X, float control1Y, float control2X, float control2Y, float toX, float toY) {
+        java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
+        java.util.Objects.requireNonNullElse(drawData, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(st, "Parameter 'st' must not be null");
         try {
-            hb_draw_cubic_to.invokeExact(dfuncs.handle(), drawData, st.handle(), control1X, control1Y, control2X, control2Y, toX, toY);
+            DowncallHandles.hb_draw_cubic_to.invokeExact(dfuncs.handle(), drawData, st.handle(), control1X, control1Y, control2X, control2Y, toX, toY);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_draw_funcs_create = Interop.downcallHandle(
-        "hb_draw_funcs_create",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Creates a new draw callbacks object.
+     * @return A newly allocated {@link DrawFuncsT} with a reference count of 1. The initial
+     * reference count should be released with hb_draw_funcs_destroy when you are
+     * done using the {@link DrawFuncsT}. This function never returns {@code null}. If
+     * memory cannot be allocated, a special singleton {@link DrawFuncsT} object will
+     * be returned.
      */
-    public static @NotNull DrawFuncsT drawFuncsCreate() {
+    public static @NotNull org.harfbuzz.DrawFuncsT drawFuncsCreate() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_draw_funcs_create.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.hb_draw_funcs_create.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new DrawFuncsT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.DrawFuncsT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_draw_funcs_destroy = Interop.downcallHandle(
-        "hb_draw_funcs_destroy",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Deallocate the {@code dfuncs}.
      * Decreases the reference count on {@code dfuncs} by one. If the result is zero, then
      * {@code dfuncs} and all associated resources are freed. See hb_draw_funcs_reference().
+     * @param dfuncs draw functions
      */
-    public static @NotNull void drawFuncsDestroy(@NotNull DrawFuncsT dfuncs) {
+    public static void drawFuncsDestroy(@NotNull org.harfbuzz.DrawFuncsT dfuncs) {
+        java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
         try {
-            hb_draw_funcs_destroy.invokeExact(dfuncs.handle());
+            DowncallHandles.hb_draw_funcs_destroy.invokeExact(dfuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_draw_funcs_is_immutable = Interop.downcallHandle(
-        "hb_draw_funcs_is_immutable",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Checks whether {@code dfuncs} is immutable.
+     * @param dfuncs draw functions
+     * @return {@code true} if {@code dfuncs} is immutable, {@code false} otherwise
      */
-    public static @NotNull BoolT drawFuncsIsImmutable(@NotNull DrawFuncsT dfuncs) {
+    public static @NotNull org.harfbuzz.BoolT drawFuncsIsImmutable(@NotNull org.harfbuzz.DrawFuncsT dfuncs) {
+        java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_draw_funcs_is_immutable.invokeExact(dfuncs.handle());
+            RESULT = (int) DowncallHandles.hb_draw_funcs_is_immutable.invokeExact(dfuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_draw_funcs_make_immutable = Interop.downcallHandle(
-        "hb_draw_funcs_make_immutable",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Makes {@code dfuncs} object immutable.
+     * @param dfuncs draw functions
      */
-    public static @NotNull void drawFuncsMakeImmutable(@NotNull DrawFuncsT dfuncs) {
+    public static void drawFuncsMakeImmutable(@NotNull org.harfbuzz.DrawFuncsT dfuncs) {
+        java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
         try {
-            hb_draw_funcs_make_immutable.invokeExact(dfuncs.handle());
+            DowncallHandles.hb_draw_funcs_make_immutable.invokeExact(dfuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_draw_funcs_reference = Interop.downcallHandle(
-        "hb_draw_funcs_reference",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Increases the reference count on {@code dfuncs} by one. This prevents {@code buffer} from
      * being destroyed until a matching call to hb_draw_funcs_destroy() is made.
+     * @param dfuncs draw functions
+     * @return The referenced {@link DrawFuncsT}.
      */
-    public static @NotNull DrawFuncsT drawFuncsReference(@NotNull DrawFuncsT dfuncs) {
+    public static @NotNull org.harfbuzz.DrawFuncsT drawFuncsReference(@NotNull org.harfbuzz.DrawFuncsT dfuncs) {
+        java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_draw_funcs_reference.invokeExact(dfuncs.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_draw_funcs_reference.invokeExact(dfuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new DrawFuncsT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.DrawFuncsT(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle hb_draw_line_to = Interop.downcallHandle(
-        "hb_draw_line_to",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
-    );
+    /**
+     * Sets close-path callback to the draw functions object.
+     * @param dfuncs draw functions object
+     * @param func close-path callback
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void drawFuncsSetClosePathFunc(@NotNull org.harfbuzz.DrawFuncsT dfuncs, @NotNull org.harfbuzz.DrawClosePathFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets cubic-to callback to the draw functions object.
+     * @param dfuncs draw functions
+     * @param func cubic-to callback
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void drawFuncsSetCubicToFunc(@NotNull org.harfbuzz.DrawFuncsT dfuncs, @NotNull org.harfbuzz.DrawCubicToFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets line-to callback to the draw functions object.
+     * @param dfuncs draw functions object
+     * @param func line-to callback
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void drawFuncsSetLineToFunc(@NotNull org.harfbuzz.DrawFuncsT dfuncs, @NotNull org.harfbuzz.DrawLineToFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets move-to callback to the draw functions object.
+     * @param dfuncs draw functions object
+     * @param func move-to callback
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void drawFuncsSetMoveToFunc(@NotNull org.harfbuzz.DrawFuncsT dfuncs, @NotNull org.harfbuzz.DrawMoveToFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets quadratic-to callback to the draw functions object.
+     * @param dfuncs draw functions object
+     * @param func quadratic-to callback
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void drawFuncsSetQuadraticToFunc(@NotNull org.harfbuzz.DrawFuncsT dfuncs, @NotNull org.harfbuzz.DrawQuadraticToFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Perform a "line-to" draw operation.
+     * @param dfuncs draw functions
+     * @param drawData associated draw data passed by the caller
+     * @param st current draw state
+     * @param toX X component of target point
+     * @param toY Y component of target point
      */
-    public static @NotNull void drawLineTo(@NotNull DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, @NotNull DrawStateT st, @NotNull float toX, @NotNull float toY) {
+    public static void drawLineTo(@NotNull org.harfbuzz.DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, @NotNull org.harfbuzz.DrawStateT st, float toX, float toY) {
+        java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
+        java.util.Objects.requireNonNullElse(drawData, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(st, "Parameter 'st' must not be null");
         try {
-            hb_draw_line_to.invokeExact(dfuncs.handle(), drawData, st.handle(), toX, toY);
+            DowncallHandles.hb_draw_line_to.invokeExact(dfuncs.handle(), drawData, st.handle(), toX, toY);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_draw_move_to = Interop.downcallHandle(
-        "hb_draw_move_to",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
-    );
     
     /**
      * Perform a "move-to" draw operation.
+     * @param dfuncs draw functions
+     * @param drawData associated draw data passed by the caller
+     * @param st current draw state
+     * @param toX X component of target point
+     * @param toY Y component of target point
      */
-    public static @NotNull void drawMoveTo(@NotNull DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, @NotNull DrawStateT st, @NotNull float toX, @NotNull float toY) {
+    public static void drawMoveTo(@NotNull org.harfbuzz.DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, @NotNull org.harfbuzz.DrawStateT st, float toX, float toY) {
+        java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
+        java.util.Objects.requireNonNullElse(drawData, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(st, "Parameter 'st' must not be null");
         try {
-            hb_draw_move_to.invokeExact(dfuncs.handle(), drawData, st.handle(), toX, toY);
+            DowncallHandles.hb_draw_move_to.invokeExact(dfuncs.handle(), drawData, st.handle(), toX, toY);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_draw_quadratic_to = Interop.downcallHandle(
-        "hb_draw_quadratic_to",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
-    );
     
     /**
      * Perform a "quadratic-to" draw operation.
+     * @param dfuncs draw functions
+     * @param drawData associated draw data passed by the caller
+     * @param st current draw state
+     * @param controlX X component of control point
+     * @param controlY Y component of control point
+     * @param toX X component of target point
+     * @param toY Y component of target point
      */
-    public static @NotNull void drawQuadraticTo(@NotNull DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, @NotNull DrawStateT st, @NotNull float controlX, @NotNull float controlY, @NotNull float toX, @NotNull float toY) {
+    public static void drawQuadraticTo(@NotNull org.harfbuzz.DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, @NotNull org.harfbuzz.DrawStateT st, float controlX, float controlY, float toX, float toY) {
+        java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
+        java.util.Objects.requireNonNullElse(drawData, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(st, "Parameter 'st' must not be null");
         try {
-            hb_draw_quadratic_to.invokeExact(dfuncs.handle(), drawData, st.handle(), controlX, controlY, toX, toY);
+            DowncallHandles.hb_draw_quadratic_to.invokeExact(dfuncs.handle(), drawData, st.handle(), controlX, controlY, toX, toY);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_face_builder_add_table = Interop.downcallHandle(
-        "hb_face_builder_add_table",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Add table for {@code tag} with data provided by {@code blob} to the face.  {@code face} must
      * be created using hb_face_builder_create().
+     * @param face A face object created with hb_face_builder_create()
+     * @param tag The {@link TagT} of the table to add
+     * @param blob The blob containing the table data to add
      */
-    public static @NotNull BoolT faceBuilderAddTable(@NotNull FaceT face, @NotNull TagT tag, @NotNull BlobT blob) {
+    public static @NotNull org.harfbuzz.BoolT faceBuilderAddTable(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tag, @NotNull org.harfbuzz.BlobT blob) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+        java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_face_builder_add_table.invokeExact(face.handle(), tag.getValue(), blob.handle());
+            RESULT = (int) DowncallHandles.hb_face_builder_add_table.invokeExact(face.handle(), tag.getValue(), blob.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_face_builder_create = Interop.downcallHandle(
-        "hb_face_builder_create",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
-     * Creates a {@link face_t} that can be used with hb_face_builder_add_table().
+     * Creates a {@link FaceT} that can be used with hb_face_builder_add_table().
      * After tables are added to the face, it can be compiled to a binary
      * font file by calling hb_face_reference_blob().
+     * @return New face.
      */
-    public static @NotNull FaceT faceBuilderCreate() {
+    public static @NotNull org.harfbuzz.FaceT faceBuilderCreate() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_face_builder_create.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.hb_face_builder_create.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new FaceT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.FaceT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_face_collect_unicodes = Interop.downcallHandle(
-        "hb_face_collect_unicodes",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Collects all of the Unicode characters covered by {@code face} and adds
-     * them to the {@link set_t} set {@code out}.
+     * them to the {@link SetT} set {@code out}.
+     * @param face A face object
+     * @param out The set to add Unicode characters to
      */
-    public static @NotNull void faceCollectUnicodes(@NotNull FaceT face, @NotNull SetT out) {
+    public static void faceCollectUnicodes(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.SetT out) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(out, "Parameter 'out' must not be null");
         try {
-            hb_face_collect_unicodes.invokeExact(face.handle(), out.handle());
+            DowncallHandles.hb_face_collect_unicodes.invokeExact(face.handle(), out.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_face_collect_variation_selectors = Interop.downcallHandle(
-        "hb_face_collect_variation_selectors",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Collects all Unicode "Variation Selector" characters covered by {@code face} and adds
-     * them to the {@link set_t} set {@code out}.
+     * them to the {@link SetT} set {@code out}.
+     * @param face A face object
+     * @param out The set to add Variation Selector characters to
      */
-    public static @NotNull void faceCollectVariationSelectors(@NotNull FaceT face, @NotNull SetT out) {
+    public static void faceCollectVariationSelectors(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.SetT out) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(out, "Parameter 'out' must not be null");
         try {
-            hb_face_collect_variation_selectors.invokeExact(face.handle(), out.handle());
+            DowncallHandles.hb_face_collect_variation_selectors.invokeExact(face.handle(), out.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_face_collect_variation_unicodes = Interop.downcallHandle(
-        "hb_face_collect_variation_unicodes",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Collects all Unicode characters for {@code variation_selector} covered by {@code face} and adds
-     * them to the {@link set_t} set {@code out}.
+     * them to the {@link SetT} set {@code out}.
+     * @param face A face object
+     * @param variationSelector The Variation Selector to query
+     * @param out The set to add Unicode characters to
      */
-    public static @NotNull void faceCollectVariationUnicodes(@NotNull FaceT face, @NotNull CodepointT variationSelector, @NotNull SetT out) {
+    public static void faceCollectVariationUnicodes(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.CodepointT variationSelector, @NotNull org.harfbuzz.SetT out) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(variationSelector, "Parameter 'variationSelector' must not be null");
+        java.util.Objects.requireNonNull(out, "Parameter 'out' must not be null");
         try {
-            hb_face_collect_variation_unicodes.invokeExact(face.handle(), variationSelector.getValue(), out.handle());
+            DowncallHandles.hb_face_collect_variation_unicodes.invokeExact(face.handle(), variationSelector.getValue(), out.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle hb_face_count = Interop.downcallHandle(
-        "hb_face_count",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Fetches the number of faces in a blob.
+     * @param blob a blob.
+     * @return Number of faces in {@code blob}
      */
-    public static int faceCount(@NotNull BlobT blob) {
+    public static int faceCount(@NotNull org.harfbuzz.BlobT blob) {
+        java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_face_count.invokeExact(blob.handle());
+            RESULT = (int) DowncallHandles.hb_face_count.invokeExact(blob.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle hb_face_create = Interop.downcallHandle(
-        "hb_face_create",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Constructs a new face object from the specified blob and
@@ -2134,267 +2243,263 @@ public final class HarfBuzz {
      * &lt;note&gt;Note: The high 16-bits of {@code index}, if non-zero, are used by
      * hb_font_create() to load named-instances in variable fonts.  See
      * hb_font_create() for details.&lt;/note&gt;
+     * @param blob {@link BlobT} to work upon
+     * @param index The index of the face within {@code blob}
+     * @return The new face object
      */
-    public static @NotNull FaceT faceCreate(@NotNull BlobT blob, @NotNull int index) {
+    public static @NotNull org.harfbuzz.FaceT faceCreate(@NotNull org.harfbuzz.BlobT blob, int index) {
+        java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_face_create.invokeExact(blob.handle(), index);
+            RESULT = (MemoryAddress) DowncallHandles.hb_face_create.invokeExact(blob.handle(), index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new FaceT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.FaceT(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle hb_face_destroy = Interop.downcallHandle(
-        "hb_face_destroy",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
+    /**
+     * Variant of hb_face_create(), built for those cases where it is more
+     * convenient to provide data for individual tables instead of the whole font
+     * data. With the caveat that hb_face_get_table_tags() does not currently work
+     * with faces created this way.
+     * <p>
+     * Creates a new face object from the specified {@code user_data} and {@code reference_table_func},
+     * with the {@code destroy} callback.
+     * @param referenceTableFunc Table-referencing function
+     * @param userData A pointer to the user data
+     * @param destroy A callback to call when {@code data} is not needed anymore
+     * @return The new face object
+     */
+    public static @NotNull org.harfbuzz.FaceT faceCreateForTables(@NotNull org.harfbuzz.ReferenceTableFuncT referenceTableFunc, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Decreases the reference count on a face object. When the
      * reference count reaches zero, the face is destroyed,
      * freeing all memory.
+     * @param face A face object
      */
-    public static @NotNull void faceDestroy(@NotNull FaceT face) {
+    public static void faceDestroy(@NotNull org.harfbuzz.FaceT face) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         try {
-            hb_face_destroy.invokeExact(face.handle());
+            DowncallHandles.hb_face_destroy.invokeExact(face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_face_get_empty = Interop.downcallHandle(
-        "hb_face_get_empty",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the singleton empty face object.
+     * @return The empty face object
      */
-    public static @NotNull FaceT faceGetEmpty() {
+    public static @NotNull org.harfbuzz.FaceT faceGetEmpty() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_face_get_empty.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.hb_face_get_empty.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new FaceT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.FaceT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_face_get_glyph_count = Interop.downcallHandle(
-        "hb_face_get_glyph_count",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the glyph-count value of the specified face object.
+     * @param face A face object
+     * @return The glyph-count value of {@code face}
      */
-    public static int faceGetGlyphCount(@NotNull FaceT face) {
+    public static int faceGetGlyphCount(@NotNull org.harfbuzz.FaceT face) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_face_get_glyph_count.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_face_get_glyph_count.invokeExact(face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle hb_face_get_index = Interop.downcallHandle(
-        "hb_face_get_index",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the face-index corresponding to the given face.
      * <p>
      * &lt;note&gt;Note: face indices within a collection are zero-based.&lt;/note&gt;
+     * @param face A face object
+     * @return The index of {@code face}.
      */
-    public static int faceGetIndex(@NotNull FaceT face) {
+    public static int faceGetIndex(@NotNull org.harfbuzz.FaceT face) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_face_get_index.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_face_get_index.invokeExact(face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle hb_face_get_table_tags = Interop.downcallHandle(
-        "hb_face_get_table_tags",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Fetches a list of all table tags for a face, if possible. The list returned will
      * begin at the offset provided
+     * @param face A face object
+     * @param startOffset The index of first table tag to retrieve
+     * @param tableCount Input = the maximum number of table tags to return;
+     *                Output = the actual number of table tags returned (may be zero)
+     * @param tableTags The array of table tags found
+     * @return Total number of tables, or zero if it is not possible to list
      */
-    public static int faceGetTableTags(@NotNull FaceT face, @NotNull int startOffset, @NotNull Out<Integer> tableCount, @NotNull Out<TagT[]> tableTags) {
+    public static int faceGetTableTags(@NotNull org.harfbuzz.FaceT face, int startOffset, Out<Integer> tableCount, Out<org.harfbuzz.TagT[]> tableTags) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(tableCount, "Parameter 'tableCount' must not be null");
+        java.util.Objects.requireNonNull(tableTags, "Parameter 'tableTags' must not be null");
         MemorySegment tableCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment tableTagsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_face_get_table_tags.invokeExact(face.handle(), startOffset, (Addressable) tableCountPOINTER.address(), (Addressable) tableTagsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_face_get_table_tags.invokeExact(face.handle(), startOffset, (Addressable) tableCountPOINTER.address(), (Addressable) tableTagsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         tableCount.set(tableCountPOINTER.get(ValueLayout.JAVA_INT, 0));
-        TagT[] tableTagsARRAY = new TagT[tableCount.get().intValue()];
+        org.harfbuzz.TagT[] tableTagsARRAY = new org.harfbuzz.TagT[tableCount.get().intValue()];
         for (int I = 0; I < tableCount.get().intValue(); I++) {
             var OBJ = tableTagsPOINTER.get(ValueLayout.JAVA_INT, I);
-            tableTagsARRAY[I] = new TagT(OBJ);
+            tableTagsARRAY[I] = new org.harfbuzz.TagT(OBJ);
         }
         tableTags.set(tableTagsARRAY);
         return RESULT;
     }
     
-    private static final MethodHandle hb_face_get_upem = Interop.downcallHandle(
-        "hb_face_get_upem",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Fetches the units-per-em (upem) value of the specified face object.
+     * @param face A face object
+     * @return The upem value of {@code face}
      */
-    public static int faceGetUpem(@NotNull FaceT face) {
+    public static int faceGetUpem(@NotNull org.harfbuzz.FaceT face) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_face_get_upem.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_face_get_upem.invokeExact(face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle hb_face_get_user_data = Interop.downcallHandle(
-        "hb_face_get_user_data",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the user data associated with the specified key,
      * attached to the specified face object.
+     * @param face A face object
+     * @param key The user-data key to query
+     * @return A pointer to the user data
      */
-    public static @Nullable java.lang.foreign.MemoryAddress faceGetUserData(@NotNull FaceT face, @NotNull UserDataKeyT key) {
+    public static @Nullable java.lang.foreign.MemoryAddress faceGetUserData(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.UserDataKeyT key) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_face_get_user_data.invokeExact(face.handle(), key.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_face_get_user_data.invokeExact(face.handle(), key.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle hb_face_is_immutable = Interop.downcallHandle(
-        "hb_face_is_immutable",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Tests whether the given face object is immutable.
+     * @param face A face object
+     * @return {@code true} is {@code face} is immutable, {@code false} otherwise
      */
-    public static @NotNull BoolT faceIsImmutable(@NotNull FaceT face) {
+    public static @NotNull org.harfbuzz.BoolT faceIsImmutable(@NotNull org.harfbuzz.FaceT face) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_face_is_immutable.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_face_is_immutable.invokeExact(face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_face_make_immutable = Interop.downcallHandle(
-        "hb_face_make_immutable",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Makes the given face object immutable.
+     * @param face A face object
      */
-    public static @NotNull void faceMakeImmutable(@NotNull FaceT face) {
+    public static void faceMakeImmutable(@NotNull org.harfbuzz.FaceT face) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         try {
-            hb_face_make_immutable.invokeExact(face.handle());
+            DowncallHandles.hb_face_make_immutable.invokeExact(face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_face_reference = Interop.downcallHandle(
-        "hb_face_reference",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Increases the reference count on a face object.
+     * @param face A face object
+     * @return The {@code face} object
      */
-    public static @NotNull FaceT faceReference(@NotNull FaceT face) {
+    public static @NotNull org.harfbuzz.FaceT faceReference(@NotNull org.harfbuzz.FaceT face) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_face_reference.invokeExact(face.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_face_reference.invokeExact(face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new FaceT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.FaceT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_face_reference_blob = Interop.downcallHandle(
-        "hb_face_reference_blob",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches a pointer to the binary blob that contains the
      * specified face. Returns an empty blob if referencing face data is not
      * possible.
+     * @param face A face object
+     * @return A pointer to the blob for {@code face}
      */
-    public static @NotNull BlobT faceReferenceBlob(@NotNull FaceT face) {
+    public static @NotNull org.harfbuzz.BlobT faceReferenceBlob(@NotNull org.harfbuzz.FaceT face) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_face_reference_blob.invokeExact(face.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_face_reference_blob.invokeExact(face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BlobT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BlobT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_face_reference_table = Interop.downcallHandle(
-        "hb_face_reference_table",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches a reference to the specified table within
      * the specified face.
+     * @param face A face object
+     * @param tag The {@link TagT} of the table to query
+     * @return A pointer to the {@code tag} table within {@code face}
      */
-    public static @NotNull BlobT faceReferenceTable(@NotNull FaceT face, @NotNull TagT tag) {
+    public static @NotNull org.harfbuzz.BlobT faceReferenceTable(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tag) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_face_reference_table.invokeExact(face.handle(), tag.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.hb_face_reference_table.invokeExact(face.handle(), tag.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BlobT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BlobT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_face_set_glyph_count = Interop.downcallHandle(
-        "hb_face_set_glyph_count",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the glyph count for a face object to the specified value.
+     * @param face A face object
+     * @param glyphCount The glyph-count value to assign
      */
-    public static @NotNull void faceSetGlyphCount(@NotNull FaceT face, @NotNull int glyphCount) {
+    public static void faceSetGlyphCount(@NotNull org.harfbuzz.FaceT face, int glyphCount) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         try {
-            hb_face_set_glyph_count.invokeExact(face.handle(), glyphCount);
+            DowncallHandles.hb_face_set_glyph_count.invokeExact(face.handle(), glyphCount);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_face_set_index = Interop.downcallHandle(
-        "hb_face_set_index",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Assigns the specified face-index to {@code face}. Fails if the
@@ -2402,38 +2507,47 @@ public final class HarfBuzz {
      * <p>
      * &lt;note&gt;Note: changing the index has no effect on the face itself
      * This only changes the value returned by hb_face_get_index().&lt;/note&gt;
+     * @param face A face object
+     * @param index The index to assign
      */
-    public static @NotNull void faceSetIndex(@NotNull FaceT face, @NotNull int index) {
+    public static void faceSetIndex(@NotNull org.harfbuzz.FaceT face, int index) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         try {
-            hb_face_set_index.invokeExact(face.handle(), index);
+            DowncallHandles.hb_face_set_index.invokeExact(face.handle(), index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_face_set_upem = Interop.downcallHandle(
-        "hb_face_set_upem",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the units-per-em (upem) for a face object to the specified value.
+     * @param face A face object
+     * @param upem The units-per-em value to assign
      */
-    public static @NotNull void faceSetUpem(@NotNull FaceT face, @NotNull int upem) {
+    public static void faceSetUpem(@NotNull org.harfbuzz.FaceT face, int upem) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         try {
-            hb_face_set_upem.invokeExact(face.handle(), upem);
+            DowncallHandles.hb_face_set_upem.invokeExact(face.handle(), upem);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle hb_feature_from_string = Interop.downcallHandle(
-        "hb_feature_from_string",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
+    /**
+     * Attaches a user-data key/data pair to the given face object.
+     * @param face A face object
+     * @param key The user-data key to set
+     * @param data A pointer to the user data
+     * @param destroy A callback to call when {@code data} is not needed anymore
+     * @param replace Whether to replace an existing data with the same key
+     * @return {@code true} if success, {@code false} otherwise
+     */
+    public static @NotNull org.harfbuzz.BoolT faceSetUserData(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, @NotNull org.harfbuzz.BoolT replace) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
-     * Parses a string into a {@link feature_t}.
+     * Parses a string into a {@link FeatureT}.
      * <p>
      * The format for specifying feature strings follows. All valid CSS
      * font-feature-settings values other than 'normal' and the global values are
@@ -2470,34 +2584,40 @@ public final class HarfBuzz {
      * &lt;/tbody&gt;
      * &lt;/tgroup&gt;
      * &lt;/informaltable&gt;
+     * @param str a string to parse
+     * @param len length of {@code str}, or -1 if string is {@code null} terminated
+     * @param feature the {@link FeatureT} to initialize with the parsed values
+     * @return {@code true} if {@code str} is successfully parsed, {@code false} otherwise
      */
-    public static @NotNull BoolT featureFromString(@NotNull byte[] str, @NotNull int len, @NotNull Out<FeatureT> feature) {
+    public static @NotNull org.harfbuzz.BoolT featureFromString(byte[] str, int len, @NotNull Out<org.harfbuzz.FeatureT> feature) {
+        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+        java.util.Objects.requireNonNull(feature, "Parameter 'feature' must not be null");
         MemorySegment featurePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_feature_from_string.invokeExact(Interop.allocateNativeArray(str), len, (Addressable) featurePOINTER.address());
+            RESULT = (int) DowncallHandles.hb_feature_from_string.invokeExact(Interop.allocateNativeArray(str, false), len, (Addressable) featurePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        feature.set(new FeatureT(Refcounted.get(featurePOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        return new BoolT(RESULT);
+        feature.set(new org.harfbuzz.FeatureT(Refcounted.get(featurePOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
     
-    private static final MethodHandle hb_feature_to_string = Interop.downcallHandle(
-        "hb_feature_to_string",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
-     * Converts a {@link feature_t} into a {@code null}-terminated string in the format
+     * Converts a {@link FeatureT} into a {@code null}-terminated string in the format
      * understood by hb_feature_from_string(). The client in responsible for
      * allocating big enough size for {@code buf}, 128 bytes is more than enough.
+     * @param feature an {@link FeatureT} to convert
+     * @param buf output string
+     * @param size the allocated size of {@code buf}
      */
-    public static @NotNull void featureToString(@NotNull FeatureT feature, @NotNull Out<java.lang.String[]> buf, @NotNull Out<Integer> size) {
+    public static void featureToString(@NotNull org.harfbuzz.FeatureT feature, Out<java.lang.String[]> buf, Out<Integer> size) {
+        java.util.Objects.requireNonNull(feature, "Parameter 'feature' must not be null");
+        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            hb_feature_to_string.invokeExact(feature.handle(), (Addressable) bufPOINTER.address(), (Addressable) sizePOINTER.address());
+            DowncallHandles.hb_feature_to_string.invokeExact(feature.handle(), (Addressable) bufPOINTER.address(), (Addressable) sizePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2510,34 +2630,36 @@ public final class HarfBuzz {
         buf.set(bufARRAY);
     }
     
-    private static final MethodHandle hb_font_add_glyph_origin_for_direction = Interop.downcallHandle(
-        "hb_font_add_glyph_origin_for_direction",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Adds the origin coordinates to an (X,Y) point coordinate, in
      * the specified glyph ID in the specified font.
      * <p>
      * Calls the appropriate direction-specific variant (horizontal
      * or vertical) depending on the value of {@code direction}.
+     * @param font {@link FontT} to work upon
+     * @param glyph The glyph ID to query
+     * @param direction The direction of the text segment
+     * @param x Input = The original X coordinate
+     *     Output = The X coordinate plus the X-coordinate of the origin
+     * @param y Input = The original Y coordinate
+     *     Output = The Y coordinate plus the Y-coordinate of the origin
      */
-    public static @NotNull void fontAddGlyphOriginForDirection(@NotNull FontT font, @NotNull CodepointT glyph, @NotNull DirectionT direction, @NotNull Out<PositionT> x, @NotNull Out<PositionT> y) {
+    public static void fontAddGlyphOriginForDirection(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.DirectionT direction, @NotNull Out<org.harfbuzz.PositionT> x, @NotNull Out<org.harfbuzz.PositionT> y) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            hb_font_add_glyph_origin_for_direction.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            DowncallHandles.hb_font_add_glyph_origin_for_direction.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(new PositionT(xPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        y.set(new PositionT(yPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        x.set(new org.harfbuzz.PositionT(xPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        y.set(new org.harfbuzz.PositionT(yPOINTER.get(ValueLayout.JAVA_INT, 0)));
     }
-    
-    private static final MethodHandle hb_font_create = Interop.downcallHandle(
-        "hb_font_create",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Constructs a new font object from the specified face.
@@ -2548,201 +2670,397 @@ public final class HarfBuzz {
      * of a variable font, instead of the default-instance.  This allows
      * specifying which named-instance to load by default when creating the
      * face.&lt;/note&gt;
+     * @param face a face.
+     * @return The new font object
      */
-    public static @NotNull FontT fontCreate(@NotNull FaceT face) {
+    public static @NotNull org.harfbuzz.FontT fontCreate(@NotNull org.harfbuzz.FaceT face) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_font_create.invokeExact(face.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_font_create.invokeExact(face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new FontT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.FontT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_font_create_sub_font = Interop.downcallHandle(
-        "hb_font_create_sub_font",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Constructs a sub-font font object from the specified {@code parent} font,
      * replicating the parent's properties.
+     * @param parent The parent font object
+     * @return The new sub-font font object
      */
-    public static @NotNull FontT fontCreateSubFont(@NotNull FontT parent) {
+    public static @NotNull org.harfbuzz.FontT fontCreateSubFont(@NotNull org.harfbuzz.FontT parent) {
+        java.util.Objects.requireNonNull(parent, "Parameter 'parent' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_font_create_sub_font.invokeExact(parent.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_font_create_sub_font.invokeExact(parent.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new FontT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.FontT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_font_destroy = Interop.downcallHandle(
-        "hb_font_destroy",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Decreases the reference count on the given font object. When the
      * reference count reaches zero, the font is destroyed,
      * freeing all memory.
+     * @param font {@link FontT} to work upon
      */
-    public static @NotNull void fontDestroy(@NotNull FontT font) {
+    public static void fontDestroy(@NotNull org.harfbuzz.FontT font) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         try {
-            hb_font_destroy.invokeExact(font.handle());
+            DowncallHandles.hb_font_destroy.invokeExact(font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_font_funcs_create = Interop.downcallHandle(
-        "hb_font_funcs_create",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
-     * Creates a new {@link font_funcs_t} structure of font functions.
+     * Creates a new {@link FontFuncsT} structure of font functions.
+     * @return The font-functions structure
      */
-    public static @NotNull FontFuncsT fontFuncsCreate() {
+    public static @NotNull org.harfbuzz.FontFuncsT fontFuncsCreate() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_font_funcs_create.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.hb_font_funcs_create.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new FontFuncsT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.FontFuncsT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_font_funcs_destroy = Interop.downcallHandle(
-        "hb_font_funcs_destroy",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Decreases the reference count on a font-functions structure. When
      * the reference count reaches zero, the font-functions structure is
      * destroyed, freeing all memory.
+     * @param ffuncs The font-functions structure
      */
-    public static @NotNull void fontFuncsDestroy(@NotNull FontFuncsT ffuncs) {
+    public static void fontFuncsDestroy(@NotNull org.harfbuzz.FontFuncsT ffuncs) {
+        java.util.Objects.requireNonNull(ffuncs, "Parameter 'ffuncs' must not be null");
         try {
-            hb_font_funcs_destroy.invokeExact(ffuncs.handle());
+            DowncallHandles.hb_font_funcs_destroy.invokeExact(ffuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_font_funcs_get_empty = Interop.downcallHandle(
-        "hb_font_funcs_get_empty",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches an empty font-functions structure.
+     * @return The font-functions structure
      */
-    public static @NotNull FontFuncsT fontFuncsGetEmpty() {
+    public static @NotNull org.harfbuzz.FontFuncsT fontFuncsGetEmpty() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_font_funcs_get_empty.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.hb_font_funcs_get_empty.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new FontFuncsT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.FontFuncsT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_font_funcs_get_user_data = Interop.downcallHandle(
-        "hb_font_funcs_get_user_data",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the user data associated with the specified key,
      * attached to the specified font-functions structure.
+     * @param ffuncs The font-functions structure
+     * @param key The user-data key to query
+     * @return A pointer to the user data
      */
-    public static @Nullable java.lang.foreign.MemoryAddress fontFuncsGetUserData(@NotNull FontFuncsT ffuncs, @NotNull UserDataKeyT key) {
+    public static @Nullable java.lang.foreign.MemoryAddress fontFuncsGetUserData(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.UserDataKeyT key) {
+        java.util.Objects.requireNonNull(ffuncs, "Parameter 'ffuncs' must not be null");
+        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_font_funcs_get_user_data.invokeExact(ffuncs.handle(), key.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_font_funcs_get_user_data.invokeExact(ffuncs.handle(), key.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle hb_font_funcs_is_immutable = Interop.downcallHandle(
-        "hb_font_funcs_is_immutable",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Tests whether a font-functions structure is immutable.
+     * @param ffuncs The font-functions structure
+     * @return {@code true} if {@code ffuncs} is immutable, {@code false} otherwise
      */
-    public static @NotNull BoolT fontFuncsIsImmutable(@NotNull FontFuncsT ffuncs) {
+    public static @NotNull org.harfbuzz.BoolT fontFuncsIsImmutable(@NotNull org.harfbuzz.FontFuncsT ffuncs) {
+        java.util.Objects.requireNonNull(ffuncs, "Parameter 'ffuncs' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_font_funcs_is_immutable.invokeExact(ffuncs.handle());
+            RESULT = (int) DowncallHandles.hb_font_funcs_is_immutable.invokeExact(ffuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_font_funcs_make_immutable = Interop.downcallHandle(
-        "hb_font_funcs_make_immutable",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Makes a font-functions structure immutable.
+     * @param ffuncs The font-functions structure
      */
-    public static @NotNull void fontFuncsMakeImmutable(@NotNull FontFuncsT ffuncs) {
+    public static void fontFuncsMakeImmutable(@NotNull org.harfbuzz.FontFuncsT ffuncs) {
+        java.util.Objects.requireNonNull(ffuncs, "Parameter 'ffuncs' must not be null");
         try {
-            hb_font_funcs_make_immutable.invokeExact(ffuncs.handle());
+            DowncallHandles.hb_font_funcs_make_immutable.invokeExact(ffuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_font_funcs_reference = Interop.downcallHandle(
-        "hb_font_funcs_reference",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Increases the reference count on a font-functions structure.
+     * @param ffuncs The font-functions structure
+     * @return The font-functions structure
      */
-    public static @NotNull FontFuncsT fontFuncsReference(@NotNull FontFuncsT ffuncs) {
+    public static @NotNull org.harfbuzz.FontFuncsT fontFuncsReference(@NotNull org.harfbuzz.FontFuncsT ffuncs) {
+        java.util.Objects.requireNonNull(ffuncs, "Parameter 'ffuncs' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_font_funcs_reference.invokeExact(ffuncs.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_font_funcs_reference.invokeExact(ffuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new FontFuncsT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.FontFuncsT(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle hb_font_get_empty = Interop.downcallHandle(
-        "hb_font_get_empty",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
+    /**
+     * Sets the implementation function for {@link FontGetFontHExtentsFuncT}.
+     * @param ffuncs A font-function structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void fontFuncsSetFontHExtentsFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetFontHExtentsFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets the implementation function for {@link FontGetFontVExtentsFuncT}.
+     * @param ffuncs A font-function structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void fontFuncsSetFontVExtentsFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetFontVExtentsFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets the implementation function for {@link FontGetGlyphContourPointFuncT}.
+     * @param ffuncs A font-function structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void fontFuncsSetGlyphContourPointFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphContourPointFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets the implementation function for {@link FontGetGlyphExtentsFuncT}.
+     * @param ffuncs A font-function structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void fontFuncsSetGlyphExtentsFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphExtentsFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets the implementation function for {@link FontGetGlyphFromNameFuncT}.
+     * @param ffuncs A font-function structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void fontFuncsSetGlyphFromNameFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphFromNameFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Deprecated.  Use hb_font_funcs_set_nominal_glyph_func() and
+     * hb_font_funcs_set_variation_glyph_func() instead.
+     * @param ffuncs The font-functions structure
+     * @param func callback function
+     * @param userData data to pass to {@code func}
+     * @param destroy function to call when {@code user_data} is not needed anymore
+     */
+    @Deprecated
+    public static void fontFuncsSetGlyphFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets the implementation function for {@link FontGetGlyphHAdvanceFuncT}.
+     * @param ffuncs A font-function structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void fontFuncsSetGlyphHAdvanceFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphHAdvanceFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets the implementation function for {@link FontGetGlyphHAdvancesFuncT}.
+     * @param ffuncs A font-function structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void fontFuncsSetGlyphHAdvancesFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphHAdvancesFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets the implementation function for {@link FontGetGlyphHKerningFuncT}.
+     * @param ffuncs A font-function structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void fontFuncsSetGlyphHKerningFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphHKerningFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets the implementation function for {@link FontGetGlyphHOriginFuncT}.
+     * @param ffuncs A font-function structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void fontFuncsSetGlyphHOriginFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphHOriginFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets the implementation function for {@link FontGetGlyphNameFuncT}.
+     * @param ffuncs A font-function structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void fontFuncsSetGlyphNameFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphNameFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets the implementation function for {@link FontGetGlyphShapeFuncT}.
+     * @param ffuncs A font-function structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void fontFuncsSetGlyphShapeFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphShapeFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets the implementation function for {@link FontGetGlyphVAdvanceFuncT}.
+     * @param ffuncs A font-function structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void fontFuncsSetGlyphVAdvanceFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphVAdvanceFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets the implementation function for {@link FontGetGlyphVAdvancesFuncT}.
+     * @param ffuncs A font-function structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void fontFuncsSetGlyphVAdvancesFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphVAdvancesFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets the implementation function for {@link FontGetGlyphVKerningFuncT}.
+     * @param ffuncs A font-function structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    @Deprecated
+    public static void fontFuncsSetGlyphVKerningFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphVKerningFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets the implementation function for {@link FontGetGlyphVOriginFuncT}.
+     * @param ffuncs A font-function structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void fontFuncsSetGlyphVOriginFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphVOriginFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets the implementation function for {@link FontGetNominalGlyphFuncT}.
+     * @param ffuncs A font-function structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void fontFuncsSetNominalGlyphFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetNominalGlyphFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets the implementation function for {@link FontGetNominalGlyphsFuncT}.
+     * @param ffuncs A font-function structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void fontFuncsSetNominalGlyphsFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetNominalGlyphsFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Attaches a user-data key/data pair to the specified font-functions structure.
+     * @param ffuncs The font-functions structure
+     * @param key The user-data key to set
+     * @param data A pointer to the user data set
+     * @param destroy A callback to call when {@code data} is not needed anymore
+     * @param replace Whether to replace an existing data with the same key
+     * @return {@code true} if success, {@code false} otherwise
+     */
+    public static @NotNull org.harfbuzz.BoolT fontFuncsSetUserData(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, @NotNull org.harfbuzz.BoolT replace) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets the implementation function for {@link FontGetVariationGlyphFuncT}.
+     * @param ffuncs A font-function structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void fontFuncsSetVariationGlyphFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetVariationGlyphFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Fetches the empty font object.
+     * @return The empty font object
      */
-    public static @NotNull FontT fontGetEmpty() {
+    public static @NotNull org.harfbuzz.FontT fontGetEmpty() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_font_get_empty.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.hb_font_get_empty.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new FontT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.FontT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_font_get_extents_for_direction = Interop.downcallHandle(
-        "hb_font_get_extents_for_direction",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the extents for a font in a text segment of the
@@ -2750,39 +3068,38 @@ public final class HarfBuzz {
      * <p>
      * Calls the appropriate direction-specific variant (horizontal
      * or vertical) depending on the value of {@code direction}.
+     * @param font {@link FontT} to work upon
+     * @param direction The direction of the text segment
+     * @param extents The {@link FontExtentsT} retrieved
      */
-    public static @NotNull void fontGetExtentsForDirection(@NotNull FontT font, @NotNull DirectionT direction, @NotNull Out<FontExtentsT> extents) {
+    public static void fontGetExtentsForDirection(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.DirectionT direction, @NotNull Out<org.harfbuzz.FontExtentsT> extents) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+        java.util.Objects.requireNonNull(extents, "Parameter 'extents' must not be null");
         MemorySegment extentsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            hb_font_get_extents_for_direction.invokeExact(font.handle(), direction.getValue(), (Addressable) extentsPOINTER.address());
+            DowncallHandles.hb_font_get_extents_for_direction.invokeExact(font.handle(), direction.getValue(), (Addressable) extentsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        extents.set(new FontExtentsT(Refcounted.get(extentsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        extents.set(new org.harfbuzz.FontExtentsT(Refcounted.get(extentsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle hb_font_get_face = Interop.downcallHandle(
-        "hb_font_get_face",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the face associated with the specified font object.
+     * @param font {@link FontT} to work upon
+     * @return The {@link FaceT} value
      */
-    public static @NotNull FaceT fontGetFace(@NotNull FontT font) {
+    public static @NotNull org.harfbuzz.FaceT fontGetFace(@NotNull org.harfbuzz.FontT font) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_font_get_face.invokeExact(font.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_font_get_face.invokeExact(font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new FaceT(Refcounted.get(RESULT, false));
+        return new org.harfbuzz.FaceT(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle hb_font_get_glyph = Interop.downcallHandle(
-        "hb_font_get_glyph",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the glyph ID for a Unicode code point in the specified
@@ -2790,23 +3107,27 @@ public final class HarfBuzz {
      * <p>
      * If {@code variation_selector} is 0, calls hb_font_get_nominal_glyph();
      * otherwise calls hb_font_get_variation_glyph().
+     * @param font {@link FontT} to work upon
+     * @param unicode The Unicode code point to query
+     * @param variationSelector A variation-selector code point
+     * @param glyph The glyph ID retrieved
+     * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull BoolT fontGetGlyph(@NotNull FontT font, @NotNull CodepointT unicode, @NotNull CodepointT variationSelector, @NotNull Out<CodepointT> glyph) {
+    public static @NotNull org.harfbuzz.BoolT fontGetGlyph(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT unicode, @NotNull org.harfbuzz.CodepointT variationSelector, @NotNull Out<org.harfbuzz.CodepointT> glyph) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(unicode, "Parameter 'unicode' must not be null");
+        java.util.Objects.requireNonNull(variationSelector, "Parameter 'variationSelector' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         MemorySegment glyphPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_font_get_glyph.invokeExact(font.handle(), unicode.getValue(), variationSelector.getValue(), (Addressable) glyphPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_glyph.invokeExact(font.handle(), unicode.getValue(), variationSelector.getValue(), (Addressable) glyphPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        glyph.set(new CodepointT(glyphPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        return new BoolT(RESULT);
+        glyph.set(new org.harfbuzz.CodepointT(glyphPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_font_get_glyph_advance_for_direction = Interop.downcallHandle(
-        "hb_font_get_glyph_advance_for_direction",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the advance for a glyph ID from the specified font,
@@ -2814,23 +3135,28 @@ public final class HarfBuzz {
      * <p>
      * Calls the appropriate direction-specific variant (horizontal
      * or vertical) depending on the value of {@code direction}.
+     * @param font {@link FontT} to work upon
+     * @param glyph The glyph ID to query
+     * @param direction The direction of the text segment
+     * @param x The horizontal advance retrieved
+     * @param y The vertical advance retrieved
      */
-    public static @NotNull void fontGetGlyphAdvanceForDirection(@NotNull FontT font, @NotNull CodepointT glyph, @NotNull DirectionT direction, @NotNull Out<PositionT> x, @NotNull Out<PositionT> y) {
+    public static void fontGetGlyphAdvanceForDirection(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.DirectionT direction, @NotNull Out<org.harfbuzz.PositionT> x, @NotNull Out<org.harfbuzz.PositionT> y) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            hb_font_get_glyph_advance_for_direction.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            DowncallHandles.hb_font_get_glyph_advance_for_direction.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(new PositionT(xPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        y.set(new PositionT(yPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        x.set(new org.harfbuzz.PositionT(xPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        y.set(new org.harfbuzz.PositionT(yPOINTER.get(ValueLayout.JAVA_INT, 0)));
     }
-    
-    private static final MethodHandle hb_font_get_glyph_advances_for_direction = Interop.downcallHandle(
-        "hb_font_get_glyph_advances_for_direction",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the advances for a sequence of glyph IDs in the specified
@@ -2838,48 +3164,59 @@ public final class HarfBuzz {
      * <p>
      * Calls the appropriate direction-specific variant (horizontal
      * or vertical) depending on the value of {@code direction}.
+     * @param font {@link FontT} to work upon
+     * @param direction The direction of the text segment
+     * @param count The number of glyph IDs in the sequence queried
+     * @param firstGlyph The first glyph ID to query
+     * @param glyphStride The stride between successive glyph IDs
+     * @param firstAdvance The first advance retrieved
+     * @param advanceStride The stride between successive advances
      */
-    public static @NotNull void fontGetGlyphAdvancesForDirection(@NotNull FontT font, @NotNull DirectionT direction, @NotNull int count, @NotNull CodepointT firstGlyph, @NotNull int glyphStride, @NotNull Out<PositionT> firstAdvance, @NotNull Out<Integer> advanceStride) {
+    public static void fontGetGlyphAdvancesForDirection(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.DirectionT direction, int count, @NotNull org.harfbuzz.CodepointT firstGlyph, int glyphStride, @NotNull Out<org.harfbuzz.PositionT> firstAdvance, Out<Integer> advanceStride) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+        java.util.Objects.requireNonNull(firstGlyph, "Parameter 'firstGlyph' must not be null");
+        java.util.Objects.requireNonNull(firstAdvance, "Parameter 'firstAdvance' must not be null");
         PointerInteger firstGlyphPOINTER = new PointerInteger(firstGlyph.getValue());
         MemorySegment firstAdvancePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment advanceStridePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            hb_font_get_glyph_advances_for_direction.invokeExact(font.handle(), direction.getValue(), count, new PointerInteger(firstGlyph.getValue()).handle(), glyphStride, (Addressable) firstAdvancePOINTER.address(), (Addressable) advanceStridePOINTER.address());
+            DowncallHandles.hb_font_get_glyph_advances_for_direction.invokeExact(font.handle(), direction.getValue(), count, new PointerInteger(firstGlyph.getValue()).handle(), glyphStride, (Addressable) firstAdvancePOINTER.address(), (Addressable) advanceStridePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
             firstGlyph.setValue(firstGlyphPOINTER.get());
-        firstAdvance.set(new PositionT(firstAdvancePOINTER.get(ValueLayout.JAVA_INT, 0)));
+        firstAdvance.set(new org.harfbuzz.PositionT(firstAdvancePOINTER.get(ValueLayout.JAVA_INT, 0)));
         advanceStride.set(advanceStridePOINTER.get(ValueLayout.JAVA_INT, 0));
     }
-    
-    private static final MethodHandle hb_font_get_glyph_contour_point = Interop.downcallHandle(
-        "hb_font_get_glyph_contour_point",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the (x,y) coordinates of a specified contour-point index
      * in the specified glyph, within the specified font.
+     * @param font {@link FontT} to work upon
+     * @param glyph The glyph ID to query
+     * @param pointIndex The contour-point index to query
+     * @param x The X value retrieved for the contour point
+     * @param y The Y value retrieved for the contour point
+     * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull BoolT fontGetGlyphContourPoint(@NotNull FontT font, @NotNull CodepointT glyph, @NotNull int pointIndex, @NotNull Out<PositionT> x, @NotNull Out<PositionT> y) {
+    public static @NotNull org.harfbuzz.BoolT fontGetGlyphContourPoint(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, int pointIndex, @NotNull Out<org.harfbuzz.PositionT> x, @NotNull Out<org.harfbuzz.PositionT> y) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_font_get_glyph_contour_point.invokeExact(font.handle(), glyph.getValue(), pointIndex, (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_glyph_contour_point.invokeExact(font.handle(), glyph.getValue(), pointIndex, (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(new PositionT(xPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        y.set(new PositionT(yPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        return new BoolT(RESULT);
+        x.set(new org.harfbuzz.PositionT(xPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        y.set(new org.harfbuzz.PositionT(yPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_font_get_glyph_contour_point_for_origin = Interop.downcallHandle(
-        "hb_font_get_glyph_contour_point_for_origin",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the (X,Y) coordinates of a specified contour-point index
@@ -2888,211 +3225,252 @@ public final class HarfBuzz {
      * <p>
      * Calls the appropriate direction-specific variant (horizontal
      * or vertical) depending on the value of {@code direction}.
+     * @param font {@link FontT} to work upon
+     * @param glyph The glyph ID to query
+     * @param pointIndex The contour-point index to query
+     * @param direction The direction of the text segment
+     * @param x The X value retrieved for the contour point
+     * @param y The Y value retrieved for the contour point
+     * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull BoolT fontGetGlyphContourPointForOrigin(@NotNull FontT font, @NotNull CodepointT glyph, @NotNull int pointIndex, @NotNull DirectionT direction, @NotNull Out<PositionT> x, @NotNull Out<PositionT> y) {
+    public static @NotNull org.harfbuzz.BoolT fontGetGlyphContourPointForOrigin(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, int pointIndex, @NotNull org.harfbuzz.DirectionT direction, @NotNull Out<org.harfbuzz.PositionT> x, @NotNull Out<org.harfbuzz.PositionT> y) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_font_get_glyph_contour_point_for_origin.invokeExact(font.handle(), glyph.getValue(), pointIndex, direction.getValue(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_glyph_contour_point_for_origin.invokeExact(font.handle(), glyph.getValue(), pointIndex, direction.getValue(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(new PositionT(xPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        y.set(new PositionT(yPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        return new BoolT(RESULT);
+        x.set(new org.harfbuzz.PositionT(xPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        y.set(new org.harfbuzz.PositionT(yPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
     
-    private static final MethodHandle hb_font_get_glyph_extents = Interop.downcallHandle(
-        "hb_font_get_glyph_extents",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Fetches the {@link glyph_extents_t} data for a glyph ID
+     * Fetches the {@link GlyphExtentsT} data for a glyph ID
      * in the specified font.
+     * @param font {@link FontT} to work upon
+     * @param glyph The glyph ID to query
+     * @param extents The {@link GlyphExtentsT} retrieved
+     * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull BoolT fontGetGlyphExtents(@NotNull FontT font, @NotNull CodepointT glyph, @NotNull Out<GlyphExtentsT> extents) {
+    public static @NotNull org.harfbuzz.BoolT fontGetGlyphExtents(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull Out<org.harfbuzz.GlyphExtentsT> extents) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+        java.util.Objects.requireNonNull(extents, "Parameter 'extents' must not be null");
         MemorySegment extentsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_font_get_glyph_extents.invokeExact(font.handle(), glyph.getValue(), (Addressable) extentsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_glyph_extents.invokeExact(font.handle(), glyph.getValue(), (Addressable) extentsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        extents.set(new GlyphExtentsT(Refcounted.get(extentsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        return new BoolT(RESULT);
+        extents.set(new org.harfbuzz.GlyphExtentsT(Refcounted.get(extentsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
     
-    private static final MethodHandle hb_font_get_glyph_extents_for_origin = Interop.downcallHandle(
-        "hb_font_get_glyph_extents_for_origin",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Fetches the {@link glyph_extents_t} data for a glyph ID
+     * Fetches the {@link GlyphExtentsT} data for a glyph ID
      * in the specified font, with respect to the origin in
      * a text segment in the specified direction.
      * <p>
      * Calls the appropriate direction-specific variant (horizontal
      * or vertical) depending on the value of {@code direction}.
+     * @param font {@link FontT} to work upon
+     * @param glyph The glyph ID to query
+     * @param direction The direction of the text segment
+     * @param extents The {@link GlyphExtentsT} retrieved
+     * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull BoolT fontGetGlyphExtentsForOrigin(@NotNull FontT font, @NotNull CodepointT glyph, @NotNull DirectionT direction, @NotNull Out<GlyphExtentsT> extents) {
+    public static @NotNull org.harfbuzz.BoolT fontGetGlyphExtentsForOrigin(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.DirectionT direction, @NotNull Out<org.harfbuzz.GlyphExtentsT> extents) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+        java.util.Objects.requireNonNull(extents, "Parameter 'extents' must not be null");
         MemorySegment extentsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_font_get_glyph_extents_for_origin.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), (Addressable) extentsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_glyph_extents_for_origin.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), (Addressable) extentsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        extents.set(new GlyphExtentsT(Refcounted.get(extentsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        return new BoolT(RESULT);
+        extents.set(new org.harfbuzz.GlyphExtentsT(Refcounted.get(extentsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_font_get_glyph_from_name = Interop.downcallHandle(
-        "hb_font_get_glyph_from_name",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the glyph ID that corresponds to a name string in the specified {@code font}.
      * <p>
      * &lt;note&gt;Note: {@code len} == -1 means the name string is null-terminated.&lt;/note&gt;
+     * @param font {@link FontT} to work upon
+     * @param name The name string to query
+     * @param len The length of the name queried
+     * @param glyph The glyph ID retrieved
+     * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull BoolT fontGetGlyphFromName(@NotNull FontT font, @NotNull java.lang.String[] name, @NotNull int len, @NotNull Out<CodepointT> glyph) {
+    public static @NotNull org.harfbuzz.BoolT fontGetGlyphFromName(@NotNull org.harfbuzz.FontT font, java.lang.String[] name, int len, @NotNull Out<org.harfbuzz.CodepointT> glyph) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         MemorySegment glyphPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_font_get_glyph_from_name.invokeExact(font.handle(), Interop.allocateNativeArray(name), len, (Addressable) glyphPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_glyph_from_name.invokeExact(font.handle(), Interop.allocateNativeArray(name, false), len, (Addressable) glyphPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        glyph.set(new CodepointT(glyphPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        return new BoolT(RESULT);
+        glyph.set(new org.harfbuzz.CodepointT(glyphPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_font_get_glyph_h_advance = Interop.downcallHandle(
-        "hb_font_get_glyph_h_advance",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the advance for a glyph ID in the specified font,
      * for horizontal text segments.
+     * @param font {@link FontT} to work upon
+     * @param glyph The glyph ID to query
+     * @return The advance of {@code glyph} within {@code font}
      */
-    public static @NotNull PositionT fontGetGlyphHAdvance(@NotNull FontT font, @NotNull CodepointT glyph) {
+    public static @NotNull org.harfbuzz.PositionT fontGetGlyphHAdvance(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_font_get_glyph_h_advance.invokeExact(font.handle(), glyph.getValue());
+            RESULT = (int) DowncallHandles.hb_font_get_glyph_h_advance.invokeExact(font.handle(), glyph.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PositionT(RESULT);
+        return new org.harfbuzz.PositionT(RESULT);
     }
-    
-    private static final MethodHandle hb_font_get_glyph_h_advances = Interop.downcallHandle(
-        "hb_font_get_glyph_h_advances",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the advances for a sequence of glyph IDs in the specified
      * font, for horizontal text segments.
+     * @param font {@link FontT} to work upon
+     * @param count The number of glyph IDs in the sequence queried
+     * @param firstGlyph The first glyph ID to query
+     * @param glyphStride The stride between successive glyph IDs
+     * @param firstAdvance The first advance retrieved
+     * @param advanceStride The stride between successive advances
      */
-    public static @NotNull void fontGetGlyphHAdvances(@NotNull FontT font, @NotNull int count, @NotNull CodepointT firstGlyph, @NotNull int glyphStride, @NotNull Out<PositionT> firstAdvance, @NotNull int advanceStride) {
+    public static void fontGetGlyphHAdvances(@NotNull org.harfbuzz.FontT font, int count, @NotNull org.harfbuzz.CodepointT firstGlyph, int glyphStride, @NotNull Out<org.harfbuzz.PositionT> firstAdvance, int advanceStride) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(firstGlyph, "Parameter 'firstGlyph' must not be null");
+        java.util.Objects.requireNonNull(firstAdvance, "Parameter 'firstAdvance' must not be null");
         PointerInteger firstGlyphPOINTER = new PointerInteger(firstGlyph.getValue());
         MemorySegment firstAdvancePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            hb_font_get_glyph_h_advances.invokeExact(font.handle(), count, new PointerInteger(firstGlyph.getValue()).handle(), glyphStride, (Addressable) firstAdvancePOINTER.address(), advanceStride);
+            DowncallHandles.hb_font_get_glyph_h_advances.invokeExact(font.handle(), count, new PointerInteger(firstGlyph.getValue()).handle(), glyphStride, (Addressable) firstAdvancePOINTER.address(), advanceStride);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
             firstGlyph.setValue(firstGlyphPOINTER.get());
-        firstAdvance.set(new PositionT(firstAdvancePOINTER.get(ValueLayout.JAVA_INT, 0)));
+        firstAdvance.set(new org.harfbuzz.PositionT(firstAdvancePOINTER.get(ValueLayout.JAVA_INT, 0)));
     }
-    
-    private static final MethodHandle hb_font_get_glyph_h_kerning = Interop.downcallHandle(
-        "hb_font_get_glyph_h_kerning",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the kerning-adjustment value for a glyph-pair in
      * the specified font, for horizontal text segments.
      * <p>
      * &lt;note&gt;It handles legacy kerning only (as returned by the corresponding
-     * {@link font_funcs_t} function).&lt;/note&gt;
+     * {@link FontFuncsT} function).&lt;/note&gt;
+     * @param font {@link FontT} to work upon
+     * @param leftGlyph The glyph ID of the left glyph in the glyph pair
+     * @param rightGlyph The glyph ID of the right glyph in the glyph pair
+     * @return The kerning adjustment value
      */
-    public static @NotNull PositionT fontGetGlyphHKerning(@NotNull FontT font, @NotNull CodepointT leftGlyph, @NotNull CodepointT rightGlyph) {
+    public static @NotNull org.harfbuzz.PositionT fontGetGlyphHKerning(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT leftGlyph, @NotNull org.harfbuzz.CodepointT rightGlyph) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(leftGlyph, "Parameter 'leftGlyph' must not be null");
+        java.util.Objects.requireNonNull(rightGlyph, "Parameter 'rightGlyph' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_font_get_glyph_h_kerning.invokeExact(font.handle(), leftGlyph.getValue(), rightGlyph.getValue());
+            RESULT = (int) DowncallHandles.hb_font_get_glyph_h_kerning.invokeExact(font.handle(), leftGlyph.getValue(), rightGlyph.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PositionT(RESULT);
+        return new org.harfbuzz.PositionT(RESULT);
     }
-    
-    private static final MethodHandle hb_font_get_glyph_h_origin = Interop.downcallHandle(
-        "hb_font_get_glyph_h_origin",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the (X,Y) coordinates of the origin for a glyph ID
      * in the specified font, for horizontal text segments.
+     * @param font {@link FontT} to work upon
+     * @param glyph The glyph ID to query
+     * @param x The X coordinate of the origin
+     * @param y The Y coordinate of the origin
+     * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull BoolT fontGetGlyphHOrigin(@NotNull FontT font, @NotNull CodepointT glyph, @NotNull Out<PositionT> x, @NotNull Out<PositionT> y) {
+    public static @NotNull org.harfbuzz.BoolT fontGetGlyphHOrigin(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull Out<org.harfbuzz.PositionT> x, @NotNull Out<org.harfbuzz.PositionT> y) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_font_get_glyph_h_origin.invokeExact(font.handle(), glyph.getValue(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_glyph_h_origin.invokeExact(font.handle(), glyph.getValue(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(new PositionT(xPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        y.set(new PositionT(yPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        return new BoolT(RESULT);
+        x.set(new org.harfbuzz.PositionT(xPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        y.set(new org.harfbuzz.PositionT(yPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_font_get_glyph_kerning_for_direction = Interop.downcallHandle(
-        "hb_font_get_glyph_kerning_for_direction",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the kerning-adjustment value for a glyph-pair in the specified font.
      * <p>
      * Calls the appropriate direction-specific variant (horizontal
      * or vertical) depending on the value of {@code direction}.
+     * @param font {@link FontT} to work upon
+     * @param firstGlyph The glyph ID of the first glyph in the glyph pair to query
+     * @param secondGlyph The glyph ID of the second glyph in the glyph pair to query
+     * @param direction The direction of the text segment
+     * @param x The horizontal kerning-adjustment value retrieved
+     * @param y The vertical kerning-adjustment value retrieved
      */
-    public static @NotNull void fontGetGlyphKerningForDirection(@NotNull FontT font, @NotNull CodepointT firstGlyph, @NotNull CodepointT secondGlyph, @NotNull DirectionT direction, @NotNull Out<PositionT> x, @NotNull Out<PositionT> y) {
+    public static void fontGetGlyphKerningForDirection(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT firstGlyph, @NotNull org.harfbuzz.CodepointT secondGlyph, @NotNull org.harfbuzz.DirectionT direction, @NotNull Out<org.harfbuzz.PositionT> x, @NotNull Out<org.harfbuzz.PositionT> y) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(firstGlyph, "Parameter 'firstGlyph' must not be null");
+        java.util.Objects.requireNonNull(secondGlyph, "Parameter 'secondGlyph' must not be null");
+        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            hb_font_get_glyph_kerning_for_direction.invokeExact(font.handle(), firstGlyph.getValue(), secondGlyph.getValue(), direction.getValue(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            DowncallHandles.hb_font_get_glyph_kerning_for_direction.invokeExact(font.handle(), firstGlyph.getValue(), secondGlyph.getValue(), direction.getValue(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(new PositionT(xPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        y.set(new PositionT(yPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        x.set(new org.harfbuzz.PositionT(xPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        y.set(new org.harfbuzz.PositionT(yPOINTER.get(ValueLayout.JAVA_INT, 0)));
     }
-    
-    private static final MethodHandle hb_font_get_glyph_name = Interop.downcallHandle(
-        "hb_font_get_glyph_name",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the glyph-name string for a glyph ID in the specified {@code font}.
+     * @param font {@link FontT} to work upon
+     * @param glyph The glyph ID to query
+     * @param name Name string retrieved for the glyph ID
+     * @param size Length of the glyph-name string retrieved
+     * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull BoolT fontGetGlyphName(@NotNull FontT font, @NotNull CodepointT glyph, @NotNull Out<java.lang.String[]> name, @NotNull Out<Integer> size) {
+    public static @NotNull org.harfbuzz.BoolT fontGetGlyphName(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, Out<java.lang.String[]> name, Out<Integer> size) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemorySegment namePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_font_get_glyph_name.invokeExact(font.handle(), glyph.getValue(), (Addressable) namePOINTER.address(), (Addressable) sizePOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_glyph_name.invokeExact(font.handle(), glyph.getValue(), (Addressable) namePOINTER.address(), (Addressable) sizePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3103,13 +3481,8 @@ public final class HarfBuzz {
             nameARRAY[I] = OBJ.getUtf8String(0);
         }
         name.set(nameARRAY);
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_font_get_glyph_origin_for_direction = Interop.downcallHandle(
-        "hb_font_get_glyph_origin_for_direction",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the (X,Y) coordinates of the origin for a glyph in
@@ -3117,127 +3490,168 @@ public final class HarfBuzz {
      * <p>
      * Calls the appropriate direction-specific variant (horizontal
      * or vertical) depending on the value of {@code direction}.
+     * @param font {@link FontT} to work upon
+     * @param glyph The glyph ID to query
+     * @param direction The direction of the text segment
+     * @param x The X coordinate retrieved for the origin
+     * @param y The Y coordinate retrieved for the origin
      */
-    public static @NotNull void fontGetGlyphOriginForDirection(@NotNull FontT font, @NotNull CodepointT glyph, @NotNull DirectionT direction, @NotNull Out<PositionT> x, @NotNull Out<PositionT> y) {
+    public static void fontGetGlyphOriginForDirection(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.DirectionT direction, @NotNull Out<org.harfbuzz.PositionT> x, @NotNull Out<org.harfbuzz.PositionT> y) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            hb_font_get_glyph_origin_for_direction.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            DowncallHandles.hb_font_get_glyph_origin_for_direction.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(new PositionT(xPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        y.set(new PositionT(yPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        x.set(new org.harfbuzz.PositionT(xPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        y.set(new org.harfbuzz.PositionT(yPOINTER.get(ValueLayout.JAVA_INT, 0)));
     }
-    
-    private static final MethodHandle hb_font_get_glyph_shape = Interop.downcallHandle(
-        "hb_font_get_glyph_shape",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the glyph shape that corresponds to a glyph in the specified {@code font}.
      * The shape is returned by way of calls to the callsbacks of the {@code dfuncs}
      * objects, with {@code draw_data} passed to them.
+     * @param font {@link FontT} to work upon
+     * @param glyph The glyph ID
+     * @param dfuncs {@link DrawFuncsT} to draw to
+     * @param drawData User data to pass to draw callbacks
      */
-    public static @NotNull void fontGetGlyphShape(@NotNull FontT font, @NotNull CodepointT glyph, @NotNull DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData) {
+    public static void fontGetGlyphShape(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+        java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
+        java.util.Objects.requireNonNullElse(drawData, MemoryAddress.NULL);
         try {
-            hb_font_get_glyph_shape.invokeExact(font.handle(), glyph.getValue(), dfuncs.handle(), drawData);
+            DowncallHandles.hb_font_get_glyph_shape.invokeExact(font.handle(), glyph.getValue(), dfuncs.handle(), drawData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_font_get_glyph_v_advance = Interop.downcallHandle(
-        "hb_font_get_glyph_v_advance",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the advance for a glyph ID in the specified font,
      * for vertical text segments.
+     * @param font {@link FontT} to work upon
+     * @param glyph The glyph ID to query
+     * @return The advance of {@code glyph} within {@code font}
      */
-    public static @NotNull PositionT fontGetGlyphVAdvance(@NotNull FontT font, @NotNull CodepointT glyph) {
+    public static @NotNull org.harfbuzz.PositionT fontGetGlyphVAdvance(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_font_get_glyph_v_advance.invokeExact(font.handle(), glyph.getValue());
+            RESULT = (int) DowncallHandles.hb_font_get_glyph_v_advance.invokeExact(font.handle(), glyph.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PositionT(RESULT);
+        return new org.harfbuzz.PositionT(RESULT);
     }
-    
-    private static final MethodHandle hb_font_get_glyph_v_advances = Interop.downcallHandle(
-        "hb_font_get_glyph_v_advances",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the advances for a sequence of glyph IDs in the specified
      * font, for vertical text segments.
+     * @param font {@link FontT} to work upon
+     * @param count The number of glyph IDs in the sequence queried
+     * @param firstGlyph The first glyph ID to query
+     * @param glyphStride The stride between successive glyph IDs
+     * @param firstAdvance The first advance retrieved
+     * @param advanceStride The stride between successive advances
      */
-    public static @NotNull void fontGetGlyphVAdvances(@NotNull FontT font, @NotNull int count, @NotNull CodepointT firstGlyph, @NotNull int glyphStride, @NotNull Out<PositionT> firstAdvance, @NotNull Out<Integer> advanceStride) {
+    public static void fontGetGlyphVAdvances(@NotNull org.harfbuzz.FontT font, int count, @NotNull org.harfbuzz.CodepointT firstGlyph, int glyphStride, @NotNull Out<org.harfbuzz.PositionT> firstAdvance, Out<Integer> advanceStride) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(firstGlyph, "Parameter 'firstGlyph' must not be null");
+        java.util.Objects.requireNonNull(firstAdvance, "Parameter 'firstAdvance' must not be null");
         PointerInteger firstGlyphPOINTER = new PointerInteger(firstGlyph.getValue());
         MemorySegment firstAdvancePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment advanceStridePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            hb_font_get_glyph_v_advances.invokeExact(font.handle(), count, new PointerInteger(firstGlyph.getValue()).handle(), glyphStride, (Addressable) firstAdvancePOINTER.address(), (Addressable) advanceStridePOINTER.address());
+            DowncallHandles.hb_font_get_glyph_v_advances.invokeExact(font.handle(), count, new PointerInteger(firstGlyph.getValue()).handle(), glyphStride, (Addressable) firstAdvancePOINTER.address(), (Addressable) advanceStridePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
             firstGlyph.setValue(firstGlyphPOINTER.get());
-        firstAdvance.set(new PositionT(firstAdvancePOINTER.get(ValueLayout.JAVA_INT, 0)));
+        firstAdvance.set(new org.harfbuzz.PositionT(firstAdvancePOINTER.get(ValueLayout.JAVA_INT, 0)));
         advanceStride.set(advanceStridePOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    private static final MethodHandle hb_font_get_glyph_v_origin = Interop.downcallHandle(
-        "hb_font_get_glyph_v_origin",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Fetches the kerning-adjustment value for a glyph-pair in
+     * the specified font, for vertical text segments.
+     * <p>
+     * &lt;note&gt;It handles legacy kerning only (as returned by the corresponding
+     * {@link FontFuncsT} function).&lt;/note&gt;
+     * @param font {@link FontT} to work upon
+     * @param topGlyph The glyph ID of the top glyph in the glyph pair
+     * @param bottomGlyph The glyph ID of the bottom glyph in the glyph pair
+     * @return The kerning adjustment value
+     */
+    @Deprecated
+    public static @NotNull org.harfbuzz.PositionT fontGetGlyphVKerning(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT topGlyph, @NotNull org.harfbuzz.CodepointT bottomGlyph) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(topGlyph, "Parameter 'topGlyph' must not be null");
+        java.util.Objects.requireNonNull(bottomGlyph, "Parameter 'bottomGlyph' must not be null");
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.hb_font_get_glyph_v_kerning.invokeExact(font.handle(), topGlyph.getValue(), bottomGlyph.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.harfbuzz.PositionT(RESULT);
+    }
     
     /**
      * Fetches the (X,Y) coordinates of the origin for a glyph ID
      * in the specified font, for vertical text segments.
+     * @param font {@link FontT} to work upon
+     * @param glyph The glyph ID to query
+     * @param x The X coordinate of the origin
+     * @param y The Y coordinate of the origin
+     * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull BoolT fontGetGlyphVOrigin(@NotNull FontT font, @NotNull CodepointT glyph, @NotNull Out<PositionT> x, @NotNull Out<PositionT> y) {
+    public static @NotNull org.harfbuzz.BoolT fontGetGlyphVOrigin(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull Out<org.harfbuzz.PositionT> x, @NotNull Out<org.harfbuzz.PositionT> y) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_font_get_glyph_v_origin.invokeExact(font.handle(), glyph.getValue(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_glyph_v_origin.invokeExact(font.handle(), glyph.getValue(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(new PositionT(xPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        y.set(new PositionT(yPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        return new BoolT(RESULT);
+        x.set(new org.harfbuzz.PositionT(xPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        y.set(new org.harfbuzz.PositionT(yPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_font_get_h_extents = Interop.downcallHandle(
-        "hb_font_get_h_extents",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the extents for a specified font, for horizontal
      * text segments.
+     * @param font {@link FontT} to work upon
+     * @param extents The font extents retrieved
+     * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull BoolT fontGetHExtents(@NotNull FontT font, @NotNull Out<FontExtentsT> extents) {
+    public static @NotNull org.harfbuzz.BoolT fontGetHExtents(@NotNull org.harfbuzz.FontT font, @NotNull Out<org.harfbuzz.FontExtentsT> extents) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(extents, "Parameter 'extents' must not be null");
         MemorySegment extentsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_font_get_h_extents.invokeExact(font.handle(), (Addressable) extentsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_h_extents.invokeExact(font.handle(), (Addressable) extentsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        extents.set(new FontExtentsT(Refcounted.get(extentsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        return new BoolT(RESULT);
+        extents.set(new org.harfbuzz.FontExtentsT(Refcounted.get(extentsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_font_get_nominal_glyph = Interop.downcallHandle(
-        "hb_font_get_nominal_glyph",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the nominal glyph ID for a Unicode code point in the
@@ -3246,73 +3660,84 @@ public final class HarfBuzz {
      * This version of the function should not be used to fetch glyph IDs
      * for code points modified by variation selectors. For variation-selector
      * support, user hb_font_get_variation_glyph() or use hb_font_get_glyph().
+     * @param font {@link FontT} to work upon
+     * @param unicode The Unicode code point to query
+     * @param glyph The glyph ID retrieved
+     * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull BoolT fontGetNominalGlyph(@NotNull FontT font, @NotNull CodepointT unicode, @NotNull Out<CodepointT> glyph) {
+    public static @NotNull org.harfbuzz.BoolT fontGetNominalGlyph(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT unicode, @NotNull Out<org.harfbuzz.CodepointT> glyph) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(unicode, "Parameter 'unicode' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         MemorySegment glyphPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_font_get_nominal_glyph.invokeExact(font.handle(), unicode.getValue(), (Addressable) glyphPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_nominal_glyph.invokeExact(font.handle(), unicode.getValue(), (Addressable) glyphPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        glyph.set(new CodepointT(glyphPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        return new BoolT(RESULT);
+        glyph.set(new org.harfbuzz.CodepointT(glyphPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_font_get_nominal_glyphs = Interop.downcallHandle(
-        "hb_font_get_nominal_glyphs",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the nominal glyph IDs for a sequence of Unicode code points. Glyph
-     * IDs must be returned in a {@link codepoint_t} output parameter.
+     * IDs must be returned in a {@link CodepointT} output parameter.
+     * @param font {@link FontT} to work upon
+     * @param count number of code points to query
+     * @param firstUnicode The first Unicode code point to query
+     * @param unicodeStride The stride between successive code points
+     * @param firstGlyph The first glyph ID retrieved
+     * @param glyphStride The stride between successive glyph IDs
+     * @return the number of code points processed
      */
-    public static int fontGetNominalGlyphs(@NotNull FontT font, @NotNull int count, @NotNull CodepointT firstUnicode, @NotNull int unicodeStride, @NotNull Out<CodepointT> firstGlyph, @NotNull int glyphStride) {
+    public static int fontGetNominalGlyphs(@NotNull org.harfbuzz.FontT font, int count, @NotNull org.harfbuzz.CodepointT firstUnicode, int unicodeStride, @NotNull Out<org.harfbuzz.CodepointT> firstGlyph, int glyphStride) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(firstUnicode, "Parameter 'firstUnicode' must not be null");
+        java.util.Objects.requireNonNull(firstGlyph, "Parameter 'firstGlyph' must not be null");
         PointerInteger firstUnicodePOINTER = new PointerInteger(firstUnicode.getValue());
         MemorySegment firstGlyphPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_font_get_nominal_glyphs.invokeExact(font.handle(), count, new PointerInteger(firstUnicode.getValue()).handle(), unicodeStride, (Addressable) firstGlyphPOINTER.address(), glyphStride);
+            RESULT = (int) DowncallHandles.hb_font_get_nominal_glyphs.invokeExact(font.handle(), count, new PointerInteger(firstUnicode.getValue()).handle(), unicodeStride, (Addressable) firstGlyphPOINTER.address(), glyphStride);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
             firstUnicode.setValue(firstUnicodePOINTER.get());
-        firstGlyph.set(new CodepointT(firstGlyphPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        firstGlyph.set(new org.harfbuzz.CodepointT(firstGlyphPOINTER.get(ValueLayout.JAVA_INT, 0)));
         return RESULT;
     }
     
-    private static final MethodHandle hb_font_get_parent = Interop.downcallHandle(
-        "hb_font_get_parent",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Fetches the parent font of {@code font}.
+     * @param font {@link FontT} to work upon
+     * @return The parent font object
      */
-    public static @NotNull FontT fontGetParent(@NotNull FontT font) {
+    public static @NotNull org.harfbuzz.FontT fontGetParent(@NotNull org.harfbuzz.FontT font) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_font_get_parent.invokeExact(font.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_font_get_parent.invokeExact(font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new FontT(Refcounted.get(RESULT, false));
+        return new org.harfbuzz.FontT(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle hb_font_get_ppem = Interop.downcallHandle(
-        "hb_font_get_ppem",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the horizontal and vertical points-per-em (ppem) of a font.
+     * @param font {@link FontT} to work upon
+     * @param xPpem Horizontal ppem value
+     * @param yPpem Vertical ppem value
      */
-    public static @NotNull void fontGetPpem(@NotNull FontT font, @NotNull Out<Integer> xPpem, @NotNull Out<Integer> yPpem) {
+    public static void fontGetPpem(@NotNull org.harfbuzz.FontT font, Out<Integer> xPpem, Out<Integer> yPpem) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(xPpem, "Parameter 'xPpem' must not be null");
+        java.util.Objects.requireNonNull(yPpem, "Parameter 'yPpem' must not be null");
         MemorySegment xPpemPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment yPpemPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            hb_font_get_ppem.invokeExact(font.handle(), (Addressable) xPpemPOINTER.address(), (Addressable) yPpemPOINTER.address());
+            DowncallHandles.hb_font_get_ppem.invokeExact(font.handle(), (Addressable) xPpemPOINTER.address(), (Addressable) yPpemPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3320,38 +3745,37 @@ public final class HarfBuzz {
         yPpem.set(yPpemPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    private static final MethodHandle hb_font_get_ptem = Interop.downcallHandle(
-        "hb_font_get_ptem",
-        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Fetches the "point size" of a font. Used in CoreText to
      * implement optical sizing.
+     * @param font {@link FontT} to work upon
+     * @return Point size.  A value of zero means "not set."
      */
-    public static float fontGetPtem(@NotNull FontT font) {
+    public static float fontGetPtem(@NotNull org.harfbuzz.FontT font) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         float RESULT;
         try {
-            RESULT = (float) hb_font_get_ptem.invokeExact(font.handle());
+            RESULT = (float) DowncallHandles.hb_font_get_ptem.invokeExact(font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle hb_font_get_scale = Interop.downcallHandle(
-        "hb_font_get_scale",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Fetches the horizontal and vertical scale of a font.
+     * @param font {@link FontT} to work upon
+     * @param xScale Horizontal scale value
+     * @param yScale Vertical scale value
      */
-    public static @NotNull void fontGetScale(@NotNull FontT font, @NotNull Out<Integer> xScale, @NotNull Out<Integer> yScale) {
+    public static void fontGetScale(@NotNull org.harfbuzz.FontT font, Out<Integer> xScale, Out<Integer> yScale) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(xScale, "Parameter 'xScale' must not be null");
+        java.util.Objects.requireNonNull(yScale, "Parameter 'yScale' must not be null");
         MemorySegment xScalePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment yScalePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            hb_font_get_scale.invokeExact(font.handle(), (Addressable) xScalePOINTER.address(), (Addressable) yScalePOINTER.address());
+            DowncallHandles.hb_font_get_scale.invokeExact(font.handle(), (Addressable) xScalePOINTER.address(), (Addressable) yScalePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3359,68 +3783,61 @@ public final class HarfBuzz {
         yScale.set(yScalePOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    private static final MethodHandle hb_font_get_synthetic_slant = Interop.downcallHandle(
-        "hb_font_get_synthetic_slant",
-        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Fetches the "synthetic slant" of a font.
+     * @param font {@link FontT} to work upon
+     * @return Synthetic slant.  By default is zero.
      */
-    public static float fontGetSyntheticSlant(@NotNull FontT font) {
+    public static float fontGetSyntheticSlant(@NotNull org.harfbuzz.FontT font) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         float RESULT;
         try {
-            RESULT = (float) hb_font_get_synthetic_slant.invokeExact(font.handle());
+            RESULT = (float) DowncallHandles.hb_font_get_synthetic_slant.invokeExact(font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle hb_font_get_user_data = Interop.downcallHandle(
-        "hb_font_get_user_data",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the user-data object associated with the specified key,
      * attached to the specified font object.
+     * @param font {@link FontT} to work upon
+     * @param key The user-data key to query
+     * @return Pointer to the user data
      */
-    public static @Nullable java.lang.foreign.MemoryAddress fontGetUserData(@NotNull FontT font, @NotNull UserDataKeyT key) {
+    public static @Nullable java.lang.foreign.MemoryAddress fontGetUserData(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.UserDataKeyT key) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_font_get_user_data.invokeExact(font.handle(), key.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_font_get_user_data.invokeExact(font.handle(), key.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle hb_font_get_v_extents = Interop.downcallHandle(
-        "hb_font_get_v_extents",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Fetches the extents for a specified font, for vertical
      * text segments.
+     * @param font {@link FontT} to work upon
+     * @param extents The font extents retrieved
+     * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull BoolT fontGetVExtents(@NotNull FontT font, @NotNull Out<FontExtentsT> extents) {
+    public static @NotNull org.harfbuzz.BoolT fontGetVExtents(@NotNull org.harfbuzz.FontT font, @NotNull Out<org.harfbuzz.FontExtentsT> extents) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(extents, "Parameter 'extents' must not be null");
         MemorySegment extentsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_font_get_v_extents.invokeExact(font.handle(), (Addressable) extentsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_v_extents.invokeExact(font.handle(), (Addressable) extentsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        extents.set(new FontExtentsT(Refcounted.get(extentsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        return new BoolT(RESULT);
+        extents.set(new org.harfbuzz.FontExtentsT(Refcounted.get(extentsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_font_get_var_coords_design = Interop.downcallHandle(
-        "hb_font_get_var_coords_design",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the list of variation coordinates (in design-space units) currently
@@ -3432,23 +3849,23 @@ public final class HarfBuzz {
      * <p>
      * Return value is valid as long as variation coordinates of the font
      * are not modified.
+     * @param font {@link FontT} to work upon
+     * @param length Number of coordinates retrieved
+     * @return coordinates array
      */
-    public static PointerFloat fontGetVarCoordsDesign(@NotNull FontT font, @NotNull Out<Integer> length) {
+    public static PointerFloat fontGetVarCoordsDesign(@NotNull org.harfbuzz.FontT font, Out<Integer> length) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_font_get_var_coords_design.invokeExact(font.handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.hb_font_get_var_coords_design.invokeExact(font.handle(), (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         length.set(lengthPOINTER.get(ValueLayout.JAVA_INT, 0));
         return new PointerFloat(RESULT);
     }
-    
-    private static final MethodHandle hb_font_get_var_coords_normalized = Interop.downcallHandle(
-        "hb_font_get_var_coords_normalized",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the list of normalized variation coordinates currently
@@ -3459,12 +3876,17 @@ public final class HarfBuzz {
      * <p>
      * Return value is valid as long as variation coordinates of the font
      * are not modified.
+     * @param font {@link FontT} to work upon
+     * @param length Number of coordinates retrieved
+     * @return coordinates array
      */
-    public static PointerInteger fontGetVarCoordsNormalized(@NotNull FontT font, @NotNull Out<Integer> length) {
+    public static PointerInteger fontGetVarCoordsNormalized(@NotNull org.harfbuzz.FontT font, Out<Integer> length) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_font_get_var_coords_normalized.invokeExact(font.handle(), (Addressable) lengthPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.hb_font_get_var_coords_normalized.invokeExact(font.handle(), (Addressable) lengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3472,68 +3894,77 @@ public final class HarfBuzz {
         return new PointerInteger(RESULT);
     }
     
-    private static final MethodHandle hb_font_get_variation_glyph = Interop.downcallHandle(
-        "hb_font_get_variation_glyph",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Fetches the glyph ID for a Unicode code point when followed by
      * by the specified variation-selector code point, in the specified
      * font.
+     * @param font {@link FontT} to work upon
+     * @param unicode The Unicode code point to query
+     * @param variationSelector The  variation-selector code point to query
+     * @param glyph The glyph ID retrieved
+     * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull BoolT fontGetVariationGlyph(@NotNull FontT font, @NotNull CodepointT unicode, @NotNull CodepointT variationSelector, @NotNull Out<CodepointT> glyph) {
+    public static @NotNull org.harfbuzz.BoolT fontGetVariationGlyph(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT unicode, @NotNull org.harfbuzz.CodepointT variationSelector, @NotNull Out<org.harfbuzz.CodepointT> glyph) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(unicode, "Parameter 'unicode' must not be null");
+        java.util.Objects.requireNonNull(variationSelector, "Parameter 'variationSelector' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         MemorySegment glyphPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_font_get_variation_glyph.invokeExact(font.handle(), unicode.getValue(), variationSelector.getValue(), (Addressable) glyphPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_get_variation_glyph.invokeExact(font.handle(), unicode.getValue(), variationSelector.getValue(), (Addressable) glyphPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        glyph.set(new CodepointT(glyphPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        return new BoolT(RESULT);
+        glyph.set(new org.harfbuzz.CodepointT(glyphPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_font_glyph_from_string = Interop.downcallHandle(
-        "hb_font_glyph_from_string",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the glyph ID from {@code font} that matches the specified string.
      * Strings of the format {@code gidDDD} or {@code uniUUUU} are parsed automatically.
      * <p>
      * &lt;note&gt;Note: {@code len} == -1 means the string is null-terminated.&lt;/note&gt;
+     * @param font {@link FontT} to work upon
+     * @param s string to query
+     * @param len The length of the string {@code s}
+     * @param glyph The glyph ID corresponding to the string requested
+     * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull BoolT fontGlyphFromString(@NotNull FontT font, @NotNull byte[] s, @NotNull int len, @NotNull Out<CodepointT> glyph) {
+    public static @NotNull org.harfbuzz.BoolT fontGlyphFromString(@NotNull org.harfbuzz.FontT font, byte[] s, int len, @NotNull Out<org.harfbuzz.CodepointT> glyph) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(s, "Parameter 's' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         MemorySegment glyphPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_font_glyph_from_string.invokeExact(font.handle(), Interop.allocateNativeArray(s), len, (Addressable) glyphPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_font_glyph_from_string.invokeExact(font.handle(), Interop.allocateNativeArray(s, false), len, (Addressable) glyphPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        glyph.set(new CodepointT(glyphPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        return new BoolT(RESULT);
+        glyph.set(new org.harfbuzz.CodepointT(glyphPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_font_glyph_to_string = Interop.downcallHandle(
-        "hb_font_glyph_to_string",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the name of the specified glyph ID in {@code font} and returns
-     * it in string @s.
+     * it in string {@code s}.
      * <p>
      * If the glyph ID has no name in {@code font}, a string of the form {@code gidDDD} is
      * generated, with {@code DDD} being the glyph ID.
+     * @param font {@link FontT} to work upon
+     * @param glyph The glyph ID to query
+     * @param s The string containing the glyph name
+     * @param size Length of string {@code s}
      */
-    public static @NotNull void fontGlyphToString(@NotNull FontT font, @NotNull CodepointT glyph, @NotNull Out<java.lang.String[]> s, @NotNull Out<Integer> size) {
+    public static void fontGlyphToString(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, Out<java.lang.String[]> s, Out<Integer> size) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+        java.util.Objects.requireNonNull(s, "Parameter 's' must not be null");
         MemorySegment sPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            hb_font_glyph_to_string.invokeExact(font.handle(), glyph.getValue(), (Addressable) sPOINTER.address(), (Addressable) sizePOINTER.address());
+            DowncallHandles.hb_font_glyph_to_string.invokeExact(font.handle(), glyph.getValue(), (Addressable) sPOINTER.address(), (Addressable) sizePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3546,145 +3977,150 @@ public final class HarfBuzz {
         s.set(sARRAY);
     }
     
-    private static final MethodHandle hb_font_is_immutable = Interop.downcallHandle(
-        "hb_font_is_immutable",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Tests whether a font object is immutable.
+     * @param font {@link FontT} to work upon
+     * @return {@code true} if {@code font} is immutable, {@code false} otherwise
      */
-    public static @NotNull BoolT fontIsImmutable(@NotNull FontT font) {
+    public static @NotNull org.harfbuzz.BoolT fontIsImmutable(@NotNull org.harfbuzz.FontT font) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_font_is_immutable.invokeExact(font.handle());
+            RESULT = (int) DowncallHandles.hb_font_is_immutable.invokeExact(font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_font_make_immutable = Interop.downcallHandle(
-        "hb_font_make_immutable",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Makes {@code font} immutable.
+     * @param font {@link FontT} to work upon
      */
-    public static @NotNull void fontMakeImmutable(@NotNull FontT font) {
+    public static void fontMakeImmutable(@NotNull org.harfbuzz.FontT font) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         try {
-            hb_font_make_immutable.invokeExact(font.handle());
+            DowncallHandles.hb_font_make_immutable.invokeExact(font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_font_reference = Interop.downcallHandle(
-        "hb_font_reference",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Increases the reference count on the given font object.
+     * @param font {@link FontT} to work upon
+     * @return The {@code font} object
      */
-    public static @NotNull FontT fontReference(@NotNull FontT font) {
+    public static @NotNull org.harfbuzz.FontT fontReference(@NotNull org.harfbuzz.FontT font) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_font_reference.invokeExact(font.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_font_reference.invokeExact(font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new FontT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.FontT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_font_set_face = Interop.downcallHandle(
-        "hb_font_set_face",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets {@code face} as the font-face value of {@code font}.
+     * @param font {@link FontT} to work upon
+     * @param face The {@link FaceT} to assign
      */
-    public static @NotNull void fontSetFace(@NotNull FontT font, @NotNull FaceT face) {
+    public static void fontSetFace(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.FaceT face) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         try {
-            hb_font_set_face.invokeExact(font.handle(), face.handle());
+            DowncallHandles.hb_font_set_face.invokeExact(font.handle(), face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle hb_font_set_parent = Interop.downcallHandle(
-        "hb_font_set_parent",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Replaces the font-functions structure attached to a font, updating
+     * the font's user-data with {@code font}-data and the {@code destroy} callback.
+     * @param font {@link FontT} to work upon
+     * @param klass The font-functions structure.
+     * @param fontData Data to attach to {@code font}
+     * @param destroy The function to call when {@code font_data} is not needed anymore
+     */
+    public static void fontSetFuncs(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.FontFuncsT klass, @Nullable java.lang.foreign.MemoryAddress fontData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Replaces the user data attached to a font, updating the font's
+     * {@code destroy} callback.
+     * @param font {@link FontT} to work upon
+     * @param fontData Data to attach to {@code font}
+     * @param destroy The function to call when {@code font_data} is not needed anymore
+     */
+    public static void fontSetFuncsData(@NotNull org.harfbuzz.FontT font, @Nullable java.lang.foreign.MemoryAddress fontData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Sets the parent font of {@code font}.
+     * @param font {@link FontT} to work upon
+     * @param parent The parent font object to assign
      */
-    public static @NotNull void fontSetParent(@NotNull FontT font, @NotNull FontT parent) {
+    public static void fontSetParent(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.FontT parent) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(parent, "Parameter 'parent' must not be null");
         try {
-            hb_font_set_parent.invokeExact(font.handle(), parent.handle());
+            DowncallHandles.hb_font_set_parent.invokeExact(font.handle(), parent.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_font_set_ppem = Interop.downcallHandle(
-        "hb_font_set_ppem",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the horizontal and vertical pixels-per-em (ppem) of a font.
+     * @param font {@link FontT} to work upon
+     * @param xPpem Horizontal ppem value to assign
+     * @param yPpem Vertical ppem value to assign
      */
-    public static @NotNull void fontSetPpem(@NotNull FontT font, @NotNull int xPpem, @NotNull int yPpem) {
+    public static void fontSetPpem(@NotNull org.harfbuzz.FontT font, int xPpem, int yPpem) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         try {
-            hb_font_set_ppem.invokeExact(font.handle(), xPpem, yPpem);
+            DowncallHandles.hb_font_set_ppem.invokeExact(font.handle(), xPpem, yPpem);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_font_set_ptem = Interop.downcallHandle(
-        "hb_font_set_ptem",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
-    );
     
     /**
      * Sets the "point size" of a font. Set to zero to unset.
      * Used in CoreText to implement optical sizing.
      * <p>
      * &lt;note&gt;Note: There are 72 points in an inch.&lt;/note&gt;
+     * @param font {@link FontT} to work upon
+     * @param ptem font size in points.
      */
-    public static @NotNull void fontSetPtem(@NotNull FontT font, @NotNull float ptem) {
+    public static void fontSetPtem(@NotNull org.harfbuzz.FontT font, float ptem) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         try {
-            hb_font_set_ptem.invokeExact(font.handle(), ptem);
+            DowncallHandles.hb_font_set_ptem.invokeExact(font.handle(), ptem);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_font_set_scale = Interop.downcallHandle(
-        "hb_font_set_scale",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the horizontal and vertical scale of a font.
+     * @param font {@link FontT} to work upon
+     * @param xScale Horizontal scale value to assign
+     * @param yScale Vertical scale value to assign
      */
-    public static @NotNull void fontSetScale(@NotNull FontT font, @NotNull int xScale, @NotNull int yScale) {
+    public static void fontSetScale(@NotNull org.harfbuzz.FontT font, int xScale, int yScale) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         try {
-            hb_font_set_scale.invokeExact(font.handle(), xScale, yScale);
+            DowncallHandles.hb_font_set_scale.invokeExact(font.handle(), xScale, yScale);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_font_set_synthetic_slant = Interop.downcallHandle(
-        "hb_font_set_synthetic_slant",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
-    );
     
     /**
      * Sets the "synthetic slant" of a font.  By default is zero.
@@ -3700,19 +4136,30 @@ public final class HarfBuzz {
      * <p>
      * &lt;note&gt;Note: The slant value is a ratio.  For example, a
      * 20% slant would be represented as a 0.2 value.&lt;/note&gt;
+     * @param font {@link FontT} to work upon
+     * @param slant synthetic slant value.
      */
-    public static @NotNull void fontSetSyntheticSlant(@NotNull FontT font, @NotNull float slant) {
+    public static void fontSetSyntheticSlant(@NotNull org.harfbuzz.FontT font, float slant) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         try {
-            hb_font_set_synthetic_slant.invokeExact(font.handle(), slant);
+            DowncallHandles.hb_font_set_synthetic_slant.invokeExact(font.handle(), slant);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle hb_font_set_var_coords_design = Interop.downcallHandle(
-        "hb_font_set_var_coords_design",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
+    /**
+     * Attaches a user-data key/data pair to the specified font object.
+     * @param font {@link FontT} to work upon
+     * @param key The user-data key
+     * @param data A pointer to the user data
+     * @param destroy A callback to call when {@code data} is not needed anymore
+     * @param replace Whether to replace an existing data with the same key
+     * @return {@code true} if success, {@code false} otherwise
+     */
+    public static @NotNull org.harfbuzz.BoolT fontSetUserData(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, @NotNull org.harfbuzz.BoolT replace) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Applies a list of variation coordinates (in design-space units)
@@ -3721,19 +4168,19 @@ public final class HarfBuzz {
      * Note that this overrides all existing variations set on {@code font}.
      * Axes not included in {@code coords} will be effectively set to their
      * default values.
+     * @param font {@link FontT} to work upon
+     * @param coords Array of variation coordinates to apply
+     * @param coordsLength Number of coordinates to apply
      */
-    public static @NotNull void fontSetVarCoordsDesign(@NotNull FontT font, @NotNull float[] coords, @NotNull int coordsLength) {
+    public static void fontSetVarCoordsDesign(@NotNull org.harfbuzz.FontT font, float[] coords, int coordsLength) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(coords, "Parameter 'coords' must not be null");
         try {
-            hb_font_set_var_coords_design.invokeExact(font.handle(), Interop.allocateNativeArray(coords), coordsLength);
+            DowncallHandles.hb_font_set_var_coords_design.invokeExact(font.handle(), Interop.allocateNativeArray(coords, false), coordsLength);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_font_set_var_coords_normalized = Interop.downcallHandle(
-        "hb_font_set_var_coords_normalized",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Applies a list of variation coordinates (in normalized units)
@@ -3744,35 +4191,33 @@ public final class HarfBuzz {
      * default values.
      * <p>
      * &lt;note&gt;Note: Coordinates should be normalized to 2.14.&lt;/note&gt;
+     * @param font {@link FontT} to work upon
+     * @param coords Array of variation coordinates to apply
+     * @param coordsLength Number of coordinates to apply
      */
-    public static @NotNull void fontSetVarCoordsNormalized(@NotNull FontT font, @NotNull int[] coords, @NotNull int coordsLength) {
+    public static void fontSetVarCoordsNormalized(@NotNull org.harfbuzz.FontT font, int[] coords, int coordsLength) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(coords, "Parameter 'coords' must not be null");
         try {
-            hb_font_set_var_coords_normalized.invokeExact(font.handle(), Interop.allocateNativeArray(coords), coordsLength);
+            DowncallHandles.hb_font_set_var_coords_normalized.invokeExact(font.handle(), Interop.allocateNativeArray(coords, false), coordsLength);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_font_set_var_named_instance = Interop.downcallHandle(
-        "hb_font_set_var_named_instance",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets design coords of a font from a named instance index.
+     * @param font a font.
+     * @param instanceIndex named instance index.
      */
-    public static @NotNull void fontSetVarNamedInstance(@NotNull FontT font, @NotNull int instanceIndex) {
+    public static void fontSetVarNamedInstance(@NotNull org.harfbuzz.FontT font, int instanceIndex) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         try {
-            hb_font_set_var_named_instance.invokeExact(font.handle(), instanceIndex);
+            DowncallHandles.hb_font_set_var_named_instance.invokeExact(font.handle(), instanceIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_font_set_variations = Interop.downcallHandle(
-        "hb_font_set_variations",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Applies a list of font-variation settings to a font.
@@ -3780,19 +4225,19 @@ public final class HarfBuzz {
      * Note that this overrides all existing variations set on {@code font}.
      * Axes not included in {@code variations} will be effectively set to their
      * default values.
+     * @param font {@link FontT} to work upon
+     * @param variations Array of variation settings to apply
+     * @param variationsLength Number of variations to apply
      */
-    public static @NotNull void fontSetVariations(@NotNull FontT font, @NotNull VariationT[] variations, @NotNull int variationsLength) {
+    public static void fontSetVariations(@NotNull org.harfbuzz.FontT font, org.harfbuzz.VariationT[] variations, int variationsLength) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(variations, "Parameter 'variations' must not be null");
         try {
-            hb_font_set_variations.invokeExact(font.handle(), Interop.allocateNativeArray(variations), variationsLength);
+            DowncallHandles.hb_font_set_variations.invokeExact(font.handle(), Interop.allocateNativeArray(variations, false), variationsLength);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_font_subtract_glyph_origin_for_direction = Interop.downcallHandle(
-        "hb_font_subtract_glyph_origin_for_direction",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Subtracts the origin coordinates from an (X,Y) point coordinate,
@@ -3800,240 +4245,365 @@ public final class HarfBuzz {
      * <p>
      * Calls the appropriate direction-specific variant (horizontal
      * or vertical) depending on the value of {@code direction}.
+     * @param font {@link FontT} to work upon
+     * @param glyph The glyph ID to query
+     * @param direction The direction of the text segment
+     * @param x Input = The original X coordinate
+     *     Output = The X coordinate minus the X-coordinate of the origin
+     * @param y Input = The original Y coordinate
+     *     Output = The Y coordinate minus the Y-coordinate of the origin
      */
-    public static @NotNull void fontSubtractGlyphOriginForDirection(@NotNull FontT font, @NotNull CodepointT glyph, @NotNull DirectionT direction, @NotNull Out<PositionT> x, @NotNull Out<PositionT> y) {
+    public static void fontSubtractGlyphOriginForDirection(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.DirectionT direction, @NotNull Out<org.harfbuzz.PositionT> x, @NotNull Out<org.harfbuzz.PositionT> y) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment xPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment yPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            hb_font_subtract_glyph_origin_for_direction.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
+            DowncallHandles.hb_font_subtract_glyph_origin_for_direction.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), (Addressable) xPOINTER.address(), (Addressable) yPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(new PositionT(xPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        y.set(new PositionT(yPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        x.set(new org.harfbuzz.PositionT(xPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        y.set(new org.harfbuzz.PositionT(yPOINTER.get(ValueLayout.JAVA_INT, 0)));
     }
     
-    private static final MethodHandle hb_ft_font_changed = Interop.downcallHandle(
-        "hb_ft_font_changed",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
+    /**
+     * Creates an {@link FaceT} face object from the specified FT_Face.
+     * <p>
+     * This variant of the function does not provide any life-cycle management.
+     * <p>
+     * Most client programs should use hb_ft_face_create_referenced()
+     * (or, perhaps, hb_ft_face_create_cached()) instead.
+     * <p>
+     * If you know you have valid reasons not to use hb_ft_face_create_referenced(),
+     * then it is the client program's responsibility to destroy {@code ft_face}
+     * after the {@link FaceT} face object has been destroyed.
+     * @param ftFace FT_Face to work upon
+     * @param destroy A callback to call when the face object is not needed anymore
+     * @return the new {@link FaceT} face object
+     */
+    public static @NotNull org.harfbuzz.FaceT ftFaceCreate(@NotNull java.lang.foreign.MemoryAddress ftFace, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Creates an {@link FaceT} face object from the specified FT_Face.
+     * <p>
+     * This variant of the function caches the newly created {@link FaceT}
+     * face object, using the {@code generic} pointer of {@code ft_face}. Subsequent function
+     * calls that are passed the same {@code ft_face} parameter will have the same
+     * {@link FaceT} returned to them, and that {@link FaceT} will be correctly
+     * reference counted.
+     * <p>
+     * However, client programs are still responsible for destroying
+     * {@code ft_face} after the last {@link FaceT} face object has been destroyed.
+     * @param ftFace FT_Face to work upon
+     * @return the new {@link FaceT} face object
+     */
+    public static @NotNull org.harfbuzz.FaceT ftFaceCreateCached(@NotNull java.lang.foreign.MemoryAddress ftFace) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Creates an {@link FaceT} face object from the specified FT_Face.
+     * <p>
+     * This is the preferred variant of the hb_ft_face_create*
+     * function family, because it calls FT_Reference_Face() on {@code ft_face},
+     * ensuring that {@code ft_face} remains alive as long as the resulting
+     * {@link FaceT} face object remains alive. Also calls FT_Done_Face()
+     * when the {@link FaceT} face object is destroyed.
+     * <p>
+     * Use this version unless you know you have good reasons not to.
+     * @param ftFace FT_Face to work upon
+     * @return the new {@link FaceT} face object
+     */
+    public static @NotNull org.harfbuzz.FaceT ftFaceCreateReferenced(@NotNull java.lang.foreign.MemoryAddress ftFace) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Refreshes the state of {@code font} when the underlying FT_Face has changed.
      * This function should be called after changing the size or
      * variation-axis settings on the FT_Face.
+     * @param font {@link FontT} to work upon
      */
-    public static @NotNull void ftFontChanged(@NotNull FontT font) {
+    public static void ftFontChanged(@NotNull org.harfbuzz.FontT font) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         try {
-            hb_ft_font_changed.invokeExact(font.handle());
+            DowncallHandles.hb_ft_font_changed.invokeExact(font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle hb_ft_font_get_load_flags = Interop.downcallHandle(
-        "hb_ft_font_get_load_flags",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
+    /**
+     * Creates an {@link FontT} font object from the specified FT_Face.
+     * <p>
+     * &lt;note&gt;Note: You must set the face size on {@code ft_face} before calling
+     * hb_ft_font_create() on it. HarfBuzz assumes size is always set and will
+     * access {@code size} member of FT_Face unconditionally.&lt;/note&gt;
+     * <p>
+     * This variant of the function does not provide any life-cycle management.
+     * <p>
+     * Most client programs should use hb_ft_font_create_referenced()
+     * instead.
+     * <p>
+     * If you know you have valid reasons not to use hb_ft_font_create_referenced(),
+     * then it is the client program's responsibility to destroy {@code ft_face}
+     * after the {@link FontT} font object has been destroyed.
+     * <p>
+     * HarfBuzz will use the {@code destroy} callback on the {@link FontT} font object
+     * if it is supplied when you use this function. However, even if {@code destroy}
+     * is provided, it is the client program's responsibility to destroy {@code ft_face},
+     * and it is the client program's responsibility to ensure that {@code ft_face} is
+     * destroyed only after the {@link FontT} font object has been destroyed.
+     * @param ftFace FT_Face to work upon
+     * @param destroy A callback to call when the font object is not needed anymore
+     * @return the new {@link FontT} font object
+     */
+    public static @NotNull org.harfbuzz.FontT ftFontCreate(@NotNull java.lang.foreign.MemoryAddress ftFace, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
-     * Fetches the FT_Load_Glyph load flags of the specified {@link font_t}.
+     * Creates an {@link FontT} font object from the specified FT_Face.
+     * <p>
+     * &lt;note&gt;Note: You must set the face size on {@code ft_face} before calling
+     * hb_ft_font_create_referenced() on it. HarfBuzz assumes size is always set
+     * and will access {@code size} member of FT_Face unconditionally.&lt;/note&gt;
+     * <p>
+     * This is the preferred variant of the hb_ft_font_create*
+     * function family, because it calls FT_Reference_Face() on {@code ft_face},
+     * ensuring that {@code ft_face} remains alive as long as the resulting
+     * {@link FontT} font object remains alive.
+     * <p>
+     * Use this version unless you know you have good reasons not to.
+     * @param ftFace FT_Face to work upon
+     * @return the new {@link FontT} font object
+     */
+    public static @NotNull org.harfbuzz.FontT ftFontCreateReferenced(@NotNull java.lang.foreign.MemoryAddress ftFace) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Fetches the FT_Face associated with the specified {@link FontT}
+     * font object.
+     * @param font {@link FontT} to work upon
+     * @return the FT_Face found or {@code null}
+     */
+    public static @Nullable java.lang.foreign.MemoryAddress ftFontGetFace(@NotNull org.harfbuzz.FontT font) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Fetches the FT_Load_Glyph load flags of the specified {@link FontT}.
      * <p>
      * For more information, see
      * https://www.freetype.org/freetype2/docs/reference/ft2-base_interface.html{@code ft_load_xxx}
+     * @param font {@link FontT} to work upon
+     * @return FT_Load_Glyph flags found
      */
-    public static int ftFontGetLoadFlags(@NotNull FontT font) {
+    public static int ftFontGetLoadFlags(@NotNull org.harfbuzz.FontT font) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ft_font_get_load_flags.invokeExact(font.handle());
+            RESULT = (int) DowncallHandles.hb_ft_font_get_load_flags.invokeExact(font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle hb_ft_font_set_funcs = Interop.downcallHandle(
-        "hb_ft_font_set_funcs",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
+    /**
+     * Gets the FT_Face associated with {@code font}, This face will be kept around until
+     * you call hb_ft_font_unlock_face().
+     * @param font {@link FontT} to work upon
+     * @return the FT_Face associated with {@code font} or {@code null}
+     */
+    public static @Nullable java.lang.foreign.MemoryAddress ftFontLockFace(@NotNull org.harfbuzz.FontT font) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Configures the font-functions structure of the specified
-     * {@link font_t} font object to use FreeType font functions.
+     * {@link FontT} font object to use FreeType font functions.
      * <p>
      * In particular, you can use this function to configure an
-     * existing {@link face_t} face object for use with FreeType font
-     * functions even if that {@link face_t} face object was initially
+     * existing {@link FaceT} face object for use with FreeType font
+     * functions even if that {@link FaceT} face object was initially
      * created with hb_face_create(), and therefore was not
      * initially configured to use FreeType font functions.
      * <p>
-     * An {@link face_t} face object created with hb_ft_face_create()
+     * An {@link FaceT} face object created with hb_ft_face_create()
      * is preconfigured for FreeType font functions and does not
      * require this function to be used.
      * <p>
      * &lt;note&gt;Note: Internally, this function creates an FT_Face.
      * &lt;/note&gt;
+     * @param font {@link FontT} to work upon
      */
-    public static @NotNull void ftFontSetFuncs(@NotNull FontT font) {
+    public static void ftFontSetFuncs(@NotNull org.harfbuzz.FontT font) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         try {
-            hb_ft_font_set_funcs.invokeExact(font.handle());
+            DowncallHandles.hb_ft_font_set_funcs.invokeExact(font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle hb_ft_font_set_load_flags = Interop.downcallHandle(
-        "hb_ft_font_set_load_flags",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
-     * Sets the FT_Load_Glyph load flags for the specified {@link font_t}.
+     * Sets the FT_Load_Glyph load flags for the specified {@link FontT}.
      * <p>
      * For more information, see
      * https://www.freetype.org/freetype2/docs/reference/ft2-base_interface.html{@code ft_load_xxx}
+     * @param font {@link FontT} to work upon
+     * @param loadFlags The FreeType load flags to set
      */
-    public static @NotNull void ftFontSetLoadFlags(@NotNull FontT font, @NotNull int loadFlags) {
+    public static void ftFontSetLoadFlags(@NotNull org.harfbuzz.FontT font, int loadFlags) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         try {
-            hb_ft_font_set_load_flags.invokeExact(font.handle(), loadFlags);
+            DowncallHandles.hb_ft_font_set_load_flags.invokeExact(font.handle(), loadFlags);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_ft_font_unlock_face = Interop.downcallHandle(
-        "hb_ft_font_unlock_face",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Releases an FT_Face previously obtained with hb_ft_font_lock_face().
+     * @param font {@link FontT} to work upon
      */
-    public static @NotNull void ftFontUnlockFace(@NotNull FontT font) {
+    public static void ftFontUnlockFace(@NotNull org.harfbuzz.FontT font) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         try {
-            hb_ft_font_unlock_face.invokeExact(font.handle());
+            DowncallHandles.hb_ft_font_unlock_face.invokeExact(font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_glib_blob_create = Interop.downcallHandle(
-        "hb_glib_blob_create",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
-     * Creates an {@link blob_t} blob from the specified
+     * Creates an {@link BlobT} blob from the specified
      * GBytes data structure.
+     * @param gbytes the GBytes structure to work upon
+     * @return the new {@link BlobT} blob object
      */
-    public static @NotNull BlobT glibBlobCreate(@NotNull org.gtk.glib.Bytes gbytes) {
+    public static @NotNull org.harfbuzz.BlobT glibBlobCreate(@NotNull org.gtk.glib.Bytes gbytes) {
+        java.util.Objects.requireNonNull(gbytes, "Parameter 'gbytes' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_glib_blob_create.invokeExact(gbytes.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_glib_blob_create.invokeExact(gbytes.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BlobT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BlobT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_glib_get_unicode_funcs = Interop.downcallHandle(
-        "hb_glib_get_unicode_funcs",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches a Unicode-functions structure that is populated
      * with the appropriate GLib function for each method.
+     * @return a pointer to the {@link UnicodeFuncsT} Unicode-functions structure
      */
-    public static @NotNull UnicodeFuncsT glibGetUnicodeFuncs() {
+    public static @NotNull org.harfbuzz.UnicodeFuncsT glibGetUnicodeFuncs() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_glib_get_unicode_funcs.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.hb_glib_get_unicode_funcs.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new UnicodeFuncsT(Refcounted.get(RESULT, false));
+        return new org.harfbuzz.UnicodeFuncsT(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle hb_glib_script_from_script = Interop.downcallHandle(
-        "hb_glib_script_from_script",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the GUnicodeScript identifier that corresponds to the
-     * specified {@link script_t} script.
+     * specified {@link ScriptT} script.
+     * @param script The {@link ScriptT} to query
+     * @return the GUnicodeScript identifier found
      */
-    public static @NotNull org.gtk.glib.UnicodeScript glibScriptFromScript(@NotNull ScriptT script) {
+    public static @NotNull org.gtk.glib.UnicodeScript glibScriptFromScript(@NotNull org.harfbuzz.ScriptT script) {
+        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_glib_script_from_script.invokeExact(script.getValue());
+            RESULT = (int) DowncallHandles.hb_glib_script_from_script.invokeExact(script.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.UnicodeScript(RESULT);
     }
     
-    private static final MethodHandle hb_glib_script_to_script = Interop.downcallHandle(
-        "hb_glib_script_to_script",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
-    
     /**
-     * Fetches the {@link script_t} script that corresponds to the
+     * Fetches the {@link ScriptT} script that corresponds to the
      * specified GUnicodeScript identifier.
+     * @param script The GUnicodeScript identifier to query
+     * @return the {@link ScriptT} script found
      */
-    public static @NotNull ScriptT glibScriptToScript(@NotNull org.gtk.glib.UnicodeScript script) {
+    public static @NotNull org.harfbuzz.ScriptT glibScriptToScript(@NotNull org.gtk.glib.UnicodeScript script) {
+        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_glib_script_to_script.invokeExact(script.getValue());
+            RESULT = (int) DowncallHandles.hb_glib_script_to_script.invokeExact(script.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ScriptT(RESULT);
+        return new org.harfbuzz.ScriptT(RESULT);
     }
-    
-    private static final MethodHandle hb_glyph_info_get_glyph_flags = Interop.downcallHandle(
-        "hb_glyph_info_get_glyph_flags",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
-     * Returns glyph flags encoded within a {@link glyph_info_t}.
+     * Returns glyph flags encoded within a {@link GlyphInfoT}.
+     * @param info a {@link GlyphInfoT}
+     * @return The {@link GlyphFlagsT} encoded within {@code info}
      */
-    public static @NotNull GlyphFlagsT glyphInfoGetGlyphFlags(@NotNull GlyphInfoT info) {
+    public static @NotNull org.harfbuzz.GlyphFlagsT glyphInfoGetGlyphFlags(@NotNull org.harfbuzz.GlyphInfoT info) {
+        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_glyph_info_get_glyph_flags.invokeExact(info.handle());
+            RESULT = (int) DowncallHandles.hb_glyph_info_get_glyph_flags.invokeExact(info.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new GlyphFlagsT(RESULT);
+        return new org.harfbuzz.GlyphFlagsT(RESULT);
     }
     
-    private static final MethodHandle hb_language_from_string = Interop.downcallHandle(
-        "hb_language_from_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
+    /**
+     * Fetches the Graphite2 gr_face corresponding to the specified
+     * {@link FaceT} face object.
+     * @param face {@code hb_face_t} to query
+     * @return the gr_face found
+     */
+    public static @NotNull java.lang.foreign.MemoryAddress graphite2FaceGetGrFace(@NotNull org.harfbuzz.FaceT face) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Always returns {@code null}. Use hb_graphite2_face_get_gr_face() instead.
+     * @param font An {@link FontT}
+     * @return Graphite2 font associated with {@code font}.
+     */
+    @Deprecated
+    public static @Nullable java.lang.foreign.MemoryAddress graphite2FontGetGrFont(@NotNull org.harfbuzz.FontT font) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Converts {@code str} representing a BCP 47 language tag to the corresponding
-     * {@link language_t}.
+     * {@link LanguageT}.
+     * @param str a string representing
+     *       a BCP 47 language tag
+     * @param len length of the {@code str}, or -1 if it is {@code null}-terminated.
+     * @return The {@link LanguageT} corresponding to the BCP 47 language tag.
      */
-    public static @NotNull LanguageT languageFromString(@NotNull byte[] str, @NotNull int len) {
+    public static @NotNull org.harfbuzz.LanguageT languageFromString(byte[] str, int len) {
+        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_language_from_string.invokeExact(Interop.allocateNativeArray(str), len);
+            RESULT = (MemoryAddress) DowncallHandles.hb_language_from_string.invokeExact(Interop.allocateNativeArray(str, false), len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new LanguageT(Refcounted.get(RESULT, false));
+        return new org.harfbuzz.LanguageT(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle hb_language_get_default = Interop.downcallHandle(
-        "hb_language_get_default",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetch the default language from current locale.
@@ -4044,296 +4614,288 @@ public final class HarfBuzz {
      * problems, call this function once before multiple threads can call it.
      * This function is only used from hb_buffer_guess_segment_properties() by
      * HarfBuzz itself.&lt;/note&gt;
+     * @return The default language of the locale as
+     * an {@link LanguageT}
      */
-    public static @NotNull LanguageT languageGetDefault() {
+    public static @NotNull org.harfbuzz.LanguageT languageGetDefault() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_language_get_default.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.hb_language_get_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new LanguageT(Refcounted.get(RESULT, false));
+        return new org.harfbuzz.LanguageT(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle hb_language_to_string = Interop.downcallHandle(
-        "hb_language_to_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Converts an {@link language_t} to a string.
+     * Converts an {@link LanguageT} to a string.
+     * @param language The {@link LanguageT} to convert
+     * @return A {@code null}-terminated string representing the {@code language}. Must not be freed by
+     * the caller.
      */
-    public static @NotNull java.lang.String languageToString(@NotNull LanguageT language) {
+    public static @NotNull java.lang.String languageToString(@NotNull org.harfbuzz.LanguageT language) {
+        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_language_to_string.invokeExact(language.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_language_to_string.invokeExact(language.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle hb_map_allocation_successful = Interop.downcallHandle(
-        "hb_map_allocation_successful",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Tests whether memory allocation for a set was successful.
+     * @param map A map
+     * @return {@code true} if allocation succeeded, {@code false} otherwise
      */
-    public static @NotNull BoolT mapAllocationSuccessful(@NotNull MapT map) {
+    public static @NotNull org.harfbuzz.BoolT mapAllocationSuccessful(@NotNull org.harfbuzz.MapT map) {
+        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_map_allocation_successful.invokeExact(map.handle());
+            RESULT = (int) DowncallHandles.hb_map_allocation_successful.invokeExact(map.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_map_clear = Interop.downcallHandle(
-        "hb_map_clear",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Clears out the contents of {@code map}.
+     * @param map A map
      */
-    public static @NotNull void mapClear(@NotNull MapT map) {
+    public static void mapClear(@NotNull org.harfbuzz.MapT map) {
+        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
         try {
-            hb_map_clear.invokeExact(map.handle());
+            DowncallHandles.hb_map_clear.invokeExact(map.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_map_create = Interop.downcallHandle(
-        "hb_map_create",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Creates a new, initially empty map.
+     * @return The new {@link MapT}
      */
-    public static @NotNull MapT mapCreate() {
+    public static @NotNull org.harfbuzz.MapT mapCreate() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_map_create.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.hb_map_create.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new MapT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.MapT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_map_del = Interop.downcallHandle(
-        "hb_map_del",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Removes {@code key} and its stored value from {@code map}.
+     * @param map A map
+     * @param key The key to delete
      */
-    public static @NotNull void mapDel(@NotNull MapT map, @NotNull CodepointT key) {
+    public static void mapDel(@NotNull org.harfbuzz.MapT map, @NotNull org.harfbuzz.CodepointT key) {
+        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
+        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         try {
-            hb_map_del.invokeExact(map.handle(), key.getValue());
+            DowncallHandles.hb_map_del.invokeExact(map.handle(), key.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_map_destroy = Interop.downcallHandle(
-        "hb_map_destroy",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Decreases the reference count on a map. When
      * the reference count reaches zero, the map is
      * destroyed, freeing all memory.
+     * @param map A map
      */
-    public static @NotNull void mapDestroy(@NotNull MapT map) {
+    public static void mapDestroy(@NotNull org.harfbuzz.MapT map) {
+        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
         try {
-            hb_map_destroy.invokeExact(map.handle());
+            DowncallHandles.hb_map_destroy.invokeExact(map.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_map_get = Interop.downcallHandle(
-        "hb_map_get",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the value stored for {@code key} in {@code map}.
+     * @param map A map
+     * @param key The key to query
      */
-    public static @NotNull CodepointT mapGet(@NotNull MapT map, @NotNull CodepointT key) {
+    public static @NotNull org.harfbuzz.CodepointT mapGet(@NotNull org.harfbuzz.MapT map, @NotNull org.harfbuzz.CodepointT key) {
+        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
+        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_map_get.invokeExact(map.handle(), key.getValue());
+            RESULT = (int) DowncallHandles.hb_map_get.invokeExact(map.handle(), key.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new CodepointT(RESULT);
+        return new org.harfbuzz.CodepointT(RESULT);
     }
-    
-    private static final MethodHandle hb_map_get_empty = Interop.downcallHandle(
-        "hb_map_get_empty",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
-     * Fetches the singleton empty {@link map_t}.
+     * Fetches the singleton empty {@link MapT}.
+     * @return The empty {@link MapT}
      */
-    public static @NotNull MapT mapGetEmpty() {
+    public static @NotNull org.harfbuzz.MapT mapGetEmpty() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_map_get_empty.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.hb_map_get_empty.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new MapT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.MapT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_map_get_population = Interop.downcallHandle(
-        "hb_map_get_population",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the number of key-value pairs in the map.
+     * @param map A map
+     * @return The population of {@code map}
      */
-    public static int mapGetPopulation(@NotNull MapT map) {
+    public static int mapGetPopulation(@NotNull org.harfbuzz.MapT map) {
+        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_map_get_population.invokeExact(map.handle());
+            RESULT = (int) DowncallHandles.hb_map_get_population.invokeExact(map.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle hb_map_get_user_data = Interop.downcallHandle(
-        "hb_map_get_user_data",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the user data associated with the specified key,
      * attached to the specified map.
+     * @param map A map
+     * @param key The user-data key to query
+     * @return A pointer to the user data
      */
-    public static @Nullable java.lang.foreign.MemoryAddress mapGetUserData(@NotNull MapT map, @NotNull UserDataKeyT key) {
+    public static @Nullable java.lang.foreign.MemoryAddress mapGetUserData(@NotNull org.harfbuzz.MapT map, @NotNull org.harfbuzz.UserDataKeyT key) {
+        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
+        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_map_get_user_data.invokeExact(map.handle(), key.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_map_get_user_data.invokeExact(map.handle(), key.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle hb_map_has = Interop.downcallHandle(
-        "hb_map_has",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Tests whether {@code key} is an element of {@code map}.
+     * @param map A map
+     * @param key The key to query
+     * @return {@code true} if {@code key} is found in {@code map}, {@code false} otherwise
      */
-    public static @NotNull BoolT mapHas(@NotNull MapT map, @NotNull CodepointT key) {
+    public static @NotNull org.harfbuzz.BoolT mapHas(@NotNull org.harfbuzz.MapT map, @NotNull org.harfbuzz.CodepointT key) {
+        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
+        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_map_has.invokeExact(map.handle(), key.getValue());
+            RESULT = (int) DowncallHandles.hb_map_has.invokeExact(map.handle(), key.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_map_is_empty = Interop.downcallHandle(
-        "hb_map_is_empty",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tests whether {@code map} is empty (contains no elements).
+     * @param map A map
+     * @return {@code true} if {@code map} is empty
      */
-    public static @NotNull BoolT mapIsEmpty(@NotNull MapT map) {
+    public static @NotNull org.harfbuzz.BoolT mapIsEmpty(@NotNull org.harfbuzz.MapT map) {
+        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_map_is_empty.invokeExact(map.handle());
+            RESULT = (int) DowncallHandles.hb_map_is_empty.invokeExact(map.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_map_reference = Interop.downcallHandle(
-        "hb_map_reference",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Increases the reference count on a map.
+     * @param map A map
+     * @return The map
      */
-    public static @NotNull MapT mapReference(@NotNull MapT map) {
+    public static @NotNull org.harfbuzz.MapT mapReference(@NotNull org.harfbuzz.MapT map) {
+        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_map_reference.invokeExact(map.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_map_reference.invokeExact(map.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new MapT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.MapT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_map_set = Interop.downcallHandle(
-        "hb_map_set",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Stores {@code key}:{@code value} in the map.
+     * @param map A map
+     * @param key The key to store in the map
+     * @param value The value to store for {@code key}
      */
-    public static @NotNull void mapSet(@NotNull MapT map, @NotNull CodepointT key, @NotNull CodepointT value) {
+    public static void mapSet(@NotNull org.harfbuzz.MapT map, @NotNull org.harfbuzz.CodepointT key, @NotNull org.harfbuzz.CodepointT value) {
+        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
+        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            hb_map_set.invokeExact(map.handle(), key.getValue(), value.getValue());
+            DowncallHandles.hb_map_set.invokeExact(map.handle(), key.getValue(), value.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle hb_ot_color_glyph_get_layers = Interop.downcallHandle(
-        "hb_ot_color_glyph_get_layers",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Attaches a user-data key/data pair to the specified map.
+     * @param map A map
+     * @param key The user-data key to set
+     * @param data A pointer to the user data to set
+     * @param destroy A callback to call when {@code data} is not needed anymore
+     * @param replace Whether to replace an existing data with the same key
+     * @return {@code true} if success, {@code false} otherwise
+     */
+    public static @NotNull org.harfbuzz.BoolT mapSetUserData(@NotNull org.harfbuzz.MapT map, @NotNull org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, @NotNull org.harfbuzz.BoolT replace) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Fetches a list of all color layers for the specified glyph index in the specified
      * face. The list returned will begin at the offset provided.
+     * @param face {@link FaceT} to work upon
+     * @param glyph The glyph index to query
+     * @param startOffset offset of the first layer to retrieve
+     * @param layerCount Input = the maximum number of layers to return;
+     *         Output = the actual number of layers returned (may be zero)
+     * @param layers The array of layers found
+     * @return Total number of layers available for the glyph index queried
      */
-    public static int otColorGlyphGetLayers(@NotNull FaceT face, @NotNull CodepointT glyph, @NotNull int startOffset, @NotNull Out<Integer> layerCount, @Nullable Out<OtColorLayerT[]> layers) {
+    public static int otColorGlyphGetLayers(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.CodepointT glyph, int startOffset, Out<Integer> layerCount, Out<org.harfbuzz.OtColorLayerT[]> layers) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+        java.util.Objects.requireNonNull(layerCount, "Parameter 'layerCount' must not be null");
+        java.util.Objects.requireNonNullElse(layers, MemoryAddress.NULL);
         MemorySegment layerCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment layersPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_color_glyph_get_layers.invokeExact(face.handle(), glyph.getValue(), startOffset, (Addressable) layerCountPOINTER.address(), (Addressable) layersPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_color_glyph_get_layers.invokeExact(face.handle(), glyph.getValue(), startOffset, (Addressable) layerCountPOINTER.address(), (Addressable) layersPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         layerCount.set(layerCountPOINTER.get(ValueLayout.JAVA_INT, 0));
-        OtColorLayerT[] layersARRAY = new OtColorLayerT[layerCount.get().intValue()];
+        org.harfbuzz.OtColorLayerT[] layersARRAY = new org.harfbuzz.OtColorLayerT[layerCount.get().intValue()];
         for (int I = 0; I < layerCount.get().intValue(); I++) {
             var OBJ = layersPOINTER.get(ValueLayout.ADDRESS, I);
-            layersARRAY[I] = new OtColorLayerT(Refcounted.get(OBJ, false));
+            layersARRAY[I] = new org.harfbuzz.OtColorLayerT(Refcounted.get(OBJ, false));
         }
         layers.set(layersARRAY);
         return RESULT;
     }
-    
-    private static final MethodHandle hb_ot_color_glyph_reference_png = Interop.downcallHandle(
-        "hb_ot_color_glyph_reference_png",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the PNG image for a glyph. This function takes a font object, not a face object,
@@ -4341,113 +4903,105 @@ public final class HarfBuzz {
      * object. If UPEM is unset, the blob returned will be the largest PNG available.
      * <p>
      * If the glyph has no PNG image, the singleton empty blob is returned.
+     * @param font {@link FontT} to work upon
+     * @param glyph a glyph index
+     * @return An {@link BlobT} containing the PNG image for the glyph, if available
      */
-    public static @NotNull BlobT otColorGlyphReferencePng(@NotNull FontT font, @NotNull CodepointT glyph) {
+    public static @NotNull org.harfbuzz.BlobT otColorGlyphReferencePng(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_ot_color_glyph_reference_png.invokeExact(font.handle(), glyph.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.hb_ot_color_glyph_reference_png.invokeExact(font.handle(), glyph.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BlobT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BlobT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_ot_color_glyph_reference_svg = Interop.downcallHandle(
-        "hb_ot_color_glyph_reference_svg",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the SVG document for a glyph. The blob may be either plain text or gzip-encoded.
      * <p>
      * If the glyph has no SVG document, the singleton empty blob is returned.
+     * @param face {@link FaceT} to work upon
+     * @param glyph a svg glyph index
+     * @return An {@link BlobT} containing the SVG document of the glyph, if available
      */
-    public static @NotNull BlobT otColorGlyphReferenceSvg(@NotNull FaceT face, @NotNull CodepointT glyph) {
+    public static @NotNull org.harfbuzz.BlobT otColorGlyphReferenceSvg(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.CodepointT glyph) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_ot_color_glyph_reference_svg.invokeExact(face.handle(), glyph.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.hb_ot_color_glyph_reference_svg.invokeExact(face.handle(), glyph.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BlobT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BlobT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_ot_color_has_layers = Interop.downcallHandle(
-        "hb_ot_color_has_layers",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tests whether a face includes any {@code COLR} color layers.
+     * @param face {@link FaceT} to work upon
+     * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull BoolT otColorHasLayers(@NotNull FaceT face) {
+    public static @NotNull org.harfbuzz.BoolT otColorHasLayers(@NotNull org.harfbuzz.FaceT face) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_color_has_layers.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_ot_color_has_layers.invokeExact(face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_color_has_palettes = Interop.downcallHandle(
-        "hb_ot_color_has_palettes",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tests whether a face includes a {@code CPAL} color-palette table.
+     * @param face {@link FaceT} to work upon
+     * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull BoolT otColorHasPalettes(@NotNull FaceT face) {
+    public static @NotNull org.harfbuzz.BoolT otColorHasPalettes(@NotNull org.harfbuzz.FaceT face) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_color_has_palettes.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_ot_color_has_palettes.invokeExact(face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_color_has_png = Interop.downcallHandle(
-        "hb_ot_color_has_png",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tests whether a face has PNG glyph images (either in {@code CBDT} or {@code sbix} tables).
+     * @param face {@link FaceT} to work upon
+     * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull BoolT otColorHasPng(@NotNull FaceT face) {
+    public static @NotNull org.harfbuzz.BoolT otColorHasPng(@NotNull org.harfbuzz.FaceT face) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_color_has_png.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_ot_color_has_png.invokeExact(face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_color_has_svg = Interop.downcallHandle(
-        "hb_ot_color_has_svg",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tests whether a face includes any {@code SVG} glyph images.
+     * @param face {@link FaceT} to work upon.
+     * @return {@code true} if data found, {@code false} otherwise.
      */
-    public static @NotNull BoolT otColorHasSvg(@NotNull FaceT face) {
+    public static @NotNull org.harfbuzz.BoolT otColorHasSvg(@NotNull org.harfbuzz.FaceT face) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_color_has_svg.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_ot_color_has_svg.invokeExact(face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_color_palette_color_get_name_id = Interop.downcallHandle(
-        "hb_ot_color_palette_color_get_name_id",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the {@code name} table Name ID that provides display names for
@@ -4455,21 +5009,20 @@ public final class HarfBuzz {
      * <p>
      * Display names can be generic (e.g., "Background") or specific
      * (e.g., "Eye color").
+     * @param face {@link FaceT} to work upon
+     * @param colorIndex The index of the color
+     * @return the Name ID found for the color.
      */
-    public static @NotNull OtNameIdT otColorPaletteColorGetNameId(@NotNull FaceT face, @NotNull int colorIndex) {
+    public static @NotNull org.harfbuzz.OtNameIdT otColorPaletteColorGetNameId(@NotNull org.harfbuzz.FaceT face, int colorIndex) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_color_palette_color_get_name_id.invokeExact(face.handle(), colorIndex);
+            RESULT = (int) DowncallHandles.hb_ot_color_palette_color_get_name_id.invokeExact(face.handle(), colorIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new OtNameIdT(RESULT);
+        return new org.harfbuzz.OtNameIdT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_color_palette_get_colors = Interop.downcallHandle(
-        "hb_ot_color_palette_get_colors",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches a list of the colors in a color palette.
@@ -4479,66 +5032,68 @@ public final class HarfBuzz {
      * of total colors without storing any actual colors; this can be used
      * for allocating a buffer of suitable size before calling
      * hb_ot_color_palette_get_colors() a second time.
+     * @param face {@link FaceT} to work upon
+     * @param paletteIndex the index of the color palette to query
+     * @param startOffset offset of the first color to retrieve
+     * @param colorCount Input = the maximum number of colors to return;
+     *               Output = the actual number of colors returned (may be zero)
+     * @param colors The array of {@link ColorT} records found
+     * @return the total number of colors in the palette
      */
-    public static int otColorPaletteGetColors(@NotNull FaceT face, @NotNull int paletteIndex, @NotNull int startOffset, @NotNull Out<Integer> colorCount, @Nullable Out<ColorT[]> colors) {
+    public static int otColorPaletteGetColors(@NotNull org.harfbuzz.FaceT face, int paletteIndex, int startOffset, Out<Integer> colorCount, Out<org.harfbuzz.ColorT[]> colors) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(colorCount, "Parameter 'colorCount' must not be null");
+        java.util.Objects.requireNonNullElse(colors, MemoryAddress.NULL);
         MemorySegment colorCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment colorsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_color_palette_get_colors.invokeExact(face.handle(), paletteIndex, startOffset, (Addressable) colorCountPOINTER.address(), (Addressable) colorsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_color_palette_get_colors.invokeExact(face.handle(), paletteIndex, startOffset, (Addressable) colorCountPOINTER.address(), (Addressable) colorsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         colorCount.set(colorCountPOINTER.get(ValueLayout.JAVA_INT, 0));
-        ColorT[] colorsARRAY = new ColorT[colorCount.get().intValue()];
+        org.harfbuzz.ColorT[] colorsARRAY = new org.harfbuzz.ColorT[colorCount.get().intValue()];
         for (int I = 0; I < colorCount.get().intValue(); I++) {
             var OBJ = colorsPOINTER.get(ValueLayout.JAVA_INT, I);
-            colorsARRAY[I] = new ColorT(OBJ);
+            colorsARRAY[I] = new org.harfbuzz.ColorT(OBJ);
         }
         colors.set(colorsARRAY);
         return RESULT;
     }
     
-    private static final MethodHandle hb_ot_color_palette_get_count = Interop.downcallHandle(
-        "hb_ot_color_palette_get_count",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Fetches the number of color palettes in a face.
+     * @param face {@link FaceT} to work upon
+     * @return the number of palettes found
      */
-    public static int otColorPaletteGetCount(@NotNull FaceT face) {
+    public static int otColorPaletteGetCount(@NotNull org.harfbuzz.FaceT face) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_color_palette_get_count.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_ot_color_palette_get_count.invokeExact(face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle hb_ot_color_palette_get_flags = Interop.downcallHandle(
-        "hb_ot_color_palette_get_flags",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Fetches the flags defined for a color palette.
+     * @param face {@link FaceT} to work upon
+     * @param paletteIndex The index of the color palette
+     * @return the {@link OtColorPaletteFlagsT} of the requested color palette
      */
-    public static @NotNull OtColorPaletteFlagsT otColorPaletteGetFlags(@NotNull FaceT face, @NotNull int paletteIndex) {
+    public static @NotNull org.harfbuzz.OtColorPaletteFlagsT otColorPaletteGetFlags(@NotNull org.harfbuzz.FaceT face, int paletteIndex) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_color_palette_get_flags.invokeExact(face.handle(), paletteIndex);
+            RESULT = (int) DowncallHandles.hb_ot_color_palette_get_flags.invokeExact(face.handle(), paletteIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new OtColorPaletteFlagsT(RESULT);
+        return new org.harfbuzz.OtColorPaletteFlagsT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_color_palette_get_name_id = Interop.downcallHandle(
-        "hb_ot_color_palette_get_name_id",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the {@code name} table Name ID that provides display names for
@@ -4546,37 +5101,34 @@ public final class HarfBuzz {
      * <p>
      * Palette display names can be generic (e.g., "Default") or provide
      * specific, themed names (e.g., "Spring", "Summer", "Fall", and "Winter").
+     * @param face {@link FaceT} to work upon
+     * @param paletteIndex The index of the color palette
+     * @return the Named ID found for the palette.
+     * If the requested palette has no name the result is {@code HB_OT_NAME_ID_INVALID}.
      */
-    public static @NotNull OtNameIdT otColorPaletteGetNameId(@NotNull FaceT face, @NotNull int paletteIndex) {
+    public static @NotNull org.harfbuzz.OtNameIdT otColorPaletteGetNameId(@NotNull org.harfbuzz.FaceT face, int paletteIndex) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_color_palette_get_name_id.invokeExact(face.handle(), paletteIndex);
+            RESULT = (int) DowncallHandles.hb_ot_color_palette_get_name_id.invokeExact(face.handle(), paletteIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new OtNameIdT(RESULT);
+        return new org.harfbuzz.OtNameIdT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_font_set_funcs = Interop.downcallHandle(
-        "hb_ot_font_set_funcs",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the font functions to use when working with {@code font}.
+     * @param font {@link FontT} to work upon
      */
-    public static @NotNull void otFontSetFuncs(@NotNull FontT font) {
+    public static void otFontSetFuncs(@NotNull org.harfbuzz.FontT font) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
         try {
-            hb_ot_font_set_funcs.invokeExact(font.handle());
+            DowncallHandles.hb_ot_font_set_funcs.invokeExact(font.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_ot_layout_collect_features = Interop.downcallHandle(
-        "hb_ot_layout_collect_features",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches a list of all feature indexes in the specified face's GSUB table
@@ -4584,27 +5136,34 @@ public final class HarfBuzz {
      * If no list of scripts is provided, all scripts will be queried. If no list
      * of languages is provided, all languages will be queried. If no list of
      * features is provided, all features will be queried.
+     * @param face {@link FaceT} to work upon
+     * @param tableTag {@code HB_OT_TAG_GSUB} or {@code HB_OT_TAG_GPOS}
+     * @param scripts The array of scripts to collect features for
+     * @param languages The array of languages to collect features for
+     * @param features The array of features to collect
+     * @param featureIndexes The array of feature indexes found for the query
      */
-    public static @NotNull void otLayoutCollectFeatures(@NotNull FaceT face, @NotNull TagT tableTag, @NotNull TagT scripts, @NotNull TagT languages, @NotNull TagT features, @NotNull Out<SetT> featureIndexes) {
+    public static void otLayoutCollectFeatures(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, @NotNull org.harfbuzz.TagT scripts, @NotNull org.harfbuzz.TagT languages, @NotNull org.harfbuzz.TagT features, @NotNull Out<org.harfbuzz.SetT> featureIndexes) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
+        java.util.Objects.requireNonNull(scripts, "Parameter 'scripts' must not be null");
+        java.util.Objects.requireNonNull(languages, "Parameter 'languages' must not be null");
+        java.util.Objects.requireNonNull(features, "Parameter 'features' must not be null");
+        java.util.Objects.requireNonNull(featureIndexes, "Parameter 'featureIndexes' must not be null");
         PointerInteger scriptsPOINTER = new PointerInteger(scripts.getValue());
         PointerInteger languagesPOINTER = new PointerInteger(languages.getValue());
         PointerInteger featuresPOINTER = new PointerInteger(features.getValue());
         MemorySegment featureIndexesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            hb_ot_layout_collect_features.invokeExact(face.handle(), tableTag.getValue(), new PointerInteger(scripts.getValue()).handle(), new PointerInteger(languages.getValue()).handle(), new PointerInteger(features.getValue()).handle(), (Addressable) featureIndexesPOINTER.address());
+            DowncallHandles.hb_ot_layout_collect_features.invokeExact(face.handle(), tableTag.getValue(), new PointerInteger(scripts.getValue()).handle(), new PointerInteger(languages.getValue()).handle(), new PointerInteger(features.getValue()).handle(), (Addressable) featureIndexesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
             scripts.setValue(scriptsPOINTER.get());
             languages.setValue(languagesPOINTER.get());
             features.setValue(featuresPOINTER.get());
-        featureIndexes.set(new SetT(Refcounted.get(featureIndexesPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        featureIndexes.set(new org.harfbuzz.SetT(Refcounted.get(featureIndexesPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle hb_ot_layout_collect_lookups = Interop.downcallHandle(
-        "hb_ot_layout_collect_lookups",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches a list of all feature-lookup indexes in the specified face's GSUB
@@ -4612,67 +5171,95 @@ public final class HarfBuzz {
      * features. If no list of scripts is provided, all scripts will be queried.
      * If no list of languages is provided, all languages will be queried. If no
      * list of features is provided, all features will be queried.
+     * @param face {@link FaceT} to work upon
+     * @param tableTag {@code HB_OT_TAG_GSUB} or {@code HB_OT_TAG_GPOS}
+     * @param scripts The array of scripts to collect lookups for
+     * @param languages The array of languages to collect lookups for
+     * @param features The array of features to collect lookups for
+     * @param lookupIndexes The array of lookup indexes found for the query
      */
-    public static @NotNull void otLayoutCollectLookups(@NotNull FaceT face, @NotNull TagT tableTag, @NotNull TagT scripts, @NotNull TagT languages, @NotNull TagT features, @NotNull Out<SetT> lookupIndexes) {
+    public static void otLayoutCollectLookups(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, @NotNull org.harfbuzz.TagT scripts, @NotNull org.harfbuzz.TagT languages, @NotNull org.harfbuzz.TagT features, @NotNull Out<org.harfbuzz.SetT> lookupIndexes) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
+        java.util.Objects.requireNonNull(scripts, "Parameter 'scripts' must not be null");
+        java.util.Objects.requireNonNull(languages, "Parameter 'languages' must not be null");
+        java.util.Objects.requireNonNull(features, "Parameter 'features' must not be null");
+        java.util.Objects.requireNonNull(lookupIndexes, "Parameter 'lookupIndexes' must not be null");
         PointerInteger scriptsPOINTER = new PointerInteger(scripts.getValue());
         PointerInteger languagesPOINTER = new PointerInteger(languages.getValue());
         PointerInteger featuresPOINTER = new PointerInteger(features.getValue());
         MemorySegment lookupIndexesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            hb_ot_layout_collect_lookups.invokeExact(face.handle(), tableTag.getValue(), new PointerInteger(scripts.getValue()).handle(), new PointerInteger(languages.getValue()).handle(), new PointerInteger(features.getValue()).handle(), (Addressable) lookupIndexesPOINTER.address());
+            DowncallHandles.hb_ot_layout_collect_lookups.invokeExact(face.handle(), tableTag.getValue(), new PointerInteger(scripts.getValue()).handle(), new PointerInteger(languages.getValue()).handle(), new PointerInteger(features.getValue()).handle(), (Addressable) lookupIndexesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
             scripts.setValue(scriptsPOINTER.get());
             languages.setValue(languagesPOINTER.get());
             features.setValue(featuresPOINTER.get());
-        lookupIndexes.set(new SetT(Refcounted.get(lookupIndexesPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        lookupIndexes.set(new org.harfbuzz.SetT(Refcounted.get(lookupIndexesPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle hb_ot_layout_feature_get_characters = Interop.downcallHandle(
-        "hb_ot_layout_feature_get_characters",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches a list of the characters defined as having a variant under the specified
      * "Character Variant" ("cvXX") feature tag.
+     * @param face {@link FaceT} to work upon
+     * @param tableTag table tag to query, "GSUB" or "GPOS".
+     * @param featureIndex index of feature to query.
+     * @param startOffset offset of the first character to retrieve
+     * @param charCount Input = the maximum number of characters to return;
+     *              Output = the actual number of characters returned (may be zero)
+     * @param characters A buffer pointer.
+     *              The Unicode codepoints of the characters for which this feature provides
+     *               glyph variants.
+     * @return Number of total sample characters in the cvXX feature.
      */
-    public static int otLayoutFeatureGetCharacters(@NotNull FaceT face, @NotNull TagT tableTag, @NotNull int featureIndex, @NotNull int startOffset, @NotNull Out<Integer> charCount, @NotNull Out<CodepointT[]> characters) {
+    public static int otLayoutFeatureGetCharacters(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int featureIndex, int startOffset, Out<Integer> charCount, Out<org.harfbuzz.CodepointT[]> characters) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
+        java.util.Objects.requireNonNull(charCount, "Parameter 'charCount' must not be null");
+        java.util.Objects.requireNonNull(characters, "Parameter 'characters' must not be null");
         MemorySegment charCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment charactersPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_feature_get_characters.invokeExact(face.handle(), tableTag.getValue(), featureIndex, startOffset, (Addressable) charCountPOINTER.address(), (Addressable) charactersPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_feature_get_characters.invokeExact(face.handle(), tableTag.getValue(), featureIndex, startOffset, (Addressable) charCountPOINTER.address(), (Addressable) charactersPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         charCount.set(charCountPOINTER.get(ValueLayout.JAVA_INT, 0));
-        CodepointT[] charactersARRAY = new CodepointT[charCount.get().intValue()];
+        org.harfbuzz.CodepointT[] charactersARRAY = new org.harfbuzz.CodepointT[charCount.get().intValue()];
         for (int I = 0; I < charCount.get().intValue(); I++) {
             var OBJ = charactersPOINTER.get(ValueLayout.JAVA_INT, I);
-            charactersARRAY[I] = new CodepointT(OBJ);
+            charactersARRAY[I] = new org.harfbuzz.CodepointT(OBJ);
         }
         characters.set(charactersARRAY);
         return RESULT;
     }
     
-    private static final MethodHandle hb_ot_layout_feature_get_lookups = Interop.downcallHandle(
-        "hb_ot_layout_feature_get_lookups",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Fetches a list of all lookups enumerated for the specified feature, in
      * the specified face's GSUB table or GPOS table. The list returned will
      * begin at the offset provided.
+     * @param face {@link FaceT} to work upon
+     * @param tableTag {@code HB_OT_TAG_GSUB} or {@code HB_OT_TAG_GPOS}
+     * @param featureIndex The index of the requested feature
+     * @param startOffset offset of the first lookup to retrieve
+     * @param lookupCount Input = the maximum number of lookups to return;
+     *                Output = the actual number of lookups returned (may be zero)
+     * @param lookupIndexes The array of lookup indexes found for the query
+     * @return Total number of lookups.
      */
-    public static int otLayoutFeatureGetLookups(@NotNull FaceT face, @NotNull TagT tableTag, @NotNull int featureIndex, @NotNull int startOffset, @NotNull Out<Integer> lookupCount, @NotNull Out<int[]> lookupIndexes) {
+    public static int otLayoutFeatureGetLookups(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int featureIndex, int startOffset, Out<Integer> lookupCount, Out<int[]> lookupIndexes) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
+        java.util.Objects.requireNonNull(lookupCount, "Parameter 'lookupCount' must not be null");
+        java.util.Objects.requireNonNull(lookupIndexes, "Parameter 'lookupIndexes' must not be null");
         MemorySegment lookupCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment lookupIndexesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_feature_get_lookups.invokeExact(face.handle(), tableTag.getValue(), featureIndex, startOffset, (Addressable) lookupCountPOINTER.address(), (Addressable) lookupIndexesPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_feature_get_lookups.invokeExact(face.handle(), tableTag.getValue(), featureIndex, startOffset, (Addressable) lookupCountPOINTER.address(), (Addressable) lookupIndexesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4681,16 +5268,33 @@ public final class HarfBuzz {
         return RESULT;
     }
     
-    private static final MethodHandle hb_ot_layout_feature_get_name_ids = Interop.downcallHandle(
-        "hb_ot_layout_feature_get_name_ids",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Fetches name indices from feature parameters for "Stylistic Set" ('ssXX') or
      * "Character Variant" ('cvXX') features.
+     * @param face {@link FaceT} to work upon
+     * @param tableTag table tag to query, "GSUB" or "GPOS".
+     * @param featureIndex index of feature to query.
+     * @param labelId The ‘name’ table name ID that specifies a string
+     *            for a user-interface label for this feature. (May be NULL.)
+     * @param tooltipId The ‘name’ table name ID that specifies a string
+     *              that an application can use for tooltip text for this
+     *              feature. (May be NULL.)
+     * @param sampleId The ‘name’ table name ID that specifies sample text
+     *             that illustrates the effect of this feature. (May be NULL.)
+     * @param numNamedParameters Number of named parameters. (May be zero.)
+     * @param firstParamId The first ‘name’ table name ID used to specify
+     *                  strings for user-interface labels for the feature
+     *                  parameters. (Must be zero if numParameters is zero.)
+     * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull BoolT otLayoutFeatureGetNameIds(@NotNull FaceT face, @NotNull TagT tableTag, @NotNull int featureIndex, @NotNull Out<OtNameIdT> labelId, @NotNull Out<OtNameIdT> tooltipId, @NotNull Out<OtNameIdT> sampleId, @NotNull Out<Integer> numNamedParameters, @NotNull Out<OtNameIdT> firstParamId) {
+    public static @NotNull org.harfbuzz.BoolT otLayoutFeatureGetNameIds(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int featureIndex, @NotNull Out<org.harfbuzz.OtNameIdT> labelId, @NotNull Out<org.harfbuzz.OtNameIdT> tooltipId, @NotNull Out<org.harfbuzz.OtNameIdT> sampleId, Out<Integer> numNamedParameters, @NotNull Out<org.harfbuzz.OtNameIdT> firstParamId) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
+        java.util.Objects.requireNonNull(labelId, "Parameter 'labelId' must not be null");
+        java.util.Objects.requireNonNull(tooltipId, "Parameter 'tooltipId' must not be null");
+        java.util.Objects.requireNonNull(sampleId, "Parameter 'sampleId' must not be null");
+        java.util.Objects.requireNonNull(numNamedParameters, "Parameter 'numNamedParameters' must not be null");
+        java.util.Objects.requireNonNull(firstParamId, "Parameter 'firstParamId' must not be null");
         MemorySegment labelIdPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment tooltipIdPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment sampleIdPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
@@ -4698,34 +5302,42 @@ public final class HarfBuzz {
         MemorySegment firstParamIdPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_feature_get_name_ids.invokeExact(face.handle(), tableTag.getValue(), featureIndex, (Addressable) labelIdPOINTER.address(), (Addressable) tooltipIdPOINTER.address(), (Addressable) sampleIdPOINTER.address(), (Addressable) numNamedParametersPOINTER.address(), (Addressable) firstParamIdPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_feature_get_name_ids.invokeExact(face.handle(), tableTag.getValue(), featureIndex, (Addressable) labelIdPOINTER.address(), (Addressable) tooltipIdPOINTER.address(), (Addressable) sampleIdPOINTER.address(), (Addressable) numNamedParametersPOINTER.address(), (Addressable) firstParamIdPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        labelId.set(new OtNameIdT(labelIdPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        tooltipId.set(new OtNameIdT(tooltipIdPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        sampleId.set(new OtNameIdT(sampleIdPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        labelId.set(new org.harfbuzz.OtNameIdT(labelIdPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        tooltipId.set(new org.harfbuzz.OtNameIdT(tooltipIdPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        sampleId.set(new org.harfbuzz.OtNameIdT(sampleIdPOINTER.get(ValueLayout.JAVA_INT, 0)));
         numNamedParameters.set(numNamedParametersPOINTER.get(ValueLayout.JAVA_INT, 0));
-        firstParamId.set(new OtNameIdT(firstParamIdPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        return new BoolT(RESULT);
+        firstParamId.set(new org.harfbuzz.OtNameIdT(firstParamIdPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_layout_feature_with_variations_get_lookups = Interop.downcallHandle(
-        "hb_ot_layout_feature_with_variations_get_lookups",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches a list of all lookups enumerated for the specified feature, in
      * the specified face's GSUB table or GPOS table, enabled at the specified
      * variations index. The list returned will begin at the offset provided.
+     * @param face {@link FaceT} to work upon
+     * @param tableTag {@code HB_OT_TAG_GSUB} or {@code HB_OT_TAG_GPOS}
+     * @param featureIndex The index of the feature to query
+     * @param variationsIndex The index of the feature variation to query
+     * @param startOffset offset of the first lookup to retrieve
+     * @param lookupCount Input = the maximum number of lookups to return;
+     *                Output = the actual number of lookups returned (may be zero)
+     * @param lookupIndexes The array of lookups found for the query
+     * @return Total number of lookups.
      */
-    public static int otLayoutFeatureWithVariationsGetLookups(@NotNull FaceT face, @NotNull TagT tableTag, @NotNull int featureIndex, @NotNull int variationsIndex, @NotNull int startOffset, @NotNull Out<Integer> lookupCount, @NotNull Out<int[]> lookupIndexes) {
+    public static int otLayoutFeatureWithVariationsGetLookups(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int featureIndex, int variationsIndex, int startOffset, Out<Integer> lookupCount, Out<int[]> lookupIndexes) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
+        java.util.Objects.requireNonNull(lookupCount, "Parameter 'lookupCount' must not be null");
+        java.util.Objects.requireNonNull(lookupIndexes, "Parameter 'lookupIndexes' must not be null");
         MemorySegment lookupCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment lookupIndexesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_feature_with_variations_get_lookups.invokeExact(face.handle(), tableTag.getValue(), featureIndex, variationsIndex, startOffset, (Addressable) lookupCountPOINTER.address(), (Addressable) lookupIndexesPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_feature_with_variations_get_lookups.invokeExact(face.handle(), tableTag.getValue(), featureIndex, variationsIndex, startOffset, (Addressable) lookupCountPOINTER.address(), (Addressable) lookupIndexesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4734,23 +5346,29 @@ public final class HarfBuzz {
         return RESULT;
     }
     
-    private static final MethodHandle hb_ot_layout_get_attach_points = Interop.downcallHandle(
-        "hb_ot_layout_get_attach_points",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Fetches a list of all attachment points for the specified glyph in the GDEF
      * table of the face. The list returned will begin at the offset provided.
      * <p>
      * Useful if the client program wishes to cache the list.
+     * @param face The {@link FaceT} to work on
+     * @param glyph The {@link CodepointT} code point to query
+     * @param startOffset offset of the first attachment point to retrieve
+     * @param pointCount Input = the maximum number of attachment points to return;
+     *               Output = the actual number of attachment points returned (may be zero)
+     * @param pointArray The array of attachment points found for the query
+     * @return Total number of attachment points for {@code glyph}.
      */
-    public static int otLayoutGetAttachPoints(@NotNull FaceT face, @NotNull CodepointT glyph, @NotNull int startOffset, @NotNull Out<Integer> pointCount, @NotNull Out<int[]> pointArray) {
+    public static int otLayoutGetAttachPoints(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.CodepointT glyph, int startOffset, Out<Integer> pointCount, Out<int[]> pointArray) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+        java.util.Objects.requireNonNull(pointCount, "Parameter 'pointCount' must not be null");
+        java.util.Objects.requireNonNull(pointArray, "Parameter 'pointArray' must not be null");
         MemorySegment pointCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment pointArrayPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_get_attach_points.invokeExact(face.handle(), glyph.getValue(), startOffset, (Addressable) pointCountPOINTER.address(), (Addressable) pointArrayPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_get_attach_points.invokeExact(face.handle(), glyph.getValue(), startOffset, (Addressable) pointCountPOINTER.address(), (Addressable) pointArrayPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4759,104 +5377,115 @@ public final class HarfBuzz {
         return RESULT;
     }
     
-    private static final MethodHandle hb_ot_layout_get_baseline = Interop.downcallHandle(
-        "hb_ot_layout_get_baseline",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Fetches a baseline value from the face.
+     * @param font a font
+     * @param baselineTag a baseline tag
+     * @param direction text direction.
+     * @param scriptTag script tag.
+     * @param languageTag language tag, currently unused.
+     * @param coord baseline value if found.
+     * @return {@code true} if found baseline value in the font.
      */
-    public static @NotNull BoolT otLayoutGetBaseline(@NotNull FontT font, @NotNull OtLayoutBaselineTagT baselineTag, @NotNull DirectionT direction, @NotNull TagT scriptTag, @NotNull TagT languageTag, @Nullable Out<PositionT> coord) {
+    public static @NotNull org.harfbuzz.BoolT otLayoutGetBaseline(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.OtLayoutBaselineTagT baselineTag, @NotNull org.harfbuzz.DirectionT direction, @NotNull org.harfbuzz.TagT scriptTag, @NotNull org.harfbuzz.TagT languageTag, @Nullable Out<org.harfbuzz.PositionT> coord) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(baselineTag, "Parameter 'baselineTag' must not be null");
+        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+        java.util.Objects.requireNonNull(scriptTag, "Parameter 'scriptTag' must not be null");
+        java.util.Objects.requireNonNull(languageTag, "Parameter 'languageTag' must not be null");
+        java.util.Objects.requireNonNullElse(coord, MemoryAddress.NULL);
         MemorySegment coordPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_get_baseline.invokeExact(font.handle(), baselineTag.getValue(), direction.getValue(), scriptTag.getValue(), languageTag.getValue(), (Addressable) coordPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_get_baseline.invokeExact(font.handle(), baselineTag.getValue(), direction.getValue(), scriptTag.getValue(), languageTag.getValue(), (Addressable) coordPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        coord.set(new PositionT(coordPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        return new BoolT(RESULT);
+        coord.set(new org.harfbuzz.PositionT(coordPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_layout_get_baseline_with_fallback = Interop.downcallHandle(
-        "hb_ot_layout_get_baseline_with_fallback",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches a baseline value from the face, and synthesizes
      * it if the font does not have it.
+     * @param font a font
+     * @param baselineTag a baseline tag
+     * @param direction text direction.
+     * @param scriptTag script tag.
+     * @param languageTag language tag, currently unused.
+     * @param coord baseline value if found.
      */
-    public static @NotNull void otLayoutGetBaselineWithFallback(@NotNull FontT font, @NotNull OtLayoutBaselineTagT baselineTag, @NotNull DirectionT direction, @NotNull TagT scriptTag, @NotNull TagT languageTag, @NotNull Out<PositionT> coord) {
+    public static void otLayoutGetBaselineWithFallback(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.OtLayoutBaselineTagT baselineTag, @NotNull org.harfbuzz.DirectionT direction, @NotNull org.harfbuzz.TagT scriptTag, @NotNull org.harfbuzz.TagT languageTag, @NotNull Out<org.harfbuzz.PositionT> coord) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(baselineTag, "Parameter 'baselineTag' must not be null");
+        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+        java.util.Objects.requireNonNull(scriptTag, "Parameter 'scriptTag' must not be null");
+        java.util.Objects.requireNonNull(languageTag, "Parameter 'languageTag' must not be null");
+        java.util.Objects.requireNonNull(coord, "Parameter 'coord' must not be null");
         MemorySegment coordPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            hb_ot_layout_get_baseline_with_fallback.invokeExact(font.handle(), baselineTag.getValue(), direction.getValue(), scriptTag.getValue(), languageTag.getValue(), (Addressable) coordPOINTER.address());
+            DowncallHandles.hb_ot_layout_get_baseline_with_fallback.invokeExact(font.handle(), baselineTag.getValue(), direction.getValue(), scriptTag.getValue(), languageTag.getValue(), (Addressable) coordPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        coord.set(new PositionT(coordPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        coord.set(new org.harfbuzz.PositionT(coordPOINTER.get(ValueLayout.JAVA_INT, 0)));
     }
-    
-    private static final MethodHandle hb_ot_layout_get_glyph_class = Interop.downcallHandle(
-        "hb_ot_layout_get_glyph_class",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the GDEF class of the requested glyph in the specified face.
+     * @param face The {@link FaceT} to work on
+     * @param glyph The {@link CodepointT} code point to query
+     * @return The {@link OtLayoutGlyphClassT} glyph class of the given code
+     * point in the GDEF table of the face.
      */
-    public static @NotNull OtLayoutGlyphClassT otLayoutGetGlyphClass(@NotNull FaceT face, @NotNull CodepointT glyph) {
+    public static @NotNull org.harfbuzz.OtLayoutGlyphClassT otLayoutGetGlyphClass(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.CodepointT glyph) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_get_glyph_class.invokeExact(face.handle(), glyph.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_layout_get_glyph_class.invokeExact(face.handle(), glyph.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new OtLayoutGlyphClassT(RESULT);
+        return new org.harfbuzz.OtLayoutGlyphClassT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_layout_get_glyphs_in_class = Interop.downcallHandle(
-        "hb_ot_layout_get_glyphs_in_class",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves the set of all glyphs from the face that belong to the requested
      * glyph class in the face's GDEF table.
+     * @param face The {@link FaceT} to work on
+     * @param klass The {@link OtLayoutGlyphClassT} GDEF class to retrieve
+     * @param glyphs The {@link SetT} set of all glyphs belonging to the requested
+     *          class.
      */
-    public static @NotNull void otLayoutGetGlyphsInClass(@NotNull FaceT face, @NotNull OtLayoutGlyphClassT klass, @NotNull Out<SetT> glyphs) {
+    public static void otLayoutGetGlyphsInClass(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.OtLayoutGlyphClassT klass, @NotNull Out<org.harfbuzz.SetT> glyphs) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(klass, "Parameter 'klass' must not be null");
+        java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
         MemorySegment glyphsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            hb_ot_layout_get_glyphs_in_class.invokeExact(face.handle(), klass.getValue(), (Addressable) glyphsPOINTER.address());
+            DowncallHandles.hb_ot_layout_get_glyphs_in_class.invokeExact(face.handle(), klass.getValue(), (Addressable) glyphsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        glyphs.set(new SetT(Refcounted.get(glyphsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        glyphs.set(new org.harfbuzz.SetT(Refcounted.get(glyphsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle hb_ot_layout_get_horizontal_baseline_tag_for_script = Interop.downcallHandle(
-        "hb_ot_layout_get_horizontal_baseline_tag_for_script",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the dominant horizontal baseline tag used by {@code script}.
+     * @param script a script tag.
+     * @return dominant baseline tag for the {@code script}.
      */
-    public static @NotNull OtLayoutBaselineTagT otLayoutGetHorizontalBaselineTagForScript(@NotNull ScriptT script) {
+    public static @NotNull org.harfbuzz.OtLayoutBaselineTagT otLayoutGetHorizontalBaselineTagForScript(@NotNull org.harfbuzz.ScriptT script) {
+        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_get_horizontal_baseline_tag_for_script.invokeExact(script.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_layout_get_horizontal_baseline_tag_for_script.invokeExact(script.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new OtLayoutBaselineTagT(RESULT);
+        return new org.harfbuzz.OtLayoutBaselineTagT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_layout_get_ligature_carets = Interop.downcallHandle(
-        "hb_ot_layout_get_ligature_carets",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches a list of the caret positions defined for a ligature glyph in the GDEF
@@ -4868,30 +5497,38 @@ public final class HarfBuzz {
      * <p>
      * The positions returned by this function are 'unshaped', and will have to
      * be fixed up for kerning that may be applied to the ligature glyph.
+     * @param font The {@link FontT} to work on
+     * @param direction The {@link DirectionT} text direction to use
+     * @param glyph The {@link CodepointT} code point to query
+     * @param startOffset offset of the first caret position to retrieve
+     * @param caretCount Input = the maximum number of caret positions to return;
+     *               Output = the actual number of caret positions returned (may be zero)
+     * @param caretArray The array of caret positions found for the query
+     * @return Total number of ligature caret positions for {@code glyph}.
      */
-    public static int otLayoutGetLigatureCarets(@NotNull FontT font, @NotNull DirectionT direction, @NotNull CodepointT glyph, @NotNull int startOffset, @NotNull Out<Integer> caretCount, @NotNull Out<PositionT[]> caretArray) {
+    public static int otLayoutGetLigatureCarets(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.DirectionT direction, @NotNull org.harfbuzz.CodepointT glyph, int startOffset, Out<Integer> caretCount, Out<org.harfbuzz.PositionT[]> caretArray) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+        java.util.Objects.requireNonNull(caretCount, "Parameter 'caretCount' must not be null");
+        java.util.Objects.requireNonNull(caretArray, "Parameter 'caretArray' must not be null");
         MemorySegment caretCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment caretArrayPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_get_ligature_carets.invokeExact(font.handle(), direction.getValue(), glyph.getValue(), startOffset, (Addressable) caretCountPOINTER.address(), (Addressable) caretArrayPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_get_ligature_carets.invokeExact(font.handle(), direction.getValue(), glyph.getValue(), startOffset, (Addressable) caretCountPOINTER.address(), (Addressable) caretArrayPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         caretCount.set(caretCountPOINTER.get(ValueLayout.JAVA_INT, 0));
-        PositionT[] caretArrayARRAY = new PositionT[caretCount.get().intValue()];
+        org.harfbuzz.PositionT[] caretArrayARRAY = new org.harfbuzz.PositionT[caretCount.get().intValue()];
         for (int I = 0; I < caretCount.get().intValue(); I++) {
             var OBJ = caretArrayPOINTER.get(ValueLayout.JAVA_INT, I);
-            caretArrayARRAY[I] = new PositionT(OBJ);
+            caretArrayARRAY[I] = new org.harfbuzz.PositionT(OBJ);
         }
         caretArray.set(caretArrayARRAY);
         return RESULT;
     }
-    
-    private static final MethodHandle hb_ot_layout_get_size_params = Interop.downcallHandle(
-        "hb_ot_layout_get_size_params",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches optical-size feature data (i.e., the {@code size} feature from GPOS). Note that
@@ -4902,8 +5539,21 @@ public final class HarfBuzz {
      * <p>
      * For more information on this distinction, see the [{@code size} feature documentation](
      * https://docs.microsoft.com/en-us/typography/opentype/spec/features_pt{@code tag}-size).
+     * @param face {@link FaceT} to work upon
+     * @param designSize The design size of the face
+     * @param subfamilyId The identifier of the face within the font subfamily
+     * @param subfamilyNameId The ‘name’ table name ID of the face within the font subfamily
+     * @param rangeStart The minimum size of the recommended size range for the face
+     * @param rangeEnd The maximum size of the recommended size range for the face
+     * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull BoolT otLayoutGetSizeParams(@NotNull FaceT face, @NotNull Out<Integer> designSize, @NotNull Out<Integer> subfamilyId, @NotNull Out<OtNameIdT> subfamilyNameId, @NotNull Out<Integer> rangeStart, @NotNull Out<Integer> rangeEnd) {
+    public static @NotNull org.harfbuzz.BoolT otLayoutGetSizeParams(@NotNull org.harfbuzz.FaceT face, Out<Integer> designSize, Out<Integer> subfamilyId, @NotNull Out<org.harfbuzz.OtNameIdT> subfamilyNameId, Out<Integer> rangeStart, Out<Integer> rangeEnd) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(designSize, "Parameter 'designSize' must not be null");
+        java.util.Objects.requireNonNull(subfamilyId, "Parameter 'subfamilyId' must not be null");
+        java.util.Objects.requireNonNull(subfamilyNameId, "Parameter 'subfamilyNameId' must not be null");
+        java.util.Objects.requireNonNull(rangeStart, "Parameter 'rangeStart' must not be null");
+        java.util.Objects.requireNonNull(rangeEnd, "Parameter 'rangeEnd' must not be null");
         MemorySegment designSizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment subfamilyIdPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment subfamilyNameIdPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
@@ -4911,109 +5561,117 @@ public final class HarfBuzz {
         MemorySegment rangeEndPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_get_size_params.invokeExact(face.handle(), (Addressable) designSizePOINTER.address(), (Addressable) subfamilyIdPOINTER.address(), (Addressable) subfamilyNameIdPOINTER.address(), (Addressable) rangeStartPOINTER.address(), (Addressable) rangeEndPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_get_size_params.invokeExact(face.handle(), (Addressable) designSizePOINTER.address(), (Addressable) subfamilyIdPOINTER.address(), (Addressable) subfamilyNameIdPOINTER.address(), (Addressable) rangeStartPOINTER.address(), (Addressable) rangeEndPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         designSize.set(designSizePOINTER.get(ValueLayout.JAVA_INT, 0));
         subfamilyId.set(subfamilyIdPOINTER.get(ValueLayout.JAVA_INT, 0));
-        subfamilyNameId.set(new OtNameIdT(subfamilyNameIdPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        subfamilyNameId.set(new org.harfbuzz.OtNameIdT(subfamilyNameIdPOINTER.get(ValueLayout.JAVA_INT, 0)));
         rangeStart.set(rangeStartPOINTER.get(ValueLayout.JAVA_INT, 0));
         rangeEnd.set(rangeEndPOINTER.get(ValueLayout.JAVA_INT, 0));
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_layout_has_glyph_classes = Interop.downcallHandle(
-        "hb_ot_layout_has_glyph_classes",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tests whether a face has any glyph classes defined in its GDEF table.
+     * @param face {@link FaceT} to work upon
+     * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull BoolT otLayoutHasGlyphClasses(@NotNull FaceT face) {
+    public static @NotNull org.harfbuzz.BoolT otLayoutHasGlyphClasses(@NotNull org.harfbuzz.FaceT face) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_has_glyph_classes.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_ot_layout_has_glyph_classes.invokeExact(face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_layout_has_positioning = Interop.downcallHandle(
-        "hb_ot_layout_has_positioning",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tests whether the specified face includes any GPOS positioning.
+     * @param face {@link FaceT} to work upon
+     * @return {@code true} if the face has GPOS data, {@code false} otherwise
      */
-    public static @NotNull BoolT otLayoutHasPositioning(@NotNull FaceT face) {
+    public static @NotNull org.harfbuzz.BoolT otLayoutHasPositioning(@NotNull org.harfbuzz.FaceT face) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_has_positioning.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_ot_layout_has_positioning.invokeExact(face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_layout_has_substitution = Interop.downcallHandle(
-        "hb_ot_layout_has_substitution",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tests whether the specified face includes any GSUB substitutions.
+     * @param face {@link FaceT} to work upon
+     * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull BoolT otLayoutHasSubstitution(@NotNull FaceT face) {
+    public static @NotNull org.harfbuzz.BoolT otLayoutHasSubstitution(@NotNull org.harfbuzz.FaceT face) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_has_substitution.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_ot_layout_has_substitution.invokeExact(face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_layout_language_find_feature = Interop.downcallHandle(
-        "hb_ot_layout_language_find_feature",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the index of a given feature tag in the specified face's GSUB table
      * or GPOS table, underneath the specified script and language.
+     * @param face {@link FaceT} to work upon
+     * @param tableTag {@code HB_OT_TAG_GSUB} or {@code HB_OT_TAG_GPOS}
+     * @param scriptIndex The index of the requested script tag
+     * @param languageIndex The index of the requested language tag
+     * @param featureTag {@link TagT} of the feature tag requested
+     * @param featureIndex The index of the requested feature
+     * @return {@code true} if the feature is found, {@code false} otherwise
      */
-    public static @NotNull BoolT otLayoutLanguageFindFeature(@NotNull FaceT face, @NotNull TagT tableTag, @NotNull int scriptIndex, @NotNull int languageIndex, @NotNull TagT featureTag, @NotNull Out<Integer> featureIndex) {
+    public static @NotNull org.harfbuzz.BoolT otLayoutLanguageFindFeature(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int scriptIndex, int languageIndex, @NotNull org.harfbuzz.TagT featureTag, Out<Integer> featureIndex) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
+        java.util.Objects.requireNonNull(featureTag, "Parameter 'featureTag' must not be null");
+        java.util.Objects.requireNonNull(featureIndex, "Parameter 'featureIndex' must not be null");
         MemorySegment featureIndexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_language_find_feature.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, featureTag.getValue(), (Addressable) featureIndexPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_language_find_feature.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, featureTag.getValue(), (Addressable) featureIndexPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         featureIndex.set(featureIndexPOINTER.get(ValueLayout.JAVA_INT, 0));
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_layout_language_get_feature_indexes = Interop.downcallHandle(
-        "hb_ot_layout_language_get_feature_indexes",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches a list of all features in the specified face's GSUB table
      * or GPOS table, underneath the specified script and language. The list
      * returned will begin at the offset provided.
+     * @param face {@link FaceT} to work upon
+     * @param tableTag {@code HB_OT_TAG_GSUB} or {@code HB_OT_TAG_GPOS}
+     * @param scriptIndex The index of the requested script tag
+     * @param languageIndex The index of the requested language tag
+     * @param startOffset offset of the first feature tag to retrieve
+     * @param featureCount Input = the maximum number of feature tags to return;
+     *                 Output: the actual number of feature tags returned (may be zero)
+     * @param featureIndexes The array of feature indexes found for the query
+     * @return Total number of features.
      */
-    public static int otLayoutLanguageGetFeatureIndexes(@NotNull FaceT face, @NotNull TagT tableTag, @NotNull int scriptIndex, @NotNull int languageIndex, @NotNull int startOffset, @NotNull Out<Integer> featureCount, @NotNull Out<int[]> featureIndexes) {
+    public static int otLayoutLanguageGetFeatureIndexes(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int scriptIndex, int languageIndex, int startOffset, Out<Integer> featureCount, Out<int[]> featureIndexes) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
+        java.util.Objects.requireNonNull(featureCount, "Parameter 'featureCount' must not be null");
+        java.util.Objects.requireNonNull(featureIndexes, "Parameter 'featureIndexes' must not be null");
         MemorySegment featureCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment featureIndexesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_language_get_feature_indexes.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, startOffset, (Addressable) featureCountPOINTER.address(), (Addressable) featureIndexesPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_language_get_feature_indexes.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, startOffset, (Addressable) featureCountPOINTER.address(), (Addressable) featureIndexesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5022,222 +5680,289 @@ public final class HarfBuzz {
         return RESULT;
     }
     
-    private static final MethodHandle hb_ot_layout_language_get_feature_tags = Interop.downcallHandle(
-        "hb_ot_layout_language_get_feature_tags",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Fetches a list of all features in the specified face's GSUB table
      * or GPOS table, underneath the specified script and language. The list
      * returned will begin at the offset provided.
+     * @param face {@link FaceT} to work upon
+     * @param tableTag {@code HB_OT_TAG_GSUB} or {@code HB_OT_TAG_GPOS}
+     * @param scriptIndex The index of the requested script tag
+     * @param languageIndex The index of the requested language tag
+     * @param startOffset offset of the first feature tag to retrieve
+     * @param featureCount Input = the maximum number of feature tags to return;
+     *                 Output = the actual number of feature tags returned (may be zero)
+     * @param featureTags The array of {@link TagT} feature tags found for the query
+     * @return Total number of feature tags.
      */
-    public static int otLayoutLanguageGetFeatureTags(@NotNull FaceT face, @NotNull TagT tableTag, @NotNull int scriptIndex, @NotNull int languageIndex, @NotNull int startOffset, @NotNull Out<Integer> featureCount, @NotNull Out<TagT[]> featureTags) {
+    public static int otLayoutLanguageGetFeatureTags(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int scriptIndex, int languageIndex, int startOffset, Out<Integer> featureCount, Out<org.harfbuzz.TagT[]> featureTags) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
+        java.util.Objects.requireNonNull(featureCount, "Parameter 'featureCount' must not be null");
+        java.util.Objects.requireNonNull(featureTags, "Parameter 'featureTags' must not be null");
         MemorySegment featureCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment featureTagsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_language_get_feature_tags.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, startOffset, (Addressable) featureCountPOINTER.address(), (Addressable) featureTagsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_language_get_feature_tags.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, startOffset, (Addressable) featureCountPOINTER.address(), (Addressable) featureTagsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         featureCount.set(featureCountPOINTER.get(ValueLayout.JAVA_INT, 0));
-        TagT[] featureTagsARRAY = new TagT[featureCount.get().intValue()];
+        org.harfbuzz.TagT[] featureTagsARRAY = new org.harfbuzz.TagT[featureCount.get().intValue()];
         for (int I = 0; I < featureCount.get().intValue(); I++) {
             var OBJ = featureTagsPOINTER.get(ValueLayout.JAVA_INT, I);
-            featureTagsARRAY[I] = new TagT(OBJ);
+            featureTagsARRAY[I] = new org.harfbuzz.TagT(OBJ);
         }
         featureTags.set(featureTagsARRAY);
         return RESULT;
     }
     
-    private static final MethodHandle hb_ot_layout_language_get_required_feature = Interop.downcallHandle(
-        "hb_ot_layout_language_get_required_feature",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Fetches the tag of a requested feature index in the given face's GSUB or GPOS table,
      * underneath the specified script and language.
+     * @param face {@link FaceT} to work upon
+     * @param tableTag {@code HB_OT_TAG_GSUB} or {@code HB_OT_TAG_GPOS}
+     * @param scriptIndex The index of the requested script tag
+     * @param languageIndex The index of the requested language tag
+     * @param featureIndex The index of the requested feature
+     * @param featureTag The {@link TagT} of the requested feature
+     * @return {@code true} if the feature is found, {@code false} otherwise
      */
-    public static @NotNull BoolT otLayoutLanguageGetRequiredFeature(@NotNull FaceT face, @NotNull TagT tableTag, @NotNull int scriptIndex, @NotNull int languageIndex, @NotNull Out<Integer> featureIndex, @NotNull Out<TagT> featureTag) {
+    public static @NotNull org.harfbuzz.BoolT otLayoutLanguageGetRequiredFeature(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int scriptIndex, int languageIndex, Out<Integer> featureIndex, @NotNull Out<org.harfbuzz.TagT> featureTag) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
+        java.util.Objects.requireNonNull(featureIndex, "Parameter 'featureIndex' must not be null");
+        java.util.Objects.requireNonNull(featureTag, "Parameter 'featureTag' must not be null");
         MemorySegment featureIndexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment featureTagPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_language_get_required_feature.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, (Addressable) featureIndexPOINTER.address(), (Addressable) featureTagPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_language_get_required_feature.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, (Addressable) featureIndexPOINTER.address(), (Addressable) featureTagPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         featureIndex.set(featureIndexPOINTER.get(ValueLayout.JAVA_INT, 0));
-        featureTag.set(new TagT(featureTagPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        return new BoolT(RESULT);
+        featureTag.set(new org.harfbuzz.TagT(featureTagPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_layout_language_get_required_feature_index = Interop.downcallHandle(
-        "hb_ot_layout_language_get_required_feature_index",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the index of a requested feature in the given face's GSUB or GPOS table,
      * underneath the specified script and language.
+     * @param face {@link FaceT} to work upon
+     * @param tableTag {@code HB_OT_TAG_GSUB} or {@code HB_OT_TAG_GPOS}
+     * @param scriptIndex The index of the requested script tag
+     * @param languageIndex The index of the requested language tag
+     * @param featureIndex The index of the requested feature
+     * @return {@code true} if the feature is found, {@code false} otherwise
      */
-    public static @NotNull BoolT otLayoutLanguageGetRequiredFeatureIndex(@NotNull FaceT face, @NotNull TagT tableTag, @NotNull int scriptIndex, @NotNull int languageIndex, @NotNull Out<Integer> featureIndex) {
+    public static @NotNull org.harfbuzz.BoolT otLayoutLanguageGetRequiredFeatureIndex(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int scriptIndex, int languageIndex, Out<Integer> featureIndex) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
+        java.util.Objects.requireNonNull(featureIndex, "Parameter 'featureIndex' must not be null");
         MemorySegment featureIndexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_language_get_required_feature_index.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, (Addressable) featureIndexPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_language_get_required_feature_index.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageIndex, (Addressable) featureIndexPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         featureIndex.set(featureIndexPOINTER.get(ValueLayout.JAVA_INT, 0));
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_layout_lookup_collect_glyphs = Interop.downcallHandle(
-        "hb_ot_layout_lookup_collect_glyphs",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches a list of all glyphs affected by the specified lookup in the
      * specified face's GSUB table or GPOS table.
+     * @param face {@link FaceT} to work upon
+     * @param tableTag {@code HB_OT_TAG_GSUB} or {@code HB_OT_TAG_GPOS}
+     * @param lookupIndex The index of the feature lookup to query
+     * @param glyphsBefore Array of glyphs preceding the substitution range
+     * @param glyphsInput Array of input glyphs that would be substituted by the lookup
+     * @param glyphsAfter Array of glyphs following the substitution range
+     * @param glyphsOutput Array of glyphs that would be the substituted output of the lookup
      */
-    public static @NotNull void otLayoutLookupCollectGlyphs(@NotNull FaceT face, @NotNull TagT tableTag, @NotNull int lookupIndex, @NotNull Out<SetT> glyphsBefore, @NotNull Out<SetT> glyphsInput, @NotNull Out<SetT> glyphsAfter, @NotNull Out<SetT> glyphsOutput) {
+    public static void otLayoutLookupCollectGlyphs(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int lookupIndex, @NotNull Out<org.harfbuzz.SetT> glyphsBefore, @NotNull Out<org.harfbuzz.SetT> glyphsInput, @NotNull Out<org.harfbuzz.SetT> glyphsAfter, @NotNull Out<org.harfbuzz.SetT> glyphsOutput) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
+        java.util.Objects.requireNonNull(glyphsBefore, "Parameter 'glyphsBefore' must not be null");
+        java.util.Objects.requireNonNull(glyphsInput, "Parameter 'glyphsInput' must not be null");
+        java.util.Objects.requireNonNull(glyphsAfter, "Parameter 'glyphsAfter' must not be null");
+        java.util.Objects.requireNonNull(glyphsOutput, "Parameter 'glyphsOutput' must not be null");
         MemorySegment glyphsBeforePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment glyphsInputPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment glyphsAfterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment glyphsOutputPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            hb_ot_layout_lookup_collect_glyphs.invokeExact(face.handle(), tableTag.getValue(), lookupIndex, (Addressable) glyphsBeforePOINTER.address(), (Addressable) glyphsInputPOINTER.address(), (Addressable) glyphsAfterPOINTER.address(), (Addressable) glyphsOutputPOINTER.address());
+            DowncallHandles.hb_ot_layout_lookup_collect_glyphs.invokeExact(face.handle(), tableTag.getValue(), lookupIndex, (Addressable) glyphsBeforePOINTER.address(), (Addressable) glyphsInputPOINTER.address(), (Addressable) glyphsAfterPOINTER.address(), (Addressable) glyphsOutputPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        glyphsBefore.set(new SetT(Refcounted.get(glyphsBeforePOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        glyphsInput.set(new SetT(Refcounted.get(glyphsInputPOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        glyphsAfter.set(new SetT(Refcounted.get(glyphsAfterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        glyphsOutput.set(new SetT(Refcounted.get(glyphsOutputPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        glyphsBefore.set(new org.harfbuzz.SetT(Refcounted.get(glyphsBeforePOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        glyphsInput.set(new org.harfbuzz.SetT(Refcounted.get(glyphsInputPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        glyphsAfter.set(new org.harfbuzz.SetT(Refcounted.get(glyphsAfterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        glyphsOutput.set(new org.harfbuzz.SetT(Refcounted.get(glyphsOutputPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle hb_ot_layout_lookup_get_glyph_alternates = Interop.downcallHandle(
-        "hb_ot_layout_lookup_get_glyph_alternates",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches alternates of a glyph from a given GSUB lookup index.
+     * @param face a face.
+     * @param lookupIndex index of the feature lookup to query.
+     * @param glyph a glyph id.
+     * @param startOffset starting offset.
+     * @param alternateCount Input = the maximum number of alternate glyphs to return;
+     *                   Output = the actual number of alternate glyphs returned (may be zero).
+     * @param alternateGlyphs A glyphs buffer.
+     *                    Alternate glyphs associated with the glyph id.
+     * @return Total number of alternates found in the specific lookup index for the given glyph id.
      */
-    public static int otLayoutLookupGetGlyphAlternates(@NotNull FaceT face, @NotNull int lookupIndex, @NotNull CodepointT glyph, @NotNull int startOffset, @NotNull Out<Integer> alternateCount, @NotNull Out<CodepointT[]> alternateGlyphs) {
+    public static int otLayoutLookupGetGlyphAlternates(@NotNull org.harfbuzz.FaceT face, int lookupIndex, @NotNull org.harfbuzz.CodepointT glyph, int startOffset, Out<Integer> alternateCount, Out<org.harfbuzz.CodepointT[]> alternateGlyphs) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+        java.util.Objects.requireNonNull(alternateCount, "Parameter 'alternateCount' must not be null");
+        java.util.Objects.requireNonNull(alternateGlyphs, "Parameter 'alternateGlyphs' must not be null");
         MemorySegment alternateCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment alternateGlyphsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_lookup_get_glyph_alternates.invokeExact(face.handle(), lookupIndex, glyph.getValue(), startOffset, (Addressable) alternateCountPOINTER.address(), (Addressable) alternateGlyphsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_lookup_get_glyph_alternates.invokeExact(face.handle(), lookupIndex, glyph.getValue(), startOffset, (Addressable) alternateCountPOINTER.address(), (Addressable) alternateGlyphsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         alternateCount.set(alternateCountPOINTER.get(ValueLayout.JAVA_INT, 0));
-        CodepointT[] alternateGlyphsARRAY = new CodepointT[alternateCount.get().intValue()];
+        org.harfbuzz.CodepointT[] alternateGlyphsARRAY = new org.harfbuzz.CodepointT[alternateCount.get().intValue()];
         for (int I = 0; I < alternateCount.get().intValue(); I++) {
             var OBJ = alternateGlyphsPOINTER.get(ValueLayout.JAVA_INT, I);
-            alternateGlyphsARRAY[I] = new CodepointT(OBJ);
+            alternateGlyphsARRAY[I] = new org.harfbuzz.CodepointT(OBJ);
         }
         alternateGlyphs.set(alternateGlyphsARRAY);
         return RESULT;
     }
     
-    private static final MethodHandle hb_ot_layout_lookup_substitute_closure = Interop.downcallHandle(
-        "hb_ot_layout_lookup_substitute_closure",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Compute the transitive closure of glyphs needed for a
      * specified lookup.
+     * @param face {@link FaceT} to work upon
+     * @param lookupIndex index of the feature lookup to query
+     * @param glyphs Array of glyphs comprising the transitive closure of the lookup
      */
-    public static @NotNull void otLayoutLookupSubstituteClosure(@NotNull FaceT face, @NotNull int lookupIndex, @NotNull Out<SetT> glyphs) {
+    public static void otLayoutLookupSubstituteClosure(@NotNull org.harfbuzz.FaceT face, int lookupIndex, @NotNull Out<org.harfbuzz.SetT> glyphs) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
         MemorySegment glyphsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            hb_ot_layout_lookup_substitute_closure.invokeExact(face.handle(), lookupIndex, (Addressable) glyphsPOINTER.address());
+            DowncallHandles.hb_ot_layout_lookup_substitute_closure.invokeExact(face.handle(), lookupIndex, (Addressable) glyphsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        glyphs.set(new SetT(Refcounted.get(glyphsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        glyphs.set(new org.harfbuzz.SetT(Refcounted.get(glyphsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle hb_ot_layout_lookup_would_substitute = Interop.downcallHandle(
-        "hb_ot_layout_lookup_would_substitute",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Tests whether a specified lookup in the specified face would
      * trigger a substitution on the given glyph sequence.
+     * @param face {@link FaceT} to work upon
+     * @param lookupIndex The index of the lookup to query
+     * @param glyphs The sequence of glyphs to query for substitution
+     * @param glyphsLength The length of the glyph sequence
+     * @param zeroContext {@link BoolT} indicating whether pre-/post-context are disallowed
+     * in substitutions
+     * @return {@code true} if a substitution would be triggered, {@code false} otherwise
      */
-    public static @NotNull BoolT otLayoutLookupWouldSubstitute(@NotNull FaceT face, @NotNull int lookupIndex, @NotNull CodepointT glyphs, @NotNull int glyphsLength, @NotNull BoolT zeroContext) {
+    public static @NotNull org.harfbuzz.BoolT otLayoutLookupWouldSubstitute(@NotNull org.harfbuzz.FaceT face, int lookupIndex, @NotNull org.harfbuzz.CodepointT glyphs, int glyphsLength, @NotNull org.harfbuzz.BoolT zeroContext) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
+        java.util.Objects.requireNonNull(zeroContext, "Parameter 'zeroContext' must not be null");
         PointerInteger glyphsPOINTER = new PointerInteger(glyphs.getValue());
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_lookup_would_substitute.invokeExact(face.handle(), lookupIndex, new PointerInteger(glyphs.getValue()).handle(), glyphsLength, zeroContext.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_layout_lookup_would_substitute.invokeExact(face.handle(), lookupIndex, new PointerInteger(glyphs.getValue()).handle(), glyphsLength, zeroContext.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
             glyphs.setValue(glyphsPOINTER.get());
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_layout_lookups_substitute_closure = Interop.downcallHandle(
-        "hb_ot_layout_lookups_substitute_closure",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Compute the transitive closure of glyphs needed for all of the
      * provided lookups.
+     * @param face {@link FaceT} to work upon
+     * @param lookups The set of lookups to query
+     * @param glyphs Array of glyphs comprising the transitive closure of the lookups
      */
-    public static @NotNull void otLayoutLookupsSubstituteClosure(@NotNull FaceT face, @NotNull SetT lookups, @NotNull Out<SetT> glyphs) {
+    public static void otLayoutLookupsSubstituteClosure(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.SetT lookups, @NotNull Out<org.harfbuzz.SetT> glyphs) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(lookups, "Parameter 'lookups' must not be null");
+        java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
         MemorySegment glyphsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            hb_ot_layout_lookups_substitute_closure.invokeExact(face.handle(), lookups.handle(), (Addressable) glyphsPOINTER.address());
+            DowncallHandles.hb_ot_layout_lookups_substitute_closure.invokeExact(face.handle(), lookups.handle(), (Addressable) glyphsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        glyphs.set(new SetT(Refcounted.get(glyphsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        glyphs.set(new org.harfbuzz.SetT(Refcounted.get(glyphsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    private static final MethodHandle hb_ot_layout_script_get_language_tags = Interop.downcallHandle(
-        "hb_ot_layout_script_get_language_tags",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Fetches the index of a given language tag in the specified face's GSUB table
+     * or GPOS table, underneath the specified script tag.
+     * @param face {@link FaceT} to work upon
+     * @param tableTag {@code HB_OT_TAG_GSUB} or {@code HB_OT_TAG_GPOS}
+     * @param scriptIndex The index of the requested script tag
+     * @param languageTag The {@link TagT} of the requested language
+     * @param languageIndex The index of the requested language
+     * @return {@code true} if the language tag is found, {@code false} otherwise
+     */
+    @Deprecated
+    public static @NotNull org.harfbuzz.BoolT otLayoutScriptFindLanguage(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int scriptIndex, @NotNull org.harfbuzz.TagT languageTag, PointerInteger languageIndex) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
+        java.util.Objects.requireNonNull(languageTag, "Parameter 'languageTag' must not be null");
+        java.util.Objects.requireNonNull(languageIndex, "Parameter 'languageIndex' must not be null");
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.hb_ot_layout_script_find_language.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageTag.getValue(), languageIndex.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.harfbuzz.BoolT(RESULT);
+    }
     
     /**
      * Fetches a list of language tags in the given face's GSUB or GPOS table, underneath
      * the specified script index. The list returned will begin at the offset provided.
+     * @param face {@link FaceT} to work upon
+     * @param tableTag {@code HB_OT_TAG_GSUB} or {@code HB_OT_TAG_GPOS}
+     * @param scriptIndex The index of the requested script tag
+     * @param startOffset offset of the first language tag to retrieve
+     * @param languageCount Input = the maximum number of language tags to return;
+     *                  Output = the actual number of language tags returned (may be zero)
+     * @param languageTags Array of language tags found in the table
+     * @return Total number of language tags.
      */
-    public static int otLayoutScriptGetLanguageTags(@NotNull FaceT face, @NotNull TagT tableTag, @NotNull int scriptIndex, @NotNull int startOffset, @NotNull Out<Integer> languageCount, @NotNull Out<TagT[]> languageTags) {
+    public static int otLayoutScriptGetLanguageTags(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int scriptIndex, int startOffset, Out<Integer> languageCount, Out<org.harfbuzz.TagT[]> languageTags) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
+        java.util.Objects.requireNonNull(languageCount, "Parameter 'languageCount' must not be null");
+        java.util.Objects.requireNonNull(languageTags, "Parameter 'languageTags' must not be null");
         MemorySegment languageCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment languageTagsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_script_get_language_tags.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, startOffset, (Addressable) languageCountPOINTER.address(), (Addressable) languageTagsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_script_get_language_tags.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, startOffset, (Addressable) languageCountPOINTER.address(), (Addressable) languageTagsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         languageCount.set(languageCountPOINTER.get(ValueLayout.JAVA_INT, 0));
-        TagT[] languageTagsARRAY = new TagT[languageCount.get().intValue()];
+        org.harfbuzz.TagT[] languageTagsARRAY = new org.harfbuzz.TagT[languageCount.get().intValue()];
         for (int I = 0; I < languageCount.get().intValue(); I++) {
             var OBJ = languageTagsPOINTER.get(ValueLayout.JAVA_INT, I);
-            languageTagsARRAY[I] = new TagT(OBJ);
+            languageTagsARRAY[I] = new org.harfbuzz.TagT(OBJ);
         }
         languageTags.set(languageTagsARRAY);
         return RESULT;
     }
-    
-    private static final MethodHandle hb_ot_layout_script_select_language = Interop.downcallHandle(
-        "hb_ot_layout_script_select_language",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the index of the first language tag fom {@code language_tags} that is present
@@ -5246,165 +5971,197 @@ public final class HarfBuzz {
      * <p>
      * If none of the given language tags is found, {@code false} is returned and
      * {@code language_index} is set to the default language index.
+     * @param face {@link FaceT} to work upon
+     * @param tableTag {@code HB_OT_TAG_GSUB} or {@code HB_OT_TAG_GPOS}
+     * @param scriptIndex The index of the requested script tag
+     * @param languageCount The number of languages in the specified script
+     * @param languageTags The array of language tags
+     * @param languageIndex The index of the requested language
+     * @return {@code true} if one of the given language tags is found, {@code false} otherwise
      */
-    public static @NotNull BoolT otLayoutScriptSelectLanguage(@NotNull FaceT face, @NotNull TagT tableTag, @NotNull int scriptIndex, @NotNull int languageCount, @NotNull TagT languageTags, @NotNull Out<Integer> languageIndex) {
+    public static @NotNull org.harfbuzz.BoolT otLayoutScriptSelectLanguage(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int scriptIndex, int languageCount, @NotNull org.harfbuzz.TagT languageTags, Out<Integer> languageIndex) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
+        java.util.Objects.requireNonNull(languageTags, "Parameter 'languageTags' must not be null");
+        java.util.Objects.requireNonNull(languageIndex, "Parameter 'languageIndex' must not be null");
         PointerInteger languageTagsPOINTER = new PointerInteger(languageTags.getValue());
         MemorySegment languageIndexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_script_select_language.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageCount, new PointerInteger(languageTags.getValue()).handle(), (Addressable) languageIndexPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_script_select_language.invokeExact(face.handle(), tableTag.getValue(), scriptIndex, languageCount, new PointerInteger(languageTags.getValue()).handle(), (Addressable) languageIndexPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
             languageTags.setValue(languageTagsPOINTER.get());
         languageIndex.set(languageIndexPOINTER.get(ValueLayout.JAVA_INT, 0));
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_layout_table_choose_script = Interop.downcallHandle(
-        "hb_ot_layout_table_choose_script",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Deprecated since 2.0.0
+     * @param face {@link FaceT} to work upon
+     * @param tableTag {@code HB_OT_TAG_GSUB} or {@code HB_OT_TAG_GPOS}
+     * @param scriptTags Array of {@link TagT} script tags
+     * @param scriptIndex The index of the requested script tag
+     * @param chosenScript {@link TagT} of the script tag requested
      */
-    public static @NotNull BoolT otLayoutTableChooseScript(@NotNull FaceT face, @NotNull TagT tableTag, @NotNull TagT scriptTags, @NotNull Out<Integer> scriptIndex, @NotNull Out<TagT> chosenScript) {
+    public static @NotNull org.harfbuzz.BoolT otLayoutTableChooseScript(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, @NotNull org.harfbuzz.TagT scriptTags, Out<Integer> scriptIndex, @NotNull Out<org.harfbuzz.TagT> chosenScript) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
+        java.util.Objects.requireNonNull(scriptTags, "Parameter 'scriptTags' must not be null");
+        java.util.Objects.requireNonNull(scriptIndex, "Parameter 'scriptIndex' must not be null");
+        java.util.Objects.requireNonNull(chosenScript, "Parameter 'chosenScript' must not be null");
         PointerInteger scriptTagsPOINTER = new PointerInteger(scriptTags.getValue());
         MemorySegment scriptIndexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment chosenScriptPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_table_choose_script.invokeExact(face.handle(), tableTag.getValue(), new PointerInteger(scriptTags.getValue()).handle(), (Addressable) scriptIndexPOINTER.address(), (Addressable) chosenScriptPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_table_choose_script.invokeExact(face.handle(), tableTag.getValue(), new PointerInteger(scriptTags.getValue()).handle(), (Addressable) scriptIndexPOINTER.address(), (Addressable) chosenScriptPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
             scriptTags.setValue(scriptTagsPOINTER.get());
         scriptIndex.set(scriptIndexPOINTER.get(ValueLayout.JAVA_INT, 0));
-        chosenScript.set(new TagT(chosenScriptPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        return new BoolT(RESULT);
+        chosenScript.set(new org.harfbuzz.TagT(chosenScriptPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_layout_table_find_feature_variations = Interop.downcallHandle(
-        "hb_ot_layout_table_find_feature_variations",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches a list of feature variations in the specified face's GSUB table
      * or GPOS table, at the specified variation coordinates.
+     * @param face {@link FaceT} to work upon
+     * @param tableTag {@code HB_OT_TAG_GSUB} or {@code HB_OT_TAG_GPOS}
+     * @param coords The variation coordinates to query
+     * @param numCoords The number of variation coordinates
+     * @param variationsIndex The array of feature variations found for the query
+     * @return {@code true} if feature variations were found, {@code false} otherwise.
      */
-    public static @NotNull BoolT otLayoutTableFindFeatureVariations(@NotNull FaceT face, @NotNull TagT tableTag, @NotNull PointerInteger coords, @NotNull int numCoords, @NotNull Out<Integer> variationsIndex) {
+    public static @NotNull org.harfbuzz.BoolT otLayoutTableFindFeatureVariations(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, PointerInteger coords, int numCoords, Out<Integer> variationsIndex) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
+        java.util.Objects.requireNonNull(coords, "Parameter 'coords' must not be null");
+        java.util.Objects.requireNonNull(variationsIndex, "Parameter 'variationsIndex' must not be null");
         MemorySegment variationsIndexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_table_find_feature_variations.invokeExact(face.handle(), tableTag.getValue(), coords.handle(), numCoords, (Addressable) variationsIndexPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_table_find_feature_variations.invokeExact(face.handle(), tableTag.getValue(), coords.handle(), numCoords, (Addressable) variationsIndexPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         variationsIndex.set(variationsIndexPOINTER.get(ValueLayout.JAVA_INT, 0));
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_layout_table_find_script = Interop.downcallHandle(
-        "hb_ot_layout_table_find_script",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the index if a given script tag in the specified face's GSUB table
      * or GPOS table.
+     * @param face {@link FaceT} to work upon
+     * @param tableTag {@code HB_OT_TAG_GSUB} or {@code HB_OT_TAG_GPOS}
+     * @param scriptTag {@link TagT} of the script tag requested
+     * @param scriptIndex The index of the requested script tag
+     * @return {@code true} if the script is found, {@code false} otherwise
      */
-    public static @NotNull BoolT otLayoutTableFindScript(@NotNull FaceT face, @NotNull TagT tableTag, @NotNull TagT scriptTag, @NotNull Out<Integer> scriptIndex) {
+    public static @NotNull org.harfbuzz.BoolT otLayoutTableFindScript(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, @NotNull org.harfbuzz.TagT scriptTag, Out<Integer> scriptIndex) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
+        java.util.Objects.requireNonNull(scriptTag, "Parameter 'scriptTag' must not be null");
+        java.util.Objects.requireNonNull(scriptIndex, "Parameter 'scriptIndex' must not be null");
         MemorySegment scriptIndexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_table_find_script.invokeExact(face.handle(), tableTag.getValue(), scriptTag.getValue(), (Addressable) scriptIndexPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_table_find_script.invokeExact(face.handle(), tableTag.getValue(), scriptTag.getValue(), (Addressable) scriptIndexPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         scriptIndex.set(scriptIndexPOINTER.get(ValueLayout.JAVA_INT, 0));
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_layout_table_get_feature_tags = Interop.downcallHandle(
-        "hb_ot_layout_table_get_feature_tags",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches a list of all feature tags in the given face's GSUB or GPOS table.
+     * @param face {@link FaceT} to work upon
+     * @param tableTag {@code HB_OT_TAG_GSUB} or {@code HB_OT_TAG_GPOS}
+     * @param startOffset offset of the first feature tag to retrieve
+     * @param featureCount Input = the maximum number of feature tags to return;
+     *                 Output = the actual number of feature tags returned (may be zero)
+     * @param featureTags Array of feature tags found in the table
+     * @return Total number of feature tags.
      */
-    public static int otLayoutTableGetFeatureTags(@NotNull FaceT face, @NotNull TagT tableTag, @NotNull int startOffset, @NotNull Out<Integer> featureCount, @NotNull Out<TagT[]> featureTags) {
+    public static int otLayoutTableGetFeatureTags(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int startOffset, Out<Integer> featureCount, Out<org.harfbuzz.TagT[]> featureTags) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
+        java.util.Objects.requireNonNull(featureCount, "Parameter 'featureCount' must not be null");
+        java.util.Objects.requireNonNull(featureTags, "Parameter 'featureTags' must not be null");
         MemorySegment featureCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment featureTagsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_table_get_feature_tags.invokeExact(face.handle(), tableTag.getValue(), startOffset, (Addressable) featureCountPOINTER.address(), (Addressable) featureTagsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_table_get_feature_tags.invokeExact(face.handle(), tableTag.getValue(), startOffset, (Addressable) featureCountPOINTER.address(), (Addressable) featureTagsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         featureCount.set(featureCountPOINTER.get(ValueLayout.JAVA_INT, 0));
-        TagT[] featureTagsARRAY = new TagT[featureCount.get().intValue()];
+        org.harfbuzz.TagT[] featureTagsARRAY = new org.harfbuzz.TagT[featureCount.get().intValue()];
         for (int I = 0; I < featureCount.get().intValue(); I++) {
             var OBJ = featureTagsPOINTER.get(ValueLayout.JAVA_INT, I);
-            featureTagsARRAY[I] = new TagT(OBJ);
+            featureTagsARRAY[I] = new org.harfbuzz.TagT(OBJ);
         }
         featureTags.set(featureTagsARRAY);
         return RESULT;
     }
     
-    private static final MethodHandle hb_ot_layout_table_get_lookup_count = Interop.downcallHandle(
-        "hb_ot_layout_table_get_lookup_count",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Fetches the total number of lookups enumerated in the specified
      * face's GSUB table or GPOS table.
+     * @param face {@link FaceT} to work upon
+     * @param tableTag {@code HB_OT_TAG_GSUB} or {@code HB_OT_TAG_GPOS}
+     * @return Total number of lookups.
      */
-    public static int otLayoutTableGetLookupCount(@NotNull FaceT face, @NotNull TagT tableTag) {
+    public static int otLayoutTableGetLookupCount(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_table_get_lookup_count.invokeExact(face.handle(), tableTag.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_layout_table_get_lookup_count.invokeExact(face.handle(), tableTag.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle hb_ot_layout_table_get_script_tags = Interop.downcallHandle(
-        "hb_ot_layout_table_get_script_tags",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches a list of all scripts enumerated in the specified face's GSUB table
      * or GPOS table. The list returned will begin at the offset provided.
+     * @param face {@link FaceT} to work upon
+     * @param tableTag {@code HB_OT_TAG_GSUB} or {@code HB_OT_TAG_GPOS}
+     * @param startOffset offset of the first script tag to retrieve
+     * @param scriptCount Input = the maximum number of script tags to return;
+     *                Output = the actual number of script tags returned (may be zero)
+     * @param scriptTags The array of {@link TagT} script tags found for the query
+     * @return Total number of script tags.
      */
-    public static int otLayoutTableGetScriptTags(@NotNull FaceT face, @NotNull TagT tableTag, @NotNull int startOffset, @NotNull Out<Integer> scriptCount, @NotNull Out<TagT[]> scriptTags) {
+    public static int otLayoutTableGetScriptTags(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int startOffset, Out<Integer> scriptCount, Out<org.harfbuzz.TagT[]> scriptTags) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
+        java.util.Objects.requireNonNull(scriptCount, "Parameter 'scriptCount' must not be null");
+        java.util.Objects.requireNonNull(scriptTags, "Parameter 'scriptTags' must not be null");
         MemorySegment scriptCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment scriptTagsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_table_get_script_tags.invokeExact(face.handle(), tableTag.getValue(), startOffset, (Addressable) scriptCountPOINTER.address(), (Addressable) scriptTagsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_table_get_script_tags.invokeExact(face.handle(), tableTag.getValue(), startOffset, (Addressable) scriptCountPOINTER.address(), (Addressable) scriptTagsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         scriptCount.set(scriptCountPOINTER.get(ValueLayout.JAVA_INT, 0));
-        TagT[] scriptTagsARRAY = new TagT[scriptCount.get().intValue()];
+        org.harfbuzz.TagT[] scriptTagsARRAY = new org.harfbuzz.TagT[scriptCount.get().intValue()];
         for (int I = 0; I < scriptCount.get().intValue(); I++) {
             var OBJ = scriptTagsPOINTER.get(ValueLayout.JAVA_INT, I);
-            scriptTagsARRAY[I] = new TagT(OBJ);
+            scriptTagsARRAY[I] = new org.harfbuzz.TagT(OBJ);
         }
         scriptTags.set(scriptTagsARRAY);
         return RESULT;
     }
-    
-    private static final MethodHandle hb_ot_layout_table_select_script = Interop.downcallHandle(
-        "hb_ot_layout_table_select_script",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Selects an OpenType script for {@code table_tag} from the {@code script_tags} array.
@@ -5413,107 +6170,125 @@ public final class HarfBuzz {
      * {@code dflt}, and {@code latn} tags are tried in that order. If the table still does not
      * have any of these scripts, {@code script_index} and {@code chosen_script} are set to
      * {@code HB_OT_LAYOUT_NO_SCRIPT_INDEX}.
+     * @param face {@link FaceT} to work upon
+     * @param tableTag {@code HB_OT_TAG_GSUB} or {@code HB_OT_TAG_GPOS}
+     * @param scriptCount Number of script tags in the array
+     * @param scriptTags Array of {@link TagT} script tags
+     * @param scriptIndex The index of the requested script
+     * @param chosenScript {@link TagT} of the requested script
+     * @return {@code true} if one of the requested scripts is selected, {@code false} if a fallback
+     * script is selected or if no scripts are selected.
      */
-    public static @NotNull BoolT otLayoutTableSelectScript(@NotNull FaceT face, @NotNull TagT tableTag, @NotNull int scriptCount, @NotNull TagT scriptTags, @NotNull Out<Integer> scriptIndex, @NotNull Out<TagT> chosenScript) {
+    public static @NotNull org.harfbuzz.BoolT otLayoutTableSelectScript(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int scriptCount, @NotNull org.harfbuzz.TagT scriptTags, Out<Integer> scriptIndex, @NotNull Out<org.harfbuzz.TagT> chosenScript) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
+        java.util.Objects.requireNonNull(scriptTags, "Parameter 'scriptTags' must not be null");
+        java.util.Objects.requireNonNull(scriptIndex, "Parameter 'scriptIndex' must not be null");
+        java.util.Objects.requireNonNull(chosenScript, "Parameter 'chosenScript' must not be null");
         PointerInteger scriptTagsPOINTER = new PointerInteger(scriptTags.getValue());
         MemorySegment scriptIndexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment chosenScriptPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_layout_table_select_script.invokeExact(face.handle(), tableTag.getValue(), scriptCount, new PointerInteger(scriptTags.getValue()).handle(), (Addressable) scriptIndexPOINTER.address(), (Addressable) chosenScriptPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_layout_table_select_script.invokeExact(face.handle(), tableTag.getValue(), scriptCount, new PointerInteger(scriptTags.getValue()).handle(), (Addressable) scriptIndexPOINTER.address(), (Addressable) chosenScriptPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
             scriptTags.setValue(scriptTagsPOINTER.get());
         scriptIndex.set(scriptIndexPOINTER.get(ValueLayout.JAVA_INT, 0));
-        chosenScript.set(new TagT(chosenScriptPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        return new BoolT(RESULT);
+        chosenScript.set(new org.harfbuzz.TagT(chosenScriptPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_math_get_constant = Interop.downcallHandle(
-        "hb_ot_math_get_constant",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the specified math constant. For most constants, the value returned
-     * is an {@link position_t}.
+     * is an {@link PositionT}.
      * <p>
      * However, if the requested constant is {@code HB_OT_MATH_CONSTANT_SCRIPT_PERCENT_SCALE_DOWN},
      * {@code HB_OT_MATH_CONSTANT_SCRIPT_SCRIPT_PERCENT_SCALE_DOWN} or
      * {@code HB_OT_MATH_CONSTANT_SCRIPT_PERCENT_SCALE_DOWN}, then the return value is
      * an integer between 0 and 100 representing that percentage.
+     * @param font {@link FontT} to work upon
+     * @param constant {@link OtMathConstantT} the constant to retrieve
+     * @return the requested constant or zero
      */
-    public static @NotNull PositionT otMathGetConstant(@NotNull FontT font, @NotNull OtMathConstantT constant) {
+    public static @NotNull org.harfbuzz.PositionT otMathGetConstant(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.OtMathConstantT constant) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(constant, "Parameter 'constant' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_math_get_constant.invokeExact(font.handle(), constant.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_math_get_constant.invokeExact(font.handle(), constant.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PositionT(RESULT);
+        return new org.harfbuzz.PositionT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_math_get_glyph_assembly = Interop.downcallHandle(
-        "hb_ot_math_get_glyph_assembly",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the GlyphAssembly for the specified font, glyph index, and direction.
-     * Returned are a list of {@link ot_math_glyph_part_t} glyph parts that can be
+     * Returned are a list of {@link OtMathGlyphPartT} glyph parts that can be
      * used to draw the glyph and an italics-correction value (if one is defined
      * in the font).
      * <p>
      * &lt;note&gt;The {@code direction} parameter is only used to select between horizontal
-     * or vertical directions for the construction. Even though all {@link direction_t}
+     * or vertical directions for the construction. Even though all {@link DirectionT}
      * values are accepted, only the result of {@code HB_DIRECTION_IS_HORIZONTAL} is
      * considered.&lt;/note&gt;
+     * @param font {@link FontT} to work upon
+     * @param glyph The index of the glyph to stretch
+     * @param direction direction of the stretching (horizontal or vertical)
+     * @param startOffset offset of the first glyph part to retrieve
+     * @param partsCount Input = maximum number of glyph parts to return;
+     *               Output = actual number of parts returned
+     * @param parts the glyph parts returned
+     * @param italicsCorrection italics correction of the glyph assembly
+     * @return the total number of parts in the glyph assembly
      */
-    public static int otMathGetGlyphAssembly(@NotNull FontT font, @NotNull CodepointT glyph, @NotNull DirectionT direction, @NotNull int startOffset, @NotNull Out<Integer> partsCount, @NotNull Out<OtMathGlyphPartT[]> parts, @NotNull Out<PositionT> italicsCorrection) {
+    public static int otMathGetGlyphAssembly(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.DirectionT direction, int startOffset, Out<Integer> partsCount, Out<org.harfbuzz.OtMathGlyphPartT[]> parts, @NotNull Out<org.harfbuzz.PositionT> italicsCorrection) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+        java.util.Objects.requireNonNull(partsCount, "Parameter 'partsCount' must not be null");
+        java.util.Objects.requireNonNull(parts, "Parameter 'parts' must not be null");
+        java.util.Objects.requireNonNull(italicsCorrection, "Parameter 'italicsCorrection' must not be null");
         MemorySegment partsCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment partsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment italicsCorrectionPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_math_get_glyph_assembly.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), startOffset, (Addressable) partsCountPOINTER.address(), (Addressable) partsPOINTER.address(), (Addressable) italicsCorrectionPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_math_get_glyph_assembly.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), startOffset, (Addressable) partsCountPOINTER.address(), (Addressable) partsPOINTER.address(), (Addressable) italicsCorrectionPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         partsCount.set(partsCountPOINTER.get(ValueLayout.JAVA_INT, 0));
-        italicsCorrection.set(new PositionT(italicsCorrectionPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        OtMathGlyphPartT[] partsARRAY = new OtMathGlyphPartT[partsCount.get().intValue()];
+        italicsCorrection.set(new org.harfbuzz.PositionT(italicsCorrectionPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        org.harfbuzz.OtMathGlyphPartT[] partsARRAY = new org.harfbuzz.OtMathGlyphPartT[partsCount.get().intValue()];
         for (int I = 0; I < partsCount.get().intValue(); I++) {
             var OBJ = partsPOINTER.get(ValueLayout.ADDRESS, I);
-            partsARRAY[I] = new OtMathGlyphPartT(Refcounted.get(OBJ, false));
+            partsARRAY[I] = new org.harfbuzz.OtMathGlyphPartT(Refcounted.get(OBJ, false));
         }
         parts.set(partsARRAY);
         return RESULT;
     }
     
-    private static final MethodHandle hb_ot_math_get_glyph_italics_correction = Interop.downcallHandle(
-        "hb_ot_math_get_glyph_italics_correction",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Fetches an italics-correction value (if one exists) for the specified
      * glyph index.
+     * @param font {@link FontT} to work upon
+     * @param glyph The glyph index from which to retrieve the value
+     * @return the italics correction of the glyph or zero
      */
-    public static @NotNull PositionT otMathGetGlyphItalicsCorrection(@NotNull FontT font, @NotNull CodepointT glyph) {
+    public static @NotNull org.harfbuzz.PositionT otMathGetGlyphItalicsCorrection(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_math_get_glyph_italics_correction.invokeExact(font.handle(), glyph.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_math_get_glyph_italics_correction.invokeExact(font.handle(), glyph.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PositionT(RESULT);
+        return new org.harfbuzz.PositionT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_math_get_glyph_kerning = Interop.downcallHandle(
-        "hb_ot_math_get_glyph_kerning",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the math kerning (cut-ins) value for the specified font, glyph index, and
@@ -5523,61 +6298,73 @@ public final class HarfBuzz {
      * value that is greater or equal to {@code correction_height}. If such a height
      * value is found, corresponding kerning value from the table is returned. If
      * no such height value is found, the last kerning value is returned.
+     * @param font {@link FontT} to work upon
+     * @param glyph The glyph index from which to retrieve the value
+     * @param kern The {@link OtMathKernT} from which to retrieve the value
+     * @param correctionHeight the correction height to use to determine the kerning.
+     * @return requested kerning value or zero
      */
-    public static @NotNull PositionT otMathGetGlyphKerning(@NotNull FontT font, @NotNull CodepointT glyph, @NotNull OtMathKernT kern, @NotNull PositionT correctionHeight) {
+    public static @NotNull org.harfbuzz.PositionT otMathGetGlyphKerning(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.OtMathKernT kern, @NotNull org.harfbuzz.PositionT correctionHeight) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+        java.util.Objects.requireNonNull(kern, "Parameter 'kern' must not be null");
+        java.util.Objects.requireNonNull(correctionHeight, "Parameter 'correctionHeight' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_math_get_glyph_kerning.invokeExact(font.handle(), glyph.getValue(), kern.getValue(), correctionHeight.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_math_get_glyph_kerning.invokeExact(font.handle(), glyph.getValue(), kern.getValue(), correctionHeight.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PositionT(RESULT);
+        return new org.harfbuzz.PositionT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_math_get_glyph_kernings = Interop.downcallHandle(
-        "hb_ot_math_get_glyph_kernings",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the raw MathKern (cut-in) data for the specified font, glyph index,
      * and {@code kern}. The corresponding list of kern values and correction heights is
-     * returned as a list of {@link ot_math_kern_entry_t} structs.
+     * returned as a list of {@link OtMathKernEntryT} structs.
      * <p>
      * See also {@code hb_ot_math_get_glyph_kerning}, which handles selecting the
      * appropriate kern value for a given correction height.
      * <p>
-     * &lt;note&gt;For a glyph with @n defined kern values (where @n > 0), there are only
-     * @n−1 defined correction heights, as each correction height defines a boundary
+     * &lt;note&gt;For a glyph with {@code n} defined kern values (where {@code n} &gt; 0), there are only
+     * {@code n}−1 defined correction heights, as each correction height defines a boundary
      * past which the next kern value should be selected. Therefore, only the
-     * {@link ot_math_kern_entry_t}.kern_value of the uppermost {@link ot_math_kern_entry_t}
+     * {@link OtMathKernEntryT}.kern_value of the uppermost {@link OtMathKernEntryT}
      * actually comes from the font; its corresponding
-     * {@link ot_math_kern_entry_t}.max_correction_height is always set to
+     * {@link OtMathKernEntryT}.max_correction_height is always set to
      * &lt;code&gt;INT32_MAX&lt;/code&gt;.&lt;/note&gt;
+     * @param font {@link FontT} to work upon
+     * @param glyph The glyph index from which to retrieve the kernings
+     * @param kern The {@link OtMathKernT} from which to retrieve the kernings
+     * @param startOffset offset of the first kern entry to retrieve
+     * @param entriesCount Input = the maximum number of kern entries to return;
+     *                                     Output = the actual number of kern entries returned
+     * @param kernEntries array of kern entries returned
+     * @return the total number of kern values available or zero
      */
-    public static int otMathGetGlyphKernings(@NotNull FontT font, @NotNull CodepointT glyph, @NotNull OtMathKernT kern, @NotNull int startOffset, @NotNull Out<Integer> entriesCount, @NotNull Out<OtMathKernEntryT[]> kernEntries) {
+    public static int otMathGetGlyphKernings(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.OtMathKernT kern, int startOffset, Out<Integer> entriesCount, Out<org.harfbuzz.OtMathKernEntryT[]> kernEntries) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+        java.util.Objects.requireNonNull(kern, "Parameter 'kern' must not be null");
+        java.util.Objects.requireNonNull(entriesCount, "Parameter 'entriesCount' must not be null");
+        java.util.Objects.requireNonNull(kernEntries, "Parameter 'kernEntries' must not be null");
         MemorySegment entriesCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment kernEntriesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_math_get_glyph_kernings.invokeExact(font.handle(), glyph.getValue(), kern.getValue(), startOffset, (Addressable) entriesCountPOINTER.address(), (Addressable) kernEntriesPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_math_get_glyph_kernings.invokeExact(font.handle(), glyph.getValue(), kern.getValue(), startOffset, (Addressable) entriesCountPOINTER.address(), (Addressable) kernEntriesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         entriesCount.set(entriesCountPOINTER.get(ValueLayout.JAVA_INT, 0));
-        OtMathKernEntryT[] kernEntriesARRAY = new OtMathKernEntryT[entriesCount.get().intValue()];
+        org.harfbuzz.OtMathKernEntryT[] kernEntriesARRAY = new org.harfbuzz.OtMathKernEntryT[entriesCount.get().intValue()];
         for (int I = 0; I < entriesCount.get().intValue(); I++) {
             var OBJ = kernEntriesPOINTER.get(ValueLayout.ADDRESS, I);
-            kernEntriesARRAY[I] = new OtMathKernEntryT(Refcounted.get(OBJ, false));
+            kernEntriesARRAY[I] = new org.harfbuzz.OtMathKernEntryT(Refcounted.get(OBJ, false));
         }
         kernEntries.set(kernEntriesARRAY);
         return RESULT;
     }
-    
-    private static final MethodHandle hb_ot_math_get_glyph_top_accent_attachment = Interop.downcallHandle(
-        "hb_ot_math_get_glyph_top_accent_attachment",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches a top-accent-attachment value (if one exists) for the specified
@@ -5588,55 +6375,64 @@ public final class HarfBuzz {
      * {@code font} has no {@code MathTopAccentAttachment} table or no {@code MATH} table, any
      * glyph) - the function synthesizes a value, returning the position at
      * one-half the glyph's advance width.
+     * @param font {@link FontT} to work upon
+     * @param glyph The glyph index from which to retrieve the value
+     * @return the top accent attachment of the glyph or 0.5 * the advance
+     *               width of {@code glyph}
      */
-    public static @NotNull PositionT otMathGetGlyphTopAccentAttachment(@NotNull FontT font, @NotNull CodepointT glyph) {
+    public static @NotNull org.harfbuzz.PositionT otMathGetGlyphTopAccentAttachment(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_math_get_glyph_top_accent_attachment.invokeExact(font.handle(), glyph.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_math_get_glyph_top_accent_attachment.invokeExact(font.handle(), glyph.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PositionT(RESULT);
+        return new org.harfbuzz.PositionT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_math_get_glyph_variants = Interop.downcallHandle(
-        "hb_ot_math_get_glyph_variants",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the MathGlyphConstruction for the specified font, glyph index, and
      * direction. The corresponding list of size variants is returned as a list of
-     * {@link ot_math_glyph_variant_t} structs.
+     * {@link OtMathGlyphVariantT} structs.
      * <p>
      * &lt;note&gt;The {@code direction} parameter is only used to select between horizontal
-     * or vertical directions for the construction. Even though all {@link direction_t}
+     * or vertical directions for the construction. Even though all {@link DirectionT}
      * values are accepted, only the result of {@code HB_DIRECTION_IS_HORIZONTAL} is
      * considered.&lt;/note&gt;
+     * @param font {@link FontT} to work upon
+     * @param glyph The index of the glyph to stretch
+     * @param direction The direction of the stretching (horizontal or vertical)
+     * @param startOffset offset of the first variant to retrieve
+     * @param variantsCount Input = the maximum number of variants to return;
+     *                           Output = the actual number of variants returned
+     * @param variants array of variants returned
+     * @return the total number of size variants available or zero
      */
-    public static int otMathGetGlyphVariants(@NotNull FontT font, @NotNull CodepointT glyph, @NotNull DirectionT direction, @NotNull int startOffset, @NotNull Out<Integer> variantsCount, @NotNull Out<OtMathGlyphVariantT[]> variants) {
+    public static int otMathGetGlyphVariants(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.DirectionT direction, int startOffset, Out<Integer> variantsCount, Out<org.harfbuzz.OtMathGlyphVariantT[]> variants) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+        java.util.Objects.requireNonNull(variantsCount, "Parameter 'variantsCount' must not be null");
+        java.util.Objects.requireNonNull(variants, "Parameter 'variants' must not be null");
         MemorySegment variantsCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment variantsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_math_get_glyph_variants.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), startOffset, (Addressable) variantsCountPOINTER.address(), (Addressable) variantsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_math_get_glyph_variants.invokeExact(font.handle(), glyph.getValue(), direction.getValue(), startOffset, (Addressable) variantsCountPOINTER.address(), (Addressable) variantsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         variantsCount.set(variantsCountPOINTER.get(ValueLayout.JAVA_INT, 0));
-        OtMathGlyphVariantT[] variantsARRAY = new OtMathGlyphVariantT[variantsCount.get().intValue()];
+        org.harfbuzz.OtMathGlyphVariantT[] variantsARRAY = new org.harfbuzz.OtMathGlyphVariantT[variantsCount.get().intValue()];
         for (int I = 0; I < variantsCount.get().intValue(); I++) {
             var OBJ = variantsPOINTER.get(ValueLayout.ADDRESS, I);
-            variantsARRAY[I] = new OtMathGlyphVariantT(Refcounted.get(OBJ, false));
+            variantsARRAY[I] = new org.harfbuzz.OtMathGlyphVariantT(Refcounted.get(OBJ, false));
         }
         variants.set(variantsARRAY);
         return RESULT;
     }
-    
-    private static final MethodHandle hb_ot_math_get_min_connector_overlap = Interop.downcallHandle(
-        "hb_ot_math_get_min_connector_overlap",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the MathVariants table for the specified font and returns the
@@ -5644,214 +6440,230 @@ public final class HarfBuzz {
      * assembly in the specified direction.
      * <p>
      * &lt;note&gt;The {@code direction} parameter is only used to select between horizontal
-     * or vertical directions for the construction. Even though all {@link direction_t}
+     * or vertical directions for the construction. Even though all {@link DirectionT}
      * values are accepted, only the result of {@code HB_DIRECTION_IS_HORIZONTAL} is
      * considered.&lt;/note&gt;
+     * @param font {@link FontT} to work upon
+     * @param direction direction of the stretching (horizontal or vertical)
+     * @return requested minimum connector overlap or zero
      */
-    public static @NotNull PositionT otMathGetMinConnectorOverlap(@NotNull FontT font, @NotNull DirectionT direction) {
+    public static @NotNull org.harfbuzz.PositionT otMathGetMinConnectorOverlap(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.DirectionT direction) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_math_get_min_connector_overlap.invokeExact(font.handle(), direction.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_math_get_min_connector_overlap.invokeExact(font.handle(), direction.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PositionT(RESULT);
+        return new org.harfbuzz.PositionT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_math_has_data = Interop.downcallHandle(
-        "hb_ot_math_has_data",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tests whether a face has a {@code MATH} table.
+     * @param face {@link FaceT} to test
+     * @return {@code true} if the table is found, {@code false} otherwise
      */
-    public static @NotNull BoolT otMathHasData(@NotNull FaceT face) {
+    public static @NotNull org.harfbuzz.BoolT otMathHasData(@NotNull org.harfbuzz.FaceT face) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_math_has_data.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_ot_math_has_data.invokeExact(face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_math_is_glyph_extended_shape = Interop.downcallHandle(
-        "hb_ot_math_is_glyph_extended_shape",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Tests whether the given glyph index is an extended shape in the face.
+     * @param face {@link FaceT} to work upon
+     * @param glyph The glyph index to test
+     * @return {@code true} if the glyph is an extended shape, {@code false} otherwise
      */
-    public static @NotNull BoolT otMathIsGlyphExtendedShape(@NotNull FaceT face, @NotNull CodepointT glyph) {
+    public static @NotNull org.harfbuzz.BoolT otMathIsGlyphExtendedShape(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.CodepointT glyph) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_math_is_glyph_extended_shape.invokeExact(face.handle(), glyph.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_math_is_glyph_extended_shape.invokeExact(face.handle(), glyph.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_meta_get_entry_tags = Interop.downcallHandle(
-        "hb_ot_meta_get_entry_tags",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches all available feature types.
+     * @param face a face object
+     * @param startOffset iteration's start offset
+     * @param entriesCount buffer size as input, filled size as output
+     * @param entries entries tags buffer
+     * @return Number of all available feature types.
      */
-    public static int otMetaGetEntryTags(@NotNull FaceT face, @NotNull int startOffset, @NotNull Out<Integer> entriesCount, @NotNull Out<OtMetaTagT[]> entries) {
+    public static int otMetaGetEntryTags(@NotNull org.harfbuzz.FaceT face, int startOffset, Out<Integer> entriesCount, Out<org.harfbuzz.OtMetaTagT[]> entries) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(entriesCount, "Parameter 'entriesCount' must not be null");
+        java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
         MemorySegment entriesCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment entriesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_meta_get_entry_tags.invokeExact(face.handle(), startOffset, (Addressable) entriesCountPOINTER.address(), (Addressable) entriesPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_meta_get_entry_tags.invokeExact(face.handle(), startOffset, (Addressable) entriesCountPOINTER.address(), (Addressable) entriesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         entriesCount.set(entriesCountPOINTER.get(ValueLayout.JAVA_INT, 0));
-        OtMetaTagT[] entriesARRAY = new OtMetaTagT[entriesCount.get().intValue()];
+        org.harfbuzz.OtMetaTagT[] entriesARRAY = new org.harfbuzz.OtMetaTagT[entriesCount.get().intValue()];
         for (int I = 0; I < entriesCount.get().intValue(); I++) {
             var OBJ = entriesPOINTER.get(ValueLayout.JAVA_INT, I);
-            entriesARRAY[I] = new OtMetaTagT(OBJ);
+            entriesARRAY[I] = new org.harfbuzz.OtMetaTagT(OBJ);
         }
         entries.set(entriesARRAY);
         return RESULT;
     }
     
-    private static final MethodHandle hb_ot_meta_reference_entry = Interop.downcallHandle(
-        "hb_ot_meta_reference_entry",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * It fetches metadata entry of a given tag from a font.
+     * @param face a {@link FaceT} object.
+     * @param metaTag tag of metadata you like to have.
+     * @return A blob containing the blob.
      */
-    public static @NotNull BlobT otMetaReferenceEntry(@NotNull FaceT face, @NotNull OtMetaTagT metaTag) {
+    public static @NotNull org.harfbuzz.BlobT otMetaReferenceEntry(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.OtMetaTagT metaTag) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(metaTag, "Parameter 'metaTag' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_ot_meta_reference_entry.invokeExact(face.handle(), metaTag.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.hb_ot_meta_reference_entry.invokeExact(face.handle(), metaTag.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BlobT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.BlobT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_ot_metrics_get_position = Interop.downcallHandle(
-        "hb_ot_metrics_get_position",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches metrics value corresponding to {@code metrics_tag} from {@code font}.
+     * @param font an {@link FontT} object.
+     * @param metricsTag tag of metrics value you like to fetch.
+     * @param position result of metrics value from the font.
+     * @return Whether found the requested metrics in the font.
      */
-    public static @NotNull BoolT otMetricsGetPosition(@NotNull FontT font, @NotNull OtMetricsTagT metricsTag, @NotNull Out<PositionT> position) {
+    public static @NotNull org.harfbuzz.BoolT otMetricsGetPosition(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.OtMetricsTagT metricsTag, @NotNull Out<org.harfbuzz.PositionT> position) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(metricsTag, "Parameter 'metricsTag' must not be null");
+        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
         MemorySegment positionPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_metrics_get_position.invokeExact(font.handle(), metricsTag.getValue(), (Addressable) positionPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_metrics_get_position.invokeExact(font.handle(), metricsTag.getValue(), (Addressable) positionPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        position.set(new PositionT(positionPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        return new BoolT(RESULT);
+        position.set(new org.harfbuzz.PositionT(positionPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_metrics_get_position_with_fallback = Interop.downcallHandle(
-        "hb_ot_metrics_get_position_with_fallback",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches metrics value corresponding to {@code metrics_tag} from {@code font},
      * and synthesizes a value if it the value is missing in the font.
+     * @param font an {@link FontT} object.
+     * @param metricsTag tag of metrics value you like to fetch.
+     * @param position result of metrics value from the font.
      */
-    public static @NotNull void otMetricsGetPositionWithFallback(@NotNull FontT font, @NotNull OtMetricsTagT metricsTag, @NotNull Out<PositionT> position) {
+    public static void otMetricsGetPositionWithFallback(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.OtMetricsTagT metricsTag, @NotNull Out<org.harfbuzz.PositionT> position) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(metricsTag, "Parameter 'metricsTag' must not be null");
+        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
         MemorySegment positionPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            hb_ot_metrics_get_position_with_fallback.invokeExact(font.handle(), metricsTag.getValue(), (Addressable) positionPOINTER.address());
+            DowncallHandles.hb_ot_metrics_get_position_with_fallback.invokeExact(font.handle(), metricsTag.getValue(), (Addressable) positionPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        position.set(new PositionT(positionPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        position.set(new org.harfbuzz.PositionT(positionPOINTER.get(ValueLayout.JAVA_INT, 0)));
     }
-    
-    private static final MethodHandle hb_ot_metrics_get_variation = Interop.downcallHandle(
-        "hb_ot_metrics_get_variation",
-        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches metrics value corresponding to {@code metrics_tag} from {@code font} with the
      * current font variation settings applied.
+     * @param font an {@link FontT} object.
+     * @param metricsTag tag of metrics value you like to fetch.
+     * @return The requested metric value.
      */
-    public static float otMetricsGetVariation(@NotNull FontT font, @NotNull OtMetricsTagT metricsTag) {
+    public static float otMetricsGetVariation(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.OtMetricsTagT metricsTag) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(metricsTag, "Parameter 'metricsTag' must not be null");
         float RESULT;
         try {
-            RESULT = (float) hb_ot_metrics_get_variation.invokeExact(font.handle(), metricsTag.getValue());
+            RESULT = (float) DowncallHandles.hb_ot_metrics_get_variation.invokeExact(font.handle(), metricsTag.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle hb_ot_metrics_get_x_variation = Interop.downcallHandle(
-        "hb_ot_metrics_get_x_variation",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Fetches horizontal metrics value corresponding to {@code metrics_tag} from {@code font}
      * with the current font variation settings applied.
+     * @param font an {@link FontT} object.
+     * @param metricsTag tag of metrics value you like to fetch.
+     * @return The requested metric value.
      */
-    public static @NotNull PositionT otMetricsGetXVariation(@NotNull FontT font, @NotNull OtMetricsTagT metricsTag) {
+    public static @NotNull org.harfbuzz.PositionT otMetricsGetXVariation(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.OtMetricsTagT metricsTag) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(metricsTag, "Parameter 'metricsTag' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_metrics_get_x_variation.invokeExact(font.handle(), metricsTag.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_metrics_get_x_variation.invokeExact(font.handle(), metricsTag.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PositionT(RESULT);
+        return new org.harfbuzz.PositionT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_metrics_get_y_variation = Interop.downcallHandle(
-        "hb_ot_metrics_get_y_variation",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches vertical metrics value corresponding to {@code metrics_tag} from {@code font} with
      * the current font variation settings applied.
+     * @param font an {@link FontT} object.
+     * @param metricsTag tag of metrics value you like to fetch.
+     * @return The requested metric value.
      */
-    public static @NotNull PositionT otMetricsGetYVariation(@NotNull FontT font, @NotNull OtMetricsTagT metricsTag) {
+    public static @NotNull org.harfbuzz.PositionT otMetricsGetYVariation(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.OtMetricsTagT metricsTag) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(metricsTag, "Parameter 'metricsTag' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_metrics_get_y_variation.invokeExact(font.handle(), metricsTag.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_metrics_get_y_variation.invokeExact(font.handle(), metricsTag.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PositionT(RESULT);
+        return new org.harfbuzz.PositionT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_name_get_utf16 = Interop.downcallHandle(
-        "hb_ot_name_get_utf16",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches a font name from the OpenType 'name' table.
      * If {@code language} is {@code HB_LANGUAGE_INVALID}, English ("en") is assumed.
      * Returns string in UTF-16 encoding. A NUL terminator is always written
      * for convenience, and isn't included in the output {@code text_size}.
+     * @param face font face.
+     * @param nameId OpenType name identifier to fetch.
+     * @param language language to fetch the name for.
+     * @param textSize input size of {@code text} buffer, and output size of
+     *                                   text written to buffer.
+     * @param text buffer to write fetched name into.
+     * @return full length of the requested string, or 0 if not found.
      */
-    public static int otNameGetUtf16(@NotNull FaceT face, @NotNull OtNameIdT nameId, @NotNull LanguageT language, @NotNull Out<Integer> textSize, @NotNull Out<short[]> text) {
+    public static int otNameGetUtf16(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.OtNameIdT nameId, @NotNull org.harfbuzz.LanguageT language, Out<Integer> textSize, Out<short[]> text) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(nameId, "Parameter 'nameId' must not be null");
+        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
+        java.util.Objects.requireNonNull(textSize, "Parameter 'textSize' must not be null");
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         MemorySegment textSizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment textPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_name_get_utf16.invokeExact(face.handle(), nameId.getValue(), language.handle(), (Addressable) textSizePOINTER.address(), (Addressable) textPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_name_get_utf16.invokeExact(face.handle(), nameId.getValue(), language.handle(), (Addressable) textSizePOINTER.address(), (Addressable) textPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5860,23 +6672,30 @@ public final class HarfBuzz {
         return RESULT;
     }
     
-    private static final MethodHandle hb_ot_name_get_utf32 = Interop.downcallHandle(
-        "hb_ot_name_get_utf32",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Fetches a font name from the OpenType 'name' table.
      * If {@code language} is {@code HB_LANGUAGE_INVALID}, English ("en") is assumed.
      * Returns string in UTF-32 encoding. A NUL terminator is always written
      * for convenience, and isn't included in the output {@code text_size}.
+     * @param face font face.
+     * @param nameId OpenType name identifier to fetch.
+     * @param language language to fetch the name for.
+     * @param textSize input size of {@code text} buffer, and output size of
+     *                                   text written to buffer.
+     * @param text buffer to write fetched name into.
+     * @return full length of the requested string, or 0 if not found.
      */
-    public static int otNameGetUtf32(@NotNull FaceT face, @NotNull OtNameIdT nameId, @NotNull LanguageT language, @NotNull Out<Integer> textSize, @NotNull Out<int[]> text) {
+    public static int otNameGetUtf32(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.OtNameIdT nameId, @NotNull org.harfbuzz.LanguageT language, Out<Integer> textSize, Out<int[]> text) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(nameId, "Parameter 'nameId' must not be null");
+        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
+        java.util.Objects.requireNonNull(textSize, "Parameter 'textSize' must not be null");
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         MemorySegment textSizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment textPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_name_get_utf32.invokeExact(face.handle(), nameId.getValue(), language.handle(), (Addressable) textSizePOINTER.address(), (Addressable) textPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_name_get_utf32.invokeExact(face.handle(), nameId.getValue(), language.handle(), (Addressable) textSizePOINTER.address(), (Addressable) textPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5885,23 +6704,30 @@ public final class HarfBuzz {
         return RESULT;
     }
     
-    private static final MethodHandle hb_ot_name_get_utf8 = Interop.downcallHandle(
-        "hb_ot_name_get_utf8",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Fetches a font name from the OpenType 'name' table.
      * If {@code language} is {@code HB_LANGUAGE_INVALID}, English ("en") is assumed.
      * Returns string in UTF-8 encoding. A NUL terminator is always written
      * for convenience, and isn't included in the output {@code text_size}.
+     * @param face font face.
+     * @param nameId OpenType name identifier to fetch.
+     * @param language language to fetch the name for.
+     * @param textSize input size of {@code text} buffer, and output size of
+     *                                   text written to buffer.
+     * @param text buffer to write fetched name into.
+     * @return full length of the requested string, or 0 if not found.
      */
-    public static int otNameGetUtf8(@NotNull FaceT face, @NotNull OtNameIdT nameId, @NotNull LanguageT language, @NotNull Out<Integer> textSize, @NotNull Out<java.lang.String[]> text) {
+    public static int otNameGetUtf8(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.OtNameIdT nameId, @NotNull org.harfbuzz.LanguageT language, Out<Integer> textSize, Out<java.lang.String[]> text) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(nameId, "Parameter 'nameId' must not be null");
+        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
+        java.util.Objects.requireNonNull(textSize, "Parameter 'textSize' must not be null");
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         MemorySegment textSizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment textPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_name_get_utf8.invokeExact(face.handle(), nameId.getValue(), language.handle(), (Addressable) textSizePOINTER.address(), (Addressable) textPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_name_get_utf8.invokeExact(face.handle(), nameId.getValue(), language.handle(), (Addressable) textSizePOINTER.address(), (Addressable) textPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5915,133 +6741,128 @@ public final class HarfBuzz {
         return RESULT;
     }
     
-    private static final MethodHandle hb_ot_name_list_names = Interop.downcallHandle(
-        "hb_ot_name_list_names",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Enumerates all available name IDs and language combinations. Returned
      * array is owned by the {@code face} and should not be modified.  It can be
      * used as long as {@code face} is alive.
+     * @param face font face.
+     * @param numEntries number of returned entries.
+     * @return Array of available name entries.
      */
-    public static OtNameEntryT[] otNameListNames(@NotNull FaceT face, @NotNull Out<Integer> numEntries) {
+    public static @NotNull org.harfbuzz.OtNameEntryT[] otNameListNames(@NotNull org.harfbuzz.FaceT face, Out<Integer> numEntries) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(numEntries, "Parameter 'numEntries' must not be null");
         MemorySegment numEntriesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_ot_name_list_names.invokeExact(face.handle(), (Addressable) numEntriesPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.hb_ot_name_list_names.invokeExact(face.handle(), (Addressable) numEntriesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         numEntries.set(numEntriesPOINTER.get(ValueLayout.JAVA_INT, 0));
-        OtNameEntryT[] resultARRAY = new OtNameEntryT[numEntries.get().intValue()];
+        org.harfbuzz.OtNameEntryT[] resultARRAY = new org.harfbuzz.OtNameEntryT[numEntries.get().intValue()];
         for (int I = 0; I < numEntries.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = new OtNameEntryT(Refcounted.get(OBJ, false));
+            resultARRAY[I] = new org.harfbuzz.OtNameEntryT(Refcounted.get(OBJ, false));
         }
         return resultARRAY;
     }
-    
-    private static final MethodHandle hb_ot_shape_glyphs_closure = Interop.downcallHandle(
-        "hb_ot_shape_glyphs_closure",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Computes the transitive closure of glyphs needed for a specified
      * input buffer under the given font and feature list. The closure is
      * computed as a set, not as a list.
+     * @param font {@link FontT} to work upon
+     * @param buffer The input buffer to compute from
+     * @param features The features enabled on the buffer
+     * @param numFeatures The number of features enabled on the buffer
+     * @param glyphs The {@link SetT} set of glyphs comprising the transitive closure of the query
      */
-    public static @NotNull void otShapeGlyphsClosure(@NotNull FontT font, @NotNull BufferT buffer, @NotNull FeatureT[] features, @NotNull int numFeatures, @NotNull Out<SetT> glyphs) {
+    public static void otShapeGlyphsClosure(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferT buffer, org.harfbuzz.FeatureT[] features, int numFeatures, @NotNull Out<org.harfbuzz.SetT> glyphs) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(features, "Parameter 'features' must not be null");
+        java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
         MemorySegment glyphsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            hb_ot_shape_glyphs_closure.invokeExact(font.handle(), buffer.handle(), Interop.allocateNativeArray(features), numFeatures, (Addressable) glyphsPOINTER.address());
+            DowncallHandles.hb_ot_shape_glyphs_closure.invokeExact(font.handle(), buffer.handle(), Interop.allocateNativeArray(features, false), numFeatures, (Addressable) glyphsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        glyphs.set(new SetT(Refcounted.get(glyphsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        glyphs.set(new org.harfbuzz.SetT(Refcounted.get(glyphsPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle hb_ot_shape_plan_collect_lookups = Interop.downcallHandle(
-        "hb_ot_shape_plan_collect_lookups",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Computes the complete set of GSUB or GPOS lookups that are applicable
      * under a given {@code shape_plan}.
+     * @param shapePlan {@link ShapePlanT} to query
+     * @param tableTag GSUB or GPOS
+     * @param lookupIndexes The {@link SetT} set of lookups returned
      */
-    public static @NotNull void otShapePlanCollectLookups(@NotNull ShapePlanT shapePlan, @NotNull TagT tableTag, @NotNull Out<SetT> lookupIndexes) {
+    public static void otShapePlanCollectLookups(@NotNull org.harfbuzz.ShapePlanT shapePlan, @NotNull org.harfbuzz.TagT tableTag, @NotNull Out<org.harfbuzz.SetT> lookupIndexes) {
+        java.util.Objects.requireNonNull(shapePlan, "Parameter 'shapePlan' must not be null");
+        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
+        java.util.Objects.requireNonNull(lookupIndexes, "Parameter 'lookupIndexes' must not be null");
         MemorySegment lookupIndexesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            hb_ot_shape_plan_collect_lookups.invokeExact(shapePlan.handle(), tableTag.getValue(), (Addressable) lookupIndexesPOINTER.address());
+            DowncallHandles.hb_ot_shape_plan_collect_lookups.invokeExact(shapePlan.handle(), tableTag.getValue(), (Addressable) lookupIndexesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        lookupIndexes.set(new SetT(Refcounted.get(lookupIndexesPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        lookupIndexes.set(new org.harfbuzz.SetT(Refcounted.get(lookupIndexesPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    private static final MethodHandle hb_ot_tag_from_language = Interop.downcallHandle(
-        "hb_ot_tag_from_language",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
-    public static @NotNull TagT otTagFromLanguage(@NotNull LanguageT language) {
+    public static @NotNull org.harfbuzz.TagT otTagFromLanguage(@NotNull org.harfbuzz.LanguageT language) {
+        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_tag_from_language.invokeExact(language.handle());
+            RESULT = (int) DowncallHandles.hb_ot_tag_from_language.invokeExact(language.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new TagT(RESULT);
+        return new org.harfbuzz.TagT(RESULT);
     }
     
-    private static final MethodHandle hb_ot_tag_to_language = Interop.downcallHandle(
-        "hb_ot_tag_to_language",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
-     * Converts a language tag to an {@link language_t}.
+     * Converts a language tag to an {@link LanguageT}.
+     * @param tag an language tag
+     * @return The {@link LanguageT} corresponding to {@code tag}.
      */
-    public static @Nullable LanguageT otTagToLanguage(@NotNull TagT tag) {
+    public static @Nullable org.harfbuzz.LanguageT otTagToLanguage(@NotNull org.harfbuzz.TagT tag) {
+        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_ot_tag_to_language.invokeExact(tag.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.hb_ot_tag_to_language.invokeExact(tag.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new LanguageT(Refcounted.get(RESULT, false));
+        return new org.harfbuzz.LanguageT(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle hb_ot_tag_to_script = Interop.downcallHandle(
-        "hb_ot_tag_to_script",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
-     * Converts a script tag to an {@link script_t}.
+     * Converts a script tag to an {@link ScriptT}.
+     * @param tag a script tag
+     * @return The {@link ScriptT} corresponding to {@code tag}.
      */
-    public static @NotNull ScriptT otTagToScript(@NotNull TagT tag) {
+    public static @NotNull org.harfbuzz.ScriptT otTagToScript(@NotNull org.harfbuzz.TagT tag) {
+        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_tag_to_script.invokeExact(tag.getValue());
+            RESULT = (int) DowncallHandles.hb_ot_tag_to_script.invokeExact(tag.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ScriptT(RESULT);
+        return new org.harfbuzz.ScriptT(RESULT);
     }
     
-    private static final MethodHandle hb_ot_tags_from_script = Interop.downcallHandle(
-        "hb_ot_tags_from_script",
-        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    public static @NotNull void otTagsFromScript(@NotNull ScriptT script, @NotNull TagT scriptTag1, @NotNull TagT scriptTag2) {
+    public static void otTagsFromScript(@NotNull org.harfbuzz.ScriptT script, @NotNull org.harfbuzz.TagT scriptTag1, @NotNull org.harfbuzz.TagT scriptTag2) {
+        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
+        java.util.Objects.requireNonNull(scriptTag1, "Parameter 'scriptTag1' must not be null");
+        java.util.Objects.requireNonNull(scriptTag2, "Parameter 'scriptTag2' must not be null");
         PointerInteger scriptTag1POINTER = new PointerInteger(scriptTag1.getValue());
         PointerInteger scriptTag2POINTER = new PointerInteger(scriptTag2.getValue());
         try {
-            hb_ot_tags_from_script.invokeExact(script.getValue(), new PointerInteger(scriptTag1.getValue()).handle(), new PointerInteger(scriptTag2.getValue()).handle());
+            DowncallHandles.hb_ot_tags_from_script.invokeExact(script.getValue(), new PointerInteger(scriptTag1.getValue()).handle(), new PointerInteger(scriptTag2.getValue()).handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6049,169 +6870,249 @@ public final class HarfBuzz {
             scriptTag2.setValue(scriptTag2POINTER.get());
     }
     
-    private static final MethodHandle hb_ot_tags_from_script_and_language = Interop.downcallHandle(
-        "hb_ot_tags_from_script_and_language",
-        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Converts an {@link script_t} and an {@link language_t} to script and language tags.
+     * Converts an {@link ScriptT} and an {@link LanguageT} to script and language tags.
+     * @param script an {@link ScriptT} to convert.
+     * @param language an {@link LanguageT} to convert.
+     * @param scriptCount maximum number of script tags to retrieve (IN)
+     * and actual number of script tags retrieved (OUT)
+     * @param scriptTags array of size at least {@code script_count} to store the
+     * script tag results
+     * @param languageCount maximum number of language tags to retrieve
+     * (IN) and actual number of language tags retrieved (OUT)
+     * @param languageTags array of size at least {@code language_count} to store
+     * the language tag results
      */
-    public static @NotNull void otTagsFromScriptAndLanguage(@NotNull ScriptT script, @NotNull LanguageT language, @NotNull Out<Integer> scriptCount, @NotNull Out<TagT> scriptTags, @NotNull Out<Integer> languageCount, @NotNull Out<TagT> languageTags) {
+    public static void otTagsFromScriptAndLanguage(@NotNull org.harfbuzz.ScriptT script, @NotNull org.harfbuzz.LanguageT language, Out<Integer> scriptCount, @NotNull Out<org.harfbuzz.TagT> scriptTags, Out<Integer> languageCount, @NotNull Out<org.harfbuzz.TagT> languageTags) {
+        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
+        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
+        java.util.Objects.requireNonNull(scriptCount, "Parameter 'scriptCount' must not be null");
+        java.util.Objects.requireNonNull(scriptTags, "Parameter 'scriptTags' must not be null");
+        java.util.Objects.requireNonNull(languageCount, "Parameter 'languageCount' must not be null");
+        java.util.Objects.requireNonNull(languageTags, "Parameter 'languageTags' must not be null");
         MemorySegment scriptCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment scriptTagsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment languageCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment languageTagsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            hb_ot_tags_from_script_and_language.invokeExact(script.getValue(), language.handle(), (Addressable) scriptCountPOINTER.address(), (Addressable) scriptTagsPOINTER.address(), (Addressable) languageCountPOINTER.address(), (Addressable) languageTagsPOINTER.address());
+            DowncallHandles.hb_ot_tags_from_script_and_language.invokeExact(script.getValue(), language.handle(), (Addressable) scriptCountPOINTER.address(), (Addressable) scriptTagsPOINTER.address(), (Addressable) languageCountPOINTER.address(), (Addressable) languageTagsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         scriptCount.set(scriptCountPOINTER.get(ValueLayout.JAVA_INT, 0));
-        scriptTags.set(new TagT(scriptTagsPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        scriptTags.set(new org.harfbuzz.TagT(scriptTagsPOINTER.get(ValueLayout.JAVA_INT, 0)));
         languageCount.set(languageCountPOINTER.get(ValueLayout.JAVA_INT, 0));
-        languageTags.set(new TagT(languageTagsPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        languageTags.set(new org.harfbuzz.TagT(languageTagsPOINTER.get(ValueLayout.JAVA_INT, 0)));
     }
     
-    private static final MethodHandle hb_ot_tags_to_script_and_language = Interop.downcallHandle(
-        "hb_ot_tags_to_script_and_language",
-        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Converts a script tag and a language tag to an {@link script_t} and an
-     * {@link language_t}.
+     * Converts a script tag and a language tag to an {@link ScriptT} and an
+     * {@link LanguageT}.
+     * @param scriptTag a script tag
+     * @param languageTag a language tag
+     * @param script the {@link ScriptT} corresponding to {@code script_tag}.
+     * @param language the {@link LanguageT} corresponding to {@code script_tag} and
+     * {@code language_tag}.
      */
-    public static @NotNull void otTagsToScriptAndLanguage(@NotNull TagT scriptTag, @NotNull TagT languageTag, @NotNull Out<ScriptT> script, @NotNull Out<LanguageT> language) {
+    public static void otTagsToScriptAndLanguage(@NotNull org.harfbuzz.TagT scriptTag, @NotNull org.harfbuzz.TagT languageTag, @NotNull Out<org.harfbuzz.ScriptT> script, @NotNull Out<org.harfbuzz.LanguageT> language) {
+        java.util.Objects.requireNonNull(scriptTag, "Parameter 'scriptTag' must not be null");
+        java.util.Objects.requireNonNull(languageTag, "Parameter 'languageTag' must not be null");
+        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
+        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
         MemorySegment scriptPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment languagePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            hb_ot_tags_to_script_and_language.invokeExact(scriptTag.getValue(), languageTag.getValue(), (Addressable) scriptPOINTER.address(), (Addressable) languagePOINTER.address());
+            DowncallHandles.hb_ot_tags_to_script_and_language.invokeExact(scriptTag.getValue(), languageTag.getValue(), (Addressable) scriptPOINTER.address(), (Addressable) languagePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        script.set(new ScriptT(scriptPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        language.set(new LanguageT(Refcounted.get(languagePOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        script.set(new org.harfbuzz.ScriptT(scriptPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        language.set(new org.harfbuzz.LanguageT(Refcounted.get(languagePOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle hb_ot_var_find_axis_info = Interop.downcallHandle(
-        "hb_ot_var_find_axis_info",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the variation-axis information corresponding to the specified axis tag
      * in the specified face.
+     * @param face {@link FaceT} to work upon
+     * @param axisTag The {@link TagT} of the variation axis to query
+     * @param axisIndex The index of the variation axis
+     * @param axisInfo The {@link OtVarAxisInfoT} of the axis tag queried
+     * @deprecated <ul>
+     * <li>use hb_ot_var_find_axis_info() instead
+     * </ul>
      */
-    public static @NotNull BoolT otVarFindAxisInfo(@NotNull FaceT face, @NotNull TagT axisTag, @NotNull Out<OtVarAxisInfoT> axisInfo) {
+    @Deprecated
+    public static @NotNull org.harfbuzz.BoolT otVarFindAxis(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT axisTag, PointerInteger axisIndex, @NotNull Out<org.harfbuzz.OtVarAxisT> axisInfo) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(axisTag, "Parameter 'axisTag' must not be null");
+        java.util.Objects.requireNonNull(axisIndex, "Parameter 'axisIndex' must not be null");
+        java.util.Objects.requireNonNull(axisInfo, "Parameter 'axisInfo' must not be null");
         MemorySegment axisInfoPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_var_find_axis_info.invokeExact(face.handle(), axisTag.getValue(), (Addressable) axisInfoPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_var_find_axis.invokeExact(face.handle(), axisTag.getValue(), axisIndex.handle(), (Addressable) axisInfoPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        axisInfo.set(new OtVarAxisInfoT(Refcounted.get(axisInfoPOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        return new BoolT(RESULT);
+        axisInfo.set(new org.harfbuzz.OtVarAxisT(Refcounted.get(axisInfoPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_var_get_axis_count = Interop.downcallHandle(
-        "hb_ot_var_get_axis_count",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
-     * Fetches the number of OpenType variation axes included in the face.
+     * Fetches the variation-axis information corresponding to the specified axis tag
+     * in the specified face.
+     * @param face {@link FaceT} to work upon
+     * @param axisTag The {@link TagT} of the variation axis to query
+     * @param axisInfo The {@link OtVarAxisInfoT} of the axis tag queried
+     * @return {@code true} if data found, {@code false} otherwise
      */
-    public static int otVarGetAxisCount(@NotNull FaceT face) {
+    public static @NotNull org.harfbuzz.BoolT otVarFindAxisInfo(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT axisTag, @NotNull Out<org.harfbuzz.OtVarAxisInfoT> axisInfo) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(axisTag, "Parameter 'axisTag' must not be null");
+        java.util.Objects.requireNonNull(axisInfo, "Parameter 'axisInfo' must not be null");
+        MemorySegment axisInfoPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_var_get_axis_count.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_ot_var_find_axis_info.invokeExact(face.handle(), axisTag.getValue(), (Addressable) axisInfoPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT;
+        axisInfo.set(new org.harfbuzz.OtVarAxisInfoT(Refcounted.get(axisInfoPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_var_get_axis_infos = Interop.downcallHandle(
-        "hb_ot_var_get_axis_infos",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches a list of all variation axes in the specified face. The list returned will begin
      * at the offset provided.
+     * @param face {@link FaceT} to work upon
+     * @param startOffset offset of the first lookup to retrieve
+     * @param axesCount Input = the maximum number of variation axes to return;
+     *                Output = the actual number of variation axes returned (may be zero)
+     * @param axesArray The array of variation axes found
+     * @deprecated use hb_ot_var_get_axis_infos() instead
      */
-    public static int otVarGetAxisInfos(@NotNull FaceT face, @NotNull int startOffset, @NotNull Out<Integer> axesCount, @NotNull Out<OtVarAxisInfoT[]> axesArray) {
+    @Deprecated
+    public static int otVarGetAxes(@NotNull org.harfbuzz.FaceT face, int startOffset, Out<Integer> axesCount, Out<org.harfbuzz.OtVarAxisT[]> axesArray) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(axesCount, "Parameter 'axesCount' must not be null");
+        java.util.Objects.requireNonNull(axesArray, "Parameter 'axesArray' must not be null");
         MemorySegment axesCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment axesArrayPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_var_get_axis_infos.invokeExact(face.handle(), startOffset, (Addressable) axesCountPOINTER.address(), (Addressable) axesArrayPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_var_get_axes.invokeExact(face.handle(), startOffset, (Addressable) axesCountPOINTER.address(), (Addressable) axesArrayPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         axesCount.set(axesCountPOINTER.get(ValueLayout.JAVA_INT, 0));
-        OtVarAxisInfoT[] axesArrayARRAY = new OtVarAxisInfoT[axesCount.get().intValue()];
+        org.harfbuzz.OtVarAxisT[] axesArrayARRAY = new org.harfbuzz.OtVarAxisT[axesCount.get().intValue()];
         for (int I = 0; I < axesCount.get().intValue(); I++) {
             var OBJ = axesArrayPOINTER.get(ValueLayout.ADDRESS, I);
-            axesArrayARRAY[I] = new OtVarAxisInfoT(Refcounted.get(OBJ, false));
+            axesArrayARRAY[I] = new org.harfbuzz.OtVarAxisT(Refcounted.get(OBJ, false));
         }
         axesArray.set(axesArrayARRAY);
         return RESULT;
     }
     
-    private static final MethodHandle hb_ot_var_get_named_instance_count = Interop.downcallHandle(
-        "hb_ot_var_get_named_instance_count",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Fetches the number of named instances included in the face.
+     * Fetches the number of OpenType variation axes included in the face.
+     * @param face The {@link FaceT} to work on
+     * @return the number of variation axes defined
      */
-    public static int otVarGetNamedInstanceCount(@NotNull FaceT face) {
+    public static int otVarGetAxisCount(@NotNull org.harfbuzz.FaceT face) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_var_get_named_instance_count.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_ot_var_get_axis_count.invokeExact(face.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle hb_ot_var_has_data = Interop.downcallHandle(
-        "hb_ot_var_has_data",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Tests whether a face includes any OpenType variation data in the {@code fvar} table.
+     * Fetches a list of all variation axes in the specified face. The list returned will begin
+     * at the offset provided.
+     * @param face {@link FaceT} to work upon
+     * @param startOffset offset of the first lookup to retrieve
+     * @param axesCount Input = the maximum number of variation axes to return;
+     *                Output = the actual number of variation axes returned (may be zero)
+     * @param axesArray The array of variation axes found
+     * @return the number of variation axes in the face
      */
-    public static @NotNull BoolT otVarHasData(@NotNull FaceT face) {
+    public static int otVarGetAxisInfos(@NotNull org.harfbuzz.FaceT face, int startOffset, Out<Integer> axesCount, Out<org.harfbuzz.OtVarAxisInfoT[]> axesArray) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(axesCount, "Parameter 'axesCount' must not be null");
+        java.util.Objects.requireNonNull(axesArray, "Parameter 'axesArray' must not be null");
+        MemorySegment axesCountPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment axesArrayPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_var_has_data.invokeExact(face.handle());
+            RESULT = (int) DowncallHandles.hb_ot_var_get_axis_infos.invokeExact(face.handle(), startOffset, (Addressable) axesCountPOINTER.address(), (Addressable) axesArrayPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        axesCount.set(axesCountPOINTER.get(ValueLayout.JAVA_INT, 0));
+        org.harfbuzz.OtVarAxisInfoT[] axesArrayARRAY = new org.harfbuzz.OtVarAxisInfoT[axesCount.get().intValue()];
+        for (int I = 0; I < axesCount.get().intValue(); I++) {
+            var OBJ = axesArrayPOINTER.get(ValueLayout.ADDRESS, I);
+            axesArrayARRAY[I] = new org.harfbuzz.OtVarAxisInfoT(Refcounted.get(OBJ, false));
+        }
+        axesArray.set(axesArrayARRAY);
+        return RESULT;
     }
     
-    private static final MethodHandle hb_ot_var_named_instance_get_design_coords = Interop.downcallHandle(
-        "hb_ot_var_named_instance_get_design_coords",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Fetches the number of named instances included in the face.
+     * @param face The {@link FaceT} to work on
+     * @return the number of named instances defined
+     */
+    public static int otVarGetNamedInstanceCount(@NotNull org.harfbuzz.FaceT face) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.hb_ot_var_get_named_instance_count.invokeExact(face.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Tests whether a face includes any OpenType variation data in the {@code fvar} table.
+     * @param face The {@link FaceT} to work on
+     * @return {@code true} if data found, {@code false} otherwise
+     */
+    public static @NotNull org.harfbuzz.BoolT otVarHasData(@NotNull org.harfbuzz.FaceT face) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.hb_ot_var_has_data.invokeExact(face.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.harfbuzz.BoolT(RESULT);
+    }
     
     /**
      * Fetches the design-space coordinates corresponding to the given
      * named instance in the face.
+     * @param face The {@link FaceT} to work on
+     * @param instanceIndex The index of the named instance to query
+     * @param coordsLength Input = the maximum number of coordinates to return;
+     *                 Output = the actual number of coordinates returned (may be zero)
+     * @param coords The array of coordinates found for the query
+     * @return the number of variation axes in the face
      */
-    public static int otVarNamedInstanceGetDesignCoords(@NotNull FaceT face, @NotNull int instanceIndex, @NotNull Out<Integer> coordsLength, @NotNull Out<float[]> coords) {
+    public static int otVarNamedInstanceGetDesignCoords(@NotNull org.harfbuzz.FaceT face, int instanceIndex, Out<Integer> coordsLength, Out<float[]> coords) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(coordsLength, "Parameter 'coordsLength' must not be null");
+        java.util.Objects.requireNonNull(coords, "Parameter 'coords' must not be null");
         MemorySegment coordsLengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment coordsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_ot_var_named_instance_get_design_coords.invokeExact(face.handle(), instanceIndex, (Addressable) coordsLengthPOINTER.address(), (Addressable) coordsPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_ot_var_named_instance_get_design_coords.invokeExact(face.handle(), instanceIndex, (Addressable) coordsLengthPOINTER.address(), (Addressable) coordsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6220,48 +7121,41 @@ public final class HarfBuzz {
         return RESULT;
     }
     
-    private static final MethodHandle hb_ot_var_named_instance_get_postscript_name_id = Interop.downcallHandle(
-        "hb_ot_var_named_instance_get_postscript_name_id",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Fetches the {@code name} table Name ID that provides display names for
      * the "PostScript name" defined for the given named instance in the face.
+     * @param face The {@link FaceT} to work on
+     * @param instanceIndex The index of the named instance to query
+     * @return the Name ID found for the PostScript name
      */
-    public static @NotNull OtNameIdT otVarNamedInstanceGetPostscriptNameId(@NotNull FaceT face, @NotNull int instanceIndex) {
+    public static @NotNull org.harfbuzz.OtNameIdT otVarNamedInstanceGetPostscriptNameId(@NotNull org.harfbuzz.FaceT face, int instanceIndex) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_var_named_instance_get_postscript_name_id.invokeExact(face.handle(), instanceIndex);
+            RESULT = (int) DowncallHandles.hb_ot_var_named_instance_get_postscript_name_id.invokeExact(face.handle(), instanceIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new OtNameIdT(RESULT);
+        return new org.harfbuzz.OtNameIdT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_var_named_instance_get_subfamily_name_id = Interop.downcallHandle(
-        "hb_ot_var_named_instance_get_subfamily_name_id",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the {@code name} table Name ID that provides display names for
      * the "Subfamily name" defined for the given named instance in the face.
+     * @param face The {@link FaceT} to work on
+     * @param instanceIndex The index of the named instance to query
+     * @return the Name ID found for the Subfamily name
      */
-    public static @NotNull OtNameIdT otVarNamedInstanceGetSubfamilyNameId(@NotNull FaceT face, @NotNull int instanceIndex) {
+    public static @NotNull org.harfbuzz.OtNameIdT otVarNamedInstanceGetSubfamilyNameId(@NotNull org.harfbuzz.FaceT face, int instanceIndex) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_ot_var_named_instance_get_subfamily_name_id.invokeExact(face.handle(), instanceIndex);
+            RESULT = (int) DowncallHandles.hb_ot_var_named_instance_get_subfamily_name_id.invokeExact(face.handle(), instanceIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new OtNameIdT(RESULT);
+        return new org.harfbuzz.OtNameIdT(RESULT);
     }
-    
-    private static final MethodHandle hb_ot_var_normalize_coords = Interop.downcallHandle(
-        "hb_ot_var_normalize_coords",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Normalizes the given design-space coordinates. The minimum and maximum
@@ -6273,30 +7167,40 @@ public final class HarfBuzz {
      * <p>
      * Any additional scaling defined in the face's {@code avar} table is also
      * applied, as described at https://docs.microsoft.com/en-us/typography/opentype/spec/avar
+     * @param face The {@link FaceT} to work on
+     * @param coordsLength The length of the coordinate array
+     * @param designCoords The design-space coordinates to normalize
+     * @param normalizedCoords The normalized coordinates
      */
-    public static @NotNull void otVarNormalizeCoords(@NotNull FaceT face, @NotNull int coordsLength, @NotNull PointerFloat designCoords, @NotNull Out<Integer> normalizedCoords) {
+    public static void otVarNormalizeCoords(@NotNull org.harfbuzz.FaceT face, int coordsLength, PointerFloat designCoords, Out<Integer> normalizedCoords) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(designCoords, "Parameter 'designCoords' must not be null");
+        java.util.Objects.requireNonNull(normalizedCoords, "Parameter 'normalizedCoords' must not be null");
         MemorySegment normalizedCoordsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            hb_ot_var_normalize_coords.invokeExact(face.handle(), coordsLength, designCoords.handle(), (Addressable) normalizedCoordsPOINTER.address());
+            DowncallHandles.hb_ot_var_normalize_coords.invokeExact(face.handle(), coordsLength, designCoords.handle(), (Addressable) normalizedCoordsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         normalizedCoords.set(normalizedCoordsPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    private static final MethodHandle hb_ot_var_normalize_variations = Interop.downcallHandle(
-        "hb_ot_var_normalize_variations",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Normalizes all of the coordinates in the given list of variation axes.
+     * @param face The {@link FaceT} to work on
+     * @param variations The array of variations to normalize
+     * @param variationsLength The number of variations to normalize
+     * @param coords The array of normalized coordinates
+     * @param coordsLength The length of the coordinate array
      */
-    public static @NotNull void otVarNormalizeVariations(@NotNull FaceT face, @NotNull VariationT variations, @NotNull int variationsLength, @NotNull Out<int[]> coords, @NotNull Out<Integer> coordsLength) {
+    public static void otVarNormalizeVariations(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.VariationT variations, int variationsLength, Out<int[]> coords, Out<Integer> coordsLength) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(variations, "Parameter 'variations' must not be null");
+        java.util.Objects.requireNonNull(coords, "Parameter 'coords' must not be null");
         MemorySegment coordsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment coordsLengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            hb_ot_var_normalize_variations.invokeExact(face.handle(), variations.handle(), variationsLength, (Addressable) coordsPOINTER.address(), (Addressable) coordsLengthPOINTER.address());
+            DowncallHandles.hb_ot_var_normalize_variations.invokeExact(face.handle(), variations.handle(), variationsLength, (Addressable) coordsPOINTER.address(), (Addressable) coordsLengthPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -6304,269 +7208,243 @@ public final class HarfBuzz {
         coords.set(MemorySegment.ofAddress(coordsPOINTER.get(ValueLayout.ADDRESS, 0), coordsLength.get().intValue() * ValueLayout.JAVA_INT.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_INT));
     }
     
-    private static final MethodHandle hb_script_from_iso15924_tag = Interop.downcallHandle(
-        "hb_script_from_iso15924_tag",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
-    
     /**
-     * Converts an ISO 15924 script tag to a corresponding {@link script_t}.
+     * Converts an ISO 15924 script tag to a corresponding {@link ScriptT}.
+     * @param tag an {@link TagT} representing an ISO 15924 tag.
+     * @return An {@link ScriptT} corresponding to the ISO 15924 tag.
      */
-    public static @NotNull ScriptT scriptFromIso15924Tag(@NotNull TagT tag) {
+    public static @NotNull org.harfbuzz.ScriptT scriptFromIso15924Tag(@NotNull org.harfbuzz.TagT tag) {
+        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_script_from_iso15924_tag.invokeExact(tag.getValue());
+            RESULT = (int) DowncallHandles.hb_script_from_iso15924_tag.invokeExact(tag.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ScriptT(RESULT);
+        return new org.harfbuzz.ScriptT(RESULT);
     }
-    
-    private static final MethodHandle hb_script_from_string = Interop.downcallHandle(
-        "hb_script_from_string",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Converts a string {@code str} representing an ISO 15924 script tag to a
-     * corresponding {@link script_t}. Shorthand for hb_tag_from_string() then
+     * corresponding {@link ScriptT}. Shorthand for hb_tag_from_string() then
      * hb_script_from_iso15924_tag().
+     * @param str a string representing an
+     *       ISO 15924 tag.
+     * @param len length of the {@code str}, or -1 if it is {@code null}-terminated.
+     * @return An {@link ScriptT} corresponding to the ISO 15924 tag.
      */
-    public static @NotNull ScriptT scriptFromString(@NotNull byte[] str, @NotNull int len) {
+    public static @NotNull org.harfbuzz.ScriptT scriptFromString(byte[] str, int len) {
+        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_script_from_string.invokeExact(Interop.allocateNativeArray(str), len);
+            RESULT = (int) DowncallHandles.hb_script_from_string.invokeExact(Interop.allocateNativeArray(str, false), len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ScriptT(RESULT);
+        return new org.harfbuzz.ScriptT(RESULT);
     }
     
-    private static final MethodHandle hb_script_get_horizontal_direction = Interop.downcallHandle(
-        "hb_script_get_horizontal_direction",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
-    
     /**
-     * Fetches the {@link direction_t} of a script when it is
+     * Fetches the {@link DirectionT} of a script when it is
      * set horizontally. All right-to-left scripts will return
      * {@code HB_DIRECTION_RTL}. All left-to-right scripts will return
      * {@code HB_DIRECTION_LTR}.  Scripts that can be written either
      * horizontally or vertically will return {@code HB_DIRECTION_INVALID}.
      * Unknown scripts will return {@code HB_DIRECTION_LTR}.
+     * @param script The {@link ScriptT} to query
+     * @return The horizontal {@link DirectionT} of {@code script}
      */
-    public static @NotNull DirectionT scriptGetHorizontalDirection(@NotNull ScriptT script) {
+    public static @NotNull org.harfbuzz.DirectionT scriptGetHorizontalDirection(@NotNull org.harfbuzz.ScriptT script) {
+        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_script_get_horizontal_direction.invokeExact(script.getValue());
+            RESULT = (int) DowncallHandles.hb_script_get_horizontal_direction.invokeExact(script.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new DirectionT(RESULT);
+        return new org.harfbuzz.DirectionT(RESULT);
     }
     
-    private static final MethodHandle hb_script_to_iso15924_tag = Interop.downcallHandle(
-        "hb_script_to_iso15924_tag",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
-    
     /**
-     * Converts an {@link script_t} to a corresponding ISO 15924 script tag.
+     * Converts an {@link ScriptT} to a corresponding ISO 15924 script tag.
+     * @param script an {@link ScriptT} to convert.
+     * @return An {@link TagT} representing an ISO 15924 script tag.
      */
-    public static @NotNull TagT scriptToIso15924Tag(@NotNull ScriptT script) {
+    public static @NotNull org.harfbuzz.TagT scriptToIso15924Tag(@NotNull org.harfbuzz.ScriptT script) {
+        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_script_to_iso15924_tag.invokeExact(script.getValue());
+            RESULT = (int) DowncallHandles.hb_script_to_iso15924_tag.invokeExact(script.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new TagT(RESULT);
+        return new org.harfbuzz.TagT(RESULT);
     }
     
-    private static final MethodHandle hb_segment_properties_equal = Interop.downcallHandle(
-        "hb_segment_properties_equal",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Checks the equality of two {@link segment_properties_t}'s.
+     * Checks the equality of two {@link SegmentPropertiesT}'s.
+     * @param a first {@link SegmentPropertiesT} to compare.
+     * @param b second {@link SegmentPropertiesT} to compare.
+     * @return {@code true} if all properties of {@code a} equal those of {@code b}, {@code false} otherwise.
      */
-    public static @NotNull BoolT segmentPropertiesEqual(@NotNull SegmentPropertiesT a, @NotNull SegmentPropertiesT b) {
+    public static @NotNull org.harfbuzz.BoolT segmentPropertiesEqual(@NotNull org.harfbuzz.SegmentPropertiesT a, @NotNull org.harfbuzz.SegmentPropertiesT b) {
+        java.util.Objects.requireNonNull(a, "Parameter 'a' must not be null");
+        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_segment_properties_equal.invokeExact(a.handle(), b.handle());
+            RESULT = (int) DowncallHandles.hb_segment_properties_equal.invokeExact(a.handle(), b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
     
-    private static final MethodHandle hb_segment_properties_hash = Interop.downcallHandle(
-        "hb_segment_properties_hash",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Creates a hash representing @p.
+     * Creates a hash representing {@code p}.
+     * @param p {@link SegmentPropertiesT} to hash.
+     * @return A hash of {@code p}.
      */
-    public static int segmentPropertiesHash(@NotNull SegmentPropertiesT p) {
+    public static int segmentPropertiesHash(@NotNull org.harfbuzz.SegmentPropertiesT p) {
+        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_segment_properties_hash.invokeExact(p.handle());
+            RESULT = (int) DowncallHandles.hb_segment_properties_hash.invokeExact(p.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle hb_segment_properties_overlay = Interop.downcallHandle(
-        "hb_segment_properties_overlay",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Fills in missing fields of @p from {@code src} in a considered manner.
+     * Fills in missing fields of {@code p} from {@code src} in a considered manner.
      * <p>
-     * First, if @p does not have direction set, direction is copied from {@code src}.
+     * First, if {@code p} does not have direction set, direction is copied from {@code src}.
      * <p>
-     * Next, if @p and {@code src} have the same direction (which can be unset), if @p
+     * Next, if {@code p} and {@code src} have the same direction (which can be unset), if {@code p}
      * does not have script set, script is copied from {@code src}.
      * <p>
-     * Finally, if @p and {@code src} have the same direction and script (which either
-     * can be unset), if @p does not have language set, language is copied from
+     * Finally, if {@code p} and {@code src} have the same direction and script (which either
+     * can be unset), if {@code p} does not have language set, language is copied from
      * {@code src}.
+     * @param p {@link SegmentPropertiesT} to fill in.
+     * @param src {@link SegmentPropertiesT} to fill in from.
      */
-    public static @NotNull void segmentPropertiesOverlay(@NotNull SegmentPropertiesT p, @NotNull SegmentPropertiesT src) {
+    public static void segmentPropertiesOverlay(@NotNull org.harfbuzz.SegmentPropertiesT p, @NotNull org.harfbuzz.SegmentPropertiesT src) {
+        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
+        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         try {
-            hb_segment_properties_overlay.invokeExact(p.handle(), src.handle());
+            DowncallHandles.hb_segment_properties_overlay.invokeExact(p.handle(), src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_set_add = Interop.downcallHandle(
-        "hb_set_add",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Adds {@code codepoint} to {@code set}.
+     * @param set A set
+     * @param codepoint The element to add to {@code set}
      */
-    public static @NotNull void setAdd(@NotNull SetT set, @NotNull CodepointT codepoint) {
+    public static void setAdd(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.CodepointT codepoint) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+        java.util.Objects.requireNonNull(codepoint, "Parameter 'codepoint' must not be null");
         try {
-            hb_set_add.invokeExact(set.handle(), codepoint.getValue());
+            DowncallHandles.hb_set_add.invokeExact(set.handle(), codepoint.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_set_add_range = Interop.downcallHandle(
-        "hb_set_add_range",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Adds all of the elements from {@code first} to {@code last}
      * (inclusive) to {@code set}.
+     * @param set A set
+     * @param first The first element to add to {@code set}
+     * @param last The final element to add to {@code set}
      */
-    public static @NotNull void setAddRange(@NotNull SetT set, @NotNull CodepointT first, @NotNull CodepointT last) {
+    public static void setAddRange(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.CodepointT first, @NotNull org.harfbuzz.CodepointT last) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+        java.util.Objects.requireNonNull(first, "Parameter 'first' must not be null");
+        java.util.Objects.requireNonNull(last, "Parameter 'last' must not be null");
         try {
-            hb_set_add_range.invokeExact(set.handle(), first.getValue(), last.getValue());
+            DowncallHandles.hb_set_add_range.invokeExact(set.handle(), first.getValue(), last.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_set_allocation_successful = Interop.downcallHandle(
-        "hb_set_allocation_successful",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tests whether memory allocation for a set was successful.
+     * @param set A set
+     * @return {@code true} if allocation succeeded, {@code false} otherwise
      */
-    public static @NotNull BoolT setAllocationSuccessful(@NotNull SetT set) {
+    public static @NotNull org.harfbuzz.BoolT setAllocationSuccessful(@NotNull org.harfbuzz.SetT set) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_set_allocation_successful.invokeExact(set.handle());
+            RESULT = (int) DowncallHandles.hb_set_allocation_successful.invokeExact(set.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_set_clear = Interop.downcallHandle(
-        "hb_set_clear",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Clears out the contents of a set.
+     * @param set A set
      */
-    public static @NotNull void setClear(@NotNull SetT set) {
+    public static void setClear(@NotNull org.harfbuzz.SetT set) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         try {
-            hb_set_clear.invokeExact(set.handle());
+            DowncallHandles.hb_set_clear.invokeExact(set.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_set_copy = Interop.downcallHandle(
-        "hb_set_copy",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Allocate a copy of {@code set}.
+     * @param set A set
+     * @return Newly-allocated set.
      */
-    public static @NotNull SetT setCopy(@NotNull SetT set) {
+    public static @NotNull org.harfbuzz.SetT setCopy(@NotNull org.harfbuzz.SetT set) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_set_copy.invokeExact(set.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_set_copy.invokeExact(set.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new SetT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.SetT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_set_create = Interop.downcallHandle(
-        "hb_set_create",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Creates a new, initially empty set.
+     * @return The new {@link SetT}
      */
-    public static @NotNull SetT setCreate() {
+    public static @NotNull org.harfbuzz.SetT setCreate() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_set_create.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.hb_set_create.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new SetT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.SetT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_set_del = Interop.downcallHandle(
-        "hb_set_del",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Removes {@code codepoint} from {@code set}.
+     * @param set A set
+     * @param codepoint Removes {@code codepoint} from {@code set}
      */
-    public static @NotNull void setDel(@NotNull SetT set, @NotNull CodepointT codepoint) {
+    public static void setDel(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.CodepointT codepoint) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+        java.util.Objects.requireNonNull(codepoint, "Parameter 'codepoint' must not be null");
         try {
-            hb_set_del.invokeExact(set.handle(), codepoint.getValue());
+            DowncallHandles.hb_set_del.invokeExact(set.handle(), codepoint.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_set_del_range = Interop.downcallHandle(
-        "hb_set_del_range",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Removes all of the elements from {@code first} to {@code last}
@@ -6574,410 +7452,407 @@ public final class HarfBuzz {
      * <p>
      * If {@code last} is {@code HB_SET_VALUE_INVALID}, then all values
      * greater than or equal to {@code first} are removed.
+     * @param set A set
+     * @param first The first element to remove from {@code set}
+     * @param last The final element to remove from {@code set}
      */
-    public static @NotNull void setDelRange(@NotNull SetT set, @NotNull CodepointT first, @NotNull CodepointT last) {
+    public static void setDelRange(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.CodepointT first, @NotNull org.harfbuzz.CodepointT last) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+        java.util.Objects.requireNonNull(first, "Parameter 'first' must not be null");
+        java.util.Objects.requireNonNull(last, "Parameter 'last' must not be null");
         try {
-            hb_set_del_range.invokeExact(set.handle(), first.getValue(), last.getValue());
+            DowncallHandles.hb_set_del_range.invokeExact(set.handle(), first.getValue(), last.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_set_destroy = Interop.downcallHandle(
-        "hb_set_destroy",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Decreases the reference count on a set. When
      * the reference count reaches zero, the set is
      * destroyed, freeing all memory.
+     * @param set A set
      */
-    public static @NotNull void setDestroy(@NotNull SetT set) {
+    public static void setDestroy(@NotNull org.harfbuzz.SetT set) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         try {
-            hb_set_destroy.invokeExact(set.handle());
+            DowncallHandles.hb_set_destroy.invokeExact(set.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_set_get_empty = Interop.downcallHandle(
-        "hb_set_get_empty",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
-     * Fetches the singleton empty {@link set_t}.
+     * Fetches the singleton empty {@link SetT}.
+     * @return The empty {@link SetT}
      */
-    public static @NotNull SetT setGetEmpty() {
+    public static @NotNull org.harfbuzz.SetT setGetEmpty() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_set_get_empty.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.hb_set_get_empty.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new SetT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.SetT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_set_get_max = Interop.downcallHandle(
-        "hb_set_get_max",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Finds the largest element in the set.
+     * @param set A set
+     * @return maximum of {@code set}, or {@code HB_SET_VALUE_INVALID} if {@code set} is empty.
      */
-    public static @NotNull CodepointT setGetMax(@NotNull SetT set) {
+    public static @NotNull org.harfbuzz.CodepointT setGetMax(@NotNull org.harfbuzz.SetT set) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_set_get_max.invokeExact(set.handle());
+            RESULT = (int) DowncallHandles.hb_set_get_max.invokeExact(set.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new CodepointT(RESULT);
+        return new org.harfbuzz.CodepointT(RESULT);
     }
-    
-    private static final MethodHandle hb_set_get_min = Interop.downcallHandle(
-        "hb_set_get_min",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Finds the smallest element in the set.
+     * @param set A set
+     * @return minimum of {@code set}, or {@code HB_SET_VALUE_INVALID} if {@code set} is empty.
      */
-    public static @NotNull CodepointT setGetMin(@NotNull SetT set) {
+    public static @NotNull org.harfbuzz.CodepointT setGetMin(@NotNull org.harfbuzz.SetT set) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_set_get_min.invokeExact(set.handle());
+            RESULT = (int) DowncallHandles.hb_set_get_min.invokeExact(set.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new CodepointT(RESULT);
+        return new org.harfbuzz.CodepointT(RESULT);
     }
-    
-    private static final MethodHandle hb_set_get_population = Interop.downcallHandle(
-        "hb_set_get_population",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the number of elements in the set.
+     * @param set A set
+     * @return The population of {@code set}
      */
-    public static int setGetPopulation(@NotNull SetT set) {
+    public static int setGetPopulation(@NotNull org.harfbuzz.SetT set) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_set_get_population.invokeExact(set.handle());
+            RESULT = (int) DowncallHandles.hb_set_get_population.invokeExact(set.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle hb_set_get_user_data = Interop.downcallHandle(
-        "hb_set_get_user_data",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the user data associated with the specified key,
      * attached to the specified set.
+     * @param set A set
+     * @param key The user-data key to query
+     * @return A pointer to the user data
      */
-    public static @Nullable java.lang.foreign.MemoryAddress setGetUserData(@NotNull SetT set, @NotNull UserDataKeyT key) {
+    public static @Nullable java.lang.foreign.MemoryAddress setGetUserData(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.UserDataKeyT key) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_set_get_user_data.invokeExact(set.handle(), key.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_set_get_user_data.invokeExact(set.handle(), key.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle hb_set_has = Interop.downcallHandle(
-        "hb_set_has",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Tests whether {@code codepoint} belongs to {@code set}.
+     * @param set A set
+     * @param codepoint The element to query
+     * @return {@code true} if {@code codepoint} is in {@code set}, {@code false} otherwise
      */
-    public static @NotNull BoolT setHas(@NotNull SetT set, @NotNull CodepointT codepoint) {
+    public static @NotNull org.harfbuzz.BoolT setHas(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.CodepointT codepoint) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+        java.util.Objects.requireNonNull(codepoint, "Parameter 'codepoint' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_set_has.invokeExact(set.handle(), codepoint.getValue());
+            RESULT = (int) DowncallHandles.hb_set_has.invokeExact(set.handle(), codepoint.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_set_intersect = Interop.downcallHandle(
-        "hb_set_intersect",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Makes {@code set} the intersection of {@code set} and {@code other}.
+     * @param set A set
+     * @param other Another set
      */
-    public static @NotNull void setIntersect(@NotNull SetT set, @NotNull SetT other) {
+    public static void setIntersect(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.SetT other) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
         try {
-            hb_set_intersect.invokeExact(set.handle(), other.handle());
+            DowncallHandles.hb_set_intersect.invokeExact(set.handle(), other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_set_invert = Interop.downcallHandle(
-        "hb_set_invert",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Inverts the contents of {@code set}.
+     * @param set A set
      */
-    public static @NotNull void setInvert(@NotNull SetT set) {
+    public static void setInvert(@NotNull org.harfbuzz.SetT set) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         try {
-            hb_set_invert.invokeExact(set.handle());
+            DowncallHandles.hb_set_invert.invokeExact(set.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_set_is_empty = Interop.downcallHandle(
-        "hb_set_is_empty",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tests whether a set is empty (contains no elements).
+     * @param set a set.
+     * @return {@code true} if {@code set} is empty
      */
-    public static @NotNull BoolT setIsEmpty(@NotNull SetT set) {
+    public static @NotNull org.harfbuzz.BoolT setIsEmpty(@NotNull org.harfbuzz.SetT set) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_set_is_empty.invokeExact(set.handle());
+            RESULT = (int) DowncallHandles.hb_set_is_empty.invokeExact(set.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_set_is_equal = Interop.downcallHandle(
-        "hb_set_is_equal",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tests whether {@code set} and {@code other} are equal (contain the same
      * elements).
+     * @param set A set
+     * @param other Another set
+     * @return {@code true} if the two sets are equal, {@code false} otherwise.
      */
-    public static @NotNull BoolT setIsEqual(@NotNull SetT set, @NotNull SetT other) {
+    public static @NotNull org.harfbuzz.BoolT setIsEqual(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.SetT other) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_set_is_equal.invokeExact(set.handle(), other.handle());
+            RESULT = (int) DowncallHandles.hb_set_is_equal.invokeExact(set.handle(), other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_set_is_subset = Interop.downcallHandle(
-        "hb_set_is_subset",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tests whether {@code set} is a subset of {@code larger_set}.
+     * @param set A set
+     * @param largerSet Another set
+     * @return {@code true} if the {@code set} is a subset of (or equal to) {@code larger_set}, {@code false} otherwise.
      */
-    public static @NotNull BoolT setIsSubset(@NotNull SetT set, @NotNull SetT largerSet) {
+    public static @NotNull org.harfbuzz.BoolT setIsSubset(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.SetT largerSet) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+        java.util.Objects.requireNonNull(largerSet, "Parameter 'largerSet' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_set_is_subset.invokeExact(set.handle(), largerSet.handle());
+            RESULT = (int) DowncallHandles.hb_set_is_subset.invokeExact(set.handle(), largerSet.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_set_next = Interop.downcallHandle(
-        "hb_set_next",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the next element in {@code set} that is greater than current value of {@code codepoint}.
      * <p>
      * Set {@code codepoint} to {@code HB_SET_VALUE_INVALID} to get started.
+     * @param set A set
+     * @param codepoint Input = Code point to query
+     *             Output = Code point retrieved
+     * @return {@code true} if there was a next value, {@code false} otherwise
      */
-    public static @NotNull BoolT setNext(@NotNull SetT set, @NotNull Out<CodepointT> codepoint) {
+    public static @NotNull org.harfbuzz.BoolT setNext(@NotNull org.harfbuzz.SetT set, @NotNull Out<org.harfbuzz.CodepointT> codepoint) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+        java.util.Objects.requireNonNull(codepoint, "Parameter 'codepoint' must not be null");
         MemorySegment codepointPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_set_next.invokeExact(set.handle(), (Addressable) codepointPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_set_next.invokeExact(set.handle(), (Addressable) codepointPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        codepoint.set(new CodepointT(codepointPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        return new BoolT(RESULT);
+        codepoint.set(new org.harfbuzz.CodepointT(codepointPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_set_next_range = Interop.downcallHandle(
-        "hb_set_next_range",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the next consecutive range of elements in {@code set} that
      * are greater than current value of {@code last}.
      * <p>
      * Set {@code last} to {@code HB_SET_VALUE_INVALID} to get started.
+     * @param set A set
+     * @param first The first code point in the range
+     * @param last Input = The current last code point in the range
+     *         Output = The last code point in the range
+     * @return {@code true} if there was a next range, {@code false} otherwise
      */
-    public static @NotNull BoolT setNextRange(@NotNull SetT set, @NotNull Out<CodepointT> first, @NotNull Out<CodepointT> last) {
+    public static @NotNull org.harfbuzz.BoolT setNextRange(@NotNull org.harfbuzz.SetT set, @NotNull Out<org.harfbuzz.CodepointT> first, @NotNull Out<org.harfbuzz.CodepointT> last) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+        java.util.Objects.requireNonNull(first, "Parameter 'first' must not be null");
+        java.util.Objects.requireNonNull(last, "Parameter 'last' must not be null");
         MemorySegment firstPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment lastPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_set_next_range.invokeExact(set.handle(), (Addressable) firstPOINTER.address(), (Addressable) lastPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_set_next_range.invokeExact(set.handle(), (Addressable) firstPOINTER.address(), (Addressable) lastPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        first.set(new CodepointT(firstPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        last.set(new CodepointT(lastPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        return new BoolT(RESULT);
+        first.set(new org.harfbuzz.CodepointT(firstPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        last.set(new org.harfbuzz.CodepointT(lastPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_set_previous = Interop.downcallHandle(
-        "hb_set_previous",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the previous element in {@code set} that is lower than current value of {@code codepoint}.
      * <p>
      * Set {@code codepoint} to {@code HB_SET_VALUE_INVALID} to get started.
+     * @param set A set
+     * @param codepoint Input = Code point to query
+     *             Output = Code point retrieved
+     * @return {@code true} if there was a previous value, {@code false} otherwise
      */
-    public static @NotNull BoolT setPrevious(@NotNull SetT set, @NotNull Out<CodepointT> codepoint) {
+    public static @NotNull org.harfbuzz.BoolT setPrevious(@NotNull org.harfbuzz.SetT set, @NotNull Out<org.harfbuzz.CodepointT> codepoint) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+        java.util.Objects.requireNonNull(codepoint, "Parameter 'codepoint' must not be null");
         MemorySegment codepointPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_set_previous.invokeExact(set.handle(), (Addressable) codepointPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_set_previous.invokeExact(set.handle(), (Addressable) codepointPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        codepoint.set(new CodepointT(codepointPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        return new BoolT(RESULT);
+        codepoint.set(new org.harfbuzz.CodepointT(codepointPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_set_previous_range = Interop.downcallHandle(
-        "hb_set_previous_range",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the previous consecutive range of elements in {@code set} that
      * are greater than current value of {@code last}.
      * <p>
      * Set {@code first} to {@code HB_SET_VALUE_INVALID} to get started.
+     * @param set A set
+     * @param first Input = The current first code point in the range
+     *         Output = The first code point in the range
+     * @param last The last code point in the range
+     * @return {@code true} if there was a previous range, {@code false} otherwise
      */
-    public static @NotNull BoolT setPreviousRange(@NotNull SetT set, @NotNull Out<CodepointT> first, @NotNull Out<CodepointT> last) {
+    public static @NotNull org.harfbuzz.BoolT setPreviousRange(@NotNull org.harfbuzz.SetT set, @NotNull Out<org.harfbuzz.CodepointT> first, @NotNull Out<org.harfbuzz.CodepointT> last) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+        java.util.Objects.requireNonNull(first, "Parameter 'first' must not be null");
+        java.util.Objects.requireNonNull(last, "Parameter 'last' must not be null");
         MemorySegment firstPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment lastPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_set_previous_range.invokeExact(set.handle(), (Addressable) firstPOINTER.address(), (Addressable) lastPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_set_previous_range.invokeExact(set.handle(), (Addressable) firstPOINTER.address(), (Addressable) lastPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        first.set(new CodepointT(firstPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        last.set(new CodepointT(lastPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        return new BoolT(RESULT);
+        first.set(new org.harfbuzz.CodepointT(firstPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        last.set(new org.harfbuzz.CodepointT(lastPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_set_reference = Interop.downcallHandle(
-        "hb_set_reference",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Increases the reference count on a set.
+     * @param set A set
+     * @return The set
      */
-    public static @NotNull SetT setReference(@NotNull SetT set) {
+    public static @NotNull org.harfbuzz.SetT setReference(@NotNull org.harfbuzz.SetT set) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_set_reference.invokeExact(set.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_set_reference.invokeExact(set.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new SetT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.SetT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_set_set = Interop.downcallHandle(
-        "hb_set_set",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Makes the contents of {@code set} equal to the contents of {@code other}.
+     * @param set A set
+     * @param other Another set
      */
-    public static @NotNull void setSet(@NotNull SetT set, @NotNull SetT other) {
+    public static void setSet(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.SetT other) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
         try {
-            hb_set_set.invokeExact(set.handle(), other.handle());
+            DowncallHandles.hb_set_set.invokeExact(set.handle(), other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle hb_set_subtract = Interop.downcallHandle(
-        "hb_set_subtract",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Attaches a user-data key/data pair to the specified set.
+     * @param set A set
+     * @param key The user-data key to set
+     * @param data A pointer to the user data to set
+     * @param destroy A callback to call when {@code data} is not needed anymore
+     * @param replace Whether to replace an existing data with the same key
+     * @return {@code true} if success, {@code false} otherwise
+     */
+    public static @NotNull org.harfbuzz.BoolT setSetUserData(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, @NotNull org.harfbuzz.BoolT replace) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Subtracts the contents of {@code other} from {@code set}.
+     * @param set A set
+     * @param other Another set
      */
-    public static @NotNull void setSubtract(@NotNull SetT set, @NotNull SetT other) {
+    public static void setSubtract(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.SetT other) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
         try {
-            hb_set_subtract.invokeExact(set.handle(), other.handle());
+            DowncallHandles.hb_set_subtract.invokeExact(set.handle(), other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_set_symmetric_difference = Interop.downcallHandle(
-        "hb_set_symmetric_difference",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Makes {@code set} the symmetric difference of {@code set}
      * and {@code other}.
+     * @param set A set
+     * @param other Another set
      */
-    public static @NotNull void setSymmetricDifference(@NotNull SetT set, @NotNull SetT other) {
+    public static void setSymmetricDifference(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.SetT other) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
         try {
-            hb_set_symmetric_difference.invokeExact(set.handle(), other.handle());
+            DowncallHandles.hb_set_symmetric_difference.invokeExact(set.handle(), other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_set_union = Interop.downcallHandle(
-        "hb_set_union",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Makes {@code set} the union of {@code set} and {@code other}.
+     * @param set A set
+     * @param other Another set
      */
-    public static @NotNull void setUnion(@NotNull SetT set, @NotNull SetT other) {
+    public static void setUnion(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.SetT other) {
+        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
         try {
-            hb_set_union.invokeExact(set.handle(), other.handle());
+            DowncallHandles.hb_set_union.invokeExact(set.handle(), other.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_shape = Interop.downcallHandle(
-        "hb_shape",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Shapes {@code buffer} using {@code font} turning its Unicode characters content to
@@ -6985,325 +7860,363 @@ public final class HarfBuzz {
      * features applied during shaping. If two {@code features} have the same tag but
      * overlapping ranges the value of the feature with the higher index takes
      * precedence.
+     * @param font an {@link FontT} to use for shaping
+     * @param buffer an {@link BufferT} to shape
+     * @param features an array of user
+     *    specified {@link FeatureT} or {@code null}
+     * @param numFeatures the length of {@code features} array
      */
-    public static @NotNull void shape(@NotNull FontT font, @NotNull BufferT buffer, @Nullable FeatureT[] features, @NotNull int numFeatures) {
+    public static void shape(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferT buffer, org.harfbuzz.FeatureT[] features, int numFeatures) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNullElse(features, MemoryAddress.NULL);
         try {
-            hb_shape.invokeExact(font.handle(), buffer.handle(), Interop.allocateNativeArray(features), numFeatures);
+            DowncallHandles.hb_shape.invokeExact(font.handle(), buffer.handle(), Interop.allocateNativeArray(features, false), numFeatures);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_shape_full = Interop.downcallHandle(
-        "hb_shape_full",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * See hb_shape() for details. If {@code shaper_list} is not {@code null}, the specified
      * shapers will be used in the given order, otherwise the default shapers list
      * will be used.
+     * @param font an {@link FontT} to use for shaping
+     * @param buffer an {@link BufferT} to shape
+     * @param features an array of user
+     *    specified {@link FeatureT} or {@code null}
+     * @param numFeatures the length of {@code features} array
+     * @param shaperList a {@code null}-terminated
+     *    array of shapers to use or {@code null}
+     * @return false if all shapers failed, true otherwise
      */
-    public static @NotNull BoolT shapeFull(@NotNull FontT font, @NotNull BufferT buffer, @Nullable FeatureT[] features, @NotNull int numFeatures, @Nullable java.lang.String[] shaperList) {
+    public static @NotNull org.harfbuzz.BoolT shapeFull(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferT buffer, org.harfbuzz.FeatureT[] features, int numFeatures, java.lang.String[] shaperList) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNullElse(features, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(shaperList, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) hb_shape_full.invokeExact(font.handle(), buffer.handle(), Interop.allocateNativeArray(features), numFeatures, Interop.allocateNativeArray(shaperList));
+            RESULT = (int) DowncallHandles.hb_shape_full.invokeExact(font.handle(), buffer.handle(), Interop.allocateNativeArray(features, false), numFeatures, Interop.allocateNativeArray(shaperList, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_shape_list_shapers = Interop.downcallHandle(
-        "hb_shape_list_shapers",
-        FunctionDescriptor.ofVoid()
-    );
     
     /**
      * Retrieves the list of shapers supported by HarfBuzz.
+     * @return an array of
+     *    constant strings
      */
-    public static PointerString shapeListShapers() {
+    public static @NotNull PointerString shapeListShapers() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_shape_list_shapers.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.hb_shape_list_shapers.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerString(RESULT);
     }
     
-    private static final MethodHandle hb_shape_plan_create = Interop.downcallHandle(
-        "hb_shape_plan_create",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Constructs a shaping plan for a combination of {@code face}, {@code user_features}, {@code props},
      * and {@code shaper_list}.
+     * @param face {@link FaceT} to use
+     * @param props The {@link SegmentPropertiesT} of the segment
+     * @param userFeatures The list of user-selected features
+     * @param numUserFeatures The number of user-selected features
+     * @param shaperList List of shapers to try
+     * @return The shaping plan
      */
-    public static @NotNull ShapePlanT shapePlanCreate(@NotNull FaceT face, @NotNull SegmentPropertiesT props, @NotNull FeatureT[] userFeatures, @NotNull int numUserFeatures, @NotNull java.lang.String[] shaperList) {
+    public static @NotNull org.harfbuzz.ShapePlanT shapePlanCreate(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.SegmentPropertiesT props, org.harfbuzz.FeatureT[] userFeatures, int numUserFeatures, java.lang.String[] shaperList) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(props, "Parameter 'props' must not be null");
+        java.util.Objects.requireNonNull(userFeatures, "Parameter 'userFeatures' must not be null");
+        java.util.Objects.requireNonNull(shaperList, "Parameter 'shaperList' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_shape_plan_create.invokeExact(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures), numUserFeatures, Interop.allocateNativeArray(shaperList));
+            RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_create.invokeExact(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures, false), numUserFeatures, Interop.allocateNativeArray(shaperList, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ShapePlanT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.ShapePlanT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_shape_plan_create2 = Interop.downcallHandle(
-        "hb_shape_plan_create2",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * The variable-font version of {@code hb_shape_plan_create}.
      * Constructs a shaping plan for a combination of {@code face}, {@code user_features}, {@code props},
      * and {@code shaper_list}, plus the variation-space coordinates {@code coords}.
+     * @param face {@link FaceT} to use
+     * @param props The {@link SegmentPropertiesT} of the segment
+     * @param userFeatures The list of user-selected features
+     * @param numUserFeatures The number of user-selected features
+     * @param coords The list of variation-space coordinates
+     * @param numCoords The number of variation-space coordinates
+     * @param shaperList List of shapers to try
+     * @return The shaping plan
      */
-    public static @NotNull ShapePlanT shapePlanCreate2(@NotNull FaceT face, @NotNull SegmentPropertiesT props, @NotNull FeatureT[] userFeatures, @NotNull int numUserFeatures, @NotNull int[] coords, @NotNull int numCoords, @NotNull java.lang.String[] shaperList) {
+    public static @NotNull org.harfbuzz.ShapePlanT shapePlanCreate2(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.SegmentPropertiesT props, org.harfbuzz.FeatureT[] userFeatures, int numUserFeatures, int[] coords, int numCoords, java.lang.String[] shaperList) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(props, "Parameter 'props' must not be null");
+        java.util.Objects.requireNonNull(userFeatures, "Parameter 'userFeatures' must not be null");
+        java.util.Objects.requireNonNull(coords, "Parameter 'coords' must not be null");
+        java.util.Objects.requireNonNull(shaperList, "Parameter 'shaperList' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_shape_plan_create2.invokeExact(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures), numUserFeatures, Interop.allocateNativeArray(coords), numCoords, Interop.allocateNativeArray(shaperList));
+            RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_create2.invokeExact(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures, false), numUserFeatures, Interop.allocateNativeArray(coords, false), numCoords, Interop.allocateNativeArray(shaperList, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ShapePlanT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.ShapePlanT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_shape_plan_create_cached = Interop.downcallHandle(
-        "hb_shape_plan_create_cached",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Creates a cached shaping plan suitable for reuse, for a combination
      * of {@code face}, {@code user_features}, {@code props}, and {@code shaper_list}.
+     * @param face {@link FaceT} to use
+     * @param props The {@link SegmentPropertiesT} of the segment
+     * @param userFeatures The list of user-selected features
+     * @param numUserFeatures The number of user-selected features
+     * @param shaperList List of shapers to try
+     * @return The shaping plan
      */
-    public static @NotNull ShapePlanT shapePlanCreateCached(@NotNull FaceT face, @NotNull SegmentPropertiesT props, @NotNull FeatureT[] userFeatures, @NotNull int numUserFeatures, @NotNull java.lang.String[] shaperList) {
+    public static @NotNull org.harfbuzz.ShapePlanT shapePlanCreateCached(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.SegmentPropertiesT props, org.harfbuzz.FeatureT[] userFeatures, int numUserFeatures, java.lang.String[] shaperList) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(props, "Parameter 'props' must not be null");
+        java.util.Objects.requireNonNull(userFeatures, "Parameter 'userFeatures' must not be null");
+        java.util.Objects.requireNonNull(shaperList, "Parameter 'shaperList' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_shape_plan_create_cached.invokeExact(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures), numUserFeatures, Interop.allocateNativeArray(shaperList));
+            RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_create_cached.invokeExact(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures, false), numUserFeatures, Interop.allocateNativeArray(shaperList, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ShapePlanT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.ShapePlanT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_shape_plan_create_cached2 = Interop.downcallHandle(
-        "hb_shape_plan_create_cached2",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * The variable-font version of {@code hb_shape_plan_create_cached}.
      * Creates a cached shaping plan suitable for reuse, for a combination
      * of {@code face}, {@code user_features}, {@code props}, and {@code shaper_list}, plus the
      * variation-space coordinates {@code coords}.
+     * @param face {@link FaceT} to use
+     * @param props The {@link SegmentPropertiesT} of the segment
+     * @param userFeatures The list of user-selected features
+     * @param numUserFeatures The number of user-selected features
+     * @param coords The list of variation-space coordinates
+     * @param numCoords The number of variation-space coordinates
+     * @param shaperList List of shapers to try
+     * @return The shaping plan
      */
-    public static @NotNull ShapePlanT shapePlanCreateCached2(@NotNull FaceT face, @NotNull SegmentPropertiesT props, @NotNull FeatureT[] userFeatures, @NotNull int numUserFeatures, @NotNull int[] coords, @NotNull int numCoords, @NotNull java.lang.String[] shaperList) {
+    public static @NotNull org.harfbuzz.ShapePlanT shapePlanCreateCached2(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.SegmentPropertiesT props, org.harfbuzz.FeatureT[] userFeatures, int numUserFeatures, int[] coords, int numCoords, java.lang.String[] shaperList) {
+        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+        java.util.Objects.requireNonNull(props, "Parameter 'props' must not be null");
+        java.util.Objects.requireNonNull(userFeatures, "Parameter 'userFeatures' must not be null");
+        java.util.Objects.requireNonNull(coords, "Parameter 'coords' must not be null");
+        java.util.Objects.requireNonNull(shaperList, "Parameter 'shaperList' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_shape_plan_create_cached2.invokeExact(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures), numUserFeatures, Interop.allocateNativeArray(coords), numCoords, Interop.allocateNativeArray(shaperList));
+            RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_create_cached2.invokeExact(face.handle(), props.handle(), Interop.allocateNativeArray(userFeatures, false), numUserFeatures, Interop.allocateNativeArray(coords, false), numCoords, Interop.allocateNativeArray(shaperList, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ShapePlanT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.ShapePlanT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_shape_plan_destroy = Interop.downcallHandle(
-        "hb_shape_plan_destroy",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Decreases the reference count on the given shaping plan. When the
      * reference count reaches zero, the shaping plan is destroyed,
      * freeing all memory.
+     * @param shapePlan A shaping plan
      */
-    public static @NotNull void shapePlanDestroy(@NotNull ShapePlanT shapePlan) {
+    public static void shapePlanDestroy(@NotNull org.harfbuzz.ShapePlanT shapePlan) {
+        java.util.Objects.requireNonNull(shapePlan, "Parameter 'shapePlan' must not be null");
         try {
-            hb_shape_plan_destroy.invokeExact(shapePlan.handle());
+            DowncallHandles.hb_shape_plan_destroy.invokeExact(shapePlan.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_shape_plan_execute = Interop.downcallHandle(
-        "hb_shape_plan_execute",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Executes the given shaping plan on the specified buffer, using
      * the given {@code font} and {@code features}.
+     * @param shapePlan A shaping plan
+     * @param font The {@link FontT} to use
+     * @param buffer The {@link BufferT} to work upon
+     * @param features Features to enable
+     * @param numFeatures The number of features to enable
+     * @return {@code true} if success, {@code false} otherwise.
      */
-    public static @NotNull BoolT shapePlanExecute(@NotNull ShapePlanT shapePlan, @NotNull FontT font, @NotNull BufferT buffer, @NotNull FeatureT[] features, @NotNull int numFeatures) {
+    public static @NotNull org.harfbuzz.BoolT shapePlanExecute(@NotNull org.harfbuzz.ShapePlanT shapePlan, @NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferT buffer, org.harfbuzz.FeatureT[] features, int numFeatures) {
+        java.util.Objects.requireNonNull(shapePlan, "Parameter 'shapePlan' must not be null");
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(features, "Parameter 'features' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_shape_plan_execute.invokeExact(shapePlan.handle(), font.handle(), buffer.handle(), Interop.allocateNativeArray(features), numFeatures);
+            RESULT = (int) DowncallHandles.hb_shape_plan_execute.invokeExact(shapePlan.handle(), font.handle(), buffer.handle(), Interop.allocateNativeArray(features, false), numFeatures);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_shape_plan_get_empty = Interop.downcallHandle(
-        "hb_shape_plan_get_empty",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the singleton empty shaping plan.
+     * @return The empty shaping plan
      */
-    public static @NotNull ShapePlanT shapePlanGetEmpty() {
+    public static @NotNull org.harfbuzz.ShapePlanT shapePlanGetEmpty() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_shape_plan_get_empty.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_get_empty.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ShapePlanT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.ShapePlanT(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle hb_shape_plan_get_shaper = Interop.downcallHandle(
-        "hb_shape_plan_get_shaper",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the shaper from a given shaping plan.
+     * @param shapePlan A shaping plan
+     * @return The shaper
      */
-    public static @NotNull java.lang.String shapePlanGetShaper(@NotNull ShapePlanT shapePlan) {
+    public static @NotNull java.lang.String shapePlanGetShaper(@NotNull org.harfbuzz.ShapePlanT shapePlan) {
+        java.util.Objects.requireNonNull(shapePlan, "Parameter 'shapePlan' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_shape_plan_get_shaper.invokeExact(shapePlan.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_get_shaper.invokeExact(shapePlan.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle hb_shape_plan_get_user_data = Interop.downcallHandle(
-        "hb_shape_plan_get_user_data",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Fetches the user data associated with the specified key,
      * attached to the specified shaping plan.
+     * @param shapePlan A shaping plan
+     * @param key The user-data key to query
+     * @return A pointer to the user data
      */
-    public static @Nullable java.lang.foreign.MemoryAddress shapePlanGetUserData(@NotNull ShapePlanT shapePlan, @NotNull UserDataKeyT key) {
+    public static @Nullable java.lang.foreign.MemoryAddress shapePlanGetUserData(@NotNull org.harfbuzz.ShapePlanT shapePlan, @NotNull org.harfbuzz.UserDataKeyT key) {
+        java.util.Objects.requireNonNull(shapePlan, "Parameter 'shapePlan' must not be null");
+        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_shape_plan_get_user_data.invokeExact(shapePlan.handle(), key.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_get_user_data.invokeExact(shapePlan.handle(), key.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle hb_shape_plan_reference = Interop.downcallHandle(
-        "hb_shape_plan_reference",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Increases the reference count on the given shaping plan.
+     * @param shapePlan A shaping plan
+     * @return {@code shape_plan}
      */
-    public static @NotNull ShapePlanT shapePlanReference(@NotNull ShapePlanT shapePlan) {
+    public static @NotNull org.harfbuzz.ShapePlanT shapePlanReference(@NotNull org.harfbuzz.ShapePlanT shapePlan) {
+        java.util.Objects.requireNonNull(shapePlan, "Parameter 'shapePlan' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_shape_plan_reference.invokeExact(shapePlan.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_reference.invokeExact(shapePlan.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ShapePlanT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.ShapePlanT(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle hb_style_get_value = Interop.downcallHandle(
-        "hb_style_get_value",
-        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
+    /**
+     * Attaches a user-data key/data pair to the given shaping plan.
+     * @param shapePlan A shaping plan
+     * @param key The user-data key to set
+     * @param data A pointer to the user data
+     * @param destroy A callback to call when {@code data} is not needed anymore
+     * @param replace Whether to replace an existing data with the same key
+     * @return {@code true} if success, {@code false} otherwise.
+     */
+    public static @NotNull org.harfbuzz.BoolT shapePlanSetUserData(@NotNull org.harfbuzz.ShapePlanT shapePlan, @NotNull org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, @NotNull org.harfbuzz.BoolT replace) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
-     * Searches variation axes of a {@link font_t} object for a specific axis first,
+     * Searches variation axes of a {@link FontT} object for a specific axis first,
      * if not set, then tries to get default style values from different
      * tables of the font.
+     * @param font a {@link FontT} object.
+     * @param styleTag a style tag.
+     * @return Corresponding axis or default value to a style tag.
      */
-    public static float styleGetValue(@NotNull FontT font, @NotNull StyleTagT styleTag) {
+    public static float styleGetValue(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.StyleTagT styleTag) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(styleTag, "Parameter 'styleTag' must not be null");
         float RESULT;
         try {
-            RESULT = (float) hb_style_get_value.invokeExact(font.handle(), styleTag.getValue());
+            RESULT = (float) DowncallHandles.hb_style_get_value.invokeExact(font.handle(), styleTag.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle hb_tag_from_string = Interop.downcallHandle(
-        "hb_tag_from_string",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
-     * Converts a string into an {@link tag_t}. Valid tags
+     * Converts a string into an {@link TagT}. Valid tags
      * are four characters. Shorter input strings will be
      * padded with spaces. Longer input strings will be
      * truncated.
+     * @param str String to convert
+     * @param len Length of {@code str}, or -1 if it is {@code null}-terminated
+     * @return The {@link TagT} corresponding to {@code str}
      */
-    public static @NotNull TagT tagFromString(@NotNull byte[] str, @NotNull int len) {
+    public static @NotNull org.harfbuzz.TagT tagFromString(byte[] str, int len) {
+        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_tag_from_string.invokeExact(Interop.allocateNativeArray(str), len);
+            RESULT = (int) DowncallHandles.hb_tag_from_string.invokeExact(Interop.allocateNativeArray(str, false), len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new TagT(RESULT);
+        return new org.harfbuzz.TagT(RESULT);
     }
     
-    private static final MethodHandle hb_tag_to_string = Interop.downcallHandle(
-        "hb_tag_to_string",
-        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Converts an {@link tag_t} to a string and returns it in {@code buf}.
+     * Converts an {@link TagT} to a string and returns it in {@code buf}.
      * Strings will be four characters long.
+     * @param tag {@link TagT} to convert
+     * @param buf Converted string
      */
-    public static @NotNull void tagToString(@NotNull TagT tag, @NotNull Out<byte[]> buf) {
+    public static void tagToString(@NotNull org.harfbuzz.TagT tag, Out<byte[]> buf) {
+        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            hb_tag_to_string.invokeExact(tag.getValue(), (Addressable) bufPOINTER.address());
+            DowncallHandles.hb_tag_to_string.invokeExact(tag.getValue(), (Addressable) bufPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         buf.set(MemorySegment.ofAddress(bufPOINTER.get(ValueLayout.ADDRESS, 0), 4 * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
     }
     
-    private static final MethodHandle hb_unicode_combining_class = Interop.downcallHandle(
-        "hb_unicode_combining_class",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Retrieves the Canonical Combining Class (ccc) property
      * of code point {@code unicode}.
+     * @param ufuncs The Unicode-functions structure
+     * @param unicode The code point to query
+     * @return The {@link UnicodeCombiningClassT} of {@code unicode}
      */
-    public static @NotNull UnicodeCombiningClassT unicodeCombiningClass(@NotNull UnicodeFuncsT ufuncs, @NotNull CodepointT unicode) {
+    public static @NotNull org.harfbuzz.UnicodeCombiningClassT unicodeCombiningClass(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.CodepointT unicode) {
+        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
+        java.util.Objects.requireNonNull(unicode, "Parameter 'unicode' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_unicode_combining_class.invokeExact(ufuncs.handle(), unicode.getValue());
+            RESULT = (int) DowncallHandles.hb_unicode_combining_class.invokeExact(ufuncs.handle(), unicode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new UnicodeCombiningClassT(RESULT);
+        return new org.harfbuzz.UnicodeCombiningClassT(RESULT);
     }
-    
-    private static final MethodHandle hb_unicode_compose = Interop.downcallHandle(
-        "hb_unicode_compose",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the composition of a sequence of two Unicode
@@ -7311,273 +8224,404 @@ public final class HarfBuzz {
      * <p>
      * Calls the composition function of the specified
      * Unicode-functions structure {@code ufuncs}.
+     * @param ufuncs The Unicode-functions structure
+     * @param a The first Unicode code point to compose
+     * @param b The second Unicode code point to compose
+     * @param ab The composition of {@code a}, {@code b}
+     * @return {@code true} if {@code a} and {@code b} composed, {@code false} otherwise
      */
-    public static @NotNull BoolT unicodeCompose(@NotNull UnicodeFuncsT ufuncs, @NotNull CodepointT a, @NotNull CodepointT b, @NotNull Out<CodepointT> ab) {
+    public static @NotNull org.harfbuzz.BoolT unicodeCompose(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.CodepointT a, @NotNull org.harfbuzz.CodepointT b, @NotNull Out<org.harfbuzz.CodepointT> ab) {
+        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
+        java.util.Objects.requireNonNull(a, "Parameter 'a' must not be null");
+        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+        java.util.Objects.requireNonNull(ab, "Parameter 'ab' must not be null");
         MemorySegment abPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_unicode_compose.invokeExact(ufuncs.handle(), a.getValue(), b.getValue(), (Addressable) abPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_unicode_compose.invokeExact(ufuncs.handle(), a.getValue(), b.getValue(), (Addressable) abPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        ab.set(new CodepointT(abPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        return new BoolT(RESULT);
+        ab.set(new org.harfbuzz.CodepointT(abPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_unicode_decompose = Interop.downcallHandle(
-        "hb_unicode_decompose",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the decomposition of a Unicode code point.
      * <p>
      * Calls the decomposition function of the specified
      * Unicode-functions structure {@code ufuncs}.
+     * @param ufuncs The Unicode-functions structure
+     * @param ab Unicode code point to decompose
+     * @param a The first code point of the decomposition of {@code ab}
+     * @param b The second code point of the decomposition of {@code ab}
+     * @return {@code true} if {@code ab} was decomposed, {@code false} otherwise
      */
-    public static @NotNull BoolT unicodeDecompose(@NotNull UnicodeFuncsT ufuncs, @NotNull CodepointT ab, @NotNull Out<CodepointT> a, @NotNull Out<CodepointT> b) {
+    public static @NotNull org.harfbuzz.BoolT unicodeDecompose(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.CodepointT ab, @NotNull Out<org.harfbuzz.CodepointT> a, @NotNull Out<org.harfbuzz.CodepointT> b) {
+        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
+        java.util.Objects.requireNonNull(ab, "Parameter 'ab' must not be null");
+        java.util.Objects.requireNonNull(a, "Parameter 'a' must not be null");
+        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         MemorySegment aPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment bPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) hb_unicode_decompose.invokeExact(ufuncs.handle(), ab.getValue(), (Addressable) aPOINTER.address(), (Addressable) bPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_unicode_decompose.invokeExact(ufuncs.handle(), ab.getValue(), (Addressable) aPOINTER.address(), (Addressable) bPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        a.set(new CodepointT(aPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        b.set(new CodepointT(bPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        return new BoolT(RESULT);
+        a.set(new org.harfbuzz.CodepointT(aPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        b.set(new org.harfbuzz.CodepointT(bPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
     
-    private static final MethodHandle hb_unicode_funcs_create = Interop.downcallHandle(
-        "hb_unicode_funcs_create",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Creates a new {@link unicode_funcs_t} structure of Unicode functions.
+     * Fetches the compatibility decomposition of a Unicode
+     * code point. Deprecated.
+     * @param ufuncs The Unicode-functions structure
+     * @param u Code point to decompose
+     * @param decomposed Compatibility decomposition of {@code u}
+     * @return length of {@code decomposed}.
      */
-    public static @NotNull UnicodeFuncsT unicodeFuncsCreate(@Nullable UnicodeFuncsT parent) {
-        MemoryAddress RESULT;
+    @Deprecated
+    public static int unicodeDecomposeCompatibility(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.CodepointT u, @NotNull Out<org.harfbuzz.CodepointT> decomposed) {
+        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
+        java.util.Objects.requireNonNull(u, "Parameter 'u' must not be null");
+        java.util.Objects.requireNonNull(decomposed, "Parameter 'decomposed' must not be null");
+        MemorySegment decomposedPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        int RESULT;
         try {
-            RESULT = (MemoryAddress) hb_unicode_funcs_create.invokeExact(parent.handle());
+            RESULT = (int) DowncallHandles.hb_unicode_decompose_compatibility.invokeExact(ufuncs.handle(), u.getValue(), (Addressable) decomposedPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new UnicodeFuncsT(Refcounted.get(RESULT, true));
+        decomposed.set(new org.harfbuzz.CodepointT(decomposedPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        return RESULT;
     }
     
-    private static final MethodHandle hb_unicode_funcs_destroy = Interop.downcallHandle(
-        "hb_unicode_funcs_destroy",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Decreases the reference count on a Unicode-functions structure. When
-     * the reference count reaches zero, the Unicode-functions structure is
-     * destroyed, freeing all memory.
+     * Don't use. Not used by HarfBuzz.
+     * @param ufuncs a Unicode-function structure
+     * @param unicode The code point to query
      */
-    public static @NotNull void unicodeFuncsDestroy(@NotNull UnicodeFuncsT ufuncs) {
+    @Deprecated
+    public static int unicodeEastasianWidth(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.CodepointT unicode) {
+        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
+        java.util.Objects.requireNonNull(unicode, "Parameter 'unicode' must not be null");
+        int RESULT;
         try {
-            hb_unicode_funcs_destroy.invokeExact(ufuncs.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-    }
-    
-    private static final MethodHandle hb_unicode_funcs_get_default = Interop.downcallHandle(
-        "hb_unicode_funcs_get_default",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
-    /**
-     * Fetches a pointer to the default Unicode-functions structure that is used
-     * when no functions are explicitly set on {@link buffer_t}.
-     */
-    public static @NotNull UnicodeFuncsT unicodeFuncsGetDefault() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) hb_unicode_funcs_get_default.invokeExact();
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return new UnicodeFuncsT(Refcounted.get(RESULT, false));
-    }
-    
-    private static final MethodHandle hb_unicode_funcs_get_empty = Interop.downcallHandle(
-        "hb_unicode_funcs_get_empty",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
-    /**
-     * Fetches the singleton empty Unicode-functions structure.
-     */
-    public static @NotNull UnicodeFuncsT unicodeFuncsGetEmpty() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) hb_unicode_funcs_get_empty.invokeExact();
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return new UnicodeFuncsT(Refcounted.get(RESULT, true));
-    }
-    
-    private static final MethodHandle hb_unicode_funcs_get_parent = Interop.downcallHandle(
-        "hb_unicode_funcs_get_parent",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    /**
-     * Fetches the parent of the Unicode-functions structure
-     * {@code ufuncs}.
-     */
-    public static @NotNull UnicodeFuncsT unicodeFuncsGetParent(@NotNull UnicodeFuncsT ufuncs) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) hb_unicode_funcs_get_parent.invokeExact(ufuncs.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return new UnicodeFuncsT(Refcounted.get(RESULT, true));
-    }
-    
-    private static final MethodHandle hb_unicode_funcs_get_user_data = Interop.downcallHandle(
-        "hb_unicode_funcs_get_user_data",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    /**
-     * Fetches the user-data associated with the specified key,
-     * attached to the specified Unicode-functions structure.
-     */
-    public static @Nullable java.lang.foreign.MemoryAddress unicodeFuncsGetUserData(@NotNull UnicodeFuncsT ufuncs, @NotNull UserDataKeyT key) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) hb_unicode_funcs_get_user_data.invokeExact(ufuncs.handle(), key.handle());
+            RESULT = (int) DowncallHandles.hb_unicode_eastasian_width.invokeExact(ufuncs.handle(), unicode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle hb_unicode_funcs_is_immutable = Interop.downcallHandle(
-        "hb_unicode_funcs_is_immutable",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
+    /**
+     * Creates a new {@link UnicodeFuncsT} structure of Unicode functions.
+     * @param parent Parent Unicode-functions structure
+     * @return The Unicode-functions structure
+     */
+    public static @NotNull org.harfbuzz.UnicodeFuncsT unicodeFuncsCreate(@Nullable org.harfbuzz.UnicodeFuncsT parent) {
+        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.hb_unicode_funcs_create.invokeExact(parent.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.harfbuzz.UnicodeFuncsT(Refcounted.get(RESULT, true));
+    }
+    
+    /**
+     * Decreases the reference count on a Unicode-functions structure. When
+     * the reference count reaches zero, the Unicode-functions structure is
+     * destroyed, freeing all memory.
+     * @param ufuncs The Unicode-functions structure
+     */
+    public static void unicodeFuncsDestroy(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs) {
+        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
+        try {
+            DowncallHandles.hb_unicode_funcs_destroy.invokeExact(ufuncs.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
+    
+    /**
+     * Fetches a pointer to the default Unicode-functions structure that is used
+     * when no functions are explicitly set on {@link BufferT}.
+     * @return a pointer to the {@link UnicodeFuncsT} Unicode-functions structure
+     */
+    public static @NotNull org.harfbuzz.UnicodeFuncsT unicodeFuncsGetDefault() {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.hb_unicode_funcs_get_default.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.harfbuzz.UnicodeFuncsT(Refcounted.get(RESULT, false));
+    }
+    
+    /**
+     * Fetches the singleton empty Unicode-functions structure.
+     * @return The empty Unicode-functions structure
+     */
+    public static @NotNull org.harfbuzz.UnicodeFuncsT unicodeFuncsGetEmpty() {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.hb_unicode_funcs_get_empty.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.harfbuzz.UnicodeFuncsT(Refcounted.get(RESULT, true));
+    }
+    
+    /**
+     * Fetches the parent of the Unicode-functions structure
+     * {@code ufuncs}.
+     * @param ufuncs The Unicode-functions structure
+     * @return The parent Unicode-functions structure
+     */
+    public static @NotNull org.harfbuzz.UnicodeFuncsT unicodeFuncsGetParent(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs) {
+        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.hb_unicode_funcs_get_parent.invokeExact(ufuncs.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.harfbuzz.UnicodeFuncsT(Refcounted.get(RESULT, true));
+    }
+    
+    /**
+     * Fetches the user-data associated with the specified key,
+     * attached to the specified Unicode-functions structure.
+     * @param ufuncs The Unicode-functions structure
+     * @param key The user-data key to query
+     * @return A pointer to the user data
+     */
+    public static @Nullable java.lang.foreign.MemoryAddress unicodeFuncsGetUserData(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.UserDataKeyT key) {
+        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
+        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.hb_unicode_funcs_get_user_data.invokeExact(ufuncs.handle(), key.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
+    }
     
     /**
      * Tests whether the specified Unicode-functions structure
      * is immutable.
+     * @param ufuncs The Unicode-functions structure
+     * @return {@code true} if {@code ufuncs} is immutable, {@code false} otherwise
      */
-    public static @NotNull BoolT unicodeFuncsIsImmutable(@NotNull UnicodeFuncsT ufuncs) {
+    public static @NotNull org.harfbuzz.BoolT unicodeFuncsIsImmutable(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs) {
+        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_unicode_funcs_is_immutable.invokeExact(ufuncs.handle());
+            RESULT = (int) DowncallHandles.hb_unicode_funcs_is_immutable.invokeExact(ufuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_unicode_funcs_make_immutable = Interop.downcallHandle(
-        "hb_unicode_funcs_make_immutable",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Makes the specified Unicode-functions structure
      * immutable.
+     * @param ufuncs The Unicode-functions structure
      */
-    public static @NotNull void unicodeFuncsMakeImmutable(@NotNull UnicodeFuncsT ufuncs) {
+    public static void unicodeFuncsMakeImmutable(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs) {
+        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
         try {
-            hb_unicode_funcs_make_immutable.invokeExact(ufuncs.handle());
+            DowncallHandles.hb_unicode_funcs_make_immutable.invokeExact(ufuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle hb_unicode_funcs_reference = Interop.downcallHandle(
-        "hb_unicode_funcs_reference",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Increases the reference count on a Unicode-functions structure.
+     * @param ufuncs The Unicode-functions structure
+     * @return The Unicode-functions structure
      */
-    public static @NotNull UnicodeFuncsT unicodeFuncsReference(@NotNull UnicodeFuncsT ufuncs) {
+    public static @NotNull org.harfbuzz.UnicodeFuncsT unicodeFuncsReference(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs) {
+        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_unicode_funcs_reference.invokeExact(ufuncs.handle());
+            RESULT = (MemoryAddress) DowncallHandles.hb_unicode_funcs_reference.invokeExact(ufuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new UnicodeFuncsT(Refcounted.get(RESULT, true));
+        return new org.harfbuzz.UnicodeFuncsT(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle hb_unicode_general_category = Interop.downcallHandle(
-        "hb_unicode_general_category",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
+    /**
+     * Sets the implementation function for {@link UnicodeCombiningClassFuncT}.
+     * @param ufuncs A Unicode-functions structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void unicodeFuncsSetCombiningClassFunc(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.UnicodeCombiningClassFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets the implementation function for {@link UnicodeComposeFuncT}.
+     * @param ufuncs A Unicode-functions structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void unicodeFuncsSetComposeFunc(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.UnicodeComposeFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets the implementation function for {@link UnicodeDecomposeCompatibilityFuncT}.
+     * @param ufuncs A Unicode-functions structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    @Deprecated
+    public static void unicodeFuncsSetDecomposeCompatibilityFunc(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.UnicodeDecomposeCompatibilityFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets the implementation function for {@link UnicodeDecomposeFuncT}.
+     * @param ufuncs A Unicode-functions structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void unicodeFuncsSetDecomposeFunc(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.UnicodeDecomposeFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets the implementation function for {@link UnicodeEastasianWidthFuncT}.
+     * @param ufuncs a Unicode-function structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    @Deprecated
+    public static void unicodeFuncsSetEastasianWidthFunc(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.UnicodeEastasianWidthFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets the implementation function for {@link UnicodeGeneralCategoryFuncT}.
+     * @param ufuncs A Unicode-functions structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void unicodeFuncsSetGeneralCategoryFunc(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.UnicodeGeneralCategoryFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets the implementation function for {@link UnicodeMirroringFuncT}.
+     * @param ufuncs A Unicode-functions structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void unicodeFuncsSetMirroringFunc(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.UnicodeMirroringFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Sets the implementation function for {@link UnicodeScriptFuncT}.
+     * @param ufuncs A Unicode-functions structure
+     * @param func The callback function to assign
+     * @param userData Data to pass to {@code func}
+     * @param destroy The function to call when {@code user_data} is not needed anymore
+     */
+    public static void unicodeFuncsSetScriptFunc(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.UnicodeScriptFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Attaches a user-data key/data pair to the specified Unicode-functions structure.
+     * @param ufuncs The Unicode-functions structure
+     * @param key The user-data key
+     * @param data A pointer to the user data
+     * @param destroy A callback to call when {@code data} is not needed anymore
+     * @param replace Whether to replace an existing data with the same key
+     * @return {@code true} if success, {@code false} otherwise
+     */
+    public static @NotNull org.harfbuzz.BoolT unicodeFuncsSetUserData(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, @NotNull org.harfbuzz.BoolT replace) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Retrieves the General Category (gc) property
      * of code point {@code unicode}.
+     * @param ufuncs The Unicode-functions structure
+     * @param unicode The code point to query
+     * @return The {@link UnicodeGeneralCategoryT} of {@code unicode}
      */
-    public static @NotNull UnicodeGeneralCategoryT unicodeGeneralCategory(@NotNull UnicodeFuncsT ufuncs, @NotNull CodepointT unicode) {
+    public static @NotNull org.harfbuzz.UnicodeGeneralCategoryT unicodeGeneralCategory(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.CodepointT unicode) {
+        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
+        java.util.Objects.requireNonNull(unicode, "Parameter 'unicode' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_unicode_general_category.invokeExact(ufuncs.handle(), unicode.getValue());
+            RESULT = (int) DowncallHandles.hb_unicode_general_category.invokeExact(ufuncs.handle(), unicode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new UnicodeGeneralCategoryT(RESULT);
+        return new org.harfbuzz.UnicodeGeneralCategoryT(RESULT);
     }
-    
-    private static final MethodHandle hb_unicode_mirroring = Interop.downcallHandle(
-        "hb_unicode_mirroring",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Retrieves the Bi-directional Mirroring Glyph code
      * point defined for code point {@code unicode}.
+     * @param ufuncs The Unicode-functions structure
+     * @param unicode The code point to query
+     * @return The {@link CodepointT} of the Mirroring Glyph for {@code unicode}
      */
-    public static @NotNull CodepointT unicodeMirroring(@NotNull UnicodeFuncsT ufuncs, @NotNull CodepointT unicode) {
+    public static @NotNull org.harfbuzz.CodepointT unicodeMirroring(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.CodepointT unicode) {
+        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
+        java.util.Objects.requireNonNull(unicode, "Parameter 'unicode' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_unicode_mirroring.invokeExact(ufuncs.handle(), unicode.getValue());
+            RESULT = (int) DowncallHandles.hb_unicode_mirroring.invokeExact(ufuncs.handle(), unicode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new CodepointT(RESULT);
+        return new org.harfbuzz.CodepointT(RESULT);
     }
     
-    private static final MethodHandle hb_unicode_script = Interop.downcallHandle(
-        "hb_unicode_script",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
-     * Retrieves the {@link script_t} script to which code
+     * Retrieves the {@link ScriptT} script to which code
      * point {@code unicode} belongs.
+     * @param ufuncs The Unicode-functions structure
+     * @param unicode The code point to query
+     * @return The {@link ScriptT} of {@code unicode}
      */
-    public static @NotNull ScriptT unicodeScript(@NotNull UnicodeFuncsT ufuncs, @NotNull CodepointT unicode) {
+    public static @NotNull org.harfbuzz.ScriptT unicodeScript(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.CodepointT unicode) {
+        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
+        java.util.Objects.requireNonNull(unicode, "Parameter 'unicode' must not be null");
         int RESULT;
         try {
-            RESULT = (int) hb_unicode_script.invokeExact(ufuncs.handle(), unicode.getValue());
+            RESULT = (int) DowncallHandles.hb_unicode_script.invokeExact(ufuncs.handle(), unicode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ScriptT(RESULT);
+        return new org.harfbuzz.ScriptT(RESULT);
     }
     
-    private static final MethodHandle hb_variation_from_string = Interop.downcallHandle(
-        "hb_variation_from_string",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Parses a string into a {@link variation_t}.
+     * Parses a string into a {@link VariationT}.
      * <p>
      * The format for specifying variation settings follows. All valid CSS
      * font-variation-settings values other than 'normal' and 'inherited' are also
@@ -7585,34 +8629,40 @@ public final class HarfBuzz {
      * <p>
      * The format is a tag, optionally followed by an equals sign, followed by a
      * number. For example {@code wght=500}, or {@code slnt=-7.5}.
+     * @param str a string to parse
+     * @param len length of {@code str}, or -1 if string is {@code null} terminated
+     * @param variation the {@link VariationT} to initialize with the parsed values
+     * @return {@code true} if {@code str} is successfully parsed, {@code false} otherwise
      */
-    public static @NotNull BoolT variationFromString(@NotNull byte[] str, @NotNull int len, @NotNull Out<VariationT> variation) {
+    public static @NotNull org.harfbuzz.BoolT variationFromString(byte[] str, int len, @NotNull Out<org.harfbuzz.VariationT> variation) {
+        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+        java.util.Objects.requireNonNull(variation, "Parameter 'variation' must not be null");
         MemorySegment variationPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) hb_variation_from_string.invokeExact(Interop.allocateNativeArray(str), len, (Addressable) variationPOINTER.address());
+            RESULT = (int) DowncallHandles.hb_variation_from_string.invokeExact(Interop.allocateNativeArray(str, false), len, (Addressable) variationPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        variation.set(new VariationT(Refcounted.get(variationPOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        return new BoolT(RESULT);
+        variation.set(new org.harfbuzz.VariationT(Refcounted.get(variationPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return new org.harfbuzz.BoolT(RESULT);
     }
     
-    private static final MethodHandle hb_variation_to_string = Interop.downcallHandle(
-        "hb_variation_to_string",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
-     * Converts an {@link variation_t} into a {@code null}-terminated string in the format
+     * Converts an {@link VariationT} into a {@code null}-terminated string in the format
      * understood by hb_variation_from_string(). The client in responsible for
      * allocating big enough size for {@code buf}, 128 bytes is more than enough.
+     * @param variation an {@link VariationT} to convert
+     * @param buf output string
+     * @param size the allocated size of {@code buf}
      */
-    public static @NotNull void variationToString(@NotNull VariationT variation, @NotNull Out<java.lang.String[]> buf, @NotNull Out<Integer> size) {
+    public static void variationToString(@NotNull org.harfbuzz.VariationT variation, Out<java.lang.String[]> buf, Out<Integer> size) {
+        java.util.Objects.requireNonNull(variation, "Parameter 'variation' must not be null");
+        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            hb_variation_to_string.invokeExact(variation.handle(), (Addressable) bufPOINTER.address(), (Addressable) sizePOINTER.address());
+            DowncallHandles.hb_variation_to_string.invokeExact(variation.handle(), (Addressable) bufPOINTER.address(), (Addressable) sizePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7625,20 +8675,21 @@ public final class HarfBuzz {
         buf.set(bufARRAY);
     }
     
-    private static final MethodHandle hb_version = Interop.downcallHandle(
-        "hb_version",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns library version as three integer components.
+     * @param major Library major version component
+     * @param minor Library minor version component
+     * @param micro Library micro version component
      */
-    public static @NotNull void version(@NotNull Out<Integer> major, @NotNull Out<Integer> minor, @NotNull Out<Integer> micro) {
+    public static void version(Out<Integer> major, Out<Integer> minor, Out<Integer> micro) {
+        java.util.Objects.requireNonNull(major, "Parameter 'major' must not be null");
+        java.util.Objects.requireNonNull(minor, "Parameter 'minor' must not be null");
+        java.util.Objects.requireNonNull(micro, "Parameter 'micro' must not be null");
         MemorySegment majorPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment minorPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment microPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            hb_version.invokeExact((Addressable) majorPOINTER.address(), (Addressable) minorPOINTER.address(), (Addressable) microPOINTER.address());
+            DowncallHandles.hb_version.invokeExact((Addressable) majorPOINTER.address(), (Addressable) minorPOINTER.address(), (Addressable) microPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7647,41 +8698,2178 @@ public final class HarfBuzz {
         micro.set(microPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    private static final MethodHandle hb_version_atleast = Interop.downcallHandle(
-        "hb_version_atleast",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Tests the library version against a minimum value,
      * as three integer components.
+     * @param major Library major version component
+     * @param minor Library minor version component
+     * @param micro Library micro version component
+     * @return {@code true} if the library is equal to or greater than
+     * the test value, {@code false} otherwise
      */
-    public static @NotNull BoolT versionAtleast(@NotNull int major, @NotNull int minor, @NotNull int micro) {
+    public static @NotNull org.harfbuzz.BoolT versionAtleast(int major, int minor, int micro) {
         int RESULT;
         try {
-            RESULT = (int) hb_version_atleast.invokeExact(major, minor, micro);
+            RESULT = (int) DowncallHandles.hb_version_atleast.invokeExact(major, minor, micro);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BoolT(RESULT);
+        return new org.harfbuzz.BoolT(RESULT);
     }
-    
-    private static final MethodHandle hb_version_string = Interop.downcallHandle(
-        "hb_version_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns library version as a string with three components.
+     * @return Library version string
      */
     public static @NotNull java.lang.String versionString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) hb_version_string.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.hb_version_string.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle hb_aat_layout_feature_type_get_name_id = Interop.downcallHandle(
+            "hb_aat_layout_feature_type_get_name_id",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_aat_layout_feature_type_get_selector_infos = Interop.downcallHandle(
+            "hb_aat_layout_feature_type_get_selector_infos",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_aat_layout_get_feature_types = Interop.downcallHandle(
+            "hb_aat_layout_get_feature_types",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_aat_layout_has_positioning = Interop.downcallHandle(
+            "hb_aat_layout_has_positioning",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_aat_layout_has_substitution = Interop.downcallHandle(
+            "hb_aat_layout_has_substitution",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_aat_layout_has_tracking = Interop.downcallHandle(
+            "hb_aat_layout_has_tracking",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_blob_copy_writable_or_fail = Interop.downcallHandle(
+            "hb_blob_copy_writable_or_fail",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_blob_create = Interop.downcallHandle(
+            "hb_blob_create",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_blob_create_from_file = Interop.downcallHandle(
+            "hb_blob_create_from_file",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_blob_create_from_file_or_fail = Interop.downcallHandle(
+            "hb_blob_create_from_file_or_fail",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_blob_create_or_fail = Interop.downcallHandle(
+            "hb_blob_create_or_fail",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_blob_create_sub_blob = Interop.downcallHandle(
+            "hb_blob_create_sub_blob",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_blob_destroy = Interop.downcallHandle(
+            "hb_blob_destroy",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_blob_get_data = Interop.downcallHandle(
+            "hb_blob_get_data",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_blob_get_data_writable = Interop.downcallHandle(
+            "hb_blob_get_data_writable",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_blob_get_empty = Interop.downcallHandle(
+            "hb_blob_get_empty",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_blob_get_length = Interop.downcallHandle(
+            "hb_blob_get_length",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_blob_get_user_data = Interop.downcallHandle(
+            "hb_blob_get_user_data",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_blob_is_immutable = Interop.downcallHandle(
+            "hb_blob_is_immutable",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_blob_make_immutable = Interop.downcallHandle(
+            "hb_blob_make_immutable",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_blob_reference = Interop.downcallHandle(
+            "hb_blob_reference",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_blob_set_user_data = Interop.downcallHandle(
+            "hb_blob_set_user_data",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_add = Interop.downcallHandle(
+            "hb_buffer_add",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_add_codepoints = Interop.downcallHandle(
+            "hb_buffer_add_codepoints",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_add_latin1 = Interop.downcallHandle(
+            "hb_buffer_add_latin1",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_add_utf16 = Interop.downcallHandle(
+            "hb_buffer_add_utf16",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_add_utf32 = Interop.downcallHandle(
+            "hb_buffer_add_utf32",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_add_utf8 = Interop.downcallHandle(
+            "hb_buffer_add_utf8",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_allocation_successful = Interop.downcallHandle(
+            "hb_buffer_allocation_successful",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_append = Interop.downcallHandle(
+            "hb_buffer_append",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_clear_contents = Interop.downcallHandle(
+            "hb_buffer_clear_contents",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_create = Interop.downcallHandle(
+            "hb_buffer_create",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_create_similar = Interop.downcallHandle(
+            "hb_buffer_create_similar",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_deserialize_glyphs = Interop.downcallHandle(
+            "hb_buffer_deserialize_glyphs",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_deserialize_unicode = Interop.downcallHandle(
+            "hb_buffer_deserialize_unicode",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_destroy = Interop.downcallHandle(
+            "hb_buffer_destroy",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_diff = Interop.downcallHandle(
+            "hb_buffer_diff",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_get_cluster_level = Interop.downcallHandle(
+            "hb_buffer_get_cluster_level",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_get_content_type = Interop.downcallHandle(
+            "hb_buffer_get_content_type",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_get_direction = Interop.downcallHandle(
+            "hb_buffer_get_direction",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_get_empty = Interop.downcallHandle(
+            "hb_buffer_get_empty",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_get_flags = Interop.downcallHandle(
+            "hb_buffer_get_flags",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_get_glyph_infos = Interop.downcallHandle(
+            "hb_buffer_get_glyph_infos",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_get_glyph_positions = Interop.downcallHandle(
+            "hb_buffer_get_glyph_positions",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_get_invisible_glyph = Interop.downcallHandle(
+            "hb_buffer_get_invisible_glyph",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_get_language = Interop.downcallHandle(
+            "hb_buffer_get_language",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_get_length = Interop.downcallHandle(
+            "hb_buffer_get_length",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_get_not_found_glyph = Interop.downcallHandle(
+            "hb_buffer_get_not_found_glyph",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_get_replacement_codepoint = Interop.downcallHandle(
+            "hb_buffer_get_replacement_codepoint",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_get_script = Interop.downcallHandle(
+            "hb_buffer_get_script",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_get_segment_properties = Interop.downcallHandle(
+            "hb_buffer_get_segment_properties",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_get_unicode_funcs = Interop.downcallHandle(
+            "hb_buffer_get_unicode_funcs",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_get_user_data = Interop.downcallHandle(
+            "hb_buffer_get_user_data",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_guess_segment_properties = Interop.downcallHandle(
+            "hb_buffer_guess_segment_properties",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_has_positions = Interop.downcallHandle(
+            "hb_buffer_has_positions",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_normalize_glyphs = Interop.downcallHandle(
+            "hb_buffer_normalize_glyphs",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_pre_allocate = Interop.downcallHandle(
+            "hb_buffer_pre_allocate",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_reference = Interop.downcallHandle(
+            "hb_buffer_reference",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_reset = Interop.downcallHandle(
+            "hb_buffer_reset",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_reverse = Interop.downcallHandle(
+            "hb_buffer_reverse",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_reverse_clusters = Interop.downcallHandle(
+            "hb_buffer_reverse_clusters",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_reverse_range = Interop.downcallHandle(
+            "hb_buffer_reverse_range",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_serialize = Interop.downcallHandle(
+            "hb_buffer_serialize",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_serialize_format_from_string = Interop.downcallHandle(
+            "hb_buffer_serialize_format_from_string",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_serialize_format_to_string = Interop.downcallHandle(
+            "hb_buffer_serialize_format_to_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_serialize_glyphs = Interop.downcallHandle(
+            "hb_buffer_serialize_glyphs",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_serialize_list_formats = Interop.downcallHandle(
+            "hb_buffer_serialize_list_formats",
+            FunctionDescriptor.ofVoid()
+        );
+        
+        private static final MethodHandle hb_buffer_serialize_unicode = Interop.downcallHandle(
+            "hb_buffer_serialize_unicode",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_set_cluster_level = Interop.downcallHandle(
+            "hb_buffer_set_cluster_level",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_set_content_type = Interop.downcallHandle(
+            "hb_buffer_set_content_type",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_set_direction = Interop.downcallHandle(
+            "hb_buffer_set_direction",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_set_flags = Interop.downcallHandle(
+            "hb_buffer_set_flags",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_set_invisible_glyph = Interop.downcallHandle(
+            "hb_buffer_set_invisible_glyph",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_set_language = Interop.downcallHandle(
+            "hb_buffer_set_language",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_set_length = Interop.downcallHandle(
+            "hb_buffer_set_length",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_set_message_func = Interop.downcallHandle(
+            "hb_buffer_set_message_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_set_not_found_glyph = Interop.downcallHandle(
+            "hb_buffer_set_not_found_glyph",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_set_replacement_codepoint = Interop.downcallHandle(
+            "hb_buffer_set_replacement_codepoint",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_set_script = Interop.downcallHandle(
+            "hb_buffer_set_script",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_buffer_set_segment_properties = Interop.downcallHandle(
+            "hb_buffer_set_segment_properties",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_set_unicode_funcs = Interop.downcallHandle(
+            "hb_buffer_set_unicode_funcs",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_buffer_set_user_data = Interop.downcallHandle(
+            "hb_buffer_set_user_data",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_color_get_alpha = Interop.downcallHandle(
+            "hb_color_get_alpha",
+            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_color_get_blue = Interop.downcallHandle(
+            "hb_color_get_blue",
+            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_color_get_green = Interop.downcallHandle(
+            "hb_color_get_green",
+            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_color_get_red = Interop.downcallHandle(
+            "hb_color_get_red",
+            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_direction_from_string = Interop.downcallHandle(
+            "hb_direction_from_string",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_direction_to_string = Interop.downcallHandle(
+            "hb_direction_to_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_draw_close_path = Interop.downcallHandle(
+            "hb_draw_close_path",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_draw_cubic_to = Interop.downcallHandle(
+            "hb_draw_cubic_to",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+        );
+        
+        private static final MethodHandle hb_draw_funcs_create = Interop.downcallHandle(
+            "hb_draw_funcs_create",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_draw_funcs_destroy = Interop.downcallHandle(
+            "hb_draw_funcs_destroy",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_draw_funcs_is_immutable = Interop.downcallHandle(
+            "hb_draw_funcs_is_immutable",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_draw_funcs_make_immutable = Interop.downcallHandle(
+            "hb_draw_funcs_make_immutable",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_draw_funcs_reference = Interop.downcallHandle(
+            "hb_draw_funcs_reference",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_draw_funcs_set_close_path_func = Interop.downcallHandle(
+            "hb_draw_funcs_set_close_path_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_draw_funcs_set_cubic_to_func = Interop.downcallHandle(
+            "hb_draw_funcs_set_cubic_to_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_draw_funcs_set_line_to_func = Interop.downcallHandle(
+            "hb_draw_funcs_set_line_to_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_draw_funcs_set_move_to_func = Interop.downcallHandle(
+            "hb_draw_funcs_set_move_to_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_draw_funcs_set_quadratic_to_func = Interop.downcallHandle(
+            "hb_draw_funcs_set_quadratic_to_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_draw_line_to = Interop.downcallHandle(
+            "hb_draw_line_to",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+        );
+        
+        private static final MethodHandle hb_draw_move_to = Interop.downcallHandle(
+            "hb_draw_move_to",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+        );
+        
+        private static final MethodHandle hb_draw_quadratic_to = Interop.downcallHandle(
+            "hb_draw_quadratic_to",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+        );
+        
+        private static final MethodHandle hb_face_builder_add_table = Interop.downcallHandle(
+            "hb_face_builder_add_table",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_face_builder_create = Interop.downcallHandle(
+            "hb_face_builder_create",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_face_collect_unicodes = Interop.downcallHandle(
+            "hb_face_collect_unicodes",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_face_collect_variation_selectors = Interop.downcallHandle(
+            "hb_face_collect_variation_selectors",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_face_collect_variation_unicodes = Interop.downcallHandle(
+            "hb_face_collect_variation_unicodes",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_face_count = Interop.downcallHandle(
+            "hb_face_count",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_face_create = Interop.downcallHandle(
+            "hb_face_create",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_face_create_for_tables = Interop.downcallHandle(
+            "hb_face_create_for_tables",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_face_destroy = Interop.downcallHandle(
+            "hb_face_destroy",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_face_get_empty = Interop.downcallHandle(
+            "hb_face_get_empty",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_face_get_glyph_count = Interop.downcallHandle(
+            "hb_face_get_glyph_count",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_face_get_index = Interop.downcallHandle(
+            "hb_face_get_index",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_face_get_table_tags = Interop.downcallHandle(
+            "hb_face_get_table_tags",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_face_get_upem = Interop.downcallHandle(
+            "hb_face_get_upem",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_face_get_user_data = Interop.downcallHandle(
+            "hb_face_get_user_data",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_face_is_immutable = Interop.downcallHandle(
+            "hb_face_is_immutable",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_face_make_immutable = Interop.downcallHandle(
+            "hb_face_make_immutable",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_face_reference = Interop.downcallHandle(
+            "hb_face_reference",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_face_reference_blob = Interop.downcallHandle(
+            "hb_face_reference_blob",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_face_reference_table = Interop.downcallHandle(
+            "hb_face_reference_table",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_face_set_glyph_count = Interop.downcallHandle(
+            "hb_face_set_glyph_count",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_face_set_index = Interop.downcallHandle(
+            "hb_face_set_index",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_face_set_upem = Interop.downcallHandle(
+            "hb_face_set_upem",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_face_set_user_data = Interop.downcallHandle(
+            "hb_face_set_user_data",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_feature_from_string = Interop.downcallHandle(
+            "hb_feature_from_string",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_feature_to_string = Interop.downcallHandle(
+            "hb_feature_to_string",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_font_add_glyph_origin_for_direction = Interop.downcallHandle(
+            "hb_font_add_glyph_origin_for_direction",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_create = Interop.downcallHandle(
+            "hb_font_create",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_create_sub_font = Interop.downcallHandle(
+            "hb_font_create_sub_font",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_destroy = Interop.downcallHandle(
+            "hb_font_destroy",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_create = Interop.downcallHandle(
+            "hb_font_funcs_create",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_destroy = Interop.downcallHandle(
+            "hb_font_funcs_destroy",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_get_empty = Interop.downcallHandle(
+            "hb_font_funcs_get_empty",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_get_user_data = Interop.downcallHandle(
+            "hb_font_funcs_get_user_data",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_is_immutable = Interop.downcallHandle(
+            "hb_font_funcs_is_immutable",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_make_immutable = Interop.downcallHandle(
+            "hb_font_funcs_make_immutable",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_reference = Interop.downcallHandle(
+            "hb_font_funcs_reference",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_set_font_h_extents_func = Interop.downcallHandle(
+            "hb_font_funcs_set_font_h_extents_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_set_font_v_extents_func = Interop.downcallHandle(
+            "hb_font_funcs_set_font_v_extents_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_set_glyph_contour_point_func = Interop.downcallHandle(
+            "hb_font_funcs_set_glyph_contour_point_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_set_glyph_extents_func = Interop.downcallHandle(
+            "hb_font_funcs_set_glyph_extents_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_set_glyph_from_name_func = Interop.downcallHandle(
+            "hb_font_funcs_set_glyph_from_name_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_set_glyph_func = Interop.downcallHandle(
+            "hb_font_funcs_set_glyph_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_set_glyph_h_advance_func = Interop.downcallHandle(
+            "hb_font_funcs_set_glyph_h_advance_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_set_glyph_h_advances_func = Interop.downcallHandle(
+            "hb_font_funcs_set_glyph_h_advances_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_set_glyph_h_kerning_func = Interop.downcallHandle(
+            "hb_font_funcs_set_glyph_h_kerning_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_set_glyph_h_origin_func = Interop.downcallHandle(
+            "hb_font_funcs_set_glyph_h_origin_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_set_glyph_name_func = Interop.downcallHandle(
+            "hb_font_funcs_set_glyph_name_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_set_glyph_shape_func = Interop.downcallHandle(
+            "hb_font_funcs_set_glyph_shape_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_set_glyph_v_advance_func = Interop.downcallHandle(
+            "hb_font_funcs_set_glyph_v_advance_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_set_glyph_v_advances_func = Interop.downcallHandle(
+            "hb_font_funcs_set_glyph_v_advances_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_set_glyph_v_kerning_func = Interop.downcallHandle(
+            "hb_font_funcs_set_glyph_v_kerning_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_set_glyph_v_origin_func = Interop.downcallHandle(
+            "hb_font_funcs_set_glyph_v_origin_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_set_nominal_glyph_func = Interop.downcallHandle(
+            "hb_font_funcs_set_nominal_glyph_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_set_nominal_glyphs_func = Interop.downcallHandle(
+            "hb_font_funcs_set_nominal_glyphs_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_funcs_set_user_data = Interop.downcallHandle(
+            "hb_font_funcs_set_user_data",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_font_funcs_set_variation_glyph_func = Interop.downcallHandle(
+            "hb_font_funcs_set_variation_glyph_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_empty = Interop.downcallHandle(
+            "hb_font_get_empty",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_extents_for_direction = Interop.downcallHandle(
+            "hb_font_get_extents_for_direction",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_face = Interop.downcallHandle(
+            "hb_font_get_face",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_glyph = Interop.downcallHandle(
+            "hb_font_get_glyph",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_glyph_advance_for_direction = Interop.downcallHandle(
+            "hb_font_get_glyph_advance_for_direction",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_glyph_advances_for_direction = Interop.downcallHandle(
+            "hb_font_get_glyph_advances_for_direction",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_font_get_glyph_contour_point = Interop.downcallHandle(
+            "hb_font_get_glyph_contour_point",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_glyph_contour_point_for_origin = Interop.downcallHandle(
+            "hb_font_get_glyph_contour_point_for_origin",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_glyph_extents = Interop.downcallHandle(
+            "hb_font_get_glyph_extents",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_glyph_extents_for_origin = Interop.downcallHandle(
+            "hb_font_get_glyph_extents_for_origin",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_glyph_from_name = Interop.downcallHandle(
+            "hb_font_get_glyph_from_name",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_glyph_h_advance = Interop.downcallHandle(
+            "hb_font_get_glyph_h_advance",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_font_get_glyph_h_advances = Interop.downcallHandle(
+            "hb_font_get_glyph_h_advances",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_font_get_glyph_h_kerning = Interop.downcallHandle(
+            "hb_font_get_glyph_h_kerning",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_font_get_glyph_h_origin = Interop.downcallHandle(
+            "hb_font_get_glyph_h_origin",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_glyph_kerning_for_direction = Interop.downcallHandle(
+            "hb_font_get_glyph_kerning_for_direction",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_glyph_name = Interop.downcallHandle(
+            "hb_font_get_glyph_name",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_font_get_glyph_origin_for_direction = Interop.downcallHandle(
+            "hb_font_get_glyph_origin_for_direction",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_glyph_shape = Interop.downcallHandle(
+            "hb_font_get_glyph_shape",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_glyph_v_advance = Interop.downcallHandle(
+            "hb_font_get_glyph_v_advance",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_font_get_glyph_v_advances = Interop.downcallHandle(
+            "hb_font_get_glyph_v_advances",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_font_get_glyph_v_kerning = Interop.downcallHandle(
+            "hb_font_get_glyph_v_kerning",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_font_get_glyph_v_origin = Interop.downcallHandle(
+            "hb_font_get_glyph_v_origin",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_h_extents = Interop.downcallHandle(
+            "hb_font_get_h_extents",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_nominal_glyph = Interop.downcallHandle(
+            "hb_font_get_nominal_glyph",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_nominal_glyphs = Interop.downcallHandle(
+            "hb_font_get_nominal_glyphs",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_font_get_parent = Interop.downcallHandle(
+            "hb_font_get_parent",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_ppem = Interop.downcallHandle(
+            "hb_font_get_ppem",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_ptem = Interop.downcallHandle(
+            "hb_font_get_ptem",
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_scale = Interop.downcallHandle(
+            "hb_font_get_scale",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_synthetic_slant = Interop.downcallHandle(
+            "hb_font_get_synthetic_slant",
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_user_data = Interop.downcallHandle(
+            "hb_font_get_user_data",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_v_extents = Interop.downcallHandle(
+            "hb_font_get_v_extents",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_var_coords_design = Interop.downcallHandle(
+            "hb_font_get_var_coords_design",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_var_coords_normalized = Interop.downcallHandle(
+            "hb_font_get_var_coords_normalized",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_get_variation_glyph = Interop.downcallHandle(
+            "hb_font_get_variation_glyph",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_glyph_from_string = Interop.downcallHandle(
+            "hb_font_glyph_from_string",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_glyph_to_string = Interop.downcallHandle(
+            "hb_font_glyph_to_string",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_font_is_immutable = Interop.downcallHandle(
+            "hb_font_is_immutable",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_make_immutable = Interop.downcallHandle(
+            "hb_font_make_immutable",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_reference = Interop.downcallHandle(
+            "hb_font_reference",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_set_face = Interop.downcallHandle(
+            "hb_font_set_face",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_set_funcs = Interop.downcallHandle(
+            "hb_font_set_funcs",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_set_funcs_data = Interop.downcallHandle(
+            "hb_font_set_funcs_data",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_set_parent = Interop.downcallHandle(
+            "hb_font_set_parent",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_font_set_ppem = Interop.downcallHandle(
+            "hb_font_set_ppem",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_font_set_ptem = Interop.downcallHandle(
+            "hb_font_set_ptem",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+        );
+        
+        private static final MethodHandle hb_font_set_scale = Interop.downcallHandle(
+            "hb_font_set_scale",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_font_set_synthetic_slant = Interop.downcallHandle(
+            "hb_font_set_synthetic_slant",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+        );
+        
+        private static final MethodHandle hb_font_set_user_data = Interop.downcallHandle(
+            "hb_font_set_user_data",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_font_set_var_coords_design = Interop.downcallHandle(
+            "hb_font_set_var_coords_design",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_font_set_var_coords_normalized = Interop.downcallHandle(
+            "hb_font_set_var_coords_normalized",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_font_set_var_named_instance = Interop.downcallHandle(
+            "hb_font_set_var_named_instance",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_font_set_variations = Interop.downcallHandle(
+            "hb_font_set_variations",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_font_subtract_glyph_origin_for_direction = Interop.downcallHandle(
+            "hb_font_subtract_glyph_origin_for_direction",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ft_face_create = Interop.downcallHandle(
+            "hb_ft_face_create",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ft_face_create_cached = Interop.downcallHandle(
+            "hb_ft_face_create_cached",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ft_face_create_referenced = Interop.downcallHandle(
+            "hb_ft_face_create_referenced",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ft_font_changed = Interop.downcallHandle(
+            "hb_ft_font_changed",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ft_font_create = Interop.downcallHandle(
+            "hb_ft_font_create",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ft_font_create_referenced = Interop.downcallHandle(
+            "hb_ft_font_create_referenced",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ft_font_get_face = Interop.downcallHandle(
+            "hb_ft_font_get_face",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ft_font_get_load_flags = Interop.downcallHandle(
+            "hb_ft_font_get_load_flags",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ft_font_lock_face = Interop.downcallHandle(
+            "hb_ft_font_lock_face",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ft_font_set_funcs = Interop.downcallHandle(
+            "hb_ft_font_set_funcs",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ft_font_set_load_flags = Interop.downcallHandle(
+            "hb_ft_font_set_load_flags",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_ft_font_unlock_face = Interop.downcallHandle(
+            "hb_ft_font_unlock_face",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_glib_blob_create = Interop.downcallHandle(
+            "hb_glib_blob_create",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_glib_get_unicode_funcs = Interop.downcallHandle(
+            "hb_glib_get_unicode_funcs",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_glib_script_from_script = Interop.downcallHandle(
+            "hb_glib_script_from_script",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_glib_script_to_script = Interop.downcallHandle(
+            "hb_glib_script_to_script",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_glyph_info_get_glyph_flags = Interop.downcallHandle(
+            "hb_glyph_info_get_glyph_flags",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_graphite2_face_get_gr_face = Interop.downcallHandle(
+            "hb_graphite2_face_get_gr_face",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_graphite2_font_get_gr_font = Interop.downcallHandle(
+            "hb_graphite2_font_get_gr_font",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_language_from_string = Interop.downcallHandle(
+            "hb_language_from_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_language_get_default = Interop.downcallHandle(
+            "hb_language_get_default",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_language_to_string = Interop.downcallHandle(
+            "hb_language_to_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_map_allocation_successful = Interop.downcallHandle(
+            "hb_map_allocation_successful",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_map_clear = Interop.downcallHandle(
+            "hb_map_clear",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_map_create = Interop.downcallHandle(
+            "hb_map_create",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_map_del = Interop.downcallHandle(
+            "hb_map_del",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_map_destroy = Interop.downcallHandle(
+            "hb_map_destroy",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_map_get = Interop.downcallHandle(
+            "hb_map_get",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_map_get_empty = Interop.downcallHandle(
+            "hb_map_get_empty",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_map_get_population = Interop.downcallHandle(
+            "hb_map_get_population",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_map_get_user_data = Interop.downcallHandle(
+            "hb_map_get_user_data",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_map_has = Interop.downcallHandle(
+            "hb_map_has",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_map_is_empty = Interop.downcallHandle(
+            "hb_map_is_empty",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_map_reference = Interop.downcallHandle(
+            "hb_map_reference",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_map_set = Interop.downcallHandle(
+            "hb_map_set",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_map_set_user_data = Interop.downcallHandle(
+            "hb_map_set_user_data",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_ot_color_glyph_get_layers = Interop.downcallHandle(
+            "hb_ot_color_glyph_get_layers",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_color_glyph_reference_png = Interop.downcallHandle(
+            "hb_ot_color_glyph_reference_png",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_ot_color_glyph_reference_svg = Interop.downcallHandle(
+            "hb_ot_color_glyph_reference_svg",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_ot_color_has_layers = Interop.downcallHandle(
+            "hb_ot_color_has_layers",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_color_has_palettes = Interop.downcallHandle(
+            "hb_ot_color_has_palettes",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_color_has_png = Interop.downcallHandle(
+            "hb_ot_color_has_png",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_color_has_svg = Interop.downcallHandle(
+            "hb_ot_color_has_svg",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_color_palette_color_get_name_id = Interop.downcallHandle(
+            "hb_ot_color_palette_color_get_name_id",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_ot_color_palette_get_colors = Interop.downcallHandle(
+            "hb_ot_color_palette_get_colors",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_color_palette_get_count = Interop.downcallHandle(
+            "hb_ot_color_palette_get_count",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_color_palette_get_flags = Interop.downcallHandle(
+            "hb_ot_color_palette_get_flags",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_ot_color_palette_get_name_id = Interop.downcallHandle(
+            "hb_ot_color_palette_get_name_id",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_ot_font_set_funcs = Interop.downcallHandle(
+            "hb_ot_font_set_funcs",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_collect_features = Interop.downcallHandle(
+            "hb_ot_layout_collect_features",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_collect_lookups = Interop.downcallHandle(
+            "hb_ot_layout_collect_lookups",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_feature_get_characters = Interop.downcallHandle(
+            "hb_ot_layout_feature_get_characters",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_feature_get_lookups = Interop.downcallHandle(
+            "hb_ot_layout_feature_get_lookups",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_feature_get_name_ids = Interop.downcallHandle(
+            "hb_ot_layout_feature_get_name_ids",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_feature_with_variations_get_lookups = Interop.downcallHandle(
+            "hb_ot_layout_feature_with_variations_get_lookups",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_get_attach_points = Interop.downcallHandle(
+            "hb_ot_layout_get_attach_points",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_get_baseline = Interop.downcallHandle(
+            "hb_ot_layout_get_baseline",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_get_baseline_with_fallback = Interop.downcallHandle(
+            "hb_ot_layout_get_baseline_with_fallback",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_get_glyph_class = Interop.downcallHandle(
+            "hb_ot_layout_get_glyph_class",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_ot_layout_get_glyphs_in_class = Interop.downcallHandle(
+            "hb_ot_layout_get_glyphs_in_class",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_get_horizontal_baseline_tag_for_script = Interop.downcallHandle(
+            "hb_ot_layout_get_horizontal_baseline_tag_for_script",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_ot_layout_get_ligature_carets = Interop.downcallHandle(
+            "hb_ot_layout_get_ligature_carets",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_get_size_params = Interop.downcallHandle(
+            "hb_ot_layout_get_size_params",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_has_glyph_classes = Interop.downcallHandle(
+            "hb_ot_layout_has_glyph_classes",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_has_positioning = Interop.downcallHandle(
+            "hb_ot_layout_has_positioning",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_has_substitution = Interop.downcallHandle(
+            "hb_ot_layout_has_substitution",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_language_find_feature = Interop.downcallHandle(
+            "hb_ot_layout_language_find_feature",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_language_get_feature_indexes = Interop.downcallHandle(
+            "hb_ot_layout_language_get_feature_indexes",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_language_get_feature_tags = Interop.downcallHandle(
+            "hb_ot_layout_language_get_feature_tags",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_language_get_required_feature = Interop.downcallHandle(
+            "hb_ot_layout_language_get_required_feature",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_language_get_required_feature_index = Interop.downcallHandle(
+            "hb_ot_layout_language_get_required_feature_index",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_lookup_collect_glyphs = Interop.downcallHandle(
+            "hb_ot_layout_lookup_collect_glyphs",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_lookup_get_glyph_alternates = Interop.downcallHandle(
+            "hb_ot_layout_lookup_get_glyph_alternates",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_lookup_substitute_closure = Interop.downcallHandle(
+            "hb_ot_layout_lookup_substitute_closure",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_lookup_would_substitute = Interop.downcallHandle(
+            "hb_ot_layout_lookup_would_substitute",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_ot_layout_lookups_substitute_closure = Interop.downcallHandle(
+            "hb_ot_layout_lookups_substitute_closure",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_script_find_language = Interop.downcallHandle(
+            "hb_ot_layout_script_find_language",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_script_get_language_tags = Interop.downcallHandle(
+            "hb_ot_layout_script_get_language_tags",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_script_select_language = Interop.downcallHandle(
+            "hb_ot_layout_script_select_language",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_table_choose_script = Interop.downcallHandle(
+            "hb_ot_layout_table_choose_script",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_table_find_feature_variations = Interop.downcallHandle(
+            "hb_ot_layout_table_find_feature_variations",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_table_find_script = Interop.downcallHandle(
+            "hb_ot_layout_table_find_script",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_table_get_feature_tags = Interop.downcallHandle(
+            "hb_ot_layout_table_get_feature_tags",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_table_get_lookup_count = Interop.downcallHandle(
+            "hb_ot_layout_table_get_lookup_count",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_ot_layout_table_get_script_tags = Interop.downcallHandle(
+            "hb_ot_layout_table_get_script_tags",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_layout_table_select_script = Interop.downcallHandle(
+            "hb_ot_layout_table_select_script",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_math_get_constant = Interop.downcallHandle(
+            "hb_ot_math_get_constant",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_ot_math_get_glyph_assembly = Interop.downcallHandle(
+            "hb_ot_math_get_glyph_assembly",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_math_get_glyph_italics_correction = Interop.downcallHandle(
+            "hb_ot_math_get_glyph_italics_correction",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_ot_math_get_glyph_kerning = Interop.downcallHandle(
+            "hb_ot_math_get_glyph_kerning",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_ot_math_get_glyph_kernings = Interop.downcallHandle(
+            "hb_ot_math_get_glyph_kernings",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_math_get_glyph_top_accent_attachment = Interop.downcallHandle(
+            "hb_ot_math_get_glyph_top_accent_attachment",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_ot_math_get_glyph_variants = Interop.downcallHandle(
+            "hb_ot_math_get_glyph_variants",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_math_get_min_connector_overlap = Interop.downcallHandle(
+            "hb_ot_math_get_min_connector_overlap",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_ot_math_has_data = Interop.downcallHandle(
+            "hb_ot_math_has_data",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_math_is_glyph_extended_shape = Interop.downcallHandle(
+            "hb_ot_math_is_glyph_extended_shape",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_ot_meta_get_entry_tags = Interop.downcallHandle(
+            "hb_ot_meta_get_entry_tags",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_meta_reference_entry = Interop.downcallHandle(
+            "hb_ot_meta_reference_entry",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_ot_metrics_get_position = Interop.downcallHandle(
+            "hb_ot_metrics_get_position",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_metrics_get_position_with_fallback = Interop.downcallHandle(
+            "hb_ot_metrics_get_position_with_fallback",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_metrics_get_variation = Interop.downcallHandle(
+            "hb_ot_metrics_get_variation",
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_ot_metrics_get_x_variation = Interop.downcallHandle(
+            "hb_ot_metrics_get_x_variation",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_ot_metrics_get_y_variation = Interop.downcallHandle(
+            "hb_ot_metrics_get_y_variation",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_ot_name_get_utf16 = Interop.downcallHandle(
+            "hb_ot_name_get_utf16",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_name_get_utf32 = Interop.downcallHandle(
+            "hb_ot_name_get_utf32",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_name_get_utf8 = Interop.downcallHandle(
+            "hb_ot_name_get_utf8",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_name_list_names = Interop.downcallHandle(
+            "hb_ot_name_list_names",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_shape_glyphs_closure = Interop.downcallHandle(
+            "hb_ot_shape_glyphs_closure",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_shape_plan_collect_lookups = Interop.downcallHandle(
+            "hb_ot_shape_plan_collect_lookups",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_tag_from_language = Interop.downcallHandle(
+            "hb_ot_tag_from_language",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_tag_to_language = Interop.downcallHandle(
+            "hb_ot_tag_to_language",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_ot_tag_to_script = Interop.downcallHandle(
+            "hb_ot_tag_to_script",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_ot_tags_from_script = Interop.downcallHandle(
+            "hb_ot_tags_from_script",
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_tags_from_script_and_language = Interop.downcallHandle(
+            "hb_ot_tags_from_script_and_language",
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_tags_to_script_and_language = Interop.downcallHandle(
+            "hb_ot_tags_to_script_and_language",
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_var_find_axis = Interop.downcallHandle(
+            "hb_ot_var_find_axis",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_var_find_axis_info = Interop.downcallHandle(
+            "hb_ot_var_find_axis_info",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_var_get_axes = Interop.downcallHandle(
+            "hb_ot_var_get_axes",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_var_get_axis_count = Interop.downcallHandle(
+            "hb_ot_var_get_axis_count",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_var_get_axis_infos = Interop.downcallHandle(
+            "hb_ot_var_get_axis_infos",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_var_get_named_instance_count = Interop.downcallHandle(
+            "hb_ot_var_get_named_instance_count",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_var_has_data = Interop.downcallHandle(
+            "hb_ot_var_has_data",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_var_named_instance_get_design_coords = Interop.downcallHandle(
+            "hb_ot_var_named_instance_get_design_coords",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_var_named_instance_get_postscript_name_id = Interop.downcallHandle(
+            "hb_ot_var_named_instance_get_postscript_name_id",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_ot_var_named_instance_get_subfamily_name_id = Interop.downcallHandle(
+            "hb_ot_var_named_instance_get_subfamily_name_id",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_ot_var_normalize_coords = Interop.downcallHandle(
+            "hb_ot_var_normalize_coords",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_ot_var_normalize_variations = Interop.downcallHandle(
+            "hb_ot_var_normalize_variations",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_script_from_iso15924_tag = Interop.downcallHandle(
+            "hb_script_from_iso15924_tag",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_script_from_string = Interop.downcallHandle(
+            "hb_script_from_string",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_script_get_horizontal_direction = Interop.downcallHandle(
+            "hb_script_get_horizontal_direction",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_script_to_iso15924_tag = Interop.downcallHandle(
+            "hb_script_to_iso15924_tag",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_segment_properties_equal = Interop.downcallHandle(
+            "hb_segment_properties_equal",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_segment_properties_hash = Interop.downcallHandle(
+            "hb_segment_properties_hash",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_segment_properties_overlay = Interop.downcallHandle(
+            "hb_segment_properties_overlay",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_set_add = Interop.downcallHandle(
+            "hb_set_add",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_set_add_range = Interop.downcallHandle(
+            "hb_set_add_range",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_set_allocation_successful = Interop.downcallHandle(
+            "hb_set_allocation_successful",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_set_clear = Interop.downcallHandle(
+            "hb_set_clear",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_set_copy = Interop.downcallHandle(
+            "hb_set_copy",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_set_create = Interop.downcallHandle(
+            "hb_set_create",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_set_del = Interop.downcallHandle(
+            "hb_set_del",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_set_del_range = Interop.downcallHandle(
+            "hb_set_del_range",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_set_destroy = Interop.downcallHandle(
+            "hb_set_destroy",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_set_get_empty = Interop.downcallHandle(
+            "hb_set_get_empty",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_set_get_max = Interop.downcallHandle(
+            "hb_set_get_max",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_set_get_min = Interop.downcallHandle(
+            "hb_set_get_min",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_set_get_population = Interop.downcallHandle(
+            "hb_set_get_population",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_set_get_user_data = Interop.downcallHandle(
+            "hb_set_get_user_data",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_set_has = Interop.downcallHandle(
+            "hb_set_has",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_set_intersect = Interop.downcallHandle(
+            "hb_set_intersect",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_set_invert = Interop.downcallHandle(
+            "hb_set_invert",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_set_is_empty = Interop.downcallHandle(
+            "hb_set_is_empty",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_set_is_equal = Interop.downcallHandle(
+            "hb_set_is_equal",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_set_is_subset = Interop.downcallHandle(
+            "hb_set_is_subset",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_set_next = Interop.downcallHandle(
+            "hb_set_next",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_set_next_range = Interop.downcallHandle(
+            "hb_set_next_range",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_set_previous = Interop.downcallHandle(
+            "hb_set_previous",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_set_previous_range = Interop.downcallHandle(
+            "hb_set_previous_range",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_set_reference = Interop.downcallHandle(
+            "hb_set_reference",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_set_set = Interop.downcallHandle(
+            "hb_set_set",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_set_set_user_data = Interop.downcallHandle(
+            "hb_set_set_user_data",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_set_subtract = Interop.downcallHandle(
+            "hb_set_subtract",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_set_symmetric_difference = Interop.downcallHandle(
+            "hb_set_symmetric_difference",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_set_union = Interop.downcallHandle(
+            "hb_set_union",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_shape = Interop.downcallHandle(
+            "hb_shape",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_shape_full = Interop.downcallHandle(
+            "hb_shape_full",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_shape_list_shapers = Interop.downcallHandle(
+            "hb_shape_list_shapers",
+            FunctionDescriptor.ofVoid()
+        );
+        
+        private static final MethodHandle hb_shape_plan_create = Interop.downcallHandle(
+            "hb_shape_plan_create",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_shape_plan_create2 = Interop.downcallHandle(
+            "hb_shape_plan_create2",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_shape_plan_create_cached = Interop.downcallHandle(
+            "hb_shape_plan_create_cached",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_shape_plan_create_cached2 = Interop.downcallHandle(
+            "hb_shape_plan_create_cached2",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_shape_plan_destroy = Interop.downcallHandle(
+            "hb_shape_plan_destroy",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_shape_plan_execute = Interop.downcallHandle(
+            "hb_shape_plan_execute",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_shape_plan_get_empty = Interop.downcallHandle(
+            "hb_shape_plan_get_empty",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_shape_plan_get_shaper = Interop.downcallHandle(
+            "hb_shape_plan_get_shaper",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_shape_plan_get_user_data = Interop.downcallHandle(
+            "hb_shape_plan_get_user_data",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_shape_plan_reference = Interop.downcallHandle(
+            "hb_shape_plan_reference",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_shape_plan_set_user_data = Interop.downcallHandle(
+            "hb_shape_plan_set_user_data",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_style_get_value = Interop.downcallHandle(
+            "hb_style_get_value",
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_tag_from_string = Interop.downcallHandle(
+            "hb_tag_from_string",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_tag_to_string = Interop.downcallHandle(
+            "hb_tag_to_string",
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_unicode_combining_class = Interop.downcallHandle(
+            "hb_unicode_combining_class",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_unicode_compose = Interop.downcallHandle(
+            "hb_unicode_compose",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_unicode_decompose = Interop.downcallHandle(
+            "hb_unicode_decompose",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_unicode_decompose_compatibility = Interop.downcallHandle(
+            "hb_unicode_decompose_compatibility",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_unicode_eastasian_width = Interop.downcallHandle(
+            "hb_unicode_eastasian_width",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_unicode_funcs_create = Interop.downcallHandle(
+            "hb_unicode_funcs_create",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_unicode_funcs_destroy = Interop.downcallHandle(
+            "hb_unicode_funcs_destroy",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_unicode_funcs_get_default = Interop.downcallHandle(
+            "hb_unicode_funcs_get_default",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_unicode_funcs_get_empty = Interop.downcallHandle(
+            "hb_unicode_funcs_get_empty",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_unicode_funcs_get_parent = Interop.downcallHandle(
+            "hb_unicode_funcs_get_parent",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_unicode_funcs_get_user_data = Interop.downcallHandle(
+            "hb_unicode_funcs_get_user_data",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_unicode_funcs_is_immutable = Interop.downcallHandle(
+            "hb_unicode_funcs_is_immutable",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_unicode_funcs_make_immutable = Interop.downcallHandle(
+            "hb_unicode_funcs_make_immutable",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_unicode_funcs_reference = Interop.downcallHandle(
+            "hb_unicode_funcs_reference",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_unicode_funcs_set_combining_class_func = Interop.downcallHandle(
+            "hb_unicode_funcs_set_combining_class_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_unicode_funcs_set_compose_func = Interop.downcallHandle(
+            "hb_unicode_funcs_set_compose_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_unicode_funcs_set_decompose_compatibility_func = Interop.downcallHandle(
+            "hb_unicode_funcs_set_decompose_compatibility_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_unicode_funcs_set_decompose_func = Interop.downcallHandle(
+            "hb_unicode_funcs_set_decompose_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_unicode_funcs_set_eastasian_width_func = Interop.downcallHandle(
+            "hb_unicode_funcs_set_eastasian_width_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_unicode_funcs_set_general_category_func = Interop.downcallHandle(
+            "hb_unicode_funcs_set_general_category_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_unicode_funcs_set_mirroring_func = Interop.downcallHandle(
+            "hb_unicode_funcs_set_mirroring_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_unicode_funcs_set_script_func = Interop.downcallHandle(
+            "hb_unicode_funcs_set_script_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_unicode_funcs_set_user_data = Interop.downcallHandle(
+            "hb_unicode_funcs_set_user_data",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_unicode_general_category = Interop.downcallHandle(
+            "hb_unicode_general_category",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_unicode_mirroring = Interop.downcallHandle(
+            "hb_unicode_mirroring",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_unicode_script = Interop.downcallHandle(
+            "hb_unicode_script",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_variation_from_string = Interop.downcallHandle(
+            "hb_variation_from_string",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_variation_to_string = Interop.downcallHandle(
+            "hb_variation_to_string",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_version = Interop.downcallHandle(
+            "hb_version",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle hb_version_atleast = Interop.downcallHandle(
+            "hb_version_atleast",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle hb_version_string = Interop.downcallHandle(
+            "hb_version_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+    }
+    
+    @ApiStatus.Internal
+    public static class Callbacks {
+    }
 }

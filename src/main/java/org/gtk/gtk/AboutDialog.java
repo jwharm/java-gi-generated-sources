@@ -36,7 +36,6 @@ import org.jetbrains.annotations.*;
  * order to ensure proper translation of the title, applications should
  * set the title property explicitly when constructing a {@code GtkAboutDialog},
  * as shown in the following example:
- * 
  * <pre>{@code c
  * GFile *logo_file = g_file_new_for_path ("./logo.png");
  * GdkTexture *example_logo = gdk_texture_new_from_file (logo_file, NULL);
@@ -48,13 +47,25 @@ import org.jetbrains.annotations.*;
  *                        "title", _("About ExampleCode"),
  *                        NULL);
  * }</pre>
- * 
- * <h2>CSS nodes</h2>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * {@code GtkAboutDialog} has a single CSS node with the name {@code window} and style
  * class {@code .aboutdialog}.
  */
-public class AboutDialog extends Window implements Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
-
+public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Native, org.gtk.gtk.Root, org.gtk.gtk.ShortcutManager {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public AboutDialog(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -64,18 +75,14 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
         return new AboutDialog(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_about_dialog_new = Interop.downcallHandle(
-        "gtk_about_dialog_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_about_dialog_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_about_dialog_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -85,425 +92,345 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_about_dialog_add_credit_section = Interop.downcallHandle(
-        "gtk_about_dialog_add_credit_section",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Creates a new section in the "Credits" page.
+     * @param sectionName The name of the section
+     * @param people The people who belong to that section
      */
-    public @NotNull void addCreditSection(@NotNull java.lang.String sectionName, @NotNull java.lang.String[] people) {
+    public void addCreditSection(@NotNull java.lang.String sectionName, java.lang.String[] people) {
+        java.util.Objects.requireNonNull(sectionName, "Parameter 'sectionName' must not be null");
+        java.util.Objects.requireNonNull(people, "Parameter 'people' must not be null");
         try {
-            gtk_about_dialog_add_credit_section.invokeExact(handle(), Interop.allocateNativeString(sectionName), Interop.allocateNativeArray(people));
+            DowncallHandles.gtk_about_dialog_add_credit_section.invokeExact(handle(), Interop.allocateNativeString(sectionName), Interop.allocateNativeArray(people, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_about_dialog_get_artists = Interop.downcallHandle(
-        "gtk_about_dialog_get_artists",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the names of the artists which are displayed
      * in the credits page.
+     * @return A
+     *   {@code NULL}-terminated string array containing the artists
      */
-    public PointerString getArtists() {
+    public @NotNull PointerString getArtists() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_about_dialog_get_artists.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_artists.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerString(RESULT);
     }
-    
-    private static final MethodHandle gtk_about_dialog_get_authors = Interop.downcallHandle(
-        "gtk_about_dialog_get_authors",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the names of the authors which are displayed
      * in the credits page.
+     * @return A
+     *   {@code NULL}-terminated string array containing the authors
      */
-    public PointerString getAuthors() {
+    public @NotNull PointerString getAuthors() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_about_dialog_get_authors.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_authors.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerString(RESULT);
     }
     
-    private static final MethodHandle gtk_about_dialog_get_comments = Interop.downcallHandle(
-        "gtk_about_dialog_get_comments",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the comments string.
+     * @return The comments
      */
     public @Nullable java.lang.String getComments() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_about_dialog_get_comments.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_comments.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle gtk_about_dialog_get_copyright = Interop.downcallHandle(
-        "gtk_about_dialog_get_copyright",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the copyright string.
+     * @return The copyright string
      */
     public @Nullable java.lang.String getCopyright() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_about_dialog_get_copyright.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_copyright.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle gtk_about_dialog_get_documenters = Interop.downcallHandle(
-        "gtk_about_dialog_get_documenters",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the name of the documenters which are displayed
      * in the credits page.
+     * @return A
+     *   {@code NULL}-terminated string array containing the documenters
      */
-    public PointerString getDocumenters() {
+    public @NotNull PointerString getDocumenters() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_about_dialog_get_documenters.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_documenters.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerString(RESULT);
     }
     
-    private static final MethodHandle gtk_about_dialog_get_license = Interop.downcallHandle(
-        "gtk_about_dialog_get_license",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the license information.
+     * @return The license information
      */
     public @Nullable java.lang.String getLicense() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_about_dialog_get_license.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_license.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle gtk_about_dialog_get_license_type = Interop.downcallHandle(
-        "gtk_about_dialog_get_license_type",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Retrieves the license type.
+     * @return a {@code Gtk.License} value
      */
-    public @NotNull License getLicenseType() {
+    public @NotNull org.gtk.gtk.License getLicenseType() {
         int RESULT;
         try {
-            RESULT = (int) gtk_about_dialog_get_license_type.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_about_dialog_get_license_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new License(RESULT);
+        return new org.gtk.gtk.License(RESULT);
     }
-    
-    private static final MethodHandle gtk_about_dialog_get_logo = Interop.downcallHandle(
-        "gtk_about_dialog_get_logo",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the paintable displayed as logo in the about dialog.
+     * @return the paintable displayed as
+     *   logo or {@code NULL} if the logo is unset or has been set via
+     *   {@link AboutDialog#setLogoIconName}
      */
     public @Nullable org.gtk.gdk.Paintable getLogo() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_about_dialog_get_logo.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_logo.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gdk.Paintable.PaintableImpl(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle gtk_about_dialog_get_logo_icon_name = Interop.downcallHandle(
-        "gtk_about_dialog_get_logo_icon_name",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the icon name displayed as logo in the about dialog.
+     * @return the icon name displayed as logo,
+     *   or {@code NULL} if the logo has been set via {@link AboutDialog#setLogo}
      */
     public @Nullable java.lang.String getLogoIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_about_dialog_get_logo_icon_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_logo_icon_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle gtk_about_dialog_get_program_name = Interop.downcallHandle(
-        "gtk_about_dialog_get_program_name",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the program name displayed in the about dialog.
+     * @return The program name
      */
     public @Nullable java.lang.String getProgramName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_about_dialog_get_program_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_program_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle gtk_about_dialog_get_system_information = Interop.downcallHandle(
-        "gtk_about_dialog_get_system_information",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the system information that is shown in the about dialog.
+     * @return the system information
      */
     public @Nullable java.lang.String getSystemInformation() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_about_dialog_get_system_information.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_system_information.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle gtk_about_dialog_get_translator_credits = Interop.downcallHandle(
-        "gtk_about_dialog_get_translator_credits",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the translator credits string which is displayed
      * in the credits page.
+     * @return The translator credits string
      */
     public @Nullable java.lang.String getTranslatorCredits() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_about_dialog_get_translator_credits.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_translator_credits.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle gtk_about_dialog_get_version = Interop.downcallHandle(
-        "gtk_about_dialog_get_version",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the version string.
+     * @return The version string
      */
     public @Nullable java.lang.String getVersion() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_about_dialog_get_version.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_version.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle gtk_about_dialog_get_website = Interop.downcallHandle(
-        "gtk_about_dialog_get_website",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the website URL.
+     * @return The website URL
      */
     public @Nullable java.lang.String getWebsite() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_about_dialog_get_website.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_website.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle gtk_about_dialog_get_website_label = Interop.downcallHandle(
-        "gtk_about_dialog_get_website_label",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the label used for the website link.
+     * @return The label used for the website link
      */
     public @Nullable java.lang.String getWebsiteLabel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_about_dialog_get_website_label.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_website_label.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle gtk_about_dialog_get_wrap_license = Interop.downcallHandle(
-        "gtk_about_dialog_get_wrap_license",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns whether the license text in the about dialog is
      * automatically wrapped.
+     * @return {@code TRUE} if the license text is wrapped
      */
     public boolean getWrapLicense() {
         int RESULT;
         try {
-            RESULT = (int) gtk_about_dialog_get_wrap_license.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_about_dialog_get_wrap_license.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_about_dialog_set_artists = Interop.downcallHandle(
-        "gtk_about_dialog_set_artists",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Sets the names of the artists to be displayed
      * in the "Credits" page.
+     * @param artists the authors of the artwork
+     *   of the application
      */
-    public @NotNull void setArtists(@NotNull java.lang.String[] artists) {
+    public void setArtists(java.lang.String[] artists) {
+        java.util.Objects.requireNonNull(artists, "Parameter 'artists' must not be null");
         try {
-            gtk_about_dialog_set_artists.invokeExact(handle(), Interop.allocateNativeArray(artists));
+            DowncallHandles.gtk_about_dialog_set_artists.invokeExact(handle(), Interop.allocateNativeArray(artists, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_about_dialog_set_authors = Interop.downcallHandle(
-        "gtk_about_dialog_set_authors",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the names of the authors which are displayed
      * in the "Credits" page of the about dialog.
+     * @param authors the authors of the application
      */
-    public @NotNull void setAuthors(@NotNull java.lang.String[] authors) {
+    public void setAuthors(java.lang.String[] authors) {
+        java.util.Objects.requireNonNull(authors, "Parameter 'authors' must not be null");
         try {
-            gtk_about_dialog_set_authors.invokeExact(handle(), Interop.allocateNativeArray(authors));
+            DowncallHandles.gtk_about_dialog_set_authors.invokeExact(handle(), Interop.allocateNativeArray(authors, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_about_dialog_set_comments = Interop.downcallHandle(
-        "gtk_about_dialog_set_comments",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the comments string to display in the about dialog.
      * <p>
      * This should be a short string of one or two lines.
+     * @param comments a comments string
      */
-    public @NotNull void setComments(@Nullable java.lang.String comments) {
+    public void setComments(@Nullable java.lang.String comments) {
+        java.util.Objects.requireNonNullElse(comments, MemoryAddress.NULL);
         try {
-            gtk_about_dialog_set_comments.invokeExact(handle(), Interop.allocateNativeString(comments));
+            DowncallHandles.gtk_about_dialog_set_comments.invokeExact(handle(), Interop.allocateNativeString(comments));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_about_dialog_set_copyright = Interop.downcallHandle(
-        "gtk_about_dialog_set_copyright",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the copyright string to display in the about dialog.
      * <p>
      * This should be a short string of one or two lines.
+     * @param copyright the copyright string
      */
-    public @NotNull void setCopyright(@Nullable java.lang.String copyright) {
+    public void setCopyright(@Nullable java.lang.String copyright) {
+        java.util.Objects.requireNonNullElse(copyright, MemoryAddress.NULL);
         try {
-            gtk_about_dialog_set_copyright.invokeExact(handle(), Interop.allocateNativeString(copyright));
+            DowncallHandles.gtk_about_dialog_set_copyright.invokeExact(handle(), Interop.allocateNativeString(copyright));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_about_dialog_set_documenters = Interop.downcallHandle(
-        "gtk_about_dialog_set_documenters",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the names of the documenters which are displayed
      * in the "Credits" page.
+     * @param documenters the authors of the documentation
+     *   of the application
      */
-    public @NotNull void setDocumenters(@NotNull java.lang.String[] documenters) {
+    public void setDocumenters(java.lang.String[] documenters) {
+        java.util.Objects.requireNonNull(documenters, "Parameter 'documenters' must not be null");
         try {
-            gtk_about_dialog_set_documenters.invokeExact(handle(), Interop.allocateNativeArray(documenters));
+            DowncallHandles.gtk_about_dialog_set_documenters.invokeExact(handle(), Interop.allocateNativeArray(documenters, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_about_dialog_set_license = Interop.downcallHandle(
-        "gtk_about_dialog_set_license",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the license information to be displayed in the
      * about dialog.
      * <p>
      * If {@code license} is {@code NULL}, the license page is hidden.
+     * @param license the license information
      */
-    public @NotNull void setLicense(@Nullable java.lang.String license) {
+    public void setLicense(@Nullable java.lang.String license) {
+        java.util.Objects.requireNonNullElse(license, MemoryAddress.NULL);
         try {
-            gtk_about_dialog_set_license.invokeExact(handle(), Interop.allocateNativeString(license));
+            DowncallHandles.gtk_about_dialog_set_license.invokeExact(handle(), Interop.allocateNativeString(license));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_about_dialog_set_license_type = Interop.downcallHandle(
-        "gtk_about_dialog_set_license_type",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the license of the application showing the about dialog from a
@@ -511,70 +438,58 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * <p>
      * This function overrides the license set using
      * {@link AboutDialog#setLicense}.
+     * @param licenseType the type of license
      */
-    public @NotNull void setLicenseType(@NotNull License licenseType) {
+    public void setLicenseType(@NotNull org.gtk.gtk.License licenseType) {
+        java.util.Objects.requireNonNull(licenseType, "Parameter 'licenseType' must not be null");
         try {
-            gtk_about_dialog_set_license_type.invokeExact(handle(), licenseType.getValue());
+            DowncallHandles.gtk_about_dialog_set_license_type.invokeExact(handle(), licenseType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_about_dialog_set_logo = Interop.downcallHandle(
-        "gtk_about_dialog_set_logo",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the logo in the about dialog.
+     * @param logo a {@code GdkPaintable}
      */
-    public @NotNull void setLogo(@Nullable org.gtk.gdk.Paintable logo) {
+    public void setLogo(@Nullable org.gtk.gdk.Paintable logo) {
+        java.util.Objects.requireNonNullElse(logo, MemoryAddress.NULL);
         try {
-            gtk_about_dialog_set_logo.invokeExact(handle(), logo.handle());
+            DowncallHandles.gtk_about_dialog_set_logo.invokeExact(handle(), logo.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_about_dialog_set_logo_icon_name = Interop.downcallHandle(
-        "gtk_about_dialog_set_logo_icon_name",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the icon name to be displayed as logo in the about dialog.
+     * @param iconName an icon name
      */
-    public @NotNull void setLogoIconName(@Nullable java.lang.String iconName) {
+    public void setLogoIconName(@Nullable java.lang.String iconName) {
+        java.util.Objects.requireNonNullElse(iconName, MemoryAddress.NULL);
         try {
-            gtk_about_dialog_set_logo_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName));
+            DowncallHandles.gtk_about_dialog_set_logo_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_about_dialog_set_program_name = Interop.downcallHandle(
-        "gtk_about_dialog_set_program_name",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the name to display in the about dialog.
      * <p>
      * If {@code name} is not set, the string returned
      * by {@code g_get_application_name()} is used.
+     * @param name the program name
      */
-    public @NotNull void setProgramName(@Nullable java.lang.String name) {
+    public void setProgramName(@Nullable java.lang.String name) {
+        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
         try {
-            gtk_about_dialog_set_program_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.gtk_about_dialog_set_program_name.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_about_dialog_set_system_information = Interop.downcallHandle(
-        "gtk_about_dialog_set_system_information",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the system information to be displayed in the about
@@ -584,19 +499,16 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * page is hidden.
      * <p>
      * See {@code Gtk.AboutDialog:system-information}.
+     * @param systemInformation system information
      */
-    public @NotNull void setSystemInformation(@Nullable java.lang.String systemInformation) {
+    public void setSystemInformation(@Nullable java.lang.String systemInformation) {
+        java.util.Objects.requireNonNullElse(systemInformation, MemoryAddress.NULL);
         try {
-            gtk_about_dialog_set_system_information.invokeExact(handle(), Interop.allocateNativeString(systemInformation));
+            DowncallHandles.gtk_about_dialog_set_system_information.invokeExact(handle(), Interop.allocateNativeString(systemInformation));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_about_dialog_set_translator_credits = Interop.downcallHandle(
-        "gtk_about_dialog_set_translator_credits",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the translator credits string which is displayed in
@@ -606,7 +518,6 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * of the language which is currently used in the user interface.
      * Using {@code gettext()}, a simple way to achieve that is to mark the
      * string for translation:
-     * 
      * <pre>{@code c
      * GtkWidget *about = gtk_about_dialog_new ();
      *  gtk_about_dialog_set_translator_credits (GTK_ABOUT_DIALOG (about),
@@ -617,82 +528,71 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * for this purpose, since translators will already know the purpose of
      * that {@code msgid}, and since {@code GtkAboutDialog} will detect if “translator-credits”
      * is untranslated and omit translator credits.
+     * @param translatorCredits the translator credits
      */
-    public @NotNull void setTranslatorCredits(@Nullable java.lang.String translatorCredits) {
+    public void setTranslatorCredits(@Nullable java.lang.String translatorCredits) {
+        java.util.Objects.requireNonNullElse(translatorCredits, MemoryAddress.NULL);
         try {
-            gtk_about_dialog_set_translator_credits.invokeExact(handle(), Interop.allocateNativeString(translatorCredits));
+            DowncallHandles.gtk_about_dialog_set_translator_credits.invokeExact(handle(), Interop.allocateNativeString(translatorCredits));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_about_dialog_set_version = Interop.downcallHandle(
-        "gtk_about_dialog_set_version",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the version string to display in the about dialog.
+     * @param version the version string
      */
-    public @NotNull void setVersion(@Nullable java.lang.String version) {
+    public void setVersion(@Nullable java.lang.String version) {
+        java.util.Objects.requireNonNullElse(version, MemoryAddress.NULL);
         try {
-            gtk_about_dialog_set_version.invokeExact(handle(), Interop.allocateNativeString(version));
+            DowncallHandles.gtk_about_dialog_set_version.invokeExact(handle(), Interop.allocateNativeString(version));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_about_dialog_set_website = Interop.downcallHandle(
-        "gtk_about_dialog_set_website",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the URL to use for the website link.
+     * @param website a URL string starting with {@code http://}
      */
-    public @NotNull void setWebsite(@Nullable java.lang.String website) {
+    public void setWebsite(@Nullable java.lang.String website) {
+        java.util.Objects.requireNonNullElse(website, MemoryAddress.NULL);
         try {
-            gtk_about_dialog_set_website.invokeExact(handle(), Interop.allocateNativeString(website));
+            DowncallHandles.gtk_about_dialog_set_website.invokeExact(handle(), Interop.allocateNativeString(website));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_about_dialog_set_website_label = Interop.downcallHandle(
-        "gtk_about_dialog_set_website_label",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the label to be used for the website link.
+     * @param websiteLabel the label used for the website link
      */
-    public @NotNull void setWebsiteLabel(@NotNull java.lang.String websiteLabel) {
+    public void setWebsiteLabel(@NotNull java.lang.String websiteLabel) {
+        java.util.Objects.requireNonNull(websiteLabel, "Parameter 'websiteLabel' must not be null");
         try {
-            gtk_about_dialog_set_website_label.invokeExact(handle(), Interop.allocateNativeString(websiteLabel));
+            DowncallHandles.gtk_about_dialog_set_website_label.invokeExact(handle(), Interop.allocateNativeString(websiteLabel));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_about_dialog_set_wrap_license = Interop.downcallHandle(
-        "gtk_about_dialog_set_wrap_license",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether the license text in the about dialog should be
      * automatically wrapped.
+     * @param wrapLicense whether to wrap the license
      */
-    public @NotNull void setWrapLicense(@NotNull boolean wrapLicense) {
+    public void setWrapLicense(boolean wrapLicense) {
         try {
-            gtk_about_dialog_set_wrap_license.invokeExact(handle(), wrapLicense ? 1 : 0);
+            DowncallHandles.gtk_about_dialog_set_wrap_license.invokeExact(handle(), wrapLicense ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ActivateLinkHandler {
+    public interface ActivateLink {
         boolean signalReceived(AboutDialog source, @NotNull java.lang.String uri);
     }
     
@@ -702,7 +602,7 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
      * Applications may connect to it to override the default behaviour,
      * which is to call {@link Gtk#showUri}.
      */
-    public SignalHandle onActivateLink(ActivateLinkHandler handler) {
+    public Signal<AboutDialog.ActivateLink> onActivateLink(AboutDialog.ActivateLink handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -712,21 +612,193 @@ public class AboutDialog extends Window implements Accessible, Buildable, Constr
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<AboutDialog.ActivateLink>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static boolean signalAboutDialogActivateLink(MemoryAddress source, MemoryAddress uri, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (AboutDialog.ActivateLinkHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new AboutDialog(Refcounted.get(source)), uri.getUtf8String(0));
-        }
+    private static class DowncallHandles {
         
+        private static final MethodHandle gtk_about_dialog_new = Interop.downcallHandle(
+            "gtk_about_dialog_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_add_credit_section = Interop.downcallHandle(
+            "gtk_about_dialog_add_credit_section",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_get_artists = Interop.downcallHandle(
+            "gtk_about_dialog_get_artists",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_get_authors = Interop.downcallHandle(
+            "gtk_about_dialog_get_authors",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_get_comments = Interop.downcallHandle(
+            "gtk_about_dialog_get_comments",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_get_copyright = Interop.downcallHandle(
+            "gtk_about_dialog_get_copyright",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_get_documenters = Interop.downcallHandle(
+            "gtk_about_dialog_get_documenters",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_get_license = Interop.downcallHandle(
+            "gtk_about_dialog_get_license",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_get_license_type = Interop.downcallHandle(
+            "gtk_about_dialog_get_license_type",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_get_logo = Interop.downcallHandle(
+            "gtk_about_dialog_get_logo",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_get_logo_icon_name = Interop.downcallHandle(
+            "gtk_about_dialog_get_logo_icon_name",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_get_program_name = Interop.downcallHandle(
+            "gtk_about_dialog_get_program_name",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_get_system_information = Interop.downcallHandle(
+            "gtk_about_dialog_get_system_information",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_get_translator_credits = Interop.downcallHandle(
+            "gtk_about_dialog_get_translator_credits",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_get_version = Interop.downcallHandle(
+            "gtk_about_dialog_get_version",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_get_website = Interop.downcallHandle(
+            "gtk_about_dialog_get_website",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_get_website_label = Interop.downcallHandle(
+            "gtk_about_dialog_get_website_label",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_get_wrap_license = Interop.downcallHandle(
+            "gtk_about_dialog_get_wrap_license",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_set_artists = Interop.downcallHandle(
+            "gtk_about_dialog_set_artists",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_set_authors = Interop.downcallHandle(
+            "gtk_about_dialog_set_authors",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_set_comments = Interop.downcallHandle(
+            "gtk_about_dialog_set_comments",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_set_copyright = Interop.downcallHandle(
+            "gtk_about_dialog_set_copyright",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_set_documenters = Interop.downcallHandle(
+            "gtk_about_dialog_set_documenters",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_set_license = Interop.downcallHandle(
+            "gtk_about_dialog_set_license",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_set_license_type = Interop.downcallHandle(
+            "gtk_about_dialog_set_license_type",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_set_logo = Interop.downcallHandle(
+            "gtk_about_dialog_set_logo",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_set_logo_icon_name = Interop.downcallHandle(
+            "gtk_about_dialog_set_logo_icon_name",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_set_program_name = Interop.downcallHandle(
+            "gtk_about_dialog_set_program_name",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_set_system_information = Interop.downcallHandle(
+            "gtk_about_dialog_set_system_information",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_set_translator_credits = Interop.downcallHandle(
+            "gtk_about_dialog_set_translator_credits",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_set_version = Interop.downcallHandle(
+            "gtk_about_dialog_set_version",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_set_website = Interop.downcallHandle(
+            "gtk_about_dialog_set_website",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_set_website_label = Interop.downcallHandle(
+            "gtk_about_dialog_set_website_label",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_about_dialog_set_wrap_license = Interop.downcallHandle(
+            "gtk_about_dialog_set_wrap_license",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
+    
+    private static class Callbacks {
+        
+        public static boolean signalAboutDialogActivateLink(MemoryAddress source, MemoryAddress uri, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (AboutDialog.ActivateLink) Interop.signalRegistry.get(HASH);
+            return HANDLER.signalReceived(new AboutDialog(Refcounted.get(source)), uri.getUtf8String(0));
+        }
     }
 }

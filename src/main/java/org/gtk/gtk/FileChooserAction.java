@@ -1,11 +1,24 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Describes whether a {@code GtkFileChooser} is being used to open existing files
  * or to save to a possibly new file.
  */
 public class FileChooserAction extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Indicates open mode.  The file chooser
      *  will only let the user pick an existing file.
@@ -29,5 +42,4 @@ public class FileChooserAction extends io.github.jwharm.javagi.Enumeration {
     public FileChooserAction(int value) {
         super(value);
     }
-    
 }

@@ -17,9 +17,20 @@ import org.jetbrains.annotations.*;
  * etc.).
  */
 public class ShapePlanT extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        HarfBuzz.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public ShapePlanT(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
 }

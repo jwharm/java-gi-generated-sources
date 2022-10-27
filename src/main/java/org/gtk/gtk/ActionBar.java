@@ -17,8 +17,8 @@ import org.jetbrains.annotations.*;
  * contains an internal centered box which is centered with respect to
  * the full width of the box, even if the children at either side take
  * up different amounts of space.
- * 
- * <h1>CSS nodes</h1>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * <pre>{@code 
  * actionbar
  * ╰── revealer
@@ -37,8 +37,20 @@ import org.jetbrains.annotations.*;
  * <p>
  * Each of the boxes contains children packed for that side.
  */
-public class ActionBar extends Widget implements Accessible, Buildable, ConstraintTarget {
-
+public class ActionBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public ActionBar(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -48,18 +60,14 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
         return new ActionBar(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_action_bar_new = Interop.downcallHandle(
-        "gtk_action_bar_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_action_bar_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_action_bar_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -69,112 +77,88 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_action_bar_get_center_widget = Interop.downcallHandle(
-        "gtk_action_bar_get_center_widget",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Retrieves the center bar widget of the bar.
+     * @return the center {@code GtkWidget}
      */
-    public @Nullable Widget getCenterWidget() {
+    public @Nullable org.gtk.gtk.Widget getCenterWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_action_bar_get_center_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_action_bar_get_center_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_action_bar_get_revealed = Interop.downcallHandle(
-        "gtk_action_bar_get_revealed",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets whether the contents of the action bar are revealed.
+     * @return the current value of the {@code Gtk.ActionBar:revealed}
+     *   property
      */
     public boolean getRevealed() {
         int RESULT;
         try {
-            RESULT = (int) gtk_action_bar_get_revealed.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_action_bar_get_revealed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_action_bar_pack_end = Interop.downcallHandle(
-        "gtk_action_bar_pack_end",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Adds {@code child} to {@code action_bar}, packed with reference to the
      * end of the {@code action_bar}.
+     * @param child the {@code GtkWidget} to be added to {@code action_bar}
      */
-    public @NotNull void packEnd(@NotNull Widget child) {
+    public void packEnd(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            gtk_action_bar_pack_end.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_action_bar_pack_end.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_action_bar_pack_start = Interop.downcallHandle(
-        "gtk_action_bar_pack_start",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Adds {@code child} to {@code action_bar}, packed with reference to the
      * start of the {@code action_bar}.
+     * @param child the {@code GtkWidget} to be added to {@code action_bar}
      */
-    public @NotNull void packStart(@NotNull Widget child) {
+    public void packStart(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            gtk_action_bar_pack_start.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_action_bar_pack_start.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_action_bar_remove = Interop.downcallHandle(
-        "gtk_action_bar_remove",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Removes a child from {@code action_bar}.
+     * @param child the {@code GtkWidget} to be removed
      */
-    public @NotNull void remove(@NotNull Widget child) {
+    public void remove(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            gtk_action_bar_remove.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_action_bar_remove.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_action_bar_set_center_widget = Interop.downcallHandle(
-        "gtk_action_bar_set_center_widget",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the center widget for the {@code GtkActionBar}.
+     * @param centerWidget a widget to use for the center
      */
-    public @NotNull void setCenterWidget(@Nullable Widget centerWidget) {
+    public void setCenterWidget(@Nullable org.gtk.gtk.Widget centerWidget) {
+        java.util.Objects.requireNonNullElse(centerWidget, MemoryAddress.NULL);
         try {
-            gtk_action_bar_set_center_widget.invokeExact(handle(), centerWidget.handle());
+            DowncallHandles.gtk_action_bar_set_center_widget.invokeExact(handle(), centerWidget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_action_bar_set_revealed = Interop.downcallHandle(
-        "gtk_action_bar_set_revealed",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Reveals or conceals the content of the action bar.
@@ -182,13 +166,56 @@ public class ActionBar extends Widget implements Accessible, Buildable, Constrai
      * Note: this does not show or hide {@code action_bar} in the
      * {@code Gtk.Widget:visible} sense, so revealing has
      * no effect if the action bar is hidden.
+     * @param revealed The new value of the property
      */
-    public @NotNull void setRevealed(@NotNull boolean revealed) {
+    public void setRevealed(boolean revealed) {
         try {
-            gtk_action_bar_set_revealed.invokeExact(handle(), revealed ? 1 : 0);
+            DowncallHandles.gtk_action_bar_set_revealed.invokeExact(handle(), revealed ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_action_bar_new = Interop.downcallHandle(
+            "gtk_action_bar_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_action_bar_get_center_widget = Interop.downcallHandle(
+            "gtk_action_bar_get_center_widget",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_action_bar_get_revealed = Interop.downcallHandle(
+            "gtk_action_bar_get_revealed",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_action_bar_pack_end = Interop.downcallHandle(
+            "gtk_action_bar_pack_end",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_action_bar_pack_start = Interop.downcallHandle(
+            "gtk_action_bar_pack_start",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_action_bar_remove = Interop.downcallHandle(
+            "gtk_action_bar_remove",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_action_bar_set_center_widget = Interop.downcallHandle(
+            "gtk_action_bar_set_center_widget",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_action_bar_set_revealed = Interop.downcallHandle(
+            "gtk_action_bar_set_revealed",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
 }

@@ -19,13 +19,26 @@ import org.jetbrains.annotations.*;
  * inactive state is gradual to match the carousel's position.
  * <p>
  * See also {@link CarouselIndicatorLines}.
- * 
- * <h2>CSS nodes</h2>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * {@code AdwCarouselIndicatorDots} has a single CSS node with name
  * {@code carouselindicatordots}.
+ * @version 1.0
  */
 public class CarouselIndicatorDots extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Orientable {
-
+    
+    static {
+        Adw.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public CarouselIndicatorDots(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -35,18 +48,14 @@ public class CarouselIndicatorDots extends org.gtk.gtk.Widget implements org.gtk
         return new CarouselIndicatorDots(gobject.refcounted());
     }
     
-    private static final MethodHandle adw_carousel_indicator_dots_new = Interop.downcallHandle(
-        "adw_carousel_indicator_dots_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_carousel_indicator_dots_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_carousel_indicator_dots_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -56,38 +65,48 @@ public class CarouselIndicatorDots extends org.gtk.gtk.Widget implements org.gtk
         super(constructNew());
     }
     
-    private static final MethodHandle adw_carousel_indicator_dots_get_carousel = Interop.downcallHandle(
-        "adw_carousel_indicator_dots_get_carousel",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the displayed carousel.
+     * @return the displayed carousel
      */
-    public @Nullable Carousel getCarousel() {
+    public @Nullable org.gnome.adw.Carousel getCarousel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_carousel_indicator_dots_get_carousel.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_carousel_indicator_dots_get_carousel.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Carousel(Refcounted.get(RESULT, false));
+        return new org.gnome.adw.Carousel(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle adw_carousel_indicator_dots_set_carousel = Interop.downcallHandle(
-        "adw_carousel_indicator_dots_set_carousel",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the displayed carousel.
+     * @param carousel a carousel
      */
-    public @NotNull void setCarousel(@Nullable Carousel carousel) {
+    public void setCarousel(@Nullable org.gnome.adw.Carousel carousel) {
+        java.util.Objects.requireNonNullElse(carousel, MemoryAddress.NULL);
         try {
-            adw_carousel_indicator_dots_set_carousel.invokeExact(handle(), carousel.handle());
+            DowncallHandles.adw_carousel_indicator_dots_set_carousel.invokeExact(handle(), carousel.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle adw_carousel_indicator_dots_new = Interop.downcallHandle(
+            "adw_carousel_indicator_dots_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_carousel_indicator_dots_get_carousel = Interop.downcallHandle(
+            "adw_carousel_indicator_dots_get_carousel",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_carousel_indicator_dots_set_carousel = Interop.downcallHandle(
+            "adw_carousel_indicator_dots_set_carousel",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

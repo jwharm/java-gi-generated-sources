@@ -1,14 +1,28 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Flags used in g_socket_receive_message() and g_socket_send_message().
  * The flags listed in the enum are some commonly available flags, but the
  * values used for them are the same as on the platform, and any other flags
  * are passed in/out as is. So to use a platform specific flag, just include
  * the right system header and pass in the flag.
+ * @version 2.22
  */
 public class SocketMsgFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * No flags.
      */
@@ -34,5 +48,4 @@ public class SocketMsgFlags extends io.github.jwharm.javagi.Bitfield {
     public SocketMsgFlags(int value) {
         super(value);
     }
-    
 }

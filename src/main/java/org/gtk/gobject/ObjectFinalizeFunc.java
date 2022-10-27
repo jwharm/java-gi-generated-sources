@@ -1,6 +1,8 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -8,5 +10,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ObjectFinalizeFunc {
-        void onObjectFinalizeFunc(@NotNull Object object);
+        void onObjectFinalizeFunc(@NotNull org.gtk.gobject.Object object);
 }

@@ -15,9 +15,26 @@ import org.jetbrains.annotations.*;
  * {@link ActionRow} and its derivatives are convenient to use as preference
  * rows as they take care of presenting the preference's title while letting you
  * compose the inputs of the preference around it.
+ * @version 1.0
  */
 public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gtk.Accessible, org.gtk.gtk.Actionable, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
-
+    
+    static {
+        Adw.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gtk.ListBoxRow.getMemoryLayout().withName("parent_instance")
+    ).withName("AdwPreferencesRow");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public PreferencesRow(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -27,18 +44,14 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
         return new PreferencesRow(gobject.refcounted());
     }
     
-    private static final MethodHandle adw_preferences_row_new = Interop.downcallHandle(
-        "adw_preferences_row_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_preferences_row_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_preferences_row_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -48,106 +61,120 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
         super(constructNew());
     }
     
-    private static final MethodHandle adw_preferences_row_get_title = Interop.downcallHandle(
-        "adw_preferences_row_get_title",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the title of the preference represented by {@code self}.
+     * @return the title
      */
     public @NotNull java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_preferences_row_get_title.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_row_get_title.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle adw_preferences_row_get_title_selectable = Interop.downcallHandle(
-        "adw_preferences_row_get_title_selectable",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets whether the user can copy the title from the label
+     * @return whether the user can copy the title from the label
      */
     public boolean getTitleSelectable() {
         int RESULT;
         try {
-            RESULT = (int) adw_preferences_row_get_title_selectable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_preferences_row_get_title_selectable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle adw_preferences_row_get_use_underline = Interop.downcallHandle(
-        "adw_preferences_row_get_use_underline",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets whether an embedded underline in the title indicates a mnemonic.
+     * @return whether an embedded underline in the title indicates a mnemonic
      */
     public boolean getUseUnderline() {
         int RESULT;
         try {
-            RESULT = (int) adw_preferences_row_get_use_underline.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_preferences_row_get_use_underline.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle adw_preferences_row_set_title = Interop.downcallHandle(
-        "adw_preferences_row_set_title",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Sets the title of the preference represented by {@code self}.
+     * @param title the title
      */
-    public @NotNull void setTitle(@NotNull java.lang.String title) {
+    public void setTitle(@NotNull java.lang.String title) {
+        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
         try {
-            adw_preferences_row_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
+            DowncallHandles.adw_preferences_row_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_preferences_row_set_title_selectable = Interop.downcallHandle(
-        "adw_preferences_row_set_title_selectable",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether the user can copy the title from the label
+     * @param titleSelectable {@code TRUE} if the user can copy the title from the label
      */
-    public @NotNull void setTitleSelectable(@NotNull boolean titleSelectable) {
+    public void setTitleSelectable(boolean titleSelectable) {
         try {
-            adw_preferences_row_set_title_selectable.invokeExact(handle(), titleSelectable ? 1 : 0);
+            DowncallHandles.adw_preferences_row_set_title_selectable.invokeExact(handle(), titleSelectable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_preferences_row_set_use_underline = Interop.downcallHandle(
-        "adw_preferences_row_set_use_underline",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether an embedded underline in the title indicates a mnemonic.
+     * @param useUnderline {@code TRUE} if underlines in the text indicate mnemonics
      */
-    public @NotNull void setUseUnderline(@NotNull boolean useUnderline) {
+    public void setUseUnderline(boolean useUnderline) {
         try {
-            adw_preferences_row_set_use_underline.invokeExact(handle(), useUnderline ? 1 : 0);
+            DowncallHandles.adw_preferences_row_set_use_underline.invokeExact(handle(), useUnderline ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle adw_preferences_row_new = Interop.downcallHandle(
+            "adw_preferences_row_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_preferences_row_get_title = Interop.downcallHandle(
+            "adw_preferences_row_get_title",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_preferences_row_get_title_selectable = Interop.downcallHandle(
+            "adw_preferences_row_get_title_selectable",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_preferences_row_get_use_underline = Interop.downcallHandle(
+            "adw_preferences_row_get_use_underline",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_preferences_row_set_title = Interop.downcallHandle(
+            "adw_preferences_row_set_title",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_preferences_row_set_title_selectable = Interop.downcallHandle(
+            "adw_preferences_row_set_title_selectable",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle adw_preferences_row_set_use_underline = Interop.downcallHandle(
+            "adw_preferences_row_set_use_underline",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
 }

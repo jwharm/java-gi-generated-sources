@@ -1,11 +1,25 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * An error code used with {@code G_RESOURCE_ERROR} in a {@link org.gtk.glib.Error} returned
  * from a {@link Resource} routine.
+ * @version 2.32
  */
 public class ResourceError extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * no file was found at the requested path
      */
@@ -20,4 +34,25 @@ public class ResourceError extends io.github.jwharm.javagi.Enumeration {
         super(value);
     }
     
+    /**
+     * Gets the {@link Resource} Error Quark.
+     * @return a {@link org.gtk.glib.Quark}
+     */
+    public static @NotNull org.gtk.glib.Quark quark() {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_resource_error_quark.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Quark(RESULT);
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_resource_error_quark = Interop.downcallHandle(
+            "g_resource_error_quark",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+        );
+    }
 }

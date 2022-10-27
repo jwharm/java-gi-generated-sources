@@ -41,7 +41,19 @@ import org.jetbrains.annotations.*;
  * they will stay exactly synchronized.
  */
 public class FrameClock extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gdk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public FrameClock(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -50,11 +62,6 @@ public class FrameClock extends org.gtk.gobject.Object {
     public static FrameClock castFrom(org.gtk.gobject.Object gobject) {
         return new FrameClock(gobject.refcounted());
     }
-    
-    private static final MethodHandle gdk_frame_clock_begin_updating = Interop.downcallHandle(
-        "gdk_frame_clock_begin_updating",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Starts updates for an animation.
@@ -65,92 +72,75 @@ public class FrameClock extends org.gtk.gobject.Object {
      * times and frames will be requested until gdk_frame_clock_end_updating()
      * is called the same number of times.
      */
-    public @NotNull void beginUpdating() {
+    public void beginUpdating() {
         try {
-            gdk_frame_clock_begin_updating.invokeExact(handle());
+            DowncallHandles.gdk_frame_clock_begin_updating.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gdk_frame_clock_end_updating = Interop.downcallHandle(
-        "gdk_frame_clock_end_updating",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Stops updates for an animation.
      * <p>
      * See the documentation for {@link FrameClock#beginUpdating}.
      */
-    public @NotNull void endUpdating() {
+    public void endUpdating() {
         try {
-            gdk_frame_clock_end_updating.invokeExact(handle());
+            DowncallHandles.gdk_frame_clock_end_updating.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gdk_frame_clock_get_current_timings = Interop.downcallHandle(
-        "gdk_frame_clock_get_current_timings",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the frame timings for the current frame.
+     * @return the {@code GdkFrameTimings} for the
+     *   frame currently being processed, or even no frame is being
+     *   processed, for the previous frame. Before any frames have been
+     *   processed, returns {@code null}.
      */
-    public @Nullable FrameTimings getCurrentTimings() {
+    public @Nullable org.gtk.gdk.FrameTimings getCurrentTimings() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gdk_frame_clock_get_current_timings.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_frame_clock_get_current_timings.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new FrameTimings(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.FrameTimings(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gdk_frame_clock_get_fps = Interop.downcallHandle(
-        "gdk_frame_clock_get_fps",
-        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
-    );
     
     /**
      * Calculates the current frames-per-second, based on the
      * frame timings of {@code frame_clock}.
+     * @return the current fps, as a {@code double}
      */
     public double getFps() {
         double RESULT;
         try {
-            RESULT = (double) gdk_frame_clock_get_fps.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gdk_frame_clock_get_fps.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle gdk_frame_clock_get_frame_counter = Interop.downcallHandle(
-        "gdk_frame_clock_get_frame_counter",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
-    );
     
     /**
      * {@code GdkFrameClock} maintains a 64-bit counter that increments for
      * each frame drawn.
+     * @return inside frame processing, the value of the frame counter
+     *   for the current frame. Outside of frame processing, the frame
+     *   counter for the last frame.
      */
     public long getFrameCounter() {
         long RESULT;
         try {
-            RESULT = (long) gdk_frame_clock_get_frame_counter.invokeExact(handle());
+            RESULT = (long) DowncallHandles.gdk_frame_clock_get_frame_counter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle gdk_frame_clock_get_frame_time = Interop.downcallHandle(
-        "gdk_frame_clock_get_frame_time",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the time that should currently be used for animations.
@@ -160,21 +150,18 @@ public class FrameClock extends org.gtk.gobject.Object {
      * the time of the conceptual “previous frame,” which may be either
      * the actual previous frame time, or if that’s too old, an updated
      * time.
+     * @return a timestamp in microseconds, in the timescale of
+     *  of g_get_monotonic_time().
      */
     public long getFrameTime() {
         long RESULT;
         try {
-            RESULT = (long) gdk_frame_clock_get_frame_time.invokeExact(handle());
+            RESULT = (long) DowncallHandles.gdk_frame_clock_get_frame_time.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle gdk_frame_clock_get_history_start = Interop.downcallHandle(
-        "gdk_frame_clock_get_history_start",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the frame counter for the oldest frame available in history.
@@ -185,21 +172,19 @@ public class FrameClock extends org.gtk.gobject.Object {
      * is the set from the counter values given by
      * {@link FrameClock#getHistoryStart} and
      * {@link FrameClock#getFrameCounter}, inclusive.
+     * @return the frame counter value for the oldest frame
+     *  that is available in the internal frame history of the
+     *  {@code GdkFrameClock}
      */
     public long getHistoryStart() {
         long RESULT;
         try {
-            RESULT = (long) gdk_frame_clock_get_history_start.invokeExact(handle());
+            RESULT = (long) DowncallHandles.gdk_frame_clock_get_history_start.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle gdk_frame_clock_get_refresh_info = Interop.downcallHandle(
-        "gdk_frame_clock_get_refresh_info",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Predicts a presentation time, based on history.
@@ -209,23 +194,27 @@ public class FrameClock extends org.gtk.gobject.Object {
      * presentation times are separated by the refresh interval,
      * predicts a presentation time that is a multiple of the refresh
      * interval after the last presentation time, and later than {@code base_time}.
+     * @param baseTime base time for determining a presentaton time
+     * @param refreshIntervalReturn a location to store the
+     *   determined refresh interval, or {@code null}. A default refresh interval of
+     *   1/60th of a second will be stored if no history is present.
+     * @param presentationTimeReturn a location to store the next
+     *   candidate presentation time after the given base time.
+     *   0 will be will be stored if no history is present.
      */
-    public @NotNull void getRefreshInfo(@NotNull long baseTime, @NotNull Out<Long> refreshIntervalReturn, @NotNull Out<Long> presentationTimeReturn) {
+    public void getRefreshInfo(long baseTime, Out<Long> refreshIntervalReturn, Out<Long> presentationTimeReturn) {
+        java.util.Objects.requireNonNull(refreshIntervalReturn, "Parameter 'refreshIntervalReturn' must not be null");
+        java.util.Objects.requireNonNull(presentationTimeReturn, "Parameter 'presentationTimeReturn' must not be null");
         MemorySegment refreshIntervalReturnPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemorySegment presentationTimeReturnPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         try {
-            gdk_frame_clock_get_refresh_info.invokeExact(handle(), baseTime, (Addressable) refreshIntervalReturnPOINTER.address(), (Addressable) presentationTimeReturnPOINTER.address());
+            DowncallHandles.gdk_frame_clock_get_refresh_info.invokeExact(handle(), baseTime, (Addressable) refreshIntervalReturnPOINTER.address(), (Addressable) presentationTimeReturnPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         refreshIntervalReturn.set(refreshIntervalReturnPOINTER.get(ValueLayout.JAVA_LONG, 0));
         presentationTimeReturn.set(presentationTimeReturnPOINTER.get(ValueLayout.JAVA_LONG, 0));
     }
-    
-    private static final MethodHandle gdk_frame_clock_get_timings = Interop.downcallHandle(
-        "gdk_frame_clock_get_timings",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
-    );
     
     /**
      * Retrieves a {@code GdkFrameTimings} object holding timing information
@@ -234,21 +223,20 @@ public class FrameClock extends org.gtk.gobject.Object {
      * The {@code GdkFrameTimings} object may not yet be complete: see
      * {@link FrameTimings#getComplete} and
      * {@link FrameClock#getHistoryStart}.
+     * @param frameCounter the frame counter value identifying the frame to
+     *  be received
+     * @return the {@code GdkFrameTimings} object
+     *   for the specified frame, or {@code null} if it is not available
      */
-    public @Nullable FrameTimings getTimings(@NotNull long frameCounter) {
+    public @Nullable org.gtk.gdk.FrameTimings getTimings(long frameCounter) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gdk_frame_clock_get_timings.invokeExact(handle(), frameCounter);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_frame_clock_get_timings.invokeExact(handle(), frameCounter);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new FrameTimings(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.FrameTimings(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gdk_frame_clock_request_phase = Interop.downcallHandle(
-        "gdk_frame_clock_request_phase",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Asks the frame clock to run a particular phase.
@@ -262,17 +250,19 @@ public class FrameClock extends org.gtk.gobject.Object {
      * you should use {@link FrameClock#beginUpdating} instead,
      * since this allows GTK to adjust system parameters to get maximally
      * smooth animations.
+     * @param phase the phase that is requested
      */
-    public @NotNull void requestPhase(@NotNull FrameClockPhase phase) {
+    public void requestPhase(@NotNull org.gtk.gdk.FrameClockPhase phase) {
+        java.util.Objects.requireNonNull(phase, "Parameter 'phase' must not be null");
         try {
-            gdk_frame_clock_request_phase.invokeExact(handle(), phase.getValue());
+            DowncallHandles.gdk_frame_clock_request_phase.invokeExact(handle(), phase.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface AfterPaintHandler {
+    public interface AfterPaint {
         void signalReceived(FrameClock source);
     }
     
@@ -281,7 +271,7 @@ public class FrameClock extends org.gtk.gobject.Object {
      * <p>
      * Applications should generally not handle this signal.
      */
-    public SignalHandle onAfterPaint(AfterPaintHandler handler) {
+    public Signal<FrameClock.AfterPaint> onAfterPaint(FrameClock.AfterPaint handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -291,16 +281,16 @@ public class FrameClock extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<FrameClock.AfterPaint>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface BeforePaintHandler {
+    public interface BeforePaint {
         void signalReceived(FrameClock source);
     }
     
@@ -309,7 +299,7 @@ public class FrameClock extends org.gtk.gobject.Object {
      * <p>
      * Applications should generally not handle this signal.
      */
-    public SignalHandle onBeforePaint(BeforePaintHandler handler) {
+    public Signal<FrameClock.BeforePaint> onBeforePaint(FrameClock.BeforePaint handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -319,16 +309,16 @@ public class FrameClock extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<FrameClock.BeforePaint>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface FlushEventsHandler {
+    public interface FlushEvents {
         void signalReceived(FrameClock source);
     }
     
@@ -338,7 +328,7 @@ public class FrameClock extends org.gtk.gobject.Object {
      * <p>
      * Applications should not handle this signal.
      */
-    public SignalHandle onFlushEvents(FlushEventsHandler handler) {
+    public Signal<FrameClock.FlushEvents> onFlushEvents(FrameClock.FlushEvents handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -348,16 +338,16 @@ public class FrameClock extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<FrameClock.FlushEvents>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface LayoutHandler {
+    public interface Layout {
         void signalReceived(FrameClock source);
     }
     
@@ -368,7 +358,7 @@ public class FrameClock extends org.gtk.gobject.Object {
      * Any work to update sizes and positions of application elements
      * should be performed. GTK normally handles this internally.
      */
-    public SignalHandle onLayout(LayoutHandler handler) {
+    public Signal<FrameClock.Layout> onLayout(FrameClock.Layout handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -378,16 +368,16 @@ public class FrameClock extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<FrameClock.Layout>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface PaintHandler {
+    public interface Paint {
         void signalReceived(FrameClock source);
     }
     
@@ -399,7 +389,7 @@ public class FrameClock extends org.gtk.gobject.Object {
      * emits {@code Gdk.Surface::render} signals which are turned into
      * {@code Gtk.Widget::snapshot} signals by GTK.
      */
-    public SignalHandle onPaint(PaintHandler handler) {
+    public Signal<FrameClock.Paint> onPaint(FrameClock.Paint handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -409,16 +399,16 @@ public class FrameClock extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<FrameClock.Paint>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ResumeEventsHandler {
+    public interface ResumeEvents {
         void signalReceived(FrameClock source);
     }
     
@@ -428,7 +418,7 @@ public class FrameClock extends org.gtk.gobject.Object {
      * This signal is handled internally by GTK to resume normal
      * event processing. Applications should not handle this signal.
      */
-    public SignalHandle onResumeEvents(ResumeEventsHandler handler) {
+    public Signal<FrameClock.ResumeEvents> onResumeEvents(FrameClock.ResumeEvents handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -438,16 +428,16 @@ public class FrameClock extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<FrameClock.ResumeEvents>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface UpdateHandler {
+    public interface Update {
         void signalReceived(FrameClock source);
     }
     
@@ -459,7 +449,7 @@ public class FrameClock extends org.gtk.gobject.Object {
      * Applications can connect directly to this signal, or use
      * {@link org.gtk.gtk.Widget#addTickCallback} as a more convenient interface.
      */
-    public SignalHandle onUpdate(UpdateHandler handler) {
+    public Signal<FrameClock.Update> onUpdate(FrameClock.Update handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -469,57 +459,109 @@ public class FrameClock extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<FrameClock.Update>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gdk_frame_clock_begin_updating = Interop.downcallHandle(
+            "gdk_frame_clock_begin_updating",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_frame_clock_end_updating = Interop.downcallHandle(
+            "gdk_frame_clock_end_updating",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_frame_clock_get_current_timings = Interop.downcallHandle(
+            "gdk_frame_clock_get_current_timings",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_frame_clock_get_fps = Interop.downcallHandle(
+            "gdk_frame_clock_get_fps",
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_frame_clock_get_frame_counter = Interop.downcallHandle(
+            "gdk_frame_clock_get_frame_counter",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_frame_clock_get_frame_time = Interop.downcallHandle(
+            "gdk_frame_clock_get_frame_time",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_frame_clock_get_history_start = Interop.downcallHandle(
+            "gdk_frame_clock_get_history_start",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_frame_clock_get_refresh_info = Interop.downcallHandle(
+            "gdk_frame_clock_get_refresh_info",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_frame_clock_get_timings = Interop.downcallHandle(
+            "gdk_frame_clock_get_timings",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+        );
+        
+        private static final MethodHandle gdk_frame_clock_request_phase = Interop.downcallHandle(
+            "gdk_frame_clock_request_phase",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static void signalFrameClockAfterPaint(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (FrameClock.AfterPaintHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FrameClock(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (FrameClock.AfterPaint) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new FrameClock(Refcounted.get(source)));
         }
         
         public static void signalFrameClockBeforePaint(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (FrameClock.BeforePaintHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FrameClock(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (FrameClock.BeforePaint) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new FrameClock(Refcounted.get(source)));
         }
         
         public static void signalFrameClockFlushEvents(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (FrameClock.FlushEventsHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FrameClock(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (FrameClock.FlushEvents) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new FrameClock(Refcounted.get(source)));
         }
         
         public static void signalFrameClockLayout(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (FrameClock.LayoutHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FrameClock(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (FrameClock.Layout) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new FrameClock(Refcounted.get(source)));
         }
         
         public static void signalFrameClockPaint(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (FrameClock.PaintHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FrameClock(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (FrameClock.Paint) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new FrameClock(Refcounted.get(source)));
         }
         
         public static void signalFrameClockResumeEvents(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (FrameClock.ResumeEventsHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FrameClock(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (FrameClock.ResumeEvents) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new FrameClock(Refcounted.get(source)));
         }
         
         public static void signalFrameClockUpdate(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (FrameClock.UpdateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FrameClock(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (FrameClock.Update) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new FrameClock(Refcounted.get(source)));
         }
-        
     }
 }

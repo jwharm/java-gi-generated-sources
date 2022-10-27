@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -9,5 +11,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface UnixFDSourceFunc {
-        boolean onUnixFDSourceFunc(@NotNull int fd, @NotNull IOCondition condition);
+        boolean onUnixFDSourceFunc(int fd, @NotNull org.gtk.glib.IOCondition condition);
 }

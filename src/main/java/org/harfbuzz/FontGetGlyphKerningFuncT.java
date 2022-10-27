@@ -1,6 +1,8 @@
 package org.harfbuzz;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -9,5 +11,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface FontGetGlyphKerningFuncT {
-        PositionT onFontGetGlyphKerningFuncT(@NotNull FontT font, @Nullable java.lang.foreign.MemoryAddress fontData, @NotNull CodepointT firstGlyph, @NotNull CodepointT secondGlyph, @Nullable java.lang.foreign.MemoryAddress userData);
+        org.harfbuzz.PositionT onFontGetGlyphKerningFuncT(@NotNull org.harfbuzz.FontT font, @Nullable java.lang.foreign.MemoryAddress fontData, @NotNull org.harfbuzz.CodepointT firstGlyph, @NotNull org.harfbuzz.CodepointT secondGlyph, @Nullable java.lang.foreign.MemoryAddress userData);
 }

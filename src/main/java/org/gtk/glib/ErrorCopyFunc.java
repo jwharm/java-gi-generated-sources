@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -12,8 +14,9 @@ import org.jetbrains.annotations.*;
  * Normally, it is better to use G_DEFINE_EXTENDED_ERROR(), as it
  * already takes care of getting the private data from {@code src_error} and
  * {@code dest_error}.
+ * @version 2.68
  */
 @FunctionalInterface
 public interface ErrorCopyFunc {
-        void onErrorCopyFunc(@NotNull Error srcError, @NotNull Error destError);
+        void onErrorCopyFunc(@NotNull org.gtk.glib.Error srcError, @NotNull org.gtk.glib.Error destError);
 }

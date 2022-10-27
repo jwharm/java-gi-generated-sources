@@ -9,55 +9,68 @@ import org.jetbrains.annotations.*;
  * Contains the public fields of a GByteArray.
  */
 public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GLib.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        ValueLayout.JAVA_BYTE.withName("data"),
+        ValueLayout.JAVA_INT.withName("len")
+    ).withName("GByteArray");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public ByteArray(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle g_byte_array_append = Interop.downcallHandle(
-        "g_byte_array_append",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Adds the given bytes to the end of the {@link ByteArray}.
      * The array will grow in size automatically if necessary.
+     * @param array a {@link ByteArray}
+     * @param data the byte data to be added
+     * @param len the number of bytes to add
+     * @return the {@link ByteArray}
      */
-    public static PointerByte append(@NotNull byte[] array, @NotNull PointerByte data, @NotNull int len) {
+    public static @NotNull PointerByte append(byte[] array, PointerByte data, int len) {
+        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_byte_array_append.invokeExact(Interop.allocateNativeArray(array), data.handle(), len);
+            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_append.invokeExact(Interop.allocateNativeArray(array, false), data.handle(), len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerByte(RESULT);
     }
-    
-    private static final MethodHandle g_byte_array_free = Interop.downcallHandle(
-        "g_byte_array_free",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Frees the memory allocated by the {@link ByteArray}. If {@code free_segment} is
      * {@code true} it frees the actual byte data. If the reference count of
      * {@code array} is greater than one, the {@link ByteArray} wrapper is preserved but
      * the size of {@code array} will be set to zero.
+     * @param array a {@link ByteArray}
+     * @param freeSegment if {@code true} the actual byte data is freed as well
+     * @return the element data if {@code free_segment} is {@code false}, otherwise
+     *          {@code null}.  The element data should be freed using g_free().
      */
-    public static PointerByte free(@NotNull byte[] array, @NotNull boolean freeSegment) {
+    public static PointerByte free(byte[] array, boolean freeSegment) {
+        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_byte_array_free.invokeExact(Interop.allocateNativeArray(array), freeSegment ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_free.invokeExact(Interop.allocateNativeArray(array, false), freeSegment ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerByte(RESULT);
     }
-    
-    private static final MethodHandle g_byte_array_free_to_bytes = Interop.downcallHandle(
-        "g_byte_array_free_to_bytes",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Transfers the data from the {@link ByteArray} into a new immutable {@link Bytes}.
@@ -68,39 +81,34 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This is identical to using g_bytes_new_take() and g_byte_array_free()
      * together.
+     * @param array a {@link ByteArray}
+     * @return a new immutable {@link Bytes} representing same
+     *     byte data that was in the array
      */
-    public static @NotNull Bytes freeToBytes(@NotNull byte[] array) {
+    public static @NotNull org.gtk.glib.Bytes freeToBytes(byte[] array) {
+        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_byte_array_free_to_bytes.invokeExact(Interop.allocateNativeArray(array));
+            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_free_to_bytes.invokeExact(Interop.allocateNativeArray(array, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Bytes(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_byte_array_new = Interop.downcallHandle(
-        "g_byte_array_new",
-        FunctionDescriptor.ofVoid()
-    );
     
     /**
      * Creates a new {@link ByteArray} with a reference count of 1.
+     * @return the new {@link ByteArray}
      */
-    public static PointerByte new_() {
+    public static @NotNull PointerByte new_() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_byte_array_new.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerByte(RESULT);
     }
-    
-    private static final MethodHandle g_byte_array_new_take = Interop.downcallHandle(
-        "g_byte_array_new_take",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
-    );
     
     /**
      * Create byte array containing the data. The data will be owned by the array
@@ -109,191 +117,207 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
      * Do not use it if {@code len} is greater than {@code G_MAXUINT}. {@link ByteArray}
      * stores the length of its data in {@code guint}, which may be shorter than
      * {@code gsize}.
+     * @param data byte data for the array
+     * @param len length of {@code data}
+     * @return a new {@link ByteArray}
      */
-    public static PointerByte newTake(@NotNull byte[] data, @NotNull long len) {
+    public static @NotNull PointerByte newTake(byte[] data, long len) {
+        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_byte_array_new_take.invokeExact(Interop.allocateNativeArray(data), len);
+            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_new_take.invokeExact(Interop.allocateNativeArray(data, false), len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerByte(RESULT);
     }
-    
-    private static final MethodHandle g_byte_array_prepend = Interop.downcallHandle(
-        "g_byte_array_prepend",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Adds the given data to the start of the {@link ByteArray}.
      * The array will grow in size automatically if necessary.
+     * @param array a {@link ByteArray}
+     * @param data the byte data to be added
+     * @param len the number of bytes to add
+     * @return the {@link ByteArray}
      */
-    public static PointerByte prepend(@NotNull byte[] array, @NotNull PointerByte data, @NotNull int len) {
+    public static @NotNull PointerByte prepend(byte[] array, PointerByte data, int len) {
+        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_byte_array_prepend.invokeExact(Interop.allocateNativeArray(array), data.handle(), len);
+            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_prepend.invokeExact(Interop.allocateNativeArray(array, false), data.handle(), len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerByte(RESULT);
     }
-    
-    private static final MethodHandle g_byte_array_ref = Interop.downcallHandle(
-        "g_byte_array_ref",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Atomically increments the reference count of {@code array} by one.
      * This function is thread-safe and may be called from any thread.
+     * @param array A {@link ByteArray}
+     * @return The passed in {@link ByteArray}
      */
-    public static PointerByte ref(@NotNull byte[] array) {
+    public static @NotNull PointerByte ref(byte[] array) {
+        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_byte_array_ref.invokeExact(Interop.allocateNativeArray(array));
+            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_ref.invokeExact(Interop.allocateNativeArray(array, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerByte(RESULT);
     }
-    
-    private static final MethodHandle g_byte_array_remove_index = Interop.downcallHandle(
-        "g_byte_array_remove_index",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Removes the byte at the given index from a {@link ByteArray}.
      * The following bytes are moved down one place.
+     * @param array a {@link ByteArray}
+     * @param index the index of the byte to remove
+     * @return the {@link ByteArray}
      */
-    public static PointerByte removeIndex(@NotNull byte[] array, @NotNull int index) {
+    public static @NotNull PointerByte removeIndex(byte[] array, int index) {
+        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_byte_array_remove_index.invokeExact(Interop.allocateNativeArray(array), index);
+            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_remove_index.invokeExact(Interop.allocateNativeArray(array, false), index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerByte(RESULT);
     }
-    
-    private static final MethodHandle g_byte_array_remove_index_fast = Interop.downcallHandle(
-        "g_byte_array_remove_index_fast",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Removes the byte at the given index from a {@link ByteArray}. The last
      * element in the array is used to fill in the space, so this function
      * does not preserve the order of the {@link ByteArray}. But it is faster
      * than g_byte_array_remove_index().
+     * @param array a {@link ByteArray}
+     * @param index the index of the byte to remove
+     * @return the {@link ByteArray}
      */
-    public static PointerByte removeIndexFast(@NotNull byte[] array, @NotNull int index) {
+    public static @NotNull PointerByte removeIndexFast(byte[] array, int index) {
+        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_byte_array_remove_index_fast.invokeExact(Interop.allocateNativeArray(array), index);
+            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_remove_index_fast.invokeExact(Interop.allocateNativeArray(array, false), index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerByte(RESULT);
     }
-    
-    private static final MethodHandle g_byte_array_remove_range = Interop.downcallHandle(
-        "g_byte_array_remove_range",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Removes the given number of bytes starting at the given index from a
      * {@link ByteArray}.  The following elements are moved to close the gap.
+     * @param array a {@code GByteArray}
+     * @param index the index of the first byte to remove
+     * @param length the number of bytes to remove
+     * @return the {@link ByteArray}
      */
-    public static PointerByte removeRange(@NotNull byte[] array, @NotNull int index, @NotNull int length) {
+    public static @NotNull PointerByte removeRange(byte[] array, int index, int length) {
+        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_byte_array_remove_range.invokeExact(Interop.allocateNativeArray(array), index, length);
+            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_remove_range.invokeExact(Interop.allocateNativeArray(array, false), index, length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerByte(RESULT);
     }
-    
-    private static final MethodHandle g_byte_array_set_size = Interop.downcallHandle(
-        "g_byte_array_set_size",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the size of the {@link ByteArray}, expanding it if necessary.
+     * @param array a {@link ByteArray}
+     * @param length the new size of the {@link ByteArray}
+     * @return the {@link ByteArray}
      */
-    public static PointerByte setSize(@NotNull byte[] array, @NotNull int length) {
+    public static @NotNull PointerByte setSize(byte[] array, int length) {
+        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_byte_array_set_size.invokeExact(Interop.allocateNativeArray(array), length);
+            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_set_size.invokeExact(Interop.allocateNativeArray(array, false), length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerByte(RESULT);
     }
-    
-    private static final MethodHandle g_byte_array_sized_new = Interop.downcallHandle(
-        "g_byte_array_sized_new",
-        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
-    );
     
     /**
      * Creates a new {@link ByteArray} with {@code reserved_size} bytes preallocated.
      * This avoids frequent reallocation, if you are going to add many
      * bytes to the array. Note however that the size of the array is still
      * 0.
+     * @param reservedSize number of bytes preallocated
+     * @return the new {@link ByteArray}
      */
-    public static PointerByte sizedNew(@NotNull int reservedSize) {
+    public static @NotNull PointerByte sizedNew(int reservedSize) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_byte_array_sized_new.invokeExact(reservedSize);
+            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_sized_new.invokeExact(reservedSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerByte(RESULT);
     }
     
-    private static final MethodHandle g_byte_array_sort_with_data = Interop.downcallHandle(
-        "g_byte_array_sort_with_data",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Sorts a byte array, using {@code compare_func} which should be a
+     * qsort()-style comparison function (returns less than zero for first
+     * arg is less than second arg, zero for equal, greater than zero if
+     * first arg is greater than second arg).
+     * <p>
+     * If two array elements compare equal, their order in the sorted array
+     * is undefined. If you want equal elements to keep their order (i.e.
+     * you want a stable sort) you can write a comparison function that,
+     * if two elements would otherwise compare equal, compares them by
+     * their addresses.
+     * @param array a {@link ByteArray}
+     * @param compareFunc comparison function
+     */
+    public static void sort(byte[] array, @NotNull org.gtk.glib.CompareFunc compareFunc) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Like g_byte_array_sort(), but the comparison function takes an extra
      * user data argument.
+     * @param array a {@link ByteArray}
+     * @param compareFunc comparison function
      */
-    public static @NotNull void sortWithData(@NotNull byte[] array, @NotNull CompareDataFunc compareFunc) {
+    public static void sortWithData(byte[] array, @NotNull org.gtk.glib.CompareDataFunc compareFunc) {
+        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+        java.util.Objects.requireNonNull(compareFunc, "Parameter 'compareFunc' must not be null");
         try {
-            g_byte_array_sort_with_data.invokeExact(Interop.allocateNativeArray(array), 
+            DowncallHandles.g_byte_array_sort_with_data.invokeExact(Interop.allocateNativeArray(array, false), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
+                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(compareFunc)));
+                   (Addressable) (Interop.registerCallback(compareFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle g_byte_array_steal = Interop.downcallHandle(
-        "g_byte_array_steal",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Frees the data in the array and resets the size to zero, while
      * the underlying array is preserved for use elsewhere and returned
      * to the caller.
+     * @param array a {@link ByteArray}.
+     * @param len pointer to retrieve the number of
+     *    elements of the original array
+     * @return the element data, which should be
+     *     freed using g_free().
      */
-    public static PointerByte steal(@NotNull byte[] array, @NotNull Out<Long> len) {
+    public static PointerByte steal(byte[] array, Out<Long> len) {
+        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+        java.util.Objects.requireNonNull(len, "Parameter 'len' must not be null");
         MemorySegment lenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_byte_array_steal.invokeExact(Interop.allocateNativeArray(array), (Addressable) lenPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_byte_array_steal.invokeExact(Interop.allocateNativeArray(array, false), (Addressable) lenPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -301,23 +325,102 @@ public class ByteArray extends io.github.jwharm.javagi.ResourceBase {
         return new PointerByte(RESULT);
     }
     
-    private static final MethodHandle g_byte_array_unref = Interop.downcallHandle(
-        "g_byte_array_unref",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Atomically decrements the reference count of {@code array} by one. If the
      * reference count drops to 0, all memory allocated by the array is
      * released. This function is thread-safe and may be called from any
      * thread.
+     * @param array A {@link ByteArray}
      */
-    public static @NotNull void unref(@NotNull byte[] array) {
+    public static void unref(byte[] array) {
+        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
         try {
-            g_byte_array_unref.invokeExact(Interop.allocateNativeArray(array));
+            DowncallHandles.g_byte_array_unref.invokeExact(Interop.allocateNativeArray(array, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_byte_array_append = Interop.downcallHandle(
+            "g_byte_array_append",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_byte_array_free = Interop.downcallHandle(
+            "g_byte_array_free",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_byte_array_free_to_bytes = Interop.downcallHandle(
+            "g_byte_array_free_to_bytes",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_byte_array_new = Interop.downcallHandle(
+            "g_byte_array_new",
+            FunctionDescriptor.ofVoid()
+        );
+        
+        private static final MethodHandle g_byte_array_new_take = Interop.downcallHandle(
+            "g_byte_array_new_take",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+        );
+        
+        private static final MethodHandle g_byte_array_prepend = Interop.downcallHandle(
+            "g_byte_array_prepend",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_byte_array_ref = Interop.downcallHandle(
+            "g_byte_array_ref",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_byte_array_remove_index = Interop.downcallHandle(
+            "g_byte_array_remove_index",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_byte_array_remove_index_fast = Interop.downcallHandle(
+            "g_byte_array_remove_index_fast",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_byte_array_remove_range = Interop.downcallHandle(
+            "g_byte_array_remove_range",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_byte_array_set_size = Interop.downcallHandle(
+            "g_byte_array_set_size",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_byte_array_sized_new = Interop.downcallHandle(
+            "g_byte_array_sized_new",
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_byte_array_sort = Interop.downcallHandle(
+            "g_byte_array_sort",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_byte_array_sort_with_data = Interop.downcallHandle(
+            "g_byte_array_sort_with_data",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_byte_array_steal = Interop.downcallHandle(
+            "g_byte_array_steal",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_byte_array_unref = Interop.downcallHandle(
+            "g_byte_array_unref",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
 }

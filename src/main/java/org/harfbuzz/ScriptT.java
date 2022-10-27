@@ -1,13 +1,26 @@
 package org.harfbuzz;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
- * Data type for scripts. Each {@link script_t}'s value is an {@link tag_t} corresponding
+ * Data type for scripts. Each {@link ScriptT}'s value is an {@link TagT} corresponding
  * to the four-letter values defined by <a href="https://unicode.org/iso15924/">ISO 15924</a>.
  * <p>
  * See also the Script (sc) property of the Unicode Character Database.
  */
 public class ScriptT extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * {@code Zyyy}
      */
@@ -831,5 +844,4 @@ public class ScriptT extends io.github.jwharm.javagi.Enumeration {
     public ScriptT(int value) {
         super(value);
     }
-    
 }

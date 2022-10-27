@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -8,8 +10,9 @@ import org.jetbrains.annotations.*;
  * passed each node, together with the {@code user_data} parameter passed to
  * g_tree_foreach_node(). If the function returns {@code true}, the traversal is
  * stopped.
+ * @version 2.68
  */
 @FunctionalInterface
 public interface TraverseNodeFunc {
-        boolean onTraverseNodeFunc(@NotNull TreeNode node);
+        boolean onTraverseNodeFunc(@NotNull org.gtk.glib.TreeNode node);
 }

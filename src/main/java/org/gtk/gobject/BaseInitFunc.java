@@ -1,6 +1,8 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -18,5 +20,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface BaseInitFunc {
-        void onBaseInitFunc(@NotNull TypeClass gClass);
+        void onBaseInitFunc(@NotNull org.gtk.gobject.TypeClass gClass);
 }

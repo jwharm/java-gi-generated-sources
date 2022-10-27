@@ -1,10 +1,23 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Error codes returned by option parsing.
  */
 public class OptionError extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * An option was not known to the parser.
      *  This error will only be reported, if the parser hasn't been instructed
@@ -25,5 +38,4 @@ public class OptionError extends io.github.jwharm.javagi.Enumeration {
     public OptionError(int value) {
         super(value);
     }
-    
 }

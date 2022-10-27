@@ -1,10 +1,24 @@
 package org.harfbuzz;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The possible feature types defined for AAT shaping, from Apple <a href="https://developer.apple.com/fonts/TrueType-Reference-Manual/RM09/AppendixF.html">Font Feature Registry</a>.
+ * @version 2.2.0
  */
 public class AatLayoutFeatureTypeT extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Initial, unset feature type
      */
@@ -208,5 +222,4 @@ public class AatLayoutFeatureTypeT extends io.github.jwharm.javagi.Enumeration {
     public AatLayoutFeatureTypeT(int value) {
         super(value);
     }
-    
 }

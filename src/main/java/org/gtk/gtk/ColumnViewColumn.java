@@ -20,7 +20,19 @@ import org.jetbrains.annotations.*;
  * by clicking on the column header.
  */
 public class ColumnViewColumn extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public ColumnViewColumn(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -30,18 +42,16 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
         return new ColumnViewColumn(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_column_view_column_new = Interop.downcallHandle(
-        "gtk_column_view_column_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNew(@Nullable java.lang.String title, @Nullable ListItemFactory factory) {
+    private static Refcounted constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.ListItemFactory factory) {
+        java.util.Objects.requireNonNullElse(title, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(factory, MemoryAddress.NULL);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_column_view_column_new.invokeExact(Interop.allocateNativeString(title), factory.refcounted().unowned().handle()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_column_view_column_new.invokeExact(Interop.allocateNativeString(title), factory.refcounted().unowned().handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -51,222 +61,175 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * You most likely want to call {@link ColumnView#appendColumn} next.
      * <p>
      * The function takes ownership of the argument, so you can write code like:
-     * 
      * <pre>{@code c
      * column = gtk_column_view_column_new (_("Name"),
      *   gtk_builder_list_item_factory_new_from_resource ("/name.ui"));
      * }</pre>
+     * @param title Title to use for this column
+     * @param factory The factory to populate items with
      */
-    public ColumnViewColumn(@Nullable java.lang.String title, @Nullable ListItemFactory factory) {
+    public ColumnViewColumn(@Nullable java.lang.String title, @Nullable org.gtk.gtk.ListItemFactory factory) {
         super(constructNew(title, factory));
     }
-    
-    private static final MethodHandle gtk_column_view_column_get_column_view = Interop.downcallHandle(
-        "gtk_column_view_column_get_column_view",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the column view that's currently displaying this column.
      * <p>
      * If {@code self} has not been added to a column view yet, {@code null} is returned.
+     * @return The column view displaying {@code self}.
      */
-    public @Nullable ColumnView getColumnView() {
+    public @Nullable org.gtk.gtk.ColumnView getColumnView() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_column_view_column_get_column_view.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_column_get_column_view.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ColumnView(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.ColumnView(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_column_view_column_get_expand = Interop.downcallHandle(
-        "gtk_column_view_column_get_expand",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns whether this column should expand.
+     * @return {@code true} if this column expands
      */
     public boolean getExpand() {
         int RESULT;
         try {
-            RESULT = (int) gtk_column_view_column_get_expand.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_column_view_column_get_expand.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_column_view_column_get_factory = Interop.downcallHandle(
-        "gtk_column_view_column_get_factory",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the factory that's currently used to populate list items for
      * this column.
+     * @return The factory in use
      */
-    public @Nullable ListItemFactory getFactory() {
+    public @Nullable org.gtk.gtk.ListItemFactory getFactory() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_column_view_column_get_factory.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_column_get_factory.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ListItemFactory(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.ListItemFactory(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_column_view_column_get_fixed_width = Interop.downcallHandle(
-        "gtk_column_view_column_get_fixed_width",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the fixed width of the column.
+     * @return the fixed with of the column
      */
     public int getFixedWidth() {
         int RESULT;
         try {
-            RESULT = (int) gtk_column_view_column_get_fixed_width.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_column_view_column_get_fixed_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle gtk_column_view_column_get_header_menu = Interop.downcallHandle(
-        "gtk_column_view_column_get_header_menu",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the menu model that is used to create the context menu
      * for the column header.
+     * @return the {@code GMenuModel}
      */
     public @Nullable org.gtk.gio.MenuModel getHeaderMenu() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_column_view_column_get_header_menu.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_column_get_header_menu.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle gtk_column_view_column_get_resizable = Interop.downcallHandle(
-        "gtk_column_view_column_get_resizable",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns whether this column is resizable.
+     * @return {@code true} if this column is resizable
      */
     public boolean getResizable() {
         int RESULT;
         try {
-            RESULT = (int) gtk_column_view_column_get_resizable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_column_view_column_get_resizable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_column_view_column_get_sorter = Interop.downcallHandle(
-        "gtk_column_view_column_get_sorter",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the sorter that is associated with the column.
+     * @return the {@code GtkSorter} of {@code self}
      */
-    public @Nullable Sorter getSorter() {
+    public @Nullable org.gtk.gtk.Sorter getSorter() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_column_view_column_get_sorter.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_column_get_sorter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Sorter(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Sorter(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_column_view_column_get_title = Interop.downcallHandle(
-        "gtk_column_view_column_get_title",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the title set with gtk_column_view_column_set_title().
+     * @return The column's title
      */
     public @Nullable java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_column_view_column_get_title.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_column_get_title.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle gtk_column_view_column_get_visible = Interop.downcallHandle(
-        "gtk_column_view_column_get_visible",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns whether this column is visible.
+     * @return {@code true} if this column is visible
      */
     public boolean getVisible() {
         int RESULT;
         try {
-            RESULT = (int) gtk_column_view_column_get_visible.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_column_view_column_get_visible.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_column_view_column_set_expand = Interop.downcallHandle(
-        "gtk_column_view_column_set_expand",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Sets the column to take available extra space.
      * <p>
      * The extra space is shared equally amongst all columns that
      * have the expand set to {@code true}.
+     * @param expand {@code true} if this column should expand to fill available sace
      */
-    public @NotNull void setExpand(@NotNull boolean expand) {
+    public void setExpand(boolean expand) {
         try {
-            gtk_column_view_column_set_expand.invokeExact(handle(), expand ? 1 : 0);
+            DowncallHandles.gtk_column_view_column_set_expand.invokeExact(handle(), expand ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_column_view_column_set_factory = Interop.downcallHandle(
-        "gtk_column_view_column_set_factory",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the {@code GtkListItemFactory} to use for populating list items for this
      * column.
+     * @param factory the factory to use
      */
-    public @NotNull void setFactory(@Nullable ListItemFactory factory) {
+    public void setFactory(@Nullable org.gtk.gtk.ListItemFactory factory) {
+        java.util.Objects.requireNonNullElse(factory, MemoryAddress.NULL);
         try {
-            gtk_column_view_column_set_factory.invokeExact(handle(), factory.handle());
+            DowncallHandles.gtk_column_view_column_set_factory.invokeExact(handle(), factory.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_column_view_column_set_fixed_width = Interop.downcallHandle(
-        "gtk_column_view_column_set_fixed_width",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * If {@code fixed_width} is not -1, sets the fixed width of {@code column};
@@ -274,52 +237,41 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * <p>
      * Setting a fixed width overrides the automatically calculated
      * width. Interactive resizing also sets the “fixed-width” property.
+     * @param fixedWidth the new fixed width, or -1
      */
-    public @NotNull void setFixedWidth(@NotNull int fixedWidth) {
+    public void setFixedWidth(int fixedWidth) {
         try {
-            gtk_column_view_column_set_fixed_width.invokeExact(handle(), fixedWidth);
+            DowncallHandles.gtk_column_view_column_set_fixed_width.invokeExact(handle(), fixedWidth);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_column_view_column_set_header_menu = Interop.downcallHandle(
-        "gtk_column_view_column_set_header_menu",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the menu model that is used to create the context menu
      * for the column header.
+     * @param menu a {@code GMenuModel}
      */
-    public @NotNull void setHeaderMenu(@Nullable org.gtk.gio.MenuModel menu) {
+    public void setHeaderMenu(@Nullable org.gtk.gio.MenuModel menu) {
+        java.util.Objects.requireNonNullElse(menu, MemoryAddress.NULL);
         try {
-            gtk_column_view_column_set_header_menu.invokeExact(handle(), menu.handle());
+            DowncallHandles.gtk_column_view_column_set_header_menu.invokeExact(handle(), menu.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_column_view_column_set_resizable = Interop.downcallHandle(
-        "gtk_column_view_column_set_resizable",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether this column should be resizable by dragging.
+     * @param resizable whether this column should be resizable
      */
-    public @NotNull void setResizable(@NotNull boolean resizable) {
+    public void setResizable(boolean resizable) {
         try {
-            gtk_column_view_column_set_resizable.invokeExact(handle(), resizable ? 1 : 0);
+            DowncallHandles.gtk_column_view_column_set_resizable.invokeExact(handle(), resizable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_column_view_column_set_sorter = Interop.downcallHandle(
-        "gtk_column_view_column_set_sorter",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Associates a sorter with the column.
@@ -332,19 +284,16 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * <p>
      * See {@link ColumnView#getSorter} for the necessary steps
      * for setting up customizable sorting for {@link ColumnView}.
+     * @param sorter the {@code GtkSorter} to associate with {@code column}
      */
-    public @NotNull void setSorter(@Nullable Sorter sorter) {
+    public void setSorter(@Nullable org.gtk.gtk.Sorter sorter) {
+        java.util.Objects.requireNonNullElse(sorter, MemoryAddress.NULL);
         try {
-            gtk_column_view_column_set_sorter.invokeExact(handle(), sorter.handle());
+            DowncallHandles.gtk_column_view_column_set_sorter.invokeExact(handle(), sorter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_column_view_column_set_title = Interop.downcallHandle(
-        "gtk_column_view_column_set_title",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the title of this column.
@@ -352,29 +301,119 @@ public class ColumnViewColumn extends org.gtk.gobject.Object {
      * The title is displayed in the header of a {@code GtkColumnView}
      * for this column and is therefore user-facing text that should
      * be translated.
+     * @param title Title to use for this column
      */
-    public @NotNull void setTitle(@Nullable java.lang.String title) {
+    public void setTitle(@Nullable java.lang.String title) {
+        java.util.Objects.requireNonNullElse(title, MemoryAddress.NULL);
         try {
-            gtk_column_view_column_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
+            DowncallHandles.gtk_column_view_column_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_column_view_column_set_visible = Interop.downcallHandle(
-        "gtk_column_view_column_set_visible",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether this column should be visible in views.
+     * @param visible whether this column should be visible
      */
-    public @NotNull void setVisible(@NotNull boolean visible) {
+    public void setVisible(boolean visible) {
         try {
-            gtk_column_view_column_set_visible.invokeExact(handle(), visible ? 1 : 0);
+            DowncallHandles.gtk_column_view_column_set_visible.invokeExact(handle(), visible ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_column_view_column_new = Interop.downcallHandle(
+            "gtk_column_view_column_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_column_view_column_get_column_view = Interop.downcallHandle(
+            "gtk_column_view_column_get_column_view",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_column_view_column_get_expand = Interop.downcallHandle(
+            "gtk_column_view_column_get_expand",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_column_view_column_get_factory = Interop.downcallHandle(
+            "gtk_column_view_column_get_factory",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_column_view_column_get_fixed_width = Interop.downcallHandle(
+            "gtk_column_view_column_get_fixed_width",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_column_view_column_get_header_menu = Interop.downcallHandle(
+            "gtk_column_view_column_get_header_menu",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_column_view_column_get_resizable = Interop.downcallHandle(
+            "gtk_column_view_column_get_resizable",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_column_view_column_get_sorter = Interop.downcallHandle(
+            "gtk_column_view_column_get_sorter",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_column_view_column_get_title = Interop.downcallHandle(
+            "gtk_column_view_column_get_title",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_column_view_column_get_visible = Interop.downcallHandle(
+            "gtk_column_view_column_get_visible",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_column_view_column_set_expand = Interop.downcallHandle(
+            "gtk_column_view_column_set_expand",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_column_view_column_set_factory = Interop.downcallHandle(
+            "gtk_column_view_column_set_factory",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_column_view_column_set_fixed_width = Interop.downcallHandle(
+            "gtk_column_view_column_set_fixed_width",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_column_view_column_set_header_menu = Interop.downcallHandle(
+            "gtk_column_view_column_set_header_menu",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_column_view_column_set_resizable = Interop.downcallHandle(
+            "gtk_column_view_column_set_resizable",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_column_view_column_set_sorter = Interop.downcallHandle(
+            "gtk_column_view_column_set_sorter",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_column_view_column_set_title = Interop.downcallHandle(
+            "gtk_column_view_column_set_title",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_column_view_column_set_visible = Interop.downcallHandle(
+            "gtk_column_view_column_set_visible",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
 }

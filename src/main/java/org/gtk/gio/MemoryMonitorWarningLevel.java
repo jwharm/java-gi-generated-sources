@@ -1,5 +1,10 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Memory availability warning levels.
  * <p>
@@ -9,9 +14,18 @@ package org.gtk.gio;
  * if (warning_level > G_MEMORY_MONITOR_WARNING_LEVEL_LOW)
  *   drop_caches ();
  * }</pre>
+ * @version 2.64
  */
 public class MemoryMonitorWarningLevel extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Memory on the device is low, processes
      *   should free up unneeded resources (for example, in-memory caches) so they can
@@ -36,5 +50,4 @@ public class MemoryMonitorWarningLevel extends io.github.jwharm.javagi.Enumerati
     public MemoryMonitorWarningLevel(int value) {
         super(value);
     }
-    
 }

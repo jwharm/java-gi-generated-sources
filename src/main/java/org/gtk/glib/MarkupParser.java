@@ -15,9 +15,28 @@ import org.jetbrains.annotations.*;
  * back to its caller.
  */
 public class MarkupParser extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GLib.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.ADDRESS.withName("start_element"),
+        Interop.valueLayout.ADDRESS.withName("end_element"),
+        Interop.valueLayout.ADDRESS.withName("text"),
+        Interop.valueLayout.ADDRESS.withName("passthrough"),
+        Interop.valueLayout.ADDRESS.withName("error")
+    ).withName("GMarkupParser");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public MarkupParser(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
 }

@@ -10,20 +10,20 @@ import org.jetbrains.annotations.*;
  * {@code GtkStyleContext}.
  * <p>
  * See {@link StyleContext#addProvider} and
- * {@link Gtk#StyleContext} for
+ * {@link StyleContext#addProviderForDisplay} for
  * adding {@code GtkStyleProviders}.
  * <p>
  * GTK uses the {@code GtkStyleProvider} implementation for CSS in
  * {@link CssProvider}.
  */
 public interface StyleProvider extends io.github.jwharm.javagi.Proxy {
-
+    
     @FunctionalInterface
-    public interface GtkPrivateChangedHandler {
+    public interface GtkPrivateChanged {
         void signalReceived(StyleProvider source);
     }
     
-    public default SignalHandle onGtkPrivateChanged(GtkPrivateChangedHandler handler) {
+    public default Signal<StyleProvider.GtkPrivateChanged> onGtkPrivateChanged(StyleProvider.GtkPrivateChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -33,25 +33,30 @@ public interface StyleProvider extends io.github.jwharm.javagi.Proxy {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<StyleProvider.GtkPrivateChanged>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static void signalStyleProviderGtkPrivateChanged(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (StyleProvider.GtkPrivateChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new StyleProvider.StyleProviderImpl(Refcounted.get(source)));
-        }
+    @ApiStatus.Internal
+    static class Callbacks {
         
+        public static void signalStyleProviderGtkPrivateChanged(MemoryAddress source, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (StyleProvider.GtkPrivateChanged) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new StyleProvider.StyleProviderImpl(Refcounted.get(source)));
+        }
     }
     
     class StyleProviderImpl extends org.gtk.gobject.Object implements StyleProvider {
+        
+        static {
+            Gtk.javagi$ensureInitialized();
+        }
+        
         public StyleProviderImpl(io.github.jwharm.javagi.Refcounted ref) {
             super(ref);
         }

@@ -23,8 +23,8 @@ import org.jetbrains.annotations.*;
  * view of the data without affecting the other.  By contrast, if we
  * simply put the same model in each widget, then sorting the first would
  * sort the second.
- * 
- * <h2>Using a `GtkTreeModelSort`</h2>
+ * <p>
+ * <strong>Using a `GtkTreeModelSort`</strong><br/>
  * <pre>{@code <!-- language="C" -->
  * {
  *   GtkTreeView *tree_view1;
@@ -57,8 +57,8 @@ import org.jetbrains.annotations.*;
  * {@code GtkTreeSelection::changed} signal.  In this callback, we get a string
  * from COLUMN_1 of the model.  We then modify the string, find the same
  * selected row on the child model, and change the row there.
- * 
- * <h2>Accessing the child model of in a selection changed callback</h2>
+ * <p>
+ * <strong>Accessing the child model of in a selection changed callback</strong><br/>
  * <pre>{@code <!-- language="C" -->
  * void
  * selection_changed (GtkTreeSelection *selection, gpointer data)
@@ -101,8 +101,25 @@ import org.jetbrains.annotations.*;
  * }
  * }</pre>
  */
-public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSource, TreeModel, TreeSortable {
-
+public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk.TreeDragSource, org.gtk.gtk.TreeModel, org.gtk.gtk.TreeSortable {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.Object.getMemoryLayout().withName("parent"),
+        org.gtk.gtk.TreeModelSortPrivate.getMemoryLayout().withName("priv")
+    ).withName("GtkTreeModelSort");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public TreeModelSort(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -112,31 +129,25 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
         return new TreeModelSort(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_tree_model_sort_new_with_model = Interop.downcallHandle(
-        "gtk_tree_model_sort_new_with_model",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNewWithModel(@NotNull TreeModel childModel) {
+    private static Refcounted constructNewWithModel(@NotNull org.gtk.gtk.TreeModel childModel) {
+        java.util.Objects.requireNonNull(childModel, "Parameter 'childModel' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_tree_model_sort_new_with_model.invokeExact(childModel.handle()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_model_sort_new_with_model.invokeExact(childModel.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a new {@code GtkTreeModelSort}, with {@code child_model} as the child model.
+     * @param childModel A {@code GtkTreeModel}
+     * @return A new {@code GtkTreeModelSort}.
      */
-    public static TreeModelSort newWithModel(@NotNull TreeModel childModel) {
+    public static TreeModelSort newWithModel(@NotNull org.gtk.gtk.TreeModel childModel) {
         return new TreeModelSort(constructNewWithModel(childModel));
     }
-    
-    private static final MethodHandle gtk_tree_model_sort_clear_cache = Interop.downcallHandle(
-        "gtk_tree_model_sort_clear_cache",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * This function should almost never be called.  It clears the {@code tree_model_sort}
@@ -146,79 +157,72 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      * unreffed access to nodes.  As a side effect of this function, all unreffed
      * iters will be invalid.
      */
-    public @NotNull void clearCache() {
+    public void clearCache() {
         try {
-            gtk_tree_model_sort_clear_cache.invokeExact(handle());
+            DowncallHandles.gtk_tree_model_sort_clear_cache.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_tree_model_sort_convert_child_iter_to_iter = Interop.downcallHandle(
-        "gtk_tree_model_sort_convert_child_iter_to_iter",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets {@code sort_iter} to point to the row in {@code tree_model_sort} that corresponds to
      * the row pointed at by {@code child_iter}.  If {@code sort_iter} was not set, {@code false}
      * is returned.  Note: a boolean is only returned since 2.14.
+     * @param sortIter An uninitialized {@code GtkTreeIter}
+     * @param childIter A valid {@code GtkTreeIter} pointing to a row on the child model
+     * @return {@code true}, if {@code sort_iter} was set, i.e. if {@code sort_iter} is a
+     * valid iterator pointer to a visible row in the child model.
      */
-    public boolean convertChildIterToIter(@NotNull Out<TreeIter> sortIter, @NotNull TreeIter childIter) {
+    public boolean convertChildIterToIter(@NotNull Out<org.gtk.gtk.TreeIter> sortIter, @NotNull org.gtk.gtk.TreeIter childIter) {
+        java.util.Objects.requireNonNull(sortIter, "Parameter 'sortIter' must not be null");
+        java.util.Objects.requireNonNull(childIter, "Parameter 'childIter' must not be null");
         MemorySegment sortIterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) gtk_tree_model_sort_convert_child_iter_to_iter.invokeExact(handle(), (Addressable) sortIterPOINTER.address(), childIter.handle());
+            RESULT = (int) DowncallHandles.gtk_tree_model_sort_convert_child_iter_to_iter.invokeExact(handle(), (Addressable) sortIterPOINTER.address(), childIter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        sortIter.set(new TreeIter(Refcounted.get(sortIterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        sortIter.set(new org.gtk.gtk.TreeIter(Refcounted.get(sortIterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gtk_tree_model_sort_convert_child_path_to_path = Interop.downcallHandle(
-        "gtk_tree_model_sort_convert_child_path_to_path",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Converts {@code child_path} to a path relative to {@code tree_model_sort}.  That is,
      * {@code child_path} points to a path in the child model.  The returned path will
      * point to the same row in the sorted model.  If {@code child_path} isn’t a valid
      * path on the child model, then {@code null} is returned.
+     * @param childPath A {@code GtkTreePath} to convert
+     * @return A newly allocated {@code GtkTreePath}
      */
-    public @Nullable TreePath convertChildPathToPath(@NotNull TreePath childPath) {
+    public @Nullable org.gtk.gtk.TreePath convertChildPathToPath(@NotNull org.gtk.gtk.TreePath childPath) {
+        java.util.Objects.requireNonNull(childPath, "Parameter 'childPath' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_tree_model_sort_convert_child_path_to_path.invokeExact(handle(), childPath.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_sort_convert_child_path_to_path.invokeExact(handle(), childPath.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new TreePath(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.TreePath(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle gtk_tree_model_sort_convert_iter_to_child_iter = Interop.downcallHandle(
-        "gtk_tree_model_sort_convert_iter_to_child_iter",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets {@code child_iter} to point to the row pointed to by {@code sorted_iter}.
+     * @param childIter An uninitialized {@code GtkTreeIter}
+     * @param sortedIter A valid {@code GtkTreeIter} pointing to a row on {@code tree_model_sort}.
      */
-    public @NotNull void convertIterToChildIter(@NotNull Out<TreeIter> childIter, @NotNull TreeIter sortedIter) {
+    public void convertIterToChildIter(@NotNull Out<org.gtk.gtk.TreeIter> childIter, @NotNull org.gtk.gtk.TreeIter sortedIter) {
+        java.util.Objects.requireNonNull(childIter, "Parameter 'childIter' must not be null");
+        java.util.Objects.requireNonNull(sortedIter, "Parameter 'sortedIter' must not be null");
         MemorySegment childIterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_tree_model_sort_convert_iter_to_child_iter.invokeExact(handle(), (Addressable) childIterPOINTER.address(), sortedIter.handle());
+            DowncallHandles.gtk_tree_model_sort_convert_iter_to_child_iter.invokeExact(handle(), (Addressable) childIterPOINTER.address(), sortedIter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        childIter.set(new TreeIter(Refcounted.get(childIterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        childIter.set(new org.gtk.gtk.TreeIter(Refcounted.get(childIterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle gtk_tree_model_sort_convert_path_to_child_path = Interop.downcallHandle(
-        "gtk_tree_model_sort_convert_path_to_child_path",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Converts {@code sorted_path} to a path on the child model of {@code tree_model_sort}.
@@ -226,60 +230,52 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      * returned path will point to the same location in the model not being
      * sorted.  If {@code sorted_path} does not point to a location in the child model,
      * {@code null} is returned.
+     * @param sortedPath A {@code GtkTreePath} to convert
+     * @return A newly allocated {@code GtkTreePath}
      */
-    public @Nullable TreePath convertPathToChildPath(@NotNull TreePath sortedPath) {
+    public @Nullable org.gtk.gtk.TreePath convertPathToChildPath(@NotNull org.gtk.gtk.TreePath sortedPath) {
+        java.util.Objects.requireNonNull(sortedPath, "Parameter 'sortedPath' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_tree_model_sort_convert_path_to_child_path.invokeExact(handle(), sortedPath.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_sort_convert_path_to_child_path.invokeExact(handle(), sortedPath.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new TreePath(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.TreePath(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle gtk_tree_model_sort_get_model = Interop.downcallHandle(
-        "gtk_tree_model_sort_get_model",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the model the {@code GtkTreeModelSort} is sorting.
+     * @return the "child model" being sorted
      */
-    public @NotNull TreeModel getModel() {
+    public @NotNull org.gtk.gtk.TreeModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_tree_model_sort_get_model.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_sort_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle gtk_tree_model_sort_iter_is_valid = Interop.downcallHandle(
-        "gtk_tree_model_sort_iter_is_valid",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * > This function is slow. Only use it for debugging and/or testing
-     * > purposes.
+     * &gt; This function is slow. Only use it for debugging and/or testing
+     * &gt; purposes.
      * <p>
      * Checks if the given iter is a valid iter for this {@code GtkTreeModelSort}.
+     * @param iter A {@code GtkTreeIter}
+     * @return {@code true} if the iter is valid, {@code false} if the iter is invalid.
      */
-    public boolean iterIsValid(@NotNull TreeIter iter) {
+    public boolean iterIsValid(@NotNull org.gtk.gtk.TreeIter iter) {
+        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         int RESULT;
         try {
-            RESULT = (int) gtk_tree_model_sort_iter_is_valid.invokeExact(handle(), iter.handle());
+            RESULT = (int) DowncallHandles.gtk_tree_model_sort_iter_is_valid.invokeExact(handle(), iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gtk_tree_model_sort_reset_default_sort_func = Interop.downcallHandle(
-        "gtk_tree_model_sort_reset_default_sort_func",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * This resets the default sort function to be in the “unsorted” state.  That
@@ -287,12 +283,59 @@ public class TreeModelSort extends org.gtk.gobject.Object implements TreeDragSou
      * to be in the same order as the child model only if the {@code GtkTreeModelSort}
      * is in “unsorted” state.
      */
-    public @NotNull void resetDefaultSortFunc() {
+    public void resetDefaultSortFunc() {
         try {
-            gtk_tree_model_sort_reset_default_sort_func.invokeExact(handle());
+            DowncallHandles.gtk_tree_model_sort_reset_default_sort_func.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_tree_model_sort_new_with_model = Interop.downcallHandle(
+            "gtk_tree_model_sort_new_with_model",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_model_sort_clear_cache = Interop.downcallHandle(
+            "gtk_tree_model_sort_clear_cache",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_model_sort_convert_child_iter_to_iter = Interop.downcallHandle(
+            "gtk_tree_model_sort_convert_child_iter_to_iter",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_model_sort_convert_child_path_to_path = Interop.downcallHandle(
+            "gtk_tree_model_sort_convert_child_path_to_path",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_model_sort_convert_iter_to_child_iter = Interop.downcallHandle(
+            "gtk_tree_model_sort_convert_iter_to_child_iter",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_model_sort_convert_path_to_child_path = Interop.downcallHandle(
+            "gtk_tree_model_sort_convert_path_to_child_path",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_model_sort_get_model = Interop.downcallHandle(
+            "gtk_tree_model_sort_get_model",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_model_sort_iter_is_valid = Interop.downcallHandle(
+            "gtk_tree_model_sort_iter_is_valid",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_model_sort_reset_default_sort_func = Interop.downcallHandle(
+            "gtk_tree_model_sort_reset_default_sort_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
 }

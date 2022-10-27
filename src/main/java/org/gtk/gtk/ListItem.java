@@ -22,7 +22,19 @@ import org.jetbrains.annotations.*;
  *    The {@code Gtk.ListItem:item} property is not {@code null}.
  */
 public class ListItem extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public ListItem(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -32,130 +44,101 @@ public class ListItem extends org.gtk.gobject.Object {
         return new ListItem(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_list_item_get_activatable = Interop.downcallHandle(
-        "gtk_list_item_get_activatable",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Checks if a list item has been set to be activatable via
      * gtk_list_item_set_activatable().
+     * @return {@code true} if the item is activatable
      */
     public boolean getActivatable() {
         int RESULT;
         try {
-            RESULT = (int) gtk_list_item_get_activatable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_list_item_get_activatable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_list_item_get_child = Interop.downcallHandle(
-        "gtk_list_item_get_child",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the child previously set via gtk_list_item_set_child() or
      * {@code null} if none was set.
+     * @return The child
      */
-    public @Nullable Widget getChild() {
+    public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_list_item_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_item_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_list_item_get_item = Interop.downcallHandle(
-        "gtk_list_item_get_item",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the model item that associated with {@code self}.
      * <p>
      * If {@code self} is unbound, this function returns {@code null}.
+     * @return The item displayed
      */
     public @Nullable org.gtk.gobject.Object getItem() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_list_item_get_item.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_item_get_item.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle gtk_list_item_get_position = Interop.downcallHandle(
-        "gtk_list_item_get_position",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the position in the model that {@code self} currently displays.
      * <p>
      * If {@code self} is unbound, {@code GTK_INVALID_LIST_POSITION} is returned.
+     * @return The position of this item
      */
     public int getPosition() {
         int RESULT;
         try {
-            RESULT = (int) gtk_list_item_get_position.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_list_item_get_position.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle gtk_list_item_get_selectable = Interop.downcallHandle(
-        "gtk_list_item_get_selectable",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Checks if a list item has been set to be selectable via
      * gtk_list_item_set_selectable().
      * <p>
      * Do not confuse this function with {@link ListItem#getSelected}.
+     * @return {@code true} if the item is selectable
      */
     public boolean getSelectable() {
         int RESULT;
         try {
-            RESULT = (int) gtk_list_item_get_selectable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_list_item_get_selectable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gtk_list_item_get_selected = Interop.downcallHandle(
-        "gtk_list_item_get_selected",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Checks if the item is displayed as selected.
      * <p>
      * The selected state is maintained by the liste widget and its model
      * and cannot be set otherwise.
+     * @return {@code true} if the item is selected.
      */
     public boolean getSelected() {
         int RESULT;
         try {
-            RESULT = (int) gtk_list_item_get_selected.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_list_item_get_selected.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gtk_list_item_set_activatable = Interop.downcallHandle(
-        "gtk_list_item_set_activatable",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets {@code self} to be activatable.
@@ -167,19 +150,15 @@ public class ListItem extends org.gtk.gobject.Object {
      * {@code Gtk.ListView::activate} signal.
      * <p>
      * By default, list items are activatable.
+     * @param activatable if the item should be activatable
      */
-    public @NotNull void setActivatable(@NotNull boolean activatable) {
+    public void setActivatable(boolean activatable) {
         try {
-            gtk_list_item_set_activatable.invokeExact(handle(), activatable ? 1 : 0);
+            DowncallHandles.gtk_list_item_set_activatable.invokeExact(handle(), activatable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_item_set_child = Interop.downcallHandle(
-        "gtk_list_item_set_child",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the child to be used for this listitem.
@@ -187,19 +166,16 @@ public class ListItem extends org.gtk.gobject.Object {
      * This function is typically called by applications when
      * setting up a listitem so that the widget can be reused when
      * binding it multiple times.
+     * @param child The list item's child or {@code null} to unset
      */
-    public @NotNull void setChild(@Nullable Widget child) {
+    public void setChild(@Nullable org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            gtk_list_item_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_list_item_set_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_item_set_selectable = Interop.downcallHandle(
-        "gtk_list_item_set_selectable",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets {@code self} to be selectable.
@@ -214,13 +190,61 @@ public class ListItem extends org.gtk.gobject.Object {
      * <p>
      * By default, list items are selectable. When rebinding them to
      * a new item, they will also be reset to be selectable by GTK.
+     * @param selectable if the item should be selectable
      */
-    public @NotNull void setSelectable(@NotNull boolean selectable) {
+    public void setSelectable(boolean selectable) {
         try {
-            gtk_list_item_set_selectable.invokeExact(handle(), selectable ? 1 : 0);
+            DowncallHandles.gtk_list_item_set_selectable.invokeExact(handle(), selectable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_list_item_get_activatable = Interop.downcallHandle(
+            "gtk_list_item_get_activatable",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_item_get_child = Interop.downcallHandle(
+            "gtk_list_item_get_child",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_item_get_item = Interop.downcallHandle(
+            "gtk_list_item_get_item",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_item_get_position = Interop.downcallHandle(
+            "gtk_list_item_get_position",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_item_get_selectable = Interop.downcallHandle(
+            "gtk_list_item_get_selectable",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_item_get_selected = Interop.downcallHandle(
+            "gtk_list_item_get_selected",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_item_set_activatable = Interop.downcallHandle(
+            "gtk_list_item_set_activatable",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_list_item_set_child = Interop.downcallHandle(
+            "gtk_list_item_set_child",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_item_set_selectable = Interop.downcallHandle(
+            "gtk_list_item_set_selectable",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
 }

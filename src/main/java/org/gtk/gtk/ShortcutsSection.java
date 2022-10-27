@@ -20,8 +20,20 @@ import org.jetbrains.annotations.*;
  * <p>
  * This widget is only meant to be used with {@link ShortcutsWindow}.
  */
-public class ShortcutsSection extends Box implements Accessible, Buildable, ConstraintTarget, Orientable {
-
+public class ShortcutsSection extends org.gtk.gtk.Box implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Orientable {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public ShortcutsSection(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -32,11 +44,11 @@ public class ShortcutsSection extends Box implements Accessible, Buildable, Cons
     }
     
     @FunctionalInterface
-    public interface ChangeCurrentPageHandler {
-        boolean signalReceived(ShortcutsSection source, @NotNull int object);
+    public interface ChangeCurrentPage {
+        boolean signalReceived(ShortcutsSection source, int object);
     }
     
-    public SignalHandle onChangeCurrentPage(ChangeCurrentPageHandler handler) {
+    public Signal<ShortcutsSection.ChangeCurrentPage> onChangeCurrentPage(ShortcutsSection.ChangeCurrentPage handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -46,21 +58,20 @@ public class ShortcutsSection extends Box implements Accessible, Buildable, Cons
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<ShortcutsSection.ChangeCurrentPage>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static boolean signalShortcutsSectionChangeCurrentPage(MemoryAddress source, int object, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (ShortcutsSection.ChangeCurrentPageHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new ShortcutsSection(Refcounted.get(source)), object);
-        }
+    private static class Callbacks {
         
+        public static boolean signalShortcutsSectionChangeCurrentPage(MemoryAddress source, int object, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (ShortcutsSection.ChangeCurrentPage) Interop.signalRegistry.get(HASH);
+            return HANDLER.signalReceived(new ShortcutsSection(Refcounted.get(source)), object);
+        }
     }
 }

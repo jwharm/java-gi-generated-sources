@@ -1,6 +1,8 @@
 package org.harfbuzz;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -8,5 +10,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface FontGetFontExtentsFuncT {
-        BoolT onFontGetFontExtentsFuncT(@NotNull FontT font, @Nullable java.lang.foreign.MemoryAddress fontData, @NotNull Out<FontExtentsT> extents, @Nullable java.lang.foreign.MemoryAddress userData);
+        org.harfbuzz.BoolT onFontGetFontExtentsFuncT(@NotNull org.harfbuzz.FontT font, @Nullable java.lang.foreign.MemoryAddress fontData, @NotNull Out<org.harfbuzz.FontExtentsT> extents, @Nullable java.lang.foreign.MemoryAddress userData);
 }

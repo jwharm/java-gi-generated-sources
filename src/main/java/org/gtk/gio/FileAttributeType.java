@@ -1,10 +1,23 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The data types for file attributes.
  */
 public class FileAttributeType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * indicates an invalid or uninitialized type.
      */
@@ -58,5 +71,4 @@ public class FileAttributeType extends io.github.jwharm.javagi.Enumeration {
     public FileAttributeType(int value) {
         super(value);
     }
-    
 }

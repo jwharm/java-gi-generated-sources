@@ -23,9 +23,22 @@ import org.jetbrains.annotations.*;
  * The reason for this is that changes to the list of installed
  * applications often come in groups (like during system updates) and
  * rescanning the list on every change is pointless and expensive.
+ * @version 2.40
  */
 public class AppInfoMonitor extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public AppInfoMonitor(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -34,11 +47,6 @@ public class AppInfoMonitor extends org.gtk.gobject.Object {
     public static AppInfoMonitor castFrom(org.gtk.gobject.Object gobject) {
         return new AppInfoMonitor(gobject.refcounted());
     }
-    
-    private static final MethodHandle g_app_info_monitor_get = Interop.downcallHandle(
-        "g_app_info_monitor_get",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the {@link AppInfoMonitor} for the current thread-default main
@@ -50,19 +58,20 @@ public class AppInfoMonitor extends org.gtk.gobject.Object {
      * <p>
      * You must only call g_object_unref() on the return value from under
      * the same main context as you created it.
+     * @return a reference to a {@link AppInfoMonitor}
      */
-    public static @NotNull AppInfoMonitor get() {
+    public static @NotNull org.gtk.gio.AppInfoMonitor get() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_app_info_monitor_get.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.g_app_info_monitor_get.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new AppInfoMonitor(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.AppInfoMonitor(Refcounted.get(RESULT, true));
     }
     
     @FunctionalInterface
-    public interface ChangedHandler {
+    public interface Changed {
         void signalReceived(AppInfoMonitor source);
     }
     
@@ -70,7 +79,7 @@ public class AppInfoMonitor extends org.gtk.gobject.Object {
      * Signal emitted when the app info database for changes (ie: newly installed
      * or removed applications).
      */
-    public SignalHandle onChanged(ChangedHandler handler) {
+    public Signal<AppInfoMonitor.Changed> onChanged(AppInfoMonitor.Changed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -80,21 +89,28 @@ public class AppInfoMonitor extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<AppInfoMonitor.Changed>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static void signalAppInfoMonitorChanged(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (AppInfoMonitor.ChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new AppInfoMonitor(Refcounted.get(source)));
-        }
+    private static class DowncallHandles {
         
+        private static final MethodHandle g_app_info_monitor_get = Interop.downcallHandle(
+            "g_app_info_monitor_get",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+    }
+    
+    private static class Callbacks {
+        
+        public static void signalAppInfoMonitorChanged(MemoryAddress source, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (AppInfoMonitor.Changed) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new AppInfoMonitor(Refcounted.get(source)));
+        }
     }
 }

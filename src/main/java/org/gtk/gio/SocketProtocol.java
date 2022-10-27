@@ -1,5 +1,10 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * A protocol identifier is specified when creating a {@link Socket}, which is a
  * family/type specific identifier, where 0 means the default protocol for
@@ -8,9 +13,18 @@ package org.gtk.gio;
  * This enum contains a set of commonly available and used protocols. You
  * can also pass any other identifiers handled by the platform in order to
  * use protocols not listed here.
+ * @version 2.22
  */
 public class SocketProtocol extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The protocol type is unknown
      */
@@ -39,5 +53,4 @@ public class SocketProtocol extends io.github.jwharm.javagi.Enumeration {
     public SocketProtocol(int value) {
         super(value);
     }
-    
 }

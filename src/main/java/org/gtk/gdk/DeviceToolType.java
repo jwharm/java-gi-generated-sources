@@ -1,11 +1,24 @@
 package org.gtk.gdk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Indicates the specific type of tool being used being a tablet. Such as an
  * airbrush, pencil, etc.
  */
 public class DeviceToolType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Tool is of an unknown type.
      */
@@ -49,5 +62,4 @@ public class DeviceToolType extends io.github.jwharm.javagi.Enumeration {
     public DeviceToolType(int value) {
         super(value);
     }
-    
 }

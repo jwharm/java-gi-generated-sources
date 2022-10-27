@@ -13,8 +13,8 @@ import org.jetbrains.annotations.*;
  * <p>
  * {@code GtkEmojiChooser} emits the {@code Gtk.EmojiChooser::emoji-picked}
  * signal when an Emoji is selected.
- * 
- * <h1>CSS nodes</h1>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * <pre>{@code 
  * popover
  * ├── box.emoji-searchbar
@@ -34,8 +34,20 @@ import org.jetbrains.annotations.*;
  * consists of buttons with the .emoji-section style class and gets the
  * .emoji-toolbar style class itself.
  */
-public class EmojiChooser extends Popover implements Accessible, Buildable, ConstraintTarget, Native, ShortcutManager {
-
+public class EmojiChooser extends org.gtk.gtk.Popover implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Native, org.gtk.gtk.ShortcutManager {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public EmojiChooser(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -45,18 +57,14 @@ public class EmojiChooser extends Popover implements Accessible, Buildable, Cons
         return new EmojiChooser(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_emoji_chooser_new = Interop.downcallHandle(
-        "gtk_emoji_chooser_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_emoji_chooser_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_emoji_chooser_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -67,14 +75,14 @@ public class EmojiChooser extends Popover implements Accessible, Buildable, Cons
     }
     
     @FunctionalInterface
-    public interface EmojiPickedHandler {
+    public interface EmojiPicked {
         void signalReceived(EmojiChooser source, @NotNull java.lang.String text);
     }
     
     /**
      * Emitted when the user selects an Emoji.
      */
-    public SignalHandle onEmojiPicked(EmojiPickedHandler handler) {
+    public Signal<EmojiChooser.EmojiPicked> onEmojiPicked(EmojiChooser.EmojiPicked handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -84,21 +92,28 @@ public class EmojiChooser extends Popover implements Accessible, Buildable, Cons
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<EmojiChooser.EmojiPicked>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static void signalEmojiChooserEmojiPicked(MemoryAddress source, MemoryAddress text, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (EmojiChooser.EmojiPickedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new EmojiChooser(Refcounted.get(source)), text.getUtf8String(0));
-        }
+    private static class DowncallHandles {
         
+        private static final MethodHandle gtk_emoji_chooser_new = Interop.downcallHandle(
+            "gtk_emoji_chooser_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+    }
+    
+    private static class Callbacks {
+        
+        public static void signalEmojiChooserEmojiPicked(MemoryAddress source, MemoryAddress text, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (EmojiChooser.EmojiPicked) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new EmojiChooser(Refcounted.get(source)), text.getUtf8String(0));
+        }
     }
 }

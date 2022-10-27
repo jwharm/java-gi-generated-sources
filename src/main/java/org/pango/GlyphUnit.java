@@ -14,8 +14,8 @@ package org.pango;
  * into device units with correct rounding.
  */
 public class GlyphUnit extends io.github.jwharm.javagi.Alias<Integer> {
+    
     public GlyphUnit(int value) {
         super(value);
     }
-    
 }

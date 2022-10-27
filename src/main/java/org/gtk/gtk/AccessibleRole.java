@@ -1,5 +1,10 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The accessible role for a {@code Accessible} implementation.
  * <p>
@@ -7,7 +12,15 @@ package org.gtk.gtk;
  * developers must not use abstract roles in their code.
  */
 public class AccessibleRole extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * An element with important, and usually
      *   time-sensitive, information
@@ -108,7 +121,7 @@ public class AccessibleRole extends io.github.jwharm.javagi.Enumeration {
     
     /**
      * An element that groups multiple widgets. GTK uses
-     *   this role for various containers, like {@code HeaderBar}.
+     *   this role for various containers, like {@link Box}, and {@link HeaderBar}.
      */
     public static final AccessibleRole GROUP = new AccessibleRole(18);
     
@@ -421,5 +434,4 @@ public class AccessibleRole extends io.github.jwharm.javagi.Enumeration {
     public AccessibleRole(int value) {
         super(value);
     }
-    
 }

@@ -8,8 +8,20 @@ import org.jetbrains.annotations.*;
 /**
  * {@code GtkMultiFilter} is the base class for filters that combine multiple filters.
  */
-public class MultiFilter extends Filter implements org.gtk.gio.ListModel, Buildable {
-
+public class MultiFilter extends org.gtk.gtk.Filter implements org.gtk.gio.ListModel, org.gtk.gtk.Buildable {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public MultiFilter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -19,26 +31,18 @@ public class MultiFilter extends Filter implements org.gtk.gio.ListModel, Builda
         return new MultiFilter(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_multi_filter_append = Interop.downcallHandle(
-        "gtk_multi_filter_append",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Adds a {@code filter} to {@code self} to use for matching.
+     * @param filter A new filter to use
      */
-    public @NotNull void append(@NotNull Filter filter) {
+    public void append(@NotNull org.gtk.gtk.Filter filter) {
+        java.util.Objects.requireNonNull(filter, "Parameter 'filter' must not be null");
         try {
-            gtk_multi_filter_append.invokeExact(handle(), filter.refcounted().unowned().handle());
+            DowncallHandles.gtk_multi_filter_append.invokeExact(handle(), filter.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_multi_filter_remove = Interop.downcallHandle(
-        "gtk_multi_filter_remove",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Removes the filter at the given {@code position} from the list of filters used
@@ -46,13 +50,26 @@ public class MultiFilter extends Filter implements org.gtk.gio.ListModel, Builda
      * <p>
      * If {@code position} is larger than the number of filters, nothing happens and
      * the function returns.
+     * @param position position of filter to remove
      */
-    public @NotNull void remove(@NotNull int position) {
+    public void remove(int position) {
         try {
-            gtk_multi_filter_remove.invokeExact(handle(), position);
+            DowncallHandles.gtk_multi_filter_remove.invokeExact(handle(), position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_multi_filter_append = Interop.downcallHandle(
+            "gtk_multi_filter_append",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_multi_filter_remove = Interop.downcallHandle(
+            "gtk_multi_filter_remove",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
 }

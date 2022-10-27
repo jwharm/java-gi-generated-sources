@@ -22,8 +22,13 @@ import org.jetbrains.annotations.*;
  * for the C language which can be created via {@link BuilderCScope#BuilderCScope}.
  */
 public interface BuilderScope extends io.github.jwharm.javagi.Proxy {
-
+    
     class BuilderScopeImpl extends org.gtk.gobject.Object implements BuilderScope {
+        
+        static {
+            Gtk.javagi$ensureInitialized();
+        }
+        
         public BuilderScopeImpl(io.github.jwharm.javagi.Refcounted ref) {
             super(ref);
         }

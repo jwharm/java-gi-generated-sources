@@ -1,5 +1,10 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The {@link OptionArg} enum values determine which type of extra argument the
  * options expect to find. If an option expects an extra argument, it can
@@ -7,7 +12,15 @@ package org.gtk.glib;
  * option: {@code --name arg} or combined in a single argument: {@code --name=arg}.
  */
 public class OptionArg extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * No extra argument. This is useful for simple flags.
      */
@@ -65,5 +78,4 @@ public class OptionArg extends io.github.jwharm.javagi.Enumeration {
     public OptionArg(int value) {
         super(value);
     }
-    
 }

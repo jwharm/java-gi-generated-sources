@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -13,5 +15,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface TreeSelectionFunc {
-        boolean onTreeSelectionFunc(@NotNull TreeSelection selection, @NotNull TreeModel model, @NotNull TreePath path, @NotNull boolean pathCurrentlySelected);
+        boolean onTreeSelectionFunc(@NotNull org.gtk.gtk.TreeSelection selection, @NotNull org.gtk.gtk.TreeModel model, @NotNull org.gtk.gtk.TreePath path, boolean pathCurrentlySelected);
 }

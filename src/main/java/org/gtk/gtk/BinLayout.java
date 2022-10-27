@@ -10,12 +10,24 @@ import org.jetbrains.annotations.*;
  * widgets.
  * <p>
  * {@code GtkBinLayout} will stack each child of a widget on top of each other,
- * using the {@code Gtk.Widget:vexpand},
- * {@code Gtk.Widget:valign} properties
+ * using the {@code Gtk.Widget:hexpand}, {@code Gtk.Widget:vexpand},
+ * {@code Gtk.Widget:halign}, and {@code Gtk.Widget:valign} properties
  * of each child to determine where they should be positioned.
  */
-public class BinLayout extends LayoutManager {
-
+public class BinLayout extends org.gtk.gtk.LayoutManager {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public BinLayout(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -25,18 +37,14 @@ public class BinLayout extends LayoutManager {
         return new BinLayout(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_bin_layout_new = Interop.downcallHandle(
-        "gtk_bin_layout_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_bin_layout_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_bin_layout_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -46,4 +54,11 @@ public class BinLayout extends LayoutManager {
         super(constructNew());
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_bin_layout_new = Interop.downcallHandle(
+            "gtk_bin_layout_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+    }
 }

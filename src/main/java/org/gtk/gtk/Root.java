@@ -18,32 +18,23 @@ import org.jetbrains.annotations.*;
  * {@link Root#getDisplay}.
  * <p>
  * {@code GtkRoot} also maintains the location of keyboard focus inside its widget
- * hierarchy, with {@code Gtk.Root.get_focus}.
+ * hierarchy, with {@link Root#setFocus} and {@link Root#getFocus}.
  */
 public interface Root extends io.github.jwharm.javagi.Proxy {
-
-    @ApiStatus.Internal static final MethodHandle gtk_root_get_display = Interop.downcallHandle(
-        "gtk_root_get_display",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the display that this {@code GtkRoot} is on.
+     * @return the display of {@code root}
      */
     default @NotNull org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_root_get_display.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_root_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
     }
-    
-    @ApiStatus.Internal static final MethodHandle gtk_root_get_focus = Interop.downcallHandle(
-        "gtk_root_get_focus",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves the current focused widget within the root.
@@ -52,21 +43,17 @@ public interface Root extends io.github.jwharm.javagi.Proxy {
      * if the root is active; if the root is not focused then
      * {@code gtk_widget_has_focus (widget)} will be {@code false} for the
      * widget.
+     * @return the currently focused widget
      */
-    default @Nullable Widget getFocus() {
+    default @Nullable org.gtk.gtk.Widget getFocus() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_root_get_focus.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_root_get_focus.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
-    
-    @ApiStatus.Internal static final MethodHandle gtk_root_set_focus = Interop.downcallHandle(
-        "gtk_root_set_focus",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * If {@code focus} is not the current focus widget, and is focusable, sets
@@ -77,16 +64,46 @@ public interface Root extends io.github.jwharm.javagi.Proxy {
      * To set the focus to a particular widget in the root, it is usually
      * more convenient to use {@link Widget#grabFocus} instead of
      * this function.
+     * @param focus widget to be the new focus widget, or {@code null}
+     *    to unset the focus widget
      */
-    default @NotNull void setFocus(@Nullable Widget focus) {
+    default void setFocus(@Nullable org.gtk.gtk.Widget focus) {
+        java.util.Objects.requireNonNullElse(focus, MemoryAddress.NULL);
         try {
-            gtk_root_set_focus.invokeExact(handle(), focus.handle());
+            DowncallHandles.gtk_root_set_focus.invokeExact(handle(), focus.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    @ApiStatus.Internal
+    static class DowncallHandles {
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_root_get_display = Interop.downcallHandle(
+            "gtk_root_get_display",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_root_get_focus = Interop.downcallHandle(
+            "gtk_root_get_focus",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_root_set_focus = Interop.downcallHandle(
+            "gtk_root_set_focus",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
+    
     class RootImpl extends org.gtk.gobject.Object implements Root {
+        
+        static {
+            Gtk.javagi$ensureInitialized();
+        }
+        
         public RootImpl(io.github.jwharm.javagi.Refcounted ref) {
             super(ref);
         }

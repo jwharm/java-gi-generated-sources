@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * Whether it is a row or column depends on the value of its
  * {@code Gtk.Orientable:orientation} property. Within the other
  * dimension, all children are allocated the same size. Of course, the
- * {@code Gtk.Widget:valign} properties
+ * {@code Gtk.Widget:halign} and {@code Gtk.Widget:valign} properties
  * can be used on the children to influence their allocation.
  * <p>
  * Use repeated calls to {@link Box#append} to pack widgets into a
@@ -26,19 +26,35 @@ import org.jetbrains.annotations.*;
  * <p>
  * Use {@link Box#setSpacing} to determine how much space will be minimally
  * placed between all children in the {@code GtkBox}. Note that spacing is added
- * <strong>between</strong> the children.
+ * <em>between</em> the children.
  * <p>
  * Use {@link Box#reorderChildAfter} to move a child to a different
  * place in the box.
- * 
- * <h1>CSS nodes</h1>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * {@code GtkBox} uses a single CSS node with name box.
- * 
- * <h1>Accessibility</h1>
+ * <p>
+ * <strong>Accessibility</strong><br/>
  * {@code GtkBox} uses the {@link AccessibleRole#GROUP} role.
  */
-public class Box extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
-
+public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Orientable {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
+    ).withName("GtkBox");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public Box(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -48,176 +64,147 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
         return new Box(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_box_new = Interop.downcallHandle(
-        "gtk_box_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
-    
-    private static Refcounted constructNew(@NotNull Orientation orientation, @NotNull int spacing) {
+    private static Refcounted constructNew(@NotNull org.gtk.gtk.Orientation orientation, int spacing) {
+        java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_box_new.invokeExact(orientation.getValue(), spacing), false);
-            return RESULT;
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-    }
-    
-    /**
-     * Creates a new {@code GtkBox}.
-     */
-    public Box(@NotNull Orientation orientation, @NotNull int spacing) {
-        super(constructNew(orientation, spacing));
-    }
-    
-    private static final MethodHandle gtk_box_append = Interop.downcallHandle(
-        "gtk_box_append",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    /**
-     * Adds {@code child} as the last child to {@code box}.
-     */
-    public @NotNull void append(@NotNull Widget child) {
-        try {
-            gtk_box_append.invokeExact(handle(), child.handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-    }
-    
-    private static final MethodHandle gtk_box_get_baseline_position = Interop.downcallHandle(
-        "gtk_box_get_baseline_position",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
-    /**
-     * Gets the value set by gtk_box_set_baseline_position().
-     */
-    public @NotNull BaselinePosition getBaselinePosition() {
-        int RESULT;
-        try {
-            RESULT = (int) gtk_box_get_baseline_position.invokeExact(handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return new BaselinePosition(RESULT);
-    }
-    
-    private static final MethodHandle gtk_box_get_homogeneous = Interop.downcallHandle(
-        "gtk_box_get_homogeneous",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
-    /**
-     * Returns whether the box is homogeneous (all children are the
-     * same size).
-     */
-    public boolean getHomogeneous() {
-        int RESULT;
-        try {
-            RESULT = (int) gtk_box_get_homogeneous.invokeExact(handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT != 0;
-    }
-    
-    private static final MethodHandle gtk_box_get_spacing = Interop.downcallHandle(
-        "gtk_box_get_spacing",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
-    /**
-     * Gets the value set by gtk_box_set_spacing().
-     */
-    public int getSpacing() {
-        int RESULT;
-        try {
-            RESULT = (int) gtk_box_get_spacing.invokeExact(handle());
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_box_new.invokeExact(orientation.getValue(), spacing), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle gtk_box_insert_child_after = Interop.downcallHandle(
-        "gtk_box_insert_child_after",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Creates a new {@code GtkBox}.
+     * @param orientation the box’s orientation
+     * @param spacing the number of pixels to place by default between children
+     */
+    public Box(@NotNull org.gtk.gtk.Orientation orientation, int spacing) {
+        super(constructNew(orientation, spacing));
+    }
+    
+    /**
+     * Adds {@code child} as the last child to {@code box}.
+     * @param child the {@code GtkWidget} to append
+     */
+    public void append(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+        try {
+            DowncallHandles.gtk_box_append.invokeExact(handle(), child.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
+    
+    /**
+     * Gets the value set by gtk_box_set_baseline_position().
+     * @return the baseline position
+     */
+    public @NotNull org.gtk.gtk.BaselinePosition getBaselinePosition() {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gtk_box_get_baseline_position.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.gtk.BaselinePosition(RESULT);
+    }
+    
+    /**
+     * Returns whether the box is homogeneous (all children are the
+     * same size).
+     * @return {@code true} if the box is homogeneous.
+     */
+    public boolean getHomogeneous() {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gtk_box_get_homogeneous.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT != 0;
+    }
+    
+    /**
+     * Gets the value set by gtk_box_set_spacing().
+     * @return spacing between children
+     */
+    public int getSpacing() {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gtk_box_get_spacing.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
+    }
     
     /**
      * Inserts {@code child} in the position after {@code sibling} in the list
      * of {@code box} children.
      * <p>
      * If {@code sibling} is {@code null}, insert {@code child} at the first position.
+     * @param child the {@code GtkWidget} to insert
+     * @param sibling the sibling after which to insert {@code child}
      */
-    public @NotNull void insertChildAfter(@NotNull Widget child, @Nullable Widget sibling) {
+    public void insertChildAfter(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget sibling) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+        java.util.Objects.requireNonNullElse(sibling, MemoryAddress.NULL);
         try {
-            gtk_box_insert_child_after.invokeExact(handle(), child.handle(), sibling.handle());
+            DowncallHandles.gtk_box_insert_child_after.invokeExact(handle(), child.handle(), sibling.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_box_prepend = Interop.downcallHandle(
-        "gtk_box_prepend",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Adds {@code child} as the first child to {@code box}.
+     * @param child the {@code GtkWidget} to prepend
      */
-    public @NotNull void prepend(@NotNull Widget child) {
+    public void prepend(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            gtk_box_prepend.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_box_prepend.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_box_remove = Interop.downcallHandle(
-        "gtk_box_remove",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Removes a child widget from {@code box}.
      * <p>
      * The child must have been added before with
-     * {@code Gtk.Box.prepend}, or
+     * {@link Box#append}, {@link Box#prepend}, or
      * {@link Box#insertChildAfter}.
+     * @param child the child to remove
      */
-    public @NotNull void remove(@NotNull Widget child) {
+    public void remove(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            gtk_box_remove.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_box_remove.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_box_reorder_child_after = Interop.downcallHandle(
-        "gtk_box_reorder_child_after",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Moves {@code child} to the position after {@code sibling} in the list
      * of {@code box} children.
      * <p>
      * If {@code sibling} is {@code null}, move {@code child} to the first position.
+     * @param child the {@code GtkWidget} to move, must be a child of {@code box}
+     * @param sibling the sibling to move {@code child} after
      */
-    public @NotNull void reorderChildAfter(@NotNull Widget child, @Nullable Widget sibling) {
+    public void reorderChildAfter(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget sibling) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+        java.util.Objects.requireNonNullElse(sibling, MemoryAddress.NULL);
         try {
-            gtk_box_reorder_child_after.invokeExact(handle(), child.handle(), sibling.handle());
+            DowncallHandles.gtk_box_reorder_child_after.invokeExact(handle(), child.handle(), sibling.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_box_set_baseline_position = Interop.downcallHandle(
-        "gtk_box_set_baseline_position",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the baseline position of a box.
@@ -227,46 +214,103 @@ public class Box extends Widget implements Accessible, Buildable, ConstraintTarg
      * requested, and the baseline is not allocated by the parent then
      * {@code position} is used to allocate the baseline with respect to the
      * extra space available.
+     * @param position a {@code GtkBaselinePosition}
      */
-    public @NotNull void setBaselinePosition(@NotNull BaselinePosition position) {
+    public void setBaselinePosition(@NotNull org.gtk.gtk.BaselinePosition position) {
+        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
         try {
-            gtk_box_set_baseline_position.invokeExact(handle(), position.getValue());
+            DowncallHandles.gtk_box_set_baseline_position.invokeExact(handle(), position.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_box_set_homogeneous = Interop.downcallHandle(
-        "gtk_box_set_homogeneous",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether or not all children of {@code box} are given equal space
      * in the box.
+     * @param homogeneous a boolean value, {@code true} to create equal allotments,
+     *   {@code false} for variable allotments
      */
-    public @NotNull void setHomogeneous(@NotNull boolean homogeneous) {
+    public void setHomogeneous(boolean homogeneous) {
         try {
-            gtk_box_set_homogeneous.invokeExact(handle(), homogeneous ? 1 : 0);
+            DowncallHandles.gtk_box_set_homogeneous.invokeExact(handle(), homogeneous ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_box_set_spacing = Interop.downcallHandle(
-        "gtk_box_set_spacing",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the number of pixels to place between children of {@code box}.
+     * @param spacing the number of pixels to put between children
      */
-    public @NotNull void setSpacing(@NotNull int spacing) {
+    public void setSpacing(int spacing) {
         try {
-            gtk_box_set_spacing.invokeExact(handle(), spacing);
+            DowncallHandles.gtk_box_set_spacing.invokeExact(handle(), spacing);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_box_new = Interop.downcallHandle(
+            "gtk_box_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_box_append = Interop.downcallHandle(
+            "gtk_box_append",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_box_get_baseline_position = Interop.downcallHandle(
+            "gtk_box_get_baseline_position",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_box_get_homogeneous = Interop.downcallHandle(
+            "gtk_box_get_homogeneous",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_box_get_spacing = Interop.downcallHandle(
+            "gtk_box_get_spacing",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_box_insert_child_after = Interop.downcallHandle(
+            "gtk_box_insert_child_after",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_box_prepend = Interop.downcallHandle(
+            "gtk_box_prepend",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_box_remove = Interop.downcallHandle(
+            "gtk_box_remove",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_box_reorder_child_after = Interop.downcallHandle(
+            "gtk_box_reorder_child_after",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_box_set_baseline_position = Interop.downcallHandle(
+            "gtk_box_set_baseline_position",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_box_set_homogeneous = Interop.downcallHandle(
+            "gtk_box_set_homogeneous",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_box_set_spacing = Interop.downcallHandle(
+            "gtk_box_set_spacing",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
 }

@@ -42,11 +42,10 @@ import org.jetbrains.annotations.*;
  * used by {@code GtkBuilder} for menu models.
  * <p>
  * See also: {@link Application#setMenubar}.
- * 
- * <h2>A GtkApplicationWindow with a menubar</h2>
+ * <p>
+ * <strong>A GtkApplicationWindow with a menubar</strong><br/>
  * The code sample below shows how to set up a {@code GtkApplicationWindow}
  * with a menu bar defined on the {@link Application}:
- * 
  * <pre>{@code c
  * GtkApplication *app = gtk_application_new ("org.gtk.test", 0);
  * 
@@ -77,8 +76,24 @@ import org.jetbrains.annotations.*;
  * GtkWidget *window = gtk_application_window_new (app);
  * }</pre>
  */
-public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup, org.gtk.gio.ActionMap, Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
-
+public class ApplicationWindow extends org.gtk.gtk.Window implements org.gtk.gio.ActionGroup, org.gtk.gio.ActionMap, org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Native, org.gtk.gtk.Root, org.gtk.gtk.ShortcutManager {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gtk.Window.getMemoryLayout().withName("parent_instance")
+    ).withName("GtkApplicationWindow");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public ApplicationWindow(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -88,90 +103,73 @@ public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup
         return new ApplicationWindow(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_application_window_new = Interop.downcallHandle(
-        "gtk_application_window_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNew(@NotNull Application application) {
+    private static Refcounted constructNew(@NotNull org.gtk.gtk.Application application) {
+        java.util.Objects.requireNonNull(application, "Parameter 'application' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_application_window_new.invokeExact(application.handle()), false);
-            return RESULT;
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-    }
-    
-    /**
-     * Creates a new {@code GtkApplicationWindow}.
-     */
-    public ApplicationWindow(@NotNull Application application) {
-        super(constructNew(application));
-    }
-    
-    private static final MethodHandle gtk_application_window_get_help_overlay = Interop.downcallHandle(
-        "gtk_application_window_get_help_overlay",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    /**
-     * Gets the {@code GtkShortcutsWindow} that is associated with {@code window}.
-     * <p>
-     * See {@link ApplicationWindow#setHelpOverlay}.
-     */
-    public @Nullable ShortcutsWindow getHelpOverlay() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) gtk_application_window_get_help_overlay.invokeExact(handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return new ShortcutsWindow(Refcounted.get(RESULT, false));
-    }
-    
-    private static final MethodHandle gtk_application_window_get_id = Interop.downcallHandle(
-        "gtk_application_window_get_id",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
-    /**
-     * Returns the unique ID of the window.
-     * <p>
-     *  If the window has not yet been added to a {@code GtkApplication}, returns {@code 0}.
-     */
-    public int getId() {
-        int RESULT;
-        try {
-            RESULT = (int) gtk_application_window_get_id.invokeExact(handle());
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_application_window_new.invokeExact(application.handle()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle gtk_application_window_get_show_menubar = Interop.downcallHandle(
-        "gtk_application_window_get_show_menubar",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
+    /**
+     * Creates a new {@code GtkApplicationWindow}.
+     * @param application a {@code GtkApplication}
+     */
+    public ApplicationWindow(@NotNull org.gtk.gtk.Application application) {
+        super(constructNew(application));
+    }
+    
+    /**
+     * Gets the {@code GtkShortcutsWindow} that is associated with {@code window}.
+     * <p>
+     * See {@link ApplicationWindow#setHelpOverlay}.
+     * @return the help overlay associated
+     *   with {@code window}
+     */
+    public @Nullable org.gtk.gtk.ShortcutsWindow getHelpOverlay() {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.gtk_application_window_get_help_overlay.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.gtk.ShortcutsWindow(Refcounted.get(RESULT, false));
+    }
+    
+    /**
+     * Returns the unique ID of the window.
+     * <p>
+     *  If the window has not yet been added to a {@code GtkApplication}, returns {@code 0}.
+     * @return the unique ID for {@code window}, or {@code 0} if the window
+     *   has not yet been added to a {@code GtkApplication}
+     */
+    public int getId() {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gtk_application_window_get_id.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
+    }
     
     /**
      * Returns whether the window will display a menubar for the app menu
      * and menubar as needed.
+     * @return {@code true} if {@code window} will display a menubar when needed
      */
     public boolean getShowMenubar() {
         int RESULT;
         try {
-            RESULT = (int) gtk_application_window_get_show_menubar.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_application_window_get_show_menubar.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gtk_application_window_set_help_overlay = Interop.downcallHandle(
-        "gtk_application_window_set_help_overlay",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Associates a shortcuts window with the application window.
@@ -180,30 +178,60 @@ public class ApplicationWindow extends Window implements org.gtk.gio.ActionGroup
      * {@code win.show-help-overlay} to present it.
      * <p>
      * {@code window} takes responsibility for destroying {@code help_overlay}.
+     * @param helpOverlay a {@code GtkShortcutsWindow}
      */
-    public @NotNull void setHelpOverlay(@Nullable ShortcutsWindow helpOverlay) {
+    public void setHelpOverlay(@Nullable org.gtk.gtk.ShortcutsWindow helpOverlay) {
+        java.util.Objects.requireNonNullElse(helpOverlay, MemoryAddress.NULL);
         try {
-            gtk_application_window_set_help_overlay.invokeExact(handle(), helpOverlay.handle());
+            DowncallHandles.gtk_application_window_set_help_overlay.invokeExact(handle(), helpOverlay.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_application_window_set_show_menubar = Interop.downcallHandle(
-        "gtk_application_window_set_show_menubar",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether the window will display a menubar for the app menu
      * and menubar as needed.
+     * @param showMenubar whether to show a menubar when needed
      */
-    public @NotNull void setShowMenubar(@NotNull boolean showMenubar) {
+    public void setShowMenubar(boolean showMenubar) {
         try {
-            gtk_application_window_set_show_menubar.invokeExact(handle(), showMenubar ? 1 : 0);
+            DowncallHandles.gtk_application_window_set_show_menubar.invokeExact(handle(), showMenubar ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_application_window_new = Interop.downcallHandle(
+            "gtk_application_window_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_application_window_get_help_overlay = Interop.downcallHandle(
+            "gtk_application_window_get_help_overlay",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_application_window_get_id = Interop.downcallHandle(
+            "gtk_application_window_get_id",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_application_window_get_show_menubar = Interop.downcallHandle(
+            "gtk_application_window_get_show_menubar",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_application_window_set_help_overlay = Interop.downcallHandle(
+            "gtk_application_window_set_help_overlay",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_application_window_set_show_menubar = Interop.downcallHandle(
+            "gtk_application_window_set_show_menubar",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
 }

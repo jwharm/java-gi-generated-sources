@@ -26,15 +26,14 @@ import org.jetbrains.annotations.*;
  * <p>
  * {@code AdwViewStack} maintains a {@link ViewStackPage} object for each added child,
  * which holds additional per-child properties. You obtain the
- * {@code ViewStack.get_page} and you
+ * {@link ViewStackPage} and you
  * can obtain a {@code Gtk.SelectionModel} containing all the pages with
- * {@link ViewStack#getPages}.
- * 
- * <h2>AdwViewStack as GtkBuildable</h2>
+ * {@code ViewStack#getPages}.
+ * <p>
+ * <strong>AdwViewStack as GtkBuildable</strong><br/>
  * To set child-specific properties in a .ui file, create
  * {@link ViewStackPage} objects explicitly, and set the child widget as a
  * property on it:
- * 
  * <pre>{@code xml
  *   <object class="AdwViewStack" id="stack">
  *     <child>
@@ -50,12 +49,25 @@ import org.jetbrains.annotations.*;
  *     </child>
  *   </object>
  * }</pre>
- * 
- * <h2>CSS nodes</h2>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * {@code AdwViewStack} has a single CSS node named {@code stack}.
+ * @version 1.0
  */
 public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
-
+    
+    static {
+        Adw.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public ViewStack(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -65,18 +77,14 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         return new ViewStack(gobject.refcounted());
     }
     
-    private static final MethodHandle adw_view_stack_new = Interop.downcallHandle(
-        "adw_view_stack_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_view_stack_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_view_stack_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -86,123 +94,110 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         super(constructNew());
     }
     
-    private static final MethodHandle adw_view_stack_add = Interop.downcallHandle(
-        "adw_view_stack_add",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Adds a child to {@code self}.
+     * @param child the widget to add
+     * @return the {@link ViewStackPage} for {@code child}
      */
-    public @NotNull ViewStackPage add(@NotNull org.gtk.gtk.Widget child) {
+    public @NotNull org.gnome.adw.ViewStackPage add(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_view_stack_add.invokeExact(handle(), child.handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_add.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ViewStackPage(Refcounted.get(RESULT, false));
+        return new org.gnome.adw.ViewStackPage(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle adw_view_stack_add_named = Interop.downcallHandle(
-        "adw_view_stack_add_named",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Adds a child to {@code self}.
      * <p>
      * The child is identified by the {@code name}.
+     * @param child the widget to add
+     * @param name the name for {@code child}
+     * @return the {@code AdwViewStackPage} for {@code child}
      */
-    public @NotNull ViewStackPage addNamed(@NotNull org.gtk.gtk.Widget child, @Nullable java.lang.String name) {
+    public @NotNull org.gnome.adw.ViewStackPage addNamed(@NotNull org.gtk.gtk.Widget child, @Nullable java.lang.String name) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_view_stack_add_named.invokeExact(handle(), child.handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_add_named.invokeExact(handle(), child.handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ViewStackPage(Refcounted.get(RESULT, false));
+        return new org.gnome.adw.ViewStackPage(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle adw_view_stack_add_titled = Interop.downcallHandle(
-        "adw_view_stack_add_titled",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Adds a child to {@code self}.
      * <p>
      * The child is identified by the {@code name}. The {@code title} will be used by
      * {@link ViewSwitcher} to represent {@code child}, so it should be short.
+     * @param child the widget to add
+     * @param name the name for {@code child}
+     * @param title a human-readable title for {@code child}
+     * @return the {@code AdwViewStackPage} for {@code child}
      */
-    public @NotNull ViewStackPage addTitled(@NotNull org.gtk.gtk.Widget child, @Nullable java.lang.String name, @NotNull java.lang.String title) {
+    public @NotNull org.gnome.adw.ViewStackPage addTitled(@NotNull org.gtk.gtk.Widget child, @Nullable java.lang.String name, @NotNull java.lang.String title) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_view_stack_add_titled.invokeExact(handle(), child.handle(), Interop.allocateNativeString(name), Interop.allocateNativeString(title));
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_add_titled.invokeExact(handle(), child.handle(), Interop.allocateNativeString(name), Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ViewStackPage(Refcounted.get(RESULT, false));
+        return new org.gnome.adw.ViewStackPage(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle adw_view_stack_get_child_by_name = Interop.downcallHandle(
-        "adw_view_stack_get_child_by_name",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Finds the child with {@code name} in {@code self}.
+     * @param name the name of the child to find
+     * @return the requested child
      */
     public @Nullable org.gtk.gtk.Widget getChildByName(@NotNull java.lang.String name) {
+        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_view_stack_get_child_by_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_child_by_name.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle adw_view_stack_get_hhomogeneous = Interop.downcallHandle(
-        "adw_view_stack_get_hhomogeneous",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets whether {@code self} is horizontally homogeneous.
+     * @return whether {@code self} is horizontally homogeneous
      */
     public boolean getHhomogeneous() {
         int RESULT;
         try {
-            RESULT = (int) adw_view_stack_get_hhomogeneous.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_view_stack_get_hhomogeneous.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle adw_view_stack_get_page = Interop.downcallHandle(
-        "adw_view_stack_get_page",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the {@link ViewStackPage} object for {@code child}.
+     * @param child a child of {@code self}
+     * @return the page object for {@code child}
      */
-    public @NotNull ViewStackPage getPage(@NotNull org.gtk.gtk.Widget child) {
+    public @NotNull org.gnome.adw.ViewStackPage getPage(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_view_stack_get_page.invokeExact(handle(), child.handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_page.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ViewStackPage(Refcounted.get(RESULT, false));
+        return new org.gnome.adw.ViewStackPage(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle adw_view_stack_get_pages = Interop.downcallHandle(
-        "adw_view_stack_get_pages",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns a {@code Gio.ListModel} that contains the pages of the stack.
@@ -210,149 +205,203 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * This can be used to keep an up-to-date view. The model also implements
      * {@code Gtk.SelectionModel} and can be used to track and change the visible
      * page.
+     * @return a {@code GtkSelectionModel} for the stack's children
      */
     public @NotNull org.gtk.gtk.SelectionModel getPages() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_view_stack_get_pages.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_pages.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gtk.SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle adw_view_stack_get_vhomogeneous = Interop.downcallHandle(
-        "adw_view_stack_get_vhomogeneous",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets whether {@code self} is vertically homogeneous.
+     * @return whether {@code self} is vertically homogeneous
      */
     public boolean getVhomogeneous() {
         int RESULT;
         try {
-            RESULT = (int) adw_view_stack_get_vhomogeneous.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_view_stack_get_vhomogeneous.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle adw_view_stack_get_visible_child = Interop.downcallHandle(
-        "adw_view_stack_get_visible_child",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the currently visible child of {@code self}, .
+     * @return the visible child
      */
     public @Nullable org.gtk.gtk.Widget getVisibleChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_view_stack_get_visible_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_visible_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle adw_view_stack_get_visible_child_name = Interop.downcallHandle(
-        "adw_view_stack_get_visible_child_name",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the name of the currently visible child of {@code self}.
+     * @return the name of the visible child
      */
     public @Nullable java.lang.String getVisibleChildName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_view_stack_get_visible_child_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_visible_child_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle adw_view_stack_remove = Interop.downcallHandle(
-        "adw_view_stack_remove",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Removes a child widget from {@code self}.
+     * @param child the child to remove
      */
-    public @NotNull void remove(@NotNull org.gtk.gtk.Widget child) {
+    public void remove(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            adw_view_stack_remove.invokeExact(handle(), child.handle());
+            DowncallHandles.adw_view_stack_remove.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_view_stack_set_hhomogeneous = Interop.downcallHandle(
-        "adw_view_stack_set_hhomogeneous",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets {@code self} to be horizontally homogeneous or not.
+     * @param hhomogeneous whether to make {@code self} horizontally homogeneous
      */
-    public @NotNull void setHhomogeneous(@NotNull boolean hhomogeneous) {
+    public void setHhomogeneous(boolean hhomogeneous) {
         try {
-            adw_view_stack_set_hhomogeneous.invokeExact(handle(), hhomogeneous ? 1 : 0);
+            DowncallHandles.adw_view_stack_set_hhomogeneous.invokeExact(handle(), hhomogeneous ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_view_stack_set_vhomogeneous = Interop.downcallHandle(
-        "adw_view_stack_set_vhomogeneous",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets {@code self} to be vertically homogeneous or not.
+     * @param vhomogeneous whether to make {@code self} vertically homogeneous
      */
-    public @NotNull void setVhomogeneous(@NotNull boolean vhomogeneous) {
+    public void setVhomogeneous(boolean vhomogeneous) {
         try {
-            adw_view_stack_set_vhomogeneous.invokeExact(handle(), vhomogeneous ? 1 : 0);
+            DowncallHandles.adw_view_stack_set_vhomogeneous.invokeExact(handle(), vhomogeneous ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_view_stack_set_visible_child = Interop.downcallHandle(
-        "adw_view_stack_set_visible_child",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Makes {@code child} the visible child of {@code self}.
+     * @param child a child of {@code self}
      */
-    public @NotNull void setVisibleChild(@NotNull org.gtk.gtk.Widget child) {
+    public void setVisibleChild(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            adw_view_stack_set_visible_child.invokeExact(handle(), child.handle());
+            DowncallHandles.adw_view_stack_set_visible_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_view_stack_set_visible_child_name = Interop.downcallHandle(
-        "adw_view_stack_set_visible_child_name",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Makes the child with {@code name} visible.
+     * @param name the name of the child
      */
-    public @NotNull void setVisibleChildName(@NotNull java.lang.String name) {
+    public void setVisibleChildName(@NotNull java.lang.String name) {
+        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         try {
-            adw_view_stack_set_visible_child_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.adw_view_stack_set_visible_child_name.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle adw_view_stack_new = Interop.downcallHandle(
+            "adw_view_stack_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_view_stack_add = Interop.downcallHandle(
+            "adw_view_stack_add",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_view_stack_add_named = Interop.downcallHandle(
+            "adw_view_stack_add_named",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_view_stack_add_titled = Interop.downcallHandle(
+            "adw_view_stack_add_titled",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_view_stack_get_child_by_name = Interop.downcallHandle(
+            "adw_view_stack_get_child_by_name",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_view_stack_get_hhomogeneous = Interop.downcallHandle(
+            "adw_view_stack_get_hhomogeneous",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_view_stack_get_page = Interop.downcallHandle(
+            "adw_view_stack_get_page",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_view_stack_get_pages = Interop.downcallHandle(
+            "adw_view_stack_get_pages",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_view_stack_get_vhomogeneous = Interop.downcallHandle(
+            "adw_view_stack_get_vhomogeneous",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_view_stack_get_visible_child = Interop.downcallHandle(
+            "adw_view_stack_get_visible_child",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_view_stack_get_visible_child_name = Interop.downcallHandle(
+            "adw_view_stack_get_visible_child_name",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_view_stack_remove = Interop.downcallHandle(
+            "adw_view_stack_remove",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_view_stack_set_hhomogeneous = Interop.downcallHandle(
+            "adw_view_stack_set_hhomogeneous",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle adw_view_stack_set_vhomogeneous = Interop.downcallHandle(
+            "adw_view_stack_set_vhomogeneous",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle adw_view_stack_set_visible_child = Interop.downcallHandle(
+            "adw_view_stack_set_visible_child",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_view_stack_set_visible_child_name = Interop.downcallHandle(
+            "adw_view_stack_set_visible_child_name",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

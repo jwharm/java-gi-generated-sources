@@ -12,36 +12,44 @@ import org.jetbrains.annotations.*;
  * should never be accessed directly.
  */
 public class Matrix extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Graphene.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.graphene.Simd4X4F.getMemoryLayout().withName("value")
+    ).withName("graphene_matrix_t");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public Matrix(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle graphene_matrix_alloc = Interop.downcallHandle(
-        "graphene_matrix_alloc",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructAlloc() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) graphene_matrix_alloc.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.graphene_matrix_alloc.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Allocates a new {@link Matrix}.
+     * @return the newly allocated matrix
      */
     public static Matrix alloc() {
         return new Matrix(constructAlloc());
     }
-    
-    private static final MethodHandle graphene_matrix_decompose = Interop.downcallHandle(
-        "graphene_matrix_decompose",
-        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Decomposes a transformation matrix into its component transformations.
@@ -51,8 +59,19 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * specifically, the decomposition code is based on the equivalent code
      * published in "Graphics Gems II", edited by Jim Arvo, and
      * <a href="http://tog.acm.org/resources/GraphicsGems/gemsii/unmatrix.c">available online</a>.
+     * @param translate the translation vector
+     * @param scale the scale vector
+     * @param rotate the rotation quaternion
+     * @param shear the shear vector
+     * @param perspective the perspective vector
+     * @return {@code true} if the matrix could be decomposed
      */
-    public boolean decompose(@NotNull Out<Vec3> translate, @NotNull Out<Vec3> scale, @NotNull Out<Quaternion> rotate, @NotNull Out<Vec3> shear, @NotNull Out<Vec4> perspective) {
+    public boolean decompose(@NotNull Out<org.gtk.graphene.Vec3> translate, @NotNull Out<org.gtk.graphene.Vec3> scale, @NotNull Out<org.gtk.graphene.Quaternion> rotate, @NotNull Out<org.gtk.graphene.Vec3> shear, @NotNull Out<org.gtk.graphene.Vec4> perspective) {
+        java.util.Objects.requireNonNull(translate, "Parameter 'translate' must not be null");
+        java.util.Objects.requireNonNull(scale, "Parameter 'scale' must not be null");
+        java.util.Objects.requireNonNull(rotate, "Parameter 'rotate' must not be null");
+        java.util.Objects.requireNonNull(shear, "Parameter 'shear' must not be null");
+        java.util.Objects.requireNonNull(perspective, "Parameter 'perspective' must not be null");
         MemorySegment translatePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment scalePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment rotatePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -60,58 +79,47 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment perspectivePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         boolean RESULT;
         try {
-            RESULT = (boolean) graphene_matrix_decompose.invokeExact(handle(), (Addressable) translatePOINTER.address(), (Addressable) scalePOINTER.address(), (Addressable) rotatePOINTER.address(), (Addressable) shearPOINTER.address(), (Addressable) perspectivePOINTER.address());
+            RESULT = (boolean) DowncallHandles.graphene_matrix_decompose.invokeExact(handle(), (Addressable) translatePOINTER.address(), (Addressable) scalePOINTER.address(), (Addressable) rotatePOINTER.address(), (Addressable) shearPOINTER.address(), (Addressable) perspectivePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        translate.set(new Vec3(Refcounted.get(translatePOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        scale.set(new Vec3(Refcounted.get(scalePOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        rotate.set(new Quaternion(Refcounted.get(rotatePOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        shear.set(new Vec3(Refcounted.get(shearPOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        perspective.set(new Vec4(Refcounted.get(perspectivePOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        translate.set(new org.gtk.graphene.Vec3(Refcounted.get(translatePOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        scale.set(new org.gtk.graphene.Vec3(Refcounted.get(scalePOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        rotate.set(new org.gtk.graphene.Quaternion(Refcounted.get(rotatePOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        shear.set(new org.gtk.graphene.Vec3(Refcounted.get(shearPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        perspective.set(new org.gtk.graphene.Vec4(Refcounted.get(perspectivePOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT;
     }
     
-    private static final MethodHandle graphene_matrix_determinant = Interop.downcallHandle(
-        "graphene_matrix_determinant",
-        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Computes the determinant of the given matrix.
+     * @return the value of the determinant
      */
     public float determinant() {
         float RESULT;
         try {
-            RESULT = (float) graphene_matrix_determinant.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_matrix_determinant.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle graphene_matrix_equal = Interop.downcallHandle(
-        "graphene_matrix_equal",
-        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Checks whether the two given {@link Matrix} matrices are equal.
+     * @param b a {@link Matrix}
+     * @return {@code true} if the two matrices are equal, and {@code false} otherwise
      */
-    public boolean equal(@NotNull Matrix b) {
+    public boolean equal(@NotNull org.gtk.graphene.Matrix b) {
+        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) graphene_matrix_equal.invokeExact(handle(), b.handle());
+            RESULT = (boolean) DowncallHandles.graphene_matrix_equal.invokeExact(handle(), b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle graphene_matrix_equal_fast = Interop.downcallHandle(
-        "graphene_matrix_equal_fast",
-        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Checks whether the two given {@link Matrix} matrices are
@@ -121,7 +129,6 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * can also return false negatives, so it should be used in
      * conjuction with either graphene_matrix_equal() or
      * graphene_matrix_near(). For instance:
-     * <p>
      * <pre>{@code <!-- language="C" -->
      *   if (graphene_matrix_equal_fast (a, b))
      *     {
@@ -137,188 +144,153 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      *         // matrices are not equal
      *     }
      * }</pre>
+     * @param b a {@link Matrix}
+     * @return {@code true} if the matrices are equal. and {@code false} otherwise
      */
-    public boolean equalFast(@NotNull Matrix b) {
+    public boolean equalFast(@NotNull org.gtk.graphene.Matrix b) {
+        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) graphene_matrix_equal_fast.invokeExact(handle(), b.handle());
+            RESULT = (boolean) DowncallHandles.graphene_matrix_equal_fast.invokeExact(handle(), b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle graphene_matrix_free = Interop.downcallHandle(
-        "graphene_matrix_free",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Frees the resources allocated by graphene_matrix_alloc().
      */
-    public @NotNull void free() {
+    public void free() {
         try {
-            graphene_matrix_free.invokeExact(handle());
+            DowncallHandles.graphene_matrix_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle graphene_matrix_get_row = Interop.downcallHandle(
-        "graphene_matrix_get_row",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves the given row vector at {@code index_} inside a matrix.
+     * @param index the index of the row vector, between 0 and 3
+     * @param res return location for the {@link Vec4}
+     *   that is used to store the row vector
      */
-    public @NotNull void getRow(@NotNull int index, @NotNull Out<Vec4> res) {
+    public void getRow(int index, @NotNull Out<org.gtk.graphene.Vec4> res) {
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_matrix_get_row.invokeExact(handle(), index, (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_get_row.invokeExact(handle(), index, (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle graphene_matrix_get_value = Interop.downcallHandle(
-        "graphene_matrix_get_value",
-        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Retrieves the value at the given {@code row} and {@code col} index.
+     * @param row the row index
+     * @param col the column index
+     * @return the value at the given indices
      */
-    public float getValue(@NotNull int row, @NotNull int col) {
+    public float getValue(int row, int col) {
         float RESULT;
         try {
-            RESULT = (float) graphene_matrix_get_value.invokeExact(handle(), row, col);
+            RESULT = (float) DowncallHandles.graphene_matrix_get_value.invokeExact(handle(), row, col);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle graphene_matrix_get_x_scale = Interop.downcallHandle(
-        "graphene_matrix_get_x_scale",
-        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Retrieves the scaling factor on the X axis in @m.
+     * Retrieves the scaling factor on the X axis in {@code m}.
+     * @return the value of the scaling factor
      */
     public float getXScale() {
         float RESULT;
         try {
-            RESULT = (float) graphene_matrix_get_x_scale.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_matrix_get_x_scale.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle graphene_matrix_get_x_translation = Interop.downcallHandle(
-        "graphene_matrix_get_x_translation",
-        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Retrieves the translation component on the X axis from @m.
+     * Retrieves the translation component on the X axis from {@code m}.
+     * @return the translation component
      */
     public float getXTranslation() {
         float RESULT;
         try {
-            RESULT = (float) graphene_matrix_get_x_translation.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_matrix_get_x_translation.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle graphene_matrix_get_y_scale = Interop.downcallHandle(
-        "graphene_matrix_get_y_scale",
-        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Retrieves the scaling factor on the Y axis in @m.
+     * Retrieves the scaling factor on the Y axis in {@code m}.
+     * @return the value of the scaling factor
      */
     public float getYScale() {
         float RESULT;
         try {
-            RESULT = (float) graphene_matrix_get_y_scale.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_matrix_get_y_scale.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle graphene_matrix_get_y_translation = Interop.downcallHandle(
-        "graphene_matrix_get_y_translation",
-        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Retrieves the translation component on the Y axis from @m.
+     * Retrieves the translation component on the Y axis from {@code m}.
+     * @return the translation component
      */
     public float getYTranslation() {
         float RESULT;
         try {
-            RESULT = (float) graphene_matrix_get_y_translation.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_matrix_get_y_translation.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle graphene_matrix_get_z_scale = Interop.downcallHandle(
-        "graphene_matrix_get_z_scale",
-        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Retrieves the scaling factor on the Z axis in @m.
+     * Retrieves the scaling factor on the Z axis in {@code m}.
+     * @return the value of the scaling factor
      */
     public float getZScale() {
         float RESULT;
         try {
-            RESULT = (float) graphene_matrix_get_z_scale.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_matrix_get_z_scale.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle graphene_matrix_get_z_translation = Interop.downcallHandle(
-        "graphene_matrix_get_z_translation",
-        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Retrieves the translation component on the Z axis from @m.
+     * Retrieves the translation component on the Z axis from {@code m}.
+     * @return the translation component
      */
     public float getZTranslation() {
         float RESULT;
         try {
-            RESULT = (float) graphene_matrix_get_z_translation.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_matrix_get_z_translation.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle graphene_matrix_init_from_2d = Interop.downcallHandle(
-        "graphene_matrix_init_from_2d",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
-    );
     
     /**
      * Initializes a {@link Matrix} from the values of an affine
      * transformation matrix.
      * <p>
      * The arguments map to the following matrix layout:
-     * <p>
      * <pre>{@code <!-- language="plain" -->
      *   ⎛ xx  yx ⎞   ⎛  a   b  0 ⎞
      *   ⎜ xy  yy ⎟ = ⎜  c   d  0 ⎟
@@ -327,116 +299,117 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function can be used to convert between an affine matrix type
      * from other libraries and a {@link Matrix}.
+     * @param xx the xx member
+     * @param yx the yx member
+     * @param xy the xy member
+     * @param yy the yy member
+     * @param x0 the x0 member
+     * @param y0 the y0 member
+     * @return the initialized matrix
      */
-    public @NotNull Matrix initFrom2d(@NotNull double xx, @NotNull double yx, @NotNull double xy, @NotNull double yy, @NotNull double x0, @NotNull double y0) {
+    public @NotNull org.gtk.graphene.Matrix initFrom2d(double xx, double yx, double xy, double yy, double x0, double y0) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_matrix_init_from_2d.invokeExact(handle(), xx, yx, xy, yy, x0, y0);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_from_2d.invokeExact(handle(), xx, yx, xy, yy, x0, y0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Matrix(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Matrix(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle graphene_matrix_init_from_float = Interop.downcallHandle(
-        "graphene_matrix_init_from_float",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Initializes a {@link Matrix} with the given array of floating
      * point values.
+     * @param v an array of at least 16 floating
+     *   point values
+     * @return the initialized matrix
      */
-    public @NotNull Matrix initFromFloat(@NotNull float[] v) {
+    public @NotNull org.gtk.graphene.Matrix initFromFloat(float[] v) {
+        java.util.Objects.requireNonNull(v, "Parameter 'v' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_matrix_init_from_float.invokeExact(handle(), Interop.allocateNativeArray(v));
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_from_float.invokeExact(handle(), Interop.allocateNativeArray(v, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Matrix(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Matrix(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle graphene_matrix_init_from_matrix = Interop.downcallHandle(
-        "graphene_matrix_init_from_matrix",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Initializes a {@link Matrix} using the values of the
      * given matrix.
+     * @param src a {@link Matrix}
+     * @return the initialized matrix
      */
-    public @NotNull Matrix initFromMatrix(@NotNull Matrix src) {
+    public @NotNull org.gtk.graphene.Matrix initFromMatrix(@NotNull org.gtk.graphene.Matrix src) {
+        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_matrix_init_from_matrix.invokeExact(handle(), src.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_from_matrix.invokeExact(handle(), src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Matrix(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Matrix(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle graphene_matrix_init_from_vec4 = Interop.downcallHandle(
-        "graphene_matrix_init_from_vec4",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Initializes a {@link Matrix} with the given four row
      * vectors.
+     * @param v0 the first row vector
+     * @param v1 the second row vector
+     * @param v2 the third row vector
+     * @param v3 the fourth row vector
+     * @return the initialized matrix
      */
-    public @NotNull Matrix initFromVec4(@NotNull Vec4 v0, @NotNull Vec4 v1, @NotNull Vec4 v2, @NotNull Vec4 v3) {
+    public @NotNull org.gtk.graphene.Matrix initFromVec4(@NotNull org.gtk.graphene.Vec4 v0, @NotNull org.gtk.graphene.Vec4 v1, @NotNull org.gtk.graphene.Vec4 v2, @NotNull org.gtk.graphene.Vec4 v3) {
+        java.util.Objects.requireNonNull(v0, "Parameter 'v0' must not be null");
+        java.util.Objects.requireNonNull(v1, "Parameter 'v1' must not be null");
+        java.util.Objects.requireNonNull(v2, "Parameter 'v2' must not be null");
+        java.util.Objects.requireNonNull(v3, "Parameter 'v3' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_matrix_init_from_vec4.invokeExact(handle(), v0.handle(), v1.handle(), v2.handle(), v3.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_from_vec4.invokeExact(handle(), v0.handle(), v1.handle(), v2.handle(), v3.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Matrix(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Matrix(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle graphene_matrix_init_frustum = Interop.downcallHandle(
-        "graphene_matrix_init_frustum",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
-    );
     
     /**
      * Initializes a {@link Matrix} compatible with {@link Frustum}.
      * <p>
      * See also: graphene_frustum_init_from_matrix()
+     * @param left distance of the left clipping plane
+     * @param right distance of the right clipping plane
+     * @param bottom distance of the bottom clipping plane
+     * @param top distance of the top clipping plane
+     * @param zNear distance of the near clipping plane
+     * @param zFar distance of the far clipping plane
+     * @return the initialized matrix
      */
-    public @NotNull Matrix initFrustum(@NotNull float left, @NotNull float right, @NotNull float bottom, @NotNull float top, @NotNull float zNear, @NotNull float zFar) {
+    public @NotNull org.gtk.graphene.Matrix initFrustum(float left, float right, float bottom, float top, float zNear, float zFar) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_matrix_init_frustum.invokeExact(handle(), left, right, bottom, top, zNear, zFar);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_frustum.invokeExact(handle(), left, right, bottom, top, zNear, zFar);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Matrix(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Matrix(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle graphene_matrix_init_identity = Interop.downcallHandle(
-        "graphene_matrix_init_identity",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Initializes a {@link Matrix} with the identity matrix.
+     * @return the initialized matrix
      */
-    public @NotNull Matrix initIdentity() {
+    public @NotNull org.gtk.graphene.Matrix initIdentity() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_matrix_init_identity.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_identity.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Matrix(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Matrix(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle graphene_matrix_init_look_at = Interop.downcallHandle(
-        "graphene_matrix_init_look_at",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Initializes a {@link Matrix} so that it positions the "camera"
@@ -449,138 +422,137 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * the camera facing in the direction of the Y axis and the right
      * side in the direction of the X axis.
      * <p>
-     * In theory, one could use @m to transform a model of such a camera
+     * In theory, one could use {@code m} to transform a model of such a camera
      * into world-space. However, it is more common to use the inverse of
-     * @m to transform another object from world coordinates to the view
+     * {@code m} to transform another object from world coordinates to the view
      * coordinates of the camera. Typically you would then apply the
      * camera projection transform to get from view to screen
      * coordinates.
+     * @param eye the vector describing the position to look from
+     * @param center the vector describing the position to look at
+     * @param up the vector describing the world's upward direction; usually,
+     *   this is the graphene_vec3_y_axis() vector
+     * @return the initialized matrix
      */
-    public @NotNull Matrix initLookAt(@NotNull Vec3 eye, @NotNull Vec3 center, @NotNull Vec3 up) {
+    public @NotNull org.gtk.graphene.Matrix initLookAt(@NotNull org.gtk.graphene.Vec3 eye, @NotNull org.gtk.graphene.Vec3 center, @NotNull org.gtk.graphene.Vec3 up) {
+        java.util.Objects.requireNonNull(eye, "Parameter 'eye' must not be null");
+        java.util.Objects.requireNonNull(center, "Parameter 'center' must not be null");
+        java.util.Objects.requireNonNull(up, "Parameter 'up' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_matrix_init_look_at.invokeExact(handle(), eye.handle(), center.handle(), up.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_look_at.invokeExact(handle(), eye.handle(), center.handle(), up.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Matrix(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Matrix(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle graphene_matrix_init_ortho = Interop.downcallHandle(
-        "graphene_matrix_init_ortho",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
-    );
     
     /**
      * Initializes a {@link Matrix} with an orthographic projection.
+     * @param left the left edge of the clipping plane
+     * @param right the right edge of the clipping plane
+     * @param top the top edge of the clipping plane
+     * @param bottom the bottom edge of the clipping plane
+     * @param zNear the distance of the near clipping plane
+     * @param zFar the distance of the far clipping plane
+     * @return the initialized matrix
      */
-    public @NotNull Matrix initOrtho(@NotNull float left, @NotNull float right, @NotNull float top, @NotNull float bottom, @NotNull float zNear, @NotNull float zFar) {
+    public @NotNull org.gtk.graphene.Matrix initOrtho(float left, float right, float top, float bottom, float zNear, float zFar) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_matrix_init_ortho.invokeExact(handle(), left, right, top, bottom, zNear, zFar);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_ortho.invokeExact(handle(), left, right, top, bottom, zNear, zFar);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Matrix(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Matrix(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle graphene_matrix_init_perspective = Interop.downcallHandle(
-        "graphene_matrix_init_perspective",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
-    );
     
     /**
      * Initializes a {@link Matrix} with a perspective projection.
+     * @param fovy the field of view angle, in degrees
+     * @param aspect the aspect value
+     * @param zNear the near Z plane
+     * @param zFar the far Z plane
+     * @return the initialized matrix
      */
-    public @NotNull Matrix initPerspective(@NotNull float fovy, @NotNull float aspect, @NotNull float zNear, @NotNull float zFar) {
+    public @NotNull org.gtk.graphene.Matrix initPerspective(float fovy, float aspect, float zNear, float zFar) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_matrix_init_perspective.invokeExact(handle(), fovy, aspect, zNear, zFar);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_perspective.invokeExact(handle(), fovy, aspect, zNear, zFar);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Matrix(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Matrix(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle graphene_matrix_init_rotate = Interop.downcallHandle(
-        "graphene_matrix_init_rotate",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
-    );
     
     /**
-     * Initializes @m to represent a rotation of {@code angle} degrees on
+     * Initializes {@code m} to represent a rotation of {@code angle} degrees on
      * the axis represented by the {@code axis} vector.
+     * @param angle the rotation angle, in degrees
+     * @param axis the axis vector as a {@link Vec3}
+     * @return the initialized matrix
      */
-    public @NotNull Matrix initRotate(@NotNull float angle, @NotNull Vec3 axis) {
+    public @NotNull org.gtk.graphene.Matrix initRotate(float angle, @NotNull org.gtk.graphene.Vec3 axis) {
+        java.util.Objects.requireNonNull(axis, "Parameter 'axis' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_matrix_init_rotate.invokeExact(handle(), angle, axis.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_rotate.invokeExact(handle(), angle, axis.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Matrix(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Matrix(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle graphene_matrix_init_scale = Interop.downcallHandle(
-        "graphene_matrix_init_scale",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
-    );
     
     /**
      * Initializes a {@link Matrix} with the given scaling factors.
+     * @param x the scale factor on the X axis
+     * @param y the scale factor on the Y axis
+     * @param z the scale factor on the Z axis
+     * @return the initialized matrix
      */
-    public @NotNull Matrix initScale(@NotNull float x, @NotNull float y, @NotNull float z) {
+    public @NotNull org.gtk.graphene.Matrix initScale(float x, float y, float z) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_matrix_init_scale.invokeExact(handle(), x, y, z);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_scale.invokeExact(handle(), x, y, z);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Matrix(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Matrix(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle graphene_matrix_init_skew = Interop.downcallHandle(
-        "graphene_matrix_init_skew",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
-    );
     
     /**
      * Initializes a {@link Matrix} with a skew transformation
      * with the given factors.
+     * @param xSkew skew factor, in radians, on the X axis
+     * @param ySkew skew factor, in radians, on the Y axis
+     * @return the initialized matrix
      */
-    public @NotNull Matrix initSkew(@NotNull float xSkew, @NotNull float ySkew) {
+    public @NotNull org.gtk.graphene.Matrix initSkew(float xSkew, float ySkew) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_matrix_init_skew.invokeExact(handle(), xSkew, ySkew);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_skew.invokeExact(handle(), xSkew, ySkew);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Matrix(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Matrix(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle graphene_matrix_init_translate = Interop.downcallHandle(
-        "graphene_matrix_init_translate",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Initializes a {@link Matrix} with a translation to the
      * given coordinates.
+     * @param p the translation coordinates
+     * @return the initialized matrix
      */
-    public @NotNull Matrix initTranslate(@NotNull Point3D p) {
+    public @NotNull org.gtk.graphene.Matrix initTranslate(@NotNull org.gtk.graphene.Point3D p) {
+        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_matrix_init_translate.invokeExact(handle(), p.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_translate.invokeExact(handle(), p.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Matrix(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Matrix(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle graphene_matrix_interpolate = Interop.downcallHandle(
-        "graphene_matrix_interpolate",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
-    );
     
     /**
      * Linearly interpolates the two given {@link Matrix} by
@@ -589,191 +561,172 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * If either matrix cannot be reduced to their transformations
      * then the interpolation cannot be performed, and this function
      * will return an identity matrix.
+     * @param b a {@link Matrix}
+     * @param factor the linear interpolation factor
+     * @param res return location for the
+     *   interpolated matrix
      */
-    public @NotNull void interpolate(@NotNull Matrix b, @NotNull double factor, @NotNull Out<Matrix> res) {
+    public void interpolate(@NotNull org.gtk.graphene.Matrix b, double factor, @NotNull Out<org.gtk.graphene.Matrix> res) {
+        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_matrix_interpolate.invokeExact(handle(), b.handle(), factor, (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_interpolate.invokeExact(handle(), b.handle(), factor, (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Matrix(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Matrix(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle graphene_matrix_inverse = Interop.downcallHandle(
-        "graphene_matrix_inverse",
-        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Inverts the given matrix.
+     * @param res return location for the
+     *   inverse matrix
+     * @return {@code true} if the matrix is invertible
      */
-    public boolean inverse(@NotNull Out<Matrix> res) {
+    public boolean inverse(@NotNull Out<org.gtk.graphene.Matrix> res) {
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         boolean RESULT;
         try {
-            RESULT = (boolean) graphene_matrix_inverse.invokeExact(handle(), (Addressable) resPOINTER.address());
+            RESULT = (boolean) DowncallHandles.graphene_matrix_inverse.invokeExact(handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Matrix(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Matrix(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT;
     }
-    
-    private static final MethodHandle graphene_matrix_is_2d = Interop.downcallHandle(
-        "graphene_matrix_is_2d",
-        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS)
-    );
     
     /**
      * Checks whether the given {@link Matrix} is compatible with an
      * a 2D affine transformation matrix.
+     * @return {@code true} if the matrix is compatible with an affine
+     *   transformation matrix
      */
     public boolean is2d() {
         boolean RESULT;
         try {
-            RESULT = (boolean) graphene_matrix_is_2d.invokeExact(handle());
+            RESULT = (boolean) DowncallHandles.graphene_matrix_is_2d.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle graphene_matrix_is_backface_visible = Interop.downcallHandle(
-        "graphene_matrix_is_backface_visible",
-        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Checks whether a {@link Matrix} has a visible back face.
+     * @return {@code true} if the back face of the matrix is visible
      */
     public boolean isBackfaceVisible() {
         boolean RESULT;
         try {
-            RESULT = (boolean) graphene_matrix_is_backface_visible.invokeExact(handle());
+            RESULT = (boolean) DowncallHandles.graphene_matrix_is_backface_visible.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle graphene_matrix_is_identity = Interop.downcallHandle(
-        "graphene_matrix_is_identity",
-        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Checks whether the given {@link Matrix} is the identity matrix.
+     * @return {@code true} if the matrix is the identity matrix
      */
     public boolean isIdentity() {
         boolean RESULT;
         try {
-            RESULT = (boolean) graphene_matrix_is_identity.invokeExact(handle());
+            RESULT = (boolean) DowncallHandles.graphene_matrix_is_identity.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle graphene_matrix_is_singular = Interop.downcallHandle(
-        "graphene_matrix_is_singular",
-        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Checks whether a matrix is singular.
+     * @return {@code true} if the matrix is singular
      */
     public boolean isSingular() {
         boolean RESULT;
         try {
-            RESULT = (boolean) graphene_matrix_is_singular.invokeExact(handle());
+            RESULT = (boolean) DowncallHandles.graphene_matrix_is_singular.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle graphene_matrix_multiply = Interop.downcallHandle(
-        "graphene_matrix_multiply",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Multiplies two {@link Matrix}.
      * <p>
      * Matrix multiplication is not commutative in general; the order of the factors matters.
-     * The product of this multiplication is (@a × @b)
+     * The product of this multiplication is ({@code a} × {@code b})
+     * @param b a {@link Matrix}
+     * @param res return location for the matrix
+     *   result
      */
-    public @NotNull void multiply(@NotNull Matrix b, @NotNull Out<Matrix> res) {
+    public void multiply(@NotNull org.gtk.graphene.Matrix b, @NotNull Out<org.gtk.graphene.Matrix> res) {
+        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_matrix_multiply.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_multiply.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Matrix(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Matrix(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle graphene_matrix_near = Interop.downcallHandle(
-        "graphene_matrix_near",
-        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
-    );
     
     /**
      * Compares the two given {@link Matrix} matrices and checks
      * whether their values are within the given {@code epsilon} of each
      * other.
+     * @param b a {@link Matrix}
+     * @param epsilon the threshold between the two matrices
+     * @return {@code true} if the two matrices are near each other, and
+     *   {@code false} otherwise
      */
-    public boolean near(@NotNull Matrix b, @NotNull float epsilon) {
+    public boolean near(@NotNull org.gtk.graphene.Matrix b, float epsilon) {
+        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) graphene_matrix_near.invokeExact(handle(), b.handle(), epsilon);
+            RESULT = (boolean) DowncallHandles.graphene_matrix_near.invokeExact(handle(), b.handle(), epsilon);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle graphene_matrix_normalize = Interop.downcallHandle(
-        "graphene_matrix_normalize",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Normalizes the given {@link Matrix}.
+     * @param res return location for the normalized matrix
      */
-    public @NotNull void normalize(@NotNull Out<Matrix> res) {
+    public void normalize(@NotNull Out<org.gtk.graphene.Matrix> res) {
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_matrix_normalize.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_normalize.invokeExact(handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Matrix(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Matrix(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle graphene_matrix_perspective = Interop.downcallHandle(
-        "graphene_matrix_perspective",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Applies a perspective of {@code depth} to the matrix.
+     * @param depth the depth of the perspective
+     * @param res return location for the
+     *   perspective matrix
      */
-    public @NotNull void perspective(@NotNull float depth, @NotNull Out<Matrix> res) {
+    public void perspective(float depth, @NotNull Out<org.gtk.graphene.Matrix> res) {
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_matrix_perspective.invokeExact(handle(), depth, (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_perspective.invokeExact(handle(), depth, (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Matrix(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Matrix(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle graphene_matrix_print = Interop.downcallHandle(
-        "graphene_matrix_print",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Prints the contents of a matrix to the standard error stream.
@@ -781,266 +734,226 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * This function is only useful for debugging; there are no guarantees
      * made on the format of the output.
      */
-    public @NotNull void print() {
+    public void print() {
         try {
-            graphene_matrix_print.invokeExact(handle());
+            DowncallHandles.graphene_matrix_print.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle graphene_matrix_project_point = Interop.downcallHandle(
-        "graphene_matrix_project_point",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
-     * Projects a {@link Point} using the matrix @m.
+     * Projects a {@link Point} using the matrix {@code m}.
+     * @param p a {@link Point}
+     * @param res return location for the projected
+     *   point
      */
-    public @NotNull void projectPoint(@NotNull Point p, @NotNull Out<Point> res) {
+    public void projectPoint(@NotNull org.gtk.graphene.Point p, @NotNull Out<org.gtk.graphene.Point> res) {
+        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_matrix_project_point.invokeExact(handle(), p.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_project_point.invokeExact(handle(), p.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Point(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Point(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle graphene_matrix_project_rect = Interop.downcallHandle(
-        "graphene_matrix_project_rect",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Projects all corners of a {@link Rect} using the given matrix.
      * <p>
      * See also: graphene_matrix_project_point()
+     * @param r a {@link Rect}
+     * @param res return location for the projected
+     *   rectangle
      */
-    public @NotNull void projectRect(@NotNull Rect r, @NotNull Out<Quad> res) {
+    public void projectRect(@NotNull org.gtk.graphene.Rect r, @NotNull Out<org.gtk.graphene.Quad> res) {
+        java.util.Objects.requireNonNull(r, "Parameter 'r' must not be null");
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_matrix_project_rect.invokeExact(handle(), r.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_project_rect.invokeExact(handle(), r.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Quad(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Quad(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle graphene_matrix_project_rect_bounds = Interop.downcallHandle(
-        "graphene_matrix_project_rect_bounds",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Projects a {@link Rect} using the given matrix.
      * <p>
      * The resulting rectangle is the axis aligned bounding rectangle capable
      * of fully containing the projected rectangle.
+     * @param r a {@link Rect}
+     * @param res return location for the projected
+     *   rectangle
      */
-    public @NotNull void projectRectBounds(@NotNull Rect r, @NotNull Out<Rect> res) {
+    public void projectRectBounds(@NotNull org.gtk.graphene.Rect r, @NotNull Out<org.gtk.graphene.Rect> res) {
+        java.util.Objects.requireNonNull(r, "Parameter 'r' must not be null");
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_matrix_project_rect_bounds.invokeExact(handle(), r.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_project_rect_bounds.invokeExact(handle(), r.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Rect(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Rect(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    private static final MethodHandle graphene_matrix_rotate = Interop.downcallHandle(
-        "graphene_matrix_rotate",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Adds a rotation transformation to @m, using the given {@code angle}
+     * Adds a rotation transformation to {@code m}, using the given {@code angle}
      * and {@code axis} vector.
      * <p>
      * This is the equivalent of calling graphene_matrix_init_rotate() and
-     * then multiplying the matrix @m with the rotation matrix.
+     * then multiplying the matrix {@code m} with the rotation matrix.
+     * @param angle the rotation angle, in degrees
+     * @param axis the rotation axis, as a {@link Vec3}
      */
-    public @NotNull void rotate(@NotNull float angle, @NotNull Vec3 axis) {
+    public void rotate(float angle, @NotNull org.gtk.graphene.Vec3 axis) {
+        java.util.Objects.requireNonNull(axis, "Parameter 'axis' must not be null");
         try {
-            graphene_matrix_rotate.invokeExact(handle(), angle, axis.handle());
+            DowncallHandles.graphene_matrix_rotate.invokeExact(handle(), angle, axis.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle graphene_matrix_rotate_euler = Interop.downcallHandle(
-        "graphene_matrix_rotate_euler",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Adds a rotation transformation to @m, using the given
+     * Adds a rotation transformation to {@code m}, using the given
      * {@link Euler}.
+     * @param e a rotation described by a {@link Euler}
      */
-    public @NotNull void rotateEuler(@NotNull Euler e) {
+    public void rotateEuler(@NotNull org.gtk.graphene.Euler e) {
+        java.util.Objects.requireNonNull(e, "Parameter 'e' must not be null");
         try {
-            graphene_matrix_rotate_euler.invokeExact(handle(), e.handle());
+            DowncallHandles.graphene_matrix_rotate_euler.invokeExact(handle(), e.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle graphene_matrix_rotate_quaternion = Interop.downcallHandle(
-        "graphene_matrix_rotate_quaternion",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Adds a rotation transformation to @m, using the given
+     * Adds a rotation transformation to {@code m}, using the given
      * {@link Quaternion}.
      * <p>
      * This is the equivalent of calling graphene_quaternion_to_matrix() and
-     * then multiplying @m with the rotation matrix.
+     * then multiplying {@code m} with the rotation matrix.
+     * @param q a rotation described by a {@link Quaternion}
      */
-    public @NotNull void rotateQuaternion(@NotNull Quaternion q) {
+    public void rotateQuaternion(@NotNull org.gtk.graphene.Quaternion q) {
+        java.util.Objects.requireNonNull(q, "Parameter 'q' must not be null");
         try {
-            graphene_matrix_rotate_quaternion.invokeExact(handle(), q.handle());
+            DowncallHandles.graphene_matrix_rotate_quaternion.invokeExact(handle(), q.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle graphene_matrix_rotate_x = Interop.downcallHandle(
-        "graphene_matrix_rotate_x",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
-    );
-    
     /**
-     * Adds a rotation transformation around the X axis to @m, using
+     * Adds a rotation transformation around the X axis to {@code m}, using
      * the given {@code angle}.
      * <p>
      * See also: graphene_matrix_rotate()
+     * @param angle the rotation angle, in degrees
      */
-    public @NotNull void rotateX(@NotNull float angle) {
+    public void rotateX(float angle) {
         try {
-            graphene_matrix_rotate_x.invokeExact(handle(), angle);
+            DowncallHandles.graphene_matrix_rotate_x.invokeExact(handle(), angle);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle graphene_matrix_rotate_y = Interop.downcallHandle(
-        "graphene_matrix_rotate_y",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
-    );
-    
     /**
-     * Adds a rotation transformation around the Y axis to @m, using
+     * Adds a rotation transformation around the Y axis to {@code m}, using
      * the given {@code angle}.
      * <p>
      * See also: graphene_matrix_rotate()
+     * @param angle the rotation angle, in degrees
      */
-    public @NotNull void rotateY(@NotNull float angle) {
+    public void rotateY(float angle) {
         try {
-            graphene_matrix_rotate_y.invokeExact(handle(), angle);
+            DowncallHandles.graphene_matrix_rotate_y.invokeExact(handle(), angle);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle graphene_matrix_rotate_z = Interop.downcallHandle(
-        "graphene_matrix_rotate_z",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
-    );
-    
     /**
-     * Adds a rotation transformation around the Z axis to @m, using
+     * Adds a rotation transformation around the Z axis to {@code m}, using
      * the given {@code angle}.
      * <p>
      * See also: graphene_matrix_rotate()
+     * @param angle the rotation angle, in degrees
      */
-    public @NotNull void rotateZ(@NotNull float angle) {
+    public void rotateZ(float angle) {
         try {
-            graphene_matrix_rotate_z.invokeExact(handle(), angle);
+            DowncallHandles.graphene_matrix_rotate_z.invokeExact(handle(), angle);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle graphene_matrix_scale = Interop.downcallHandle(
-        "graphene_matrix_scale",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
-    );
-    
     /**
-     * Adds a scaling transformation to @m, using the three
+     * Adds a scaling transformation to {@code m}, using the three
      * given factors.
      * <p>
      * This is the equivalent of calling graphene_matrix_init_scale() and then
-     * multiplying the matrix @m with the scale matrix.
+     * multiplying the matrix {@code m} with the scale matrix.
+     * @param factorX scaling factor on the X axis
+     * @param factorY scaling factor on the Y axis
+     * @param factorZ scaling factor on the Z axis
      */
-    public @NotNull void scale(@NotNull float factorX, @NotNull float factorY, @NotNull float factorZ) {
+    public void scale(float factorX, float factorY, float factorZ) {
         try {
-            graphene_matrix_scale.invokeExact(handle(), factorX, factorY, factorZ);
+            DowncallHandles.graphene_matrix_scale.invokeExact(handle(), factorX, factorY, factorZ);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle graphene_matrix_skew_xy = Interop.downcallHandle(
-        "graphene_matrix_skew_xy",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
-    );
     
     /**
      * Adds a skew of {@code factor} on the X and Y axis to the given matrix.
+     * @param factor skew factor
      */
-    public @NotNull void skewXy(@NotNull float factor) {
+    public void skewXy(float factor) {
         try {
-            graphene_matrix_skew_xy.invokeExact(handle(), factor);
+            DowncallHandles.graphene_matrix_skew_xy.invokeExact(handle(), factor);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle graphene_matrix_skew_xz = Interop.downcallHandle(
-        "graphene_matrix_skew_xz",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
-    );
     
     /**
      * Adds a skew of {@code factor} on the X and Z axis to the given matrix.
+     * @param factor skew factor
      */
-    public @NotNull void skewXz(@NotNull float factor) {
+    public void skewXz(float factor) {
         try {
-            graphene_matrix_skew_xz.invokeExact(handle(), factor);
+            DowncallHandles.graphene_matrix_skew_xz.invokeExact(handle(), factor);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle graphene_matrix_skew_yz = Interop.downcallHandle(
-        "graphene_matrix_skew_yz",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
-    );
     
     /**
      * Adds a skew of {@code factor} on the Y and Z axis to the given matrix.
+     * @param factor skew factor
      */
-    public @NotNull void skewYz(@NotNull float factor) {
+    public void skewYz(float factor) {
         try {
-            graphene_matrix_skew_yz.invokeExact(handle(), factor);
+            DowncallHandles.graphene_matrix_skew_yz.invokeExact(handle(), factor);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle graphene_matrix_to_2d = Interop.downcallHandle(
-        "graphene_matrix_to_2d",
-        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Converts a {@link Matrix} to an affine transformation
      * matrix, if the given matrix is compatible.
      * <p>
      * The returned values have the following layout:
-     * <p>
      * <pre>{@code <!-- language="plain" -->
      *   ⎛ xx  yx ⎞   ⎛  a   b  0 ⎞
      *   ⎜ xy  yy ⎟ = ⎜  c   d  0 ⎟
@@ -1049,8 +962,22 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function can be used to convert between a {@link Matrix}
      * and an affine matrix type from other libraries.
+     * @param xx return location for the xx member
+     * @param yx return location for the yx member
+     * @param xy return location for the xy member
+     * @param yy return location for the yy member
+     * @param x0 return location for the x0 member
+     * @param y0 return location for the y0 member
+     * @return {@code true} if the matrix is compatible with an affine
+     *   transformation matrix
      */
-    public boolean to2d(@NotNull Out<Double> xx, @NotNull Out<Double> yx, @NotNull Out<Double> xy, @NotNull Out<Double> yy, @NotNull Out<Double> x0, @NotNull Out<Double> y0) {
+    public boolean to2d(Out<Double> xx, Out<Double> yx, Out<Double> xy, Out<Double> yy, Out<Double> x0, Out<Double> y0) {
+        java.util.Objects.requireNonNull(xx, "Parameter 'xx' must not be null");
+        java.util.Objects.requireNonNull(yx, "Parameter 'yx' must not be null");
+        java.util.Objects.requireNonNull(xy, "Parameter 'xy' must not be null");
+        java.util.Objects.requireNonNull(yy, "Parameter 'yy' must not be null");
+        java.util.Objects.requireNonNull(x0, "Parameter 'x0' must not be null");
+        java.util.Objects.requireNonNull(y0, "Parameter 'y0' must not be null");
         MemorySegment xxPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         MemorySegment yxPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         MemorySegment xyPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
@@ -1059,7 +986,7 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment y0POINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         boolean RESULT;
         try {
-            RESULT = (boolean) graphene_matrix_to_2d.invokeExact(handle(), (Addressable) xxPOINTER.address(), (Addressable) yxPOINTER.address(), (Addressable) xyPOINTER.address(), (Addressable) yyPOINTER.address(), (Addressable) x0POINTER.address(), (Addressable) y0POINTER.address());
+            RESULT = (boolean) DowncallHandles.graphene_matrix_to_2d.invokeExact(handle(), (Addressable) xxPOINTER.address(), (Addressable) yxPOINTER.address(), (Addressable) xyPOINTER.address(), (Addressable) yyPOINTER.address(), (Addressable) x0POINTER.address(), (Addressable) y0POINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1072,315 +999,651 @@ public class Matrix extends io.github.jwharm.javagi.ResourceBase {
         return RESULT;
     }
     
-    private static final MethodHandle graphene_matrix_to_float = Interop.downcallHandle(
-        "graphene_matrix_to_float",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Converts a {@link Matrix} to an array of floating point
      * values.
+     * @param v return location
+     *   for an array of floating point values. The array must be capable
+     *   of holding at least 16 values.
      */
-    public @NotNull void toFloat(@NotNull Out<float[]> v) {
+    public void toFloat(Out<float[]> v) {
+        java.util.Objects.requireNonNull(v, "Parameter 'v' must not be null");
         MemorySegment vPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_matrix_to_float.invokeExact(handle(), (Addressable) vPOINTER.address());
+            DowncallHandles.graphene_matrix_to_float.invokeExact(handle(), (Addressable) vPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         v.set(MemorySegment.ofAddress(vPOINTER.get(ValueLayout.ADDRESS, 0), 16 * ValueLayout.JAVA_FLOAT.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_FLOAT));
     }
     
-    private static final MethodHandle graphene_matrix_transform_bounds = Interop.downcallHandle(
-        "graphene_matrix_transform_bounds",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Transforms each corner of a {@link Rect} using the given matrix @m.
+     * Transforms each corner of a {@link Rect} using the given matrix {@code m}.
      * <p>
      * The result is the axis aligned bounding rectangle containing the coplanar
      * quadrilateral.
      * <p>
      * See also: graphene_matrix_transform_point()
+     * @param r a {@link Rect}
+     * @param res return location for the bounds
+     *   of the transformed rectangle
      */
-    public @NotNull void transformBounds(@NotNull Rect r, @NotNull Out<Rect> res) {
+    public void transformBounds(@NotNull org.gtk.graphene.Rect r, @NotNull Out<org.gtk.graphene.Rect> res) {
+        java.util.Objects.requireNonNull(r, "Parameter 'r' must not be null");
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_matrix_transform_bounds.invokeExact(handle(), r.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_transform_bounds.invokeExact(handle(), r.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Rect(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Rect(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    private static final MethodHandle graphene_matrix_transform_box = Interop.downcallHandle(
-        "graphene_matrix_transform_box",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Transforms the vertices of a {@link Box} using the given matrix @m.
+     * Transforms the vertices of a {@link Box} using the given matrix {@code m}.
      * <p>
      * The result is the axis aligned bounding box containing the transformed
      * vertices.
+     * @param b a {@link Box}
+     * @param res return location for the bounds
+     *   of the transformed box
      */
-    public @NotNull void transformBox(@NotNull Box b, @NotNull Out<Box> res) {
+    public void transformBox(@NotNull org.gtk.graphene.Box b, @NotNull Out<org.gtk.graphene.Box> res) {
+        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_matrix_transform_box.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_transform_box.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Box(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Box(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    private static final MethodHandle graphene_matrix_transform_point = Interop.downcallHandle(
-        "graphene_matrix_transform_point",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Transforms the given {@link Point} using the matrix @m.
+     * Transforms the given {@link Point} using the matrix {@code m}.
      * <p>
      * Unlike graphene_matrix_transform_vec3(), this function will take into
      * account the fourth row vector of the {@link Matrix} when computing
      * the dot product of each row vector of the matrix.
      * <p>
      * See also: graphene_simd4x4f_point3_mul()
+     * @param p a {@link Point}
+     * @param res return location for the
+     *   transformed {@link Point}
      */
-    public @NotNull void transformPoint(@NotNull Point p, @NotNull Out<Point> res) {
+    public void transformPoint(@NotNull org.gtk.graphene.Point p, @NotNull Out<org.gtk.graphene.Point> res) {
+        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_matrix_transform_point.invokeExact(handle(), p.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_transform_point.invokeExact(handle(), p.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Point(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Point(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    private static final MethodHandle graphene_matrix_transform_point3d = Interop.downcallHandle(
-        "graphene_matrix_transform_point3d",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Transforms the given {@link Point3D} using the matrix @m.
+     * Transforms the given {@link Point3D} using the matrix {@code m}.
      * <p>
      * Unlike graphene_matrix_transform_vec3(), this function will take into
      * account the fourth row vector of the {@link Matrix} when computing
      * the dot product of each row vector of the matrix.
      * <p>
      * See also: graphene_simd4x4f_point3_mul()
+     * @param p a {@link Point3D}
+     * @param res return location for the result
      */
-    public @NotNull void transformPoint3d(@NotNull Point3D p, @NotNull Out<Point3D> res) {
+    public void transformPoint3d(@NotNull org.gtk.graphene.Point3D p, @NotNull Out<org.gtk.graphene.Point3D> res) {
+        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_matrix_transform_point3d.invokeExact(handle(), p.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_transform_point3d.invokeExact(handle(), p.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Point3D(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Point3D(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    private static final MethodHandle graphene_matrix_transform_ray = Interop.downcallHandle(
-        "graphene_matrix_transform_ray",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Transform a {@link Ray} using the given matrix @m.
+     * Transform a {@link Ray} using the given matrix {@code m}.
+     * @param r a {@link Ray}
+     * @param res return location for the
+     *   transformed ray
      */
-    public @NotNull void transformRay(@NotNull Ray r, @NotNull Out<Ray> res) {
+    public void transformRay(@NotNull org.gtk.graphene.Ray r, @NotNull Out<org.gtk.graphene.Ray> res) {
+        java.util.Objects.requireNonNull(r, "Parameter 'r' must not be null");
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_matrix_transform_ray.invokeExact(handle(), r.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_transform_ray.invokeExact(handle(), r.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Ray(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Ray(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    private static final MethodHandle graphene_matrix_transform_rect = Interop.downcallHandle(
-        "graphene_matrix_transform_rect",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Transforms each corner of a {@link Rect} using the given matrix @m.
+     * Transforms each corner of a {@link Rect} using the given matrix {@code m}.
      * <p>
      * The result is a coplanar quadrilateral.
      * <p>
      * See also: graphene_matrix_transform_point()
+     * @param r a {@link Rect}
+     * @param res return location for the
+     *   transformed quad
      */
-    public @NotNull void transformRect(@NotNull Rect r, @NotNull Out<Quad> res) {
+    public void transformRect(@NotNull org.gtk.graphene.Rect r, @NotNull Out<org.gtk.graphene.Quad> res) {
+        java.util.Objects.requireNonNull(r, "Parameter 'r' must not be null");
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_matrix_transform_rect.invokeExact(handle(), r.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_transform_rect.invokeExact(handle(), r.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Quad(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Quad(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    private static final MethodHandle graphene_matrix_transform_sphere = Interop.downcallHandle(
-        "graphene_matrix_transform_sphere",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Transforms a {@link Sphere} using the given matrix @m. The
+     * Transforms a {@link Sphere} using the given matrix {@code m}. The
      * result is the bounding sphere containing the transformed sphere.
+     * @param s a {@link Sphere}
+     * @param res return location for the bounds
+     *   of the transformed sphere
      */
-    public @NotNull void transformSphere(@NotNull Sphere s, @NotNull Out<Sphere> res) {
+    public void transformSphere(@NotNull org.gtk.graphene.Sphere s, @NotNull Out<org.gtk.graphene.Sphere> res) {
+        java.util.Objects.requireNonNull(s, "Parameter 's' must not be null");
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_matrix_transform_sphere.invokeExact(handle(), s.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_transform_sphere.invokeExact(handle(), s.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Sphere(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Sphere(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    private static final MethodHandle graphene_matrix_transform_vec3 = Interop.downcallHandle(
-        "graphene_matrix_transform_vec3",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Transforms the given {@link Vec3} using the matrix @m.
+     * Transforms the given {@link Vec3} using the matrix {@code m}.
      * <p>
-     * This function will multiply the X, Y, and Z row vectors of the matrix @m
-     * with the corresponding components of the vector @v. The W row vector will
+     * This function will multiply the X, Y, and Z row vectors of the matrix {@code m}
+     * with the corresponding components of the vector {@code v}. The W row vector will
      * be ignored.
      * <p>
      * See also: graphene_simd4x4f_vec3_mul()
+     * @param v a {@link Vec3}
+     * @param res return location for a {@link Vec3}
      */
-    public @NotNull void transformVec3(@NotNull Vec3 v, @NotNull Out<Vec3> res) {
+    public void transformVec3(@NotNull org.gtk.graphene.Vec3 v, @NotNull Out<org.gtk.graphene.Vec3> res) {
+        java.util.Objects.requireNonNull(v, "Parameter 'v' must not be null");
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_matrix_transform_vec3.invokeExact(handle(), v.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_transform_vec3.invokeExact(handle(), v.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    private static final MethodHandle graphene_matrix_transform_vec4 = Interop.downcallHandle(
-        "graphene_matrix_transform_vec4",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Transforms the given {@link Vec4} using the matrix @m.
+     * Transforms the given {@link Vec4} using the matrix {@code m}.
      * <p>
      * See also: graphene_simd4x4f_vec4_mul()
+     * @param v a {@link Vec4}
+     * @param res return location for a {@link Vec4}
      */
-    public @NotNull void transformVec4(@NotNull Vec4 v, @NotNull Out<Vec4> res) {
+    public void transformVec4(@NotNull org.gtk.graphene.Vec4 v, @NotNull Out<org.gtk.graphene.Vec4> res) {
+        java.util.Objects.requireNonNull(v, "Parameter 'v' must not be null");
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_matrix_transform_vec4.invokeExact(handle(), v.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_transform_vec4.invokeExact(handle(), v.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    private static final MethodHandle graphene_matrix_translate = Interop.downcallHandle(
-        "graphene_matrix_translate",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Adds a translation transformation to @m using the coordinates
+     * Adds a translation transformation to {@code m} using the coordinates
      * of the given {@link Point3D}.
      * <p>
      * This is the equivalent of calling graphene_matrix_init_translate() and
-     * then multiplying @m with the translation matrix.
+     * then multiplying {@code m} with the translation matrix.
+     * @param pos a {@link Point3D}
      */
-    public @NotNull void translate(@NotNull Point3D pos) {
+    public void translate(@NotNull org.gtk.graphene.Point3D pos) {
+        java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
         try {
-            graphene_matrix_translate.invokeExact(handle(), pos.handle());
+            DowncallHandles.graphene_matrix_translate.invokeExact(handle(), pos.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle graphene_matrix_transpose = Interop.downcallHandle(
-        "graphene_matrix_transpose",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Transposes the given matrix.
+     * @param res return location for the
+     *   transposed matrix
      */
-    public @NotNull void transpose(@NotNull Out<Matrix> res) {
+    public void transpose(@NotNull Out<org.gtk.graphene.Matrix> res) {
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_matrix_transpose.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_transpose.invokeExact(handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Matrix(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Matrix(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle graphene_matrix_unproject_point3d = Interop.downcallHandle(
-        "graphene_matrix_unproject_point3d",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Unprojects the given {@code point} using the {@code projection} matrix and
      * a {@code modelview} matrix.
+     * @param modelview a {@link Matrix} for the modelview matrix; this is
+     *   the inverse of the modelview used when projecting the point
+     * @param point a {@link Point3D} with the coordinates of the point
+     * @param res return location for the unprojected
+     *   point
      */
-    public @NotNull void unprojectPoint3d(@NotNull Matrix modelview, @NotNull Point3D point, @NotNull Out<Point3D> res) {
+    public void unprojectPoint3d(@NotNull org.gtk.graphene.Matrix modelview, @NotNull org.gtk.graphene.Point3D point, @NotNull Out<org.gtk.graphene.Point3D> res) {
+        java.util.Objects.requireNonNull(modelview, "Parameter 'modelview' must not be null");
+        java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_matrix_unproject_point3d.invokeExact(handle(), modelview.handle(), point.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_unproject_point3d.invokeExact(handle(), modelview.handle(), point.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Point3D(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Point3D(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle graphene_matrix_untransform_bounds = Interop.downcallHandle(
-        "graphene_matrix_untransform_bounds",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Undoes the transformation on the corners of a {@link Rect} using the
      * given matrix, within the given axis aligned rectangular {@code bounds}.
+     * @param r a {@link Rect}
+     * @param bounds the bounds of the transformation
+     * @param res return location for the
+     *   untransformed rectangle
      */
-    public @NotNull void untransformBounds(@NotNull Rect r, @NotNull Rect bounds, @NotNull Out<Rect> res) {
+    public void untransformBounds(@NotNull org.gtk.graphene.Rect r, @NotNull org.gtk.graphene.Rect bounds, @NotNull Out<org.gtk.graphene.Rect> res) {
+        java.util.Objects.requireNonNull(r, "Parameter 'r' must not be null");
+        java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_matrix_untransform_bounds.invokeExact(handle(), r.handle(), bounds.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_matrix_untransform_bounds.invokeExact(handle(), r.handle(), bounds.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Rect(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Rect(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle graphene_matrix_untransform_point = Interop.downcallHandle(
-        "graphene_matrix_untransform_point",
-        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Undoes the transformation of a {@link Point} using the
      * given matrix, within the given axis aligned rectangular {@code bounds}.
+     * @param p a {@link Point}
+     * @param bounds the bounds of the transformation
+     * @param res return location for the
+     *   untransformed point
+     * @return {@code true} if the point was successfully untransformed
      */
-    public boolean untransformPoint(@NotNull Point p, @NotNull Rect bounds, @NotNull Out<Point> res) {
+    public boolean untransformPoint(@NotNull org.gtk.graphene.Point p, @NotNull org.gtk.graphene.Rect bounds, @NotNull Out<org.gtk.graphene.Point> res) {
+        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
+        java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         boolean RESULT;
         try {
-            RESULT = (boolean) graphene_matrix_untransform_point.invokeExact(handle(), p.handle(), bounds.handle(), (Addressable) resPOINTER.address());
+            RESULT = (boolean) DowncallHandles.graphene_matrix_untransform_point.invokeExact(handle(), p.handle(), bounds.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Point(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Point(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT;
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle graphene_matrix_alloc = Interop.downcallHandle(
+            "graphene_matrix_alloc",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_decompose = Interop.downcallHandle(
+            "graphene_matrix_decompose",
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_determinant = Interop.downcallHandle(
+            "graphene_matrix_determinant",
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_equal = Interop.downcallHandle(
+            "graphene_matrix_equal",
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_equal_fast = Interop.downcallHandle(
+            "graphene_matrix_equal_fast",
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_free = Interop.downcallHandle(
+            "graphene_matrix_free",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_get_row = Interop.downcallHandle(
+            "graphene_matrix_get_row",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_get_value = Interop.downcallHandle(
+            "graphene_matrix_get_value",
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle graphene_matrix_get_x_scale = Interop.downcallHandle(
+            "graphene_matrix_get_x_scale",
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_get_x_translation = Interop.downcallHandle(
+            "graphene_matrix_get_x_translation",
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_get_y_scale = Interop.downcallHandle(
+            "graphene_matrix_get_y_scale",
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_get_y_translation = Interop.downcallHandle(
+            "graphene_matrix_get_y_translation",
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_get_z_scale = Interop.downcallHandle(
+            "graphene_matrix_get_z_scale",
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_get_z_translation = Interop.downcallHandle(
+            "graphene_matrix_get_z_translation",
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_init_from_2d = Interop.downcallHandle(
+            "graphene_matrix_init_from_2d",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+        );
+        
+        private static final MethodHandle graphene_matrix_init_from_float = Interop.downcallHandle(
+            "graphene_matrix_init_from_float",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_init_from_matrix = Interop.downcallHandle(
+            "graphene_matrix_init_from_matrix",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_init_from_vec4 = Interop.downcallHandle(
+            "graphene_matrix_init_from_vec4",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_init_frustum = Interop.downcallHandle(
+            "graphene_matrix_init_frustum",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+        );
+        
+        private static final MethodHandle graphene_matrix_init_identity = Interop.downcallHandle(
+            "graphene_matrix_init_identity",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_init_look_at = Interop.downcallHandle(
+            "graphene_matrix_init_look_at",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_init_ortho = Interop.downcallHandle(
+            "graphene_matrix_init_ortho",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+        );
+        
+        private static final MethodHandle graphene_matrix_init_perspective = Interop.downcallHandle(
+            "graphene_matrix_init_perspective",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+        );
+        
+        private static final MethodHandle graphene_matrix_init_rotate = Interop.downcallHandle(
+            "graphene_matrix_init_rotate",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_init_scale = Interop.downcallHandle(
+            "graphene_matrix_init_scale",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+        );
+        
+        private static final MethodHandle graphene_matrix_init_skew = Interop.downcallHandle(
+            "graphene_matrix_init_skew",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+        );
+        
+        private static final MethodHandle graphene_matrix_init_translate = Interop.downcallHandle(
+            "graphene_matrix_init_translate",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_interpolate = Interop.downcallHandle(
+            "graphene_matrix_interpolate",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_inverse = Interop.downcallHandle(
+            "graphene_matrix_inverse",
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_is_2d = Interop.downcallHandle(
+            "graphene_matrix_is_2d",
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_is_backface_visible = Interop.downcallHandle(
+            "graphene_matrix_is_backface_visible",
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_is_identity = Interop.downcallHandle(
+            "graphene_matrix_is_identity",
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_is_singular = Interop.downcallHandle(
+            "graphene_matrix_is_singular",
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_multiply = Interop.downcallHandle(
+            "graphene_matrix_multiply",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_near = Interop.downcallHandle(
+            "graphene_matrix_near",
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+        );
+        
+        private static final MethodHandle graphene_matrix_normalize = Interop.downcallHandle(
+            "graphene_matrix_normalize",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_perspective = Interop.downcallHandle(
+            "graphene_matrix_perspective",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_print = Interop.downcallHandle(
+            "graphene_matrix_print",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_project_point = Interop.downcallHandle(
+            "graphene_matrix_project_point",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_project_rect = Interop.downcallHandle(
+            "graphene_matrix_project_rect",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_project_rect_bounds = Interop.downcallHandle(
+            "graphene_matrix_project_rect_bounds",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_rotate = Interop.downcallHandle(
+            "graphene_matrix_rotate",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_rotate_euler = Interop.downcallHandle(
+            "graphene_matrix_rotate_euler",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_rotate_quaternion = Interop.downcallHandle(
+            "graphene_matrix_rotate_quaternion",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_rotate_x = Interop.downcallHandle(
+            "graphene_matrix_rotate_x",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+        );
+        
+        private static final MethodHandle graphene_matrix_rotate_y = Interop.downcallHandle(
+            "graphene_matrix_rotate_y",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+        );
+        
+        private static final MethodHandle graphene_matrix_rotate_z = Interop.downcallHandle(
+            "graphene_matrix_rotate_z",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+        );
+        
+        private static final MethodHandle graphene_matrix_scale = Interop.downcallHandle(
+            "graphene_matrix_scale",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+        );
+        
+        private static final MethodHandle graphene_matrix_skew_xy = Interop.downcallHandle(
+            "graphene_matrix_skew_xy",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+        );
+        
+        private static final MethodHandle graphene_matrix_skew_xz = Interop.downcallHandle(
+            "graphene_matrix_skew_xz",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+        );
+        
+        private static final MethodHandle graphene_matrix_skew_yz = Interop.downcallHandle(
+            "graphene_matrix_skew_yz",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+        );
+        
+        private static final MethodHandle graphene_matrix_to_2d = Interop.downcallHandle(
+            "graphene_matrix_to_2d",
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_to_float = Interop.downcallHandle(
+            "graphene_matrix_to_float",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_transform_bounds = Interop.downcallHandle(
+            "graphene_matrix_transform_bounds",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_transform_box = Interop.downcallHandle(
+            "graphene_matrix_transform_box",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_transform_point = Interop.downcallHandle(
+            "graphene_matrix_transform_point",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_transform_point3d = Interop.downcallHandle(
+            "graphene_matrix_transform_point3d",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_transform_ray = Interop.downcallHandle(
+            "graphene_matrix_transform_ray",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_transform_rect = Interop.downcallHandle(
+            "graphene_matrix_transform_rect",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_transform_sphere = Interop.downcallHandle(
+            "graphene_matrix_transform_sphere",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_transform_vec3 = Interop.downcallHandle(
+            "graphene_matrix_transform_vec3",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_transform_vec4 = Interop.downcallHandle(
+            "graphene_matrix_transform_vec4",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_translate = Interop.downcallHandle(
+            "graphene_matrix_translate",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_transpose = Interop.downcallHandle(
+            "graphene_matrix_transpose",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_unproject_point3d = Interop.downcallHandle(
+            "graphene_matrix_unproject_point3d",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_untransform_bounds = Interop.downcallHandle(
+            "graphene_matrix_untransform_bounds",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_matrix_untransform_point = Interop.downcallHandle(
+            "graphene_matrix_untransform_point",
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

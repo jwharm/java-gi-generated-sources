@@ -1,5 +1,10 @@
 package org.gtk.gdkpixbuf;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Interpolation modes for scaling functions.
  * <p>
@@ -8,11 +13,19 @@ package org.gtk.gdkpixbuf;
  * choice if you aren't sure what to choose, it has a good speed/quality
  * balance.
  * <p>
- * <strong>*Note*</strong>: Cubic filtering is missing from the list; hyperbolic
+ * <em>*Note</em>*: Cubic filtering is missing from the list; hyperbolic
  * interpolation is just as fast and results in higher quality.
  */
 public class InterpType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Nearest neighbor sampling; this is the fastest
      *  and lowest quality mode. Quality is normally unacceptable when scaling
@@ -44,7 +57,7 @@ public class InterpType extends io.github.jwharm.javagi.Enumeration {
      *  Wolberg's "Digital Image Warping", and is formally defined as the
      *  hyperbolic-filter sampling the ideal hyperbolic-filter interpolated
      *  image (the filter is designed to be idempotent for 1:1 pixel mapping).
-     *  <strong>*Deprecated*</strong>: this interpolation filter is deprecated, as in reality
+     *  <em>*Deprecated</em>*: this interpolation filter is deprecated, as in reality
      *  it has a lower quality than the {@code GDK_INTERP_BILINEAR} filter
      *  (Since: 2.38)
      */
@@ -53,5 +66,4 @@ public class InterpType extends io.github.jwharm.javagi.Enumeration {
     public InterpType(int value) {
         super(value);
     }
-    
 }

@@ -1,10 +1,24 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Flags specifying compile-time options.
+ * @version 2.14
  */
 public class RegexCompileFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Letters in the pattern match both upper- and
      *     lowercase letters. This option can be changed within a pattern
@@ -38,7 +52,7 @@ public class RegexCompileFlags extends io.github.jwharm.javagi.Bitfield {
      * Whitespace data characters in the pattern are
      *     totally ignored except when escaped or inside a character class.
      *     Whitespace does not include the VT character (code 11). In addition,
-     *     characters between an unescaped "#" outside a character class and
+     *     characters between an unescaped "{@code "} outside a character class and
      *     the next newline character, inclusive, are also ignored. This can
      *     be changed within a pattern by a "(?x)" option setting.
      */
@@ -149,5 +163,4 @@ public class RegexCompileFlags extends io.github.jwharm.javagi.Bitfield {
     public RegexCompileFlags(int value) {
         super(value);
     }
-    
 }

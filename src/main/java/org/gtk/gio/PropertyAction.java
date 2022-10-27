@@ -57,9 +57,22 @@ import org.jetbrains.annotations.*;
  * {@link Settings}.  If you want a {@link Action} to control a setting stored in
  * {@link Settings}, see g_settings_create_action() instead, and possibly
  * combine its use with g_settings_bind().
+ * @version 2.38
  */
-public class PropertyAction extends org.gtk.gobject.Object implements Action {
-
+public class PropertyAction extends org.gtk.gobject.Object implements org.gtk.gio.Action {
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public PropertyAction(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -69,18 +82,17 @@ public class PropertyAction extends org.gtk.gobject.Object implements Action {
         return new PropertyAction(gobject.refcounted());
     }
     
-    private static final MethodHandle g_property_action_new = Interop.downcallHandle(
-        "g_property_action_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew(@NotNull java.lang.String name, @NotNull org.gtk.gobject.Object object, @NotNull java.lang.String propertyName) {
+        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
+        java.util.Objects.requireNonNull(propertyName, "Parameter 'propertyName' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_property_action_new.invokeExact(Interop.allocateNativeString(name), object.handle(), Interop.allocateNativeString(propertyName)), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_property_action_new.invokeExact(Interop.allocateNativeString(name), object.handle(), Interop.allocateNativeString(propertyName)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -92,9 +104,20 @@ public class PropertyAction extends org.gtk.gobject.Object implements Action {
      * <p>
      * This function takes a reference on {@code object} and doesn't release it
      * until the action is destroyed.
+     * @param name the name of the action to create
+     * @param object the object that has the property
+     *   to wrap
+     * @param propertyName the name of the property
      */
     public PropertyAction(@NotNull java.lang.String name, @NotNull org.gtk.gobject.Object object, @NotNull java.lang.String propertyName) {
         super(constructNew(name, object, propertyName));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_property_action_new = Interop.downcallHandle(
+            "g_property_action_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

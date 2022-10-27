@@ -1,11 +1,24 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Specifies which nodes are visited during several of the tree
  * functions, including g_node_traverse() and g_node_find().
  */
 public class TraverseFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * only leaf nodes should be visited. This name has
      *                     been introduced in 2.6, for older version use
@@ -43,5 +56,4 @@ public class TraverseFlags extends io.github.jwharm.javagi.Bitfield {
     public TraverseFlags(int value) {
         super(value);
     }
-    
 }

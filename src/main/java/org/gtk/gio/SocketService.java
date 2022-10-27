@@ -32,9 +32,27 @@ import org.jetbrains.annotations.*;
  * threadsafe in general. However, the calls to start and stop the
  * service are thread-safe so these can be used from threads that
  * handle incoming clients.
+ * @version 2.22
  */
-public class SocketService extends SocketListener {
-
+public class SocketService extends org.gtk.gio.SocketListener {
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gio.SocketListener.getMemoryLayout().withName("parent_instance"),
+        org.gtk.gio.SocketServicePrivate.getMemoryLayout().withName("priv")
+    ).withName("GSocketService");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public SocketService(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -44,18 +62,14 @@ public class SocketService extends SocketListener {
         return new SocketService(gobject.refcounted());
     }
     
-    private static final MethodHandle g_socket_service_new = Interop.downcallHandle(
-        "g_socket_service_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_socket_service_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_socket_service_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -71,31 +85,22 @@ public class SocketService extends SocketListener {
         super(constructNew());
     }
     
-    private static final MethodHandle g_socket_service_is_active = Interop.downcallHandle(
-        "g_socket_service_is_active",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Check whether the service is active or not. An active
      * service will accept new clients that connect, while
      * a non-active service will let connecting clients queue
      * up until the service is started.
+     * @return {@code true} if the service is active, {@code false} otherwise
      */
     public boolean isActive() {
         int RESULT;
         try {
-            RESULT = (int) g_socket_service_is_active.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_service_is_active.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_socket_service_start = Interop.downcallHandle(
-        "g_socket_service_start",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Restarts the service, i.e. start accepting connections
@@ -106,18 +111,13 @@ public class SocketService extends SocketListener {
      * This call is thread-safe, so it may be called from a thread
      * handling an incoming client request.
      */
-    public @NotNull void start() {
+    public void start() {
         try {
-            g_socket_service_start.invokeExact(handle());
+            DowncallHandles.g_socket_service_start.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_socket_service_stop = Interop.downcallHandle(
-        "g_socket_service_stop",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Stops the service, i.e. stops accepting connections
@@ -136,17 +136,17 @@ public class SocketService extends SocketListener {
      * the socket service will start accepting connections immediately
      * when a new socket is added.
      */
-    public @NotNull void stop() {
+    public void stop() {
         try {
-            g_socket_service_stop.invokeExact(handle());
+            DowncallHandles.g_socket_service_stop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface IncomingHandler {
-        boolean signalReceived(SocketService source, @NotNull SocketConnection connection, @Nullable org.gtk.gobject.Object sourceObject);
+    public interface Incoming {
+        boolean signalReceived(SocketService source, @NotNull org.gtk.gio.SocketConnection connection, @Nullable org.gtk.gobject.Object sourceObject);
     }
     
     /**
@@ -158,7 +158,7 @@ public class SocketService extends SocketListener {
      * {@code connection} will be unreffed once the signal handler returns,
      * so you need to ref it yourself if you are planning to use it.
      */
-    public SignalHandle onIncoming(IncomingHandler handler) {
+    public Signal<SocketService.Incoming> onIncoming(SocketService.Incoming handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -168,21 +168,43 @@ public class SocketService extends SocketListener {
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<SocketService.Incoming>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static boolean signalSocketServiceIncoming(MemoryAddress source, MemoryAddress connection, MemoryAddress sourceObject, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (SocketService.IncomingHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new SocketService(Refcounted.get(source)), new SocketConnection(Refcounted.get(connection, false)), new org.gtk.gobject.Object(Refcounted.get(sourceObject, false)));
-        }
+    private static class DowncallHandles {
         
+        private static final MethodHandle g_socket_service_new = Interop.downcallHandle(
+            "g_socket_service_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_service_is_active = Interop.downcallHandle(
+            "g_socket_service_is_active",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_service_start = Interop.downcallHandle(
+            "g_socket_service_start",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_service_stop = Interop.downcallHandle(
+            "g_socket_service_stop",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
+    
+    private static class Callbacks {
+        
+        public static boolean signalSocketServiceIncoming(MemoryAddress source, MemoryAddress connection, MemoryAddress sourceObject, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (SocketService.Incoming) Interop.signalRegistry.get(HASH);
+            return HANDLER.signalReceived(new SocketService(Refcounted.get(source)), new org.gtk.gio.SocketConnection(Refcounted.get(connection, false)), new org.gtk.gobject.Object(Refcounted.get(sourceObject, false)));
+        }
     }
 }

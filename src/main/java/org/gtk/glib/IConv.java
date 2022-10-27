@@ -10,15 +10,22 @@ import org.jetbrains.annotations.*;
  * private data and should only be accessed using the following functions.
  */
 public class IConv extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GLib.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public IConv(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
-    private static final MethodHandle g_iconv = Interop.downcallHandle(
-        "g_iconv",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Same as the standard UNIX routine iconv(), but
@@ -34,21 +41,25 @@ public class IConv extends io.github.jwharm.javagi.ResourceBase {
      * positive number of non-reversible conversions as replacement characters were
      * used), or it may return -1 and set an error such as {@code EILSEQ}, in such a
      * situation.
+     * @param inbuf bytes to convert
+     * @param inbytesLeft inout parameter, bytes remaining to convert in {@code inbuf}
+     * @param outbuf converted output bytes
+     * @param outbytesLeft inout parameter, bytes available to fill in {@code outbuf}
+     * @return count of non-reversible conversions, or -1 on error
      */
-    public long gIconv(@NotNull PointerString inbuf, @NotNull PointerLong inbytesLeft, @NotNull PointerString outbuf, @NotNull PointerLong outbytesLeft) {
+    public long gIconv(@NotNull PointerString inbuf, PointerLong inbytesLeft, @NotNull PointerString outbuf, PointerLong outbytesLeft) {
+        java.util.Objects.requireNonNull(inbuf, "Parameter 'inbuf' must not be null");
+        java.util.Objects.requireNonNull(inbytesLeft, "Parameter 'inbytesLeft' must not be null");
+        java.util.Objects.requireNonNull(outbuf, "Parameter 'outbuf' must not be null");
+        java.util.Objects.requireNonNull(outbytesLeft, "Parameter 'outbytesLeft' must not be null");
         long RESULT;
         try {
-            RESULT = (long) g_iconv.invokeExact(handle(), inbuf.handle(), inbytesLeft.handle(), outbuf.handle(), outbytesLeft.handle());
+            RESULT = (long) DowncallHandles.g_iconv.invokeExact(handle(), inbuf.handle(), inbytesLeft.handle(), outbuf.handle(), outbytesLeft.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_iconv_close = Interop.downcallHandle(
-        "g_iconv_close",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Same as the standard UNIX routine iconv_close(), but
@@ -59,21 +70,17 @@ public class IConv extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * GLib provides g_convert() and g_locale_to_utf8() which are likely
      * more convenient than the raw iconv wrappers.
+     * @return -1 on error, 0 on success
      */
     public int close() {
         int RESULT;
         try {
-            RESULT = (int) g_iconv_close.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_iconv_close.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_iconv_open = Interop.downcallHandle(
-        "g_iconv_open",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Same as the standard UNIX routine iconv_open(), but
@@ -82,15 +89,38 @@ public class IConv extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * GLib provides g_convert() and g_locale_to_utf8() which are likely
      * more convenient than the raw iconv wrappers.
+     * @param toCodeset destination codeset
+     * @param fromCodeset source codeset
+     * @return a "conversion descriptor", or (GIConv)-1 if
+     *  opening the converter failed.
      */
-    public static @NotNull IConv open(@NotNull java.lang.String toCodeset, @NotNull java.lang.String fromCodeset) {
+    public static @NotNull org.gtk.glib.IConv open(@NotNull java.lang.String toCodeset, @NotNull java.lang.String fromCodeset) {
+        java.util.Objects.requireNonNull(toCodeset, "Parameter 'toCodeset' must not be null");
+        java.util.Objects.requireNonNull(fromCodeset, "Parameter 'fromCodeset' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_iconv_open.invokeExact(Interop.allocateNativeString(toCodeset), Interop.allocateNativeString(fromCodeset));
+            RESULT = (MemoryAddress) DowncallHandles.g_iconv_open.invokeExact(Interop.allocateNativeString(toCodeset), Interop.allocateNativeString(fromCodeset));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new IConv(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.IConv(Refcounted.get(RESULT, false));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_iconv = Interop.downcallHandle(
+            "g_iconv",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_iconv_close = Interop.downcallHandle(
+            "g_iconv_close",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_iconv_open = Interop.downcallHandle(
+            "g_iconv_open",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

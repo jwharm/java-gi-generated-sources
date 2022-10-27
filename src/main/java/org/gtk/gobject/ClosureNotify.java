@@ -1,6 +1,8 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -9,5 +11,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ClosureNotify {
-        void onClosureNotify(@NotNull Closure closure);
+        void onClosureNotify(@NotNull org.gtk.gobject.Closure closure);
 }

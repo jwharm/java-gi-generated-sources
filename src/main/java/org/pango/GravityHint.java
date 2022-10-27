@@ -1,5 +1,10 @@
 package org.pango;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * {@code PangoGravityHint} defines how horizontal scripts should behave in a
  * vertical context.
@@ -7,9 +12,18 @@ package org.pango;
  * That is, English excerpts in a vertical paragraph for example.
  * <p>
  * See also {@code Pango.Gravity}
+ * @version 1.16
  */
 public class GravityHint extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * scripts will take their natural gravity based
      *   on the base gravity and the script.  This is the default.
@@ -33,5 +47,4 @@ public class GravityHint extends io.github.jwharm.javagi.Enumeration {
     public GravityHint(int value) {
         super(value);
     }
-    
 }

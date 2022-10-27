@@ -15,23 +15,32 @@ import org.jetbrains.annotations.*;
  * access it from more than one thread.
  */
 public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GLib.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public VariantBuilder(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle g_variant_builder_new = Interop.downcallHandle(
-        "g_variant_builder_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNew(@NotNull VariantType type) {
+    private static Refcounted constructNew(@NotNull org.gtk.glib.VariantType type) {
+        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_variant_builder_new.invokeExact(type.handle()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_variant_builder_new.invokeExact(type.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -44,15 +53,79 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * In most cases it is easier to place a {@link VariantBuilder} directly on
      * the stack of the calling function and initialise it with
      * g_variant_builder_init().
+     * @param type a container type
      */
-    public VariantBuilder(@NotNull VariantType type) {
+    public VariantBuilder(@NotNull org.gtk.glib.VariantType type) {
         super(constructNew(type));
     }
     
-    private static final MethodHandle g_variant_builder_add_value = Interop.downcallHandle(
-        "g_variant_builder_add_value",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Adds to a {@link VariantBuilder}.
+     * <p>
+     * This call is a convenience wrapper that is exactly equivalent to
+     * calling g_variant_new() followed by g_variant_builder_add_value().
+     * <p>
+     * Note that the arguments must be of the correct width for their types
+     * specified in {@code format_string}. This can be achieved by casting them. See
+     * the [GVariant varargs documentation][gvariant-varargs].
+     * <p>
+     * This function might be used as follows:
+     * <pre>{@code <!-- language="C" -->
+     * GVariant *
+     * make_pointless_dictionary (void)
+     * {
+     *   GVariantBuilder builder;
+     *   int i;
+     * 
+     *   g_variant_builder_init (&builder, G_VARIANT_TYPE_ARRAY);
+     *   for (i = 0; i < 16; i++)
+     *     {
+     *       gchar buf[3];
+     * 
+     *       sprintf (buf, "%d", i);
+     *       g_variant_builder_add (&builder, "{is}", i, buf);
+     *     }
+     * 
+     *   return g_variant_builder_end (&builder);
+     * }
+     * }</pre>
+     * @param formatString a {@link Variant} varargs format string
+     */
+    public void add(@NotNull java.lang.String formatString) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Adds to a {@link VariantBuilder}.
+     * <p>
+     * This call is a convenience wrapper that is exactly equivalent to
+     * calling g_variant_new_parsed() followed by
+     * g_variant_builder_add_value().
+     * <p>
+     * Note that the arguments must be of the correct width for their types
+     * specified in {@code format_string}. This can be achieved by casting them. See
+     * the [GVariant varargs documentation][gvariant-varargs].
+     * <p>
+     * This function might be used as follows:
+     * <pre>{@code <!-- language="C" -->
+     * GVariant *
+     * make_pointless_dictionary (void)
+     * {
+     *   GVariantBuilder builder;
+     *   int i;
+     * 
+     *   g_variant_builder_init (&builder, G_VARIANT_TYPE_ARRAY);
+     *   g_variant_builder_add_parsed (&builder, "{'width', <%i>}", 600);
+     *   g_variant_builder_add_parsed (&builder, "{'title', <%s>}", "foo");
+     *   g_variant_builder_add_parsed (&builder, "{'transparency', <0.5>}");
+     *   return g_variant_builder_end (&builder);
+     * }
+     * }</pre>
+     * @param format a text format {@link Variant}
+     */
+    public void addParsed(@NotNull java.lang.String format) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Adds {@code value} to {@code builder}.
@@ -65,19 +138,16 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If {@code value} is a floating reference (see g_variant_ref_sink()),
      * the {@code builder} instance takes ownership of {@code value}.
+     * @param value a {@link Variant}
      */
-    public @NotNull void addValue(@NotNull Variant value) {
+    public void addValue(@NotNull org.gtk.glib.Variant value) {
+        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            g_variant_builder_add_value.invokeExact(handle(), value.handle());
+            DowncallHandles.g_variant_builder_add_value.invokeExact(handle(), value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_variant_builder_clear = Interop.downcallHandle(
-        "g_variant_builder_clear",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Releases all memory associated with a {@link VariantBuilder} without
@@ -95,18 +165,13 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * {@link VariantBuilder} or one that is set to all-zeros but it is not valid
      * to call this function on uninitialised memory.
      */
-    public @NotNull void clear() {
+    public void clear() {
         try {
-            g_variant_builder_clear.invokeExact(handle());
+            DowncallHandles.g_variant_builder_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_variant_builder_close = Interop.downcallHandle(
-        "g_variant_builder_close",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Closes the subcontainer inside the given {@code builder} that was opened by
@@ -116,18 +181,13 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * inconsistent value to be constructed (ie: too few values added to the
      * subcontainer).
      */
-    public @NotNull void close() {
+    public void close() {
         try {
-            g_variant_builder_close.invokeExact(handle());
+            DowncallHandles.g_variant_builder_close.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_variant_builder_end = Interop.downcallHandle(
-        "g_variant_builder_end",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Ends the builder process and returns the constructed value.
@@ -147,21 +207,17 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * was created with an indefinite array or maybe type and no children
      * have been added; in this case it is impossible to infer the type of
      * the empty array.
+     * @return a new, floating, {@link Variant}
      */
-    public @NotNull Variant end() {
+    public @NotNull org.gtk.glib.Variant end() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_variant_builder_end.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_builder_end.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Variant(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_variant_builder_init = Interop.downcallHandle(
-        "g_variant_builder_init",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Initialises a {@link VariantBuilder} structure.
@@ -193,19 +249,16 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * should assume that the person receiving that reference may try to use
      * reference counting; you should use g_variant_builder_new() instead of
      * this function.
+     * @param type a container type
      */
-    public @NotNull void init(@NotNull VariantType type) {
+    public void init(@NotNull org.gtk.glib.VariantType type) {
+        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         try {
-            g_variant_builder_init.invokeExact(handle(), type.handle());
+            DowncallHandles.g_variant_builder_init.invokeExact(handle(), type.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_variant_builder_open = Interop.downcallHandle(
-        "g_variant_builder_open",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Opens a subcontainer inside the given {@code builder}.  When done adding
@@ -244,40 +297,33 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * 
      * output = g_variant_builder_end (&builder);
      * }</pre>
+     * @param type the {@link VariantType} of the container
      */
-    public @NotNull void open(@NotNull VariantType type) {
+    public void open(@NotNull org.gtk.glib.VariantType type) {
+        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         try {
-            g_variant_builder_open.invokeExact(handle(), type.handle());
+            DowncallHandles.g_variant_builder_open.invokeExact(handle(), type.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_variant_builder_ref = Interop.downcallHandle(
-        "g_variant_builder_ref",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Increases the reference count on {@code builder}.
      * <p>
      * Don't call this on stack-allocated {@link VariantBuilder} instances or bad
      * things will happen.
+     * @return a new reference to {@code builder}
      */
-    public @NotNull VariantBuilder ref() {
+    public @NotNull org.gtk.glib.VariantBuilder ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_variant_builder_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_variant_builder_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new VariantBuilder(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.VariantBuilder(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_variant_builder_unref = Interop.downcallHandle(
-        "g_variant_builder_unref",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Decreases the reference count on {@code builder}.
@@ -288,12 +334,69 @@ public class VariantBuilder extends io.github.jwharm.javagi.ResourceBase {
      * Don't call this on stack-allocated {@link VariantBuilder} instances or bad
      * things will happen.
      */
-    public @NotNull void unref() {
+    public void unref() {
         try {
-            g_variant_builder_unref.invokeExact(handle());
+            DowncallHandles.g_variant_builder_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_variant_builder_new = Interop.downcallHandle(
+            "g_variant_builder_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_variant_builder_add = Interop.downcallHandle(
+            "g_variant_builder_add",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_variant_builder_add_parsed = Interop.downcallHandle(
+            "g_variant_builder_add_parsed",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_variant_builder_add_value = Interop.downcallHandle(
+            "g_variant_builder_add_value",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_variant_builder_clear = Interop.downcallHandle(
+            "g_variant_builder_clear",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_variant_builder_close = Interop.downcallHandle(
+            "g_variant_builder_close",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_variant_builder_end = Interop.downcallHandle(
+            "g_variant_builder_end",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_variant_builder_init = Interop.downcallHandle(
+            "g_variant_builder_init",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_variant_builder_open = Interop.downcallHandle(
+            "g_variant_builder_open",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_variant_builder_ref = Interop.downcallHandle(
+            "g_variant_builder_ref",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_variant_builder_unref = Interop.downcallHandle(
+            "g_variant_builder_unref",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
 }

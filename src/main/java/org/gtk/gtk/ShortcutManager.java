@@ -14,14 +14,19 @@ import org.jetbrains.annotations.*;
  * managed and global scopes are limited to the same native.
  * <p>
  * Examples for widgets implementing {@code GtkShortcutManager} are
- * {@code Gtk.Popover}.
+ * {@link Window}.
  * <p>
  * Every widget that implements {@code GtkShortcutManager} will be used as a
  * {@link ShortcutScope#MANAGED}.
  */
 public interface ShortcutManager extends io.github.jwharm.javagi.Proxy {
-
+    
     class ShortcutManagerImpl extends org.gtk.gobject.Object implements ShortcutManager {
+        
+        static {
+            Gtk.javagi$ensureInitialized();
+        }
+        
         public ShortcutManagerImpl(io.github.jwharm.javagi.Refcounted ref) {
             super(ref);
         }

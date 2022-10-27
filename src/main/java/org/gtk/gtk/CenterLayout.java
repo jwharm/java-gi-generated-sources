@@ -14,8 +14,20 @@ import org.jetbrains.annotations.*;
  * <p>
  * The center widget is centered regarding the full width of the layout's.
  */
-public class CenterLayout extends LayoutManager {
-
+public class CenterLayout extends org.gtk.gtk.LayoutManager {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public CenterLayout(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -25,18 +37,14 @@ public class CenterLayout extends LayoutManager {
         return new CenterLayout(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_center_layout_new = Interop.downcallHandle(
-        "gtk_center_layout_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_center_layout_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_center_layout_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -46,180 +54,202 @@ public class CenterLayout extends LayoutManager {
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_center_layout_get_baseline_position = Interop.downcallHandle(
-        "gtk_center_layout_get_baseline_position",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the baseline position of the layout.
+     * @return The current baseline position of {@code self}.
      */
-    public @NotNull BaselinePosition getBaselinePosition() {
+    public @NotNull org.gtk.gtk.BaselinePosition getBaselinePosition() {
         int RESULT;
         try {
-            RESULT = (int) gtk_center_layout_get_baseline_position.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_center_layout_get_baseline_position.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BaselinePosition(RESULT);
+        return new org.gtk.gtk.BaselinePosition(RESULT);
     }
-    
-    private static final MethodHandle gtk_center_layout_get_center_widget = Interop.downcallHandle(
-        "gtk_center_layout_get_center_widget",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the center widget of the layout.
+     * @return the current center widget of {@code self}
      */
-    public @Nullable Widget getCenterWidget() {
+    public @Nullable org.gtk.gtk.Widget getCenterWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_center_layout_get_center_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_center_layout_get_center_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_center_layout_get_end_widget = Interop.downcallHandle(
-        "gtk_center_layout_get_end_widget",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the end widget of the layout.
+     * @return the current end widget of {@code self}
      */
-    public @Nullable Widget getEndWidget() {
+    public @Nullable org.gtk.gtk.Widget getEndWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_center_layout_get_end_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_center_layout_get_end_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_center_layout_get_orientation = Interop.downcallHandle(
-        "gtk_center_layout_get_orientation",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the current orienration of the layout manager.
+     * @return The current orientation of {@code self}
      */
-    public @NotNull Orientation getOrientation() {
+    public @NotNull org.gtk.gtk.Orientation getOrientation() {
         int RESULT;
         try {
-            RESULT = (int) gtk_center_layout_get_orientation.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_center_layout_get_orientation.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Orientation(RESULT);
+        return new org.gtk.gtk.Orientation(RESULT);
     }
-    
-    private static final MethodHandle gtk_center_layout_get_start_widget = Interop.downcallHandle(
-        "gtk_center_layout_get_start_widget",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the start widget fo the layout.
+     * @return The current start widget of {@code self}
      */
-    public @Nullable Widget getStartWidget() {
+    public @Nullable org.gtk.gtk.Widget getStartWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_center_layout_get_start_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_center_layout_get_start_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_center_layout_set_baseline_position = Interop.downcallHandle(
-        "gtk_center_layout_set_baseline_position",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the new baseline position of {@code self}
+     * @param baselinePosition the new baseline position
      */
-    public @NotNull void setBaselinePosition(@NotNull BaselinePosition baselinePosition) {
+    public void setBaselinePosition(@NotNull org.gtk.gtk.BaselinePosition baselinePosition) {
+        java.util.Objects.requireNonNull(baselinePosition, "Parameter 'baselinePosition' must not be null");
         try {
-            gtk_center_layout_set_baseline_position.invokeExact(handle(), baselinePosition.getValue());
+            DowncallHandles.gtk_center_layout_set_baseline_position.invokeExact(handle(), baselinePosition.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_center_layout_set_center_widget = Interop.downcallHandle(
-        "gtk_center_layout_set_center_widget",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the new center widget of {@code self}.
      * <p>
      * To remove the existing center widget, pass {@code null}.
+     * @param widget the new center widget
      */
-    public @NotNull void setCenterWidget(@Nullable Widget widget) {
+    public void setCenterWidget(@Nullable org.gtk.gtk.Widget widget) {
+        java.util.Objects.requireNonNullElse(widget, MemoryAddress.NULL);
         try {
-            gtk_center_layout_set_center_widget.invokeExact(handle(), widget.handle());
+            DowncallHandles.gtk_center_layout_set_center_widget.invokeExact(handle(), widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_center_layout_set_end_widget = Interop.downcallHandle(
-        "gtk_center_layout_set_end_widget",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the new end widget of {@code self}.
      * <p>
      * To remove the existing center widget, pass {@code null}.
+     * @param widget the new end widget
      */
-    public @NotNull void setEndWidget(@Nullable Widget widget) {
+    public void setEndWidget(@Nullable org.gtk.gtk.Widget widget) {
+        java.util.Objects.requireNonNullElse(widget, MemoryAddress.NULL);
         try {
-            gtk_center_layout_set_end_widget.invokeExact(handle(), widget.handle());
+            DowncallHandles.gtk_center_layout_set_end_widget.invokeExact(handle(), widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_center_layout_set_orientation = Interop.downcallHandle(
-        "gtk_center_layout_set_orientation",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the orientation of {@code self}.
+     * @param orientation the new orientation
      */
-    public @NotNull void setOrientation(@NotNull Orientation orientation) {
+    public void setOrientation(@NotNull org.gtk.gtk.Orientation orientation) {
+        java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
         try {
-            gtk_center_layout_set_orientation.invokeExact(handle(), orientation.getValue());
+            DowncallHandles.gtk_center_layout_set_orientation.invokeExact(handle(), orientation.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_center_layout_set_start_widget = Interop.downcallHandle(
-        "gtk_center_layout_set_start_widget",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the new start widget of {@code self}.
      * <p>
      * To remove the existing start widget, pass {@code null}.
+     * @param widget the new start widget
      */
-    public @NotNull void setStartWidget(@Nullable Widget widget) {
+    public void setStartWidget(@Nullable org.gtk.gtk.Widget widget) {
+        java.util.Objects.requireNonNullElse(widget, MemoryAddress.NULL);
         try {
-            gtk_center_layout_set_start_widget.invokeExact(handle(), widget.handle());
+            DowncallHandles.gtk_center_layout_set_start_widget.invokeExact(handle(), widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_center_layout_new = Interop.downcallHandle(
+            "gtk_center_layout_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_center_layout_get_baseline_position = Interop.downcallHandle(
+            "gtk_center_layout_get_baseline_position",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_center_layout_get_center_widget = Interop.downcallHandle(
+            "gtk_center_layout_get_center_widget",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_center_layout_get_end_widget = Interop.downcallHandle(
+            "gtk_center_layout_get_end_widget",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_center_layout_get_orientation = Interop.downcallHandle(
+            "gtk_center_layout_get_orientation",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_center_layout_get_start_widget = Interop.downcallHandle(
+            "gtk_center_layout_get_start_widget",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_center_layout_set_baseline_position = Interop.downcallHandle(
+            "gtk_center_layout_set_baseline_position",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_center_layout_set_center_widget = Interop.downcallHandle(
+            "gtk_center_layout_set_center_widget",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_center_layout_set_end_widget = Interop.downcallHandle(
+            "gtk_center_layout_set_end_widget",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_center_layout_set_orientation = Interop.downcallHandle(
+            "gtk_center_layout_set_orientation",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_center_layout_set_start_widget = Interop.downcallHandle(
+            "gtk_center_layout_set_start_widget",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

@@ -21,7 +21,24 @@ import org.jetbrains.annotations.*;
  * enter passwords, ask questions or show processes blocking unmount.
  */
 public class MountOperation extends org.gtk.gio.MountOperation {
-
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gio.MountOperation.getMemoryLayout().withName("parent_instance"),
+        org.gtk.gtk.MountOperationPrivate.getMemoryLayout().withName("priv")
+    ).withName("GtkMountOperation");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public MountOperation(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -31,114 +48,126 @@ public class MountOperation extends org.gtk.gio.MountOperation {
         return new MountOperation(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_mount_operation_new = Interop.downcallHandle(
-        "gtk_mount_operation_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNew(@Nullable Window parent) {
+    private static Refcounted constructNew(@Nullable org.gtk.gtk.Window parent) {
+        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_mount_operation_new.invokeExact(parent.handle()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_mount_operation_new.invokeExact(parent.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a new {@code GtkMountOperation}.
+     * @param parent transient parent of the window
      */
-    public MountOperation(@Nullable Window parent) {
+    public MountOperation(@Nullable org.gtk.gtk.Window parent) {
         super(constructNew(parent));
     }
-    
-    private static final MethodHandle gtk_mount_operation_get_display = Interop.downcallHandle(
-        "gtk_mount_operation_get_display",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the display on which windows of the {@code GtkMountOperation}
      * will be shown.
+     * @return the display on which windows of {@code op} are shown
      */
     public @NotNull org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_mount_operation_get_display.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_mount_operation_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle gtk_mount_operation_get_parent = Interop.downcallHandle(
-        "gtk_mount_operation_get_parent",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the transient parent used by the {@code GtkMountOperation}.
+     * @return the transient parent for windows shown by {@code op}
      */
-    public @Nullable Window getParent() {
+    public @Nullable org.gtk.gtk.Window getParent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_mount_operation_get_parent.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_mount_operation_get_parent.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Window(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Window(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_mount_operation_is_showing = Interop.downcallHandle(
-        "gtk_mount_operation_is_showing",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns whether the {@code GtkMountOperation} is currently displaying
      * a window.
+     * @return {@code true} if {@code op} is currently displaying a window
      */
     public boolean isShowing() {
         int RESULT;
         try {
-            RESULT = (int) gtk_mount_operation_is_showing.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_mount_operation_is_showing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_mount_operation_set_display = Interop.downcallHandle(
-        "gtk_mount_operation_set_display",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Sets the display to show windows of the {@code GtkMountOperation} on.
+     * @param display a {@code GdkDisplay}
      */
-    public @NotNull void setDisplay(@NotNull org.gtk.gdk.Display display) {
+    public void setDisplay(@NotNull org.gtk.gdk.Display display) {
+        java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
         try {
-            gtk_mount_operation_set_display.invokeExact(handle(), display.handle());
+            DowncallHandles.gtk_mount_operation_set_display.invokeExact(handle(), display.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_mount_operation_set_parent = Interop.downcallHandle(
-        "gtk_mount_operation_set_parent",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the transient parent for windows shown by the
      * {@code GtkMountOperation}.
+     * @param parent transient parent of the window
      */
-    public @NotNull void setParent(@Nullable Window parent) {
+    public void setParent(@Nullable org.gtk.gtk.Window parent) {
+        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
         try {
-            gtk_mount_operation_set_parent.invokeExact(handle(), parent.handle());
+            DowncallHandles.gtk_mount_operation_set_parent.invokeExact(handle(), parent.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_mount_operation_new = Interop.downcallHandle(
+            "gtk_mount_operation_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_mount_operation_get_display = Interop.downcallHandle(
+            "gtk_mount_operation_get_display",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_mount_operation_get_parent = Interop.downcallHandle(
+            "gtk_mount_operation_get_parent",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_mount_operation_is_showing = Interop.downcallHandle(
+            "gtk_mount_operation_is_showing",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_mount_operation_set_display = Interop.downcallHandle(
+            "gtk_mount_operation_set_display",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_mount_operation_set_parent = Interop.downcallHandle(
+            "gtk_mount_operation_set_parent",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

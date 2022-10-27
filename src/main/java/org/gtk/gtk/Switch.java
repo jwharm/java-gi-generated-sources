@@ -15,8 +15,8 @@ import org.jetbrains.annotations.*;
  * <p>
  * {@code GtkSwitch} can also handle situations where the underlying state
  * changes with a delay. See {@code GtkSwitch::state-set} for details.
- * 
- * <h1>CSS nodes</h1>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * <pre>{@code 
  * switch
  * ├── label
@@ -27,12 +27,24 @@ import org.jetbrains.annotations.*;
  * {@code GtkSwitch} has four css nodes, the main node with the name switch and
  * subnodes for the slider and the on and off labels. Neither of them is
  * using any style classes.
- * 
- * <h1>Accessibility</h1>
+ * <p>
+ * <strong>Accessibility</strong><br/>
  * {@code GtkSwitch} uses the {@link AccessibleRole#SWITCH} role.
  */
-public class Switch extends Widget implements Accessible, Actionable, Buildable, ConstraintTarget {
-
+public class Switch extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Actionable, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public Switch(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -42,18 +54,14 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
         return new Switch(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_switch_new = Interop.downcallHandle(
-        "gtk_switch_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_switch_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_switch_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -63,62 +71,45 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_switch_get_active = Interop.downcallHandle(
-        "gtk_switch_get_active",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets whether the {@code GtkSwitch} is in its “on” or “off” state.
+     * @return {@code true} if the {@code GtkSwitch} is active, and {@code false} otherwise
      */
     public boolean getActive() {
         int RESULT;
         try {
-            RESULT = (int) gtk_switch_get_active.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_switch_get_active.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_switch_get_state = Interop.downcallHandle(
-        "gtk_switch_get_state",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the underlying state of the {@code GtkSwitch}.
+     * @return the underlying state
      */
     public boolean getState() {
         int RESULT;
         try {
-            RESULT = (int) gtk_switch_get_state.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_switch_get_state.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_switch_set_active = Interop.downcallHandle(
-        "gtk_switch_set_active",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Changes the state of {@code self} to the desired one.
+     * @param isActive {@code true} if {@code self} should be active, and {@code false} otherwise
      */
-    public @NotNull void setActive(@NotNull boolean isActive) {
+    public void setActive(boolean isActive) {
         try {
-            gtk_switch_set_active.invokeExact(handle(), isActive ? 1 : 0);
+            DowncallHandles.gtk_switch_set_active.invokeExact(handle(), isActive ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_switch_set_state = Interop.downcallHandle(
-        "gtk_switch_set_state",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the underlying state of the {@code GtkSwitch}.
@@ -128,17 +119,18 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
      * typically called from a {@code Gtk.Switch::state-set} signal handler.
      * <p>
      * See {@code Gtk.Switch::state-set} for details.
+     * @param state the new state
      */
-    public @NotNull void setState(@NotNull boolean state) {
+    public void setState(boolean state) {
         try {
-            gtk_switch_set_state.invokeExact(handle(), state ? 1 : 0);
+            DowncallHandles.gtk_switch_set_state.invokeExact(handle(), state ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ActivateHandler {
+    public interface Activate {
         void signalReceived(Switch source);
     }
     
@@ -148,7 +140,7 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
      * Applications should never connect to this signal,
      * but use the {@code Gtk.Switch:active} property.
      */
-    public SignalHandle onActivate(ActivateHandler handler) {
+    public Signal<Switch.Activate> onActivate(Switch.Activate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -158,17 +150,17 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<Switch.Activate>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface StateSetHandler {
-        boolean signalReceived(Switch source, @NotNull boolean state);
+    public interface StateSet {
+        boolean signalReceived(Switch source, boolean state);
     }
     
     /**
@@ -188,7 +180,7 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
      * the switch, while the {@code Gtk.Switch:active} property is
      * represented by the position of the switch.
      */
-    public SignalHandle onStateSet(StateSetHandler handler) {
+    public Signal<Switch.StateSet> onStateSet(Switch.StateSet handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -198,27 +190,54 @@ public class Switch extends Widget implements Accessible, Actionable, Buildable,
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<Switch.StateSet>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_switch_new = Interop.downcallHandle(
+            "gtk_switch_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_switch_get_active = Interop.downcallHandle(
+            "gtk_switch_get_active",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_switch_get_state = Interop.downcallHandle(
+            "gtk_switch_get_state",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_switch_set_active = Interop.downcallHandle(
+            "gtk_switch_set_active",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_switch_set_state = Interop.downcallHandle(
+            "gtk_switch_set_state",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static void signalSwitchActivate(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (Switch.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Switch(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (Switch.Activate) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new Switch(Refcounted.get(source)));
         }
         
         public static boolean signalSwitchStateSet(MemoryAddress source, int state, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (Switch.StateSetHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new Switch(Refcounted.get(source)), state != 0);
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (Switch.StateSet) Interop.signalRegistry.get(HASH);
+            return HANDLER.signalReceived(new Switch(Refcounted.get(source)), state != 0);
         }
-        
     }
 }

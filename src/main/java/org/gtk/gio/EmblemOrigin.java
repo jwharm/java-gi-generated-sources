@@ -1,11 +1,25 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * GEmblemOrigin is used to add information about the origin of the emblem
  * to {@link Emblem}.
+ * @version 2.18
  */
 public class EmblemOrigin extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Emblem of unknown origin
      */
@@ -29,5 +43,4 @@ public class EmblemOrigin extends io.github.jwharm.javagi.Enumeration {
     public EmblemOrigin(int value) {
         super(value);
     }
-    
 }

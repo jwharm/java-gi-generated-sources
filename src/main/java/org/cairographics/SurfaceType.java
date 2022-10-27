@@ -1,7 +1,20 @@
 package org.cairographics;
 
-public class SurfaceType extends io.github.jwharm.javagi.Enumeration {
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
+public class SurfaceType extends io.github.jwharm.javagi.Enumeration {
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public static final SurfaceType IMAGE = new SurfaceType(0);
     
     public static final SurfaceType PDF = new SurfaceType(1);
@@ -55,5 +68,4 @@ public class SurfaceType extends io.github.jwharm.javagi.Enumeration {
     public SurfaceType(int value) {
         super(value);
     }
-    
 }

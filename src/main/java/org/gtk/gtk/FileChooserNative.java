@@ -29,11 +29,10 @@ import org.jetbrains.annotations.*;
  * are not toplevel widgets, and GTK does not keep them alive. It is your
  * responsibility to keep a reference until you are done with the
  * object.
- * 
- * <h2>Typical usage</h2>
+ * <p>
+ * <strong>Typical usage</strong><br/>
  * In the simplest of cases, you can the following code to use
  * {@code GtkFileChooserNative} to select a file for opening:
- * 
  * <pre>{@code c
  * static void
  * on_response (GtkNativeDialog *native,
@@ -67,7 +66,6 @@ import org.jetbrains.annotations.*;
  * }</pre>
  * <p>
  * To use a {@code GtkFileChooserNative} for saving, you can use this:
- * 
  * <pre>{@code c
  * static void
  * on_response (GtkNativeDialog *native,
@@ -109,22 +107,22 @@ import org.jetbrains.annotations.*;
  * <p>
  * For more information on how to best set up a file dialog,
  * see the {@link FileChooserDialog} documentation.
- * 
- * <h2>Response Codes</h2>
+ * <p>
+ * <strong>Response Codes</strong><br/>
  * {@code GtkFileChooserNative} inherits from {@link NativeDialog},
  * which means it will return {@link ResponseType#ACCEPT} if the user accepted,
  * and {@link ResponseType#CANCEL} if he pressed cancel. It can also return
  * {@link ResponseType#DELETE_EVENT} if the window was unexpectedly closed.
- * 
- * <h2>Differences from `GtkFileChooserDialog`</h2>
+ * <p>
+ * <strong>Differences from `GtkFileChooserDialog`</strong><br/>
  * There are a few things in the {@code Gtk.FileChooser} interface that
  * are not possible to use with {@code GtkFileChooserNative}, as such use would
  * prohibit the use of a native dialog.
  * <p>
  * No operations that change the dialog work while the dialog is visible.
  * Set all the properties that are required before showing the dialog.
- * 
- * <h2>Win32 details</h2>
+ * <p>
+ * <strong>Win32 details</strong><br/>
  * On windows the {@code IFileDialog} implementation (added in Windows Vista) is
  * used. It supports many of the features that {@code GtkFileChooser} has, but
  * there are some things it does not handle:
@@ -133,22 +131,34 @@ import org.jetbrains.annotations.*;
  * <p>
  * If any of these features are used the regular {@code GtkFileChooserDialog}
  * will be used in place of the native one.
- * 
- * <h2>Portal details</h2>
+ * <p>
+ * <strong>Portal details</strong><br/>
  * When the {@code org.freedesktop.portal.FileChooser} portal is available on
  * the session bus, it is used to bring up an out-of-process file chooser.
  * Depending on the kind of session the application is running in, this may
  * or may not be a GTK file chooser.
- * 
- * <h2>macOS details</h2>
+ * <p>
+ * <strong>macOS details</strong><br/>
  * On macOS the {@code NSSavePanel} and {@code NSOpenPanel} classes are used to provide
  * native file chooser dialogs. Some features provided by {@code GtkFileChooser}
  * are not supported:
  * <p>
  * * Shortcut folders.
  */
-public class FileChooserNative extends NativeDialog implements FileChooser {
-
+public class FileChooserNative extends org.gtk.gtk.NativeDialog implements org.gtk.gtk.FileChooser {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public FileChooserNative(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -158,67 +168,60 @@ public class FileChooserNative extends NativeDialog implements FileChooser {
         return new FileChooserNative(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_file_chooser_native_new = Interop.downcallHandle(
-        "gtk_file_chooser_native_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNew(@Nullable java.lang.String title, @Nullable Window parent, @NotNull FileChooserAction action, @Nullable java.lang.String acceptLabel, @Nullable java.lang.String cancelLabel) {
+    private static Refcounted constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.FileChooserAction action, @Nullable java.lang.String acceptLabel, @Nullable java.lang.String cancelLabel) {
+        java.util.Objects.requireNonNullElse(title, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
+        java.util.Objects.requireNonNullElse(acceptLabel, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(cancelLabel, MemoryAddress.NULL);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_file_chooser_native_new.invokeExact(Interop.allocateNativeString(title), parent.handle(), action.getValue(), Interop.allocateNativeString(acceptLabel), Interop.allocateNativeString(cancelLabel)), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_file_chooser_native_new.invokeExact(Interop.allocateNativeString(title), parent.handle(), action.getValue(), Interop.allocateNativeString(acceptLabel), Interop.allocateNativeString(cancelLabel)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a new {@code GtkFileChooserNative}.
+     * @param title Title of the native
+     * @param parent Transient parent of the native
+     * @param action Open or save mode for the dialog
+     * @param acceptLabel text to go in the accept button, or {@code null} for the default
+     * @param cancelLabel text to go in the cancel button, or {@code null} for the default
      */
-    public FileChooserNative(@Nullable java.lang.String title, @Nullable Window parent, @NotNull FileChooserAction action, @Nullable java.lang.String acceptLabel, @Nullable java.lang.String cancelLabel) {
+    public FileChooserNative(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.FileChooserAction action, @Nullable java.lang.String acceptLabel, @Nullable java.lang.String cancelLabel) {
         super(constructNew(title, parent, action, acceptLabel, cancelLabel));
     }
     
-    private static final MethodHandle gtk_file_chooser_native_get_accept_label = Interop.downcallHandle(
-        "gtk_file_chooser_native_get_accept_label",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Retrieves the custom label text for the accept button.
+     * @return The custom label
      */
     public @Nullable java.lang.String getAcceptLabel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_file_chooser_native_get_accept_label.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_file_chooser_native_get_accept_label.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle gtk_file_chooser_native_get_cancel_label = Interop.downcallHandle(
-        "gtk_file_chooser_native_get_cancel_label",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Retrieves the custom label text for the cancel button.
+     * @return The custom label
      */
     public @Nullable java.lang.String getCancelLabel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_file_chooser_native_get_cancel_label.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_file_chooser_native_get_cancel_label.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle gtk_file_chooser_native_set_accept_label = Interop.downcallHandle(
-        "gtk_file_chooser_native_set_accept_label",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the custom label text for the accept button.
@@ -229,19 +232,16 @@ public class FileChooserNative extends NativeDialog implements FileChooser {
      * a keyboard accelerator called a mnemonic.
      * <p>
      * Pressing Alt and that key should activate the button.
+     * @param acceptLabel custom label
      */
-    public @NotNull void setAcceptLabel(@Nullable java.lang.String acceptLabel) {
+    public void setAcceptLabel(@Nullable java.lang.String acceptLabel) {
+        java.util.Objects.requireNonNullElse(acceptLabel, MemoryAddress.NULL);
         try {
-            gtk_file_chooser_native_set_accept_label.invokeExact(handle(), Interop.allocateNativeString(acceptLabel));
+            DowncallHandles.gtk_file_chooser_native_set_accept_label.invokeExact(handle(), Interop.allocateNativeString(acceptLabel));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_file_chooser_native_set_cancel_label = Interop.downcallHandle(
-        "gtk_file_chooser_native_set_cancel_label",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the custom label text for the cancel button.
@@ -252,13 +252,42 @@ public class FileChooserNative extends NativeDialog implements FileChooser {
      * a keyboard accelerator called a mnemonic.
      * <p>
      * Pressing Alt and that key should activate the button.
+     * @param cancelLabel custom label
      */
-    public @NotNull void setCancelLabel(@Nullable java.lang.String cancelLabel) {
+    public void setCancelLabel(@Nullable java.lang.String cancelLabel) {
+        java.util.Objects.requireNonNullElse(cancelLabel, MemoryAddress.NULL);
         try {
-            gtk_file_chooser_native_set_cancel_label.invokeExact(handle(), Interop.allocateNativeString(cancelLabel));
+            DowncallHandles.gtk_file_chooser_native_set_cancel_label.invokeExact(handle(), Interop.allocateNativeString(cancelLabel));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_file_chooser_native_new = Interop.downcallHandle(
+            "gtk_file_chooser_native_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_file_chooser_native_get_accept_label = Interop.downcallHandle(
+            "gtk_file_chooser_native_get_accept_label",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_file_chooser_native_get_cancel_label = Interop.downcallHandle(
+            "gtk_file_chooser_native_get_cancel_label",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_file_chooser_native_set_accept_label = Interop.downcallHandle(
+            "gtk_file_chooser_native_set_accept_label",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_file_chooser_native_set_cancel_label = Interop.downcallHandle(
+            "gtk_file_chooser_native_set_cancel_label",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

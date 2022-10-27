@@ -28,9 +28,29 @@ import org.jetbrains.annotations.*;
  * required condition has been met, and returns {@code true} if so.
  */
 public class SourceFuncs extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GLib.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.ADDRESS.withName("prepare"),
+        Interop.valueLayout.ADDRESS.withName("check"),
+        Interop.valueLayout.ADDRESS.withName("dispatch"),
+        Interop.valueLayout.ADDRESS.withName("finalize"),
+        Interop.valueLayout.ADDRESS.withName("closure_callback"),
+        Interop.valueLayout.ADDRESS.withName("closure_marshal")
+    ).withName("GSourceFuncs");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public SourceFuncs(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
 }

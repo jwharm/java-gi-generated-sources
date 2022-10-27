@@ -8,8 +8,24 @@ import org.jetbrains.annotations.*;
 /**
  * {@code GtkFlowBoxChild} is the kind of widget that can be added to a {@code GtkFlowBox}.
  */
-public class FlowBoxChild extends Widget implements Accessible, Buildable, ConstraintTarget {
-
+public class FlowBoxChild extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
+    ).withName("GtkFlowBoxChild");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public FlowBoxChild(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -19,18 +35,14 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
         return new FlowBoxChild(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_flow_box_child_new = Interop.downcallHandle(
-        "gtk_flow_box_child_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_flow_box_child_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_flow_box_child_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -42,11 +54,6 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_flow_box_child_changed = Interop.downcallHandle(
-        "gtk_flow_box_child_changed",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Marks {@code child} as changed, causing any state that depends on this
      * to be updated.
@@ -55,7 +62,7 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
      * <p>
      * Note that calls to this method must be in sync with the data
      * used for the sorting and filtering functions. For instance, if
-     * the list is mirroring some external data set, and <strong>two</strong> children
+     * the list is mirroring some external data set, and <em>two</em> children
      * changed in the external data set when you call
      * gtk_flow_box_child_changed() on the first child, the sort function
      * must only read the new data for the first of the two changed
@@ -68,87 +75,73 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
      * Another alternative is to call {@link FlowBox#invalidateSort}
      * on any model change, but that is more expensive.
      */
-    public @NotNull void changed() {
+    public void changed() {
         try {
-            gtk_flow_box_child_changed.invokeExact(handle());
+            DowncallHandles.gtk_flow_box_child_changed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_flow_box_child_get_child = Interop.downcallHandle(
-        "gtk_flow_box_child_get_child",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the child widget of {@code self}.
+     * @return the child widget of {@code self}
      */
-    public @Nullable Widget getChild() {
+    public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_flow_box_child_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_flow_box_child_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_flow_box_child_get_index = Interop.downcallHandle(
-        "gtk_flow_box_child_get_index",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the current index of the {@code child} in its {@code GtkFlowBox} container.
+     * @return the index of the {@code child}, or -1 if the {@code child} is not
+     *   in a flow box
      */
     public int getIndex() {
         int RESULT;
         try {
-            RESULT = (int) gtk_flow_box_child_get_index.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_flow_box_child_get_index.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle gtk_flow_box_child_is_selected = Interop.downcallHandle(
-        "gtk_flow_box_child_is_selected",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns whether the {@code child} is currently selected in its
      * {@code GtkFlowBox} container.
+     * @return {@code true} if {@code child} is selected
      */
     public boolean isSelected() {
         int RESULT;
         try {
-            RESULT = (int) gtk_flow_box_child_is_selected.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_flow_box_child_is_selected.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_flow_box_child_set_child = Interop.downcallHandle(
-        "gtk_flow_box_child_set_child",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Sets the child widget of {@code self}.
+     * @param child the child widget
      */
-    public @NotNull void setChild(@Nullable Widget child) {
+    public void setChild(@Nullable org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            gtk_flow_box_child_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_flow_box_child_set_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ActivateHandler {
+    public interface Activate {
         void signalReceived(FlowBoxChild source);
     }
     
@@ -163,7 +156,7 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
      * <p>
      * The default bindings are &lt;kbd&gt;Space&lt;/kbd&gt; and &lt;kbd&gt;Enter&lt;/kbd&gt;.
      */
-    public SignalHandle onActivate(ActivateHandler handler) {
+    public Signal<FlowBoxChild.Activate> onActivate(FlowBoxChild.Activate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -173,21 +166,53 @@ public class FlowBoxChild extends Widget implements Accessible, Buildable, Const
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<FlowBoxChild.Activate>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static void signalFlowBoxChildActivate(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (FlowBoxChild.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FlowBoxChild(Refcounted.get(source)));
-        }
+    private static class DowncallHandles {
         
+        private static final MethodHandle gtk_flow_box_child_new = Interop.downcallHandle(
+            "gtk_flow_box_child_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_flow_box_child_changed = Interop.downcallHandle(
+            "gtk_flow_box_child_changed",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_flow_box_child_get_child = Interop.downcallHandle(
+            "gtk_flow_box_child_get_child",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_flow_box_child_get_index = Interop.downcallHandle(
+            "gtk_flow_box_child_get_index",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_flow_box_child_is_selected = Interop.downcallHandle(
+            "gtk_flow_box_child_is_selected",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_flow_box_child_set_child = Interop.downcallHandle(
+            "gtk_flow_box_child_set_child",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
+    
+    private static class Callbacks {
+        
+        public static void signalFlowBoxChildActivate(MemoryAddress source, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (FlowBoxChild.Activate) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new FlowBoxChild(Refcounted.get(source)));
+        }
     }
 }

@@ -5,8 +5,8 @@ package org.harfbuzz;
  * channel RGB plus alpha transparency.
  */
 public class ColorT extends io.github.jwharm.javagi.Alias<Integer> {
+    
     public ColorT(int value) {
         super(value);
     }
-    
 }

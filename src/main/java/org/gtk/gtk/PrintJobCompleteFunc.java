@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -10,5 +12,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PrintJobCompleteFunc {
-        void onPrintJobCompleteFunc(@NotNull PrintJob printJob, @NotNull org.gtk.glib.Error error);
+        void onPrintJobCompleteFunc(@NotNull org.gtk.gtk.PrintJob printJob, @NotNull org.gtk.glib.Error error);
 }

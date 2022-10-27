@@ -11,23 +11,36 @@ import org.jetbrains.annotations.*;
  * more information.
  */
 public class Requisition extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        ValueLayout.JAVA_INT.withName("width"),
+        ValueLayout.JAVA_INT.withName("height")
+    ).withName("GtkRequisition");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public Requisition(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle gtk_requisition_new = Interop.downcallHandle(
-        "gtk_requisition_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_requisition_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_requisition_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -39,38 +52,46 @@ public class Requisition extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_requisition_copy = Interop.downcallHandle(
-        "gtk_requisition_copy",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Copies a {@code GtkRequisition}.
+     * @return a copy of {@code requisition}
      */
-    public @NotNull Requisition copy() {
+    public @NotNull org.gtk.gtk.Requisition copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_requisition_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_requisition_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Requisition(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.Requisition(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle gtk_requisition_free = Interop.downcallHandle(
-        "gtk_requisition_free",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Frees a {@code GtkRequisition}.
      */
-    public @NotNull void free() {
+    public void free() {
         try {
-            gtk_requisition_free.invokeExact(handle());
+            DowncallHandles.gtk_requisition_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_requisition_new = Interop.downcallHandle(
+            "gtk_requisition_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_requisition_copy = Interop.downcallHandle(
+            "gtk_requisition_copy",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_requisition_free = Interop.downcallHandle(
+            "gtk_requisition_free",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
 }

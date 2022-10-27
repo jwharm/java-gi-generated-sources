@@ -10,36 +10,39 @@ import org.jetbrains.annotations.*;
  * using the following functions.
  */
 public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public SettingsSchemaKey(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
-    private static final MethodHandle g_settings_schema_key_get_default_value = Interop.downcallHandle(
-        "g_settings_schema_key_get_default_value",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the default value for {@code key}.
      * <p>
      * Note that this is the default value according to the schema.  System
      * administrator defaults and lockdown are not visible via this API.
+     * @return the default value for the key
      */
     public @NotNull org.gtk.glib.Variant getDefaultValue() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_settings_schema_key_get_default_value.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_key_get_default_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_settings_schema_key_get_description = Interop.downcallHandle(
-        "g_settings_schema_key_get_description",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the description for {@code key}.
@@ -56,39 +59,31 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
      * the schemas is not stored in the compiled schema database so this
      * function has to parse all of the source XML files in the schema
      * directory.
+     * @return the description for {@code key}, or {@code null}
      */
     public @Nullable java.lang.String getDescription() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_settings_schema_key_get_description.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_key_get_description.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle g_settings_schema_key_get_name = Interop.downcallHandle(
-        "g_settings_schema_key_get_name",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the name of {@code key}.
+     * @return the name of {@code key}.
      */
     public @NotNull java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_settings_schema_key_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_key_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_settings_schema_key_get_range = Interop.downcallHandle(
-        "g_settings_schema_key_get_range",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Queries the range of a key.
@@ -127,21 +122,17 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * You should free the returned value with g_variant_unref() when it is
      * no longer needed.
+     * @return a {@link org.gtk.glib.Variant} describing the range
      */
     public @NotNull org.gtk.glib.Variant getRange() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_settings_schema_key_get_range.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_key_get_range.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_settings_schema_key_get_summary = Interop.downcallHandle(
-        "g_settings_schema_key_get_summary",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the summary for {@code key}.
@@ -157,39 +148,31 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
      * the schemas is not stored in the compiled schema database so this
      * function has to parse all of the source XML files in the schema
      * directory.
+     * @return the summary for {@code key}, or {@code null}
      */
     public @Nullable java.lang.String getSummary() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_settings_schema_key_get_summary.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_key_get_summary.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle g_settings_schema_key_get_value_type = Interop.downcallHandle(
-        "g_settings_schema_key_get_value_type",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the {@link org.gtk.glib.VariantType} of {@code key}.
+     * @return the type of {@code key}
      */
     public @NotNull org.gtk.glib.VariantType getValueType() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_settings_schema_key_get_value_type.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_key_get_value_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.VariantType(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_settings_schema_key_range_check = Interop.downcallHandle(
-        "g_settings_schema_key_range_check",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Checks if the given {@code value} is within the
@@ -197,49 +180,90 @@ public class SettingsSchemaKey extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * It is a programmer error if {@code value} is not of the correct type — you
      * must check for this first.
+     * @param value the value to check
+     * @return {@code true} if {@code value} is valid for {@code key}
      */
     public boolean rangeCheck(@NotNull org.gtk.glib.Variant value) {
+        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         int RESULT;
         try {
-            RESULT = (int) g_settings_schema_key_range_check.invokeExact(handle(), value.handle());
+            RESULT = (int) DowncallHandles.g_settings_schema_key_range_check.invokeExact(handle(), value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_settings_schema_key_ref = Interop.downcallHandle(
-        "g_settings_schema_key_ref",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Increase the reference count of {@code key}, returning a new reference.
+     * @return a new reference to {@code key}
      */
-    public @NotNull SettingsSchemaKey ref() {
+    public @NotNull org.gtk.gio.SettingsSchemaKey ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_settings_schema_key_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_key_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new SettingsSchemaKey(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.SettingsSchemaKey(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_settings_schema_key_unref = Interop.downcallHandle(
-        "g_settings_schema_key_unref",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Decrease the reference count of {@code key}, possibly freeing it.
      */
-    public @NotNull void unref() {
+    public void unref() {
         try {
-            g_settings_schema_key_unref.invokeExact(handle());
+            DowncallHandles.g_settings_schema_key_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_settings_schema_key_get_default_value = Interop.downcallHandle(
+            "g_settings_schema_key_get_default_value",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_settings_schema_key_get_description = Interop.downcallHandle(
+            "g_settings_schema_key_get_description",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_settings_schema_key_get_name = Interop.downcallHandle(
+            "g_settings_schema_key_get_name",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_settings_schema_key_get_range = Interop.downcallHandle(
+            "g_settings_schema_key_get_range",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_settings_schema_key_get_summary = Interop.downcallHandle(
+            "g_settings_schema_key_get_summary",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_settings_schema_key_get_value_type = Interop.downcallHandle(
+            "g_settings_schema_key_get_value_type",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_settings_schema_key_range_check = Interop.downcallHandle(
+            "g_settings_schema_key_range_check",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_settings_schema_key_ref = Interop.downcallHandle(
+            "g_settings_schema_key_ref",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_settings_schema_key_unref = Interop.downcallHandle(
+            "g_settings_schema_key_unref",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
 }

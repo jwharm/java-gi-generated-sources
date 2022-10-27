@@ -14,8 +14,8 @@ import org.jetbrains.annotations.*;
  * The {@code GtkButton} widget can hold any valid child widget. That is, it can hold
  * almost any other standard {@code GtkWidget}. The most commonly used child is the
  * {@code GtkLabel}.
- * 
- * <h1>CSS nodes</h1>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * {@code GtkButton} has a single CSS node with name button. The node will get the
  * style classes .image-button or .text-button, if the content is just an
  * image or label, respectively. It may also receive the .flat style class.
@@ -26,17 +26,33 @@ import org.jetbrains.annotations.*;
  * .suggested-action and .destructive-action. In special cases, buttons
  * can be made round by adding the .circular style class.
  * <p>
- * Button-like widgets like {@code Gtk.MenuButton},
- * {@code Gtk.ColorButton}
+ * Button-like widgets like {@link ToggleButton},
+ * {@link VolumeButton}, {@link ColorButton}
  * or {@link FontButton} use style classes such as .toggle, .popup, .scale,
  * .lock, .color on the button node to differentiate themselves from a plain
  * {@code GtkButton}.
- * 
- * <h1>Accessibility</h1>
+ * <p>
+ * <strong>Accessibility</strong><br/>
  * {@code GtkButton} uses the {@link AccessibleRole#BUTTON} role.
  */
-public class Button extends Widget implements Accessible, Actionable, Buildable, ConstraintTarget {
-
+public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Actionable, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
+    ).withName("GtkButton");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public Button(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -46,18 +62,14 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
         return new Button(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_button_new = Interop.downcallHandle(
-        "gtk_button_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_button_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_button_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -69,18 +81,15 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_button_new_from_icon_name = Interop.downcallHandle(
-        "gtk_button_new_from_icon_name",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNewFromIconName(@Nullable java.lang.String iconName) {
+        java.util.Objects.requireNonNullElse(iconName, MemoryAddress.NULL);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_button_new_from_icon_name.invokeExact(Interop.allocateNativeString(iconName)), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_button_new_from_icon_name.invokeExact(Interop.allocateNativeString(iconName)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -89,44 +98,42 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * If the icon name isn’t known, a “broken image” icon will be
      * displayed instead. If the current icon theme is changed, the icon
      * will be updated appropriately.
+     * @param iconName an icon name
+     * @return a new {@code GtkButton} displaying the themed icon
      */
     public static Button newFromIconName(@Nullable java.lang.String iconName) {
         return new Button(constructNewFromIconName(iconName));
     }
     
-    private static final MethodHandle gtk_button_new_with_label = Interop.downcallHandle(
-        "gtk_button_new_with_label",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNewWithLabel(@NotNull java.lang.String label) {
+        java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_button_new_with_label.invokeExact(Interop.allocateNativeString(label)), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_button_new_with_label.invokeExact(Interop.allocateNativeString(label)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a {@code GtkButton} widget with a {@code GtkLabel} child.
+     * @param label The text you want the {@code GtkLabel} to hold
+     * @return The newly created {@code GtkButton} widget
      */
     public static Button newWithLabel(@NotNull java.lang.String label) {
         return new Button(constructNewWithLabel(label));
     }
     
-    private static final MethodHandle gtk_button_new_with_mnemonic = Interop.downcallHandle(
-        "gtk_button_new_with_mnemonic",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNewWithMnemonic(@NotNull java.lang.String label) {
+        java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_button_new_with_mnemonic.invokeExact(Interop.allocateNativeString(label)), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_button_new_with_mnemonic.invokeExact(Interop.allocateNativeString(label)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -136,51 +143,41 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * If you need a literal underscore character in a label, use “__” (two
      * underscores). The first underlined character represents a keyboard
      * accelerator called a mnemonic. Pressing Alt and that key activates the button.
+     * @param label The text of the button, with an underscore in front of the
+     *   mnemonic character
+     * @return a new {@code GtkButton}
      */
     public static Button newWithMnemonic(@NotNull java.lang.String label) {
         return new Button(constructNewWithMnemonic(label));
     }
     
-    private static final MethodHandle gtk_button_get_child = Interop.downcallHandle(
-        "gtk_button_get_child",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the child widget of {@code button}.
+     * @return the child widget of {@code button}
      */
-    public @Nullable Widget getChild() {
+    public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_button_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_button_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_button_get_has_frame = Interop.downcallHandle(
-        "gtk_button_get_has_frame",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns whether the button has a frame.
+     * @return {@code true} if the button has a frame
      */
     public boolean getHasFrame() {
         int RESULT;
         try {
-            RESULT = (int) gtk_button_get_has_frame.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_button_get_has_frame.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gtk_button_get_icon_name = Interop.downcallHandle(
-        "gtk_button_get_icon_name",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the icon name of the button.
@@ -188,21 +185,17 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * If the icon name has not been set with {@link Button#setIconName}
      * the return value will be {@code null}. This will be the case if you create
      * an empty button with {@link Button#Button} to use as a container.
+     * @return The icon name set via {@link Button#setIconName}
      */
     public @Nullable java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_button_get_icon_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_button_get_icon_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle gtk_button_get_label = Interop.downcallHandle(
-        "gtk_button_get_label",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the text from the label of the button.
@@ -210,41 +203,35 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * If the label text has not been set with {@link Button#setLabel}
      * the return value will be {@code null}. This will be the case if you create
      * an empty button with {@link Button#Button} to use as a container.
+     * @return The text of the label widget. This string is owned
+     * by the widget and must not be modified or freed.
      */
     public @Nullable java.lang.String getLabel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_button_get_label.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_button_get_label.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle gtk_button_get_use_underline = Interop.downcallHandle(
-        "gtk_button_get_use_underline",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * gets whether underlines are interpreted as mnemonics.
      * <p>
      * See {@link Button#setUseUnderline}.
+     * @return {@code true} if an embedded underline in the button label
+     *   indicates the mnemonic accelerator keys.
      */
     public boolean getUseUnderline() {
         int RESULT;
         try {
-            RESULT = (int) gtk_button_get_use_underline.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_button_get_use_underline.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gtk_button_set_child = Interop.downcallHandle(
-        "gtk_button_set_child",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the child widget of {@code button}.
@@ -254,91 +241,79 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * Most likely, you'll either set the accessibility label or description
      * for {@code button} explicitly, or you'll set a labelled-by or described-by
      * relations from {@code child} to {@code button}.
+     * @param child the child widget
      */
-    public @NotNull void setChild(@Nullable Widget child) {
+    public void setChild(@Nullable org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            gtk_button_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_button_set_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_button_set_has_frame = Interop.downcallHandle(
-        "gtk_button_set_has_frame",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the style of the button.
      * <p>
      * Buttons can has a flat appearance or have a frame drawn around them.
+     * @param hasFrame whether the button should have a visible frame
      */
-    public @NotNull void setHasFrame(@NotNull boolean hasFrame) {
+    public void setHasFrame(boolean hasFrame) {
         try {
-            gtk_button_set_has_frame.invokeExact(handle(), hasFrame ? 1 : 0);
+            DowncallHandles.gtk_button_set_has_frame.invokeExact(handle(), hasFrame ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_button_set_icon_name = Interop.downcallHandle(
-        "gtk_button_set_icon_name",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Adds a {@code GtkImage} with the given icon name as a child.
      * <p>
      * If {@code button} already contains a child widget, that child widget will
      * be removed and replaced with the image.
+     * @param iconName An icon name
      */
-    public @NotNull void setIconName(@NotNull java.lang.String iconName) {
+    public void setIconName(@NotNull java.lang.String iconName) {
+        java.util.Objects.requireNonNull(iconName, "Parameter 'iconName' must not be null");
         try {
-            gtk_button_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName));
+            DowncallHandles.gtk_button_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_button_set_label = Interop.downcallHandle(
-        "gtk_button_set_label",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the text of the label of the button to {@code label}.
      * <p>
      * This will also clear any previously set labels.
+     * @param label a string
      */
-    public @NotNull void setLabel(@NotNull java.lang.String label) {
+    public void setLabel(@NotNull java.lang.String label) {
+        java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
         try {
-            gtk_button_set_label.invokeExact(handle(), Interop.allocateNativeString(label));
+            DowncallHandles.gtk_button_set_label.invokeExact(handle(), Interop.allocateNativeString(label));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_button_set_use_underline = Interop.downcallHandle(
-        "gtk_button_set_use_underline",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether to use underlines as mnemonics.
      * <p>
      * If true, an underline in the text of the button label indicates
      * the next character should be used for the mnemonic accelerator key.
+     * @param useUnderline {@code true} if underlines in the text indicate mnemonics
      */
-    public @NotNull void setUseUnderline(@NotNull boolean useUnderline) {
+    public void setUseUnderline(boolean useUnderline) {
         try {
-            gtk_button_set_use_underline.invokeExact(handle(), useUnderline ? 1 : 0);
+            DowncallHandles.gtk_button_set_use_underline.invokeExact(handle(), useUnderline ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ActivateHandler {
+    public interface Activate {
         void signalReceived(Button source);
     }
     
@@ -348,7 +323,7 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
      * This is an action signal. Applications should never connect
      * to this signal, but use the {@code Gtk.Button::clicked} signal.
      */
-    public SignalHandle onActivate(ActivateHandler handler) {
+    public Signal<Button.Activate> onActivate(Button.Activate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -358,23 +333,23 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<Button.Activate>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ClickedHandler {
+    public interface Clicked {
         void signalReceived(Button source);
     }
     
     /**
      * Emitted when the button has been activated (pressed and released).
      */
-    public SignalHandle onClicked(ClickedHandler handler) {
+    public Signal<Button.Clicked> onClicked(Button.Clicked handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -384,27 +359,99 @@ public class Button extends Widget implements Accessible, Actionable, Buildable,
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<Button.Clicked>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_button_new = Interop.downcallHandle(
+            "gtk_button_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_button_new_from_icon_name = Interop.downcallHandle(
+            "gtk_button_new_from_icon_name",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_button_new_with_label = Interop.downcallHandle(
+            "gtk_button_new_with_label",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_button_new_with_mnemonic = Interop.downcallHandle(
+            "gtk_button_new_with_mnemonic",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_button_get_child = Interop.downcallHandle(
+            "gtk_button_get_child",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_button_get_has_frame = Interop.downcallHandle(
+            "gtk_button_get_has_frame",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_button_get_icon_name = Interop.downcallHandle(
+            "gtk_button_get_icon_name",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_button_get_label = Interop.downcallHandle(
+            "gtk_button_get_label",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_button_get_use_underline = Interop.downcallHandle(
+            "gtk_button_get_use_underline",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_button_set_child = Interop.downcallHandle(
+            "gtk_button_set_child",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_button_set_has_frame = Interop.downcallHandle(
+            "gtk_button_set_has_frame",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_button_set_icon_name = Interop.downcallHandle(
+            "gtk_button_set_icon_name",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_button_set_label = Interop.downcallHandle(
+            "gtk_button_set_label",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_button_set_use_underline = Interop.downcallHandle(
+            "gtk_button_set_use_underline",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static void signalButtonActivate(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (Button.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Button(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (Button.Activate) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new Button(Refcounted.get(source)));
         }
         
         public static void signalButtonClicked(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (Button.ClickedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Button(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (Button.Clicked) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new Button(Refcounted.get(source)));
         }
-        
     }
 }

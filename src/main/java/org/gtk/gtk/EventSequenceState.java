@@ -1,10 +1,23 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
- * Describes the state of a {@code Gesture}.
+ * Describes the state of a {@code Gdk.EventSequence] in a [class@Gesture}.
  */
 public class EventSequenceState extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The sequence is handled, but not grabbed.
      */
@@ -23,5 +36,4 @@ public class EventSequenceState extends io.github.jwharm.javagi.Enumeration {
     public EventSequenceState(int value) {
         super(value);
     }
-    
 }

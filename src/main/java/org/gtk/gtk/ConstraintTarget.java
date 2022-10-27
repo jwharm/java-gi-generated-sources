@@ -12,8 +12,13 @@ import org.jetbrains.annotations.*;
  * Besides {@code GtkWidget}, it is also implemented by {@code GtkConstraintGuide}.
  */
 public interface ConstraintTarget extends io.github.jwharm.javagi.Proxy {
-
+    
     class ConstraintTargetImpl extends org.gtk.gobject.Object implements ConstraintTarget {
+        
+        static {
+            Gtk.javagi$ensureInitialized();
+        }
+        
         public ConstraintTargetImpl(io.github.jwharm.javagi.Refcounted ref) {
             super(ref);
         }

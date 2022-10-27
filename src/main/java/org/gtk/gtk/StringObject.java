@@ -12,7 +12,19 @@ import org.jetbrains.annotations.*;
  * a {@code Gtk.StringObject:string} property.
  */
 public class StringObject extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public StringObject(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -22,43 +34,49 @@ public class StringObject extends org.gtk.gobject.Object {
         return new StringObject(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_string_object_new = Interop.downcallHandle(
-        "gtk_string_object_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew(@NotNull java.lang.String string) {
+        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_string_object_new.invokeExact(Interop.allocateNativeString(string)), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_string_object_new.invokeExact(Interop.allocateNativeString(string)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Wraps a string in an object for use with {@code GListModel}.
+     * @param string The string to wrap
      */
     public StringObject(@NotNull java.lang.String string) {
         super(constructNew(string));
     }
     
-    private static final MethodHandle gtk_string_object_get_string = Interop.downcallHandle(
-        "gtk_string_object_get_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the string contained in a {@code GtkStringObject}.
+     * @return the string of {@code self}
      */
     public @NotNull java.lang.String getString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_string_object_get_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_string_object_get_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_string_object_new = Interop.downcallHandle(
+            "gtk_string_object_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_string_object_get_string = Interop.downcallHandle(
+            "gtk_string_object_get_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

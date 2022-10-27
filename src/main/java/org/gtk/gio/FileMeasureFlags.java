@@ -1,10 +1,24 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Flags that can be used with g_file_measure_disk_usage().
+ * @version 2.38
  */
 public class FileMeasureFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * No flags set.
      */
@@ -34,5 +48,4 @@ public class FileMeasureFlags extends io.github.jwharm.javagi.Bitfield {
     public FileMeasureFlags(int value) {
         super(value);
     }
-    
 }

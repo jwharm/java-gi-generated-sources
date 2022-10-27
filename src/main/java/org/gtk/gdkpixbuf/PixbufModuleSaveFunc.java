@@ -1,6 +1,8 @@
 package org.gtk.gdkpixbuf;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -12,5 +14,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PixbufModuleSaveFunc {
-        boolean onPixbufModuleSaveFunc(@Nullable java.lang.foreign.MemoryAddress f, @NotNull Pixbuf pixbuf, @Nullable PointerString paramKeys, @Nullable PointerString paramValues);
+        boolean onPixbufModuleSaveFunc(@Nullable java.lang.foreign.MemoryAddress f, @NotNull org.gtk.gdkpixbuf.Pixbuf pixbuf, PointerString paramKeys, PointerString paramValues);
 }

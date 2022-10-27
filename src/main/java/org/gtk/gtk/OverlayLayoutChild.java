@@ -8,8 +8,20 @@ import org.jetbrains.annotations.*;
 /**
  * {@code GtkLayoutChild} subclass for children in a {@code GtkOverlayLayout}.
  */
-public class OverlayLayoutChild extends LayoutChild {
-
+public class OverlayLayoutChild extends org.gtk.gtk.LayoutChild {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public OverlayLayoutChild(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -19,72 +31,78 @@ public class OverlayLayoutChild extends LayoutChild {
         return new OverlayLayoutChild(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_overlay_layout_child_get_clip_overlay = Interop.downcallHandle(
-        "gtk_overlay_layout_child_get_clip_overlay",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Retrieves whether the child is clipped.
+     * @return whether the child is clipped
      */
     public boolean getClipOverlay() {
         int RESULT;
         try {
-            RESULT = (int) gtk_overlay_layout_child_get_clip_overlay.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_overlay_layout_child_get_clip_overlay.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_overlay_layout_child_get_measure = Interop.downcallHandle(
-        "gtk_overlay_layout_child_get_measure",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Retrieves whether the child is measured.
+     * @return whether the child is measured
      */
     public boolean getMeasure() {
         int RESULT;
         try {
-            RESULT = (int) gtk_overlay_layout_child_get_measure.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_overlay_layout_child_get_measure.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_overlay_layout_child_set_clip_overlay = Interop.downcallHandle(
-        "gtk_overlay_layout_child_set_clip_overlay",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Sets whether to clip this child.
+     * @param clipOverlay whether to clip this child
      */
-    public @NotNull void setClipOverlay(@NotNull boolean clipOverlay) {
+    public void setClipOverlay(boolean clipOverlay) {
         try {
-            gtk_overlay_layout_child_set_clip_overlay.invokeExact(handle(), clipOverlay ? 1 : 0);
+            DowncallHandles.gtk_overlay_layout_child_set_clip_overlay.invokeExact(handle(), clipOverlay ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_overlay_layout_child_set_measure = Interop.downcallHandle(
-        "gtk_overlay_layout_child_set_measure",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether to measure this child.
+     * @param measure whether to measure this child
      */
-    public @NotNull void setMeasure(@NotNull boolean measure) {
+    public void setMeasure(boolean measure) {
         try {
-            gtk_overlay_layout_child_set_measure.invokeExact(handle(), measure ? 1 : 0);
+            DowncallHandles.gtk_overlay_layout_child_set_measure.invokeExact(handle(), measure ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_overlay_layout_child_get_clip_overlay = Interop.downcallHandle(
+            "gtk_overlay_layout_child_get_clip_overlay",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_overlay_layout_child_get_measure = Interop.downcallHandle(
+            "gtk_overlay_layout_child_get_measure",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_overlay_layout_child_set_clip_overlay = Interop.downcallHandle(
+            "gtk_overlay_layout_child_set_clip_overlay",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_overlay_layout_child_set_measure = Interop.downcallHandle(
+            "gtk_overlay_layout_child_set_measure",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
 }

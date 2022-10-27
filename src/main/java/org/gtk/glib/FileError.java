@@ -1,5 +1,10 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Values corresponding to {@code errno} codes returned from file operations
  * on UNIX. Unlike {@code errno} codes, GFileError values are available on
@@ -15,7 +20,15 @@ package org.gtk.glib;
  * differences in when a system will report a given error, etc.
  */
 public class FileError extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Operation not permitted; only the owner of
      *     the file (or other resource) or processes with special privileges
@@ -186,5 +199,4 @@ public class FileError extends io.github.jwharm.javagi.Enumeration {
     public FileError(int value) {
         super(value);
     }
-    
 }

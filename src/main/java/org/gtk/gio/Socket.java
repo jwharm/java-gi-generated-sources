@@ -57,9 +57,27 @@ import org.jetbrains.annotations.*;
  * Like most other APIs in GLib, {@link Socket} is not inherently thread safe. To use
  * a {@link Socket} concurrently from multiple threads, you must implement your own
  * locking.
+ * @version 2.22
  */
-public class Socket extends org.gtk.gobject.Object implements DatagramBased, Initable {
-
+public class Socket extends org.gtk.gobject.Object implements org.gtk.gio.DatagramBased, org.gtk.gio.Initable {
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
+        org.gtk.gio.SocketPrivate.getMemoryLayout().withName("priv")
+    ).withName("GSocket");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public Socket(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -69,22 +87,21 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         return new Socket(gobject.refcounted());
     }
     
-    private static final MethodHandle g_socket_new = Interop.downcallHandle(
-        "g_socket_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNew(@NotNull SocketFamily family, @NotNull SocketType type, @NotNull SocketProtocol protocol) throws GErrorException {
+    private static Refcounted constructNew(@NotNull org.gtk.gio.SocketFamily family, @NotNull org.gtk.gio.SocketType type, @NotNull org.gtk.gio.SocketProtocol protocol) throws GErrorException {
+        java.util.Objects.requireNonNull(family, "Parameter 'family' must not be null");
+        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+        java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_socket_new.invokeExact(family.getValue(), type.getValue(), protocol.getValue(), (Addressable) GERROR), true);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_socket_new.invokeExact(family.getValue(), type.getValue(), protocol.getValue(), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
     /**
@@ -101,27 +118,27 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * The protocol id is passed directly to the operating
      * system, so you can use protocols not listed in {@link SocketProtocol} if you
      * know the protocol number used for it.
+     * @param family the socket family to use, e.g. {@link SocketFamily#IPV4}.
+     * @param type the socket type to use.
+     * @param protocol the id of the protocol to use, or 0 for default.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public Socket(@NotNull SocketFamily family, @NotNull SocketType type, @NotNull SocketProtocol protocol) throws GErrorException {
+    public Socket(@NotNull org.gtk.gio.SocketFamily family, @NotNull org.gtk.gio.SocketType type, @NotNull org.gtk.gio.SocketProtocol protocol) throws GErrorException {
         super(constructNew(family, type, protocol));
     }
     
-    private static final MethodHandle g_socket_new_from_fd = Interop.downcallHandle(
-        "g_socket_new_from_fd",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNewFromFd(@NotNull int fd) throws GErrorException {
+    private static Refcounted constructNewFromFd(int fd) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_socket_new_from_fd.invokeExact(fd, (Addressable) GERROR), true);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_socket_new_from_fd.invokeExact(fd, (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
     /**
@@ -138,15 +155,14 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * <p>
      * Since GLib 2.46, it is no longer a fatal error to call this on a non-socket
      * descriptor.  Instead, a GError will be set with code {@link IOErrorEnum#FAILED}
+     * @param fd a native socket file descriptor.
+     * @return a {@link Socket} or {@code null} on error.
+     *     Free the returned object with g_object_unref().
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static Socket newFromFd(@NotNull int fd) throws GErrorException {
+    public static Socket newFromFd(int fd) throws GErrorException {
         return new Socket(constructNewFromFd(fd));
     }
-    
-    private static final MethodHandle g_socket_accept = Interop.downcallHandle(
-        "g_socket_accept",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Accept incoming connections on a connection-based socket. This removes
@@ -159,25 +175,25 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * If there are no outstanding connections then the operation will block
      * or return {@link IOErrorEnum#WOULD_BLOCK} if non-blocking I/O is enabled.
      * To be notified of an incoming connection, wait for the {@link org.gtk.glib.IOCondition#IN} condition.
+     * @param cancellable a {@code GCancellable} or {@code null}
+     * @return a new {@link Socket}, or {@code null} on error.
+     *     Free the returned object with g_object_unref().
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull Socket accept(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.gio.Socket accept(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_socket_accept.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_accept.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Socket(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Socket(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_socket_bind = Interop.downcallHandle(
-        "g_socket_bind",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * When a socket is created it is attached to an address family, but it
@@ -203,12 +219,17 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * same address, and they will all receive all of the multicast and
      * broadcast packets sent to that address. (The behavior of unicast
      * UDP packets to an address with multiple listeners is not defined.)
+     * @param address a {@link SocketAddress} specifying the local address.
+     * @param allowReuse whether to allow reusing this address
+     * @return {@code true} on success, {@code false} on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean bind(@NotNull SocketAddress address, @NotNull boolean allowReuse) throws io.github.jwharm.javagi.GErrorException {
+    public boolean bind(@NotNull org.gtk.gio.SocketAddress address, boolean allowReuse) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_socket_bind.invokeExact(handle(), address.handle(), allowReuse ? 1 : 0, (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_socket_bind.invokeExact(handle(), address.handle(), allowReuse ? 1 : 0, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -217,22 +238,19 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_socket_check_connect_result = Interop.downcallHandle(
-        "g_socket_check_connect_result",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Checks and resets the pending connect error for the socket.
      * This is used to check for errors when g_socket_connect() is
      * used in non-blocking mode.
+     * @return {@code true} if no error, {@code false} otherwise, setting {@code error} to the error
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean checkConnectResult() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_socket_check_connect_result.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_socket_check_connect_result.invokeExact(handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -241,11 +259,6 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_socket_close = Interop.downcallHandle(
-        "g_socket_close",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Closes the socket, shutting down any active connection.
@@ -277,12 +290,14 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * g_tcp_connection_set_graceful_disconnect(). But of course, this
      * only works if the client will close its connection after the server
      * does.)
+     * @return {@code true} on success, {@code false} on error
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean close() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_socket_close.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_socket_close.invokeExact(handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -291,11 +306,6 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_socket_condition_check = Interop.downcallHandle(
-        "g_socket_condition_check",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Checks on the readiness of {@code socket} to perform operations.
@@ -315,21 +325,19 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * these conditions will always be set in the output if they are true.
      * <p>
      * This call never blocks.
+     * @param condition a {@link org.gtk.glib.IOCondition} mask to check
+     * @return the {@code GIOCondition} mask of the current state
      */
     public @NotNull org.gtk.glib.IOCondition conditionCheck(@NotNull org.gtk.glib.IOCondition condition) {
+        java.util.Objects.requireNonNull(condition, "Parameter 'condition' must not be null");
         int RESULT;
         try {
-            RESULT = (int) g_socket_condition_check.invokeExact(handle(), condition.getValue());
+            RESULT = (int) DowncallHandles.g_socket_condition_check.invokeExact(handle(), condition.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.IOCondition(RESULT);
     }
-    
-    private static final MethodHandle g_socket_condition_timed_wait = Interop.downcallHandle(
-        "g_socket_condition_timed_wait",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Waits for up to {@code timeout_us} microseconds for {@code condition} to become true
@@ -348,12 +356,19 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * other GLib APIs, this function actually only has millisecond
      * resolution, and the behavior is undefined if {@code timeout_us} is not an
      * exact number of milliseconds.
+     * @param condition a {@link org.gtk.glib.IOCondition} mask to wait for
+     * @param timeoutUs the maximum time (in microseconds) to wait, or -1
+     * @param cancellable a {@link Cancellable}, or {@code null}
+     * @return {@code true} if the condition was met, {@code false} otherwise
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean conditionTimedWait(@NotNull org.gtk.glib.IOCondition condition, @NotNull long timeoutUs, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public boolean conditionTimedWait(@NotNull org.gtk.glib.IOCondition condition, long timeoutUs, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(condition, "Parameter 'condition' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_socket_condition_timed_wait.invokeExact(handle(), condition.getValue(), timeoutUs, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_socket_condition_timed_wait.invokeExact(handle(), condition.getValue(), timeoutUs, cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -362,11 +377,6 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_socket_condition_wait = Interop.downcallHandle(
-        "g_socket_condition_wait",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Waits for {@code condition} to become true on {@code socket}. When the condition
@@ -379,12 +389,18 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * {@link IOErrorEnum#TIMED_OUT}).
      * <p>
      * See also g_socket_condition_timed_wait().
+     * @param condition a {@link org.gtk.glib.IOCondition} mask to wait for
+     * @param cancellable a {@link Cancellable}, or {@code null}
+     * @return {@code true} if the condition was met, {@code false} otherwise
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean conditionWait(@NotNull org.gtk.glib.IOCondition condition, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public boolean conditionWait(@NotNull org.gtk.glib.IOCondition condition, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(condition, "Parameter 'condition' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_socket_condition_wait.invokeExact(handle(), condition.getValue(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_socket_condition_wait.invokeExact(handle(), condition.getValue(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -393,11 +409,6 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_socket_connect = Interop.downcallHandle(
-        "g_socket_connect",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Connect the socket to the specified remote address.
@@ -416,12 +427,18 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * and the user can be notified of the connection finishing by waiting
      * for the G_IO_OUT condition. The result of the connection must then be
      * checked with g_socket_check_connect_result().
+     * @param address a {@link SocketAddress} specifying the remote address.
+     * @param cancellable a {@code GCancellable} or {@code null}
+     * @return {@code true} if connected, {@code false} on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean connect(@NotNull SocketAddress address, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public boolean connect(@NotNull org.gtk.gio.SocketAddress address, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_socket_connect.invokeExact(handle(), address.handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_socket_connect.invokeExact(handle(), address.handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -431,29 +448,20 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_socket_connection_factory_create_connection = Interop.downcallHandle(
-        "g_socket_connection_factory_create_connection",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Creates a {@link SocketConnection} subclass of the right type for
      * {@code socket}.
+     * @return a {@link SocketConnection}
      */
-    public @NotNull SocketConnection connectionFactoryCreateConnection() {
+    public @NotNull org.gtk.gio.SocketConnection connectionFactoryCreateConnection() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_socket_connection_factory_create_connection.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_connection_factory_create_connection.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new SocketConnection(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.SocketConnection(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_socket_create_source = Interop.downcallHandle(
-        "g_socket_create_source",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Creates a {@link org.gtk.glib.Source} that can be attached to a {@code GMainContext} to monitor
@@ -476,21 +484,21 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * {@link org.gtk.glib.IOCondition#OUT} depending on {@code condition}. However, {@code socket} will have been
      * marked as having had a timeout, and so the next {@link Socket} I/O method
      * you call will then fail with a {@link IOErrorEnum#TIMED_OUT}.
+     * @param condition a {@link org.gtk.glib.IOCondition} mask to monitor
+     * @param cancellable a {@code GCancellable} or {@code null}
+     * @return a newly allocated {@code GSource}, free with g_source_unref().
      */
-    public @NotNull org.gtk.glib.Source createSource(@NotNull org.gtk.glib.IOCondition condition, @Nullable Cancellable cancellable) {
+    public @NotNull org.gtk.glib.Source createSource(@NotNull org.gtk.glib.IOCondition condition, @Nullable org.gtk.gio.Cancellable cancellable) {
+        java.util.Objects.requireNonNull(condition, "Parameter 'condition' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_socket_create_source.invokeExact(handle(), condition.getValue(), cancellable.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_create_source.invokeExact(handle(), condition.getValue(), cancellable.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.Source(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_socket_get_available_bytes = Interop.downcallHandle(
-        "g_socket_get_available_bytes",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
-    );
     
     /**
      * Get the amount of data pending in the OS input buffer, without blocking.
@@ -505,60 +513,49 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * g_socket_receive() with a buffer of that size, rather than calling
      * g_socket_get_available_bytes() first and then doing a receive of
      * exactly the right size.
+     * @return the number of bytes that can be read from the socket
+     * without blocking or truncating, or -1 on error.
      */
     public long getAvailableBytes() {
         long RESULT;
         try {
-            RESULT = (long) g_socket_get_available_bytes.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_socket_get_available_bytes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle g_socket_get_blocking = Interop.downcallHandle(
-        "g_socket_get_blocking",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the blocking mode of the socket. For details on blocking I/O,
      * see g_socket_set_blocking().
+     * @return {@code true} if blocking I/O is used, {@code false} otherwise.
      */
     public boolean getBlocking() {
         int RESULT;
         try {
-            RESULT = (int) g_socket_get_blocking.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_get_blocking.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_socket_get_broadcast = Interop.downcallHandle(
-        "g_socket_get_broadcast",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the broadcast setting on {@code socket}; if {@code true},
      * it is possible to send packets to broadcast
      * addresses.
+     * @return the broadcast setting on {@code socket}
      */
     public boolean getBroadcast() {
         int RESULT;
         try {
-            RESULT = (int) g_socket_get_broadcast.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_get_broadcast.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_socket_get_credentials = Interop.downcallHandle(
-        "g_socket_get_credentials",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the credentials of the foreign process connected to this
@@ -582,43 +579,37 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * {@link UnixCredentialsMessage} type and
      * g_unix_connection_send_credentials() /
      * g_unix_connection_receive_credentials() functions.
+     * @return {@code null} if {@code error} is set, otherwise a {@link Credentials} object
+     * that must be freed with g_object_unref().
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull Credentials getCredentials() throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.gio.Credentials getCredentials() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_socket_get_credentials.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_get_credentials.invokeExact(handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Credentials(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Credentials(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_socket_get_family = Interop.downcallHandle(
-        "g_socket_get_family",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the socket family of the socket.
+     * @return a {@link SocketFamily}
      */
-    public @NotNull SocketFamily getFamily() {
+    public @NotNull org.gtk.gio.SocketFamily getFamily() {
         int RESULT;
         try {
-            RESULT = (int) g_socket_get_family.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_get_family.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new SocketFamily(RESULT);
+        return new org.gtk.gio.SocketFamily(RESULT);
     }
-    
-    private static final MethodHandle g_socket_get_fd = Interop.downcallHandle(
-        "g_socket_get_fd",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the underlying OS socket object. On unix this
@@ -626,122 +617,100 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * a Winsock2 SOCKET handle. This may be useful for
      * doing platform specific or otherwise unusual operations
      * on the socket.
+     * @return the file descriptor of the socket.
      */
     public int getFd() {
         int RESULT;
         try {
-            RESULT = (int) g_socket_get_fd.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_get_fd.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle g_socket_get_keepalive = Interop.downcallHandle(
-        "g_socket_get_keepalive",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the keepalive mode of the socket. For details on this,
      * see g_socket_set_keepalive().
+     * @return {@code true} if keepalive is active, {@code false} otherwise.
      */
     public boolean getKeepalive() {
         int RESULT;
         try {
-            RESULT = (int) g_socket_get_keepalive.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_get_keepalive.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_socket_get_listen_backlog = Interop.downcallHandle(
-        "g_socket_get_listen_backlog",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the listen backlog setting of the socket. For details on this,
      * see g_socket_set_listen_backlog().
+     * @return the maximum number of pending connections.
      */
     public int getListenBacklog() {
         int RESULT;
         try {
-            RESULT = (int) g_socket_get_listen_backlog.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_get_listen_backlog.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle g_socket_get_local_address = Interop.downcallHandle(
-        "g_socket_get_local_address",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Try to get the local address of a bound socket. This is only
      * useful if the socket has been bound to a local address,
      * either explicitly or implicitly when connecting.
+     * @return a {@link SocketAddress} or {@code null} on error.
+     *     Free the returned object with g_object_unref().
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull SocketAddress getLocalAddress() throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.gio.SocketAddress getLocalAddress() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_socket_get_local_address.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_get_local_address.invokeExact(handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new SocketAddress(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.SocketAddress(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_socket_get_multicast_loopback = Interop.downcallHandle(
-        "g_socket_get_multicast_loopback",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the multicast loopback setting on {@code socket}; if {@code true} (the
      * default), outgoing multicast packets will be looped back to
      * multicast listeners on the same host.
+     * @return the multicast loopback setting on {@code socket}
      */
     public boolean getMulticastLoopback() {
         int RESULT;
         try {
-            RESULT = (int) g_socket_get_multicast_loopback.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_get_multicast_loopback.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_socket_get_multicast_ttl = Interop.downcallHandle(
-        "g_socket_get_multicast_ttl",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the multicast time-to-live setting on {@code socket}; see
      * g_socket_set_multicast_ttl() for more details.
+     * @return the multicast time-to-live setting on {@code socket}
      */
     public int getMulticastTtl() {
         int RESULT;
         try {
-            RESULT = (int) g_socket_get_multicast_ttl.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_get_multicast_ttl.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_socket_get_option = Interop.downcallHandle(
-        "g_socket_get_option",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the value of an integer-valued option on {@code socket}, as with
@@ -757,143 +726,124 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * Note that even for socket options that are a single byte in size,
      * {@code value} is still a pointer to a {@code gint} variable, not a {@code guchar};
      * g_socket_get_option() will handle the conversion internally.
+     * @param level the "API level" of the option (eg, {@code SOL_SOCKET})
+     * @param optname the "name" of the option (eg, {@code SO_BROADCAST})
+     * @param value return location for the option value
+     * @return success or failure. On failure, {@code error} will be set, and
+     *   the system error value ({@code errno} or WSAGetLastError()) will still
+     *   be set to the result of the getsockopt() call.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean getOption(@NotNull int level, @NotNull int optname, @NotNull Out<Integer> value) throws io.github.jwharm.javagi.GErrorException {
+    public boolean getOption(int level, int optname, Out<Integer> value) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) g_socket_get_option.invokeExact(handle(), level, optname, (Addressable) valuePOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_socket_get_option.invokeExact(handle(), level, optname, (Addressable) valuePOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(valuePOINTER.get(ValueLayout.JAVA_INT, 0));
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        value.set(valuePOINTER.get(ValueLayout.JAVA_INT, 0));
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_socket_get_protocol = Interop.downcallHandle(
-        "g_socket_get_protocol",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the socket protocol id the socket was created with.
      * In case the protocol is unknown, -1 is returned.
+     * @return a protocol id, or -1 if unknown
      */
-    public @NotNull SocketProtocol getProtocol() {
+    public @NotNull org.gtk.gio.SocketProtocol getProtocol() {
         int RESULT;
         try {
-            RESULT = (int) g_socket_get_protocol.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_get_protocol.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new SocketProtocol(RESULT);
+        return new org.gtk.gio.SocketProtocol(RESULT);
     }
-    
-    private static final MethodHandle g_socket_get_remote_address = Interop.downcallHandle(
-        "g_socket_get_remote_address",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Try to get the remote address of a connected socket. This is only
      * useful for connection oriented sockets that have been connected.
+     * @return a {@link SocketAddress} or {@code null} on error.
+     *     Free the returned object with g_object_unref().
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull SocketAddress getRemoteAddress() throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.gio.SocketAddress getRemoteAddress() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_socket_get_remote_address.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_get_remote_address.invokeExact(handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new SocketAddress(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.SocketAddress(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_socket_get_socket_type = Interop.downcallHandle(
-        "g_socket_get_socket_type",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the socket type of the socket.
+     * @return a {@link SocketType}
      */
-    public @NotNull SocketType getSocketType() {
+    public @NotNull org.gtk.gio.SocketType getSocketType() {
         int RESULT;
         try {
-            RESULT = (int) g_socket_get_socket_type.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_get_socket_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new SocketType(RESULT);
+        return new org.gtk.gio.SocketType(RESULT);
     }
-    
-    private static final MethodHandle g_socket_get_timeout = Interop.downcallHandle(
-        "g_socket_get_timeout",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the timeout setting of the socket. For details on this, see
      * g_socket_set_timeout().
+     * @return the timeout in seconds
      */
     public int getTimeout() {
         int RESULT;
         try {
-            RESULT = (int) g_socket_get_timeout.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_get_timeout.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_socket_get_ttl = Interop.downcallHandle(
-        "g_socket_get_ttl",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the unicast time-to-live setting on {@code socket}; see
      * g_socket_set_ttl() for more details.
+     * @return the time-to-live setting on {@code socket}
      */
     public int getTtl() {
         int RESULT;
         try {
-            RESULT = (int) g_socket_get_ttl.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_get_ttl.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle g_socket_is_closed = Interop.downcallHandle(
-        "g_socket_is_closed",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Checks whether a socket is closed.
+     * @return {@code true} if socket is closed, {@code false} otherwise
      */
     public boolean isClosed() {
         int RESULT;
         try {
-            RESULT = (int) g_socket_is_closed.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_is_closed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_socket_is_connected = Interop.downcallHandle(
-        "g_socket_is_connected",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Check whether the socket is connected. This is only useful for
@@ -903,21 +853,17 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * socket has been shut down for reading and writing. If you do a non-blocking
      * connect, this function will not return {@code true} until after you call
      * g_socket_check_connect_result().
+     * @return {@code true} if socket is connected, {@code false} otherwise.
      */
     public boolean isConnected() {
         int RESULT;
         try {
-            RESULT = (int) g_socket_is_connected.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_is_connected.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_socket_join_multicast_group = Interop.downcallHandle(
-        "g_socket_join_multicast_group",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Registers {@code socket} to receive multicast messages sent to {@code group}.
@@ -934,12 +880,19 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * <p>
      * To bind to a given source-specific multicast address, use
      * g_socket_join_multicast_group_ssm() instead.
+     * @param group a {@link InetAddress} specifying the group address to join.
+     * @param sourceSpecific {@code true} if source-specific multicast should be used
+     * @param iface Name of the interface to use, or {@code null}
+     * @return {@code true} on success, {@code false} on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean joinMulticastGroup(@NotNull InetAddress group, @NotNull boolean sourceSpecific, @Nullable java.lang.String iface) throws io.github.jwharm.javagi.GErrorException {
+    public boolean joinMulticastGroup(@NotNull org.gtk.gio.InetAddress group, boolean sourceSpecific, @Nullable java.lang.String iface) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
+        java.util.Objects.requireNonNullElse(iface, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_socket_join_multicast_group.invokeExact(handle(), group.handle(), sourceSpecific ? 1 : 0, Interop.allocateNativeString(iface), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_socket_join_multicast_group.invokeExact(handle(), group.handle(), sourceSpecific ? 1 : 0, Interop.allocateNativeString(iface), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -948,11 +901,6 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_socket_join_multicast_group_ssm = Interop.downcallHandle(
-        "g_socket_join_multicast_group_ssm",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Registers {@code socket} to receive multicast messages sent to {@code group}.
@@ -970,12 +918,21 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * Note that this function can be called multiple times for the same
      * {@code group} with different {@code source_specific} in order to receive multicast
      * packets from more than one source.
+     * @param group a {@link InetAddress} specifying the group address to join.
+     * @param sourceSpecific a {@link InetAddress} specifying the
+     * source-specific multicast address or {@code null} to ignore.
+     * @param iface Name of the interface to use, or {@code null}
+     * @return {@code true} on success, {@code false} on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean joinMulticastGroupSsm(@NotNull InetAddress group, @Nullable InetAddress sourceSpecific, @Nullable java.lang.String iface) throws io.github.jwharm.javagi.GErrorException {
+    public boolean joinMulticastGroupSsm(@NotNull org.gtk.gio.InetAddress group, @Nullable org.gtk.gio.InetAddress sourceSpecific, @Nullable java.lang.String iface) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
+        java.util.Objects.requireNonNullElse(sourceSpecific, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(iface, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_socket_join_multicast_group_ssm.invokeExact(handle(), group.handle(), sourceSpecific.handle(), Interop.allocateNativeString(iface), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_socket_join_multicast_group_ssm.invokeExact(handle(), group.handle(), sourceSpecific.handle(), Interop.allocateNativeString(iface), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -984,11 +941,6 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_socket_leave_multicast_group = Interop.downcallHandle(
-        "g_socket_leave_multicast_group",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Removes {@code socket} from the multicast group defined by {@code group}, {@code iface},
@@ -1000,12 +952,19 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * <p>
      * To unbind to a given source-specific multicast address, use
      * g_socket_leave_multicast_group_ssm() instead.
+     * @param group a {@link InetAddress} specifying the group address to leave.
+     * @param sourceSpecific {@code true} if source-specific multicast was used
+     * @param iface Interface used
+     * @return {@code true} on success, {@code false} on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean leaveMulticastGroup(@NotNull InetAddress group, @NotNull boolean sourceSpecific, @Nullable java.lang.String iface) throws io.github.jwharm.javagi.GErrorException {
+    public boolean leaveMulticastGroup(@NotNull org.gtk.gio.InetAddress group, boolean sourceSpecific, @Nullable java.lang.String iface) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
+        java.util.Objects.requireNonNullElse(iface, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_socket_leave_multicast_group.invokeExact(handle(), group.handle(), sourceSpecific ? 1 : 0, Interop.allocateNativeString(iface), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_socket_leave_multicast_group.invokeExact(handle(), group.handle(), sourceSpecific ? 1 : 0, Interop.allocateNativeString(iface), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1014,11 +973,6 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_socket_leave_multicast_group_ssm = Interop.downcallHandle(
-        "g_socket_leave_multicast_group_ssm",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Removes {@code socket} from the multicast group defined by {@code group}, {@code iface},
@@ -1027,12 +981,21 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * <p>
      * {@code socket} remains bound to its address and port, and can still receive
      * unicast messages after calling this.
+     * @param group a {@link InetAddress} specifying the group address to leave.
+     * @param sourceSpecific a {@link InetAddress} specifying the
+     * source-specific multicast address or {@code null} to ignore.
+     * @param iface Name of the interface to use, or {@code null}
+     * @return {@code true} on success, {@code false} on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean leaveMulticastGroupSsm(@NotNull InetAddress group, @Nullable InetAddress sourceSpecific, @Nullable java.lang.String iface) throws io.github.jwharm.javagi.GErrorException {
+    public boolean leaveMulticastGroupSsm(@NotNull org.gtk.gio.InetAddress group, @Nullable org.gtk.gio.InetAddress sourceSpecific, @Nullable java.lang.String iface) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
+        java.util.Objects.requireNonNullElse(sourceSpecific, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(iface, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_socket_leave_multicast_group_ssm.invokeExact(handle(), group.handle(), sourceSpecific.handle(), Interop.allocateNativeString(iface), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_socket_leave_multicast_group_ssm.invokeExact(handle(), group.handle(), sourceSpecific.handle(), Interop.allocateNativeString(iface), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1041,11 +1004,6 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_socket_listen = Interop.downcallHandle(
-        "g_socket_listen",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Marks the socket as a server socket, i.e. a socket that is used
@@ -1056,12 +1014,14 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * <p>
      * To set the maximum amount of outstanding clients, use
      * g_socket_set_listen_backlog().
+     * @return {@code true} on success, {@code false} on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean listen() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_socket_listen.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_socket_listen.invokeExact(handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1070,11 +1030,6 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_socket_receive = Interop.downcallHandle(
-        "g_socket_receive",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Receive data (up to {@code size} bytes) from a socket. This is mainly used by
@@ -1100,29 +1055,32 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * {@link org.gtk.glib.IOCondition#IN} condition.
      * <p>
      * On error -1 is returned and {@code error} is set accordingly.
+     * @param buffer a buffer to read data into (which should be at least {@code size} bytes long).
+     * @param size the number of bytes you want to read from the socket
+     * @param cancellable a {@code GCancellable} or {@code null}
+     * @return Number of bytes read, or 0 if the connection was closed by
+     * the peer, or -1 on error
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public long receive(@NotNull Out<byte[]> buffer, @NotNull Out<Long> size, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public long receive(Out<byte[]> buffer, Out<Long> size, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment bufferPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         long RESULT;
         try {
-            RESULT = (long) g_socket_receive.invokeExact(handle(), (Addressable) bufferPOINTER.address(), (Addressable) sizePOINTER.address(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (long) DowncallHandles.g_socket_receive.invokeExact(handle(), (Addressable) bufferPOINTER.address(), (Addressable) sizePOINTER.address(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        size.set(sizePOINTER.get(ValueLayout.JAVA_LONG, 0));
-        buffer.set(MemorySegment.ofAddress(bufferPOINTER.get(ValueLayout.ADDRESS, 0), size.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        size.set(sizePOINTER.get(ValueLayout.JAVA_LONG, 0));
+        buffer.set(MemorySegment.ofAddress(bufferPOINTER.get(ValueLayout.ADDRESS, 0), size.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
         return RESULT;
     }
-    
-    private static final MethodHandle g_socket_receive_from = Interop.downcallHandle(
-        "g_socket_receive_from",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Receive data (up to {@code size} bytes) from a socket.
@@ -1132,31 +1090,37 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * {@code address} is owned by the caller.
      * <p>
      * See g_socket_receive() for additional information.
+     * @param address a pointer to a {@link SocketAddress}
+     *     pointer, or {@code null}
+     * @param buffer a buffer to read data into (which should be at least {@code size} bytes long).
+     * @param size the number of bytes you want to read from the socket
+     * @param cancellable a {@code GCancellable} or {@code null}
+     * @return Number of bytes read, or 0 if the connection was closed by
+     * the peer, or -1 on error
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public long receiveFrom(@NotNull Out<SocketAddress> address, @NotNull Out<byte[]> buffer, @NotNull Out<Long> size, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public long receiveFrom(@NotNull Out<org.gtk.gio.SocketAddress> address, Out<byte[]> buffer, Out<Long> size, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment addressPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment bufferPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         long RESULT;
         try {
-            RESULT = (long) g_socket_receive_from.invokeExact(handle(), (Addressable) addressPOINTER.address(), (Addressable) bufferPOINTER.address(), (Addressable) sizePOINTER.address(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (long) DowncallHandles.g_socket_receive_from.invokeExact(handle(), (Addressable) addressPOINTER.address(), (Addressable) bufferPOINTER.address(), (Addressable) sizePOINTER.address(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        address.set(new SocketAddress(Refcounted.get(addressPOINTER.get(ValueLayout.ADDRESS, 0), true)));
-        size.set(sizePOINTER.get(ValueLayout.JAVA_LONG, 0));
-        buffer.set(MemorySegment.ofAddress(bufferPOINTER.get(ValueLayout.ADDRESS, 0), size.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        address.set(new org.gtk.gio.SocketAddress(Refcounted.get(addressPOINTER.get(ValueLayout.ADDRESS, 0), true)));
+        size.set(sizePOINTER.get(ValueLayout.JAVA_LONG, 0));
+        buffer.set(MemorySegment.ofAddress(bufferPOINTER.get(ValueLayout.ADDRESS, 0), size.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
         return RESULT;
     }
-    
-    private static final MethodHandle g_socket_receive_message = Interop.downcallHandle(
-        "g_socket_receive_message",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Receive data from a socket.  For receiving multiple messages, see
@@ -1218,8 +1182,29 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * {@link org.gtk.glib.IOCondition#IN} condition.
      * <p>
      * On error -1 is returned and {@code error} is set accordingly.
+     * @param address a pointer to a {@link SocketAddress}
+     *     pointer, or {@code null}
+     * @param vectors an array of {@link InputVector} structs
+     * @param numVectors the number of elements in {@code vectors}, or -1
+     * @param messages a pointer
+     *    which may be filled with an array of {@code GSocketControlMessages}, or {@code null}
+     * @param numMessages a pointer which will be filled with the number of
+     *    elements in {@code messages}, or {@code null}
+     * @param flags a pointer to an int containing {@link SocketMsgFlags} flags,
+     *    which may additionally contain
+     *    <a href="http://man7.org/linux/man-pages/man2/recv.2.html">other platform specific flags</a>
+     * @param cancellable a {@code GCancellable} or {@code null}
+     * @return Number of bytes read, or 0 if the connection was closed by
+     * the peer, or -1 on error
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public long receiveMessage(@NotNull Out<SocketAddress> address, @NotNull InputVector[] vectors, @NotNull int numVectors, @Nullable Out<SocketControlMessage[]> messages, @NotNull Out<Integer> numMessages, @NotNull Out<Integer> flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public long receiveMessage(@NotNull Out<org.gtk.gio.SocketAddress> address, org.gtk.gio.InputVector[] vectors, int numVectors, Out<org.gtk.gio.SocketControlMessage[]> messages, Out<Integer> numMessages, Out<Integer> flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
+        java.util.Objects.requireNonNull(vectors, "Parameter 'vectors' must not be null");
+        java.util.Objects.requireNonNullElse(messages, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(numMessages, "Parameter 'numMessages' must not be null");
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment addressPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment messagesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -1227,29 +1212,24 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         MemorySegment flagsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         long RESULT;
         try {
-            RESULT = (long) g_socket_receive_message.invokeExact(handle(), (Addressable) addressPOINTER.address(), Interop.allocateNativeArray(vectors), numVectors, (Addressable) messagesPOINTER.address(), (Addressable) numMessagesPOINTER.address(), (Addressable) flagsPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (long) DowncallHandles.g_socket_receive_message.invokeExact(handle(), (Addressable) addressPOINTER.address(), Interop.allocateNativeArray(vectors, false), numVectors, (Addressable) messagesPOINTER.address(), (Addressable) numMessagesPOINTER.address(), (Addressable) flagsPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        address.set(new SocketAddress(Refcounted.get(addressPOINTER.get(ValueLayout.ADDRESS, 0), true)));
-        numMessages.set(numMessagesPOINTER.get(ValueLayout.JAVA_INT, 0));
-        flags.set(flagsPOINTER.get(ValueLayout.JAVA_INT, 0));
-        SocketControlMessage[] messagesARRAY = new SocketControlMessage[numMessages.get().intValue()];
-        for (int I = 0; I < numMessages.get().intValue(); I++) {
-            var OBJ = messagesPOINTER.get(ValueLayout.ADDRESS, I);
-            messagesARRAY[I] = new SocketControlMessage(Refcounted.get(OBJ, true));
-        }
-        messages.set(messagesARRAY);
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        address.set(new org.gtk.gio.SocketAddress(Refcounted.get(addressPOINTER.get(ValueLayout.ADDRESS, 0), true)));
+        numMessages.set(numMessagesPOINTER.get(ValueLayout.JAVA_INT, 0));
+        flags.set(flagsPOINTER.get(ValueLayout.JAVA_INT, 0));
+        org.gtk.gio.SocketControlMessage[] messagesARRAY = new org.gtk.gio.SocketControlMessage[numMessages.get().intValue()];
+        for (int I = 0; I < numMessages.get().intValue(); I++) {
+            var OBJ = messagesPOINTER.get(ValueLayout.ADDRESS, I);
+            messagesARRAY[I] = new org.gtk.gio.SocketControlMessage(Refcounted.get(OBJ, true));
+        }
+        messages.set(messagesARRAY);
         return RESULT;
     }
-    
-    private static final MethodHandle g_socket_receive_messages = Interop.downcallHandle(
-        "g_socket_receive_messages",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Receive multiple data messages from {@code socket} in one go.  This is the most
@@ -1300,12 +1280,26 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * On error -1 is returned and {@code error} is set accordingly. An error will only
      * be returned if zero messages could be received; otherwise the number of
      * messages successfully received before the error will be returned.
+     * @param messages an array of {@link InputMessage} structs
+     * @param numMessages the number of elements in {@code messages}
+     * @param flags an int containing {@link SocketMsgFlags} flags for the overall operation,
+     *    which may additionally contain
+     *    <a href="http://man7.org/linux/man-pages/man2/recv.2.html">other platform specific flags</a>
+     * @param cancellable a {@code GCancellable} or {@code null}
+     * @return number of messages received, or -1 on error. Note that the number
+     *     of messages received may be smaller than {@code num_messages} if in non-blocking
+     *     mode, if the peer closed the connection, or if {@code num_messages}
+     *     was larger than {@code UIO_MAXIOV} (1024), in which case the caller may re-try
+     *     to receive the remaining messages.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public int receiveMessages(@NotNull InputMessage[] messages, @NotNull int numMessages, @NotNull int flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public int receiveMessages(org.gtk.gio.InputMessage[] messages, int numMessages, int flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(messages, "Parameter 'messages' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_socket_receive_messages.invokeExact(handle(), Interop.allocateNativeArray(messages), numMessages, flags, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_socket_receive_messages.invokeExact(handle(), Interop.allocateNativeArray(messages, false), numMessages, flags, cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1314,39 +1308,38 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_socket_receive_with_blocking = Interop.downcallHandle(
-        "g_socket_receive_with_blocking",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * This behaves exactly the same as g_socket_receive(), except that
      * the choice of blocking or non-blocking behavior is determined by
      * the {@code blocking} argument rather than by {@code socket}'s properties.
+     * @param buffer a buffer to read data into (which should be at least {@code size} bytes long).
+     * @param size the number of bytes you want to read from the socket
+     * @param blocking whether to do blocking or non-blocking I/O
+     * @param cancellable a {@code GCancellable} or {@code null}
+     * @return Number of bytes read, or 0 if the connection was closed by
+     * the peer, or -1 on error
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public long receiveWithBlocking(@NotNull Out<byte[]> buffer, @NotNull Out<Long> size, @NotNull boolean blocking, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public long receiveWithBlocking(Out<byte[]> buffer, Out<Long> size, boolean blocking, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment bufferPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         long RESULT;
         try {
-            RESULT = (long) g_socket_receive_with_blocking.invokeExact(handle(), (Addressable) bufferPOINTER.address(), (Addressable) sizePOINTER.address(), blocking ? 1 : 0, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (long) DowncallHandles.g_socket_receive_with_blocking.invokeExact(handle(), (Addressable) bufferPOINTER.address(), (Addressable) sizePOINTER.address(), blocking ? 1 : 0, cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        size.set(sizePOINTER.get(ValueLayout.JAVA_LONG, 0));
-        buffer.set(MemorySegment.ofAddress(bufferPOINTER.get(ValueLayout.ADDRESS, 0), size.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        size.set(sizePOINTER.get(ValueLayout.JAVA_LONG, 0));
+        buffer.set(MemorySegment.ofAddress(bufferPOINTER.get(ValueLayout.ADDRESS, 0), size.get().intValue() * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
         return RESULT;
     }
-    
-    private static final MethodHandle g_socket_send = Interop.downcallHandle(
-        "g_socket_send",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tries to send {@code size} bytes from {@code buffer} on the socket. This is
@@ -1363,12 +1356,21 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * very common due to the way the underlying APIs work.)
      * <p>
      * On error -1 is returned and {@code error} is set accordingly.
+     * @param buffer the buffer
+     *     containing the data to send.
+     * @param size the number of bytes to send
+     * @param cancellable a {@code GCancellable} or {@code null}
+     * @return Number of bytes written (which may be less than {@code size}), or -1
+     * on error
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public long send(@NotNull byte[] buffer, @NotNull long size, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public long send(byte[] buffer, long size, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         long RESULT;
         try {
-            RESULT = (long) g_socket_send.invokeExact(handle(), Interop.allocateNativeArray(buffer), size, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (long) DowncallHandles.g_socket_send.invokeExact(handle(), Interop.allocateNativeArray(buffer, false), size, cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1377,11 +1379,6 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_socket_send_message = Interop.downcallHandle(
-        "g_socket_send_message",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Send data to {@code address} on {@code socket}.  For sending multiple messages see
@@ -1426,12 +1423,28 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * function.
      * <p>
      * On error -1 is returned and {@code error} is set accordingly.
+     * @param address a {@link SocketAddress}, or {@code null}
+     * @param vectors an array of {@link OutputVector} structs
+     * @param numVectors the number of elements in {@code vectors}, or -1
+     * @param messages a pointer to an
+     *   array of {@code GSocketControlMessages}, or {@code null}.
+     * @param numMessages number of elements in {@code messages}, or -1.
+     * @param flags an int containing {@link SocketMsgFlags} flags, which may additionally
+     *    contain <a href="http://man7.org/linux/man-pages/man2/recv.2.html">other platform specific flags</a>
+     * @param cancellable a {@code GCancellable} or {@code null}
+     * @return Number of bytes written (which may be less than {@code size}), or -1
+     * on error
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public long sendMessage(@Nullable SocketAddress address, @NotNull OutputVector[] vectors, @NotNull int numVectors, @Nullable SocketControlMessage[] messages, @NotNull int numMessages, @NotNull int flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public long sendMessage(@Nullable org.gtk.gio.SocketAddress address, org.gtk.gio.OutputVector[] vectors, int numVectors, org.gtk.gio.SocketControlMessage[] messages, int numMessages, int flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(address, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(vectors, "Parameter 'vectors' must not be null");
+        java.util.Objects.requireNonNullElse(messages, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         long RESULT;
         try {
-            RESULT = (long) g_socket_send_message.invokeExact(handle(), address.handle(), Interop.allocateNativeArray(vectors), numVectors, Interop.allocateNativeArray(messages), numMessages, flags, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (long) DowncallHandles.g_socket_send_message.invokeExact(handle(), address.handle(), Interop.allocateNativeArray(vectors, false), numVectors, Interop.allocateNativeArray(messages, false), numMessages, flags, cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1441,11 +1454,6 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         return RESULT;
     }
     
-    private static final MethodHandle g_socket_send_message_with_timeout = Interop.downcallHandle(
-        "g_socket_send_message_with_timeout",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * This behaves exactly the same as g_socket_send_message(), except that
      * the choice of timeout behavior is determined by the {@code timeout_us} argument
@@ -1454,27 +1462,42 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * On error {@link PollableReturn#FAILED} is returned and {@code error} is set accordingly, or
      * if the socket is currently not writable {@link PollableReturn#WOULD_BLOCK} is
      * returned. {@code bytes_written} will contain 0 in both cases.
+     * @param address a {@link SocketAddress}, or {@code null}
+     * @param vectors an array of {@link OutputVector} structs
+     * @param numVectors the number of elements in {@code vectors}, or -1
+     * @param messages a pointer to an
+     *   array of {@code GSocketControlMessages}, or {@code null}.
+     * @param numMessages number of elements in {@code messages}, or -1.
+     * @param flags an int containing {@link SocketMsgFlags} flags, which may additionally
+     *    contain <a href="http://man7.org/linux/man-pages/man2/recv.2.html">other platform specific flags</a>
+     * @param timeoutUs the maximum time (in microseconds) to wait, or -1
+     * @param bytesWritten location to store the number of bytes that were written to the socket
+     * @param cancellable a {@code GCancellable} or {@code null}
+     * @return {@link PollableReturn#OK} if all data was successfully written,
+     * {@link PollableReturn#WOULD_BLOCK} if the socket is currently not writable, or
+     * {@link PollableReturn#FAILED} if an error happened and {@code error} is set.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull PollableReturn sendMessageWithTimeout(@Nullable SocketAddress address, @NotNull OutputVector[] vectors, @NotNull int numVectors, @Nullable SocketControlMessage[] messages, @NotNull int numMessages, @NotNull int flags, @NotNull long timeoutUs, @NotNull Out<Long> bytesWritten, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.gio.PollableReturn sendMessageWithTimeout(@Nullable org.gtk.gio.SocketAddress address, org.gtk.gio.OutputVector[] vectors, int numVectors, org.gtk.gio.SocketControlMessage[] messages, int numMessages, int flags, long timeoutUs, Out<Long> bytesWritten, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(address, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(vectors, "Parameter 'vectors' must not be null");
+        java.util.Objects.requireNonNullElse(messages, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         int RESULT;
         try {
-            RESULT = (int) g_socket_send_message_with_timeout.invokeExact(handle(), address.handle(), Interop.allocateNativeArray(vectors), numVectors, Interop.allocateNativeArray(messages), numMessages, flags, timeoutUs, (Addressable) bytesWrittenPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_socket_send_message_with_timeout.invokeExact(handle(), address.handle(), Interop.allocateNativeArray(vectors, false), numVectors, Interop.allocateNativeArray(messages, false), numMessages, flags, timeoutUs, (Addressable) bytesWrittenPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        bytesWritten.set(bytesWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new PollableReturn(RESULT);
+        bytesWritten.set(bytesWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        return new org.gtk.gio.PollableReturn(RESULT);
     }
-    
-    private static final MethodHandle g_socket_send_messages = Interop.downcallHandle(
-        "g_socket_send_messages",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Send multiple data messages from {@code socket} in one go.  This is the most
@@ -1511,12 +1534,24 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * On error -1 is returned and {@code error} is set accordingly. An error will only
      * be returned if zero messages could be sent; otherwise the number of messages
      * successfully sent before the error will be returned.
+     * @param messages an array of {@link OutputMessage} structs
+     * @param numMessages the number of elements in {@code messages}
+     * @param flags an int containing {@link SocketMsgFlags} flags, which may additionally
+     *    contain <a href="http://man7.org/linux/man-pages/man2/recv.2.html">other platform specific flags</a>
+     * @param cancellable a {@code GCancellable} or {@code null}
+     * @return number of messages sent, or -1 on error. Note that the number of
+     *     messages sent may be smaller than {@code num_messages} if the socket is
+     *     non-blocking or if {@code num_messages} was larger than UIO_MAXIOV (1024),
+     *     in which case the caller may re-try to send the remaining messages.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public int sendMessages(@NotNull OutputMessage[] messages, @NotNull int numMessages, @NotNull int flags, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public int sendMessages(org.gtk.gio.OutputMessage[] messages, int numMessages, int flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(messages, "Parameter 'messages' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_socket_send_messages.invokeExact(handle(), Interop.allocateNativeArray(messages), numMessages, flags, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_socket_send_messages.invokeExact(handle(), Interop.allocateNativeArray(messages, false), numMessages, flags, cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1525,11 +1560,6 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_socket_send_to = Interop.downcallHandle(
-        "g_socket_send_to",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tries to send {@code size} bytes from {@code buffer} to {@code address}. If {@code address} is
@@ -1537,12 +1567,23 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * g_socket_connect()).
      * <p>
      * See g_socket_send() for additional information.
+     * @param address a {@link SocketAddress}, or {@code null}
+     * @param buffer the buffer
+     *     containing the data to send.
+     * @param size the number of bytes to send
+     * @param cancellable a {@code GCancellable} or {@code null}
+     * @return Number of bytes written (which may be less than {@code size}), or -1
+     * on error
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public long sendTo(@Nullable SocketAddress address, @NotNull byte[] buffer, @NotNull long size, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public long sendTo(@Nullable org.gtk.gio.SocketAddress address, byte[] buffer, long size, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(address, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         long RESULT;
         try {
-            RESULT = (long) g_socket_send_to.invokeExact(handle(), address.handle(), Interop.allocateNativeArray(buffer), size, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (long) DowncallHandles.g_socket_send_to.invokeExact(handle(), address.handle(), Interop.allocateNativeArray(buffer, false), size, cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1551,22 +1592,27 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_socket_send_with_blocking = Interop.downcallHandle(
-        "g_socket_send_with_blocking",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * This behaves exactly the same as g_socket_send(), except that
      * the choice of blocking or non-blocking behavior is determined by
      * the {@code blocking} argument rather than by {@code socket}'s properties.
+     * @param buffer the buffer
+     *     containing the data to send.
+     * @param size the number of bytes to send
+     * @param blocking whether to do blocking or non-blocking I/O
+     * @param cancellable a {@code GCancellable} or {@code null}
+     * @return Number of bytes written (which may be less than {@code size}), or -1
+     * on error
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public long sendWithBlocking(@NotNull byte[] buffer, @NotNull long size, @NotNull boolean blocking, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public long sendWithBlocking(byte[] buffer, long size, boolean blocking, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         long RESULT;
         try {
-            RESULT = (long) g_socket_send_with_blocking.invokeExact(handle(), Interop.allocateNativeArray(buffer), size, blocking ? 1 : 0, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (long) DowncallHandles.g_socket_send_with_blocking.invokeExact(handle(), Interop.allocateNativeArray(buffer, false), size, blocking ? 1 : 0, cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1575,11 +1621,6 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_socket_set_blocking = Interop.downcallHandle(
-        "g_socket_set_blocking",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the blocking mode of the socket. In blocking mode
@@ -1591,36 +1632,29 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * All sockets are created in blocking mode. However, note that the
      * platform level socket is always non-blocking, and blocking mode
      * is a GSocket level feature.
+     * @param blocking Whether to use blocking I/O or not.
      */
-    public @NotNull void setBlocking(@NotNull boolean blocking) {
+    public void setBlocking(boolean blocking) {
         try {
-            g_socket_set_blocking.invokeExact(handle(), blocking ? 1 : 0);
+            DowncallHandles.g_socket_set_blocking.invokeExact(handle(), blocking ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_socket_set_broadcast = Interop.downcallHandle(
-        "g_socket_set_broadcast",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether {@code socket} should allow sending to broadcast addresses.
      * This is {@code false} by default.
+     * @param broadcast whether {@code socket} should allow sending to broadcast
+     *     addresses
      */
-    public @NotNull void setBroadcast(@NotNull boolean broadcast) {
+    public void setBroadcast(boolean broadcast) {
         try {
-            g_socket_set_broadcast.invokeExact(handle(), broadcast ? 1 : 0);
+            DowncallHandles.g_socket_set_broadcast.invokeExact(handle(), broadcast ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_socket_set_keepalive = Interop.downcallHandle(
-        "g_socket_set_keepalive",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets or unsets the {@code SO_KEEPALIVE} flag on the underlying socket. When
@@ -1638,19 +1672,15 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * on a server socket if you want to allow clients to remain idle for long
      * periods of time, but also want to ensure that connections are eventually
      * garbage-collected if clients crash or become unreachable.
+     * @param keepalive Value for the keepalive flag
      */
-    public @NotNull void setKeepalive(@NotNull boolean keepalive) {
+    public void setKeepalive(boolean keepalive) {
         try {
-            g_socket_set_keepalive.invokeExact(handle(), keepalive ? 1 : 0);
+            DowncallHandles.g_socket_set_keepalive.invokeExact(handle(), keepalive ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_socket_set_listen_backlog = Interop.downcallHandle(
-        "g_socket_set_listen_backlog",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the maximum number of outstanding connections allowed
@@ -1660,55 +1690,44 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * <p>
      * Note that this must be called before g_socket_listen() and has no
      * effect if called after that.
+     * @param backlog the maximum number of pending connections.
      */
-    public @NotNull void setListenBacklog(@NotNull int backlog) {
+    public void setListenBacklog(int backlog) {
         try {
-            g_socket_set_listen_backlog.invokeExact(handle(), backlog);
+            DowncallHandles.g_socket_set_listen_backlog.invokeExact(handle(), backlog);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_socket_set_multicast_loopback = Interop.downcallHandle(
-        "g_socket_set_multicast_loopback",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether outgoing multicast packets will be received by sockets
      * listening on that multicast address on the same host. This is {@code true}
      * by default.
+     * @param loopback whether {@code socket} should receive messages sent to its
+     *   multicast groups from the local host
      */
-    public @NotNull void setMulticastLoopback(@NotNull boolean loopback) {
+    public void setMulticastLoopback(boolean loopback) {
         try {
-            g_socket_set_multicast_loopback.invokeExact(handle(), loopback ? 1 : 0);
+            DowncallHandles.g_socket_set_multicast_loopback.invokeExact(handle(), loopback ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_socket_set_multicast_ttl = Interop.downcallHandle(
-        "g_socket_set_multicast_ttl",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the time-to-live for outgoing multicast datagrams on {@code socket}.
      * By default, this is 1, meaning that multicast packets will not leave
      * the local network.
+     * @param ttl the time-to-live value for all multicast datagrams on {@code socket}
      */
-    public @NotNull void setMulticastTtl(@NotNull int ttl) {
+    public void setMulticastTtl(int ttl) {
         try {
-            g_socket_set_multicast_ttl.invokeExact(handle(), ttl);
+            DowncallHandles.g_socket_set_multicast_ttl.invokeExact(handle(), ttl);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_socket_set_option = Interop.downcallHandle(
-        "g_socket_set_option",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the value of an integer-valued option on {@code socket}, as with
@@ -1720,12 +1739,19 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * standard/portable socket options. For unusual socket protocols or
      * platform-dependent options, you may need to include additional
      * headers.
+     * @param level the "API level" of the option (eg, {@code SOL_SOCKET})
+     * @param optname the "name" of the option (eg, {@code SO_BROADCAST})
+     * @param value the value to set the option to
+     * @return success or failure. On failure, {@code error} will be set, and
+     *   the system error value ({@code errno} or WSAGetLastError()) will still
+     *   be set to the result of the setsockopt() call.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean setOption(@NotNull int level, @NotNull int optname, @NotNull int value) throws io.github.jwharm.javagi.GErrorException {
+    public boolean setOption(int level, int optname, int value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_socket_set_option.invokeExact(handle(), level, optname, value, (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_socket_set_option.invokeExact(handle(), level, optname, value, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1734,11 +1760,6 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_socket_set_timeout = Interop.downcallHandle(
-        "g_socket_set_timeout",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the time in seconds after which I/O operations on {@code socket} will
@@ -1761,36 +1782,28 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * <p>
      * Note that if an I/O operation is interrupted by a signal, this may
      * cause the timeout to be reset.
+     * @param timeout the timeout for {@code socket}, in seconds, or 0 for none
      */
-    public @NotNull void setTimeout(@NotNull int timeout) {
+    public void setTimeout(int timeout) {
         try {
-            g_socket_set_timeout.invokeExact(handle(), timeout);
+            DowncallHandles.g_socket_set_timeout.invokeExact(handle(), timeout);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_socket_set_ttl = Interop.downcallHandle(
-        "g_socket_set_ttl",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the time-to-live for outgoing unicast packets on {@code socket}.
      * By default the platform-specific default value is used.
+     * @param ttl the time-to-live value for all unicast packets on {@code socket}
      */
-    public @NotNull void setTtl(@NotNull int ttl) {
+    public void setTtl(int ttl) {
         try {
-            g_socket_set_ttl.invokeExact(handle(), ttl);
+            DowncallHandles.g_socket_set_ttl.invokeExact(handle(), ttl);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_socket_shutdown = Interop.downcallHandle(
-        "g_socket_shutdown",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Shut down part or all of a full-duplex connection.
@@ -1807,12 +1820,16 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * graceful disconnect for TCP connections where you close the sending side,
      * then wait for the other side to close the connection, thus ensuring that the
      * other side saw all sent data.
+     * @param shutdownRead whether to shut down the read side
+     * @param shutdownWrite whether to shut down the write side
+     * @return {@code true} on success, {@code false} on error
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean shutdown(@NotNull boolean shutdownRead, @NotNull boolean shutdownWrite) throws io.github.jwharm.javagi.GErrorException {
+    public boolean shutdown(boolean shutdownRead, boolean shutdownWrite) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_socket_shutdown.invokeExact(handle(), shutdownRead ? 1 : 0, shutdownWrite ? 1 : 0, (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_socket_shutdown.invokeExact(handle(), shutdownRead ? 1 : 0, shutdownWrite ? 1 : 0, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1821,11 +1838,6 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_socket_speaks_ipv4 = Interop.downcallHandle(
-        "g_socket_speaks_ipv4",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Checks if a socket is capable of speaking IPv4.
@@ -1837,15 +1849,308 @@ public class Socket extends org.gtk.gobject.Object implements DatagramBased, Ini
      * <p>
      * No other types of sockets are currently considered as being capable
      * of speaking IPv4.
+     * @return {@code true} if this socket can be used with IPv4.
      */
     public boolean speaksIpv4() {
         int RESULT;
         try {
-            RESULT = (int) g_socket_speaks_ipv4.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_socket_speaks_ipv4.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_socket_new = Interop.downcallHandle(
+            "g_socket_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_new_from_fd = Interop.downcallHandle(
+            "g_socket_new_from_fd",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_accept = Interop.downcallHandle(
+            "g_socket_accept",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_bind = Interop.downcallHandle(
+            "g_socket_bind",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_check_connect_result = Interop.downcallHandle(
+            "g_socket_check_connect_result",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_close = Interop.downcallHandle(
+            "g_socket_close",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_condition_check = Interop.downcallHandle(
+            "g_socket_condition_check",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_socket_condition_timed_wait = Interop.downcallHandle(
+            "g_socket_condition_timed_wait",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_condition_wait = Interop.downcallHandle(
+            "g_socket_condition_wait",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_connect = Interop.downcallHandle(
+            "g_socket_connect",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_connection_factory_create_connection = Interop.downcallHandle(
+            "g_socket_connection_factory_create_connection",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_create_source = Interop.downcallHandle(
+            "g_socket_create_source",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_get_available_bytes = Interop.downcallHandle(
+            "g_socket_get_available_bytes",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_get_blocking = Interop.downcallHandle(
+            "g_socket_get_blocking",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_get_broadcast = Interop.downcallHandle(
+            "g_socket_get_broadcast",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_get_credentials = Interop.downcallHandle(
+            "g_socket_get_credentials",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_get_family = Interop.downcallHandle(
+            "g_socket_get_family",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_get_fd = Interop.downcallHandle(
+            "g_socket_get_fd",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_get_keepalive = Interop.downcallHandle(
+            "g_socket_get_keepalive",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_get_listen_backlog = Interop.downcallHandle(
+            "g_socket_get_listen_backlog",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_get_local_address = Interop.downcallHandle(
+            "g_socket_get_local_address",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_get_multicast_loopback = Interop.downcallHandle(
+            "g_socket_get_multicast_loopback",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_get_multicast_ttl = Interop.downcallHandle(
+            "g_socket_get_multicast_ttl",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_get_option = Interop.downcallHandle(
+            "g_socket_get_option",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_get_protocol = Interop.downcallHandle(
+            "g_socket_get_protocol",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_get_remote_address = Interop.downcallHandle(
+            "g_socket_get_remote_address",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_get_socket_type = Interop.downcallHandle(
+            "g_socket_get_socket_type",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_get_timeout = Interop.downcallHandle(
+            "g_socket_get_timeout",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_get_ttl = Interop.downcallHandle(
+            "g_socket_get_ttl",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_is_closed = Interop.downcallHandle(
+            "g_socket_is_closed",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_is_connected = Interop.downcallHandle(
+            "g_socket_is_connected",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_join_multicast_group = Interop.downcallHandle(
+            "g_socket_join_multicast_group",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_join_multicast_group_ssm = Interop.downcallHandle(
+            "g_socket_join_multicast_group_ssm",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_leave_multicast_group = Interop.downcallHandle(
+            "g_socket_leave_multicast_group",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_leave_multicast_group_ssm = Interop.downcallHandle(
+            "g_socket_leave_multicast_group_ssm",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_listen = Interop.downcallHandle(
+            "g_socket_listen",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_receive = Interop.downcallHandle(
+            "g_socket_receive",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_receive_from = Interop.downcallHandle(
+            "g_socket_receive_from",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_receive_message = Interop.downcallHandle(
+            "g_socket_receive_message",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_receive_messages = Interop.downcallHandle(
+            "g_socket_receive_messages",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_receive_with_blocking = Interop.downcallHandle(
+            "g_socket_receive_with_blocking",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_send = Interop.downcallHandle(
+            "g_socket_send",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_send_message = Interop.downcallHandle(
+            "g_socket_send_message",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_send_message_with_timeout = Interop.downcallHandle(
+            "g_socket_send_message_with_timeout",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_send_messages = Interop.downcallHandle(
+            "g_socket_send_messages",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_send_to = Interop.downcallHandle(
+            "g_socket_send_to",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_send_with_blocking = Interop.downcallHandle(
+            "g_socket_send_with_blocking",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_set_blocking = Interop.downcallHandle(
+            "g_socket_set_blocking",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_socket_set_broadcast = Interop.downcallHandle(
+            "g_socket_set_broadcast",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_socket_set_keepalive = Interop.downcallHandle(
+            "g_socket_set_keepalive",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_socket_set_listen_backlog = Interop.downcallHandle(
+            "g_socket_set_listen_backlog",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_socket_set_multicast_loopback = Interop.downcallHandle(
+            "g_socket_set_multicast_loopback",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_socket_set_multicast_ttl = Interop.downcallHandle(
+            "g_socket_set_multicast_ttl",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_socket_set_option = Interop.downcallHandle(
+            "g_socket_set_option",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_set_timeout = Interop.downcallHandle(
+            "g_socket_set_timeout",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_socket_set_ttl = Interop.downcallHandle(
+            "g_socket_set_ttl",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_socket_shutdown = Interop.downcallHandle(
+            "g_socket_shutdown",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_speaks_ipv4 = Interop.downcallHandle(
+            "g_socket_speaks_ipv4",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+    }
 }

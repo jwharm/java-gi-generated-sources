@@ -1,7 +1,9 @@
 package org.gtk.glib;
 
-import io.github.jwharm.javagi.Proxy;
-import java.lang.foreign.MemoryAddress;
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
 /**
  * The {@link Mutex} struct is an opaque data structure to represent a mutex
@@ -51,9 +53,25 @@ import java.lang.foreign.MemoryAddress;
  */
 public class Mutex extends io.github.jwharm.javagi.ResourceBase {
     
+    static {
+        GLib.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.unionLayout(
+        Interop.valueLayout.ADDRESS.withName("p"),
+        MemoryLayout.sequenceLayout(2, ValueLayout.JAVA_INT).withName("i")
+    ).withName("GMutex");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public Mutex(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
 }
 

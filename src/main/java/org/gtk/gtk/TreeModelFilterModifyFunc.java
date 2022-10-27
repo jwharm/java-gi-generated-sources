@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -13,5 +15,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface TreeModelFilterModifyFunc {
-        void onTreeModelFilterModifyFunc(@NotNull TreeModel model, @NotNull TreeIter iter, @NotNull Out<org.gtk.gobject.Value> value, @NotNull int column);
+        void onTreeModelFilterModifyFunc(@NotNull org.gtk.gtk.TreeModel model, @NotNull org.gtk.gtk.TreeIter iter, @NotNull Out<org.gtk.gobject.Value> value, int column);
 }

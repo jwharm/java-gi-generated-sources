@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -22,8 +24,9 @@ import org.jetbrains.annotations.*;
  * send messages to a remote logging server and there is a network error), it
  * should return {@link LogWriterOutput#UNHANDLED}. This allows writer functions to be
  * chained and fall back to simpler handlers in case of failure.
+ * @version 2.50
  */
 @FunctionalInterface
 public interface LogWriterFunc {
-        LogWriterOutput onLogWriterFunc(@NotNull LogLevelFlags logLevel, @NotNull PointerProxy<LogField> fields, @NotNull long nFields);
+        org.gtk.glib.LogWriterOutput onLogWriterFunc(@NotNull org.gtk.glib.LogLevelFlags logLevel, PointerProxy<org.gtk.glib.LogField> fields, long nFields);
 }

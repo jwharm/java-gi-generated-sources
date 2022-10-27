@@ -10,8 +10,8 @@ package org.gtk.glib;
  * the g_spawn functions.
  */
 public class Pid extends io.github.jwharm.javagi.Alias<Integer> {
+    
     public Pid(int value) {
         super(value);
     }
-    
 }

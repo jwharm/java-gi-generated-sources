@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -8,5 +10,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface HookMarshaller {
-        void onHookMarshaller(@NotNull Hook hook);
+        void onHookMarshaller(@NotNull org.gtk.glib.Hook hook);
 }

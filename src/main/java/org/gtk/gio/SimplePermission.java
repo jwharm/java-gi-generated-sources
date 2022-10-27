@@ -12,8 +12,20 @@ import org.jetbrains.annotations.*;
  * <p>
  * Calling request or release will result in errors.
  */
-public class SimplePermission extends Permission {
-
+public class SimplePermission extends org.gtk.gio.Permission {
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public SimplePermission(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -23,26 +35,30 @@ public class SimplePermission extends Permission {
         return new SimplePermission(gobject.refcounted());
     }
     
-    private static final MethodHandle g_simple_permission_new = Interop.downcallHandle(
-        "g_simple_permission_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
-    private static Refcounted constructNew(@NotNull boolean allowed) {
+    private static Refcounted constructNew(boolean allowed) {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_simple_permission_new.invokeExact(allowed ? 1 : 0), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_simple_permission_new.invokeExact(allowed ? 1 : 0), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a new {@link Permission} instance that represents an action that is
      * either always or never allowed.
+     * @param allowed {@code true} if the action is allowed
      */
-    public SimplePermission(@NotNull boolean allowed) {
+    public SimplePermission(boolean allowed) {
         super(constructNew(allowed));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_simple_permission_new = Interop.downcallHandle(
+            "g_simple_permission_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
 }

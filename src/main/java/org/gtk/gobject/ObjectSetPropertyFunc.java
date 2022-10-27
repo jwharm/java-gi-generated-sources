@@ -1,6 +1,8 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -8,5 +10,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ObjectSetPropertyFunc {
-        void onObjectSetPropertyFunc(@NotNull Object object, @NotNull int propertyId, @NotNull Value value, @NotNull ParamSpec pspec);
+        void onObjectSetPropertyFunc(@NotNull org.gtk.gobject.Object object, int propertyId, @NotNull org.gtk.gobject.Value value, @NotNull org.gtk.gobject.ParamSpec pspec);
 }

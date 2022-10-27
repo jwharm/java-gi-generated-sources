@@ -18,29 +18,47 @@ import org.jetbrains.annotations.*;
  * and success information in that order.
  * <p>
  * More colors may be added in the future.
+ * @version 4.6
  */
 public interface SymbolicPaintable extends io.github.jwharm.javagi.Proxy {
-
-    @ApiStatus.Internal static final MethodHandle gtk_symbolic_paintable_snapshot_symbolic = Interop.downcallHandle(
-        "gtk_symbolic_paintable_snapshot_symbolic",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
-    );
     
     /**
      * Snapshots the paintable with the given colors.
      * <p>
      * If less than 4 colors are provided, GTK will pad the array with default
      * colors.
+     * @param snapshot a {@code GdkSnapshot} to snapshot to
+     * @param width width to snapshot in
+     * @param height height to snapshot in
+     * @param colors a pointer to an array of colors
+     * @param nColors The number of colors
      */
-    default @NotNull void snapshotSymbolic(@NotNull org.gtk.gdk.Snapshot snapshot, @NotNull double width, @NotNull double height, @NotNull org.gtk.gdk.RGBA[] colors, @NotNull long nColors) {
+    default void snapshotSymbolic(@NotNull org.gtk.gdk.Snapshot snapshot, double width, double height, org.gtk.gdk.RGBA[] colors, long nColors) {
+        java.util.Objects.requireNonNull(snapshot, "Parameter 'snapshot' must not be null");
+        java.util.Objects.requireNonNull(colors, "Parameter 'colors' must not be null");
         try {
-            gtk_symbolic_paintable_snapshot_symbolic.invokeExact(handle(), snapshot.handle(), width, height, Interop.allocateNativeArray(colors), nColors);
+            DowncallHandles.gtk_symbolic_paintable_snapshot_symbolic.invokeExact(handle(), snapshot.handle(), width, height, Interop.allocateNativeArray(colors, false), nColors);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    @ApiStatus.Internal
+    static class DowncallHandles {
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_symbolic_paintable_snapshot_symbolic = Interop.downcallHandle(
+            "gtk_symbolic_paintable_snapshot_symbolic",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+        );
+    }
+    
     class SymbolicPaintableImpl extends org.gtk.gobject.Object implements SymbolicPaintable {
+        
+        static {
+            Gtk.javagi$ensureInitialized();
+        }
+        
         public SymbolicPaintableImpl(io.github.jwharm.javagi.Refcounted ref) {
             super(ref);
         }

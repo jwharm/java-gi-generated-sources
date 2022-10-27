@@ -124,7 +124,6 @@ import org.jetbrains.annotations.*;
  * during resource lookups. It is ignored when running in a setuid process.
  * <p>
  * A substitution has the form
- * <p>
  * <pre>{@code 
  *    /org/gtk/libgtk=/home/desrt/gtk-overlay
  * }</pre>
@@ -142,29 +141,39 @@ import org.jetbrains.annotations.*;
  * Substitutions must start with a slash, and must not contain a trailing slash before the '='.  The path after
  * the slash should ideally be absolute, but this is not strictly required.  It is possible to overlay the
  * location of a single resource with an individual file.
+ * @version 2.32
  */
 public class Resource extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public Resource(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle g_resource_new_from_data = Interop.downcallHandle(
-        "g_resource_new_from_data",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNewFromData(@NotNull org.gtk.glib.Bytes data) throws GErrorException {
+        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_resource_new_from_data.invokeExact(data.handle(), (Addressable) GERROR), true);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_resource_new_from_data.invokeExact(data.handle(), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
     /**
@@ -180,49 +189,37 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      * GLib 2.56, or in older versions fail and exit the process.
      * <p>
      * If {@code data} is empty or corrupt, {@link ResourceError#INTERNAL} will be returned.
+     * @param data A {@link org.gtk.glib.Bytes}
+     * @return a new {@link Resource}, or {@code null} on error
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static Resource newFromData(@NotNull org.gtk.glib.Bytes data) throws GErrorException {
         return new Resource(constructNewFromData(data));
     }
-    
-    private static final MethodHandle g_resources_register = Interop.downcallHandle(
-        "g_resources_register",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Registers the resource with the process-global set of resources.
      * Once a resource is registered the files in it can be accessed
      * with the global resource lookup functions like g_resources_lookup_data().
      */
-    public @NotNull void Register() {
+    public void Register() {
         try {
-            g_resources_register.invokeExact(handle());
+            DowncallHandles.g_resources_register.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_resources_unregister = Interop.downcallHandle(
-        "g_resources_unregister",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Unregisters the resource from the process-global set of resources.
      */
-    public @NotNull void Unregister() {
+    public void Unregister() {
         try {
-            g_resources_unregister.invokeExact(handle());
+            DowncallHandles.g_resources_unregister.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_resource_enumerate_children = Interop.downcallHandle(
-        "g_resource_enumerate_children",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns all the names of children at the specified {@code path} in the resource.
@@ -233,12 +230,18 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      * {@link ResourceError#NOT_FOUND} will be returned.
      * <p>
      * {@code lookup_flags} controls the behaviour of the lookup.
+     * @param path A pathname inside the resource
+     * @param lookupFlags A {@link ResourceLookupFlags}
+     * @return an array of constant strings
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public PointerString enumerateChildren(@NotNull java.lang.String path, @NotNull ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull PointerString enumerateChildren(@NotNull java.lang.String path, @NotNull org.gtk.gio.ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+        java.util.Objects.requireNonNull(lookupFlags, "Parameter 'lookupFlags' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_resource_enumerate_children.invokeExact(handle(), Interop.allocateNativeString(path), lookupFlags.getValue(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_resource_enumerate_children.invokeExact(handle(), Interop.allocateNativeString(path), lookupFlags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -248,39 +251,41 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
         return new PointerString(RESULT);
     }
     
-    private static final MethodHandle g_resource_get_info = Interop.downcallHandle(
-        "g_resource_get_info",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Looks for a file at the specified {@code path} in the resource and
      * if found returns information about it.
      * <p>
      * {@code lookup_flags} controls the behaviour of the lookup.
+     * @param path A pathname inside the resource
+     * @param lookupFlags A {@link ResourceLookupFlags}
+     * @param size a location to place the length of the contents of the file,
+     *    or {@code null} if the length is not needed
+     * @param flags a location to place the flags about the file,
+     *    or {@code null} if the length is not needed
+     * @return {@code true} if the file was found. {@code false} if there were errors
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean getInfo(@NotNull java.lang.String path, @NotNull ResourceLookupFlags lookupFlags, @NotNull Out<Long> size, @NotNull Out<Integer> flags) throws io.github.jwharm.javagi.GErrorException {
+    public boolean getInfo(@NotNull java.lang.String path, @NotNull org.gtk.gio.ResourceLookupFlags lookupFlags, Out<Long> size, Out<Integer> flags) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+        java.util.Objects.requireNonNull(lookupFlags, "Parameter 'lookupFlags' must not be null");
+        java.util.Objects.requireNonNull(size, "Parameter 'size' must not be null");
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemorySegment flagsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) g_resource_get_info.invokeExact(handle(), Interop.allocateNativeString(path), lookupFlags.getValue(), (Addressable) sizePOINTER.address(), (Addressable) flagsPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_resource_get_info.invokeExact(handle(), Interop.allocateNativeString(path), lookupFlags.getValue(), (Addressable) sizePOINTER.address(), (Addressable) flagsPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        size.set(sizePOINTER.get(ValueLayout.JAVA_LONG, 0));
-        flags.set(flagsPOINTER.get(ValueLayout.JAVA_INT, 0));
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        size.set(sizePOINTER.get(ValueLayout.JAVA_LONG, 0));
+        flags.set(flagsPOINTER.get(ValueLayout.JAVA_INT, 0));
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_resource_lookup_data = Interop.downcallHandle(
-        "g_resource_lookup_data",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Looks for a file at the specified {@code path} in the resource and
@@ -297,12 +302,19 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      * the heap and automatically uncompress the data.
      * <p>
      * {@code lookup_flags} controls the behaviour of the lookup.
+     * @param path A pathname inside the resource
+     * @param lookupFlags A {@link ResourceLookupFlags}
+     * @return {@link org.gtk.glib.Bytes} or {@code null} on error.
+     *     Free the returned object with g_bytes_unref()
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.Bytes lookupData(@NotNull java.lang.String path, @NotNull ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.glib.Bytes lookupData(@NotNull java.lang.String path, @NotNull org.gtk.gio.ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+        java.util.Objects.requireNonNull(lookupFlags, "Parameter 'lookupFlags' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_resource_lookup_data.invokeExact(handle(), Interop.allocateNativeString(path), lookupFlags.getValue(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_resource_lookup_data.invokeExact(handle(), Interop.allocateNativeString(path), lookupFlags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -312,54 +324,47 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
         return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle g_resource_open_stream = Interop.downcallHandle(
-        "g_resource_open_stream",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Looks for a file at the specified {@code path} in the resource and
      * returns a {@link InputStream} that lets you read the data.
      * <p>
      * {@code lookup_flags} controls the behaviour of the lookup.
+     * @param path A pathname inside the resource
+     * @param lookupFlags A {@link ResourceLookupFlags}
+     * @return {@link InputStream} or {@code null} on error.
+     *     Free the returned object with g_object_unref()
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull InputStream openStream(@NotNull java.lang.String path, @NotNull ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.gio.InputStream openStream(@NotNull java.lang.String path, @NotNull org.gtk.gio.ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+        java.util.Objects.requireNonNull(lookupFlags, "Parameter 'lookupFlags' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_resource_open_stream.invokeExact(handle(), Interop.allocateNativeString(path), lookupFlags.getValue(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_resource_open_stream.invokeExact(handle(), Interop.allocateNativeString(path), lookupFlags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new InputStream(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.InputStream(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_resource_ref = Interop.downcallHandle(
-        "g_resource_ref",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Atomically increments the reference count of {@code resource} by one. This
      * function is MT-safe and may be called from any thread.
+     * @return The passed in {@link Resource}
      */
-    public @NotNull Resource ref() {
+    public @NotNull org.gtk.gio.Resource ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_resource_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_resource_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Resource(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Resource(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_resource_unref = Interop.downcallHandle(
-        "g_resource_unref",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Atomically decrements the reference count of {@code resource} by one. If the
@@ -367,18 +372,13 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      * released. This function is MT-safe and may be called from any
      * thread.
      */
-    public @NotNull void unref() {
+    public void unref() {
         try {
-            g_resource_unref.invokeExact(handle());
+            DowncallHandles.g_resource_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_resource_load = Interop.downcallHandle(
-        "g_resource_load",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Loads a binary resource bundle and creates a {@link Resource} representation of it, allowing
@@ -391,19 +391,75 @@ public class Resource extends io.github.jwharm.javagi.ResourceBase {
      * {@link ResourceError#INTERNAL} will be returned. If {@code filename} doesn’t exist, or
      * there is an error in reading it, an error from g_mapped_file_new() will be
      * returned.
+     * @param filename the path of a filename to load, in the GLib filename encoding
+     * @return a new {@link Resource}, or {@code null} on error
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull Resource load(@NotNull java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
+    public static @NotNull org.gtk.gio.Resource load(@NotNull java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_resource_load.invokeExact(Interop.allocateNativeString(filename), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_resource_load.invokeExact(Interop.allocateNativeString(filename), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Resource(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Resource(Refcounted.get(RESULT, true));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_resource_new_from_data = Interop.downcallHandle(
+            "g_resource_new_from_data",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_resources_register = Interop.downcallHandle(
+            "g_resources_register",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_resources_unregister = Interop.downcallHandle(
+            "g_resources_unregister",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_resource_enumerate_children = Interop.downcallHandle(
+            "g_resource_enumerate_children",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_resource_get_info = Interop.downcallHandle(
+            "g_resource_get_info",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_resource_lookup_data = Interop.downcallHandle(
+            "g_resource_lookup_data",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_resource_open_stream = Interop.downcallHandle(
+            "g_resource_open_stream",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_resource_ref = Interop.downcallHandle(
+            "g_resource_ref",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_resource_unref = Interop.downcallHandle(
+            "g_resource_unref",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_resource_load = Interop.downcallHandle(
+            "g_resource_load",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -10,5 +12,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface NodeForeachFunc {
-        void onNodeForeachFunc(@NotNull Node node);
+        void onNodeForeachFunc(@NotNull org.gtk.glib.Node node);
 }

@@ -1,5 +1,10 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * A mixed enumerated type and flags field. You must specify one type
  * (string, strdup, boolean, tristate).  Additionally, you may  optionally
@@ -9,7 +14,15 @@ package org.gtk.glib;
  * support other types.
  */
 public class MarkupCollectType extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * used to terminate the list of attributes
      *     to collect
@@ -58,5 +71,4 @@ public class MarkupCollectType extends io.github.jwharm.javagi.Bitfield {
     public MarkupCollectType(int value) {
         super(value);
     }
-    
 }

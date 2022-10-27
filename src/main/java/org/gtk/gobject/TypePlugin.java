@@ -56,80 +56,106 @@ import org.jetbrains.annotations.*;
  * unloading. It even handles multiple registered types per module.
  */
 public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
-
-    @ApiStatus.Internal static final MethodHandle g_type_plugin_complete_interface_info = Interop.downcallHandle(
-        "g_type_plugin_complete_interface_info",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
-    );
     
     /**
      * Calls the {@code complete_interface_info} function from the
      * {@link TypePluginClass} of {@code plugin}. There should be no need to use this
      * function outside of the GObject type system itself.
+     * @param instanceType the {@link Type} of an instantiatable type to which the interface
+     *  is added
+     * @param interfaceType the {@link Type} of the interface whose info is completed
+     * @param info the {@link InterfaceInfo} to fill in
      */
-    default @NotNull void completeInterfaceInfo(@NotNull org.gtk.gobject.Type instanceType, @NotNull org.gtk.gobject.Type interfaceType, @NotNull InterfaceInfo info) {
+    default void completeInterfaceInfo(@NotNull org.gtk.glib.Type instanceType, @NotNull org.gtk.glib.Type interfaceType, @NotNull org.gtk.gobject.InterfaceInfo info) {
+        java.util.Objects.requireNonNull(instanceType, "Parameter 'instanceType' must not be null");
+        java.util.Objects.requireNonNull(interfaceType, "Parameter 'interfaceType' must not be null");
+        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
         try {
-            g_type_plugin_complete_interface_info.invokeExact(handle(), instanceType.getValue(), interfaceType.getValue(), info.handle());
+            DowncallHandles.g_type_plugin_complete_interface_info.invokeExact(handle(), instanceType.getValue(), interfaceType.getValue(), info.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_type_plugin_complete_type_info = Interop.downcallHandle(
-        "g_type_plugin_complete_type_info",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Calls the {@code complete_type_info} function from the {@link TypePluginClass} of {@code plugin}.
      * There should be no need to use this function outside of the GObject
      * type system itself.
+     * @param gType the {@link Type} whose info is completed
+     * @param info the {@link TypeInfo} struct to fill in
+     * @param valueTable the {@link TypeValueTable} to fill in
      */
-    default @NotNull void completeTypeInfo(@NotNull org.gtk.gobject.Type gType, @NotNull TypeInfo info, @NotNull TypeValueTable valueTable) {
+    default void completeTypeInfo(@NotNull org.gtk.glib.Type gType, @NotNull org.gtk.gobject.TypeInfo info, @NotNull org.gtk.gobject.TypeValueTable valueTable) {
+        java.util.Objects.requireNonNull(gType, "Parameter 'gType' must not be null");
+        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
+        java.util.Objects.requireNonNull(valueTable, "Parameter 'valueTable' must not be null");
         try {
-            g_type_plugin_complete_type_info.invokeExact(handle(), gType.getValue(), info.handle(), valueTable.handle());
+            DowncallHandles.g_type_plugin_complete_type_info.invokeExact(handle(), gType.getValue(), info.handle(), valueTable.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_type_plugin_unuse = Interop.downcallHandle(
-        "g_type_plugin_unuse",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Calls the {@code unuse_plugin} function from the {@link TypePluginClass} of
      * {@code plugin}.  There should be no need to use this function outside of
      * the GObject type system itself.
      */
-    default @NotNull void unuse() {
+    default void unuse() {
         try {
-            g_type_plugin_unuse.invokeExact(handle());
+            DowncallHandles.g_type_plugin_unuse.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_type_plugin_use = Interop.downcallHandle(
-        "g_type_plugin_use",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Calls the {@code use_plugin} function from the {@link TypePluginClass} of
      * {@code plugin}.  There should be no need to use this function outside of
      * the GObject type system itself.
      */
-    default @NotNull void use() {
+    default void use() {
         try {
-            g_type_plugin_use.invokeExact(handle());
+            DowncallHandles.g_type_plugin_use.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    @ApiStatus.Internal
+    static class DowncallHandles {
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_type_plugin_complete_interface_info = Interop.downcallHandle(
+            "g_type_plugin_complete_interface_info",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_type_plugin_complete_type_info = Interop.downcallHandle(
+            "g_type_plugin_complete_type_info",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_type_plugin_unuse = Interop.downcallHandle(
+            "g_type_plugin_unuse",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_type_plugin_use = Interop.downcallHandle(
+            "g_type_plugin_use",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
+    
     class TypePluginImpl extends org.gtk.gobject.Object implements TypePlugin {
+        
+        static {
+            GObject.javagi$ensureInitialized();
+        }
+        
         public TypePluginImpl(io.github.jwharm.javagi.Refcounted ref) {
             super(ref);
         }

@@ -1,6 +1,8 @@
 package org.gtk.gdkpixbuf;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -17,8 +19,9 @@ import org.jetbrains.annotations.*;
  * this as a hint that it will be closed soon and shouldn't allocate further
  * resources. This convention is used to implement gdk_pixbuf_get_file_info()
  * efficiently.
+ * @version 2.2
  */
 @FunctionalInterface
 public interface PixbufModuleSizeFunc {
-        void onPixbufModuleSizeFunc(@NotNull PointerInteger width, @NotNull PointerInteger height);
+        void onPixbufModuleSizeFunc(PointerInteger width, PointerInteger height);
 }

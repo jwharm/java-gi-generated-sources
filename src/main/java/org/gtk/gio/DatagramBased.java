@@ -53,13 +53,9 @@ import org.jetbrains.annotations.*;
  * Like most other APIs in GLib, {@link DatagramBased} is not inherently thread safe.
  * To use a {@link DatagramBased} concurrently from multiple threads, you must
  * implement your own locking.
+ * @version 2.48
  */
 public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
-
-    @ApiStatus.Internal static final MethodHandle g_datagram_based_condition_check = Interop.downcallHandle(
-        "g_datagram_based_condition_check",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Checks on the readiness of {@code datagram_based} to perform operations. The
@@ -98,21 +94,19 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
      * these flags, the output is guaranteed to be masked by {@code condition}.
      * <p>
      * This call never blocks.
+     * @param condition a {@link org.gtk.glib.IOCondition} mask to check
+     * @return the {@link org.gtk.glib.IOCondition} mask of the current state
      */
     default @NotNull org.gtk.glib.IOCondition conditionCheck(@NotNull org.gtk.glib.IOCondition condition) {
+        java.util.Objects.requireNonNull(condition, "Parameter 'condition' must not be null");
         int RESULT;
         try {
-            RESULT = (int) g_datagram_based_condition_check.invokeExact(handle(), condition.getValue());
+            RESULT = (int) DowncallHandles.g_datagram_based_condition_check.invokeExact(handle(), condition.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.IOCondition(RESULT);
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_datagram_based_condition_wait = Interop.downcallHandle(
-        "g_datagram_based_condition_wait",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Waits for up to {@code timeout} microseconds for condition to become true on
@@ -121,12 +115,20 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
      * If {@code cancellable} is cancelled before the condition is met, or if {@code timeout} is
      * reached before the condition is met, then {@code false} is returned and {@code error} is
      * set appropriately ({@link IOErrorEnum#CANCELLED} or {@link IOErrorEnum#TIMED_OUT}).
+     * @param condition a {@link org.gtk.glib.IOCondition} mask to wait for
+     * @param timeout the maximum time (in microseconds) to wait, 0 to not block, or -1
+     *   to block indefinitely
+     * @param cancellable a {@link Cancellable}
+     * @return {@code true} if the condition was met, {@code false} otherwise
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean conditionWait(@NotNull org.gtk.glib.IOCondition condition, @NotNull long timeout, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default boolean conditionWait(@NotNull org.gtk.glib.IOCondition condition, long timeout, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(condition, "Parameter 'condition' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_datagram_based_condition_wait.invokeExact(handle(), condition.getValue(), timeout, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_datagram_based_condition_wait.invokeExact(handle(), condition.getValue(), timeout, cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,11 +137,6 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
         }
         return RESULT != 0;
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_datagram_based_create_source = Interop.downcallHandle(
-        "g_datagram_based_create_source",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Creates a {@link org.gtk.glib.Source} that can be attached to a {@link org.gtk.glib.MainContext} to monitor for
@@ -156,21 +153,21 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
      * likely 0 unless cancellation happened at the same time as a condition
      * change). You can check for this in the callback using
      * g_cancellable_is_cancelled().
+     * @param condition a {@link org.gtk.glib.IOCondition} mask to monitor
+     * @param cancellable a {@link Cancellable}
+     * @return a newly allocated {@link org.gtk.glib.Source}
      */
-    default @NotNull org.gtk.glib.Source createSource(@NotNull org.gtk.glib.IOCondition condition, @Nullable Cancellable cancellable) {
+    default @NotNull org.gtk.glib.Source createSource(@NotNull org.gtk.glib.IOCondition condition, @Nullable org.gtk.gio.Cancellable cancellable) {
+        java.util.Objects.requireNonNull(condition, "Parameter 'condition' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_datagram_based_create_source.invokeExact(handle(), condition.getValue(), cancellable.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_datagram_based_create_source.invokeExact(handle(), condition.getValue(), cancellable.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.Source(Refcounted.get(RESULT, true));
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_datagram_based_receive_messages = Interop.downcallHandle(
-        "g_datagram_based_receive_messages",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Receive one or more data messages from {@code datagram_based} in one go.
@@ -223,12 +220,26 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
      * messages successfully received before the error will be returned. If
      * {@code cancellable} is cancelled, {@link IOErrorEnum#CANCELLED} is returned as with any
      * other error.
+     * @param messages an array of {@link InputMessage} structs
+     * @param numMessages the number of elements in {@code messages}
+     * @param flags an int containing {@link SocketMsgFlags} flags for the overall operation
+     * @param timeout the maximum time (in microseconds) to wait, 0 to not block, or -1
+     *   to block indefinitely
+     * @param cancellable a {@code GCancellable}
+     * @return number of messages received, or -1 on error. Note that the number
+     *     of messages received may be smaller than {@code num_messages} if {@code timeout} is
+     *     zero or positive, if the peer closed the connection, or if {@code num_messages}
+     *     was larger than {@code UIO_MAXIOV} (1024), in which case the caller may re-try
+     *     to receive the remaining messages.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default int receiveMessages(@NotNull InputMessage[] messages, @NotNull int numMessages, @NotNull int flags, @NotNull long timeout, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default int receiveMessages(org.gtk.gio.InputMessage[] messages, int numMessages, int flags, long timeout, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(messages, "Parameter 'messages' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_datagram_based_receive_messages.invokeExact(handle(), Interop.allocateNativeArray(messages), numMessages, flags, timeout, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_datagram_based_receive_messages.invokeExact(handle(), Interop.allocateNativeArray(messages, false), numMessages, flags, timeout, cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -237,11 +248,6 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
         }
         return RESULT;
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_datagram_based_send_messages = Interop.downcallHandle(
-        "g_datagram_based_send_messages",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Send one or more data messages from {@code datagram_based} in one go.
@@ -285,12 +291,25 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
      * be returned if zero messages could be sent; otherwise the number of messages
      * successfully sent before the error will be returned. If {@code cancellable} is
      * cancelled, {@link IOErrorEnum#CANCELLED} is returned as with any other error.
+     * @param messages an array of {@link OutputMessage} structs
+     * @param numMessages the number of elements in {@code messages}
+     * @param flags an int containing {@link SocketMsgFlags} flags
+     * @param timeout the maximum time (in microseconds) to wait, 0 to not block, or -1
+     *   to block indefinitely
+     * @param cancellable a {@code GCancellable}
+     * @return number of messages sent, or -1 on error. Note that the number of
+     *     messages sent may be smaller than {@code num_messages} if {@code timeout} is zero
+     *     or positive, or if {@code num_messages} was larger than {@code UIO_MAXIOV} (1024), in
+     *     which case the caller may re-try to send the remaining messages.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default int sendMessages(@NotNull OutputMessage[] messages, @NotNull int numMessages, @NotNull int flags, @NotNull long timeout, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default int sendMessages(org.gtk.gio.OutputMessage[] messages, int numMessages, int flags, long timeout, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(messages, "Parameter 'messages' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_datagram_based_send_messages.invokeExact(handle(), Interop.allocateNativeArray(messages), numMessages, flags, timeout, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_datagram_based_send_messages.invokeExact(handle(), Interop.allocateNativeArray(messages, false), numMessages, flags, timeout, cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -300,7 +319,46 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
         return RESULT;
     }
     
+    @ApiStatus.Internal
+    static class DowncallHandles {
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_datagram_based_condition_check = Interop.downcallHandle(
+            "g_datagram_based_condition_check",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_datagram_based_condition_wait = Interop.downcallHandle(
+            "g_datagram_based_condition_wait",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_datagram_based_create_source = Interop.downcallHandle(
+            "g_datagram_based_create_source",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_datagram_based_receive_messages = Interop.downcallHandle(
+            "g_datagram_based_receive_messages",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_datagram_based_send_messages = Interop.downcallHandle(
+            "g_datagram_based_send_messages",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
+    
     class DatagramBasedImpl extends org.gtk.gobject.Object implements DatagramBased {
+        
+        static {
+            Gio.javagi$ensureInitialized();
+        }
+        
         public DatagramBasedImpl(io.github.jwharm.javagi.Refcounted ref) {
             super(ref);
         }

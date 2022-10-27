@@ -1,5 +1,10 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The list of flags that can be passed to gtk_builder_create_closure().
  * <p>
@@ -9,7 +14,15 @@ package org.gtk.gtk;
  * when they encounter one.
  */
 public class BuilderClosureFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The closure should be created swapped. See
      *   g_cclosure_new_swap() for details.
@@ -19,5 +32,4 @@ public class BuilderClosureFlags extends io.github.jwharm.javagi.Bitfield {
     public BuilderClosureFlags(int value) {
         super(value);
     }
-    
 }

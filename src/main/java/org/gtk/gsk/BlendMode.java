@@ -1,16 +1,29 @@
 package org.gtk.gsk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The blend modes available for render nodes.
  * <p>
  * The implementation of each blend mode is deferred to the
  * rendering pipeline.
  * <p>
- * See &lt;https://www.w3.org/TR/compositing-1/#blending&gt; for more information
+ * See &lt;https://www.w3.org/TR/compositing-1/{@code blending}&gt; for more information
  * on blending and blend modes.
  */
 public class BlendMode extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The default blend mode, which specifies no blending
      */
@@ -97,5 +110,4 @@ public class BlendMode extends io.github.jwharm.javagi.Enumeration {
     public BlendMode(int value) {
         super(value);
     }
-    
 }

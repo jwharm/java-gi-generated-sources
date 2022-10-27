@@ -8,9 +8,22 @@ import org.jetbrains.annotations.*;
 /**
  * {@link BytesIcon} specifies an image held in memory in a common format (usually
  * png) to be used as icon.
+ * @version 2.38
  */
-public class BytesIcon extends org.gtk.gobject.Object implements Icon, LoadableIcon {
-
+public class BytesIcon extends org.gtk.gobject.Object implements org.gtk.gio.Icon, org.gtk.gio.LoadableIcon {
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public BytesIcon(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -20,18 +33,15 @@ public class BytesIcon extends org.gtk.gobject.Object implements Icon, LoadableI
         return new BytesIcon(gobject.refcounted());
     }
     
-    private static final MethodHandle g_bytes_icon_new = Interop.downcallHandle(
-        "g_bytes_icon_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew(@NotNull org.gtk.glib.Bytes bytes) {
+        java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_bytes_icon_new.invokeExact(bytes.handle()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_bytes_icon_new.invokeExact(bytes.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -39,27 +49,36 @@ public class BytesIcon extends org.gtk.gobject.Object implements Icon, LoadableI
      * <p>
      * This cannot fail, but loading and interpreting the bytes may fail later on
      * (for example, if g_loadable_icon_load() is called) if the image is invalid.
+     * @param bytes a {@link org.gtk.glib.Bytes}.
      */
     public BytesIcon(@NotNull org.gtk.glib.Bytes bytes) {
         super(constructNew(bytes));
     }
     
-    private static final MethodHandle g_bytes_icon_get_bytes = Interop.downcallHandle(
-        "g_bytes_icon_get_bytes",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the {@link org.gtk.glib.Bytes} associated with the given {@code icon}.
+     * @return a {@link org.gtk.glib.Bytes}.
      */
     public @NotNull org.gtk.glib.Bytes getBytes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_bytes_icon_get_bytes.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_bytes_icon_get_bytes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.Bytes(Refcounted.get(RESULT, false));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_bytes_icon_new = Interop.downcallHandle(
+            "g_bytes_icon_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_bytes_icon_get_bytes = Interop.downcallHandle(
+            "g_bytes_icon_get_bytes",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

@@ -24,14 +24,14 @@ import org.jetbrains.annotations.*;
  * <p>
  * You will also need to tell the search bar about which entry you
  * are using as your search entry using {@link SearchBar#connectEntry}.
- * 
- * <h2>Creating a search bar</h2>
+ * <p>
+ * <strong>Creating a search bar</strong><br/>
  * The following example shows you how to create a more complex search
  * entry.
  * <p>
  * <a href="https://gitlab.gnome.org/GNOME/gtk/tree/main/examples/search-bar.c">A simple example</a>
- * 
- * <h1>CSS nodes</h1>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * <pre>{@code 
  * searchbar
  * ╰── revealer
@@ -44,12 +44,24 @@ import org.jetbrains.annotations.*;
  * node with name revealer that contains a node with name box. The box node
  * contains both the CSS node of the child widget as well as an optional button
  * node which gets the .close style class applied.
- * 
- * <h1>Accessibility</h1>
+ * <p>
+ * <strong>Accessibility</strong><br/>
  * {@code GtkSearchBar} uses the {@link AccessibleRole#SEARCH} role.
  */
-public class SearchBar extends Widget implements Accessible, Buildable, ConstraintTarget {
-
+public class SearchBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public SearchBar(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -59,18 +71,14 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
         return new SearchBar(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_search_bar_new = Interop.downcallHandle(
-        "gtk_search_bar_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_search_bar_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_search_bar_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -83,11 +91,6 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_search_bar_connect_entry = Interop.downcallHandle(
-        "gtk_search_bar_connect_entry",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Connects the `GtkEditable widget passed as the one to be used in
      * this search bar.
@@ -95,107 +98,85 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
      * The entry should be a descendant of the search bar. Calling this
      * function manually is only required if the entry isn’t the direct
      * child of the search bar (as in our main example).
+     * @param entry a {@code GtkEditable}
      */
-    public @NotNull void connectEntry(@NotNull Editable entry) {
+    public void connectEntry(@NotNull org.gtk.gtk.Editable entry) {
+        java.util.Objects.requireNonNull(entry, "Parameter 'entry' must not be null");
         try {
-            gtk_search_bar_connect_entry.invokeExact(handle(), entry.handle());
+            DowncallHandles.gtk_search_bar_connect_entry.invokeExact(handle(), entry.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_search_bar_get_child = Interop.downcallHandle(
-        "gtk_search_bar_get_child",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the child widget of {@code bar}.
+     * @return the child widget of {@code bar}
      */
-    public @Nullable Widget getChild() {
+    public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_search_bar_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_search_bar_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_search_bar_get_key_capture_widget = Interop.downcallHandle(
-        "gtk_search_bar_get_key_capture_widget",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the widget that {@code bar} is capturing key events from.
+     * @return The key capture widget.
      */
-    public @Nullable Widget getKeyCaptureWidget() {
+    public @Nullable org.gtk.gtk.Widget getKeyCaptureWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_search_bar_get_key_capture_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_search_bar_get_key_capture_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_search_bar_get_search_mode = Interop.downcallHandle(
-        "gtk_search_bar_get_search_mode",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns whether the search mode is on or off.
+     * @return whether search mode is toggled on
      */
     public boolean getSearchMode() {
         int RESULT;
         try {
-            RESULT = (int) gtk_search_bar_get_search_mode.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_search_bar_get_search_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_search_bar_get_show_close_button = Interop.downcallHandle(
-        "gtk_search_bar_get_show_close_button",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns whether the close button is shown.
+     * @return whether the close button is shown
      */
     public boolean getShowCloseButton() {
         int RESULT;
         try {
-            RESULT = (int) gtk_search_bar_get_show_close_button.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_search_bar_get_show_close_button.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_search_bar_set_child = Interop.downcallHandle(
-        "gtk_search_bar_set_child",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Sets the child widget of {@code bar}.
+     * @param child the child widget
      */
-    public @NotNull void setChild(@Nullable Widget child) {
+    public void setChild(@Nullable org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            gtk_search_bar_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_search_bar_set_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_search_bar_set_key_capture_widget = Interop.downcallHandle(
-        "gtk_search_bar_set_key_capture_widget",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets {@code widget} as the widget that {@code bar} will capture key events
@@ -210,35 +191,28 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
      * before it gets captured. If that is not desired, you can
      * capture and forward the events yourself with
      * {@link EventControllerKey#forward}.
+     * @param widget a {@code GtkWidget}
      */
-    public @NotNull void setKeyCaptureWidget(@Nullable Widget widget) {
+    public void setKeyCaptureWidget(@Nullable org.gtk.gtk.Widget widget) {
+        java.util.Objects.requireNonNullElse(widget, MemoryAddress.NULL);
         try {
-            gtk_search_bar_set_key_capture_widget.invokeExact(handle(), widget.handle());
+            DowncallHandles.gtk_search_bar_set_key_capture_widget.invokeExact(handle(), widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_search_bar_set_search_mode = Interop.downcallHandle(
-        "gtk_search_bar_set_search_mode",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Switches the search mode on or off.
+     * @param searchMode the new state of the search mode
      */
-    public @NotNull void setSearchMode(@NotNull boolean searchMode) {
+    public void setSearchMode(boolean searchMode) {
         try {
-            gtk_search_bar_set_search_mode.invokeExact(handle(), searchMode ? 1 : 0);
+            DowncallHandles.gtk_search_bar_set_search_mode.invokeExact(handle(), searchMode ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_search_bar_set_show_close_button = Interop.downcallHandle(
-        "gtk_search_bar_set_show_close_button",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Shows or hides the close button.
@@ -246,13 +220,66 @@ public class SearchBar extends Widget implements Accessible, Buildable, Constrai
      * Applications that already have a “search” toggle button should not
      * show a close button in their search bar, as it duplicates the role
      * of the toggle button.
+     * @param visible whether the close button will be shown or not
      */
-    public @NotNull void setShowCloseButton(@NotNull boolean visible) {
+    public void setShowCloseButton(boolean visible) {
         try {
-            gtk_search_bar_set_show_close_button.invokeExact(handle(), visible ? 1 : 0);
+            DowncallHandles.gtk_search_bar_set_show_close_button.invokeExact(handle(), visible ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_search_bar_new = Interop.downcallHandle(
+            "gtk_search_bar_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_search_bar_connect_entry = Interop.downcallHandle(
+            "gtk_search_bar_connect_entry",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_search_bar_get_child = Interop.downcallHandle(
+            "gtk_search_bar_get_child",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_search_bar_get_key_capture_widget = Interop.downcallHandle(
+            "gtk_search_bar_get_key_capture_widget",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_search_bar_get_search_mode = Interop.downcallHandle(
+            "gtk_search_bar_get_search_mode",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_search_bar_get_show_close_button = Interop.downcallHandle(
+            "gtk_search_bar_get_show_close_button",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_search_bar_set_child = Interop.downcallHandle(
+            "gtk_search_bar_set_child",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_search_bar_set_key_capture_widget = Interop.downcallHandle(
+            "gtk_search_bar_set_key_capture_widget",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_search_bar_set_search_mode = Interop.downcallHandle(
+            "gtk_search_bar_set_search_mode",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_search_bar_set_show_close_button = Interop.downcallHandle(
+            "gtk_search_bar_set_show_close_button",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
 }

@@ -1,5 +1,10 @@
 package org.harfbuzz;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The direction of a text segment or buffer.
  * <p>
@@ -8,7 +13,15 @@ package org.harfbuzz;
  * HB_DIRECTION_IS_HORIZONTAL() or HB_DIRECTION_IS_VERTICAL().
  */
 public class DirectionT extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Initial, unset direction.
      */
@@ -37,5 +50,4 @@ public class DirectionT extends io.github.jwharm.javagi.Enumeration {
     public DirectionT(int value) {
         super(value);
     }
-    
 }

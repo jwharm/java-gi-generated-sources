@@ -15,8 +15,20 @@ import org.jetbrains.annotations.*;
  * To obtain the strings to compare, this sorter evaluates a
  * {@link Expression}.
  */
-public class StringSorter extends Sorter {
-
+public class StringSorter extends org.gtk.gtk.Sorter {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public StringSorter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -26,18 +38,15 @@ public class StringSorter extends Sorter {
         return new StringSorter(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_string_sorter_new = Interop.downcallHandle(
-        "gtk_string_sorter_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNew(@Nullable Expression expression) {
+    private static Refcounted constructNew(@Nullable org.gtk.gtk.Expression expression) {
+        java.util.Objects.requireNonNullElse(expression, MemoryAddress.NULL);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_string_sorter_new.invokeExact(expression.refcounted().unowned().handle()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_string_sorter_new.invokeExact(expression.refcounted().unowned().handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -46,79 +55,92 @@ public class StringSorter extends Sorter {
      * <p>
      * Unless an expression is set on it, this sorter will always
      * compare items as invalid.
+     * @param expression The expression to evaluate
      */
-    public StringSorter(@Nullable Expression expression) {
+    public StringSorter(@Nullable org.gtk.gtk.Expression expression) {
         super(constructNew(expression));
     }
     
-    private static final MethodHandle gtk_string_sorter_get_expression = Interop.downcallHandle(
-        "gtk_string_sorter_get_expression",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the expression that is evaluated to obtain strings from items.
+     * @return a {@code GtkExpression}
      */
-    public @Nullable Expression getExpression() {
+    public @Nullable org.gtk.gtk.Expression getExpression() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_string_sorter_get_expression.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_string_sorter_get_expression.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Expression(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Expression(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_string_sorter_get_ignore_case = Interop.downcallHandle(
-        "gtk_string_sorter_get_ignore_case",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets whether the sorter ignores case differences.
+     * @return {@code true} if {@code self} is ignoring case differences
      */
     public boolean getIgnoreCase() {
         int RESULT;
         try {
-            RESULT = (int) gtk_string_sorter_get_ignore_case.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_string_sorter_get_ignore_case.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_string_sorter_set_expression = Interop.downcallHandle(
-        "gtk_string_sorter_set_expression",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Sets the expression that is evaluated to obtain strings from items.
      * <p>
      * The expression must have the type {@code G_TYPE_STRING}.
+     * @param expression a {@code GtkExpression}
      */
-    public @NotNull void setExpression(@Nullable Expression expression) {
+    public void setExpression(@Nullable org.gtk.gtk.Expression expression) {
+        java.util.Objects.requireNonNullElse(expression, MemoryAddress.NULL);
         try {
-            gtk_string_sorter_set_expression.invokeExact(handle(), expression.handle());
+            DowncallHandles.gtk_string_sorter_set_expression.invokeExact(handle(), expression.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_string_sorter_set_ignore_case = Interop.downcallHandle(
-        "gtk_string_sorter_set_ignore_case",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether the sorter will ignore case differences.
+     * @param ignoreCase {@code true} to ignore case differences
      */
-    public @NotNull void setIgnoreCase(@NotNull boolean ignoreCase) {
+    public void setIgnoreCase(boolean ignoreCase) {
         try {
-            gtk_string_sorter_set_ignore_case.invokeExact(handle(), ignoreCase ? 1 : 0);
+            DowncallHandles.gtk_string_sorter_set_ignore_case.invokeExact(handle(), ignoreCase ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_string_sorter_new = Interop.downcallHandle(
+            "gtk_string_sorter_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_string_sorter_get_expression = Interop.downcallHandle(
+            "gtk_string_sorter_get_expression",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_string_sorter_get_ignore_case = Interop.downcallHandle(
+            "gtk_string_sorter_get_ignore_case",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_string_sorter_set_expression = Interop.downcallHandle(
+            "gtk_string_sorter_set_expression",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_string_sorter_set_ignore_case = Interop.downcallHandle(
+            "gtk_string_sorter_set_ignore_case",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
 }

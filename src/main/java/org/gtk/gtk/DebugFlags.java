@@ -1,5 +1,10 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Flags to use with gtk_set_debug_flags().
  * <p>
@@ -8,7 +13,15 @@ package org.gtk.gtk;
  * only available when GTK has been configured with {@code -Ddebug=true}.
  */
 public class DebugFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Information about GtkTextView
      */
@@ -107,5 +120,4 @@ public class DebugFlags extends io.github.jwharm.javagi.Bitfield {
     public DebugFlags(int value) {
         super(value);
     }
-    
 }

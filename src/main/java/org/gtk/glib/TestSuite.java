@@ -9,57 +9,75 @@ import org.jetbrains.annotations.*;
  * An opaque structure representing a test suite.
  */
 public class TestSuite extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GLib.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public TestSuite(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle g_test_suite_add = Interop.downcallHandle(
-        "g_test_suite_add",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Adds {@code test_case} to {@code suite}.
+     * @param testCase a {@link TestCase}
      */
-    public @NotNull void add(@NotNull TestCase testCase) {
+    public void add(@NotNull org.gtk.glib.TestCase testCase) {
+        java.util.Objects.requireNonNull(testCase, "Parameter 'testCase' must not be null");
         try {
-            g_test_suite_add.invokeExact(handle(), testCase.handle());
+            DowncallHandles.g_test_suite_add.invokeExact(handle(), testCase.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_test_suite_add_suite = Interop.downcallHandle(
-        "g_test_suite_add_suite",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Adds {@code nestedsuite} to {@code suite}.
+     * @param nestedsuite another {@link TestSuite}
      */
-    public @NotNull void addSuite(@NotNull TestSuite nestedsuite) {
+    public void addSuite(@NotNull org.gtk.glib.TestSuite nestedsuite) {
+        java.util.Objects.requireNonNull(nestedsuite, "Parameter 'nestedsuite' must not be null");
         try {
-            g_test_suite_add_suite.invokeExact(handle(), nestedsuite.handle());
+            DowncallHandles.g_test_suite_add_suite.invokeExact(handle(), nestedsuite.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_test_suite_free = Interop.downcallHandle(
-        "g_test_suite_free",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Free the {@code suite} and all nested {@code GTestSuites}.
      */
-    public @NotNull void free() {
+    public void free() {
         try {
-            g_test_suite_free.invokeExact(handle());
+            DowncallHandles.g_test_suite_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_test_suite_add = Interop.downcallHandle(
+            "g_test_suite_add",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_test_suite_add_suite = Interop.downcallHandle(
+            "g_test_suite_add_suite",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_test_suite_free = Interop.downcallHandle(
+            "g_test_suite_free",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
 }

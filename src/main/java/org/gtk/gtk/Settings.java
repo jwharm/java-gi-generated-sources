@@ -30,11 +30,23 @@ import org.jetbrains.annotations.*;
  * configuration facility.
  * <p>
  * There is one {@code GtkSettings} instance per display. It can be obtained with
- * {@link Gtk#Settings}, but in many cases, it is more
+ * {@link Settings#getForDisplay}, but in many cases, it is more
  * convenient to use {@link Widget#getSettings}.
  */
-public class Settings extends org.gtk.gobject.Object implements StyleProvider {
-
+public class Settings extends org.gtk.gobject.Object implements org.gtk.gtk.StyleProvider {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public Settings(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -44,63 +56,72 @@ public class Settings extends org.gtk.gobject.Object implements StyleProvider {
         return new Settings(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_settings_reset_property = Interop.downcallHandle(
-        "gtk_settings_reset_property",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Undoes the effect of calling g_object_set() to install an
      * application-specific value for a setting.
      * <p>
      * After this call, the setting will again follow the session-wide
      * value for this setting.
+     * @param name the name of the setting to reset
      */
-    public @NotNull void resetProperty(@NotNull java.lang.String name) {
+    public void resetProperty(@NotNull java.lang.String name) {
+        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         try {
-            gtk_settings_reset_property.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.gtk_settings_reset_property.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_settings_get_default = Interop.downcallHandle(
-        "gtk_settings_get_default",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the {@code GtkSettings} object for the default display, creating
      * it if necessary.
      * <p>
-     * See {@link Gtk#Settings}.
+     * See {@link Settings#getForDisplay}.
+     * @return a {@code GtkSettings} object. If there is
+     *   no default display, then returns {@code null}.
      */
-    public static @Nullable Settings getDefault() {
+    public static @Nullable org.gtk.gtk.Settings getDefault() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_settings_get_default.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.gtk_settings_get_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Settings(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Settings(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_settings_get_for_display = Interop.downcallHandle(
-        "gtk_settings_get_for_display",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the {@code GtkSettings} object for {@code display}, creating it if necessary.
+     * @param display a {@code GdkDisplay}
+     * @return a {@code GtkSettings} object
      */
-    public static @NotNull Settings getForDisplay(@NotNull org.gtk.gdk.Display display) {
+    public static @NotNull org.gtk.gtk.Settings getForDisplay(@NotNull org.gtk.gdk.Display display) {
+        java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_settings_get_for_display.invokeExact(display.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_settings_get_for_display.invokeExact(display.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Settings(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Settings(Refcounted.get(RESULT, false));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_settings_reset_property = Interop.downcallHandle(
+            "gtk_settings_reset_property",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_settings_get_default = Interop.downcallHandle(
+            "gtk_settings_get_default",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_settings_get_for_display = Interop.downcallHandle(
+            "gtk_settings_get_for_display",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

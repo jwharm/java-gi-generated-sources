@@ -7,4 +7,10 @@ import org.jetbrains.annotations.*;
 
 public final class Cairo {
     
+    static {
+        System.loadLibrary("cairo");
+        System.loadLibrary("cairo-gobject");
+    }
+    
+    @ApiStatus.Internal static void javagi$ensureInitialized() {}
 }

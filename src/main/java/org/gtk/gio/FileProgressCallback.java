@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -10,5 +12,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface FileProgressCallback {
-        void onFileProgressCallback(@NotNull long currentNumBytes, @NotNull long totalNumBytes);
+        void onFileProgressCallback(long currentNumBytes, long totalNumBytes);
 }

@@ -16,8 +16,12 @@ import org.jetbrains.annotations.*;
  * <li>The {@code Gtk.Widget::realize} signal to take any necessary actions
  *   when the widget is instantiated on a particular display.
  *   (Create GDK resources in response to this signal.)
+ * </ul>
+ * <ul>
  * <li>The {@code Gtk.DrawingArea::resize} signal to take any necessary
  *   actions when the widget changes size.
+ * </ul>
+ * <ul>
  * <li>Call {@link DrawingArea#setDrawFunc} to handle redrawing the
  *   contents of the widget.
  * </ul>
@@ -25,8 +29,8 @@ import org.jetbrains.annotations.*;
  * The following code portion demonstrates using a drawing
  * area to display a circle in the normal widget foreground
  * color.
- * 
- * <h2>Simple GtkDrawingArea usage</h2>
+ * <p>
+ * <strong>Simple GtkDrawingArea usage</strong><br/>
  * <pre>{@code c
  * static void
  * draw_function (GtkDrawingArea *area,
@@ -75,8 +79,8 @@ import org.jetbrains.annotations.*;
  * <p>
  * The available routines for drawing are documented in the
  * <a href="https://www.cairographics.org/manual/">Cairo documentation</a>; GDK
- * offers additional API to integrate with Cairo, like {@link Gdk#cairoSetSourceRgba}
- * or {@link Gdk#cairoSetSourcePixbuf}.
+ * offers additional API to integrate with Cairo, like {@link org.gtk.gdk.Gdk#cairoSetSourceRgba}
+ * or {@link org.gtk.gdk.Gdk#cairoSetSourcePixbuf}.
  * <p>
  * To receive mouse events on a drawing area, you will need to use
  * event controllers. To receive keyboard events, you will need to set
@@ -86,8 +90,24 @@ import org.jetbrains.annotations.*;
  * If you need more complex control over your widget, you should consider
  * creating your own {@code GtkWidget} subclass.
  */
-public class DrawingArea extends Widget implements Accessible, Buildable, ConstraintTarget {
-
+public class DrawingArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gtk.Widget.getMemoryLayout().withName("widget")
+    ).withName("GtkDrawingArea");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public DrawingArea(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -97,18 +117,14 @@ public class DrawingArea extends Widget implements Accessible, Buildable, Constr
         return new DrawingArea(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_drawing_area_new = Interop.downcallHandle(
-        "gtk_drawing_area_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_drawing_area_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_drawing_area_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -118,46 +134,33 @@ public class DrawingArea extends Widget implements Accessible, Buildable, Constr
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_drawing_area_get_content_height = Interop.downcallHandle(
-        "gtk_drawing_area_get_content_height",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Retrieves the content height of the {@code GtkDrawingArea}.
+     * @return The height requested for content of the drawing area
      */
     public int getContentHeight() {
         int RESULT;
         try {
-            RESULT = (int) gtk_drawing_area_get_content_height.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_drawing_area_get_content_height.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle gtk_drawing_area_get_content_width = Interop.downcallHandle(
-        "gtk_drawing_area_get_content_width",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Retrieves the content width of the {@code GtkDrawingArea}.
+     * @return The width requested for content of the drawing area
      */
     public int getContentWidth() {
         int RESULT;
         try {
-            RESULT = (int) gtk_drawing_area_get_content_width.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_drawing_area_get_content_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle gtk_drawing_area_set_content_height = Interop.downcallHandle(
-        "gtk_drawing_area_set_content_height",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the desired height of the contents of the drawing area.
@@ -168,19 +171,15 @@ public class DrawingArea extends Widget implements Accessible, Buildable, Constr
      * {@link Widget#setValign} to avoid that.
      * <p>
      * If the height is set to 0 (the default), the drawing area may disappear.
+     * @param height the height of contents
      */
-    public @NotNull void setContentHeight(@NotNull int height) {
+    public void setContentHeight(int height) {
         try {
-            gtk_drawing_area_set_content_height.invokeExact(handle(), height);
+            DowncallHandles.gtk_drawing_area_set_content_height.invokeExact(handle(), height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_drawing_area_set_content_width = Interop.downcallHandle(
-        "gtk_drawing_area_set_content_width",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the desired width of the contents of the drawing area.
@@ -191,19 +190,15 @@ public class DrawingArea extends Widget implements Accessible, Buildable, Constr
      * {@link Widget#setHalign} to avoid that.
      * <p>
      * If the width is set to 0 (the default), the drawing area may disappear.
+     * @param width the width of contents
      */
-    public @NotNull void setContentWidth(@NotNull int width) {
+    public void setContentWidth(int width) {
         try {
-            gtk_drawing_area_set_content_width.invokeExact(handle(), width);
+            DowncallHandles.gtk_drawing_area_set_content_width.invokeExact(handle(), width);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_drawing_area_set_draw_func = Interop.downcallHandle(
-        "gtk_drawing_area_set_draw_func",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Setting a draw function is the main thing you want to do when using
@@ -220,16 +215,19 @@ public class DrawingArea extends Widget implements Accessible, Buildable, Constr
      * <p>
      * If what you are drawing does change, call {@link Widget#queueDraw}
      * on the drawing area. This will cause a redraw and will call {@code draw_func} again.
+     * @param drawFunc callback that lets you draw
+     *   the drawing area's contents
      */
-    public @NotNull void setDrawFunc(@Nullable DrawingAreaDrawFunc drawFunc) {
+    public void setDrawFunc(@Nullable org.gtk.gtk.DrawingAreaDrawFunc drawFunc) {
+        java.util.Objects.requireNonNullElse(drawFunc, MemoryAddress.NULL);
         try {
-            gtk_drawing_area_set_draw_func.invokeExact(handle(), 
+            DowncallHandles.gtk_drawing_area_set_draw_func.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.class, "__cbDrawingAreaDrawFunc",
+                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbDrawingAreaDrawFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(drawFunc)), 
+                   (Addressable) (drawFunc == null ? MemoryAddress.NULL : Interop.registerCallback(drawFunc)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -237,8 +235,8 @@ public class DrawingArea extends Widget implements Accessible, Buildable, Constr
     }
     
     @FunctionalInterface
-    public interface ResizeHandler {
-        void signalReceived(DrawingArea source, @NotNull int width, @NotNull int height);
+    public interface Resize {
+        void signalReceived(DrawingArea source, int width, int height);
     }
     
     /**
@@ -248,7 +246,7 @@ public class DrawingArea extends Widget implements Accessible, Buildable, Constr
      * This is useful in order to keep state up to date with the widget size,
      * like for instance a backing surface.
      */
-    public SignalHandle onResize(ResizeHandler handler) {
+    public Signal<DrawingArea.Resize> onResize(DrawingArea.Resize handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -258,21 +256,53 @@ public class DrawingArea extends Widget implements Accessible, Buildable, Constr
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<DrawingArea.Resize>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static void signalDrawingAreaResize(MemoryAddress source, int width, int height, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (DrawingArea.ResizeHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DrawingArea(Refcounted.get(source)), width, height);
-        }
+    private static class DowncallHandles {
         
+        private static final MethodHandle gtk_drawing_area_new = Interop.downcallHandle(
+            "gtk_drawing_area_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_drawing_area_get_content_height = Interop.downcallHandle(
+            "gtk_drawing_area_get_content_height",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_drawing_area_get_content_width = Interop.downcallHandle(
+            "gtk_drawing_area_get_content_width",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_drawing_area_set_content_height = Interop.downcallHandle(
+            "gtk_drawing_area_set_content_height",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_drawing_area_set_content_width = Interop.downcallHandle(
+            "gtk_drawing_area_set_content_width",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_drawing_area_set_draw_func = Interop.downcallHandle(
+            "gtk_drawing_area_set_draw_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
+    
+    private static class Callbacks {
+        
+        public static void signalDrawingAreaResize(MemoryAddress source, int width, int height, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (DrawingArea.Resize) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new DrawingArea(Refcounted.get(source)), width, height);
+        }
     }
 }

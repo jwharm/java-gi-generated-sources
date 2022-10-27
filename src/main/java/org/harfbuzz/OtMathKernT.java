@@ -1,11 +1,25 @@
 package org.harfbuzz;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The math kerning-table types defined for the four corners
  * of a glyph.
+ * @version 1.3.3
  */
 public class OtMathKernT extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The top right corner of the glyph.
      */
@@ -29,5 +43,4 @@ public class OtMathKernT extends io.github.jwharm.javagi.Enumeration {
     public OtMathKernT(int value) {
         super(value);
     }
-    
 }

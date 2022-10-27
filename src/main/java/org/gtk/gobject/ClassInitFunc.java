@@ -1,6 +1,8 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -33,7 +35,6 @@ import org.jetbrains.annotations.*;
  * <p>
  * An example may help to correspond the intend of the different class
  * initializers:
- * <p>
  * <pre>{@code <!-- language="C" -->
  * typedef struct {
  *   GObjectClass parent_class;
@@ -105,5 +106,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ClassInitFunc {
-        void onClassInitFunc(@NotNull TypeClass gClass);
+        void onClassInitFunc(@NotNull org.gtk.gobject.TypeClass gClass);
 }

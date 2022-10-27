@@ -1,11 +1,24 @@
 package org.pango;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The bits in a {@code PangoFontMask} correspond to the set fields in a
  * {@code PangoFontDescription}.
  */
 public class FontMask extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * the font family is specified.
      */
@@ -49,5 +62,4 @@ public class FontMask extends io.github.jwharm.javagi.Bitfield {
     public FontMask(int value) {
         super(value);
     }
-    
 }

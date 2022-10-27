@@ -1,5 +1,10 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Specifies the granularity of font selection
  * that is desired in a {@code GtkFontChooser}.
@@ -8,7 +13,15 @@ package org.gtk.gtk;
  * ignore unknown values.
  */
 public class FontChooserLevel extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Allow selecting a font family
      */
@@ -37,5 +50,4 @@ public class FontChooserLevel extends io.github.jwharm.javagi.Bitfield {
     public FontChooserLevel(int value) {
         super(value);
     }
-    
 }

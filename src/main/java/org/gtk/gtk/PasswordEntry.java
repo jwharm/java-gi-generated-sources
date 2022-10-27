@@ -20,8 +20,8 @@ import org.jetbrains.annotations.*;
  * <p>
  * {@code GtkPasswordEntry} provides only minimal API and should be used with
  * the {@code Gtk.Editable} API.
- * 
- * <h1>CSS Nodes</h1>
+ * <p>
+ * <strong>CSS Nodes</strong><br/>
  * <pre>{@code 
  * entry.password
  * ╰── text
@@ -33,12 +33,24 @@ import org.jetbrains.annotations.*;
  * a .passwordstyle class. The text Css node below it has a child with
  * name image and style class .caps-lock-indicator for the Caps Lock
  * icon, and possibly other children.
- * 
- * <h1>Accessibility</h1>
+ * <p>
+ * <strong>Accessibility</strong><br/>
  * {@code GtkPasswordEntry} uses the {@link AccessibleRole#TEXT_BOX} role.
  */
-public class PasswordEntry extends Widget implements Accessible, Buildable, ConstraintTarget, Editable {
-
+public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Editable {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public PasswordEntry(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -48,18 +60,14 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
         return new PasswordEntry(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_password_entry_new = Interop.downcallHandle(
-        "gtk_password_entry_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_password_entry_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_password_entry_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -69,81 +77,66 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_password_entry_get_extra_menu = Interop.downcallHandle(
-        "gtk_password_entry_get_extra_menu",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the menu model set with gtk_password_entry_set_extra_menu().
+     * @return the menu model
      */
     public @Nullable org.gtk.gio.MenuModel getExtraMenu() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_password_entry_get_extra_menu.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_password_entry_get_extra_menu.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle gtk_password_entry_get_show_peek_icon = Interop.downcallHandle(
-        "gtk_password_entry_get_show_peek_icon",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns whether the entry is showing an icon to
      * reveal the contents.
+     * @return {@code true} if an icon is shown
      */
     public boolean getShowPeekIcon() {
         int RESULT;
         try {
-            RESULT = (int) gtk_password_entry_get_show_peek_icon.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_password_entry_get_show_peek_icon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_password_entry_set_extra_menu = Interop.downcallHandle(
-        "gtk_password_entry_set_extra_menu",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Sets a menu model to add when constructing
      * the context menu for {@code entry}.
+     * @param model a {@code GMenuModel}
      */
-    public @NotNull void setExtraMenu(@Nullable org.gtk.gio.MenuModel model) {
+    public void setExtraMenu(@Nullable org.gtk.gio.MenuModel model) {
+        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         try {
-            gtk_password_entry_set_extra_menu.invokeExact(handle(), model.handle());
+            DowncallHandles.gtk_password_entry_set_extra_menu.invokeExact(handle(), model.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_password_entry_set_show_peek_icon = Interop.downcallHandle(
-        "gtk_password_entry_set_show_peek_icon",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether the entry should have a clickable icon
      * to reveal the contents.
      * <p>
      * Setting this to {@code false} also hides the text again.
+     * @param showPeekIcon whether to show the peek icon
      */
-    public @NotNull void setShowPeekIcon(@NotNull boolean showPeekIcon) {
+    public void setShowPeekIcon(boolean showPeekIcon) {
         try {
-            gtk_password_entry_set_show_peek_icon.invokeExact(handle(), showPeekIcon ? 1 : 0);
+            DowncallHandles.gtk_password_entry_set_show_peek_icon.invokeExact(handle(), showPeekIcon ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ActivateHandler {
+    public interface Activate {
         void signalReceived(PasswordEntry source);
     }
     
@@ -152,7 +145,7 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
      * <p>
      * The keybindings for this signal are all forms of the Enter key.
      */
-    public SignalHandle onActivate(ActivateHandler handler) {
+    public Signal<PasswordEntry.Activate> onActivate(PasswordEntry.Activate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -162,21 +155,48 @@ public class PasswordEntry extends Widget implements Accessible, Buildable, Cons
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<PasswordEntry.Activate>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static void signalPasswordEntryActivate(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (PasswordEntry.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new PasswordEntry(Refcounted.get(source)));
-        }
+    private static class DowncallHandles {
         
+        private static final MethodHandle gtk_password_entry_new = Interop.downcallHandle(
+            "gtk_password_entry_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_password_entry_get_extra_menu = Interop.downcallHandle(
+            "gtk_password_entry_get_extra_menu",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_password_entry_get_show_peek_icon = Interop.downcallHandle(
+            "gtk_password_entry_get_show_peek_icon",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_password_entry_set_extra_menu = Interop.downcallHandle(
+            "gtk_password_entry_set_extra_menu",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_password_entry_set_show_peek_icon = Interop.downcallHandle(
+            "gtk_password_entry_set_show_peek_icon",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
+    
+    private static class Callbacks {
+        
+        public static void signalPasswordEntryActivate(MemoryAddress source, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (PasswordEntry.Activate) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new PasswordEntry(Refcounted.get(source)));
+        }
     }
 }

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -15,5 +17,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface TreeViewColumnDropFunc {
-        boolean onTreeViewColumnDropFunc(@NotNull TreeView treeView, @NotNull TreeViewColumn column, @NotNull TreeViewColumn prevColumn, @NotNull TreeViewColumn nextColumn);
+        boolean onTreeViewColumnDropFunc(@NotNull org.gtk.gtk.TreeView treeView, @NotNull org.gtk.gtk.TreeViewColumn column, @NotNull org.gtk.gtk.TreeViewColumn prevColumn, @NotNull org.gtk.gtk.TreeViewColumn nextColumn);
 }

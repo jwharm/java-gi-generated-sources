@@ -12,8 +12,20 @@ import org.jetbrains.annotations.*;
  * combination like {@code Control + a}). If the cell renderer is editable,
  * the accelerator can be changed by simply typing the new combination.
  */
-public class CellRendererAccel extends CellRendererText {
-
+public class CellRendererAccel extends org.gtk.gtk.CellRendererText {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public CellRendererAccel(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -23,18 +35,14 @@ public class CellRendererAccel extends CellRendererText {
         return new CellRendererAccel(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_cell_renderer_accel_new = Interop.downcallHandle(
-        "gtk_cell_renderer_accel_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_cell_renderer_accel_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_cell_renderer_accel_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -45,14 +53,14 @@ public class CellRendererAccel extends CellRendererText {
     }
     
     @FunctionalInterface
-    public interface AccelClearedHandler {
+    public interface AccelCleared {
         void signalReceived(CellRendererAccel source, @NotNull java.lang.String pathString);
     }
     
     /**
      * Gets emitted when the user has removed the accelerator.
      */
-    public SignalHandle onAccelCleared(AccelClearedHandler handler) {
+    public Signal<CellRendererAccel.AccelCleared> onAccelCleared(CellRendererAccel.AccelCleared handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -62,23 +70,23 @@ public class CellRendererAccel extends CellRendererText {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<CellRendererAccel.AccelCleared>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface AccelEditedHandler {
-        void signalReceived(CellRendererAccel source, @NotNull java.lang.String pathString, @NotNull int accelKey, @NotNull org.gtk.gdk.ModifierType accelMods, @NotNull int hardwareKeycode);
+    public interface AccelEdited {
+        void signalReceived(CellRendererAccel source, @NotNull java.lang.String pathString, int accelKey, @NotNull org.gtk.gdk.ModifierType accelMods, int hardwareKeycode);
     }
     
     /**
      * Gets emitted when the user has selected a new accelerator.
      */
-    public SignalHandle onAccelEdited(AccelEditedHandler handler) {
+    public Signal<CellRendererAccel.AccelEdited> onAccelEdited(CellRendererAccel.AccelEdited handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -88,27 +96,34 @@ public class CellRendererAccel extends CellRendererText {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<CellRendererAccel.AccelEdited>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_cell_renderer_accel_new = Interop.downcallHandle(
+            "gtk_cell_renderer_accel_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static void signalCellRendererAccelAccelCleared(MemoryAddress source, MemoryAddress pathString, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (CellRendererAccel.AccelClearedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new CellRendererAccel(Refcounted.get(source)), pathString.getUtf8String(0));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (CellRendererAccel.AccelCleared) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new CellRendererAccel(Refcounted.get(source)), pathString.getUtf8String(0));
         }
         
         public static void signalCellRendererAccelAccelEdited(MemoryAddress source, MemoryAddress pathString, int accelKey, int accelMods, int hardwareKeycode, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (CellRendererAccel.AccelEditedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new CellRendererAccel(Refcounted.get(source)), pathString.getUtf8String(0), accelKey, new org.gtk.gdk.ModifierType(accelMods), hardwareKeycode);
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (CellRendererAccel.AccelEdited) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new CellRendererAccel(Refcounted.get(source)), pathString.getUtf8String(0), accelKey, new org.gtk.gdk.ModifierType(accelMods), hardwareKeycode);
         }
-        
     }
 }

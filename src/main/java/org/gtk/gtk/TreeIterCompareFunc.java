@@ -1,11 +1,13 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
  * A GtkTreeIterCompareFunc should return a negative integer, zero, or a positive
- * integer if @a sorts before @b, @a sorts with @b, or @a sorts after @b
+ * integer if {@code a} sorts before {@code b}, {@code a} sorts with {@code b}, or {@code a} sorts after {@code b}
  * respectively.
  * <p>
  * If two iters compare as equal, their order in the sorted model
@@ -19,5 +21,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface TreeIterCompareFunc {
-        int onTreeIterCompareFunc(@NotNull TreeModel model, @NotNull TreeIter a, @NotNull TreeIter b);
+        int onTreeIterCompareFunc(@NotNull org.gtk.gtk.TreeModel model, @NotNull org.gtk.gtk.TreeIter a, @NotNull org.gtk.gtk.TreeIter b);
 }

@@ -14,7 +14,6 @@ package org.gtk.glib;
  * function.
  * <p>
  * Instead, do the following:
- * <p>
  * <pre>{@code <!-- language="C" -->
  * time_t ttime;
  * GTime gtime;
@@ -24,8 +23,8 @@ package org.gtk.glib;
  * }</pre>
  */
 public class Time extends io.github.jwharm.javagi.Alias<Integer> {
+    
     public Time(int value) {
         super(value);
     }
-    
 }

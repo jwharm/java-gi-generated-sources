@@ -1,5 +1,10 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The type of file to return the filename for, when used with
  * g_test_build_filename().
@@ -17,9 +22,18 @@ package org.gtk.glib;
  * part of the build-from-git process (but then are distributed with the
  * tarball) always go in srcdir (even if doing a srcdir != builddir
  * build from git) and are considered as distributed files.
+ * @version 2.38
  */
 public class TestFileType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * a file that was included in the distribution tarball
      */
@@ -33,5 +47,4 @@ public class TestFileType extends io.github.jwharm.javagi.Enumeration {
     public TestFileType(int value) {
         super(value);
     }
-    
 }

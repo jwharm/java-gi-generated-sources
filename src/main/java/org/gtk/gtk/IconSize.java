@@ -1,5 +1,10 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Built-in icon sizes.
  * <p>
@@ -12,7 +17,15 @@ package org.gtk.gtk;
  * {@code -gtk-icon-size} CSS property.
  */
 public class IconSize extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Keep the size of the parent element
      */
@@ -31,5 +44,4 @@ public class IconSize extends io.github.jwharm.javagi.Enumeration {
     public IconSize(int value) {
         super(value);
     }
-    
 }

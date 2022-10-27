@@ -1,5 +1,10 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Flags to pass to g_test_trap_subprocess() to control input and output.
  * <p>
@@ -7,7 +12,15 @@ package org.gtk.glib;
  * not show stdout and stderr.
  */
 public class TestSubprocessFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * If this flag is given, the child
      *     process will inherit the parent's stdin. Otherwise, the child's
@@ -34,5 +47,4 @@ public class TestSubprocessFlags extends io.github.jwharm.javagi.Bitfield {
     public TestSubprocessFlags(int value) {
         super(value);
     }
-    
 }

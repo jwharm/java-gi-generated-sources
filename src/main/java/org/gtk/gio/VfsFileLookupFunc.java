@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -10,8 +12,9 @@ import org.jetbrains.annotations.*;
  * <p>
  * The client should return a reference to the new file that has been
  * created for {@code uri}, or {@code null} to continue with the default implementation.
+ * @version 2.50
  */
 @FunctionalInterface
 public interface VfsFileLookupFunc {
-        File onVfsFileLookupFunc(@NotNull Vfs vfs, @NotNull java.lang.String identifier);
+        org.gtk.gio.File onVfsFileLookupFunc(@NotNull org.gtk.gio.Vfs vfs, @NotNull java.lang.String identifier);
 }

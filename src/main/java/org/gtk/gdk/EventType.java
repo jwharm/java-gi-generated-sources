@@ -1,10 +1,23 @@
 package org.gtk.gdk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Specifies the type of the event.
  */
 public class EventType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * the window manager has requested that the toplevel surface be
      *   hidden or destroyed, usually when the user clicks on a special icon in the
@@ -166,5 +179,4 @@ public class EventType extends io.github.jwharm.javagi.Enumeration {
     public EventType(int value) {
         super(value);
     }
-    
 }

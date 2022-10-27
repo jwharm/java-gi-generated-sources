@@ -7,77 +7,76 @@ import org.jetbrains.annotations.*;
 
 public final class Adw {
     
+    static {
+        System.loadLibrary("adwaita-1");
+    }
+    
+    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    
     /**
      * Indicates an {@link Animation} with an infinite duration.
      * <p>
      * This value is mostly used internally.
      */
+    
     /**
      * Adwaita major version component (e.g. 1 if the version is 1.2.3).
      */
     public static final int MAJOR_VERSION = 1;
-
+    
     /**
      * Adwaita micro version component (e.g. 3 if the version is 1.2.3).
      */
     public static final int MICRO_VERSION = 4;
-
+    
     /**
      * Adwaita minor version component (e.g. 2 if the version is 1.2.3).
      */
     public static final int MINOR_VERSION = 1;
-
+    
     /**
      * Adwaita version, encoded as a string, useful for printing and
      * concatenation.
      */
     public static final java.lang.String VERSION_S = "1.1.4";
-
-    private static final MethodHandle adw_easing_ease = Interop.downcallHandle(
-        "adw_easing_ease",
-        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE)
-    );
     
     /**
      * Computes easing with {@code easing} for {@code value}.
      * <p>
      * {@code value} should generally be in the [0, 1] range.
+     * @param self an easing value
+     * @param value a value to ease
+     * @return the easing for {@code value}
      */
-    public static double easingEase(@NotNull Easing self, @NotNull double value) {
+    public static double easingEase(@NotNull org.gnome.adw.Easing self, double value) {
+        java.util.Objects.requireNonNull(self, "Parameter 'self' must not be null");
         double RESULT;
         try {
-            RESULT = (double) adw_easing_ease.invokeExact(self.getValue(), value);
+            RESULT = (double) DowncallHandles.adw_easing_ease.invokeExact(self.getValue(), value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle adw_get_enable_animations = Interop.downcallHandle(
-        "adw_get_enable_animations",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Checks whether animations are enabled for {@code widget}.
      * <p>
      * This should be used when implementing an animated widget to know whether to
      * animate it or not.
+     * @param widget a {@code GtkWidget}
+     * @return whether animations are enabled for {@code widget}
      */
     public static boolean getEnableAnimations(@NotNull org.gtk.gtk.Widget widget) {
+        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         int RESULT;
         try {
-            RESULT = (int) adw_get_enable_animations.invokeExact(widget.handle());
+            RESULT = (int) DowncallHandles.adw_get_enable_animations.invokeExact(widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle adw_get_major_version = Interop.downcallHandle(
-        "adw_get_major_version",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT)
-    );
     
     /**
      * Returns the major version number of the Adwaita library.
@@ -88,21 +87,17 @@ public final class Adw {
      * code is running against. Contrast with the {@code MAJOR_VERSION} constant,
      * which represents the major version of the libadwaita headers you have
      * included when compiling your code.
+     * @return the major version number of the Adwaita library
      */
     public static int getMajorVersion() {
         int RESULT;
         try {
-            RESULT = (int) adw_get_major_version.invokeExact();
+            RESULT = (int) DowncallHandles.adw_get_major_version.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle adw_get_micro_version = Interop.downcallHandle(
-        "adw_get_micro_version",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT)
-    );
     
     /**
      * Returns the micro version number of the Adwaita library.
@@ -113,21 +108,17 @@ public final class Adw {
      * code is running against. Contrast with the {@code MAJOR_VERSION} constant,
      * which represents the micro version of the libadwaita headers you have
      * included when compiling your code.
+     * @return the micro version number of the Adwaita library
      */
     public static int getMicroVersion() {
         int RESULT;
         try {
-            RESULT = (int) adw_get_micro_version.invokeExact();
+            RESULT = (int) DowncallHandles.adw_get_micro_version.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle adw_get_minor_version = Interop.downcallHandle(
-        "adw_get_minor_version",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT)
-    );
     
     /**
      * Returns the minor version number of the Adwaita library.
@@ -138,26 +129,22 @@ public final class Adw {
      * code is running against. Contrast with the {@code MAJOR_VERSION} constant,
      * which represents the minor version of the libadwaita headers you have
      * included when compiling your code.
+     * @return the minor version number of the Adwaita library
      */
     public static int getMinorVersion() {
         int RESULT;
         try {
-            RESULT = (int) adw_get_minor_version.invokeExact();
+            RESULT = (int) DowncallHandles.adw_get_minor_version.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle adw_init = Interop.downcallHandle(
-        "adw_init",
-        FunctionDescriptor.ofVoid()
-    );
-    
     /**
      * Initializes Libadwaita.
      * <p>
-     * This function can be used instead of {@link Gtk#init} as it initializes GTK
+     * This function can be used instead of {@link org.gtk.gtk.Gtk#init} as it initializes GTK
      * implicitly.
      * <p>
      * There's no need to call this function if you're using {@link Application}.
@@ -167,55 +154,96 @@ public final class Adw {
      * This makes sure translations, types, themes, and icons for the Adwaita
      * library are set up properly.
      */
-    public static @NotNull void init() {
+    public static void init() {
         try {
-            adw_init.invokeExact();
+            DowncallHandles.adw_init.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle adw_is_initialized = Interop.downcallHandle(
-        "adw_is_initialized",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Use this function to check if libadwaita has been initialized with
-     * {@link init#null}.
+     * {@link Adw#init}.
+     * @return the initialization status
      */
     public static boolean isInitialized() {
         int RESULT;
         try {
-            RESULT = (int) adw_is_initialized.invokeExact();
+            RESULT = (int) DowncallHandles.adw_is_initialized.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle adw_lerp = Interop.downcallHandle(
-        "adw_lerp",
-        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
-    );
-    
     /**
-     * Computes the linear interpolation between @a and @b for @t.
+     * Computes the linear interpolation between {@code a} and {@code b} for {@code t}.
+     * @param a the start
+     * @param b the end
+     * @param t the interpolation rate
+     * @return the computed value
      */
-    public static double lerp(@NotNull double a, @NotNull double b, @NotNull double t) {
+    public static double lerp(double a, double b, double t) {
         double RESULT;
         try {
-            RESULT = (double) adw_lerp.invokeExact(a, b, t);
+            RESULT = (double) DowncallHandles.adw_lerp.invokeExact(a, b, t);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    public static void __cbAnimationTargetFunc(double value, MemoryAddress userData) {
-        int hash = userData.get(ValueLayout.JAVA_INT, 0);
-        var handler = (AnimationTargetFunc) Interop.signalRegistry.get(hash);
-        handler.onAnimationTargetFunc(value);
+    private static class DowncallHandles {
+        
+        private static final MethodHandle adw_easing_ease = Interop.downcallHandle(
+            "adw_easing_ease",
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE)
+        );
+        
+        private static final MethodHandle adw_get_enable_animations = Interop.downcallHandle(
+            "adw_get_enable_animations",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_get_major_version = Interop.downcallHandle(
+            "adw_get_major_version",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle adw_get_micro_version = Interop.downcallHandle(
+            "adw_get_micro_version",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle adw_get_minor_version = Interop.downcallHandle(
+            "adw_get_minor_version",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle adw_init = Interop.downcallHandle(
+            "adw_init",
+            FunctionDescriptor.ofVoid()
+        );
+        
+        private static final MethodHandle adw_is_initialized = Interop.downcallHandle(
+            "adw_is_initialized",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle adw_lerp = Interop.downcallHandle(
+            "adw_lerp",
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+        );
     }
     
+    @ApiStatus.Internal
+    public static class Callbacks {
+        
+        public static void cbAnimationTargetFunc(double value, MemoryAddress userData) {
+            int HASH = userData.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (AnimationTargetFunc) Interop.signalRegistry.get(HASH);
+            HANDLER.onAnimationTargetFunc(value);
+        }
+    }
 }

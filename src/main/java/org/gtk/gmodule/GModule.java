@@ -7,10 +7,7 @@ import org.jetbrains.annotations.*;
 
 public final class GModule {
     
-    private static final MethodHandle g_module_build_path = Interop.downcallHandle(
-        "g_module_build_path",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    @ApiStatus.Internal static void javagi$ensureInitialized() {}
     
     /**
      * A portable way to build the filename of a module. The platform-specific
@@ -26,66 +23,87 @@ public final class GModule {
      * {@code directory} of {@code /lib} and a {@code module_name} of "mylibrary" will return
      * {@code /lib/libmylibrary.so}. On a Windows system, using {@code \\Windows} as the
      * directory it will return {@code \\Windows\\mylibrary.dll}.
+     * @param directory the directory where the module is. This can be
+     *     {@code null} or the empty string to indicate that the standard platform-specific
+     *     directories will be used, though that is not recommended
+     * @param moduleName the name of the module
+     * @return the complete path of the module, including the standard library
+     *     prefix and suffix. This should be freed when no longer needed
      */
     public static @NotNull java.lang.String moduleBuildPath(@Nullable java.lang.String directory, @NotNull java.lang.String moduleName) {
+        java.util.Objects.requireNonNullElse(directory, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(moduleName, "Parameter 'moduleName' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_module_build_path.invokeExact(Interop.allocateNativeString(directory), Interop.allocateNativeString(moduleName));
+            RESULT = (MemoryAddress) DowncallHandles.g_module_build_path.invokeExact(Interop.allocateNativeString(directory), Interop.allocateNativeString(moduleName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle g_module_error = Interop.downcallHandle(
-        "g_module_error",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets a string describing the last module error.
+     * @return a string describing the last module error
      */
     public static @NotNull java.lang.String moduleError() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_module_error.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.g_module_error.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle g_module_error_quark = Interop.downcallHandle(
-        "g_module_error_quark",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT)
-    );
-    
     public static @NotNull org.gtk.glib.Quark moduleErrorQuark() {
         int RESULT;
         try {
-            RESULT = (int) g_module_error_quark.invokeExact();
+            RESULT = (int) DowncallHandles.g_module_error_quark.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.Quark(RESULT);
     }
     
-    private static final MethodHandle g_module_supported = Interop.downcallHandle(
-        "g_module_supported",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Checks if modules are supported on the current platform.
+     * @return {@code true} if modules are supported
      */
     public static boolean moduleSupported() {
         int RESULT;
         try {
-            RESULT = (int) g_module_supported.invokeExact();
+            RESULT = (int) DowncallHandles.g_module_supported.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_module_build_path = Interop.downcallHandle(
+            "g_module_build_path",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_module_error = Interop.downcallHandle(
+            "g_module_error",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_module_error_quark = Interop.downcallHandle(
+            "g_module_error_quark",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_module_supported = Interop.downcallHandle(
+            "g_module_supported",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+        );
+    }
+    
+    @ApiStatus.Internal
+    public static class Callbacks {
+    }
 }

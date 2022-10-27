@@ -15,125 +15,96 @@ import org.jetbrains.annotations.*;
  * property.
  */
 public interface Popup extends io.github.jwharm.javagi.Proxy {
-
-    @ApiStatus.Internal static final MethodHandle gdk_popup_get_autohide = Interop.downcallHandle(
-        "gdk_popup_get_autohide",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns whether this popup is set to hide on outside clicks.
+     * @return {@code true} if {@code popup} will autohide
      */
     default boolean getAutohide() {
         int RESULT;
         try {
-            RESULT = (int) gdk_popup_get_autohide.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_popup_get_autohide.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    @ApiStatus.Internal static final MethodHandle gdk_popup_get_parent = Interop.downcallHandle(
-        "gdk_popup_get_parent",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the parent surface of a popup.
+     * @return the parent surface
      */
-    default @Nullable Surface getParent() {
+    default @Nullable org.gtk.gdk.Surface getParent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gdk_popup_get_parent.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_popup_get_parent.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Surface(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Surface(Refcounted.get(RESULT, false));
     }
-    
-    @ApiStatus.Internal static final MethodHandle gdk_popup_get_position_x = Interop.downcallHandle(
-        "gdk_popup_get_position_x",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Obtains the position of the popup relative to its parent.
+     * @return the X coordinate of {@code popup} position
      */
     default int getPositionX() {
         int RESULT;
         try {
-            RESULT = (int) gdk_popup_get_position_x.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_popup_get_position_x.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    @ApiStatus.Internal static final MethodHandle gdk_popup_get_position_y = Interop.downcallHandle(
-        "gdk_popup_get_position_y",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Obtains the position of the popup relative to its parent.
+     * @return the Y coordinate of {@code popup} position
      */
     default int getPositionY() {
         int RESULT;
         try {
-            RESULT = (int) gdk_popup_get_position_y.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_popup_get_position_y.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    @ApiStatus.Internal static final MethodHandle gdk_popup_get_rect_anchor = Interop.downcallHandle(
-        "gdk_popup_get_rect_anchor",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the current popup rectangle anchor.
      * <p>
      * The value returned may change after calling {@link Popup#present},
      * or after the {@code Gdk.Surface::layout} signal is emitted.
+     * @return the current rectangle anchor value of {@code popup}
      */
-    default @NotNull Gravity getRectAnchor() {
+    default @NotNull org.gtk.gdk.Gravity getRectAnchor() {
         int RESULT;
         try {
-            RESULT = (int) gdk_popup_get_rect_anchor.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_popup_get_rect_anchor.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Gravity(RESULT);
+        return new org.gtk.gdk.Gravity(RESULT);
     }
-    
-    @ApiStatus.Internal static final MethodHandle gdk_popup_get_surface_anchor = Interop.downcallHandle(
-        "gdk_popup_get_surface_anchor",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the current popup surface anchor.
      * <p>
      * The value returned may change after calling {@link Popup#present},
      * or after the {@code Gdk.Surface::layout} signal is emitted.
+     * @return the current surface anchor value of {@code popup}
      */
-    default @NotNull Gravity getSurfaceAnchor() {
+    default @NotNull org.gtk.gdk.Gravity getSurfaceAnchor() {
         int RESULT;
         try {
-            RESULT = (int) gdk_popup_get_surface_anchor.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_popup_get_surface_anchor.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Gravity(RESULT);
+        return new org.gtk.gdk.Gravity(RESULT);
     }
-    
-    @ApiStatus.Internal static final MethodHandle gdk_popup_present = Interop.downcallHandle(
-        "gdk_popup_present",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Present {@code popup} after having processed the {@code GdkPopupLayout} rules.
@@ -151,18 +122,74 @@ public interface Popup extends io.github.jwharm.javagi.Proxy {
      * Presenting may fail, for example if the {@code popup} is set to autohide
      * and is immediately hidden upon being presented. If presenting failed,
      * the {@code Gdk.Surface::layout} signal will not me emitted.
+     * @param width the unconstrained popup width to layout
+     * @param height the unconstrained popup height to layout
+     * @param layout the {@code GdkPopupLayout} object used to layout
+     * @return {@code false} if it failed to be presented, otherwise {@code true}.
      */
-    default boolean present(@NotNull int width, @NotNull int height, @NotNull PopupLayout layout) {
+    default boolean present(int width, int height, @NotNull org.gtk.gdk.PopupLayout layout) {
+        java.util.Objects.requireNonNull(layout, "Parameter 'layout' must not be null");
         int RESULT;
         try {
-            RESULT = (int) gdk_popup_present.invokeExact(handle(), width, height, layout.handle());
+            RESULT = (int) DowncallHandles.gdk_popup_present.invokeExact(handle(), width, height, layout.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
+    @ApiStatus.Internal
+    static class DowncallHandles {
+        
+        @ApiStatus.Internal
+        static final MethodHandle gdk_popup_get_autohide = Interop.downcallHandle(
+            "gdk_popup_get_autohide",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gdk_popup_get_parent = Interop.downcallHandle(
+            "gdk_popup_get_parent",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gdk_popup_get_position_x = Interop.downcallHandle(
+            "gdk_popup_get_position_x",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gdk_popup_get_position_y = Interop.downcallHandle(
+            "gdk_popup_get_position_y",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gdk_popup_get_rect_anchor = Interop.downcallHandle(
+            "gdk_popup_get_rect_anchor",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gdk_popup_get_surface_anchor = Interop.downcallHandle(
+            "gdk_popup_get_surface_anchor",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gdk_popup_present = Interop.downcallHandle(
+            "gdk_popup_present",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+    }
+    
     class PopupImpl extends org.gtk.gobject.Object implements Popup {
+        
+        static {
+            Gdk.javagi$ensureInitialized();
+        }
+        
         public PopupImpl(io.github.jwharm.javagi.Refcounted ref) {
             super(ref);
         }

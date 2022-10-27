@@ -1,11 +1,24 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Enumeration representing a month; values are {@link DateMonth#JANUARY},
  * {@link DateMonth#FEBRUARY}, etc. {@link DateMonth#BAD_MONTH} is the invalid value.
  */
 public class DateMonth extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * invalid value
      */
@@ -74,5 +87,4 @@ public class DateMonth extends io.github.jwharm.javagi.Enumeration {
     public DateMonth(int value) {
         super(value);
     }
-    
 }

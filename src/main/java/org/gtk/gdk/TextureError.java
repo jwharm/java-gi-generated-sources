@@ -1,10 +1,24 @@
 package org.gtk.gdk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Possible errors that can be returned by {@code GdkTexture} constructors.
+ * @version 4.6
  */
 public class TextureError extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Not enough memory to handle this image
      */
@@ -30,4 +44,21 @@ public class TextureError extends io.github.jwharm.javagi.Enumeration {
         super(value);
     }
     
+    public static @NotNull org.gtk.glib.Quark quark() {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gdk_texture_error_quark.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Quark(RESULT);
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gdk_texture_error_quark = Interop.downcallHandle(
+            "gdk_texture_error_quark",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+        );
+    }
 }

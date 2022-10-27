@@ -24,7 +24,24 @@ import org.jetbrains.annotations.*;
  * freed.
  */
 public class WindowGroup extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
+        org.gtk.gtk.WindowGroupPrivate.getMemoryLayout().withName("priv")
+    ).withName("GtkWindowGroup");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public WindowGroup(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -34,18 +51,14 @@ public class WindowGroup extends org.gtk.gobject.Object {
         return new WindowGroup(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_window_group_new = Interop.downcallHandle(
-        "gtk_window_group_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_window_group_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_window_group_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -58,54 +71,67 @@ public class WindowGroup extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_window_group_add_window = Interop.downcallHandle(
-        "gtk_window_group_add_window",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Adds a window to a {@code GtkWindowGroup}.
+     * @param window the {@code GtkWindow} to add
      */
-    public @NotNull void addWindow(@NotNull Window window) {
+    public void addWindow(@NotNull org.gtk.gtk.Window window) {
+        java.util.Objects.requireNonNull(window, "Parameter 'window' must not be null");
         try {
-            gtk_window_group_add_window.invokeExact(handle(), window.handle());
+            DowncallHandles.gtk_window_group_add_window.invokeExact(handle(), window.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle gtk_window_group_list_windows = Interop.downcallHandle(
-        "gtk_window_group_list_windows",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns a list of the {@code GtkWindows} that belong to {@code window_group}.
+     * @return A
+     *   newly-allocated list of windows inside the group.
      */
     public @NotNull org.gtk.glib.List listWindows() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_window_group_list_windows.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_window_group_list_windows.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle gtk_window_group_remove_window = Interop.downcallHandle(
-        "gtk_window_group_remove_window",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Removes a window from a {@code GtkWindowGroup}.
+     * @param window the {@code GtkWindow} to remove
      */
-    public @NotNull void removeWindow(@NotNull Window window) {
+    public void removeWindow(@NotNull org.gtk.gtk.Window window) {
+        java.util.Objects.requireNonNull(window, "Parameter 'window' must not be null");
         try {
-            gtk_window_group_remove_window.invokeExact(handle(), window.handle());
+            DowncallHandles.gtk_window_group_remove_window.invokeExact(handle(), window.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_window_group_new = Interop.downcallHandle(
+            "gtk_window_group_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_window_group_add_window = Interop.downcallHandle(
+            "gtk_window_group_add_window",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_window_group_list_windows = Interop.downcallHandle(
+            "gtk_window_group_list_windows",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_window_group_remove_window = Interop.downcallHandle(
+            "gtk_window_group_remove_window",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

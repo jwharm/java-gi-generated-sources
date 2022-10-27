@@ -25,7 +25,6 @@ import org.jetbrains.annotations.*;
  * The signature of a module is stored as an array of
  * {@code GdkPixbufModulePatterns}. The array is terminated by a pattern
  * where the {@code prefix} is {@code NULL}.
- * 
  * <pre>{@code c
  * GdkPixbufModulePattern *signature[] = {
  *   { "abcdx", " !x z", 100 },
@@ -36,11 +35,29 @@ import org.jetbrains.annotations.*;
  * <p>
  * In the example above, the signature matches e.g. "auud\\0" with
  * relevance 100, and "blau" with relevance 90.
+ * @version 2.2
  */
 public class PixbufModulePattern extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GdkPixbuf.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.ADDRESS.withName("prefix"),
+        Interop.valueLayout.ADDRESS.withName("mask"),
+        ValueLayout.JAVA_INT.withName("relevance")
+    ).withName("GdkPixbufModulePattern");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public PixbufModulePattern(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
 }

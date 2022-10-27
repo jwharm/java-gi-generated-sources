@@ -25,11 +25,33 @@ import org.jetbrains.annotations.*;
  * <p>
  * Flags relevant to this message will be returned in {@code flags}. For example,
  * {@code MSG_EOR} or {@code MSG_TRUNC}.
+ * @version 2.48
  */
 public class InputMessage extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gio.SocketAddress.getMemoryLayout().withName("address"),
+        Interop.valueLayout.ADDRESS.withName("vectors"),
+        ValueLayout.JAVA_INT.withName("num_vectors"),
+        ValueLayout.JAVA_LONG.withName("bytes_received"),
+        ValueLayout.JAVA_INT.withName("flags"),
+        Interop.valueLayout.ADDRESS.withName("control_messages"),
+        ValueLayout.JAVA_INT.withName("num_control_messages")
+    ).withName("GInputMessage");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public InputMessage(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
 }

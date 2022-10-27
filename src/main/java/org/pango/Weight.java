@@ -1,5 +1,10 @@
 package org.pango;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * An enumeration specifying the weight (boldness) of a font.
  * <p>
@@ -7,7 +12,15 @@ package org.pango;
  * This enumeration simply provides some common, predefined values.
  */
 public class Weight extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * the thin weight (= 100) Since: 1.24
      */
@@ -71,5 +84,4 @@ public class Weight extends io.github.jwharm.javagi.Enumeration {
     public Weight(int value) {
         super(value);
     }
-    
 }

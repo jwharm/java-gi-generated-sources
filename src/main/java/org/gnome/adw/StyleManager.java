@@ -14,9 +14,22 @@ import org.jetbrains.annotations.*;
  * It allows to set the color scheme via the
  * {@code StyleManager:color-scheme} property, and to query the current
  * appearance, as well as whether a system-wide color scheme preference exists.
+ * @version 1.0
  */
 public class StyleManager extends org.gtk.gobject.Object {
-
+    
+    static {
+        Adw.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public StyleManager(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -26,103 +39,78 @@ public class StyleManager extends org.gtk.gobject.Object {
         return new StyleManager(gobject.refcounted());
     }
     
-    private static final MethodHandle adw_style_manager_get_color_scheme = Interop.downcallHandle(
-        "adw_style_manager_get_color_scheme",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the requested application color scheme.
+     * @return the color scheme
      */
-    public @NotNull ColorScheme getColorScheme() {
+    public @NotNull org.gnome.adw.ColorScheme getColorScheme() {
         int RESULT;
         try {
-            RESULT = (int) adw_style_manager_get_color_scheme.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_style_manager_get_color_scheme.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ColorScheme(RESULT);
+        return new org.gnome.adw.ColorScheme(RESULT);
     }
-    
-    private static final MethodHandle adw_style_manager_get_dark = Interop.downcallHandle(
-        "adw_style_manager_get_dark",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets whether the application is using dark appearance.
+     * @return whether the application is using dark appearance
      */
     public boolean getDark() {
         int RESULT;
         try {
-            RESULT = (int) adw_style_manager_get_dark.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_style_manager_get_dark.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle adw_style_manager_get_display = Interop.downcallHandle(
-        "adw_style_manager_get_display",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the display the style manager is associated with.
      * <p>
      * The display will be {@code NULL} for the style manager returned by
-     * {@link StyleManager#getDefault}.
+     * {@code StyleManager.StyleManager#getDefault}.
+     * @return (nullable): the display
      */
     public @NotNull org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_style_manager_get_display.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_style_manager_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle adw_style_manager_get_high_contrast = Interop.downcallHandle(
-        "adw_style_manager_get_high_contrast",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets whether the application is using high contrast appearance.
+     * @return whether the application is using high contrast appearance
      */
     public boolean getHighContrast() {
         int RESULT;
         try {
-            RESULT = (int) adw_style_manager_get_high_contrast.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_style_manager_get_high_contrast.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle adw_style_manager_get_system_supports_color_schemes = Interop.downcallHandle(
-        "adw_style_manager_get_system_supports_color_schemes",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets whether the system supports color schemes.
+     * @return whether the system supports color schemes
      */
     public boolean getSystemSupportsColorSchemes() {
         int RESULT;
         try {
-            RESULT = (int) adw_style_manager_get_system_supports_color_schemes.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_style_manager_get_system_supports_color_schemes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle adw_style_manager_set_color_scheme = Interop.downcallHandle(
-        "adw_style_manager_set_color_scheme",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the requested application color scheme.
@@ -131,19 +119,16 @@ public class StyleManager extends org.gtk.gobject.Object {
      * scheme and the system preferred color scheme. The
      * {@code StyleManager:dark} property can be used to query the current
      * effective appearance.
+     * @param colorScheme the color scheme
      */
-    public @NotNull void setColorScheme(@NotNull ColorScheme colorScheme) {
+    public void setColorScheme(@NotNull org.gnome.adw.ColorScheme colorScheme) {
+        java.util.Objects.requireNonNull(colorScheme, "Parameter 'colorScheme' must not be null");
         try {
-            adw_style_manager_set_color_scheme.invokeExact(handle(), colorScheme.getValue());
+            DowncallHandles.adw_style_manager_set_color_scheme.invokeExact(handle(), colorScheme.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_style_manager_get_default = Interop.downcallHandle(
-        "adw_style_manager_get_default",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the default {@code AdwStyleManager} instance.
@@ -151,22 +136,18 @@ public class StyleManager extends org.gtk.gobject.Object {
      * It manages all {@link org.gtk.gdk.Display} instances unless the style manager for
      * that display has an override.
      * <p>
-     * See {@link StyleManager#getForDisplay}.
+     * See {@code StyleManager.StyleManager#getForDisplay}.
+     * @return the default style manager
      */
-    public static @NotNull StyleManager getDefault() {
+    public static @NotNull org.gnome.adw.StyleManager getDefault() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_style_manager_get_default.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.adw_style_manager_get_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new StyleManager(Refcounted.get(RESULT, false));
+        return new org.gnome.adw.StyleManager(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle adw_style_manager_get_for_display = Interop.downcallHandle(
-        "adw_style_manager_get_for_display",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the {@code AdwStyleManager} instance managing {@code display}.
@@ -174,16 +155,61 @@ public class StyleManager extends org.gtk.gobject.Object {
      * It can be used to override styles for that specific display instead of the
      * whole application.
      * <p>
-     * Most applications should use {@link StyleManager#getDefault} instead.
+     * Most applications should use {@code StyleManager.StyleManager#getDefault} instead.
+     * @param display a {@code GdkDisplay}
+     * @return the style manager for {@code display}
      */
-    public static @NotNull StyleManager getForDisplay(@NotNull org.gtk.gdk.Display display) {
+    public static @NotNull org.gnome.adw.StyleManager getForDisplay(@NotNull org.gtk.gdk.Display display) {
+        java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_style_manager_get_for_display.invokeExact(display.handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_style_manager_get_for_display.invokeExact(display.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new StyleManager(Refcounted.get(RESULT, false));
+        return new org.gnome.adw.StyleManager(Refcounted.get(RESULT, false));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle adw_style_manager_get_color_scheme = Interop.downcallHandle(
+            "adw_style_manager_get_color_scheme",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_style_manager_get_dark = Interop.downcallHandle(
+            "adw_style_manager_get_dark",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_style_manager_get_display = Interop.downcallHandle(
+            "adw_style_manager_get_display",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_style_manager_get_high_contrast = Interop.downcallHandle(
+            "adw_style_manager_get_high_contrast",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_style_manager_get_system_supports_color_schemes = Interop.downcallHandle(
+            "adw_style_manager_get_system_supports_color_schemes",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_style_manager_set_color_scheme = Interop.downcallHandle(
+            "adw_style_manager_set_color_scheme",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle adw_style_manager_get_default = Interop.downcallHandle(
+            "adw_style_manager_get_default",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_style_manager_get_for_display = Interop.downcallHandle(
+            "adw_style_manager_get_for_display",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

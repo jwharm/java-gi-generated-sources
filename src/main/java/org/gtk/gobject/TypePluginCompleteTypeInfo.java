@@ -1,6 +1,8 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -8,5 +10,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface TypePluginCompleteTypeInfo {
-        void onTypePluginCompleteTypeInfo(@NotNull TypePlugin plugin, @NotNull org.gtk.gobject.Type gType, @NotNull TypeInfo info, @NotNull TypeValueTable valueTable);
+        void onTypePluginCompleteTypeInfo(@NotNull org.gtk.gobject.TypePlugin plugin, @NotNull org.gtk.glib.Type gType, @NotNull org.gtk.gobject.TypeInfo info, @NotNull org.gtk.gobject.TypeValueTable valueTable);
 }

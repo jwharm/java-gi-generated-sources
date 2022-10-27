@@ -1,5 +1,10 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Controls how a widget deals with extra space in a single dimension.
  * <p>
@@ -18,7 +23,15 @@ package org.gtk.gtk;
  * a child or a container it is treated as {@link Align#FILL}.
  */
 public class Align extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * stretch to fill all space if possible, center if
      *   no meaningful way to stretch
@@ -49,5 +62,4 @@ public class Align extends io.github.jwharm.javagi.Enumeration {
     public Align(int value) {
         super(value);
     }
-    
 }

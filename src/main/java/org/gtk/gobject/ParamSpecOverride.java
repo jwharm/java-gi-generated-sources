@@ -17,9 +17,27 @@ import org.jetbrains.annotations.*;
  * property. {@link ParamSpecOverride} is used in implementing
  * g_object_class_override_property(), and will not be directly useful
  * unless you are implementing a new base type similar to GObject.
+ * @version 2.4
  */
-public class ParamSpecOverride extends ParamSpec {
-
+public class ParamSpecOverride extends org.gtk.gobject.ParamSpec {
+    
+    static {
+        GObject.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.ParamSpec.getMemoryLayout().withName("parent_instance"),
+        org.gtk.gobject.ParamSpec.getMemoryLayout().withName("overridden")
+    ).withName("GParamSpecOverride");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public ParamSpecOverride(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -28,5 +46,4 @@ public class ParamSpecOverride extends ParamSpec {
     public static ParamSpecOverride castFrom(org.gtk.gobject.Object gobject) {
         return new ParamSpecOverride(gobject.refcounted());
     }
-    
 }

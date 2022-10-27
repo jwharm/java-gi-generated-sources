@@ -13,23 +13,38 @@ import org.jetbrains.annotations.*;
  * which simplifies memory management.
  */
 public class GlyphString extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Pango.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        ValueLayout.JAVA_INT.withName("num_glyphs"),
+        Interop.valueLayout.ADDRESS.withName("glyphs"),
+        ValueLayout.JAVA_INT.withName("log_clusters"),
+        ValueLayout.JAVA_INT.withName("space")
+    ).withName("PangoGlyphString");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public GlyphString(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle pango_glyph_string_new = Interop.downcallHandle(
-        "pango_glyph_string_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) pango_glyph_string_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.pango_glyph_string_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -39,28 +54,19 @@ public class GlyphString extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew());
     }
     
-    private static final MethodHandle pango_glyph_string_copy = Interop.downcallHandle(
-        "pango_glyph_string_copy",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Copy a glyph string and associated storage.
+     * @return the newly allocated {@code PangoGlyphString}
      */
-    public @Nullable GlyphString copy() {
+    public @Nullable org.pango.GlyphString copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_glyph_string_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_glyph_string_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new GlyphString(Refcounted.get(RESULT, true));
+        return new org.pango.GlyphString(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_glyph_string_extents = Interop.downcallHandle(
-        "pango_glyph_string_extents",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Compute the logical and ink extents of a glyph string.
@@ -70,24 +76,25 @@ public class GlyphString extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Examples of logical (red) and ink (green) rects:
      * <p>
-     * <img src="./doc-files/rects2.png" alt="](rects1.png) ![">
+     * <img src="./doc-files/rects1.png" alt=""> <img src="./doc-files/rects2.png" alt="">
+     * @param font a {@code PangoFont}
+     * @param inkRect rectangle used to store the extents of the glyph string as drawn
+     * @param logicalRect rectangle used to store the logical extents of the glyph string
      */
-    public @NotNull void extents(@NotNull Font font, @NotNull Out<Rectangle> inkRect, @NotNull Out<Rectangle> logicalRect) {
+    public void extents(@NotNull org.pango.Font font, @NotNull Out<org.pango.Rectangle> inkRect, @NotNull Out<org.pango.Rectangle> logicalRect) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(inkRect, "Parameter 'inkRect' must not be null");
+        java.util.Objects.requireNonNull(logicalRect, "Parameter 'logicalRect' must not be null");
         MemorySegment inkRectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment logicalRectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            pango_glyph_string_extents.invokeExact(handle(), font.handle(), (Addressable) inkRectPOINTER.address(), (Addressable) logicalRectPOINTER.address());
+            DowncallHandles.pango_glyph_string_extents.invokeExact(handle(), font.handle(), (Addressable) inkRectPOINTER.address(), (Addressable) logicalRectPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        inkRect.set(new Rectangle(Refcounted.get(inkRectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        logicalRect.set(new Rectangle(Refcounted.get(logicalRectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        inkRect.set(new org.pango.Rectangle(Refcounted.get(inkRectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        logicalRect.set(new org.pango.Rectangle(Refcounted.get(logicalRectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle pango_glyph_string_extents_range = Interop.downcallHandle(
-        "pango_glyph_string_extents_range",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Computes the extents of a sub-portion of a glyph string.
@@ -95,39 +102,40 @@ public class GlyphString extends io.github.jwharm.javagi.ResourceBase {
      * The extents are relative to the start of the glyph string range
      * (the origin of their coordinate system is at the start of the range,
      * not at the start of the entire glyph string).
+     * @param start start index
+     * @param end end index (the range is the set of bytes with
+     *   indices such that start &lt;= index &lt; end)
+     * @param font a {@code PangoFont}
+     * @param inkRect rectangle used to
+     *   store the extents of the glyph string range as drawn
+     * @param logicalRect rectangle used to
+     *   store the logical extents of the glyph string range
      */
-    public @NotNull void extentsRange(@NotNull int start, @NotNull int end, @NotNull Font font, @NotNull Out<Rectangle> inkRect, @NotNull Out<Rectangle> logicalRect) {
+    public void extentsRange(int start, int end, @NotNull org.pango.Font font, @NotNull Out<org.pango.Rectangle> inkRect, @NotNull Out<org.pango.Rectangle> logicalRect) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        java.util.Objects.requireNonNull(inkRect, "Parameter 'inkRect' must not be null");
+        java.util.Objects.requireNonNull(logicalRect, "Parameter 'logicalRect' must not be null");
         MemorySegment inkRectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment logicalRectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            pango_glyph_string_extents_range.invokeExact(handle(), start, end, font.handle(), (Addressable) inkRectPOINTER.address(), (Addressable) logicalRectPOINTER.address());
+            DowncallHandles.pango_glyph_string_extents_range.invokeExact(handle(), start, end, font.handle(), (Addressable) inkRectPOINTER.address(), (Addressable) logicalRectPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        inkRect.set(new Rectangle(Refcounted.get(inkRectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
-        logicalRect.set(new Rectangle(Refcounted.get(logicalRectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        inkRect.set(new org.pango.Rectangle(Refcounted.get(inkRectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        logicalRect.set(new org.pango.Rectangle(Refcounted.get(logicalRectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle pango_glyph_string_free = Interop.downcallHandle(
-        "pango_glyph_string_free",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Free a glyph string and associated storage.
      */
-    public @NotNull void free() {
+    public void free() {
         try {
-            pango_glyph_string_free.invokeExact(handle());
+            DowncallHandles.pango_glyph_string_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle pango_glyph_string_get_logical_widths = Interop.downcallHandle(
-        "pango_glyph_string_get_logical_widths",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Given a {@code PangoGlyphString} and corresponding text, determine the width
@@ -137,19 +145,22 @@ public class GlyphString extends io.github.jwharm.javagi.ResourceBase {
      * entire cluster is divided equally among the characters.
      * <p>
      * See also {@link GlyphItem#getLogicalWidths}.
+     * @param text the text corresponding to the glyphs
+     * @param length the length of {@code text}, in bytes
+     * @param embeddingLevel the embedding level of the string
+     * @param logicalWidths an array whose length is the number of
+     *   characters in text (equal to {@code g_utf8_strlen (text, length)} unless
+     *   text has {@code NUL} bytes) to be filled in with the resulting character widths.
      */
-    public @NotNull void getLogicalWidths(@NotNull java.lang.String text, @NotNull int length, @NotNull int embeddingLevel, @NotNull int[] logicalWidths) {
+    public void getLogicalWidths(@NotNull java.lang.String text, int length, int embeddingLevel, int[] logicalWidths) {
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+        java.util.Objects.requireNonNull(logicalWidths, "Parameter 'logicalWidths' must not be null");
         try {
-            pango_glyph_string_get_logical_widths.invokeExact(handle(), Interop.allocateNativeString(text), length, embeddingLevel, Interop.allocateNativeArray(logicalWidths));
+            DowncallHandles.pango_glyph_string_get_logical_widths.invokeExact(handle(), Interop.allocateNativeString(text), length, embeddingLevel, Interop.allocateNativeArray(logicalWidths, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle pango_glyph_string_get_width = Interop.downcallHandle(
-        "pango_glyph_string_get_width",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Computes the logical width of the glyph string.
@@ -158,21 +169,17 @@ public class GlyphString extends io.github.jwharm.javagi.ResourceBase {
      * However, since this only computes the width, it's much faster. This
      * is in fact only a convenience function that computes the sum of
      * {@code geometry}.width for each glyph in the {@code glyphs}.
+     * @return the logical width of the glyph string.
      */
     public int getWidth() {
         int RESULT;
         try {
-            RESULT = (int) pango_glyph_string_get_width.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_glyph_string_get_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle pango_glyph_string_index_to_x = Interop.downcallHandle(
-        "pango_glyph_string_index_to_x",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Converts from character position to x position.
@@ -186,21 +193,26 @@ public class GlyphString extends io.github.jwharm.javagi.ResourceBase {
      *   &lt;source srcset="glyphstring-positions-dark.png" media="(prefers-color-scheme: dark)"&gt;
      *   &lt;img alt="Glyph positions" src="glyphstring-positions-light.png"&gt;
      * &lt;/picture&gt;
+     * @param text the text for the run
+     * @param length the number of bytes (not characters) in {@code text}.
+     * @param analysis the analysis information return from {@link Pango#itemize}
+     * @param index the byte index within {@code text}
+     * @param trailing whether we should compute the result for the beginning ({@code false})
+     *   or end ({@code true}) of the character.
+     * @param xPos location to store result
      */
-    public @NotNull void indexToX(@NotNull java.lang.String text, @NotNull int length, @NotNull Analysis analysis, @NotNull int index, @NotNull boolean trailing, @NotNull Out<Integer> xPos) {
+    public void indexToX(@NotNull java.lang.String text, int length, @NotNull org.pango.Analysis analysis, int index, boolean trailing, Out<Integer> xPos) {
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+        java.util.Objects.requireNonNull(analysis, "Parameter 'analysis' must not be null");
+        java.util.Objects.requireNonNull(xPos, "Parameter 'xPos' must not be null");
         MemorySegment xPosPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            pango_glyph_string_index_to_x.invokeExact(handle(), Interop.allocateNativeString(text), length, analysis.handle(), index, trailing ? 1 : 0, (Addressable) xPosPOINTER.address());
+            DowncallHandles.pango_glyph_string_index_to_x.invokeExact(handle(), Interop.allocateNativeString(text), length, analysis.handle(), index, trailing ? 1 : 0, (Addressable) xPosPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         xPos.set(xPosPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
-    
-    private static final MethodHandle pango_glyph_string_index_to_x_full = Interop.downcallHandle(
-        "pango_glyph_string_index_to_x_full",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Converts from character position to x position.
@@ -209,37 +221,40 @@ public class GlyphString extends io.github.jwharm.javagi.ResourceBase {
      * accepts a {@code PangoLogAttr} array. The grapheme boundary information
      * in it can be used to disambiguate positioning inside some complex
      * clusters.
+     * @param text the text for the run
+     * @param length the number of bytes (not characters) in {@code text}.
+     * @param analysis the analysis information return from {@link Pango#itemize}
+     * @param attrs {@code PangoLogAttr} array for {@code text}
+     * @param index the byte index within {@code text}
+     * @param trailing whether we should compute the result for the beginning ({@code false})
+     *   or end ({@code true}) of the character.
+     * @param xPos location to store result
      */
-    public @NotNull void indexToXFull(@NotNull java.lang.String text, @NotNull int length, @NotNull Analysis analysis, @Nullable LogAttr attrs, @NotNull int index, @NotNull boolean trailing, @NotNull Out<Integer> xPos) {
+    public void indexToXFull(@NotNull java.lang.String text, int length, @NotNull org.pango.Analysis analysis, @Nullable org.pango.LogAttr attrs, int index, boolean trailing, Out<Integer> xPos) {
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+        java.util.Objects.requireNonNull(analysis, "Parameter 'analysis' must not be null");
+        java.util.Objects.requireNonNullElse(attrs, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(xPos, "Parameter 'xPos' must not be null");
         MemorySegment xPosPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            pango_glyph_string_index_to_x_full.invokeExact(handle(), Interop.allocateNativeString(text), length, analysis.handle(), attrs.handle(), index, trailing ? 1 : 0, (Addressable) xPosPOINTER.address());
+            DowncallHandles.pango_glyph_string_index_to_x_full.invokeExact(handle(), Interop.allocateNativeString(text), length, analysis.handle(), attrs.handle(), index, trailing ? 1 : 0, (Addressable) xPosPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         xPos.set(xPosPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    private static final MethodHandle pango_glyph_string_set_size = Interop.downcallHandle(
-        "pango_glyph_string_set_size",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Resize a glyph string to the given length.
+     * @param newLen the new length of the string
      */
-    public @NotNull void setSize(@NotNull int newLen) {
+    public void setSize(int newLen) {
         try {
-            pango_glyph_string_set_size.invokeExact(handle(), newLen);
+            DowncallHandles.pango_glyph_string_set_size.invokeExact(handle(), newLen);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle pango_glyph_string_x_to_index = Interop.downcallHandle(
-        "pango_glyph_string_x_to_index",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Convert from x offset to character position.
@@ -249,12 +264,23 @@ public class GlyphString extends io.github.jwharm.javagi.ResourceBase {
      * not allowed (such as Thai), the returned value may not be a valid
      * cursor position; the caller must combine the result with the logical
      * attributes for the text to compute the valid cursor position.
+     * @param text the text for the run
+     * @param length the number of bytes (not characters) in text.
+     * @param analysis the analysis information return from {@link Pango#itemize}
+     * @param xPos the x offset (in Pango units)
+     * @param index location to store calculated byte index within {@code text}
+     * @param trailing location to store a boolean indicating whether the
+     *   user clicked on the leading or trailing edge of the character
      */
-    public @NotNull void xToIndex(@NotNull java.lang.String text, @NotNull int length, @NotNull Analysis analysis, @NotNull int xPos, @NotNull Out<Integer> index, @NotNull Out<Integer> trailing) {
+    public void xToIndex(@NotNull java.lang.String text, int length, @NotNull org.pango.Analysis analysis, int xPos, Out<Integer> index, Out<Integer> trailing) {
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+        java.util.Objects.requireNonNull(analysis, "Parameter 'analysis' must not be null");
+        java.util.Objects.requireNonNull(index, "Parameter 'index' must not be null");
+        java.util.Objects.requireNonNull(trailing, "Parameter 'trailing' must not be null");
         MemorySegment indexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment trailingPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            pango_glyph_string_x_to_index.invokeExact(handle(), Interop.allocateNativeString(text), length, analysis.handle(), xPos, (Addressable) indexPOINTER.address(), (Addressable) trailingPOINTER.address());
+            DowncallHandles.pango_glyph_string_x_to_index.invokeExact(handle(), Interop.allocateNativeString(text), length, analysis.handle(), xPos, (Addressable) indexPOINTER.address(), (Addressable) trailingPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -262,4 +288,61 @@ public class GlyphString extends io.github.jwharm.javagi.ResourceBase {
         trailing.set(trailingPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle pango_glyph_string_new = Interop.downcallHandle(
+            "pango_glyph_string_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_glyph_string_copy = Interop.downcallHandle(
+            "pango_glyph_string_copy",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_glyph_string_extents = Interop.downcallHandle(
+            "pango_glyph_string_extents",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_glyph_string_extents_range = Interop.downcallHandle(
+            "pango_glyph_string_extents_range",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_glyph_string_free = Interop.downcallHandle(
+            "pango_glyph_string_free",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_glyph_string_get_logical_widths = Interop.downcallHandle(
+            "pango_glyph_string_get_logical_widths",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_glyph_string_get_width = Interop.downcallHandle(
+            "pango_glyph_string_get_width",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_glyph_string_index_to_x = Interop.downcallHandle(
+            "pango_glyph_string_index_to_x",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_glyph_string_index_to_x_full = Interop.downcallHandle(
+            "pango_glyph_string_index_to_x_full",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_glyph_string_set_size = Interop.downcallHandle(
+            "pango_glyph_string_set_size",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_glyph_string_x_to_index = Interop.downcallHandle(
+            "pango_glyph_string_x_to_index",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

@@ -10,15 +10,10 @@ import org.jetbrains.annotations.*;
  * for choosing fonts.
  * <p>
  * In GTK, the main objects that implement this interface are
- * {@code Gtk.FontChooserDialog} and
+ * {@link FontChooserWidget} and
  * {@link FontButton}.
  */
 public interface FontChooser extends io.github.jwharm.javagi.Proxy {
-
-    @ApiStatus.Internal static final MethodHandle gtk_font_chooser_get_font = Interop.downcallHandle(
-        "gtk_font_chooser_get_font",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the currently-selected font name.
@@ -31,21 +26,18 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
      * <p>
      * Use {@link org.pango.FontDescription#equal} if you want to compare two
      * font descriptions.
+     * @return A string with the name
+     *   of the current font
      */
     default @Nullable java.lang.String getFont() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_font_chooser_get_font.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_font_chooser_get_font.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    @ApiStatus.Internal static final MethodHandle gtk_font_chooser_get_font_desc = Interop.downcallHandle(
-        "gtk_font_chooser_get_font_desc",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the currently-selected font.
@@ -58,42 +50,36 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
      * <p>
      * Use {@link org.pango.FontDescription#equal} if you want to compare two
      * font descriptions.
+     * @return A {@code PangoFontDescription} for the
+     *   current font
      */
     default @Nullable org.pango.FontDescription getFontDesc() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_font_chooser_get_font_desc.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_font_chooser_get_font_desc.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.pango.FontDescription(Refcounted.get(RESULT, true));
     }
     
-    @ApiStatus.Internal static final MethodHandle gtk_font_chooser_get_font_face = Interop.downcallHandle(
-        "gtk_font_chooser_get_font_face",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the {@code PangoFontFace} representing the selected font group
      * details (i.e. family, slant, weight, width, etc).
      * <p>
      * If the selected font is not installed, returns {@code null}.
+     * @return A {@code PangoFontFace} representing the
+     *   selected font group details
      */
     default @Nullable org.pango.FontFace getFontFace() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_font_chooser_get_font_face.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_font_chooser_get_font_face.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.pango.FontFace(Refcounted.get(RESULT, false));
     }
-    
-    @ApiStatus.Internal static final MethodHandle gtk_font_chooser_get_font_family = Interop.downcallHandle(
-        "gtk_font_chooser_get_font_family",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the {@code PangoFontFamily} representing the selected font family.
@@ -101,211 +87,171 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
      * Font families are a collection of font faces.
      * <p>
      * If the selected font is not installed, returns {@code null}.
+     * @return A {@code PangoFontFamily} representing the
+     *   selected font family
      */
     default @Nullable org.pango.FontFamily getFontFamily() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_font_chooser_get_font_family.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_font_chooser_get_font_family.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.pango.FontFamily(Refcounted.get(RESULT, false));
     }
     
-    @ApiStatus.Internal static final MethodHandle gtk_font_chooser_get_font_features = Interop.downcallHandle(
-        "gtk_font_chooser_get_font_features",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the currently-selected font features.
+     * @return the currently selected font features
      */
     default @NotNull java.lang.String getFontFeatures() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_font_chooser_get_font_features.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_font_chooser_get_font_features.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    @ApiStatus.Internal static final MethodHandle gtk_font_chooser_get_font_map = Interop.downcallHandle(
-        "gtk_font_chooser_get_font_map",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the custom font map of this font chooser widget,
      * or {@code null} if it does not have one.
+     * @return a {@code PangoFontMap}
      */
     default @Nullable org.pango.FontMap getFontMap() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_font_chooser_get_font_map.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_font_chooser_get_font_map.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.pango.FontMap(Refcounted.get(RESULT, true));
     }
     
-    @ApiStatus.Internal static final MethodHandle gtk_font_chooser_get_font_size = Interop.downcallHandle(
-        "gtk_font_chooser_get_font_size",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * The selected font size.
+     * @return A n integer representing the selected font size,
+     *   or -1 if no font size is selected.
      */
     default int getFontSize() {
         int RESULT;
         try {
-            RESULT = (int) gtk_font_chooser_get_font_size.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_font_chooser_get_font_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    @ApiStatus.Internal static final MethodHandle gtk_font_chooser_get_language = Interop.downcallHandle(
-        "gtk_font_chooser_get_language",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the language that is used for font features.
+     * @return the currently selected language
      */
     default @NotNull java.lang.String getLanguage() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_font_chooser_get_language.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_font_chooser_get_language.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    @ApiStatus.Internal static final MethodHandle gtk_font_chooser_get_level = Interop.downcallHandle(
-        "gtk_font_chooser_get_level",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the current level of granularity for selecting fonts.
+     * @return the current granularity level
      */
-    default @NotNull FontChooserLevel getLevel() {
+    default @NotNull org.gtk.gtk.FontChooserLevel getLevel() {
         int RESULT;
         try {
-            RESULT = (int) gtk_font_chooser_get_level.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_font_chooser_get_level.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new FontChooserLevel(RESULT);
+        return new org.gtk.gtk.FontChooserLevel(RESULT);
     }
-    
-    @ApiStatus.Internal static final MethodHandle gtk_font_chooser_get_preview_text = Interop.downcallHandle(
-        "gtk_font_chooser_get_preview_text",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the text displayed in the preview area.
+     * @return the text displayed in the preview area
      */
     default @NotNull java.lang.String getPreviewText() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_font_chooser_get_preview_text.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_font_chooser_get_preview_text.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    @ApiStatus.Internal static final MethodHandle gtk_font_chooser_get_show_preview_entry = Interop.downcallHandle(
-        "gtk_font_chooser_get_show_preview_entry",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns whether the preview entry is shown or not.
+     * @return {@code true} if the preview entry is shown or {@code false} if it is hidden.
      */
     default boolean getShowPreviewEntry() {
         int RESULT;
         try {
-            RESULT = (int) gtk_font_chooser_get_show_preview_entry.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_font_chooser_get_show_preview_entry.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    @ApiStatus.Internal static final MethodHandle gtk_font_chooser_set_filter_func = Interop.downcallHandle(
-        "gtk_font_chooser_set_filter_func",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Adds a filter function that decides which fonts to display
      * in the font chooser.
+     * @param filter a {@code GtkFontFilterFunc}
      */
-    default @NotNull void setFilterFunc(@Nullable FontFilterFunc filter) {
+    default void setFilterFunc(@Nullable org.gtk.gtk.FontFilterFunc filter) {
+        java.util.Objects.requireNonNullElse(filter, MemoryAddress.NULL);
         try {
-            gtk_font_chooser_set_filter_func.invokeExact(handle(), 
+            DowncallHandles.gtk_font_chooser_set_filter_func.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.class, "__cbFontFilterFunc",
+                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbFontFilterFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(filter)), 
+                   (Addressable) (filter == null ? MemoryAddress.NULL : Interop.registerCallback(filter)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    @ApiStatus.Internal static final MethodHandle gtk_font_chooser_set_font = Interop.downcallHandle(
-        "gtk_font_chooser_set_font",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Sets the currently-selected font.
+     * @param fontname a font name like “Helvetica 12” or “Times Bold 18”
      */
-    default @NotNull void setFont(@NotNull java.lang.String fontname) {
+    default void setFont(@NotNull java.lang.String fontname) {
+        java.util.Objects.requireNonNull(fontname, "Parameter 'fontname' must not be null");
         try {
-            gtk_font_chooser_set_font.invokeExact(handle(), Interop.allocateNativeString(fontname));
+            DowncallHandles.gtk_font_chooser_set_font.invokeExact(handle(), Interop.allocateNativeString(fontname));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    @ApiStatus.Internal static final MethodHandle gtk_font_chooser_set_font_desc = Interop.downcallHandle(
-        "gtk_font_chooser_set_font_desc",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the currently-selected font from {@code font_desc}.
+     * @param fontDesc a {@code PangoFontDescription}
      */
-    default @NotNull void setFontDesc(@NotNull org.pango.FontDescription fontDesc) {
+    default void setFontDesc(@NotNull org.pango.FontDescription fontDesc) {
+        java.util.Objects.requireNonNull(fontDesc, "Parameter 'fontDesc' must not be null");
         try {
-            gtk_font_chooser_set_font_desc.invokeExact(handle(), fontDesc.handle());
+            DowncallHandles.gtk_font_chooser_set_font_desc.invokeExact(handle(), fontDesc.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    @ApiStatus.Internal static final MethodHandle gtk_font_chooser_set_font_map = Interop.downcallHandle(
-        "gtk_font_chooser_set_font_map",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets a custom font map to use for this font chooser widget.
      * <p>
      * A custom font map can be used to present application-specific
      * fonts instead of or in addition to the normal system fonts.
-     * 
      * <pre>{@code c
      * FcConfig *config;
      * PangoFontMap *fontmap;
@@ -321,88 +267,76 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
      * <p>
      * Note that other GTK widgets will only be able to use the
      * application-specific font if it is present in the font map they use:
-     * 
      * <pre>{@code c
      * context = gtk_widget_get_pango_context (label);
      * pango_context_set_font_map (context, fontmap);
      * }</pre>
+     * @param fontmap a {@code PangoFontMap}
      */
-    default @NotNull void setFontMap(@Nullable org.pango.FontMap fontmap) {
+    default void setFontMap(@Nullable org.pango.FontMap fontmap) {
+        java.util.Objects.requireNonNullElse(fontmap, MemoryAddress.NULL);
         try {
-            gtk_font_chooser_set_font_map.invokeExact(handle(), fontmap.handle());
+            DowncallHandles.gtk_font_chooser_set_font_map.invokeExact(handle(), fontmap.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    @ApiStatus.Internal static final MethodHandle gtk_font_chooser_set_language = Interop.downcallHandle(
-        "gtk_font_chooser_set_language",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the language to use for font features.
+     * @param language a language
      */
-    default @NotNull void setLanguage(@NotNull java.lang.String language) {
+    default void setLanguage(@NotNull java.lang.String language) {
+        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
         try {
-            gtk_font_chooser_set_language.invokeExact(handle(), Interop.allocateNativeString(language));
+            DowncallHandles.gtk_font_chooser_set_language.invokeExact(handle(), Interop.allocateNativeString(language));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    @ApiStatus.Internal static final MethodHandle gtk_font_chooser_set_level = Interop.downcallHandle(
-        "gtk_font_chooser_set_level",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the desired level of granularity for selecting fonts.
+     * @param level the desired level of granularity
      */
-    default @NotNull void setLevel(@NotNull FontChooserLevel level) {
+    default void setLevel(@NotNull org.gtk.gtk.FontChooserLevel level) {
+        java.util.Objects.requireNonNull(level, "Parameter 'level' must not be null");
         try {
-            gtk_font_chooser_set_level.invokeExact(handle(), level.getValue());
+            DowncallHandles.gtk_font_chooser_set_level.invokeExact(handle(), level.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    @ApiStatus.Internal static final MethodHandle gtk_font_chooser_set_preview_text = Interop.downcallHandle(
-        "gtk_font_chooser_set_preview_text",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the text displayed in the preview area.
      * <p>
      * The {@code text} is used to show how the selected font looks.
+     * @param text the text to display in the preview area
      */
-    default @NotNull void setPreviewText(@NotNull java.lang.String text) {
+    default void setPreviewText(@NotNull java.lang.String text) {
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         try {
-            gtk_font_chooser_set_preview_text.invokeExact(handle(), Interop.allocateNativeString(text));
+            DowncallHandles.gtk_font_chooser_set_preview_text.invokeExact(handle(), Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    @ApiStatus.Internal static final MethodHandle gtk_font_chooser_set_show_preview_entry = Interop.downcallHandle(
-        "gtk_font_chooser_set_show_preview_entry",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Shows or hides the editable preview entry.
+     * @param showPreviewEntry whether to show the editable preview entry or not
      */
-    default @NotNull void setShowPreviewEntry(@NotNull boolean showPreviewEntry) {
+    default void setShowPreviewEntry(boolean showPreviewEntry) {
         try {
-            gtk_font_chooser_set_show_preview_entry.invokeExact(handle(), showPreviewEntry ? 1 : 0);
+            DowncallHandles.gtk_font_chooser_set_show_preview_entry.invokeExact(handle(), showPreviewEntry ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface FontActivatedHandler {
+    public interface FontActivated {
         void signalReceived(FontChooser source, @NotNull java.lang.String fontname);
     }
     
@@ -413,7 +347,7 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
      * or an item is selected and the user presses one of the keys
      * Space, Shift+Space, Return or Enter.
      */
-    public default SignalHandle onFontActivated(FontActivatedHandler handler) {
+    public default Signal<FontChooser.FontActivated> onFontActivated(FontChooser.FontActivated handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -423,25 +357,148 @@ public interface FontChooser extends io.github.jwharm.javagi.Proxy {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<FontChooser.FontActivated>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static void signalFontChooserFontActivated(MemoryAddress source, MemoryAddress fontname, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (FontChooser.FontActivatedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FontChooser.FontChooserImpl(Refcounted.get(source)), fontname.getUtf8String(0));
-        }
+    @ApiStatus.Internal
+    static class DowncallHandles {
         
+        @ApiStatus.Internal
+        static final MethodHandle gtk_font_chooser_get_font = Interop.downcallHandle(
+            "gtk_font_chooser_get_font",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_font_chooser_get_font_desc = Interop.downcallHandle(
+            "gtk_font_chooser_get_font_desc",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_font_chooser_get_font_face = Interop.downcallHandle(
+            "gtk_font_chooser_get_font_face",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_font_chooser_get_font_family = Interop.downcallHandle(
+            "gtk_font_chooser_get_font_family",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_font_chooser_get_font_features = Interop.downcallHandle(
+            "gtk_font_chooser_get_font_features",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_font_chooser_get_font_map = Interop.downcallHandle(
+            "gtk_font_chooser_get_font_map",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_font_chooser_get_font_size = Interop.downcallHandle(
+            "gtk_font_chooser_get_font_size",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_font_chooser_get_language = Interop.downcallHandle(
+            "gtk_font_chooser_get_language",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_font_chooser_get_level = Interop.downcallHandle(
+            "gtk_font_chooser_get_level",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_font_chooser_get_preview_text = Interop.downcallHandle(
+            "gtk_font_chooser_get_preview_text",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_font_chooser_get_show_preview_entry = Interop.downcallHandle(
+            "gtk_font_chooser_get_show_preview_entry",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_font_chooser_set_filter_func = Interop.downcallHandle(
+            "gtk_font_chooser_set_filter_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_font_chooser_set_font = Interop.downcallHandle(
+            "gtk_font_chooser_set_font",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_font_chooser_set_font_desc = Interop.downcallHandle(
+            "gtk_font_chooser_set_font_desc",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_font_chooser_set_font_map = Interop.downcallHandle(
+            "gtk_font_chooser_set_font_map",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_font_chooser_set_language = Interop.downcallHandle(
+            "gtk_font_chooser_set_language",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_font_chooser_set_level = Interop.downcallHandle(
+            "gtk_font_chooser_set_level",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_font_chooser_set_preview_text = Interop.downcallHandle(
+            "gtk_font_chooser_set_preview_text",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_font_chooser_set_show_preview_entry = Interop.downcallHandle(
+            "gtk_font_chooser_set_show_preview_entry",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
+    
+    @ApiStatus.Internal
+    static class Callbacks {
+        
+        public static void signalFontChooserFontActivated(MemoryAddress source, MemoryAddress fontname, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (FontChooser.FontActivated) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new FontChooser.FontChooserImpl(Refcounted.get(source)), fontname.getUtf8String(0));
+        }
     }
     
     class FontChooserImpl extends org.gtk.gobject.Object implements FontChooser {
+        
+        static {
+            Gtk.javagi$ensureInitialized();
+        }
+        
         public FontChooserImpl(io.github.jwharm.javagi.Refcounted ref) {
             super(ref);
         }

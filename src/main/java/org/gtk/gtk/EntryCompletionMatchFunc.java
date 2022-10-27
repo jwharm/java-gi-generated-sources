@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -14,5 +16,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface EntryCompletionMatchFunc {
-        boolean onEntryCompletionMatchFunc(@NotNull EntryCompletion completion, @NotNull java.lang.String key, @NotNull TreeIter iter);
+        boolean onEntryCompletionMatchFunc(@NotNull org.gtk.gtk.EntryCompletion completion, @NotNull java.lang.String key, @NotNull org.gtk.gtk.TreeIter iter);
 }

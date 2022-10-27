@@ -16,7 +16,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * {@code GtkAssistant} handles which buttons to show and to make sensitive based
  * on page sequence knowledge and the {@code Gtk.AssistantPageType} of each
- * page in addition to state information like the <strong>completed* and *committed</strong>
+ * page in addition to state information like the <em>completed* and *committed</em>
  * page statuses.
  * <p>
  * If you have a case that doesn’t quite fit in {@code GtkAssistant}s way of
@@ -26,8 +26,8 @@ import org.jetbrains.annotations.*;
  * {@code GtkAssistant} maintains a {@code GtkAssistantPage} object for each added
  * child, which holds additional per-child properties. You
  * obtain the {@code GtkAssistantPage} for a child with {@link Assistant#getPage}.
- * 
- * <h1>GtkAssistant as GtkBuildable</h1>
+ * <p>
+ * <strong>GtkAssistant as GtkBuildable</strong><br/>
  * The {@code GtkAssistant} implementation of the {@code GtkBuildable} interface
  * exposes the {@code action_area} as internal children with the name
  * “action_area”.
@@ -36,13 +36,25 @@ import org.jetbrains.annotations.*;
  * child to the {@code GtkAssistant} object. If you need to set per-object
  * properties, create a {@code GtkAssistantPage} object explicitly, and
  * set the child widget as a property on it.
- * 
- * <h1>CSS nodes</h1>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * {@code GtkAssistant} has a single CSS node with the name window and style
  * class .assistant.
  */
-public class Assistant extends Window implements Accessible, Buildable, ConstraintTarget, Native, Root, ShortcutManager {
-
+public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Native, org.gtk.gtk.Root, org.gtk.gtk.ShortcutManager {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public Assistant(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -52,18 +64,14 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         return new Assistant(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_assistant_new = Interop.downcallHandle(
-        "gtk_assistant_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_assistant_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_assistant_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -73,44 +81,34 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_assistant_add_action_widget = Interop.downcallHandle(
-        "gtk_assistant_add_action_widget",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Adds a widget to the action area of a {@code GtkAssistant}.
+     * @param child a {@code GtkWidget}
      */
-    public @NotNull void addActionWidget(@NotNull Widget child) {
+    public void addActionWidget(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            gtk_assistant_add_action_widget.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_assistant_add_action_widget.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle gtk_assistant_append_page = Interop.downcallHandle(
-        "gtk_assistant_append_page",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Appends a page to the {@code assistant}.
+     * @param page a {@code GtkWidget}
+     * @return the index (starting at 0) of the inserted page
      */
-    public int appendPage(@NotNull Widget page) {
+    public int appendPage(@NotNull org.gtk.gtk.Widget page) {
+        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
         int RESULT;
         try {
-            RESULT = (int) gtk_assistant_append_page.invokeExact(handle(), page.handle());
+            RESULT = (int) DowncallHandles.gtk_assistant_append_page.invokeExact(handle(), page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle gtk_assistant_commit = Interop.downcallHandle(
-        "gtk_assistant_commit",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Erases the visited page history.
@@ -124,180 +122,156 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * a long-running, unreversible operation after the user has
      * clicked apply on a confirmation page.
      */
-    public @NotNull void commit() {
+    public void commit() {
         try {
-            gtk_assistant_commit.invokeExact(handle());
+            DowncallHandles.gtk_assistant_commit.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle gtk_assistant_get_current_page = Interop.downcallHandle(
-        "gtk_assistant_get_current_page",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the page number of the current page.
+     * @return The index (starting from 0) of the current
+     *   page in the {@code assistant}, or -1 if the {@code assistant} has no pages,
+     *   or no current page
      */
     public int getCurrentPage() {
         int RESULT;
         try {
-            RESULT = (int) gtk_assistant_get_current_page.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_assistant_get_current_page.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle gtk_assistant_get_n_pages = Interop.downcallHandle(
-        "gtk_assistant_get_n_pages",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the number of pages in the {@code assistant}
+     * @return the number of pages in the {@code assistant}
      */
     public int getNPages() {
         int RESULT;
         try {
-            RESULT = (int) gtk_assistant_get_n_pages.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_assistant_get_n_pages.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle gtk_assistant_get_nth_page = Interop.downcallHandle(
-        "gtk_assistant_get_nth_page",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Returns the child widget contained in page number {@code page_num}.
+     * @param pageNum the index of a page in the {@code assistant},
+     *   or -1 to get the last page
+     * @return the child widget, or {@code null}
+     *   if {@code page_num} is out of bounds
      */
-    public @Nullable Widget getNthPage(@NotNull int pageNum) {
+    public @Nullable org.gtk.gtk.Widget getNthPage(int pageNum) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_assistant_get_nth_page.invokeExact(handle(), pageNum);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_assistant_get_nth_page.invokeExact(handle(), pageNum);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_assistant_get_page = Interop.downcallHandle(
-        "gtk_assistant_get_page",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the {@code GtkAssistantPage} object for {@code child}.
+     * @param child a child of {@code assistant}
+     * @return the {@code GtkAssistantPage} for {@code child}
      */
-    public @NotNull AssistantPage getPage(@NotNull Widget child) {
+    public @NotNull org.gtk.gtk.AssistantPage getPage(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_assistant_get_page.invokeExact(handle(), child.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_assistant_get_page.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new AssistantPage(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.AssistantPage(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_assistant_get_page_complete = Interop.downcallHandle(
-        "gtk_assistant_get_page_complete",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets whether {@code page} is complete.
+     * @param page a page of {@code assistant}
+     * @return {@code true} if {@code page} is complete.
      */
-    public boolean getPageComplete(@NotNull Widget page) {
+    public boolean getPageComplete(@NotNull org.gtk.gtk.Widget page) {
+        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
         int RESULT;
         try {
-            RESULT = (int) gtk_assistant_get_page_complete.invokeExact(handle(), page.handle());
+            RESULT = (int) DowncallHandles.gtk_assistant_get_page_complete.invokeExact(handle(), page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_assistant_get_page_title = Interop.downcallHandle(
-        "gtk_assistant_get_page_title",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the title for {@code page}.
+     * @param page a page of {@code assistant}
+     * @return the title for {@code page}
      */
-    public @NotNull java.lang.String getPageTitle(@NotNull Widget page) {
+    public @NotNull java.lang.String getPageTitle(@NotNull org.gtk.gtk.Widget page) {
+        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_assistant_get_page_title.invokeExact(handle(), page.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_assistant_get_page_title.invokeExact(handle(), page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle gtk_assistant_get_page_type = Interop.downcallHandle(
-        "gtk_assistant_get_page_type",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the page type of {@code page}.
+     * @param page a page of {@code assistant}
+     * @return the page type of {@code page}
      */
-    public @NotNull AssistantPageType getPageType(@NotNull Widget page) {
+    public @NotNull org.gtk.gtk.AssistantPageType getPageType(@NotNull org.gtk.gtk.Widget page) {
+        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
         int RESULT;
         try {
-            RESULT = (int) gtk_assistant_get_page_type.invokeExact(handle(), page.handle());
+            RESULT = (int) DowncallHandles.gtk_assistant_get_page_type.invokeExact(handle(), page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new AssistantPageType(RESULT);
+        return new org.gtk.gtk.AssistantPageType(RESULT);
     }
-    
-    private static final MethodHandle gtk_assistant_get_pages = Interop.downcallHandle(
-        "gtk_assistant_get_pages",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets a list model of the assistant pages.
+     * @return A list model of the pages.
      */
     public @NotNull org.gtk.gio.ListModel getPages() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_assistant_get_pages.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_assistant_get_pages.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle gtk_assistant_insert_page = Interop.downcallHandle(
-        "gtk_assistant_insert_page",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Inserts a page in the {@code assistant} at a given position.
+     * @param page a {@code GtkWidget}
+     * @param position the index (starting at 0) at which to insert the page,
+     *   or -1 to append the page to the {@code assistant}
+     * @return the index (starting from 0) of the inserted page
      */
-    public int insertPage(@NotNull Widget page, @NotNull int position) {
+    public int insertPage(@NotNull org.gtk.gtk.Widget page, int position) {
+        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
         int RESULT;
         try {
-            RESULT = (int) gtk_assistant_insert_page.invokeExact(handle(), page.handle(), position);
+            RESULT = (int) DowncallHandles.gtk_assistant_insert_page.invokeExact(handle(), page.handle(), position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle gtk_assistant_next_page = Interop.downcallHandle(
-        "gtk_assistant_next_page",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Navigate to the next page.
@@ -308,36 +282,29 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * This function is for use when creating pages of the
      * {@link AssistantPageType#CUSTOM} type.
      */
-    public @NotNull void nextPage() {
+    public void nextPage() {
         try {
-            gtk_assistant_next_page.invokeExact(handle());
+            DowncallHandles.gtk_assistant_next_page.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle gtk_assistant_prepend_page = Interop.downcallHandle(
-        "gtk_assistant_prepend_page",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Prepends a page to the {@code assistant}.
+     * @param page a {@code GtkWidget}
+     * @return the index (starting at 0) of the inserted page
      */
-    public int prependPage(@NotNull Widget page) {
+    public int prependPage(@NotNull org.gtk.gtk.Widget page) {
+        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
         int RESULT;
         try {
-            RESULT = (int) gtk_assistant_prepend_page.invokeExact(handle(), page.handle());
+            RESULT = (int) DowncallHandles.gtk_assistant_prepend_page.invokeExact(handle(), page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle gtk_assistant_previous_page = Interop.downcallHandle(
-        "gtk_assistant_previous_page",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Navigate to the previous visited page.
@@ -348,50 +315,39 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * This function is for use when creating pages of the
      * {@link AssistantPageType#CUSTOM} type.
      */
-    public @NotNull void previousPage() {
+    public void previousPage() {
         try {
-            gtk_assistant_previous_page.invokeExact(handle());
+            DowncallHandles.gtk_assistant_previous_page.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_assistant_remove_action_widget = Interop.downcallHandle(
-        "gtk_assistant_remove_action_widget",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Removes a widget from the action area of a {@code GtkAssistant}.
+     * @param child a {@code GtkWidget}
      */
-    public @NotNull void removeActionWidget(@NotNull Widget child) {
+    public void removeActionWidget(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            gtk_assistant_remove_action_widget.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_assistant_remove_action_widget.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_assistant_remove_page = Interop.downcallHandle(
-        "gtk_assistant_remove_page",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Removes the {@code page_num}’s page from {@code assistant}.
+     * @param pageNum the index of a page in the {@code assistant},
+     *   or -1 to remove the last page
      */
-    public @NotNull void removePage(@NotNull int pageNum) {
+    public void removePage(int pageNum) {
         try {
-            gtk_assistant_remove_page.invokeExact(handle(), pageNum);
+            DowncallHandles.gtk_assistant_remove_page.invokeExact(handle(), pageNum);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_assistant_set_current_page = Interop.downcallHandle(
-        "gtk_assistant_set_current_page",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Switches the page to {@code page_num}.
@@ -399,19 +355,18 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * Note that this will only be necessary in custom buttons,
      * as the {@code assistant} flow can be set with
      * gtk_assistant_set_forward_page_func().
+     * @param pageNum index of the page to switch to, starting from 0.
+     *   If negative, the last page will be used. If greater
+     *   than the number of pages in the {@code assistant}, nothing
+     *   will be done.
      */
-    public @NotNull void setCurrentPage(@NotNull int pageNum) {
+    public void setCurrentPage(int pageNum) {
         try {
-            gtk_assistant_set_current_page.invokeExact(handle(), pageNum);
+            DowncallHandles.gtk_assistant_set_current_page.invokeExact(handle(), pageNum);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_assistant_set_forward_page_func = Interop.downcallHandle(
-        "gtk_assistant_set_forward_page_func",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the page forwarding function to be {@code page_func}.
@@ -421,82 +376,76 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * Setting {@code page_func} to {@code null} will make the assistant to
      * use the default forward function, which just goes to the
      * next visible page.
+     * @param pageFunc the {@code GtkAssistantPageFunc}, or {@code null}
+     *   to use the default one
      */
-    public @NotNull void setForwardPageFunc(@Nullable AssistantPageFunc pageFunc) {
+    public void setForwardPageFunc(@Nullable org.gtk.gtk.AssistantPageFunc pageFunc) {
+        java.util.Objects.requireNonNullElse(pageFunc, MemoryAddress.NULL);
         try {
-            gtk_assistant_set_forward_page_func.invokeExact(handle(), 
+            DowncallHandles.gtk_assistant_set_forward_page_func.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.class, "__cbAssistantPageFunc",
+                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbAssistantPageFunc",
                             MethodType.methodType(int.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(pageFunc)), 
+                   (Addressable) (pageFunc == null ? MemoryAddress.NULL : Interop.registerCallback(pageFunc)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle gtk_assistant_set_page_complete = Interop.downcallHandle(
-        "gtk_assistant_set_page_complete",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Sets whether {@code page} contents are complete.
      * <p>
      * This will make {@code assistant} update the buttons state
      * to be able to continue the task.
+     * @param page a page of {@code assistant}
+     * @param complete the completeness status of the page
      */
-    public @NotNull void setPageComplete(@NotNull Widget page, @NotNull boolean complete) {
+    public void setPageComplete(@NotNull org.gtk.gtk.Widget page, boolean complete) {
+        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
         try {
-            gtk_assistant_set_page_complete.invokeExact(handle(), page.handle(), complete ? 1 : 0);
+            DowncallHandles.gtk_assistant_set_page_complete.invokeExact(handle(), page.handle(), complete ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_assistant_set_page_title = Interop.downcallHandle(
-        "gtk_assistant_set_page_title",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets a title for {@code page}.
      * <p>
      * The title is displayed in the header area of the assistant
      * when {@code page} is the current page.
+     * @param page a page of {@code assistant}
+     * @param title the new title for {@code page}
      */
-    public @NotNull void setPageTitle(@NotNull Widget page, @NotNull java.lang.String title) {
+    public void setPageTitle(@NotNull org.gtk.gtk.Widget page, @NotNull java.lang.String title) {
+        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
+        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
         try {
-            gtk_assistant_set_page_title.invokeExact(handle(), page.handle(), Interop.allocateNativeString(title));
+            DowncallHandles.gtk_assistant_set_page_title.invokeExact(handle(), page.handle(), Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_assistant_set_page_type = Interop.downcallHandle(
-        "gtk_assistant_set_page_type",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the page type for {@code page}.
      * <p>
      * The page type determines the page behavior in the {@code assistant}.
+     * @param page a page of {@code assistant}
+     * @param type the new type for {@code page}
      */
-    public @NotNull void setPageType(@NotNull Widget page, @NotNull AssistantPageType type) {
+    public void setPageType(@NotNull org.gtk.gtk.Widget page, @NotNull org.gtk.gtk.AssistantPageType type) {
+        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
+        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         try {
-            gtk_assistant_set_page_type.invokeExact(handle(), page.handle(), type.getValue());
+            DowncallHandles.gtk_assistant_set_page_type.invokeExact(handle(), page.handle(), type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_assistant_update_buttons_state = Interop.downcallHandle(
-        "gtk_assistant_update_buttons_state",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Forces {@code assistant} to recompute the buttons state.
@@ -509,16 +458,16 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * function is when changing a value on the current page
      * affects the future page flow of the assistant.
      */
-    public @NotNull void updateButtonsState() {
+    public void updateButtonsState() {
         try {
-            gtk_assistant_update_buttons_state.invokeExact(handle());
+            DowncallHandles.gtk_assistant_update_buttons_state.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ApplyHandler {
+    public interface Apply {
         void signalReceived(Assistant source);
     }
     
@@ -535,7 +484,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * this operation within the {@code Gtk.Assistant::prepare} signal of
      * the progress page.
      */
-    public SignalHandle onApply(ApplyHandler handler) {
+    public Signal<Assistant.Apply> onApply(Assistant.Apply handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -545,23 +494,23 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<Assistant.Apply>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface CancelHandler {
+    public interface Cancel {
         void signalReceived(Assistant source);
     }
     
     /**
      * Emitted when then the cancel button is clicked.
      */
-    public SignalHandle onCancel(CancelHandler handler) {
+    public Signal<Assistant.Cancel> onCancel(Assistant.Cancel handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -571,16 +520,16 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<Assistant.Cancel>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface CloseHandler {
+    public interface Close {
         void signalReceived(Assistant source);
     }
     
@@ -589,7 +538,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * or when the apply button in the last page in the flow (of type
      * {@link AssistantPageType#CONFIRM}) is clicked.
      */
-    public SignalHandle onClose(CloseHandler handler) {
+    public Signal<Assistant.Close> onClose(Assistant.Close handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -599,23 +548,23 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<Assistant.Close>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface EscapeHandler {
+    public interface Escape {
         void signalReceived(Assistant source);
     }
     
     /**
      * The action signal for the Escape binding.
      */
-    public SignalHandle onEscape(EscapeHandler handler) {
+    public Signal<Assistant.Escape> onEscape(Assistant.Escape handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -625,17 +574,17 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<Assistant.Escape>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface PrepareHandler {
-        void signalReceived(Assistant source, @NotNull Widget page);
+    public interface Prepare {
+        void signalReceived(Assistant source, @NotNull org.gtk.gtk.Widget page);
     }
     
     /**
@@ -645,7 +594,7 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
      * A handler for this signal can do any preparations which are
      * necessary before showing {@code page}.
      */
-    public SignalHandle onPrepare(PrepareHandler handler) {
+    public Signal<Assistant.Prepare> onPrepare(Assistant.Prepare handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -655,45 +604,167 @@ public class Assistant extends Window implements Accessible, Buildable, Constrai
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<Assistant.Prepare>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_assistant_new = Interop.downcallHandle(
+            "gtk_assistant_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_assistant_add_action_widget = Interop.downcallHandle(
+            "gtk_assistant_add_action_widget",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_assistant_append_page = Interop.downcallHandle(
+            "gtk_assistant_append_page",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_assistant_commit = Interop.downcallHandle(
+            "gtk_assistant_commit",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_assistant_get_current_page = Interop.downcallHandle(
+            "gtk_assistant_get_current_page",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_assistant_get_n_pages = Interop.downcallHandle(
+            "gtk_assistant_get_n_pages",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_assistant_get_nth_page = Interop.downcallHandle(
+            "gtk_assistant_get_nth_page",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_assistant_get_page = Interop.downcallHandle(
+            "gtk_assistant_get_page",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_assistant_get_page_complete = Interop.downcallHandle(
+            "gtk_assistant_get_page_complete",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_assistant_get_page_title = Interop.downcallHandle(
+            "gtk_assistant_get_page_title",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_assistant_get_page_type = Interop.downcallHandle(
+            "gtk_assistant_get_page_type",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_assistant_get_pages = Interop.downcallHandle(
+            "gtk_assistant_get_pages",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_assistant_insert_page = Interop.downcallHandle(
+            "gtk_assistant_insert_page",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_assistant_next_page = Interop.downcallHandle(
+            "gtk_assistant_next_page",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_assistant_prepend_page = Interop.downcallHandle(
+            "gtk_assistant_prepend_page",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_assistant_previous_page = Interop.downcallHandle(
+            "gtk_assistant_previous_page",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_assistant_remove_action_widget = Interop.downcallHandle(
+            "gtk_assistant_remove_action_widget",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_assistant_remove_page = Interop.downcallHandle(
+            "gtk_assistant_remove_page",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_assistant_set_current_page = Interop.downcallHandle(
+            "gtk_assistant_set_current_page",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_assistant_set_forward_page_func = Interop.downcallHandle(
+            "gtk_assistant_set_forward_page_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_assistant_set_page_complete = Interop.downcallHandle(
+            "gtk_assistant_set_page_complete",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_assistant_set_page_title = Interop.downcallHandle(
+            "gtk_assistant_set_page_title",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_assistant_set_page_type = Interop.downcallHandle(
+            "gtk_assistant_set_page_type",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_assistant_update_buttons_state = Interop.downcallHandle(
+            "gtk_assistant_update_buttons_state",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static void signalAssistantApply(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (Assistant.ApplyHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Assistant(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (Assistant.Apply) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new Assistant(Refcounted.get(source)));
         }
         
         public static void signalAssistantCancel(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (Assistant.CancelHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Assistant(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (Assistant.Cancel) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new Assistant(Refcounted.get(source)));
         }
         
         public static void signalAssistantClose(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (Assistant.CloseHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Assistant(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (Assistant.Close) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new Assistant(Refcounted.get(source)));
         }
         
         public static void signalAssistantEscape(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (Assistant.EscapeHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Assistant(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (Assistant.Escape) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new Assistant(Refcounted.get(source)));
         }
         
         public static void signalAssistantPrepare(MemoryAddress source, MemoryAddress page, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (Assistant.PrepareHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Assistant(Refcounted.get(source)), new Widget(Refcounted.get(page, false)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (Assistant.Prepare) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new Assistant(Refcounted.get(source)), new org.gtk.gtk.Widget(Refcounted.get(page, false)));
         }
-        
     }
 }

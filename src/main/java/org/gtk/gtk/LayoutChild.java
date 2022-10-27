@@ -17,7 +17,23 @@ import org.jetbrains.annotations.*;
  * of a layout.
  */
 public class LayoutChild extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
+    ).withName("GtkLayoutChild");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public LayoutChild(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -27,41 +43,45 @@ public class LayoutChild extends org.gtk.gobject.Object {
         return new LayoutChild(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_layout_child_get_child_widget = Interop.downcallHandle(
-        "gtk_layout_child_get_child_widget",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Retrieves the {@code GtkWidget} associated to the given {@code layout_child}.
+     * @return a {@code GtkWidget}
      */
-    public @NotNull Widget getChildWidget() {
+    public @NotNull org.gtk.gtk.Widget getChildWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_layout_child_get_child_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_layout_child_get_child_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_layout_child_get_layout_manager = Interop.downcallHandle(
-        "gtk_layout_child_get_layout_manager",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves the {@code GtkLayoutManager} instance that created the
      * given {@code layout_child}.
+     * @return a {@code GtkLayoutManager}
      */
-    public @NotNull LayoutManager getLayoutManager() {
+    public @NotNull org.gtk.gtk.LayoutManager getLayoutManager() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_layout_child_get_layout_manager.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_layout_child_get_layout_manager.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new LayoutManager(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.LayoutManager(Refcounted.get(RESULT, false));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_layout_child_get_child_widget = Interop.downcallHandle(
+            "gtk_layout_child_get_child_widget",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_layout_child_get_layout_manager = Interop.downcallHandle(
+            "gtk_layout_child_get_layout_manager",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

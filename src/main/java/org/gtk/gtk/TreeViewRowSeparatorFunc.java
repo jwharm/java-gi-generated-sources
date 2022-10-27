@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -11,5 +13,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface TreeViewRowSeparatorFunc {
-        boolean onTreeViewRowSeparatorFunc(@NotNull TreeModel model, @NotNull TreeIter iter);
+        boolean onTreeViewRowSeparatorFunc(@NotNull org.gtk.gtk.TreeModel model, @NotNull org.gtk.gtk.TreeIter iter);
 }

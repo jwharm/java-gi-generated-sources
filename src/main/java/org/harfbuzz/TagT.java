@@ -9,8 +9,8 @@ package org.harfbuzz;
  * human-readable names.
  */
 public class TagT extends io.github.jwharm.javagi.Alias<Integer> {
+    
     public TagT(int value) {
         super(value);
     }
-    
 }

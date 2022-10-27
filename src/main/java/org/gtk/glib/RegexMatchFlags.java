@@ -1,10 +1,24 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Flags specifying match-time options.
+ * @version 2.14
  */
 public class RegexMatchFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The pattern is forced to be "anchored", that is,
      *     it is constrained to match only at the first matching point in the
@@ -127,5 +141,4 @@ public class RegexMatchFlags extends io.github.jwharm.javagi.Bitfield {
     public RegexMatchFlags(int value) {
         super(value);
     }
-    
 }

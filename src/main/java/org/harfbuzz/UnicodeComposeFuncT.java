@@ -1,18 +1,20 @@
 package org.harfbuzz;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
- * A virtual method for the {@link unicode_funcs_t} structure.
+ * A virtual method for the {@link UnicodeFuncsT} structure.
  * <p>
  * This method should compose a sequence of two input Unicode code
  * points by canonical equivalence, returning the composed code
- * point in a {@link codepoint_t} output parameter (if successful).
- * The method must return an {@link bool_t} indicating the success
+ * point in a {@link CodepointT} output parameter (if successful).
+ * The method must return an {@link BoolT} indicating the success
  * of the composition.
  */
 @FunctionalInterface
 public interface UnicodeComposeFuncT {
-        BoolT onUnicodeComposeFuncT(@NotNull UnicodeFuncsT ufuncs, @NotNull CodepointT a, @NotNull CodepointT b, @NotNull Out<CodepointT> ab, @Nullable java.lang.foreign.MemoryAddress userData);
+        org.harfbuzz.BoolT onUnicodeComposeFuncT(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.CodepointT a, @NotNull org.harfbuzz.CodepointT b, @NotNull Out<org.harfbuzz.CodepointT> ab, @Nullable java.lang.foreign.MemoryAddress userData);
 }

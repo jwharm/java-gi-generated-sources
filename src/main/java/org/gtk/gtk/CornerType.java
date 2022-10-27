@@ -1,5 +1,10 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Specifies which corner a child widget should be placed in when packed into
  * a {@code GtkScrolledWindow.}
@@ -7,7 +12,15 @@ package org.gtk.gtk;
  * This is effectively the opposite of where the scroll bars are placed.
  */
 public class CornerType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Place the scrollbars on the right and bottom of the
      *   widget (default behaviour).
@@ -35,5 +48,4 @@ public class CornerType extends io.github.jwharm.javagi.Enumeration {
     public CornerType(int value) {
         super(value);
     }
-    
 }

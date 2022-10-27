@@ -5,6 +5,7 @@ package org.gtk.gtk;
  */
 public class Allocation extends org.gtk.gdk.Rectangle {
 
+    
     public Allocation(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -13,5 +14,4 @@ public class Allocation extends org.gtk.gdk.Rectangle {
     public static Allocation castFrom(org.gtk.gobject.Object gobject) {
         return new Allocation(gobject.refcounted());
     }
-    
 }

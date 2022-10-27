@@ -1,13 +1,26 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The identifiers for {@code Gtk.Editable} properties.
  * <p>
- * See {@link Gtk#Editable} for details on how to
+ * See {@link Editable#installProperties} for details on how to
  * implement the {@code GtkEditable} interface.
  */
 public class EditableProperties extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * the property id for {@code Gtk.Editable:text}
      */
@@ -56,5 +69,4 @@ public class EditableProperties extends io.github.jwharm.javagi.Enumeration {
     public EditableProperties(int value) {
         super(value);
     }
-    
 }

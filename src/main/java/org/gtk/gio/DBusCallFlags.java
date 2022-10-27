@@ -1,10 +1,24 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Flags used in g_dbus_connection_call() and similar APIs.
+ * @version 2.26
  */
 public class DBusCallFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * No flags set.
      */
@@ -26,5 +40,4 @@ public class DBusCallFlags extends io.github.jwharm.javagi.Bitfield {
     public DBusCallFlags(int value) {
         super(value);
     }
-    
 }

@@ -1,5 +1,10 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * These flags indicate various properties of a {@code GtkTreeModel}.
  * <p>
@@ -9,7 +14,15 @@ package org.gtk.gtk;
  * this section.
  */
 public class TreeModelFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * iterators survive all signals
      *   emitted by the tree
@@ -25,5 +38,4 @@ public class TreeModelFlags extends io.github.jwharm.javagi.Bitfield {
     public TreeModelFlags(int value) {
         super(value);
     }
-    
 }

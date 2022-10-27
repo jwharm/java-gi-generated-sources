@@ -12,8 +12,20 @@ import org.jetbrains.annotations.*;
  * <p>
  * This can be cascaded to combine more than two triggers.
  */
-public class AlternativeTrigger extends ShortcutTrigger {
-
+public class AlternativeTrigger extends org.gtk.gtk.ShortcutTrigger {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public AlternativeTrigger(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -23,18 +35,16 @@ public class AlternativeTrigger extends ShortcutTrigger {
         return new AlternativeTrigger(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_alternative_trigger_new = Interop.downcallHandle(
-        "gtk_alternative_trigger_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNew(@NotNull ShortcutTrigger first, @NotNull ShortcutTrigger second) {
+    private static Refcounted constructNew(@NotNull org.gtk.gtk.ShortcutTrigger first, @NotNull org.gtk.gtk.ShortcutTrigger second) {
+        java.util.Objects.requireNonNull(first, "Parameter 'first' must not be null");
+        java.util.Objects.requireNonNull(second, "Parameter 'second' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_alternative_trigger_new.invokeExact(first.refcounted().unowned().handle(), second.refcounted().unowned().handle()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_alternative_trigger_new.invokeExact(first.refcounted().unowned().handle(), second.refcounted().unowned().handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -43,15 +53,12 @@ public class AlternativeTrigger extends ShortcutTrigger {
      * <p>
      * Note that nesting is allowed, so if you want more than two
      * alternative, create a new alternative trigger for each option.
+     * @param first The first trigger that may trigger
+     * @param second The second trigger that may trigger
      */
-    public AlternativeTrigger(@NotNull ShortcutTrigger first, @NotNull ShortcutTrigger second) {
+    public AlternativeTrigger(@NotNull org.gtk.gtk.ShortcutTrigger first, @NotNull org.gtk.gtk.ShortcutTrigger second) {
         super(constructNew(first, second));
     }
-    
-    private static final MethodHandle gtk_alternative_trigger_get_first = Interop.downcallHandle(
-        "gtk_alternative_trigger_get_first",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the first of the two alternative triggers that may
@@ -59,21 +66,17 @@ public class AlternativeTrigger extends ShortcutTrigger {
      * <p>
      * {@link AlternativeTrigger#getSecond} will return
      * the other one.
+     * @return the first alternative trigger
      */
-    public @NotNull ShortcutTrigger getFirst() {
+    public @NotNull org.gtk.gtk.ShortcutTrigger getFirst() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_alternative_trigger_get_first.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_alternative_trigger_get_first.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ShortcutTrigger(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.ShortcutTrigger(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_alternative_trigger_get_second = Interop.downcallHandle(
-        "gtk_alternative_trigger_get_second",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the second of the two alternative triggers that may
@@ -81,15 +84,33 @@ public class AlternativeTrigger extends ShortcutTrigger {
      * <p>
      * {@link AlternativeTrigger#getFirst} will return
      * the other one.
+     * @return the second alternative trigger
      */
-    public @NotNull ShortcutTrigger getSecond() {
+    public @NotNull org.gtk.gtk.ShortcutTrigger getSecond() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_alternative_trigger_get_second.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_alternative_trigger_get_second.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ShortcutTrigger(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.ShortcutTrigger(Refcounted.get(RESULT, false));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_alternative_trigger_new = Interop.downcallHandle(
+            "gtk_alternative_trigger_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_alternative_trigger_get_first = Interop.downcallHandle(
+            "gtk_alternative_trigger_get_first",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_alternative_trigger_get_second = Interop.downcallHandle(
+            "gtk_alternative_trigger_get_second",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

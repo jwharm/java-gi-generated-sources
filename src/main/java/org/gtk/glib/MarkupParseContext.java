@@ -13,24 +13,34 @@ import org.jetbrains.annotations.*;
  * on for more details.
  */
 public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GLib.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public MarkupParseContext(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle g_markup_parse_context_new = Interop.downcallHandle(
-        "g_markup_parse_context_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNew(@NotNull MarkupParser parser, @NotNull MarkupParseFlags flags, @Nullable java.lang.foreign.MemoryAddress userData, @NotNull DestroyNotify userDataDnotify) {
+    private static Refcounted constructNew(@NotNull org.gtk.glib.MarkupParser parser, @NotNull org.gtk.glib.MarkupParseFlags flags, @Nullable java.lang.foreign.MemoryAddress userData, @NotNull org.gtk.glib.DestroyNotify userDataDnotify) {
+        java.util.Objects.requireNonNull(parser, "Parameter 'parser' must not be null");
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_markup_parse_context_new.invokeExact(parser.handle(), flags.getValue(), userData, 
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_markup_parse_context_new.invokeExact(parser.handle(), flags.getValue(), userData, 
                     Interop.cbDestroyNotifySymbol()), true);
-            return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -39,15 +49,15 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * a context, as long as no errors occur; once an error occurs,
      * the parse context can't continue to parse text (you have to
      * free it and create a new parse context).
+     * @param parser a {@link MarkupParser}
+     * @param flags one or more {@link MarkupParseFlags}
+     * @param userData user data to pass to {@link MarkupParser} functions
+     * @param userDataDnotify user data destroy notifier called when
+     *     the parse context is freed
      */
-    public MarkupParseContext(@NotNull MarkupParser parser, @NotNull MarkupParseFlags flags, @Nullable java.lang.foreign.MemoryAddress userData, @NotNull DestroyNotify userDataDnotify) {
+    public MarkupParseContext(@NotNull org.gtk.glib.MarkupParser parser, @NotNull org.gtk.glib.MarkupParseFlags flags, @Nullable java.lang.foreign.MemoryAddress userData, @NotNull org.gtk.glib.DestroyNotify userDataDnotify) {
         super(constructNew(parser, flags, userData, userDataDnotify));
     }
-    
-    private static final MethodHandle g_markup_parse_context_end_parse = Interop.downcallHandle(
-        "g_markup_parse_context_end_parse",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Signals to the {@link MarkupParseContext} that all data has been
@@ -55,12 +65,14 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function reports an error if the document isn't complete,
      * for example if elements are still open.
+     * @return {@code true} on success, {@code false} if an error was set
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean endParse() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_markup_parse_context_end_parse.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_markup_parse_context_end_parse.invokeExact(handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -70,29 +82,19 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_markup_parse_context_free = Interop.downcallHandle(
-        "g_markup_parse_context_free",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Frees a {@link MarkupParseContext}.
      * <p>
      * This function can't be called from inside one of the
      * {@link MarkupParser} functions or while a subparser is pushed.
      */
-    public @NotNull void free() {
+    public void free() {
         try {
-            g_markup_parse_context_free.invokeExact(handle());
+            DowncallHandles.g_markup_parse_context_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_markup_parse_context_get_element = Interop.downcallHandle(
-        "g_markup_parse_context_get_element",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves the name of the currently open element.
@@ -100,21 +102,17 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * If called from the start_element or end_element handlers this will
      * give the element_name as passed to those functions. For the parent
      * elements, see g_markup_parse_context_get_element_stack().
+     * @return the name of the currently open element, or {@code null}
      */
     public @NotNull java.lang.String getElement() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_markup_parse_context_get_element.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_markup_parse_context_get_element.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_markup_parse_context_get_element_stack = Interop.downcallHandle(
-        "g_markup_parse_context_get_element_stack",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves the element stack from the internal state of the parser.
@@ -128,33 +126,33 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * end_element handlers where g_markup_parse_context_get_element()
      * would merely return the name of the element that is being
      * processed.
+     * @return the element stack, which must not be modified
      */
     public @NotNull org.gtk.glib.SList getElementStack() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_markup_parse_context_get_element_stack.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_markup_parse_context_get_element_stack.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.SList(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle g_markup_parse_context_get_position = Interop.downcallHandle(
-        "g_markup_parse_context_get_position",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Retrieves the current line number and the number of the character on
      * that line. Intended for use in error messages; there are no strict
      * semantics for what constitutes the "current" line number other than
      * "the best number we could come up with for error messages."
+     * @param lineNumber return location for a line number, or {@code null}
+     * @param charNumber return location for a char-on-line number, or {@code null}
      */
-    public @NotNull void getPosition(@NotNull Out<Integer> lineNumber, @NotNull Out<Integer> charNumber) {
+    public void getPosition(Out<Integer> lineNumber, Out<Integer> charNumber) {
+        java.util.Objects.requireNonNull(lineNumber, "Parameter 'lineNumber' must not be null");
+        java.util.Objects.requireNonNull(charNumber, "Parameter 'charNumber' must not be null");
         MemorySegment lineNumberPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment charNumberPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            g_markup_parse_context_get_position.invokeExact(handle(), (Addressable) lineNumberPOINTER.address(), (Addressable) charNumberPOINTER.address());
+            DowncallHandles.g_markup_parse_context_get_position.invokeExact(handle(), (Addressable) lineNumberPOINTER.address(), (Addressable) charNumberPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,32 +160,25 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
         charNumber.set(charNumberPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    private static final MethodHandle g_markup_parse_context_get_user_data = Interop.downcallHandle(
-        "g_markup_parse_context_get_user_data",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the user_data associated with {@code context}.
      * <p>
      * This will either be the user_data that was provided to
      * g_markup_parse_context_new() or to the most recent call
      * of g_markup_parse_context_push().
+     * @return the provided user_data. The returned data belongs to
+     *     the markup context and will be freed when
+     *     g_markup_parse_context_free() is called.
      */
     public @Nullable java.lang.foreign.MemoryAddress getUserData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_markup_parse_context_get_user_data.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_markup_parse_context_get_user_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_markup_parse_context_parse = Interop.downcallHandle(
-        "g_markup_parse_context_parse",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
-    );
     
     /**
      * Feed some data to the {@link MarkupParseContext}.
@@ -200,12 +191,17 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * function, aborting the process if an error occurs. Once an error
      * is reported, no further data may be fed to the {@link MarkupParseContext};
      * all errors are fatal.
+     * @param text chunk of text to parse
+     * @param textLen length of {@code text} in bytes
+     * @return {@code false} if an error occurred, {@code true} on success
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean parse(@NotNull java.lang.String text, @NotNull long textLen) throws io.github.jwharm.javagi.GErrorException {
+    public boolean parse(@NotNull java.lang.String text, long textLen) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_markup_parse_context_parse.invokeExact(handle(), Interop.allocateNativeString(text), textLen, (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_markup_parse_context_parse.invokeExact(handle(), Interop.allocateNativeString(text), textLen, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -214,11 +210,6 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_markup_parse_context_pop = Interop.downcallHandle(
-        "g_markup_parse_context_pop",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Completes the process of a temporary sub-parser redirection.
@@ -234,21 +225,17 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * interested in invoking subparsers. Instead, it is intended to
      * be used by the subparsers themselves to implement a higher-level
      * interface.
+     * @return the user data passed to g_markup_parse_context_push()
      */
     public @Nullable java.lang.foreign.MemoryAddress pop() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_markup_parse_context_pop.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_markup_parse_context_pop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_markup_parse_context_push = Interop.downcallHandle(
-        "g_markup_parse_context_push",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Temporarily redirects markup data to a sub-parser.
@@ -280,7 +267,6 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * As an example, see the following implementation of a simple
      * parser that counts the number of tags encountered.
-     * <p>
      * <pre>{@code <!-- language="C" -->
      * typedef struct
      * {
@@ -322,7 +308,6 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * In order to allow this parser to be easily used as a subparser, the
      * following interface is provided:
-     * <p>
      * <pre>{@code <!-- language="C" -->
      * void
      * start_counting (GMarkupParseContext *context)
@@ -347,7 +332,6 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      * }</pre>
      * <p>
      * The subparser would then be used as follows:
-     * <p>
      * <pre>{@code <!-- language="C" -->
      * static void start_element (context, element_name, ...)
      * {
@@ -365,48 +349,104 @@ public class MarkupParseContext extends io.github.jwharm.javagi.ResourceBase {
      *   // else, handle other tags...
      * }
      * }</pre>
+     * @param parser a {@link MarkupParser}
+     * @param userData user data to pass to {@link MarkupParser} functions
      */
-    public @NotNull void push(@NotNull MarkupParser parser, @Nullable java.lang.foreign.MemoryAddress userData) {
+    public void push(@NotNull org.gtk.glib.MarkupParser parser, @Nullable java.lang.foreign.MemoryAddress userData) {
+        java.util.Objects.requireNonNull(parser, "Parameter 'parser' must not be null");
         try {
-            g_markup_parse_context_push.invokeExact(handle(), parser.handle(), userData);
+            DowncallHandles.g_markup_parse_context_push.invokeExact(handle(), parser.handle(), userData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_markup_parse_context_ref = Interop.downcallHandle(
-        "g_markup_parse_context_ref",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Increases the reference count of {@code context}.
+     * @return the same {@code context}
      */
-    public @NotNull MarkupParseContext ref() {
+    public @NotNull org.gtk.glib.MarkupParseContext ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_markup_parse_context_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_markup_parse_context_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new MarkupParseContext(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.MarkupParseContext(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_markup_parse_context_unref = Interop.downcallHandle(
-        "g_markup_parse_context_unref",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Decreases the reference count of {@code context}.  When its reference count
      * drops to 0, it is freed.
      */
-    public @NotNull void unref() {
+    public void unref() {
         try {
-            g_markup_parse_context_unref.invokeExact(handle());
+            DowncallHandles.g_markup_parse_context_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_markup_parse_context_new = Interop.downcallHandle(
+            "g_markup_parse_context_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_markup_parse_context_end_parse = Interop.downcallHandle(
+            "g_markup_parse_context_end_parse",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_markup_parse_context_free = Interop.downcallHandle(
+            "g_markup_parse_context_free",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_markup_parse_context_get_element = Interop.downcallHandle(
+            "g_markup_parse_context_get_element",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_markup_parse_context_get_element_stack = Interop.downcallHandle(
+            "g_markup_parse_context_get_element_stack",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_markup_parse_context_get_position = Interop.downcallHandle(
+            "g_markup_parse_context_get_position",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_markup_parse_context_get_user_data = Interop.downcallHandle(
+            "g_markup_parse_context_get_user_data",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_markup_parse_context_parse = Interop.downcallHandle(
+            "g_markup_parse_context_parse",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_markup_parse_context_pop = Interop.downcallHandle(
+            "g_markup_parse_context_pop",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_markup_parse_context_push = Interop.downcallHandle(
+            "g_markup_parse_context_push",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_markup_parse_context_ref = Interop.downcallHandle(
+            "g_markup_parse_context_ref",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_markup_parse_context_unref = Interop.downcallHandle(
+            "g_markup_parse_context_unref",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
 }

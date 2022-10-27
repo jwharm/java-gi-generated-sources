@@ -13,9 +13,22 @@ import org.jetbrains.annotations.*;
  * <p>
  * The primary use case for {@code AdwClampScrollable} is clamping
  * {@link org.gtk.gtk.ListView}.
+ * @version 1.0
  */
 public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Orientable, org.gtk.gtk.Scrollable {
-
+    
+    static {
+        Adw.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public ClampScrollable(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -25,18 +38,14 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         return new ClampScrollable(gobject.refcounted());
     }
     
-    private static final MethodHandle adw_clamp_scrollable_new = Interop.downcallHandle(
-        "adw_clamp_scrollable_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_clamp_scrollable_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_clamp_scrollable_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -46,106 +55,120 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         super(constructNew());
     }
     
-    private static final MethodHandle adw_clamp_scrollable_get_child = Interop.downcallHandle(
-        "adw_clamp_scrollable_get_child",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the child widget of {@code self}.
+     * @return the child widget of {@code self}
      */
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_clamp_scrollable_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_clamp_scrollable_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle adw_clamp_scrollable_get_maximum_size = Interop.downcallHandle(
-        "adw_clamp_scrollable_get_maximum_size",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the maximum size allocated to the child.
+     * @return the maximum size to allocate to the child
      */
     public int getMaximumSize() {
         int RESULT;
         try {
-            RESULT = (int) adw_clamp_scrollable_get_maximum_size.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_clamp_scrollable_get_maximum_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle adw_clamp_scrollable_get_tightening_threshold = Interop.downcallHandle(
-        "adw_clamp_scrollable_get_tightening_threshold",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the size above which the child is clamped.
+     * @return the size above which the child is clamped
      */
     public int getTighteningThreshold() {
         int RESULT;
         try {
-            RESULT = (int) adw_clamp_scrollable_get_tightening_threshold.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_clamp_scrollable_get_tightening_threshold.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle adw_clamp_scrollable_set_child = Interop.downcallHandle(
-        "adw_clamp_scrollable_set_child",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Sets the child widget of {@code self}.
+     * @param child the child widget
      */
-    public @NotNull void setChild(@Nullable org.gtk.gtk.Widget child) {
+    public void setChild(@Nullable org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            adw_clamp_scrollable_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.adw_clamp_scrollable_set_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_clamp_scrollable_set_maximum_size = Interop.downcallHandle(
-        "adw_clamp_scrollable_set_maximum_size",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the maximum size allocated to the child.
+     * @param maximumSize the maximum size
      */
-    public @NotNull void setMaximumSize(@NotNull int maximumSize) {
+    public void setMaximumSize(int maximumSize) {
         try {
-            adw_clamp_scrollable_set_maximum_size.invokeExact(handle(), maximumSize);
+            DowncallHandles.adw_clamp_scrollable_set_maximum_size.invokeExact(handle(), maximumSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_clamp_scrollable_set_tightening_threshold = Interop.downcallHandle(
-        "adw_clamp_scrollable_set_tightening_threshold",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the size above which the child is clamped.
+     * @param tighteningThreshold the tightening threshold
      */
-    public @NotNull void setTighteningThreshold(@NotNull int tighteningThreshold) {
+    public void setTighteningThreshold(int tighteningThreshold) {
         try {
-            adw_clamp_scrollable_set_tightening_threshold.invokeExact(handle(), tighteningThreshold);
+            DowncallHandles.adw_clamp_scrollable_set_tightening_threshold.invokeExact(handle(), tighteningThreshold);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle adw_clamp_scrollable_new = Interop.downcallHandle(
+            "adw_clamp_scrollable_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_clamp_scrollable_get_child = Interop.downcallHandle(
+            "adw_clamp_scrollable_get_child",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_clamp_scrollable_get_maximum_size = Interop.downcallHandle(
+            "adw_clamp_scrollable_get_maximum_size",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_clamp_scrollable_get_tightening_threshold = Interop.downcallHandle(
+            "adw_clamp_scrollable_get_tightening_threshold",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_clamp_scrollable_set_child = Interop.downcallHandle(
+            "adw_clamp_scrollable_set_child",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_clamp_scrollable_set_maximum_size = Interop.downcallHandle(
+            "adw_clamp_scrollable_set_maximum_size",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle adw_clamp_scrollable_set_tightening_threshold = Interop.downcallHandle(
+            "adw_clamp_scrollable_set_tightening_threshold",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
 }

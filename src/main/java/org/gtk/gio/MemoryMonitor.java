@@ -9,12 +9,11 @@ import org.jetbrains.annotations.*;
  * {@link MemoryMonitor} will monitor system memory and suggest to the application
  * when to free memory so as to leave more room for other applications.
  * It is implemented on Linux using the <a href="https://gitlab.freedesktop.org/hadess/low-memory-monitor/">Low Memory Monitor</a>
- * (<a href="https://hadess.pages.freedesktop.org/low-memory-monitor/)">API documentation</a>.
+ * (<a href="https://hadess.pages.freedesktop.org/low-memory-monitor/">API documentation</a>).
  * <p>
  * There is also an implementation for use inside Flatpak sandboxes.
  * <p>
  * Possible actions to take when the signal is received are:
- * <p>
  * <ul>
  * <li>Free caches
  * <li>Save files that haven't been looked at in a while to disk, ready to be reopened when needed
@@ -31,7 +30,6 @@ import org.jetbrains.annotations.*;
  * to the kernel).
  * <p>
  * See {@link MemoryMonitorWarningLevel} for details on the various warning levels.
- * <p>
  * <pre>{@code <!-- language="C" -->
  * static void
  * warning_cb (GMemoryMonitor *m, GMemoryMonitorWarningLevel level)
@@ -54,30 +52,27 @@ import org.jetbrains.annotations.*;
  * <p>
  * Don't forget to disconnect the {@link MemoryMonitor}::low-memory-warning
  * signal, and unref the {@link MemoryMonitor} itself when exiting.
+ * @version 2.64
  */
 public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
-
-    @ApiStatus.Internal static final MethodHandle g_memory_monitor_dup_default = Interop.downcallHandle(
-        "g_memory_monitor_dup_default",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets a reference to the default {@link MemoryMonitor} for the system.
+     * @return a new reference to the default {@link MemoryMonitor}
      */
-    public static @NotNull MemoryMonitor dupDefault() {
+    public static @NotNull org.gtk.gio.MemoryMonitor dupDefault() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_memory_monitor_dup_default.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.g_memory_monitor_dup_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new MemoryMonitor.MemoryMonitorImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.MemoryMonitor.MemoryMonitorImpl(Refcounted.get(RESULT, true));
     }
     
     @FunctionalInterface
-    public interface LowMemoryWarningHandler {
-        void signalReceived(MemoryMonitor source, @NotNull MemoryMonitorWarningLevel level);
+    public interface LowMemoryWarning {
+        void signalReceived(MemoryMonitor source, @NotNull org.gtk.gio.MemoryMonitorWarningLevel level);
     }
     
     /**
@@ -86,7 +81,7 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
      * warning level. See the {@link MemoryMonitorWarningLevel} documentation for
      * details.
      */
-    public default SignalHandle onLowMemoryWarning(LowMemoryWarningHandler handler) {
+    public default Signal<MemoryMonitor.LowMemoryWarning> onLowMemoryWarning(MemoryMonitor.LowMemoryWarning handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -96,25 +91,40 @@ public interface MemoryMonitor extends io.github.jwharm.javagi.Proxy {
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<MemoryMonitor.LowMemoryWarning>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static void signalMemoryMonitorLowMemoryWarning(MemoryAddress source, int level, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (MemoryMonitor.LowMemoryWarningHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new MemoryMonitor.MemoryMonitorImpl(Refcounted.get(source)), new MemoryMonitorWarningLevel(level));
-        }
+    @ApiStatus.Internal
+    static class DowncallHandles {
         
+        @ApiStatus.Internal
+        static final MethodHandle g_memory_monitor_dup_default = Interop.downcallHandle(
+            "g_memory_monitor_dup_default",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+    }
+    
+    @ApiStatus.Internal
+    static class Callbacks {
+        
+        public static void signalMemoryMonitorLowMemoryWarning(MemoryAddress source, int level, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (MemoryMonitor.LowMemoryWarning) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new MemoryMonitor.MemoryMonitorImpl(Refcounted.get(source)), new org.gtk.gio.MemoryMonitorWarningLevel(level));
+        }
     }
     
     class MemoryMonitorImpl extends org.gtk.gobject.Object implements MemoryMonitor {
+        
+        static {
+            Gio.javagi$ensureInitialized();
+        }
+        
         public MemoryMonitorImpl(io.github.jwharm.javagi.Refcounted ref) {
             super(ref);
         }

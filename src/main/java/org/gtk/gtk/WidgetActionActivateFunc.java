@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -11,5 +13,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface WidgetActionActivateFunc {
-        void onWidgetActionActivateFunc(@NotNull Widget widget, @NotNull java.lang.String actionName, @NotNull org.gtk.glib.Variant parameter);
+        void onWidgetActionActivateFunc(@NotNull org.gtk.gtk.Widget widget, @NotNull java.lang.String actionName, @NotNull org.gtk.glib.Variant parameter);
 }

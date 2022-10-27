@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -19,8 +21,9 @@ import org.jetbrains.annotations.*;
  * Other than in that case, {@code task} will be completed when the
  * {@link TaskThreadFunc} returns, not when it calls a
  * {@code g_task_return_} function.
+ * @version 2.36
  */
 @FunctionalInterface
 public interface TaskThreadFunc {
-        void onTaskThreadFunc(@NotNull Task task, @NotNull org.gtk.gobject.Object sourceObject, @Nullable Cancellable cancellable);
+        void onTaskThreadFunc(@NotNull org.gtk.gio.Task task, @NotNull org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.Cancellable cancellable);
 }

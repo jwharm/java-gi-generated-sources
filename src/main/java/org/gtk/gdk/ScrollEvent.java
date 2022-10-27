@@ -8,8 +8,20 @@ import org.jetbrains.annotations.*;
 /**
  * An event related to a scrolling motion.
  */
-public class ScrollEvent extends Event {
-
+public class ScrollEvent extends org.gtk.gdk.Event {
+    
+    static {
+        Gdk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public ScrollEvent(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -19,22 +31,21 @@ public class ScrollEvent extends Event {
         return new ScrollEvent(gobject.refcounted());
     }
     
-    private static final MethodHandle gdk_scroll_event_get_deltas = Interop.downcallHandle(
-        "gdk_scroll_event_get_deltas",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Extracts the scroll deltas of a scroll event.
      * <p>
      * The deltas will be zero unless the scroll direction
      * is {@link ScrollDirection#SMOOTH}.
+     * @param deltaX return location for x scroll delta
+     * @param deltaY return location for y scroll delta
      */
-    public @NotNull void getDeltas(@NotNull Out<Double> deltaX, @NotNull Out<Double> deltaY) {
+    public void getDeltas(Out<Double> deltaX, Out<Double> deltaY) {
+        java.util.Objects.requireNonNull(deltaX, "Parameter 'deltaX' must not be null");
+        java.util.Objects.requireNonNull(deltaY, "Parameter 'deltaY' must not be null");
         MemorySegment deltaXPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         MemorySegment deltaYPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         try {
-            gdk_scroll_event_get_deltas.invokeExact(handle(), (Addressable) deltaXPOINTER.address(), (Addressable) deltaYPOINTER.address());
+            DowncallHandles.gdk_scroll_event_get_deltas.invokeExact(handle(), (Addressable) deltaXPOINTER.address(), (Addressable) deltaYPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -42,28 +53,19 @@ public class ScrollEvent extends Event {
         deltaY.set(deltaYPOINTER.get(ValueLayout.JAVA_DOUBLE, 0));
     }
     
-    private static final MethodHandle gdk_scroll_event_get_direction = Interop.downcallHandle(
-        "gdk_scroll_event_get_direction",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Extracts the direction of a scroll event.
+     * @return the scroll direction of {@code event}
      */
-    public @NotNull ScrollDirection getDirection() {
+    public @NotNull org.gtk.gdk.ScrollDirection getDirection() {
         int RESULT;
         try {
-            RESULT = (int) gdk_scroll_event_get_direction.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_scroll_event_get_direction.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ScrollDirection(RESULT);
+        return new org.gtk.gdk.ScrollDirection(RESULT);
     }
-    
-    private static final MethodHandle gdk_scroll_event_is_stop = Interop.downcallHandle(
-        "gdk_scroll_event_is_stop",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Check whether a scroll event is a stop scroll event.
@@ -75,15 +77,33 @@ public class ScrollEvent extends Event {
      * velocity.
      * <p>
      * Stop scroll events always have a delta of 0/0.
+     * @return {@code true} if the event is a scroll stop event
      */
     public boolean isStop() {
         int RESULT;
         try {
-            RESULT = (int) gdk_scroll_event_is_stop.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_scroll_event_is_stop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gdk_scroll_event_get_deltas = Interop.downcallHandle(
+            "gdk_scroll_event_get_deltas",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_scroll_event_get_direction = Interop.downcallHandle(
+            "gdk_scroll_event_get_direction",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_scroll_event_is_stop = Interop.downcallHandle(
+            "gdk_scroll_event_is_stop",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+    }
 }

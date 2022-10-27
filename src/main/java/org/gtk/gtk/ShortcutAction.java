@@ -21,7 +21,6 @@ import org.jetbrains.annotations.*;
  * can be called.
  * <p>
  * GTK provides various actions:
- * <p>
  * <ul>
  * <li>{@link MnemonicAction}: a shortcut action that calls
  *    gtk_widget_mnemonic_activate()
@@ -34,9 +33,22 @@ import org.jetbrains.annotations.*;
  * <li>{@link NamedAction}: a shortcut action that calls
  *    gtk_widget_activate_action()
  * <li>{@link NothingAction}: a shortcut action that does nothing
+ * </ul>
  */
 public class ShortcutAction extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public ShortcutAction(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -46,18 +58,15 @@ public class ShortcutAction extends org.gtk.gobject.Object {
         return new ShortcutAction(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_shortcut_action_parse_string = Interop.downcallHandle(
-        "gtk_shortcut_action_parse_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructParseString(@NotNull java.lang.String string) {
+        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_shortcut_action_parse_string.invokeExact(Interop.allocateNativeString(string)), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_shortcut_action_parse_string.invokeExact(Interop.allocateNativeString(string)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -73,15 +82,13 @@ public class ShortcutAction extends org.gtk.gobject.Object {
      * <li>{@code mnemonic-activate}, for {@code GtkMnemonicAction}
      * <li>{@code action(NAME)}, for a {@code GtkNamedAction} for the action named {@code NAME}
      * <li>{@code signal(NAME)}, for a {@code GtkSignalAction} for the signal {@code NAME}
+     * </ul>
+     * @param string the string to parse
+     * @return a new {@code GtkShortcutAction}
      */
     public static ShortcutAction parseString(@NotNull java.lang.String string) {
         return new ShortcutAction(constructParseString(string));
     }
-    
-    private static final MethodHandle gtk_shortcut_action_activate = Interop.downcallHandle(
-        "gtk_shortcut_action_activate",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Activates the action on the {@code widget} with the given {@code args}.
@@ -91,21 +98,23 @@ public class ShortcutAction extends org.gtk.gobject.Object {
      * Activation of an action can fail for various reasons. If the action
      * is not supported by the {@code widget}, if the {@code args} don't match the action
      * or if the activation otherwise had no effect, {@code false} will be returned.
+     * @param flags flags to activate with
+     * @param widget Target of the activation
+     * @param args arguments to pass
+     * @return {@code true} if this action was activated successfully
      */
-    public boolean activate(@NotNull ShortcutActionFlags flags, @NotNull Widget widget, @Nullable org.gtk.glib.Variant args) {
+    public boolean activate(@NotNull org.gtk.gtk.ShortcutActionFlags flags, @NotNull org.gtk.gtk.Widget widget, @Nullable org.gtk.glib.Variant args) {
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
+        java.util.Objects.requireNonNullElse(args, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) gtk_shortcut_action_activate.invokeExact(handle(), flags.getValue(), widget.handle(), args.handle());
+            RESULT = (int) DowncallHandles.gtk_shortcut_action_activate.invokeExact(handle(), flags.getValue(), widget.handle(), args.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gtk_shortcut_action_print = Interop.downcallHandle(
-        "gtk_shortcut_action_print",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Prints the given action into a string for the developer.
@@ -114,34 +123,54 @@ public class ShortcutAction extends org.gtk.gobject.Object {
      * <p>
      * The form of the representation may change at any time and is
      * not guaranteed to stay identical.
+     * @param string a {@code GString} to print into
      */
-    public @NotNull void print(@NotNull org.gtk.glib.String string) {
+    public void print(@NotNull org.gtk.glib.String string) {
+        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         try {
-            gtk_shortcut_action_print.invokeExact(handle(), string.handle());
+            DowncallHandles.gtk_shortcut_action_print.invokeExact(handle(), string.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_shortcut_action_to_string = Interop.downcallHandle(
-        "gtk_shortcut_action_to_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Prints the given action into a human-readable string.
      * <p>
      * This is a small wrapper around {@link ShortcutAction#print}
      * to help when debugging.
+     * @return a new string
      */
     public @NotNull java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_shortcut_action_to_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_action_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_shortcut_action_parse_string = Interop.downcallHandle(
+            "gtk_shortcut_action_parse_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_shortcut_action_activate = Interop.downcallHandle(
+            "gtk_shortcut_action_activate",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_shortcut_action_print = Interop.downcallHandle(
+            "gtk_shortcut_action_print",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_shortcut_action_to_string = Interop.downcallHandle(
+            "gtk_shortcut_action_to_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

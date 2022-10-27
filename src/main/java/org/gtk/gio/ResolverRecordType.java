@@ -1,5 +1,10 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The type of record that g_resolver_lookup_records() or
  * g_resolver_lookup_records_async() should retrieve. The records are returned
@@ -31,9 +36,18 @@ package org.gtk.gio;
  * <p>
  * {@link ResolverRecordType#NS} records are returned as variants with the signature
  * {@code (s)}, representing a string of the hostname of the name server.
+ * @version 2.34
  */
 public class ResolverRecordType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * look up DNS SRV records for a domain
      */
@@ -62,5 +76,4 @@ public class ResolverRecordType extends io.github.jwharm.javagi.Enumeration {
     public ResolverRecordType(int value) {
         super(value);
     }
-    
 }

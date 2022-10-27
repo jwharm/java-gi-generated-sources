@@ -1,11 +1,25 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * An error code used with {@code G_TLS_CHANNEL_BINDING_ERROR} in a {@link org.gtk.glib.Error} to
  * indicate a TLS channel binding retrieval error.
+ * @version 2.66
  */
 public class TlsChannelBindingError extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Either entire binding
      *    retrieval facility or specific binding type is not implemented in the
@@ -46,4 +60,25 @@ public class TlsChannelBindingError extends io.github.jwharm.javagi.Enumeration 
         super(value);
     }
     
+    /**
+     * Gets the TLS channel binding error quark.
+     * @return a {@link org.gtk.glib.Quark}.
+     */
+    public static @NotNull org.gtk.glib.Quark quark() {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_tls_channel_binding_error_quark.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Quark(RESULT);
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_tls_channel_binding_error_quark = Interop.downcallHandle(
+            "g_tls_channel_binding_error_quark",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+        );
+    }
 }

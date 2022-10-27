@@ -21,47 +21,34 @@ import org.jetbrains.annotations.*;
  * as well.
  */
 public interface Actionable extends io.github.jwharm.javagi.Proxy {
-
-    @ApiStatus.Internal static final MethodHandle gtk_actionable_get_action_name = Interop.downcallHandle(
-        "gtk_actionable_get_action_name",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the action name for {@code actionable}.
+     * @return the action name
      */
     default @Nullable java.lang.String getActionName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_actionable_get_action_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_actionable_get_action_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    @ApiStatus.Internal static final MethodHandle gtk_actionable_get_action_target_value = Interop.downcallHandle(
-        "gtk_actionable_get_action_target_value",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the current target value of {@code actionable}.
+     * @return the current target value
      */
     default @Nullable org.gtk.glib.Variant getActionTargetValue() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_actionable_get_action_target_value.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_actionable_get_action_target_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.Variant(Refcounted.get(RESULT, false));
     }
-    
-    @ApiStatus.Internal static final MethodHandle gtk_actionable_set_action_name = Interop.downcallHandle(
-        "gtk_actionable_set_action_name",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Specifies the name of the action with which this widget should be
@@ -74,22 +61,35 @@ public interface Actionable extends io.github.jwharm.javagi.Proxy {
      * located) within the hierarchy of a {@code GtkApplicationWindow}.
      * <p>
      * Names are of the form “win.save” or “app.quit” for actions on the
-     * containing {@code Application},
+     * containing {@link ApplicationWindow},
      * respectively. This is the same form used for actions in the {@link org.gtk.gio.Menu}
      * associated with the window.
+     * @param actionName an action name
      */
-    default @NotNull void setActionName(@Nullable java.lang.String actionName) {
+    default void setActionName(@Nullable java.lang.String actionName) {
+        java.util.Objects.requireNonNullElse(actionName, MemoryAddress.NULL);
         try {
-            gtk_actionable_set_action_name.invokeExact(handle(), Interop.allocateNativeString(actionName));
+            DowncallHandles.gtk_actionable_set_action_name.invokeExact(handle(), Interop.allocateNativeString(actionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    @ApiStatus.Internal static final MethodHandle gtk_actionable_set_action_target_value = Interop.downcallHandle(
-        "gtk_actionable_set_action_target_value",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Sets the target of an actionable widget.
+     * <p>
+     * This is a convenience function that calls {@link org.gtk.glib.Variant#Variant} for
+     * {@code format_string} and uses the result to call
+     * {@link Actionable#setActionTargetValue}.
+     * <p>
+     * If you are setting a string-valued target and want to set
+     * the action name at the same time, you can use
+     * {@link Actionable#setDetailedActionName}.
+     * @param formatString a {@code GLib.Variant} format string
+     */
+    default void setActionTarget(@NotNull java.lang.String formatString) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Sets the target value of an actionable widget.
@@ -110,36 +110,80 @@ public interface Actionable extends io.github.jwharm.javagi.Proxy {
      * is now equal to the target value of the button, the button will now
      * be rendered as active (and the other buttons, with different targets,
      * rendered inactive).
+     * @param targetValue a {@code GLib.Variant} to set as the target value
      */
-    default @NotNull void setActionTargetValue(@Nullable org.gtk.glib.Variant targetValue) {
+    default void setActionTargetValue(@Nullable org.gtk.glib.Variant targetValue) {
+        java.util.Objects.requireNonNullElse(targetValue, MemoryAddress.NULL);
         try {
-            gtk_actionable_set_action_target_value.invokeExact(handle(), targetValue.handle());
+            DowncallHandles.gtk_actionable_set_action_target_value.invokeExact(handle(), targetValue.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    @ApiStatus.Internal static final MethodHandle gtk_actionable_set_detailed_action_name = Interop.downcallHandle(
-        "gtk_actionable_set_detailed_action_name",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the action-name and associated string target value of an
      * actionable widget.
      * <p>
      * {@code detailed_action_name} is a string in the format accepted by
-     * {@link Gio#Action}.
+     * {@link org.gtk.gio.Action#parseDetailedName}.
+     * @param detailedActionName the detailed action name
      */
-    default @NotNull void setDetailedActionName(@NotNull java.lang.String detailedActionName) {
+    default void setDetailedActionName(@NotNull java.lang.String detailedActionName) {
+        java.util.Objects.requireNonNull(detailedActionName, "Parameter 'detailedActionName' must not be null");
         try {
-            gtk_actionable_set_detailed_action_name.invokeExact(handle(), Interop.allocateNativeString(detailedActionName));
+            DowncallHandles.gtk_actionable_set_detailed_action_name.invokeExact(handle(), Interop.allocateNativeString(detailedActionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    @ApiStatus.Internal
+    static class DowncallHandles {
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_actionable_get_action_name = Interop.downcallHandle(
+            "gtk_actionable_get_action_name",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_actionable_get_action_target_value = Interop.downcallHandle(
+            "gtk_actionable_get_action_target_value",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_actionable_set_action_name = Interop.downcallHandle(
+            "gtk_actionable_set_action_name",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_actionable_set_action_target = Interop.downcallHandle(
+            "gtk_actionable_set_action_target",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_actionable_set_action_target_value = Interop.downcallHandle(
+            "gtk_actionable_set_action_target_value",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_actionable_set_detailed_action_name = Interop.downcallHandle(
+            "gtk_actionable_set_detailed_action_name",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
+    
     class ActionableImpl extends org.gtk.gobject.Object implements Actionable {
+        
+        static {
+            Gtk.javagi$ensureInitialized();
+        }
+        
         public ActionableImpl(io.github.jwharm.javagi.Refcounted ref) {
             super(ref);
         }

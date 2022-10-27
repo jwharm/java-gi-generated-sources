@@ -20,7 +20,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * Although a {@code GtkListBox} must have only {@code GtkListBoxRow} children, you can
  * add any kind of widget to it via {@link ListBox#prepend},
- * {@code Gtk.ListBox.insert} and a
+ * {@link ListBox#append} and {@link ListBox#insert} and a
  * {@code GtkListBoxRow} widget will automatically be inserted between the list
  * and the widget.
  * <p>
@@ -28,14 +28,14 @@ import org.jetbrains.annotations.*;
  * activatable, {@code Gtk.ListBox::row-activated} will be emitted for it when
  * the user tries to activate it. If it is selectable, the row will be marked
  * as selected when the user tries to select it.
- * 
- * <h1>GtkListBox as GtkBuildable</h1>
+ * <p>
+ * <strong>GtkListBox as GtkBuildable</strong><br/>
  * The {@code GtkListBox} implementation of the {@code GtkBuildable} interface supports
  * setting a child as the placeholder by specifying “placeholder” as the “type”
  * attribute of a &lt;child&gt; element. See {@link ListBox#setPlaceholder}
  * for info.
- * 
- * <h1>CSS nodes</h1>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * <pre>{@code <!-- language="plain" -->
  * list[.separators][.rich-list][.navigation-sidebar]
  * ╰── row[.activatable]
@@ -49,13 +49,25 @@ import org.jetbrains.annotations.*;
  * The main list node may also carry style classes to select
  * the style of <a href="section-list-widget.html#list-styles">list presentation</a>:
  * .rich-list, .navigation-sidebar or .data-table.
- * 
- * <h1>Accessibility</h1>
+ * <p>
+ * <strong>Accessibility</strong><br/>
  * {@code GtkListBox} uses the {@link AccessibleRole#LIST} role and {@code GtkListBoxRow} uses
  * the {@link AccessibleRole#LIST_ITEM} role.
  */
-public class ListBox extends Widget implements Accessible, Buildable, ConstraintTarget {
-
+public class ListBox extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public ListBox(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -65,18 +77,14 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
         return new ListBox(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_list_box_new = Interop.downcallHandle(
-        "gtk_list_box_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_list_box_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_list_box_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -86,29 +94,21 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_list_box_append = Interop.downcallHandle(
-        "gtk_list_box_append",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Append a widget to the list.
      * <p>
      * If a sort function is set, the widget will
      * actually be inserted at the calculated position.
+     * @param child the {@code GtkWidget} to add
      */
-    public @NotNull void append(@NotNull Widget child) {
+    public void append(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            gtk_list_box_append.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_list_box_append.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_box_bind_model = Interop.downcallHandle(
-        "gtk_list_box_bind_model",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Binds {@code model} to {@code box}.
@@ -126,26 +126,26 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * Note that using a model is incompatible with the filtering and sorting
      * functionality in {@code GtkListBox}. When using a model, filtering and sorting
      * should be implemented by the model.
+     * @param model the {@code GListModel} to be bound to {@code box}
+     * @param createWidgetFunc a function that creates widgets for items
+     *   or {@code null} in case you also passed {@code null} as {@code model}
      */
-    public @NotNull void bindModel(@Nullable org.gtk.gio.ListModel model, @Nullable ListBoxCreateWidgetFunc createWidgetFunc) {
+    public void bindModel(@Nullable org.gtk.gio.ListModel model, @Nullable org.gtk.gtk.ListBoxCreateWidgetFunc createWidgetFunc) {
+        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(createWidgetFunc, MemoryAddress.NULL);
         try {
-            gtk_list_box_bind_model.invokeExact(handle(), model.handle(), 
+            DowncallHandles.gtk_list_box_bind_model.invokeExact(handle(), model.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.class, "__cbListBoxCreateWidgetFunc",
+                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbListBoxCreateWidgetFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(createWidgetFunc)), 
+                   (Addressable) (createWidgetFunc == null ? MemoryAddress.NULL : Interop.registerCallback(createWidgetFunc)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_box_drag_highlight_row = Interop.downcallHandle(
-        "gtk_list_box_drag_highlight_row",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Add a drag highlight to a row.
@@ -157,112 +157,90 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * <p>
      * The row will also be unhighlighted when the widget gets
      * a drag leave event.
+     * @param row a {@code GtkListBoxRow}
      */
-    public @NotNull void dragHighlightRow(@NotNull ListBoxRow row) {
+    public void dragHighlightRow(@NotNull org.gtk.gtk.ListBoxRow row) {
+        java.util.Objects.requireNonNull(row, "Parameter 'row' must not be null");
         try {
-            gtk_list_box_drag_highlight_row.invokeExact(handle(), row.handle());
+            DowncallHandles.gtk_list_box_drag_highlight_row.invokeExact(handle(), row.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_box_drag_unhighlight_row = Interop.downcallHandle(
-        "gtk_list_box_drag_unhighlight_row",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * If a row has previously been highlighted via gtk_list_box_drag_highlight_row(),
      * it will have the highlight removed.
      */
-    public @NotNull void dragUnhighlightRow() {
+    public void dragUnhighlightRow() {
         try {
-            gtk_list_box_drag_unhighlight_row.invokeExact(handle());
+            DowncallHandles.gtk_list_box_drag_unhighlight_row.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle gtk_list_box_get_activate_on_single_click = Interop.downcallHandle(
-        "gtk_list_box_get_activate_on_single_click",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns whether rows activate on single clicks.
+     * @return {@code true} if rows are activated on single click, {@code false} otherwise
      */
     public boolean getActivateOnSingleClick() {
         int RESULT;
         try {
-            RESULT = (int) gtk_list_box_get_activate_on_single_click.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_list_box_get_activate_on_single_click.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_list_box_get_adjustment = Interop.downcallHandle(
-        "gtk_list_box_get_adjustment",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the adjustment (if any) that the widget uses to
      * for vertical scrolling.
+     * @return the adjustment
      */
-    public @Nullable Adjustment getAdjustment() {
+    public @Nullable org.gtk.gtk.Adjustment getAdjustment() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_list_box_get_adjustment.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_get_adjustment.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Adjustment(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Adjustment(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_list_box_get_row_at_index = Interop.downcallHandle(
-        "gtk_list_box_get_row_at_index",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Gets the n-th child in the list (not counting headers).
      * <p>
      * If {@code index_} is negative or larger than the number of items in the
      * list, {@code null} is returned.
+     * @param index the index of the row
+     * @return the child {@code GtkWidget}
      */
-    public @Nullable ListBoxRow getRowAtIndex(@NotNull int index) {
+    public @Nullable org.gtk.gtk.ListBoxRow getRowAtIndex(int index) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_list_box_get_row_at_index.invokeExact(handle(), index);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_get_row_at_index.invokeExact(handle(), index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ListBoxRow(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.ListBoxRow(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_list_box_get_row_at_y = Interop.downcallHandle(
-        "gtk_list_box_get_row_at_y",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
-     * Gets the row at the @y position.
+     * Gets the row at the {@code y} position.
+     * @param y position
+     * @return the row
      */
-    public @Nullable ListBoxRow getRowAtY(@NotNull int y) {
+    public @Nullable org.gtk.gtk.ListBoxRow getRowAtY(int y) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_list_box_get_row_at_y.invokeExact(handle(), y);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_get_row_at_y.invokeExact(handle(), y);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ListBoxRow(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.ListBoxRow(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_list_box_get_selected_row = Interop.downcallHandle(
-        "gtk_list_box_get_selected_row",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the selected row, or {@code null} if no rows are selected.
@@ -270,76 +248,61 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * Note that the box may allow multiple selection, in which
      * case you should use {@link ListBox#selectedForeach} to
      * find all selected rows.
+     * @return the selected row
      */
-    public @Nullable ListBoxRow getSelectedRow() {
+    public @Nullable org.gtk.gtk.ListBoxRow getSelectedRow() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_list_box_get_selected_row.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_get_selected_row.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ListBoxRow(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.ListBoxRow(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_list_box_get_selected_rows = Interop.downcallHandle(
-        "gtk_list_box_get_selected_rows",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Creates a list of all selected children.
+     * @return A {@code GList} containing the {@code GtkWidget} for each selected child.
+     *   Free with g_list_free() when done.
      */
     public @NotNull org.gtk.glib.List getSelectedRows() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_list_box_get_selected_rows.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_list_box_get_selected_rows.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle gtk_list_box_get_selection_mode = Interop.downcallHandle(
-        "gtk_list_box_get_selection_mode",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the selection mode of the listbox.
+     * @return a {@code GtkSelectionMode}
      */
-    public @NotNull SelectionMode getSelectionMode() {
+    public @NotNull org.gtk.gtk.SelectionMode getSelectionMode() {
         int RESULT;
         try {
-            RESULT = (int) gtk_list_box_get_selection_mode.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_list_box_get_selection_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new SelectionMode(RESULT);
+        return new org.gtk.gtk.SelectionMode(RESULT);
     }
-    
-    private static final MethodHandle gtk_list_box_get_show_separators = Interop.downcallHandle(
-        "gtk_list_box_get_show_separators",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns whether the list box should show separators
      * between rows.
+     * @return {@code true} if the list box shows separators
      */
     public boolean getShowSeparators() {
         int RESULT;
         try {
-            RESULT = (int) gtk_list_box_get_show_separators.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_list_box_get_show_separators.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gtk_list_box_insert = Interop.downcallHandle(
-        "gtk_list_box_insert",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Insert the {@code child} into the {@code box} at {@code position}.
@@ -349,19 +312,17 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * <p>
      * If {@code position} is -1, or larger than the total number of items in the
      * {@code box}, then the {@code child} will be appended to the end.
+     * @param child the {@code GtkWidget} to add
+     * @param position the position to insert {@code child} in
      */
-    public @NotNull void insert(@NotNull Widget child, @NotNull int position) {
+    public void insert(@NotNull org.gtk.gtk.Widget child, int position) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            gtk_list_box_insert.invokeExact(handle(), child.handle(), position);
+            DowncallHandles.gtk_list_box_insert.invokeExact(handle(), child.handle(), position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_box_invalidate_filter = Interop.downcallHandle(
-        "gtk_list_box_invalidate_filter",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Update the filtering for all rows.
@@ -372,18 +333,13 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * if the filter function just looked for a specific search
      * string and the entry with the search string has changed.
      */
-    public @NotNull void invalidateFilter() {
+    public void invalidateFilter() {
         try {
-            gtk_list_box_invalidate_filter.invokeExact(handle());
+            DowncallHandles.gtk_list_box_invalidate_filter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_box_invalidate_headers = Interop.downcallHandle(
-        "gtk_list_box_invalidate_headers",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Update the separators for all rows.
@@ -392,18 +348,13 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * of the header function on the {@code box} is changed due
      * to an external factor.
      */
-    public @NotNull void invalidateHeaders() {
+    public void invalidateHeaders() {
         try {
-            gtk_list_box_invalidate_headers.invokeExact(handle());
+            DowncallHandles.gtk_list_box_invalidate_headers.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_box_invalidate_sort = Interop.downcallHandle(
-        "gtk_list_box_invalidate_sort",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Update the sorting for all rows.
@@ -412,126 +363,100 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * of the sort function on the {@code box} is changed due
      * to an external factor.
      */
-    public @NotNull void invalidateSort() {
+    public void invalidateSort() {
         try {
-            gtk_list_box_invalidate_sort.invokeExact(handle());
+            DowncallHandles.gtk_list_box_invalidate_sort.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_box_prepend = Interop.downcallHandle(
-        "gtk_list_box_prepend",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Prepend a widget to the list.
      * <p>
      * If a sort function is set, the widget will
      * actually be inserted at the calculated position.
+     * @param child the {@code GtkWidget} to add
      */
-    public @NotNull void prepend(@NotNull Widget child) {
+    public void prepend(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            gtk_list_box_prepend.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_list_box_prepend.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_box_remove = Interop.downcallHandle(
-        "gtk_list_box_remove",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Removes a child from {@code box}.
+     * @param child the child to remove
      */
-    public @NotNull void remove(@NotNull Widget child) {
+    public void remove(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            gtk_list_box_remove.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_list_box_remove.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_box_select_all = Interop.downcallHandle(
-        "gtk_list_box_select_all",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Select all children of {@code box}, if the selection mode allows it.
      */
-    public @NotNull void selectAll() {
+    public void selectAll() {
         try {
-            gtk_list_box_select_all.invokeExact(handle());
+            DowncallHandles.gtk_list_box_select_all.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_box_select_row = Interop.downcallHandle(
-        "gtk_list_box_select_row",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Make {@code row} the currently selected row.
+     * @param row The row to select
      */
-    public @NotNull void selectRow(@Nullable ListBoxRow row) {
+    public void selectRow(@Nullable org.gtk.gtk.ListBoxRow row) {
+        java.util.Objects.requireNonNullElse(row, MemoryAddress.NULL);
         try {
-            gtk_list_box_select_row.invokeExact(handle(), row.handle());
+            DowncallHandles.gtk_list_box_select_row.invokeExact(handle(), row.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_box_selected_foreach = Interop.downcallHandle(
-        "gtk_list_box_selected_foreach",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Calls a function for each selected child.
      * <p>
      * Note that the selection cannot be modified from within this function.
+     * @param func the function to call for each selected child
      */
-    public @NotNull void selectedForeach(@NotNull ListBoxForeachFunc func) {
+    public void selectedForeach(@NotNull org.gtk.gtk.ListBoxForeachFunc func) {
+        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            gtk_list_box_selected_foreach.invokeExact(handle(), 
+            DowncallHandles.gtk_list_box_selected_foreach.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.class, "__cbListBoxForeachFunc",
+                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbListBoxForeachFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)));
+                   (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_box_set_activate_on_single_click = Interop.downcallHandle(
-        "gtk_list_box_set_activate_on_single_click",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * If {@code single} is {@code true}, rows will be activated when you click on them,
      * otherwise you need to double-click.
+     * @param single a boolean
      */
-    public @NotNull void setActivateOnSingleClick(@NotNull boolean single) {
+    public void setActivateOnSingleClick(boolean single) {
         try {
-            gtk_list_box_set_activate_on_single_click.invokeExact(handle(), single ? 1 : 0);
+            DowncallHandles.gtk_list_box_set_activate_on_single_click.invokeExact(handle(), single ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_box_set_adjustment = Interop.downcallHandle(
-        "gtk_list_box_set_adjustment",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the adjustment (if any) that the widget uses to
@@ -544,19 +469,16 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * a {@code GtkScrolledWindow} the adjustment from that will
      * be picked up automatically, so there is no need
      * to manually do that.
+     * @param adjustment the adjustment
      */
-    public @NotNull void setAdjustment(@Nullable Adjustment adjustment) {
+    public void setAdjustment(@Nullable org.gtk.gtk.Adjustment adjustment) {
+        java.util.Objects.requireNonNullElse(adjustment, MemoryAddress.NULL);
         try {
-            gtk_list_box_set_adjustment.invokeExact(handle(), adjustment.handle());
+            DowncallHandles.gtk_list_box_set_adjustment.invokeExact(handle(), adjustment.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_box_set_filter_func = Interop.downcallHandle(
-        "gtk_list_box_set_filter_func",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * By setting a filter function on the {@code box} one can decide dynamically which
@@ -567,31 +489,28 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * <p>
      * The {@code filter_func} will be called for each row after the call, and
      * it will continue to be called each time a row changes (via
-     * {@code Gtk.ListBox.invalidate_filter}
+     * {@link ListBoxRow#changed}) or when {@link ListBox#invalidateFilter}
      * is called.
      * <p>
      * Note that using a filter function is incompatible with using a model
      * (see {@link ListBox#bindModel}).
+     * @param filterFunc callback that lets you filter which rows to show
      */
-    public @NotNull void setFilterFunc(@Nullable ListBoxFilterFunc filterFunc) {
+    public void setFilterFunc(@Nullable org.gtk.gtk.ListBoxFilterFunc filterFunc) {
+        java.util.Objects.requireNonNullElse(filterFunc, MemoryAddress.NULL);
         try {
-            gtk_list_box_set_filter_func.invokeExact(handle(), 
+            DowncallHandles.gtk_list_box_set_filter_func.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.class, "__cbListBoxFilterFunc",
+                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbListBoxFilterFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(filterFunc)), 
+                   (Addressable) (filterFunc == null ? MemoryAddress.NULL : Interop.registerCallback(filterFunc)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_box_set_header_func = Interop.downcallHandle(
-        "gtk_list_box_set_header_func",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets a header function.
@@ -619,76 +538,63 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * by {@link ListBoxRow#changed} on the previous row, or when the previous
      * row becomes a different row). It is also called for all rows when
      * {@link ListBox#invalidateHeaders} is called.
+     * @param updateHeader callback that lets you add row headers
      */
-    public @NotNull void setHeaderFunc(@Nullable ListBoxUpdateHeaderFunc updateHeader) {
+    public void setHeaderFunc(@Nullable org.gtk.gtk.ListBoxUpdateHeaderFunc updateHeader) {
+        java.util.Objects.requireNonNullElse(updateHeader, MemoryAddress.NULL);
         try {
-            gtk_list_box_set_header_func.invokeExact(handle(), 
+            DowncallHandles.gtk_list_box_set_header_func.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.class, "__cbListBoxUpdateHeaderFunc",
+                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbListBoxUpdateHeaderFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(updateHeader)), 
+                   (Addressable) (updateHeader == null ? MemoryAddress.NULL : Interop.registerCallback(updateHeader)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle gtk_list_box_set_placeholder = Interop.downcallHandle(
-        "gtk_list_box_set_placeholder",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Sets the placeholder widget that is shown in the list when
      * it doesn't display any visible children.
+     * @param placeholder a {@code GtkWidget}
      */
-    public @NotNull void setPlaceholder(@Nullable Widget placeholder) {
+    public void setPlaceholder(@Nullable org.gtk.gtk.Widget placeholder) {
+        java.util.Objects.requireNonNullElse(placeholder, MemoryAddress.NULL);
         try {
-            gtk_list_box_set_placeholder.invokeExact(handle(), placeholder.handle());
+            DowncallHandles.gtk_list_box_set_placeholder.invokeExact(handle(), placeholder.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_box_set_selection_mode = Interop.downcallHandle(
-        "gtk_list_box_set_selection_mode",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets how selection works in the listbox.
+     * @param mode The {@code GtkSelectionMode}
      */
-    public @NotNull void setSelectionMode(@NotNull SelectionMode mode) {
+    public void setSelectionMode(@NotNull org.gtk.gtk.SelectionMode mode) {
+        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
         try {
-            gtk_list_box_set_selection_mode.invokeExact(handle(), mode.getValue());
+            DowncallHandles.gtk_list_box_set_selection_mode.invokeExact(handle(), mode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_box_set_show_separators = Interop.downcallHandle(
-        "gtk_list_box_set_show_separators",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether the list box should show separators
      * between rows.
+     * @param showSeparators {@code true} to show separators
      */
-    public @NotNull void setShowSeparators(@NotNull boolean showSeparators) {
+    public void setShowSeparators(boolean showSeparators) {
         try {
-            gtk_list_box_set_show_separators.invokeExact(handle(), showSeparators ? 1 : 0);
+            DowncallHandles.gtk_list_box_set_show_separators.invokeExact(handle(), showSeparators ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_box_set_sort_func = Interop.downcallHandle(
-        "gtk_list_box_set_sort_func",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets a sort function.
@@ -698,65 +604,59 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * <p>
      * The {@code sort_func} will be called for each row after the call, and will
      * continue to be called each time a row changes (via
-     * {@code Gtk.ListBox.invalidate_sort}
+     * {@link ListBoxRow#changed}) and when {@link ListBox#invalidateSort}
      * is called.
      * <p>
      * Note that using a sort function is incompatible with using a model
      * (see {@link ListBox#bindModel}).
+     * @param sortFunc the sort function
      */
-    public @NotNull void setSortFunc(@Nullable ListBoxSortFunc sortFunc) {
+    public void setSortFunc(@Nullable org.gtk.gtk.ListBoxSortFunc sortFunc) {
+        java.util.Objects.requireNonNullElse(sortFunc, MemoryAddress.NULL);
         try {
-            gtk_list_box_set_sort_func.invokeExact(handle(), 
+            DowncallHandles.gtk_list_box_set_sort_func.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.class, "__cbListBoxSortFunc",
+                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbListBoxSortFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(sortFunc)), 
+                   (Addressable) (sortFunc == null ? MemoryAddress.NULL : Interop.registerCallback(sortFunc)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle gtk_list_box_unselect_all = Interop.downcallHandle(
-        "gtk_list_box_unselect_all",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Unselect all children of {@code box}, if the selection mode allows it.
      */
-    public @NotNull void unselectAll() {
+    public void unselectAll() {
         try {
-            gtk_list_box_unselect_all.invokeExact(handle());
+            DowncallHandles.gtk_list_box_unselect_all.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle gtk_list_box_unselect_row = Interop.downcallHandle(
-        "gtk_list_box_unselect_row",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Unselects a single row of {@code box}, if the selection mode allows it.
+     * @param row the row to unselected
      */
-    public @NotNull void unselectRow(@NotNull ListBoxRow row) {
+    public void unselectRow(@NotNull org.gtk.gtk.ListBoxRow row) {
+        java.util.Objects.requireNonNull(row, "Parameter 'row' must not be null");
         try {
-            gtk_list_box_unselect_row.invokeExact(handle(), row.handle());
+            DowncallHandles.gtk_list_box_unselect_row.invokeExact(handle(), row.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ActivateCursorRowHandler {
+    public interface ActivateCursorRow {
         void signalReceived(ListBox source);
     }
     
-    public SignalHandle onActivateCursorRow(ActivateCursorRowHandler handler) {
+    public Signal<ListBox.ActivateCursorRow> onActivateCursorRow(ListBox.ActivateCursorRow handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -766,20 +666,20 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<ListBox.ActivateCursorRow>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface MoveCursorHandler {
-        void signalReceived(ListBox source, @NotNull MovementStep object, @NotNull int p0, @NotNull boolean p1, @NotNull boolean p2);
+    public interface MoveCursor {
+        void signalReceived(ListBox source, @NotNull org.gtk.gtk.MovementStep object, int p0, boolean p1, boolean p2);
     }
     
-    public SignalHandle onMoveCursor(MoveCursorHandler handler) {
+    public Signal<ListBox.MoveCursor> onMoveCursor(ListBox.MoveCursor handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -789,23 +689,23 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<ListBox.MoveCursor>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface RowActivatedHandler {
-        void signalReceived(ListBox source, @NotNull ListBoxRow row);
+    public interface RowActivated {
+        void signalReceived(ListBox source, @NotNull org.gtk.gtk.ListBoxRow row);
     }
     
     /**
      * Emitted when a row has been activated by the user.
      */
-    public SignalHandle onRowActivated(RowActivatedHandler handler) {
+    public Signal<ListBox.RowActivated> onRowActivated(ListBox.RowActivated handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -815,17 +715,17 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<ListBox.RowActivated>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface RowSelectedHandler {
-        void signalReceived(ListBox source, @Nullable ListBoxRow row);
+    public interface RowSelected {
+        void signalReceived(ListBox source, @Nullable org.gtk.gtk.ListBoxRow row);
     }
     
     /**
@@ -836,7 +736,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * give you the full picture of selection changes, and you should use
      * the {@code Gtk.ListBox::selected-rows-changed} signal instead.
      */
-    public SignalHandle onRowSelected(RowSelectedHandler handler) {
+    public Signal<ListBox.RowSelected> onRowSelected(ListBox.RowSelected handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -846,16 +746,16 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<ListBox.RowSelected>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface SelectAllHandler {
+    public interface SelectAll {
         void signalReceived(ListBox source);
     }
     
@@ -867,7 +767,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;a&lt;/kbd&gt;.
      */
-    public SignalHandle onSelectAll(SelectAllHandler handler) {
+    public Signal<ListBox.SelectAll> onSelectAll(ListBox.SelectAll handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -877,23 +777,23 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<ListBox.SelectAll>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface SelectedRowsChangedHandler {
+    public interface SelectedRowsChanged {
         void signalReceived(ListBox source);
     }
     
     /**
      * Emitted when the set of selected rows changes.
      */
-    public SignalHandle onSelectedRowsChanged(SelectedRowsChangedHandler handler) {
+    public Signal<ListBox.SelectedRowsChanged> onSelectedRowsChanged(ListBox.SelectedRowsChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -903,20 +803,20 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<ListBox.SelectedRowsChanged>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ToggleCursorRowHandler {
+    public interface ToggleCursorRow {
         void signalReceived(ListBox source);
     }
     
-    public SignalHandle onToggleCursorRow(ToggleCursorRowHandler handler) {
+    public Signal<ListBox.ToggleCursorRow> onToggleCursorRow(ListBox.ToggleCursorRow handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -926,16 +826,16 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<ListBox.ToggleCursorRow>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface UnselectAllHandler {
+    public interface UnselectAll {
         void signalReceived(ListBox source);
     }
     
@@ -948,7 +848,7 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
      * The default binding for this signal is
      * &lt;kbd&gt;Ctrl&lt;/kbd&gt;-&lt;kbd&gt;Shift&lt;/kbd&gt;-&lt;kbd&gt;a&lt;/kbd&gt;.
      */
-    public SignalHandle onUnselectAll(UnselectAllHandler handler) {
+    public Signal<ListBox.UnselectAll> onUnselectAll(ListBox.UnselectAll handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -958,63 +858,225 @@ public class ListBox extends Widget implements Accessible, Buildable, Constraint
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<ListBox.UnselectAll>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_list_box_new = Interop.downcallHandle(
+            "gtk_list_box_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_box_append = Interop.downcallHandle(
+            "gtk_list_box_append",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_box_bind_model = Interop.downcallHandle(
+            "gtk_list_box_bind_model",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_box_drag_highlight_row = Interop.downcallHandle(
+            "gtk_list_box_drag_highlight_row",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_box_drag_unhighlight_row = Interop.downcallHandle(
+            "gtk_list_box_drag_unhighlight_row",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_box_get_activate_on_single_click = Interop.downcallHandle(
+            "gtk_list_box_get_activate_on_single_click",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_box_get_adjustment = Interop.downcallHandle(
+            "gtk_list_box_get_adjustment",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_box_get_row_at_index = Interop.downcallHandle(
+            "gtk_list_box_get_row_at_index",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_list_box_get_row_at_y = Interop.downcallHandle(
+            "gtk_list_box_get_row_at_y",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_list_box_get_selected_row = Interop.downcallHandle(
+            "gtk_list_box_get_selected_row",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_box_get_selected_rows = Interop.downcallHandle(
+            "gtk_list_box_get_selected_rows",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_box_get_selection_mode = Interop.downcallHandle(
+            "gtk_list_box_get_selection_mode",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_box_get_show_separators = Interop.downcallHandle(
+            "gtk_list_box_get_show_separators",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_box_insert = Interop.downcallHandle(
+            "gtk_list_box_insert",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_list_box_invalidate_filter = Interop.downcallHandle(
+            "gtk_list_box_invalidate_filter",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_box_invalidate_headers = Interop.downcallHandle(
+            "gtk_list_box_invalidate_headers",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_box_invalidate_sort = Interop.downcallHandle(
+            "gtk_list_box_invalidate_sort",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_box_prepend = Interop.downcallHandle(
+            "gtk_list_box_prepend",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_box_remove = Interop.downcallHandle(
+            "gtk_list_box_remove",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_box_select_all = Interop.downcallHandle(
+            "gtk_list_box_select_all",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_box_select_row = Interop.downcallHandle(
+            "gtk_list_box_select_row",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_box_selected_foreach = Interop.downcallHandle(
+            "gtk_list_box_selected_foreach",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_box_set_activate_on_single_click = Interop.downcallHandle(
+            "gtk_list_box_set_activate_on_single_click",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_list_box_set_adjustment = Interop.downcallHandle(
+            "gtk_list_box_set_adjustment",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_box_set_filter_func = Interop.downcallHandle(
+            "gtk_list_box_set_filter_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_box_set_header_func = Interop.downcallHandle(
+            "gtk_list_box_set_header_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_box_set_placeholder = Interop.downcallHandle(
+            "gtk_list_box_set_placeholder",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_box_set_selection_mode = Interop.downcallHandle(
+            "gtk_list_box_set_selection_mode",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_list_box_set_show_separators = Interop.downcallHandle(
+            "gtk_list_box_set_show_separators",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_list_box_set_sort_func = Interop.downcallHandle(
+            "gtk_list_box_set_sort_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_box_unselect_all = Interop.downcallHandle(
+            "gtk_list_box_unselect_all",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_box_unselect_row = Interop.downcallHandle(
+            "gtk_list_box_unselect_row",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static void signalListBoxActivateCursorRow(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (ListBox.ActivateCursorRowHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ListBox(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (ListBox.ActivateCursorRow) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new ListBox(Refcounted.get(source)));
         }
         
         public static void signalListBoxMoveCursor(MemoryAddress source, int object, int p0, int p1, int p2, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (ListBox.MoveCursorHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ListBox(Refcounted.get(source)), new MovementStep(object), p0, p1 != 0, p2 != 0);
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (ListBox.MoveCursor) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new ListBox(Refcounted.get(source)), new org.gtk.gtk.MovementStep(object), p0, p1 != 0, p2 != 0);
         }
         
         public static void signalListBoxRowActivated(MemoryAddress source, MemoryAddress row, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (ListBox.RowActivatedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ListBox(Refcounted.get(source)), new ListBoxRow(Refcounted.get(row, false)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (ListBox.RowActivated) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new ListBox(Refcounted.get(source)), new org.gtk.gtk.ListBoxRow(Refcounted.get(row, false)));
         }
         
         public static void signalListBoxRowSelected(MemoryAddress source, MemoryAddress row, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (ListBox.RowSelectedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ListBox(Refcounted.get(source)), new ListBoxRow(Refcounted.get(row, false)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (ListBox.RowSelected) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new ListBox(Refcounted.get(source)), new org.gtk.gtk.ListBoxRow(Refcounted.get(row, false)));
         }
         
         public static void signalListBoxSelectAll(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (ListBox.SelectAllHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ListBox(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (ListBox.SelectAll) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new ListBox(Refcounted.get(source)));
         }
         
         public static void signalListBoxSelectedRowsChanged(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (ListBox.SelectedRowsChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ListBox(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (ListBox.SelectedRowsChanged) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new ListBox(Refcounted.get(source)));
         }
         
         public static void signalListBoxToggleCursorRow(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (ListBox.ToggleCursorRowHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ListBox(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (ListBox.ToggleCursorRow) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new ListBox(Refcounted.get(source)));
         }
         
         public static void signalListBoxUnselectAll(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (ListBox.UnselectAllHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ListBox(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (ListBox.UnselectAll) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new ListBox(Refcounted.get(source)));
         }
-        
     }
 }

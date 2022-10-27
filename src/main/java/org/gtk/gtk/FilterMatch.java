@@ -1,5 +1,10 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Describes the known strictness of a filter.
  * <p>
@@ -8,7 +13,15 @@ package org.gtk.gtk;
  * even if a filter does match all or no items.
  */
 public class FilterMatch extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The filter matches some items,
      *   gtk_filter_match() may return {@code true} or {@code false}
@@ -30,5 +43,4 @@ public class FilterMatch extends io.github.jwharm.javagi.Enumeration {
     public FilterMatch(int value) {
         super(value);
     }
-    
 }

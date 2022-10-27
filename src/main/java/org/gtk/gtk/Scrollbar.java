@@ -11,10 +11,10 @@ import org.jetbrains.annotations.*;
  * <img src="./doc-files/scrollbar.png" alt="An example GtkScrollbar">
  * <p>
  * Its position and movement are controlled by the adjustment that is passed to
- * or created by {@code Gtk.Adjustment} for more
+ * or created by {@link Scrollbar#Scrollbar}. See {@link Adjustment} for more
  * details. The {@code Gtk.Adjustment:value} field sets the position of the
  * thumb and must be between {@code Gtk.Adjustment:lower} and
- * {@code Gtk.Adjustment:page-size}.
+ * {@code Gtk.Adjustment:upper} - {@code Gtk.Adjustment:page-size}.
  * The {@code Gtk.Adjustment:page-size} represents the size of the visible
  * scrollable area.
  * <p>
@@ -23,8 +23,8 @@ import org.jetbrains.annotations.*;
  * from the {@code Gtk.Adjustment:value} when the user asks to move by a step
  * (using e.g. the cursor arrow keys) or by a page (using e.g. the Page Down/Up
  * keys).
- * 
- * <h1>CSS nodes</h1>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * <pre>{@code 
  * scrollbar
  * ╰── range[.fine-tune]
@@ -43,12 +43,24 @@ import org.jetbrains.annotations.*;
  * {@link ScrolledWindow} include the positional classes (.left, .right,
  * .top, .bottom) and style classes related to overlay scrolling (.overlay-indicator,
  * .dragging, .hovering).
- * 
- * <h1>Accessibility</h1>
+ * <p>
+ * <strong>Accessibility</strong><br/>
  * {@code GtkScrollbar} uses the {@link AccessibleRole#SCROLLBAR} role.
  */
-public class Scrollbar extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
-
+public class Scrollbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Orientable {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public Scrollbar(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -58,59 +70,70 @@ public class Scrollbar extends Widget implements Accessible, Buildable, Constrai
         return new Scrollbar(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_scrollbar_new = Interop.downcallHandle(
-        "gtk_scrollbar_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNew(@NotNull Orientation orientation, @Nullable Adjustment adjustment) {
+    private static Refcounted constructNew(@NotNull org.gtk.gtk.Orientation orientation, @Nullable org.gtk.gtk.Adjustment adjustment) {
+        java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
+        java.util.Objects.requireNonNullElse(adjustment, MemoryAddress.NULL);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_scrollbar_new.invokeExact(orientation.getValue(), adjustment.handle()), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_scrollbar_new.invokeExact(orientation.getValue(), adjustment.handle()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a new scrollbar with the given orientation.
+     * @param orientation the scrollbar’s orientation.
+     * @param adjustment the {@link Adjustment} to use, or {@code null}
+     *   to create a new adjustment.
      */
-    public Scrollbar(@NotNull Orientation orientation, @Nullable Adjustment adjustment) {
+    public Scrollbar(@NotNull org.gtk.gtk.Orientation orientation, @Nullable org.gtk.gtk.Adjustment adjustment) {
         super(constructNew(orientation, adjustment));
     }
     
-    private static final MethodHandle gtk_scrollbar_get_adjustment = Interop.downcallHandle(
-        "gtk_scrollbar_get_adjustment",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the scrollbar's adjustment.
+     * @return the scrollbar's adjustment
      */
-    public @NotNull Adjustment getAdjustment() {
+    public @NotNull org.gtk.gtk.Adjustment getAdjustment() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_scrollbar_get_adjustment.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scrollbar_get_adjustment.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Adjustment(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Adjustment(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_scrollbar_set_adjustment = Interop.downcallHandle(
-        "gtk_scrollbar_set_adjustment",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Makes the scrollbar use the given adjustment.
+     * @param adjustment the adjustment to set
      */
-    public @NotNull void setAdjustment(@Nullable Adjustment adjustment) {
+    public void setAdjustment(@Nullable org.gtk.gtk.Adjustment adjustment) {
+        java.util.Objects.requireNonNullElse(adjustment, MemoryAddress.NULL);
         try {
-            gtk_scrollbar_set_adjustment.invokeExact(handle(), adjustment.handle());
+            DowncallHandles.gtk_scrollbar_set_adjustment.invokeExact(handle(), adjustment.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_scrollbar_new = Interop.downcallHandle(
+            "gtk_scrollbar_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scrollbar_get_adjustment = Interop.downcallHandle(
+            "gtk_scrollbar_get_adjustment",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scrollbar_set_adjustment = Interop.downcallHandle(
+            "gtk_scrollbar_set_adjustment",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

@@ -1,10 +1,24 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Enumeration describing how a drive can be started/stopped.
+ * @version 2.22
  */
 public class DriveStartStopType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Unknown or drive doesn't support
      *    start/stop.
@@ -41,5 +55,4 @@ public class DriveStartStopType extends io.github.jwharm.javagi.Enumeration {
     public DriveStartStopType(int value) {
         super(value);
     }
-    
 }

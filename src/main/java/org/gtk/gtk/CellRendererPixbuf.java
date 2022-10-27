@@ -21,8 +21,20 @@ import org.jetbrains.annotations.*;
  * and the {@code GtkCellRendererPixbuf:pixbuf-expander-closed} property is set to a
  * pixbuf, it renders that one.
  */
-public class CellRendererPixbuf extends CellRenderer {
-
+public class CellRendererPixbuf extends org.gtk.gtk.CellRenderer {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public CellRendererPixbuf(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -32,18 +44,14 @@ public class CellRendererPixbuf extends CellRenderer {
         return new CellRendererPixbuf(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_cell_renderer_pixbuf_new = Interop.downcallHandle(
-        "gtk_cell_renderer_pixbuf_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_cell_renderer_pixbuf_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_cell_renderer_pixbuf_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -59,4 +67,11 @@ public class CellRendererPixbuf extends CellRenderer {
         super(constructNew());
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_cell_renderer_pixbuf_new = Interop.downcallHandle(
+            "gtk_cell_renderer_pixbuf_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+    }
 }

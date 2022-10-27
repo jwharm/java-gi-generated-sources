@@ -1,5 +1,10 @@
 package org.gtk.gdk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Flags to indicate the state of modifier keys and mouse buttons
  * in events.
@@ -12,7 +17,15 @@ package org.gtk.gdk;
  * {@code GDK_MODIFIER_MASK} to remove all private values.
  */
 public class ModifierType extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * the Shift key.
      */
@@ -79,5 +92,4 @@ public class ModifierType extends io.github.jwharm.javagi.Bitfield {
     public ModifierType(int value) {
         super(value);
     }
-    
 }

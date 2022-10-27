@@ -41,7 +41,24 @@ import org.jetbrains.annotations.*;
  * function.
  */
 public class TextMark extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
+        Interop.valueLayout.ADDRESS.withName("segment")
+    ).withName("GtkTextMark");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public TextMark(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -51,18 +68,15 @@ public class TextMark extends org.gtk.gobject.Object {
         return new TextMark(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_text_mark_new = Interop.downcallHandle(
-        "gtk_text_mark_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
-    private static Refcounted constructNew(@Nullable java.lang.String name, @NotNull boolean leftGravity) {
+    private static Refcounted constructNew(@Nullable java.lang.String name, boolean leftGravity) {
+        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_text_mark_new.invokeExact(Interop.allocateNativeString(name), leftGravity ? 1 : 0), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_text_mark_new.invokeExact(Interop.allocateNativeString(name), leftGravity ? 1 : 0), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -77,121 +91,135 @@ public class TextMark extends org.gtk.gobject.Object {
      * on the right of newly-inserted text. The standard left-to-right cursor
      * is a mark with right gravity (when you type, the cursor stays on the
      * right side of the text you’re typing).
+     * @param name mark name
+     * @param leftGravity whether the mark should have left gravity
      */
-    public TextMark(@Nullable java.lang.String name, @NotNull boolean leftGravity) {
+    public TextMark(@Nullable java.lang.String name, boolean leftGravity) {
         super(constructNew(name, leftGravity));
     }
-    
-    private static final MethodHandle gtk_text_mark_get_buffer = Interop.downcallHandle(
-        "gtk_text_mark_get_buffer",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the buffer this mark is located inside.
      * <p>
      * Returns {@code null} if the mark is deleted.
+     * @return the mark’s {@code GtkTextBuffer}
      */
-    public @Nullable TextBuffer getBuffer() {
+    public @Nullable org.gtk.gtk.TextBuffer getBuffer() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_text_mark_get_buffer.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_mark_get_buffer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new TextBuffer(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.TextBuffer(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_text_mark_get_deleted = Interop.downcallHandle(
-        "gtk_text_mark_get_deleted",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns {@code true} if the mark has been removed from its buffer.
      * <p>
      * See {@link TextBuffer#addMark} for a way to add it
      * to a buffer again.
+     * @return whether the mark is deleted
      */
     public boolean getDeleted() {
         int RESULT;
         try {
-            RESULT = (int) gtk_text_mark_get_deleted.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_mark_get_deleted.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_text_mark_get_left_gravity = Interop.downcallHandle(
-        "gtk_text_mark_get_left_gravity",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Determines whether the mark has left gravity.
+     * @return {@code true} if the mark has left gravity, {@code false} otherwise
      */
     public boolean getLeftGravity() {
         int RESULT;
         try {
-            RESULT = (int) gtk_text_mark_get_left_gravity.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_mark_get_left_gravity.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gtk_text_mark_get_name = Interop.downcallHandle(
-        "gtk_text_mark_get_name",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the mark name.
      * <p>
      * Returns {@code null} for anonymous marks.
+     * @return mark name
      */
     public @Nullable java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_text_mark_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_text_mark_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle gtk_text_mark_get_visible = Interop.downcallHandle(
-        "gtk_text_mark_get_visible",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns {@code true} if the mark is visible.
      * <p>
      * A cursor is displayed for visible marks.
+     * @return {@code true} if visible
      */
     public boolean getVisible() {
         int RESULT;
         try {
-            RESULT = (int) gtk_text_mark_get_visible.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_text_mark_get_visible.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_text_mark_set_visible = Interop.downcallHandle(
-        "gtk_text_mark_set_visible",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
-    public @NotNull void setVisible(@NotNull boolean setting) {
+    public void setVisible(boolean setting) {
         try {
-            gtk_text_mark_set_visible.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_text_mark_set_visible.invokeExact(handle(), setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_text_mark_new = Interop.downcallHandle(
+            "gtk_text_mark_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_text_mark_get_buffer = Interop.downcallHandle(
+            "gtk_text_mark_get_buffer",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_text_mark_get_deleted = Interop.downcallHandle(
+            "gtk_text_mark_get_deleted",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_text_mark_get_left_gravity = Interop.downcallHandle(
+            "gtk_text_mark_get_left_gravity",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_text_mark_get_name = Interop.downcallHandle(
+            "gtk_text_mark_get_name",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_text_mark_get_visible = Interop.downcallHandle(
+            "gtk_text_mark_get_visible",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_text_mark_set_visible = Interop.downcallHandle(
+            "gtk_text_mark_set_visible",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
 }

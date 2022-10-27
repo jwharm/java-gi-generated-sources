@@ -1,5 +1,10 @@
 package org.gtk.gsk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * This defines the types of the uniforms that {@code GskGLShaders}
  * declare.
@@ -8,7 +13,15 @@ package org.gtk.gsk;
  * code, and what the corresponding C type is on the Gtk side.
  */
 public class GLUniformType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * No type, used for uninitialized or unspecified values.
      */
@@ -52,5 +65,4 @@ public class GLUniformType extends io.github.jwharm.javagi.Enumeration {
     public GLUniformType(int value) {
         super(value);
     }
-    
 }

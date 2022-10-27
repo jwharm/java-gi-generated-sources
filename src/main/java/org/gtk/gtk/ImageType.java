@@ -1,5 +1,10 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Describes the image data representation used by a {@link Image}.
  * <p>
@@ -11,7 +16,15 @@ package org.gtk.gtk;
  * functions), but they will all return {@code null} values.
  */
 public class ImageType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * there is no image displayed by the widget
      */
@@ -35,5 +48,4 @@ public class ImageType extends io.github.jwharm.javagi.Enumeration {
     public ImageType(int value) {
         super(value);
     }
-    
 }

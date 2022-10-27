@@ -17,9 +17,33 @@ import org.jetbrains.annotations.*;
  * across invocation of g_type_register_static().
  */
 public class TypeInfo extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GObject.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        ValueLayout.JAVA_SHORT.withName("class_size"),
+        Interop.valueLayout.ADDRESS.withName("base_init"),
+        Interop.valueLayout.ADDRESS.withName("base_finalize"),
+        Interop.valueLayout.ADDRESS.withName("class_init"),
+        Interop.valueLayout.ADDRESS.withName("class_finalize"),
+        Interop.valueLayout.ADDRESS.withName("class_data"),
+        ValueLayout.JAVA_SHORT.withName("instance_size"),
+        ValueLayout.JAVA_SHORT.withName("n_preallocs"),
+        Interop.valueLayout.ADDRESS.withName("instance_init"),
+        org.gtk.gobject.TypeValueTable.getMemoryLayout().withName("value_table")
+    ).withName("GTypeInfo");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public TypeInfo(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
 }

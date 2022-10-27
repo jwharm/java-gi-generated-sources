@@ -8,8 +8,20 @@ import org.jetbrains.annotations.*;
 /**
  * A render node applying a {@code GskTransform} to its single child node.
  */
-public class TransformNode extends RenderNode {
-
+public class TransformNode extends org.gtk.gsk.RenderNode {
+    
+    static {
+        Gsk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public TransformNode(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -19,62 +31,71 @@ public class TransformNode extends RenderNode {
         return new TransformNode(gobject.refcounted());
     }
     
-    private static final MethodHandle gsk_transform_node_new = Interop.downcallHandle(
-        "gsk_transform_node_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNew(@NotNull RenderNode child, @NotNull Transform transform) {
+    private static Refcounted constructNew(@NotNull org.gtk.gsk.RenderNode child, @NotNull org.gtk.gsk.Transform transform) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+        java.util.Objects.requireNonNull(transform, "Parameter 'transform' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_transform_node_new.invokeExact(child.handle(), transform.handle()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_transform_node_new.invokeExact(child.handle(), transform.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a {@code GskRenderNode} that will transform the given {@code child}
      * with the given {@code transform}.
+     * @param child The node to transform
+     * @param transform The transform to apply
      */
-    public TransformNode(@NotNull RenderNode child, @NotNull Transform transform) {
+    public TransformNode(@NotNull org.gtk.gsk.RenderNode child, @NotNull org.gtk.gsk.Transform transform) {
         super(constructNew(child, transform));
     }
     
-    private static final MethodHandle gsk_transform_node_get_child = Interop.downcallHandle(
-        "gsk_transform_node_get_child",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the child node that is getting transformed by the given {@code node}.
+     * @return The child that is getting transformed
      */
-    public @NotNull RenderNode getChild() {
+    public @NotNull org.gtk.gsk.RenderNode getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gsk_transform_node_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_transform_node_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new RenderNode(Refcounted.get(RESULT, false));
+        return new org.gtk.gsk.RenderNode(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gsk_transform_node_get_transform = Interop.downcallHandle(
-        "gsk_transform_node_get_transform",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves the {@code GskTransform} used by the {@code node}.
+     * @return a {@code GskTransform}
      */
-    public @NotNull Transform getTransform() {
+    public @NotNull org.gtk.gsk.Transform getTransform() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gsk_transform_node_get_transform.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_transform_node_get_transform.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Transform(Refcounted.get(RESULT, false));
+        return new org.gtk.gsk.Transform(Refcounted.get(RESULT, false));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gsk_transform_node_new = Interop.downcallHandle(
+            "gsk_transform_node_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gsk_transform_node_get_child = Interop.downcallHandle(
+            "gsk_transform_node_get_child",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gsk_transform_node_get_transform = Interop.downcallHandle(
+            "gsk_transform_node_get_transform",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -10,5 +12,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface FlowBoxForeachFunc {
-        void onFlowBoxForeachFunc(@NotNull FlowBox box, @NotNull FlowBoxChild child);
+        void onFlowBoxForeachFunc(@NotNull org.gtk.gtk.FlowBox box, @NotNull org.gtk.gtk.FlowBoxChild child);
 }

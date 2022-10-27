@@ -10,15 +10,26 @@ import org.jetbrains.annotations.*;
  * accessing various Unicode character properties.
  * <p>
  * HarfBuzz provides a default function for each of the
- * methods in {@link unicode_funcs_t}. Client programs can implement
+ * methods in {@link UnicodeFuncsT}. Client programs can implement
  * their own replacements for the individual Unicode functions, as
  * needed, and replace the default by calling the setter for a
  * method.
  */
 public class UnicodeFuncsT extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        HarfBuzz.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public UnicodeFuncsT(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
 }

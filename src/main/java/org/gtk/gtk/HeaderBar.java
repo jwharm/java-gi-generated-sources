@@ -23,8 +23,8 @@ import org.jetbrains.annotations.*;
  * custom titlebar widget of a {@code GtkWindow} (see {@link Window#setTitlebar}),
  * as it gives features typical of titlebars while allowing the addition of
  * child widgets.
- * 
- * <h2>GtkHeaderBar as GtkBuildable</h2>
+ * <p>
+ * <strong>GtkHeaderBar as GtkBuildable</strong><br/>
  * The {@code GtkHeaderBar} implementation of the {@code GtkBuildable} interface supports
  * adding children at the start or end sides by specifying “start” or “end” as
  * the “type” attribute of a &lt;child&gt; element, or setting the title widget by
@@ -33,7 +33,6 @@ import org.jetbrains.annotations.*;
  * By default the {@code GtkHeaderBar} uses a {@code GtkLabel} displaying the title of the
  * window it is contained in as the title widget, equivalent to the following
  * UI definition:
- * 
  * <pre>{@code xml
  * <object class="GtkHeaderBar">
  *   <property name="title-widget">
@@ -49,8 +48,8 @@ import org.jetbrains.annotations.*;
  *   </property>
  * </object>
  * }</pre>
- * 
- * <h1>CSS nodes</h1>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * <pre>{@code 
  * headerbar
  * ╰── windowhandle
@@ -71,12 +70,24 @@ import org.jetbrains.annotations.*;
  * <p>
  * Each of the boxes contains a {@code windowcontrols} subnode, see
  * {@link WindowControls} for details, as well as other children.
- * 
- * <h1>Accessibility</h1>
+ * <p>
+ * <strong>Accessibility</strong><br/>
  * {@code GtkHeaderBar} uses the {@link AccessibleRole#GROUP} role.
  */
-public class HeaderBar extends Widget implements Accessible, Buildable, ConstraintTarget {
-
+public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public HeaderBar(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -86,18 +97,14 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
         return new HeaderBar(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_header_bar_new = Interop.downcallHandle(
-        "gtk_header_bar_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_header_bar_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_header_bar_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -107,101 +114,78 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_header_bar_get_decoration_layout = Interop.downcallHandle(
-        "gtk_header_bar_get_decoration_layout",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the decoration layout of the {@code GtkHeaderBar}.
+     * @return the decoration layout
      */
     public @Nullable java.lang.String getDecorationLayout() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_header_bar_get_decoration_layout.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_header_bar_get_decoration_layout.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle gtk_header_bar_get_show_title_buttons = Interop.downcallHandle(
-        "gtk_header_bar_get_show_title_buttons",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns whether this header bar shows the standard window
      * title buttons.
+     * @return {@code true} if title buttons are shown
      */
     public boolean getShowTitleButtons() {
         int RESULT;
         try {
-            RESULT = (int) gtk_header_bar_get_show_title_buttons.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_header_bar_get_show_title_buttons.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_header_bar_get_title_widget = Interop.downcallHandle(
-        "gtk_header_bar_get_title_widget",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Retrieves the title widget of the header.
      * <p>
      * See {@link HeaderBar#setTitleWidget}.
+     * @return the title widget of the header
      */
-    public @Nullable Widget getTitleWidget() {
+    public @Nullable org.gtk.gtk.Widget getTitleWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_header_bar_get_title_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_header_bar_get_title_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_header_bar_pack_end = Interop.downcallHandle(
-        "gtk_header_bar_pack_end",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Adds {@code child} to {@code bar}, packed with reference to the
      * end of the {@code bar}.
+     * @param child the {@code GtkWidget} to be added to {@code bar}
      */
-    public @NotNull void packEnd(@NotNull Widget child) {
+    public void packEnd(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            gtk_header_bar_pack_end.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_header_bar_pack_end.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_header_bar_pack_start = Interop.downcallHandle(
-        "gtk_header_bar_pack_start",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Adds {@code child} to {@code bar}, packed with reference to the
      * start of the {@code bar}.
+     * @param child the {@code GtkWidget} to be added to {@code bar}
      */
-    public @NotNull void packStart(@NotNull Widget child) {
+    public void packStart(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            gtk_header_bar_pack_start.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_header_bar_pack_start.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_header_bar_remove = Interop.downcallHandle(
-        "gtk_header_bar_remove",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Removes a child from the {@code GtkHeaderBar}.
@@ -210,19 +194,16 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      * {@link HeaderBar#packStart},
      * {@link HeaderBar#packEnd} or
      * {@link HeaderBar#setTitleWidget}.
+     * @param child the child to remove
      */
-    public @NotNull void remove(@NotNull Widget child) {
+    public void remove(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            gtk_header_bar_remove.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_header_bar_remove.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_header_bar_set_decoration_layout = Interop.downcallHandle(
-        "gtk_header_bar_set_decoration_layout",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the decoration layout for this header bar.
@@ -242,36 +223,29 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      * <p>
      * For example, “icon:minimize,maximize,close” specifies a icon
      * on the left, and minimize, maximize and close buttons on the right.
+     * @param layout a decoration layout, or {@code null} to unset the layout
      */
-    public @NotNull void setDecorationLayout(@Nullable java.lang.String layout) {
+    public void setDecorationLayout(@Nullable java.lang.String layout) {
+        java.util.Objects.requireNonNullElse(layout, MemoryAddress.NULL);
         try {
-            gtk_header_bar_set_decoration_layout.invokeExact(handle(), Interop.allocateNativeString(layout));
+            DowncallHandles.gtk_header_bar_set_decoration_layout.invokeExact(handle(), Interop.allocateNativeString(layout));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_header_bar_set_show_title_buttons = Interop.downcallHandle(
-        "gtk_header_bar_set_show_title_buttons",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether this header bar shows the standard window
      * title buttons.
+     * @param setting {@code true} to show standard title buttons
      */
-    public @NotNull void setShowTitleButtons(@NotNull boolean setting) {
+    public void setShowTitleButtons(boolean setting) {
         try {
-            gtk_header_bar_set_show_title_buttons.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_header_bar_set_show_title_buttons.invokeExact(handle(), setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_header_bar_set_title_widget = Interop.downcallHandle(
-        "gtk_header_bar_set_title_widget",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the title for the {@code GtkHeaderBar}.
@@ -285,13 +259,67 @@ public class HeaderBar extends Widget implements Accessible, Buildable, Constrai
      * <p>
      * You should set the title widget to {@code null}, for the window
      * title label to be visible again.
+     * @param titleWidget a widget to use for a title
      */
-    public @NotNull void setTitleWidget(@Nullable Widget titleWidget) {
+    public void setTitleWidget(@Nullable org.gtk.gtk.Widget titleWidget) {
+        java.util.Objects.requireNonNullElse(titleWidget, MemoryAddress.NULL);
         try {
-            gtk_header_bar_set_title_widget.invokeExact(handle(), titleWidget.handle());
+            DowncallHandles.gtk_header_bar_set_title_widget.invokeExact(handle(), titleWidget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_header_bar_new = Interop.downcallHandle(
+            "gtk_header_bar_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_header_bar_get_decoration_layout = Interop.downcallHandle(
+            "gtk_header_bar_get_decoration_layout",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_header_bar_get_show_title_buttons = Interop.downcallHandle(
+            "gtk_header_bar_get_show_title_buttons",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_header_bar_get_title_widget = Interop.downcallHandle(
+            "gtk_header_bar_get_title_widget",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_header_bar_pack_end = Interop.downcallHandle(
+            "gtk_header_bar_pack_end",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_header_bar_pack_start = Interop.downcallHandle(
+            "gtk_header_bar_pack_start",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_header_bar_remove = Interop.downcallHandle(
+            "gtk_header_bar_remove",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_header_bar_set_decoration_layout = Interop.downcallHandle(
+            "gtk_header_bar_set_decoration_layout",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_header_bar_set_show_title_buttons = Interop.downcallHandle(
+            "gtk_header_bar_set_show_title_buttons",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_header_bar_set_title_widget = Interop.downcallHandle(
+            "gtk_header_bar_set_title_widget",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

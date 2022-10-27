@@ -1,10 +1,23 @@
 package org.gtk.gdk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * An enumeration describing the type of an input device in general terms.
  */
 public class InputSource extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * the device is a mouse. (This will be reported for the core
      *   pointer, even if it is something else, such as a trackball.)
@@ -47,5 +60,4 @@ public class InputSource extends io.github.jwharm.javagi.Enumeration {
     public InputSource(int value) {
         super(value);
     }
-    
 }

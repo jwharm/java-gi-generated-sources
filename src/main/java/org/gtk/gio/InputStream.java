@@ -19,7 +19,24 @@ import org.jetbrains.annotations.*;
  * All of these functions have async variants too.
  */
 public class InputStream extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
+        org.gtk.gio.InputStreamPrivate.getMemoryLayout().withName("priv")
+    ).withName("GInputStream");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public InputStream(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -29,26 +46,16 @@ public class InputStream extends org.gtk.gobject.Object {
         return new InputStream(gobject.refcounted());
     }
     
-    private static final MethodHandle g_input_stream_clear_pending = Interop.downcallHandle(
-        "g_input_stream_clear_pending",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Clears the pending flag on {@code stream}.
      */
-    public @NotNull void clearPending() {
+    public void clearPending() {
         try {
-            g_input_stream_clear_pending.invokeExact(handle());
+            DowncallHandles.g_input_stream_clear_pending.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_input_stream_close = Interop.downcallHandle(
-        "g_input_stream_close",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Closes the stream, releasing resources related to it.
@@ -74,12 +81,16 @@ public class InputStream extends org.gtk.gobject.Object {
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
      * Cancelling a close will still leave the stream closed, but some streams
      * can use a faster close that doesn't block to e.g. check errors.
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @return {@code true} on success, {@code false} on failure
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean close(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public boolean close(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_input_stream_close.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_input_stream_close.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -88,11 +99,6 @@ public class InputStream extends org.gtk.gobject.Object {
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_input_stream_close_async = Interop.downcallHandle(
-        "g_input_stream_close_async",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Requests an asynchronous closes of the stream, releasing resources related to it.
@@ -105,34 +111,38 @@ public class InputStream extends org.gtk.gobject.Object {
      * The asynchronous methods have a default fallback that uses threads to implement
      * asynchronicity, so they are optional for inheriting classes. However, if you
      * override one you must override all.
+     * @param ioPriority the [I/O priority][io-priority] of the request
+     * @param cancellable optional cancellable object
+     * @param callback callback to call when the request is satisfied
      */
-    public @NotNull void closeAsync(@NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
+    public void closeAsync(int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            g_input_stream_close_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
+            DowncallHandles.g_input_stream_close_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
+                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle g_input_stream_close_finish = Interop.downcallHandle(
-        "g_input_stream_close_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Finishes closing a stream asynchronously, started from g_input_stream_close_async().
+     * @param result a {@link AsyncResult}.
+     * @return {@code true} if the stream was closed successfully.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean closeFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public boolean closeFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_input_stream_close_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_input_stream_close_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,46 +152,33 @@ public class InputStream extends org.gtk.gobject.Object {
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_input_stream_has_pending = Interop.downcallHandle(
-        "g_input_stream_has_pending",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Checks if an input stream has pending actions.
+     * @return {@code true} if {@code stream} has pending actions.
      */
     public boolean hasPending() {
         int RESULT;
         try {
-            RESULT = (int) g_input_stream_has_pending.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_input_stream_has_pending.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_input_stream_is_closed = Interop.downcallHandle(
-        "g_input_stream_is_closed",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Checks if an input stream is closed.
+     * @return {@code true} if the stream is closed.
      */
     public boolean isClosed() {
         int RESULT;
         try {
-            RESULT = (int) g_input_stream_is_closed.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_input_stream_is_closed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_input_stream_read = Interop.downcallHandle(
-        "g_input_stream_read",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tries to read {@code count} bytes from the stream into the buffer starting at
@@ -205,27 +202,29 @@ public class InputStream extends org.gtk.gobject.Object {
      * partial result will be returned, without an error.
      * <p>
      * On error -1 is returned and {@code error} is set accordingly.
+     * @param buffer a buffer to read data into (which should be at least count bytes long).
+     * @param count the number of bytes that will be read from the stream
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @return Number of bytes read, or -1 on error, or 0 on end of file.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public long read(@NotNull Out<byte[]> buffer, @NotNull long count, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public long read(Out<byte[]> buffer, long count, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment bufferPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         long RESULT;
         try {
-            RESULT = (long) g_input_stream_read.invokeExact(handle(), (Addressable) bufferPOINTER.address(), count, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (long) DowncallHandles.g_input_stream_read.invokeExact(handle(), (Addressable) bufferPOINTER.address(), count, cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        buffer.set(MemorySegment.ofAddress(bufferPOINTER.get(ValueLayout.ADDRESS, 0), count * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        buffer.set(MemorySegment.ofAddress(bufferPOINTER.get(ValueLayout.ADDRESS, 0), count * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
         return RESULT;
     }
-    
-    private static final MethodHandle g_input_stream_read_all = Interop.downcallHandle(
-        "g_input_stream_read_all",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tries to read {@code count} bytes from the stream into the buffer starting at
@@ -247,29 +246,33 @@ public class InputStream extends org.gtk.gobject.Object {
      * read before the error was encountered.  This functionality is only
      * available from C.  If you need it from another language then you must
      * write your own loop around g_input_stream_read().
+     * @param buffer a buffer to read data into (which should be at least count bytes long).
+     * @param count the number of bytes that will be read from the stream
+     * @param bytesRead location to store the number of bytes that was read from the stream
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @return {@code true} on success, {@code false} if there was an error
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean readAll(@NotNull Out<byte[]> buffer, @NotNull long count, @NotNull Out<Long> bytesRead, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public boolean readAll(Out<byte[]> buffer, long count, Out<Long> bytesRead, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNull(bytesRead, "Parameter 'bytesRead' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment bufferPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         int RESULT;
         try {
-            RESULT = (int) g_input_stream_read_all.invokeExact(handle(), (Addressable) bufferPOINTER.address(), count, (Addressable) bytesReadPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_input_stream_read_all.invokeExact(handle(), (Addressable) bufferPOINTER.address(), count, (Addressable) bytesReadPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        bytesRead.set(bytesReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        buffer.set(MemorySegment.ofAddress(bufferPOINTER.get(ValueLayout.ADDRESS, 0), count * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        bytesRead.set(bytesReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        buffer.set(MemorySegment.ofAddress(bufferPOINTER.get(ValueLayout.ADDRESS, 0), count * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_input_stream_read_all_async = Interop.downcallHandle(
-        "g_input_stream_read_all_async",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Request an asynchronous read of {@code count} bytes from the stream into the
@@ -282,27 +285,30 @@ public class InputStream extends org.gtk.gobject.Object {
      * Any outstanding I/O request with higher priority (lower numerical
      * value) will be executed before an outstanding request with lower
      * priority. Default priority is {@code G_PRIORITY_DEFAULT}.
+     * @param buffer a buffer to read data into (which should be at least count bytes long)
+     * @param count the number of bytes that will be read from the stream
+     * @param ioPriority the [I/O priority][io-priority] of the request
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore
+     * @param callback callback to call when the request is satisfied
      */
-    public @NotNull void readAllAsync(@NotNull Out<byte[]> buffer, @NotNull long count, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
+    public void readAllAsync(Out<byte[]> buffer, long count, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         MemorySegment bufferPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            g_input_stream_read_all_async.invokeExact(handle(), (Addressable) bufferPOINTER.address(), count, ioPriority, cancellable.handle(), 
+            DowncallHandles.g_input_stream_read_all_async.invokeExact(handle(), (Addressable) bufferPOINTER.address(), count, ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
+                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         buffer.set(MemorySegment.ofAddress(bufferPOINTER.get(ValueLayout.ADDRESS, 0), count * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
     }
-    
-    private static final MethodHandle g_input_stream_read_all_finish = Interop.downcallHandle(
-        "g_input_stream_read_all_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Finishes an asynchronous stream read operation started with
@@ -314,27 +320,28 @@ public class InputStream extends org.gtk.gobject.Object {
      * read before the error was encountered.  This functionality is only
      * available from C.  If you need it from another language then you must
      * write your own loop around g_input_stream_read_async().
+     * @param result a {@link AsyncResult}
+     * @param bytesRead location to store the number of bytes that was read from the stream
+     * @return {@code true} on success, {@code false} if there was an error
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean readAllFinish(@NotNull AsyncResult result, @NotNull Out<Long> bytesRead) throws io.github.jwharm.javagi.GErrorException {
+    public boolean readAllFinish(@NotNull org.gtk.gio.AsyncResult result, Out<Long> bytesRead) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+        java.util.Objects.requireNonNull(bytesRead, "Parameter 'bytesRead' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         int RESULT;
         try {
-            RESULT = (int) g_input_stream_read_all_finish.invokeExact(handle(), result.handle(), (Addressable) bytesReadPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_input_stream_read_all_finish.invokeExact(handle(), result.handle(), (Addressable) bytesReadPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        bytesRead.set(bytesReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        bytesRead.set(bytesReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_input_stream_read_async = Interop.downcallHandle(
-        "g_input_stream_read_async",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Request an asynchronous read of {@code count} bytes from the stream into the buffer
@@ -360,27 +367,31 @@ public class InputStream extends org.gtk.gobject.Object {
      * The asynchronous methods have a default fallback that uses threads to implement
      * asynchronicity, so they are optional for inheriting classes. However, if you
      * override one you must override all.
+     * @param buffer a buffer to read data into (which should be at least count bytes long).
+     * @param count the number of bytes that will be read from the stream
+     * @param ioPriority the [I/O priority][io-priority]
+     * of the request.
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @param callback callback to call when the request is satisfied
      */
-    public @NotNull void readAsync(@NotNull Out<byte[]> buffer, @NotNull long count, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
+    public void readAsync(Out<byte[]> buffer, long count, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         MemorySegment bufferPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            g_input_stream_read_async.invokeExact(handle(), (Addressable) bufferPOINTER.address(), count, ioPriority, cancellable.handle(), 
+            DowncallHandles.g_input_stream_read_async.invokeExact(handle(), (Addressable) bufferPOINTER.address(), count, ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
+                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         buffer.set(MemorySegment.ofAddress(bufferPOINTER.get(ValueLayout.ADDRESS, 0), count * ValueLayout.JAVA_BYTE.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_BYTE));
     }
-    
-    private static final MethodHandle g_input_stream_read_bytes = Interop.downcallHandle(
-        "g_input_stream_read_bytes",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Like g_input_stream_read(), this tries to read {@code count} bytes from
@@ -406,12 +417,18 @@ public class InputStream extends org.gtk.gobject.Object {
      * partial result will be returned, without an error.
      * <p>
      * On error {@code null} is returned and {@code error} is set accordingly.
+     * @param count maximum number of bytes that will be read from the stream. Common
+     * values include 4096 and 8192.
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @return a new {@link org.gtk.glib.Bytes}, or {@code null} on error
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.Bytes readBytes(@NotNull long count, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.glib.Bytes readBytes(long count, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_input_stream_read_bytes.invokeExact(handle(), count, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_input_stream_read_bytes.invokeExact(handle(), count, cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -420,11 +437,6 @@ public class InputStream extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_input_stream_read_bytes_async = Interop.downcallHandle(
-        "g_input_stream_read_bytes_async",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Request an asynchronous read of {@code count} bytes from the stream into a
@@ -447,34 +459,39 @@ public class InputStream extends org.gtk.gobject.Object {
      * Any outstanding I/O request with higher priority (lower numerical
      * value) will be executed before an outstanding request with lower
      * priority. Default priority is {@code G_PRIORITY_DEFAULT}.
+     * @param count the number of bytes that will be read from the stream
+     * @param ioPriority the [I/O priority][io-priority] of the request
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @param callback callback to call when the request is satisfied
      */
-    public @NotNull void readBytesAsync(@NotNull long count, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
+    public void readBytesAsync(long count, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            g_input_stream_read_bytes_async.invokeExact(handle(), count, ioPriority, cancellable.handle(), 
+            DowncallHandles.g_input_stream_read_bytes_async.invokeExact(handle(), count, ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
+                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle g_input_stream_read_bytes_finish = Interop.downcallHandle(
-        "g_input_stream_read_bytes_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Finishes an asynchronous stream read-into-{@link org.gtk.glib.Bytes} operation.
+     * @param result a {@link AsyncResult}.
+     * @return the newly-allocated {@link org.gtk.glib.Bytes}, or {@code null} on error
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.Bytes readBytesFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.glib.Bytes readBytesFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_input_stream_read_bytes_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_input_stream_read_bytes_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -484,19 +501,18 @@ public class InputStream extends org.gtk.gobject.Object {
         return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle g_input_stream_read_finish = Interop.downcallHandle(
-        "g_input_stream_read_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Finishes an asynchronous stream read operation.
+     * @param result a {@link AsyncResult}.
+     * @return number of bytes read in, or -1 on error, or 0 on end of file.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public long readFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public long readFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         long RESULT;
         try {
-            RESULT = (long) g_input_stream_read_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (long) DowncallHandles.g_input_stream_read_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -506,21 +522,18 @@ public class InputStream extends org.gtk.gobject.Object {
         return RESULT;
     }
     
-    private static final MethodHandle g_input_stream_set_pending = Interop.downcallHandle(
-        "g_input_stream_set_pending",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Sets {@code stream} to have actions pending. If the pending flag is
      * already set or {@code stream} is closed, it will return {@code false} and set
      * {@code error}.
+     * @return {@code true} if pending was previously unset and is now set.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean setPending() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_input_stream_set_pending.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_input_stream_set_pending.invokeExact(handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -529,11 +542,6 @@ public class InputStream extends org.gtk.gobject.Object {
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_input_stream_skip = Interop.downcallHandle(
-        "g_input_stream_skip",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tries to skip {@code count} bytes from the stream. Will block during the operation.
@@ -550,12 +558,17 @@ public class InputStream extends org.gtk.gobject.Object {
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned. If an
      * operation was partially finished when the operation was cancelled the
      * partial result will be returned, without an error.
+     * @param count the number of bytes that will be skipped from the stream
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @return Number of bytes skipped, or -1 on error
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public long skip(@NotNull long count, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public long skip(long count, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         long RESULT;
         try {
-            RESULT = (long) g_input_stream_skip.invokeExact(handle(), count, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (long) DowncallHandles.g_input_stream_skip.invokeExact(handle(), count, cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -564,11 +577,6 @@ public class InputStream extends org.gtk.gobject.Object {
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_input_stream_skip_async = Interop.downcallHandle(
-        "g_input_stream_skip_async",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Request an asynchronous skip of {@code count} bytes from the stream.
@@ -594,34 +602,39 @@ public class InputStream extends org.gtk.gobject.Object {
      * The asynchronous methods have a default fallback that uses threads to
      * implement asynchronicity, so they are optional for inheriting classes.
      * However, if you override one, you must override all.
+     * @param count the number of bytes that will be skipped from the stream
+     * @param ioPriority the [I/O priority][io-priority] of the request
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @param callback callback to call when the request is satisfied
      */
-    public @NotNull void skipAsync(@NotNull long count, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
+    public void skipAsync(long count, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            g_input_stream_skip_async.invokeExact(handle(), count, ioPriority, cancellable.handle(), 
+            DowncallHandles.g_input_stream_skip_async.invokeExact(handle(), count, ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
+                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle g_input_stream_skip_finish = Interop.downcallHandle(
-        "g_input_stream_skip_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Finishes a stream skip operation.
+     * @param result a {@link AsyncResult}.
+     * @return the size of the bytes skipped, or {@code -1} on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public long skipFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public long skipFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         long RESULT;
         try {
-            RESULT = (long) g_input_stream_skip_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (long) DowncallHandles.g_input_stream_skip_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -631,4 +644,101 @@ public class InputStream extends org.gtk.gobject.Object {
         return RESULT;
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_input_stream_clear_pending = Interop.downcallHandle(
+            "g_input_stream_clear_pending",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_input_stream_close = Interop.downcallHandle(
+            "g_input_stream_close",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_input_stream_close_async = Interop.downcallHandle(
+            "g_input_stream_close_async",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_input_stream_close_finish = Interop.downcallHandle(
+            "g_input_stream_close_finish",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_input_stream_has_pending = Interop.downcallHandle(
+            "g_input_stream_has_pending",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_input_stream_is_closed = Interop.downcallHandle(
+            "g_input_stream_is_closed",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_input_stream_read = Interop.downcallHandle(
+            "g_input_stream_read",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_input_stream_read_all = Interop.downcallHandle(
+            "g_input_stream_read_all",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_input_stream_read_all_async = Interop.downcallHandle(
+            "g_input_stream_read_all_async",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_input_stream_read_all_finish = Interop.downcallHandle(
+            "g_input_stream_read_all_finish",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_input_stream_read_async = Interop.downcallHandle(
+            "g_input_stream_read_async",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_input_stream_read_bytes = Interop.downcallHandle(
+            "g_input_stream_read_bytes",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_input_stream_read_bytes_async = Interop.downcallHandle(
+            "g_input_stream_read_bytes_async",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_input_stream_read_bytes_finish = Interop.downcallHandle(
+            "g_input_stream_read_bytes_finish",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_input_stream_read_finish = Interop.downcallHandle(
+            "g_input_stream_read_finish",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_input_stream_set_pending = Interop.downcallHandle(
+            "g_input_stream_set_pending",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_input_stream_skip = Interop.downcallHandle(
+            "g_input_stream_skip",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_input_stream_skip_async = Interop.downcallHandle(
+            "g_input_stream_skip_async",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_input_stream_skip_finish = Interop.downcallHandle(
+            "g_input_stream_skip_finish",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

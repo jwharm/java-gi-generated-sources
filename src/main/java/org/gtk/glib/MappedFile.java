@@ -11,27 +11,36 @@ import org.jetbrains.annotations.*;
  * not be accessed directly.
  */
 public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GLib.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public MappedFile(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle g_mapped_file_new = Interop.downcallHandle(
-        "g_mapped_file_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNew(@NotNull java.lang.String filename, @NotNull boolean writable) throws GErrorException {
+    private static Refcounted constructNew(@NotNull java.lang.String filename, boolean writable) throws GErrorException {
+        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_mapped_file_new.invokeExact(Interop.allocateNativeString(filename), writable ? 1 : 0, (Addressable) GERROR), true);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_mapped_file_new.invokeExact(Interop.allocateNativeString(filename), writable ? 1 : 0, (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
     /**
@@ -51,27 +60,27 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
      * will successfully return an empty {@link MappedFile}. In other cases of
      * size 0 (e.g. device files such as /dev/null), {@code error} will be set
      * to the {@link FileError} value {@link FileError#INVAL}.
+     * @param filename The path of the file to load, in the GLib
+     *     filename encoding
+     * @param writable whether the mapping should be writable
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public MappedFile(@NotNull java.lang.String filename, @NotNull boolean writable) throws GErrorException {
+    public MappedFile(@NotNull java.lang.String filename, boolean writable) throws GErrorException {
         super(constructNew(filename, writable));
     }
     
-    private static final MethodHandle g_mapped_file_new_from_fd = Interop.downcallHandle(
-        "g_mapped_file_new_from_fd",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNewFromFd(@NotNull int fd, @NotNull boolean writable) throws GErrorException {
+    private static Refcounted constructNewFromFd(int fd, boolean writable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_mapped_file_new_from_fd.invokeExact(fd, writable ? 1 : 0, (Addressable) GERROR), true);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_mapped_file_new_from_fd.invokeExact(fd, writable ? 1 : 0, (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
     /**
@@ -86,35 +95,46 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
      * of the {@link MappedFile}. Therefore, mapping should only be used if the file
      * will not be modified, or if all modifications of the file are done
      * atomically (e.g. using g_file_set_contents()).
+     * @param fd The file descriptor of the file to load
+     * @param writable whether the mapping should be writable
+     * @return a newly allocated {@link MappedFile} which must be unref'd
+     *    with g_mapped_file_unref(), or {@code null} if the mapping failed.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static MappedFile newFromFd(@NotNull int fd, @NotNull boolean writable) throws GErrorException {
+    public static MappedFile newFromFd(int fd, boolean writable) throws GErrorException {
         return new MappedFile(constructNewFromFd(fd, writable));
     }
     
-    private static final MethodHandle g_mapped_file_get_bytes = Interop.downcallHandle(
-        "g_mapped_file_get_bytes",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * This call existed before {@link MappedFile} had refcounting and is currently
+     * exactly the same as g_mapped_file_unref().
+     * @deprecated Use g_mapped_file_unref() instead.
+     */
+    @Deprecated
+    public void free() {
+        try {
+            DowncallHandles.g_mapped_file_free.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
     
     /**
      * Creates a new {@link Bytes} which references the data mapped from {@code file}.
      * The mapped contents of the file must not be modified after creating this
      * bytes object, because a {@link Bytes} should be immutable.
+     * @return A newly allocated {@link Bytes} referencing data
+     *     from {@code file}
      */
-    public @NotNull Bytes getBytes() {
+    public @NotNull org.gtk.glib.Bytes getBytes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_mapped_file_get_bytes.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_get_bytes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Bytes(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_mapped_file_get_contents = Interop.downcallHandle(
-        "g_mapped_file_get_contents",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the contents of a {@link MappedFile}.
@@ -123,58 +143,46 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
      * even if the {@link MappedFile} is backed by a text file.
      * <p>
      * If the file is empty then {@code null} is returned.
+     * @return the contents of {@code file}, or {@code null}.
      */
     public @NotNull java.lang.String getContents() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_mapped_file_get_contents.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_get_contents.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle g_mapped_file_get_length = Interop.downcallHandle(
-        "g_mapped_file_get_length",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the length of the contents of a {@link MappedFile}.
+     * @return the length of the contents of {@code file}.
      */
     public long getLength() {
         long RESULT;
         try {
-            RESULT = (long) g_mapped_file_get_length.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_mapped_file_get_length.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle g_mapped_file_ref = Interop.downcallHandle(
-        "g_mapped_file_ref",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Increments the reference count of {@code file} by one.  It is safe to call
      * this function from any thread.
+     * @return the passed in {@link MappedFile}.
      */
-    public @NotNull MappedFile ref() {
+    public @NotNull org.gtk.glib.MappedFile ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_mapped_file_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new MappedFile(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.MappedFile(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_mapped_file_unref = Interop.downcallHandle(
-        "g_mapped_file_unref",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Decrements the reference count of {@code file} by one.  If the reference count
@@ -184,12 +192,54 @@ public class MappedFile extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Since 2.22
      */
-    public @NotNull void unref() {
+    public void unref() {
         try {
-            g_mapped_file_unref.invokeExact(handle());
+            DowncallHandles.g_mapped_file_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_mapped_file_new = Interop.downcallHandle(
+            "g_mapped_file_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_mapped_file_new_from_fd = Interop.downcallHandle(
+            "g_mapped_file_new_from_fd",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_mapped_file_free = Interop.downcallHandle(
+            "g_mapped_file_free",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_mapped_file_get_bytes = Interop.downcallHandle(
+            "g_mapped_file_get_bytes",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_mapped_file_get_contents = Interop.downcallHandle(
+            "g_mapped_file_get_contents",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_mapped_file_get_length = Interop.downcallHandle(
+            "g_mapped_file_get_length",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_mapped_file_ref = Interop.downcallHandle(
+            "g_mapped_file_ref",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_mapped_file_unref = Interop.downcallHandle(
+            "g_mapped_file_unref",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
 }

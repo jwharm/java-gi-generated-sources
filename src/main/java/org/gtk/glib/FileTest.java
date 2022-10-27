@@ -1,10 +1,23 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * A test to perform on a file using g_file_test().
  */
 public class FileTest extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * {@code true} if the file is a regular file
      *     (not a directory). Note that this test will also return {@code true}
@@ -36,5 +49,4 @@ public class FileTest extends io.github.jwharm.javagi.Bitfield {
     public FileTest(int value) {
         super(value);
     }
-    
 }

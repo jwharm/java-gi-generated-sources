@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -8,5 +10,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ScannerMsgFunc {
-        void onScannerMsgFunc(@NotNull Scanner scanner, @NotNull java.lang.String message, @NotNull boolean error);
+        void onScannerMsgFunc(@NotNull org.gtk.glib.Scanner scanner, @NotNull java.lang.String message, boolean error);
 }

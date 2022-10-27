@@ -1,11 +1,24 @@
 package org.gtk.gmodule;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Flags passed to g_module_open().
  * Note that these flags are not supported on all platforms.
  */
 public class ModuleFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * specifies that symbols are only resolved when
      *     needed. The default action is to bind all symbols when the module
@@ -29,5 +42,4 @@ public class ModuleFlags extends io.github.jwharm.javagi.Bitfield {
     public ModuleFlags(int value) {
         super(value);
     }
-    
 }

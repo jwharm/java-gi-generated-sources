@@ -30,7 +30,19 @@ import org.jetbrains.annotations.*;
  * or similar.
  */
 public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
-
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public DirectoryList(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -40,18 +52,16 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
         return new DirectoryList(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_directory_list_new = Interop.downcallHandle(
-        "gtk_directory_list_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew(@Nullable java.lang.String attributes, @Nullable org.gtk.gio.File file) {
+        java.util.Objects.requireNonNullElse(attributes, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(file, MemoryAddress.NULL);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_directory_list_new.invokeExact(Interop.allocateNativeString(attributes), file.handle()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_directory_list_new.invokeExact(Interop.allocateNativeString(attributes), file.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -59,33 +69,26 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      * <p>
      * The {@code GtkDirectoryList} is querying the given {@code file}
      * with the given {@code attributes}.
+     * @param attributes The attributes to query with
+     * @param file The file to query
      */
     public DirectoryList(@Nullable java.lang.String attributes, @Nullable org.gtk.gio.File file) {
         super(constructNew(attributes, file));
     }
     
-    private static final MethodHandle gtk_directory_list_get_attributes = Interop.downcallHandle(
-        "gtk_directory_list_get_attributes",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the attributes queried on the children.
+     * @return The queried attributes
      */
     public @Nullable java.lang.String getAttributes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_directory_list_get_attributes.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_directory_list_get_attributes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle gtk_directory_list_get_error = Interop.downcallHandle(
-        "gtk_directory_list_get_error",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the loading error, if any.
@@ -96,76 +99,61 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      * <p>
      * An error being set does not mean that no files were loaded, and all
      * successfully queried files will remain in the list.
+     * @return The loading error or {@code null} if
+     *   loading finished successfully
      */
     public @Nullable org.gtk.glib.Error getError() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_directory_list_get_error.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_directory_list_get_error.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.Error(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle gtk_directory_list_get_file = Interop.downcallHandle(
-        "gtk_directory_list_get_file",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the file whose children are currently enumerated.
+     * @return The file whose children are enumerated
      */
     public @Nullable org.gtk.gio.File getFile() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_directory_list_get_file.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_directory_list_get_file.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle gtk_directory_list_get_io_priority = Interop.downcallHandle(
-        "gtk_directory_list_get_io_priority",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the IO priority set via gtk_directory_list_set_io_priority().
+     * @return The IO priority.
      */
     public int getIoPriority() {
         int RESULT;
         try {
-            RESULT = (int) gtk_directory_list_get_io_priority.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_directory_list_get_io_priority.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle gtk_directory_list_get_monitored = Interop.downcallHandle(
-        "gtk_directory_list_get_monitored",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns whether the directory list is monitoring
      * the directory for changes.
+     * @return {@code true} if the directory is monitored
      */
     public boolean getMonitored() {
         int RESULT;
         try {
-            RESULT = (int) gtk_directory_list_get_monitored.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_directory_list_get_monitored.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gtk_directory_list_is_loading = Interop.downcallHandle(
-        "gtk_directory_list_is_loading",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns {@code true} if the children enumeration is currently in
@@ -174,58 +162,48 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      * Files will be added to {@code self} from time to time while loading is
      * going on. The order in which are added is undefined and may change
      * in between runs.
+     * @return {@code true} if {@code self} is loading
      */
     public boolean isLoading() {
         int RESULT;
         try {
-            RESULT = (int) gtk_directory_list_is_loading.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_directory_list_is_loading.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_directory_list_set_attributes = Interop.downcallHandle(
-        "gtk_directory_list_set_attributes",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Sets the {@code attributes} to be enumerated and starts the enumeration.
      * <p>
      * If {@code attributes} is {@code null}, no attributes will be queried, but a list
      * of {@code GFileInfo}s will still be created.
+     * @param attributes the attributes to enumerate
      */
-    public @NotNull void setAttributes(@Nullable java.lang.String attributes) {
+    public void setAttributes(@Nullable java.lang.String attributes) {
+        java.util.Objects.requireNonNullElse(attributes, MemoryAddress.NULL);
         try {
-            gtk_directory_list_set_attributes.invokeExact(handle(), Interop.allocateNativeString(attributes));
+            DowncallHandles.gtk_directory_list_set_attributes.invokeExact(handle(), Interop.allocateNativeString(attributes));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_directory_list_set_file = Interop.downcallHandle(
-        "gtk_directory_list_set_file",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the {@code file} to be enumerated and starts the enumeration.
      * <p>
      * If {@code file} is {@code null}, the result will be an empty list.
+     * @param file the {@code GFile} to be enumerated
      */
-    public @NotNull void setFile(@Nullable org.gtk.gio.File file) {
+    public void setFile(@Nullable org.gtk.gio.File file) {
+        java.util.Objects.requireNonNullElse(file, MemoryAddress.NULL);
         try {
-            gtk_directory_list_set_file.invokeExact(handle(), file.handle());
+            DowncallHandles.gtk_directory_list_set_file.invokeExact(handle(), file.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_directory_list_set_io_priority = Interop.downcallHandle(
-        "gtk_directory_list_set_io_priority",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the IO priority to use while loading directories.
@@ -237,19 +215,15 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      * the GTK redraw priority. If you are loading a lot of directories in
      * parallel, lowering it to something like {@code G_PRIORITY_DEFAULT_IDLE}
      * may increase responsiveness.
+     * @param ioPriority IO priority to use
      */
-    public @NotNull void setIoPriority(@NotNull int ioPriority) {
+    public void setIoPriority(int ioPriority) {
         try {
-            gtk_directory_list_set_io_priority.invokeExact(handle(), ioPriority);
+            DowncallHandles.gtk_directory_list_set_io_priority.invokeExact(handle(), ioPriority);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_directory_list_set_monitored = Interop.downcallHandle(
-        "gtk_directory_list_set_monitored",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether the directory list will monitor the directory
@@ -262,13 +236,71 @@ public class DirectoryList extends org.gtk.gobject.Object implements org.gtk.gio
      * of the directory list, the directory is reloaded to avoid
      * missing files that appeared between the initial loading
      * and when monitoring was turned on.
+     * @param monitored {@code true} to monitor the directory for changes
      */
-    public @NotNull void setMonitored(@NotNull boolean monitored) {
+    public void setMonitored(boolean monitored) {
         try {
-            gtk_directory_list_set_monitored.invokeExact(handle(), monitored ? 1 : 0);
+            DowncallHandles.gtk_directory_list_set_monitored.invokeExact(handle(), monitored ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_directory_list_new = Interop.downcallHandle(
+            "gtk_directory_list_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_directory_list_get_attributes = Interop.downcallHandle(
+            "gtk_directory_list_get_attributes",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_directory_list_get_error = Interop.downcallHandle(
+            "gtk_directory_list_get_error",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_directory_list_get_file = Interop.downcallHandle(
+            "gtk_directory_list_get_file",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_directory_list_get_io_priority = Interop.downcallHandle(
+            "gtk_directory_list_get_io_priority",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_directory_list_get_monitored = Interop.downcallHandle(
+            "gtk_directory_list_get_monitored",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_directory_list_is_loading = Interop.downcallHandle(
+            "gtk_directory_list_is_loading",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_directory_list_set_attributes = Interop.downcallHandle(
+            "gtk_directory_list_set_attributes",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_directory_list_set_file = Interop.downcallHandle(
+            "gtk_directory_list_set_file",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_directory_list_set_io_priority = Interop.downcallHandle(
+            "gtk_directory_list_set_io_priority",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_directory_list_set_monitored = Interop.downcallHandle(
+            "gtk_directory_list_set_monitored",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
 }

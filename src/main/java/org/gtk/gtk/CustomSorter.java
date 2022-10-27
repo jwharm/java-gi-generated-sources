@@ -9,8 +9,20 @@ import org.jetbrains.annotations.*;
  * {@code GtkCustomSorter} is a {@code GtkSorter} implementation that sorts via a callback
  * function.
  */
-public class CustomSorter extends Sorter {
-
+public class CustomSorter extends org.gtk.gtk.Sorter {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public CustomSorter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -20,25 +32,22 @@ public class CustomSorter extends Sorter {
         return new CustomSorter(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_custom_sorter_new = Interop.downcallHandle(
-        "gtk_custom_sorter_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew(@Nullable org.gtk.glib.CompareDataFunc sortFunc) {
+        java.util.Objects.requireNonNullElse(sortFunc, MemoryAddress.NULL);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_custom_sorter_new.invokeExact(
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_custom_sorter_new.invokeExact(
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.class, "__cbCompareDataFunc",
+                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(sortFunc)), 
+                   (Addressable) (sortFunc == null ? MemoryAddress.NULL : Interop.registerCallback(sortFunc)), 
                     Interop.cbDestroyNotifySymbol()), true);
-            return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -46,15 +55,11 @@ public class CustomSorter extends Sorter {
      * {@code sort_func} to compare items.
      * <p>
      * If {@code sort_func} is {@code null}, all items are considered equal.
+     * @param sortFunc the {@code GCompareDataFunc} to use for sorting
      */
     public CustomSorter(@Nullable org.gtk.glib.CompareDataFunc sortFunc) {
         super(constructNew(sortFunc));
     }
-    
-    private static final MethodHandle gtk_custom_sorter_set_sort_func = Interop.downcallHandle(
-        "gtk_custom_sorter_set_sort_func",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets (or unsets) the function used for sorting items.
@@ -66,20 +71,34 @@ public class CustomSorter extends Sorter {
      * <p>
      * If a previous function was set, its {@code user_destroy} will be
      * called now.
+     * @param sortFunc function to sort items
      */
-    public @NotNull void setSortFunc(@Nullable org.gtk.glib.CompareDataFunc sortFunc) {
+    public void setSortFunc(@Nullable org.gtk.glib.CompareDataFunc sortFunc) {
+        java.util.Objects.requireNonNullElse(sortFunc, MemoryAddress.NULL);
         try {
-            gtk_custom_sorter_set_sort_func.invokeExact(handle(), 
+            DowncallHandles.gtk_custom_sorter_set_sort_func.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.class, "__cbCompareDataFunc",
+                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(sortFunc)), 
+                   (Addressable) (sortFunc == null ? MemoryAddress.NULL : Interop.registerCallback(sortFunc)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_custom_sorter_new = Interop.downcallHandle(
+            "gtk_custom_sorter_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_custom_sorter_set_sort_func = Interop.downcallHandle(
+            "gtk_custom_sorter_set_sort_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

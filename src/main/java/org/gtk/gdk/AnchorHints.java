@@ -1,5 +1,10 @@
 package org.gtk.gdk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Positioning hints for aligning a surface relative to a rectangle.
  * <p>
@@ -18,7 +23,15 @@ package org.gtk.gdk;
  * sliding, which should take precedence over resizing.
  */
 public class AnchorHints extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * allow flipping anchors horizontally
      */
@@ -67,5 +80,4 @@ public class AnchorHints extends io.github.jwharm.javagi.Bitfield {
     public AnchorHints(int value) {
         super(value);
     }
-    
 }

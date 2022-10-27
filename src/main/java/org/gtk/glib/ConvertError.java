@@ -1,10 +1,23 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Error codes returned by character set conversion routines.
  */
 public class ConvertError extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Conversion between the requested character
      *     sets is not supported.
@@ -53,5 +66,4 @@ public class ConvertError extends io.github.jwharm.javagi.Enumeration {
     public ConvertError(int value) {
         super(value);
     }
-    
 }

@@ -1,5 +1,10 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Determines whether the spin button displays values outside the adjustment
  * bounds.
@@ -7,7 +12,15 @@ package org.gtk.gtk;
  * See {@link SpinButton#setUpdatePolicy}.
  */
 public class SpinButtonUpdatePolicy extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * When refreshing your {@code GtkSpinButton}, the value is
      *   always displayed
@@ -24,5 +37,4 @@ public class SpinButtonUpdatePolicy extends io.github.jwharm.javagi.Enumeration 
     public SpinButtonUpdatePolicy(int value) {
         super(value);
     }
-    
 }

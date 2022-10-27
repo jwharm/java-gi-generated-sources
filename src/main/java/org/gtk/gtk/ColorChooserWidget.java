@@ -26,12 +26,24 @@ import org.jetbrains.annotations.*;
  * <p>
  * The {@code GtkColorChooserWidget} is used in the {@link ColorChooserDialog}
  * to provide a dialog for selecting colors.
- * 
- * <h1>CSS names</h1>
+ * <p>
+ * <strong>CSS names</strong><br/>
  * {@code GtkColorChooserWidget} has a single CSS node with name colorchooser.
  */
-public class ColorChooserWidget extends Widget implements Accessible, Buildable, ColorChooser, ConstraintTarget {
-
+public class ColorChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ColorChooser, org.gtk.gtk.ConstraintTarget {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public ColorChooserWidget(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -41,18 +53,14 @@ public class ColorChooserWidget extends Widget implements Accessible, Buildable,
         return new ColorChooserWidget(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_color_chooser_widget_new = Interop.downcallHandle(
-        "gtk_color_chooser_widget_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_color_chooser_widget_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_color_chooser_widget_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -62,4 +70,11 @@ public class ColorChooserWidget extends Widget implements Accessible, Buildable,
         super(constructNew());
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_color_chooser_widget_new = Interop.downcallHandle(
+            "gtk_color_chooser_widget_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+    }
 }

@@ -1,10 +1,24 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Error codes for the {@code G_DBUS_ERROR} error domain.
+ * @version 2.26
  */
 public class DBusError extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * A generic error; "something went wrong" - see the error message for
      * more.
@@ -244,4 +258,299 @@ public class DBusError extends io.github.jwharm.javagi.Enumeration {
         super(value);
     }
     
+    /**
+     * Creates a D-Bus error name to use for {@code error}. If {@code error} matches
+     * a registered error (cf. g_dbus_error_register_error()), the corresponding
+     * D-Bus error name will be returned.
+     * <p>
+     * Otherwise the a name of the form
+     * {@code org.gtk.GDBus.UnmappedGError.Quark._ESCAPED_QUARK_NAME.Code_ERROR_CODE}
+     * will be used. This allows other GDBus applications to map the error
+     * on the wire back to a {@link org.gtk.glib.Error} using g_dbus_error_new_for_dbus_error().
+     * <p>
+     * This function is typically only used in object mappings to put a
+     * {@link org.gtk.glib.Error} on the wire. Regular applications should not use it.
+     * @param error A {@link org.gtk.glib.Error}.
+     * @return A D-Bus error name (never {@code null}).
+     *     Free with g_free().
+     */
+    public static @NotNull java.lang.String encodeGerror(@NotNull org.gtk.glib.Error error) {
+        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_error_encode_gerror.invokeExact(error.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Gets the D-Bus error name used for {@code error}, if any.
+     * <p>
+     * This function is guaranteed to return a D-Bus error name for all
+     * {@code GErrors} returned from functions handling remote method calls
+     * (e.g. g_dbus_connection_call_finish()) unless
+     * g_dbus_error_strip_remote_error() has been used on {@code error}.
+     * @param error a {@link org.gtk.glib.Error}
+     * @return an allocated string or {@code null} if the
+     *     D-Bus error name could not be found. Free with g_free().
+     */
+    public static @Nullable java.lang.String getRemoteError(@NotNull org.gtk.glib.Error error) {
+        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_error_get_remote_error.invokeExact(error.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Checks if {@code error} represents an error received via D-Bus from a remote peer. If so,
+     * use g_dbus_error_get_remote_error() to get the name of the error.
+     * @param error A {@link org.gtk.glib.Error}.
+     * @return {@code true} if {@code error} represents an error from a remote peer,
+     * {@code false} otherwise.
+     */
+    public static boolean isRemoteError(@NotNull org.gtk.glib.Error error) {
+        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_dbus_error_is_remote_error.invokeExact(error.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT != 0;
+    }
+    
+    /**
+     * Creates a {@link org.gtk.glib.Error} based on the contents of {@code dbus_error_name} and
+     * {@code dbus_error_message}.
+     * <p>
+     * Errors registered with g_dbus_error_register_error() will be looked
+     * up using {@code dbus_error_name} and if a match is found, the error domain
+     * and code is used. Applications can use g_dbus_error_get_remote_error()
+     * to recover {@code dbus_error_name}.
+     * <p>
+     * If a match against a registered error is not found and the D-Bus
+     * error name is in a form as returned by g_dbus_error_encode_gerror()
+     * the error domain and code encoded in the name is used to
+     * create the {@link org.gtk.glib.Error}. Also, {@code dbus_error_name} is added to the error message
+     * such that it can be recovered with g_dbus_error_get_remote_error().
+     * <p>
+     * Otherwise, a {@link org.gtk.glib.Error} with the error code {@link IOErrorEnum#DBUS_ERROR}
+     * in the {@code G_IO_ERROR} error domain is returned. Also, {@code dbus_error_name} is
+     * added to the error message such that it can be recovered with
+     * g_dbus_error_get_remote_error().
+     * <p>
+     * In all three cases, {@code dbus_error_name} can always be recovered from the
+     * returned {@link org.gtk.glib.Error} using the g_dbus_error_get_remote_error() function
+     * (unless g_dbus_error_strip_remote_error() hasn't been used on the returned error).
+     * <p>
+     * This function is typically only used in object mappings to prepare
+     * {@link org.gtk.glib.Error} instances for applications. Regular applications should not use
+     * it.
+     * @param dbusErrorName D-Bus error name.
+     * @param dbusErrorMessage D-Bus error message.
+     * @return An allocated {@link org.gtk.glib.Error}. Free with g_error_free().
+     */
+    public static @NotNull org.gtk.glib.Error newForDbusError(@NotNull java.lang.String dbusErrorName, @NotNull java.lang.String dbusErrorMessage) {
+        java.util.Objects.requireNonNull(dbusErrorName, "Parameter 'dbusErrorName' must not be null");
+        java.util.Objects.requireNonNull(dbusErrorMessage, "Parameter 'dbusErrorMessage' must not be null");
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_error_new_for_dbus_error.invokeExact(Interop.allocateNativeString(dbusErrorName), Interop.allocateNativeString(dbusErrorMessage));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Error(Refcounted.get(RESULT, true));
+    }
+    
+    public static @NotNull org.gtk.glib.Quark quark() {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_dbus_error_quark.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Quark(RESULT);
+    }
+    
+    /**
+     * Creates an association to map between {@code dbus_error_name} and
+     * {@code GErrors} specified by {@code error_domain} and {@code error_code}.
+     * <p>
+     * This is typically done in the routine that returns the {@link org.gtk.glib.Quark} for
+     * an error domain.
+     * @param errorDomain A {@link org.gtk.glib.Quark} for an error domain.
+     * @param errorCode An error code.
+     * @param dbusErrorName A D-Bus error name.
+     * @return {@code true} if the association was created, {@code false} if it already
+     * exists.
+     */
+    public static boolean registerError(@NotNull org.gtk.glib.Quark errorDomain, int errorCode, @NotNull java.lang.String dbusErrorName) {
+        java.util.Objects.requireNonNull(errorDomain, "Parameter 'errorDomain' must not be null");
+        java.util.Objects.requireNonNull(dbusErrorName, "Parameter 'dbusErrorName' must not be null");
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_dbus_error_register_error.invokeExact(errorDomain.getValue(), errorCode, Interop.allocateNativeString(dbusErrorName));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT != 0;
+    }
+    
+    /**
+     * Helper function for associating a {@link org.gtk.glib.Error} error domain with D-Bus error names.
+     * <p>
+     * While {@code quark_volatile} has a {@code volatile} qualifier, this is a historical
+     * artifact and the argument passed to it should not be {@code volatile}.
+     * @param errorDomainQuarkName The error domain name.
+     * @param quarkVolatile A pointer where to store the {@link org.gtk.glib.Quark}.
+     * @param entries A pointer to {@code num_entries} {@link DBusErrorEntry} struct items.
+     * @param numEntries Number of items to register.
+     */
+    public static void registerErrorDomain(@NotNull java.lang.String errorDomainQuarkName, PointerLong quarkVolatile, org.gtk.gio.DBusErrorEntry[] entries, int numEntries) {
+        java.util.Objects.requireNonNull(errorDomainQuarkName, "Parameter 'errorDomainQuarkName' must not be null");
+        java.util.Objects.requireNonNull(quarkVolatile, "Parameter 'quarkVolatile' must not be null");
+        java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
+        try {
+            DowncallHandles.g_dbus_error_register_error_domain.invokeExact(Interop.allocateNativeString(errorDomainQuarkName), quarkVolatile.handle(), Interop.allocateNativeArray(entries, false), numEntries);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
+    
+    /**
+     * Does nothing if {@code error} is {@code null}. Otherwise sets *{@code error} to
+     * a new {@link org.gtk.glib.Error} created with g_dbus_error_new_for_dbus_error()
+     * with {@code dbus_error_message} prepend with {@code format} (unless {@code null}).
+     * @param error A pointer to a {@link org.gtk.glib.Error} or {@code null}.
+     * @param dbusErrorName D-Bus error name.
+     * @param dbusErrorMessage D-Bus error message.
+     * @param format printf()-style format to prepend to {@code dbus_error_message} or {@code null}.
+     */
+    public static void setDbusError(@NotNull PointerProxy<org.gtk.glib.Error> error, @NotNull java.lang.String dbusErrorName, @NotNull java.lang.String dbusErrorMessage, @Nullable java.lang.String format) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Like g_dbus_error_set_dbus_error() but intended for language bindings.
+     * @param error A pointer to a {@link org.gtk.glib.Error} or {@code null}.
+     * @param dbusErrorName D-Bus error name.
+     * @param dbusErrorMessage D-Bus error message.
+     * @param format printf()-style format to prepend to {@code dbus_error_message} or {@code null}.
+     * @param varArgs Arguments for {@code format}.
+     */
+    public static void setDbusErrorValist(@NotNull PointerProxy<org.gtk.glib.Error> error, @NotNull java.lang.String dbusErrorName, @NotNull java.lang.String dbusErrorMessage, @Nullable java.lang.String format, @NotNull VaList varArgs) {
+        java.util.Objects.requireNonNull(dbusErrorName, "Parameter 'dbusErrorName' must not be null");
+        java.util.Objects.requireNonNull(dbusErrorMessage, "Parameter 'dbusErrorMessage' must not be null");
+        java.util.Objects.requireNonNullElse(format, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
+        try {
+            DowncallHandles.g_dbus_error_set_dbus_error_valist.invokeExact(error.handle(), Interop.allocateNativeString(dbusErrorName), Interop.allocateNativeString(dbusErrorMessage), Interop.allocateNativeString(format), varArgs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
+    
+    /**
+     * Looks for extra information in the error message used to recover
+     * the D-Bus error name and strips it if found. If stripped, the
+     * message field in {@code error} will correspond exactly to what was
+     * received on the wire.
+     * <p>
+     * This is typically used when presenting errors to the end user.
+     * @param error A {@link org.gtk.glib.Error}.
+     * @return {@code true} if information was stripped, {@code false} otherwise.
+     */
+    public static boolean stripRemoteError(@NotNull org.gtk.glib.Error error) {
+        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_dbus_error_strip_remote_error.invokeExact(error.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT != 0;
+    }
+    
+    /**
+     * Destroys an association previously set up with g_dbus_error_register_error().
+     * @param errorDomain A {@link org.gtk.glib.Quark} for an error domain.
+     * @param errorCode An error code.
+     * @param dbusErrorName A D-Bus error name.
+     * @return {@code true} if the association was destroyed, {@code false} if it wasn't found.
+     */
+    public static boolean unregisterError(@NotNull org.gtk.glib.Quark errorDomain, int errorCode, @NotNull java.lang.String dbusErrorName) {
+        java.util.Objects.requireNonNull(errorDomain, "Parameter 'errorDomain' must not be null");
+        java.util.Objects.requireNonNull(dbusErrorName, "Parameter 'dbusErrorName' must not be null");
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_dbus_error_unregister_error.invokeExact(errorDomain.getValue(), errorCode, Interop.allocateNativeString(dbusErrorName));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT != 0;
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_dbus_error_encode_gerror = Interop.downcallHandle(
+            "g_dbus_error_encode_gerror",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_dbus_error_get_remote_error = Interop.downcallHandle(
+            "g_dbus_error_get_remote_error",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_dbus_error_is_remote_error = Interop.downcallHandle(
+            "g_dbus_error_is_remote_error",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_dbus_error_new_for_dbus_error = Interop.downcallHandle(
+            "g_dbus_error_new_for_dbus_error",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_dbus_error_quark = Interop.downcallHandle(
+            "g_dbus_error_quark",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_dbus_error_register_error = Interop.downcallHandle(
+            "g_dbus_error_register_error",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_dbus_error_register_error_domain = Interop.downcallHandle(
+            "g_dbus_error_register_error_domain",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_dbus_error_set_dbus_error = Interop.downcallHandle(
+            "g_dbus_error_set_dbus_error",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_dbus_error_set_dbus_error_valist = Interop.downcallHandle(
+            "g_dbus_error_set_dbus_error_valist",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_dbus_error_strip_remote_error = Interop.downcallHandle(
+            "g_dbus_error_strip_remote_error",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_dbus_error_unregister_error = Interop.downcallHandle(
+            "g_dbus_error_unregister_error",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+    }
 }

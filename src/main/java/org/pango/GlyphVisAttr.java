@@ -18,9 +18,25 @@ import org.jetbrains.annotations.*;
  * base character.
  */
 public class GlyphVisAttr extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Pango.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        ValueLayout.JAVA_INT.withName("is_cluster_start"),
+        ValueLayout.JAVA_INT.withName("is_color")
+    ).withName("PangoGlyphVisAttr");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public GlyphVisAttr(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
 }

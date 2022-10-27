@@ -23,8 +23,8 @@ import org.jetbrains.annotations.*;
  * Note that it is your responsibility to update preexisting offsets
  * when changing the minimum or maximum value. GTK will simply clamp
  * them to the new range.
- * 
- * <h2>Adding a custom offset on the bar</h2>
+ * <p>
+ * <strong>Adding a custom offset on the bar</strong><br/>
  * <pre>{@code c
  * static GtkWidget *
  * create_level_bar (void)
@@ -70,13 +70,13 @@ import org.jetbrains.annotations.*;
  * For instance, to build a bar rendered with five blocks, it’s sufficient to
  * set the minimum value to 0 and the maximum value to 5 after changing the
  * indicator mode to discrete.
- * 
- * <h1>GtkLevelBar as GtkBuildable</h1>
+ * <p>
+ * <strong>GtkLevelBar as GtkBuildable</strong><br/>
  * The {@code GtkLevelBar} implementation of the {@code GtkBuildable} interface supports a
  * custom &lt;offsets&gt; element, which can contain any number of &lt;offset&gt; elements,
  * each of which must have name and value attributes.
- * 
- * <h1>CSS nodes</h1>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * <pre>{@code 
  * levelbar[.discrete]
  * ╰── trough
@@ -96,12 +96,24 @@ import org.jetbrains.annotations.*;
  * <p>
  * In horizontal orientation, the nodes are always arranged from left to right,
  * regardless of text direction.
- * 
- * <h1>Accessibility</h1>
+ * <p>
+ * <strong>Accessibility</strong><br/>
  * {@code GtkLevelBar} uses the {@link AccessibleRole#METER} role.
  */
-public class LevelBar extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
-
+public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Orientable {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public LevelBar(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -111,18 +123,14 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
         return new LevelBar(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_level_bar_new = Interop.downcallHandle(
-        "gtk_level_bar_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_level_bar_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_level_bar_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -132,31 +140,25 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_level_bar_new_for_interval = Interop.downcallHandle(
-        "gtk_level_bar_new_for_interval",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
-    );
-    
-    private static Refcounted constructNewForInterval(@NotNull double minValue, @NotNull double maxValue) {
+    private static Refcounted constructNewForInterval(double minValue, double maxValue) {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_level_bar_new_for_interval.invokeExact(minValue, maxValue), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_level_bar_new_for_interval.invokeExact(minValue, maxValue), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a new {@code GtkLevelBar} for the specified interval.
+     * @param minValue a positive value
+     * @param maxValue a positive value
+     * @return a {@code GtkLevelBar}
      */
-    public static LevelBar newForInterval(@NotNull double minValue, @NotNull double maxValue) {
+    public static LevelBar newForInterval(double minValue, double maxValue) {
         return new LevelBar(constructNewForInterval(minValue, maxValue));
     }
-    
-    private static final MethodHandle gtk_level_bar_add_offset_value = Interop.downcallHandle(
-        "gtk_level_bar_add_offset_value",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
-    );
     
     /**
      * Adds a new offset marker on {@code self} at the position specified by {@code value}.
@@ -168,100 +170,87 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
      * <p>
      * If another offset marker named {@code name} exists, its value will be
      * replaced by {@code value}.
+     * @param name the name of the new offset
+     * @param value the value for the new offset
      */
-    public @NotNull void addOffsetValue(@NotNull java.lang.String name, @NotNull double value) {
+    public void addOffsetValue(@NotNull java.lang.String name, double value) {
+        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         try {
-            gtk_level_bar_add_offset_value.invokeExact(handle(), Interop.allocateNativeString(name), value);
+            DowncallHandles.gtk_level_bar_add_offset_value.invokeExact(handle(), Interop.allocateNativeString(name), value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle gtk_level_bar_get_inverted = Interop.downcallHandle(
-        "gtk_level_bar_get_inverted",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns whether the levelbar is inverted.
+     * @return {@code true} if the level bar is inverted
      */
     public boolean getInverted() {
         int RESULT;
         try {
-            RESULT = (int) gtk_level_bar_get_inverted.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_level_bar_get_inverted.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_level_bar_get_max_value = Interop.downcallHandle(
-        "gtk_level_bar_get_max_value",
-        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the {@code max-value} of the {@code GtkLevelBar}.
+     * @return a positive value
      */
     public double getMaxValue() {
         double RESULT;
         try {
-            RESULT = (double) gtk_level_bar_get_max_value.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_level_bar_get_max_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle gtk_level_bar_get_min_value = Interop.downcallHandle(
-        "gtk_level_bar_get_min_value",
-        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the {@code min-value of the }GtkLevelBar`.
+     * @return a positive value
      */
     public double getMinValue() {
         double RESULT;
         try {
-            RESULT = (double) gtk_level_bar_get_min_value.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_level_bar_get_min_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle gtk_level_bar_get_mode = Interop.downcallHandle(
-        "gtk_level_bar_get_mode",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the {@code mode} of the {@code GtkLevelBar}.
+     * @return a {@code GtkLevelBarMode}
      */
-    public @NotNull LevelBarMode getMode() {
+    public @NotNull org.gtk.gtk.LevelBarMode getMode() {
         int RESULT;
         try {
-            RESULT = (int) gtk_level_bar_get_mode.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_level_bar_get_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new LevelBarMode(RESULT);
+        return new org.gtk.gtk.LevelBarMode(RESULT);
     }
-    
-    private static final MethodHandle gtk_level_bar_get_offset_value = Interop.downcallHandle(
-        "gtk_level_bar_get_offset_value",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fetches the value specified for the offset marker {@code name} in {@code self}.
+     * @param name the name of an offset in the bar
+     * @param value location where to store the value
+     * @return {@code true} if the specified offset is found
      */
-    public boolean getOffsetValue(@Nullable java.lang.String name, @NotNull Out<Double> value) {
+    public boolean getOffsetValue(@Nullable java.lang.String name, Out<Double> value) {
+        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         int RESULT;
         try {
-            RESULT = (int) gtk_level_bar_get_offset_value.invokeExact(handle(), Interop.allocateNativeString(name), (Addressable) valuePOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_level_bar_get_offset_value.invokeExact(handle(), Interop.allocateNativeString(name), (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -269,131 +258,107 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_level_bar_get_value = Interop.downcallHandle(
-        "gtk_level_bar_get_value",
-        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the {@code value} of the {@code GtkLevelBar}.
+     * @return a value in the interval between
+     *   {@code Gtk.LevelBar:min-value[ and [property@Gtk.LevelBar:max-value}
      */
     public double getValue() {
         double RESULT;
         try {
-            RESULT = (double) gtk_level_bar_get_value.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_level_bar_get_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle gtk_level_bar_remove_offset_value = Interop.downcallHandle(
-        "gtk_level_bar_remove_offset_value",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Removes an offset marker from a {@code GtkLevelBar}.
      * <p>
      * The marker must have been previously added with
      * {@link LevelBar#addOffsetValue}.
+     * @param name the name of an offset in the bar
      */
-    public @NotNull void removeOffsetValue(@Nullable java.lang.String name) {
+    public void removeOffsetValue(@Nullable java.lang.String name) {
+        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
         try {
-            gtk_level_bar_remove_offset_value.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.gtk_level_bar_remove_offset_value.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_level_bar_set_inverted = Interop.downcallHandle(
-        "gtk_level_bar_set_inverted",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether the {@code GtkLevelBar} is inverted.
+     * @param inverted {@code true} to invert the level bar
      */
-    public @NotNull void setInverted(@NotNull boolean inverted) {
+    public void setInverted(boolean inverted) {
         try {
-            gtk_level_bar_set_inverted.invokeExact(handle(), inverted ? 1 : 0);
+            DowncallHandles.gtk_level_bar_set_inverted.invokeExact(handle(), inverted ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_level_bar_set_max_value = Interop.downcallHandle(
-        "gtk_level_bar_set_max_value",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
-    );
     
     /**
      * Sets the {@code max-value} of the {@code GtkLevelBar}.
      * <p>
      * You probably want to update preexisting level offsets after calling
      * this function.
+     * @param value a positive value
      */
-    public @NotNull void setMaxValue(@NotNull double value) {
+    public void setMaxValue(double value) {
         try {
-            gtk_level_bar_set_max_value.invokeExact(handle(), value);
+            DowncallHandles.gtk_level_bar_set_max_value.invokeExact(handle(), value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_level_bar_set_min_value = Interop.downcallHandle(
-        "gtk_level_bar_set_min_value",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
-    );
     
     /**
      * Sets the {@code min-value} of the {@code GtkLevelBar}.
      * <p>
      * You probably want to update preexisting level offsets after calling
      * this function.
+     * @param value a positive value
      */
-    public @NotNull void setMinValue(@NotNull double value) {
+    public void setMinValue(double value) {
         try {
-            gtk_level_bar_set_min_value.invokeExact(handle(), value);
+            DowncallHandles.gtk_level_bar_set_min_value.invokeExact(handle(), value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_level_bar_set_mode = Interop.downcallHandle(
-        "gtk_level_bar_set_mode",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the {@code mode} of the {@code GtkLevelBar}.
+     * @param mode a {@code GtkLevelBarMode}
      */
-    public @NotNull void setMode(@NotNull LevelBarMode mode) {
+    public void setMode(@NotNull org.gtk.gtk.LevelBarMode mode) {
+        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
         try {
-            gtk_level_bar_set_mode.invokeExact(handle(), mode.getValue());
+            DowncallHandles.gtk_level_bar_set_mode.invokeExact(handle(), mode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle gtk_level_bar_set_value = Interop.downcallHandle(
-        "gtk_level_bar_set_value",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
-    );
-    
     /**
      * Sets the value of the {@code GtkLevelBar}.
+     * @param value a value in the interval between
+     *   {@code Gtk.LevelBar:min-value} and {@code Gtk.LevelBar:max-value}
      */
-    public @NotNull void setValue(@NotNull double value) {
+    public void setValue(double value) {
         try {
-            gtk_level_bar_set_value.invokeExact(handle(), value);
+            DowncallHandles.gtk_level_bar_set_value.invokeExact(handle(), value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface OffsetChangedHandler {
+    public interface OffsetChanged {
         void signalReceived(LevelBar source, @NotNull java.lang.String name);
     }
     
@@ -407,31 +372,108 @@ public class LevelBar extends Widget implements Accessible, Buildable, Constrain
      * detailed signal "changed::x" in order to only receive callbacks when
      * the value of offset "x" changes.
      */
-    public SignalHandle onOffsetChanged(OffsetChangedHandler handler) {
+    public Signal<LevelBar.OffsetChanged> onOffsetChanged(@Nullable String detail, LevelBar.OffsetChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
-                Interop.allocateNativeString("offset-changed"),
+                Interop.allocateNativeString("offset-changed" + ((detail == null || detail.isBlank()) ? "" : ("::" + detail))),
                 (Addressable) Linker.nativeLinker().upcallStub(
                     MethodHandles.lookup().findStatic(LevelBar.Callbacks.class, "signalLevelBarOffsetChanged",
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<LevelBar.OffsetChanged>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static void signalLevelBarOffsetChanged(MemoryAddress source, MemoryAddress name, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (LevelBar.OffsetChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new LevelBar(Refcounted.get(source)), name.getUtf8String(0));
-        }
+    private static class DowncallHandles {
         
+        private static final MethodHandle gtk_level_bar_new = Interop.downcallHandle(
+            "gtk_level_bar_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_level_bar_new_for_interval = Interop.downcallHandle(
+            "gtk_level_bar_new_for_interval",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+        );
+        
+        private static final MethodHandle gtk_level_bar_add_offset_value = Interop.downcallHandle(
+            "gtk_level_bar_add_offset_value",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+        );
+        
+        private static final MethodHandle gtk_level_bar_get_inverted = Interop.downcallHandle(
+            "gtk_level_bar_get_inverted",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_level_bar_get_max_value = Interop.downcallHandle(
+            "gtk_level_bar_get_max_value",
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_level_bar_get_min_value = Interop.downcallHandle(
+            "gtk_level_bar_get_min_value",
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_level_bar_get_mode = Interop.downcallHandle(
+            "gtk_level_bar_get_mode",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_level_bar_get_offset_value = Interop.downcallHandle(
+            "gtk_level_bar_get_offset_value",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_level_bar_get_value = Interop.downcallHandle(
+            "gtk_level_bar_get_value",
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_level_bar_remove_offset_value = Interop.downcallHandle(
+            "gtk_level_bar_remove_offset_value",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_level_bar_set_inverted = Interop.downcallHandle(
+            "gtk_level_bar_set_inverted",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_level_bar_set_max_value = Interop.downcallHandle(
+            "gtk_level_bar_set_max_value",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+        );
+        
+        private static final MethodHandle gtk_level_bar_set_min_value = Interop.downcallHandle(
+            "gtk_level_bar_set_min_value",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+        );
+        
+        private static final MethodHandle gtk_level_bar_set_mode = Interop.downcallHandle(
+            "gtk_level_bar_set_mode",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_level_bar_set_value = Interop.downcallHandle(
+            "gtk_level_bar_set_value",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+        );
+    }
+    
+    private static class Callbacks {
+        
+        public static void signalLevelBarOffsetChanged(MemoryAddress source, MemoryAddress name, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (LevelBar.OffsetChanged) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new LevelBar(Refcounted.get(source)), name.getUtf8String(0));
+        }
     }
 }

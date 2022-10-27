@@ -112,9 +112,26 @@ import org.jetbrains.annotations.*;
  *     return polkit_authorization_result_get_is_authorized (auth_result);
  *   }
  * }</pre>
+ * @version 2.72
  */
-public class DebugControllerDBus extends org.gtk.gobject.Object implements DebugController, Initable {
-
+public class DebugControllerDBus extends org.gtk.gobject.Object implements org.gtk.gio.DebugController, org.gtk.gio.Initable {
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
+    ).withName("GDebugControllerDBus");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public DebugControllerDBus(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -124,22 +141,20 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements Debug
         return new DebugControllerDBus(gobject.refcounted());
     }
     
-    private static final MethodHandle g_debug_controller_dbus_new = Interop.downcallHandle(
-        "g_debug_controller_dbus_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNew(@NotNull DBusConnection connection, @Nullable Cancellable cancellable) throws GErrorException {
+    private static Refcounted constructNew(@NotNull org.gtk.gio.DBusConnection connection, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
+        java.util.Objects.requireNonNull(connection, "Parameter 'connection' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_debug_controller_dbus_new.invokeExact(connection.handle(), cancellable.handle(), (Addressable) GERROR), true);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_debug_controller_dbus_new.invokeExact(connection.handle(), cancellable.handle(), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
     /**
@@ -150,15 +165,13 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements Debug
      * {@link DebugControllerDBus} is dropped.
      * <p>
      * Initialization may fail if registering the object on {@code connection} fails.
+     * @param connection a {@link DBusConnection} to register the debug object on
+     * @param cancellable a {@link Cancellable}, or {@code null}
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public DebugControllerDBus(@NotNull DBusConnection connection, @Nullable Cancellable cancellable) throws GErrorException {
+    public DebugControllerDBus(@NotNull org.gtk.gio.DBusConnection connection, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
         super(constructNew(connection, cancellable));
     }
-    
-    private static final MethodHandle g_debug_controller_dbus_stop = Interop.downcallHandle(
-        "g_debug_controller_dbus_stop",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Stop the debug controller, unregistering its object from the bus.
@@ -178,17 +191,17 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements Debug
      * Calling this method from within a {@link DebugControllerDBus}::authorize signal
      * handler will cause a deadlock and must not be done.
      */
-    public @NotNull void stop() {
+    public void stop() {
         try {
-            g_debug_controller_dbus_stop.invokeExact(handle());
+            DowncallHandles.g_debug_controller_dbus_stop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface AuthorizeHandler {
-        boolean signalReceived(DebugControllerDBus source, @NotNull DBusMethodInvocation invocation);
+    public interface Authorize {
+        boolean signalReceived(DebugControllerDBus source, @NotNull org.gtk.gio.DBusMethodInvocation invocation);
     }
     
     /**
@@ -210,7 +223,7 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements Debug
      * <p>
      * The default class handler just returns {@code true}.
      */
-    public SignalHandle onAuthorize(AuthorizeHandler handler) {
+    public Signal<DebugControllerDBus.Authorize> onAuthorize(DebugControllerDBus.Authorize handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -220,21 +233,33 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements Debug
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<DebugControllerDBus.Authorize>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static boolean signalDebugControllerDBusAuthorize(MemoryAddress source, MemoryAddress invocation, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (DebugControllerDBus.AuthorizeHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new DebugControllerDBus(Refcounted.get(source)), new DBusMethodInvocation(Refcounted.get(invocation, false)));
-        }
+    private static class DowncallHandles {
         
+        private static final MethodHandle g_debug_controller_dbus_new = Interop.downcallHandle(
+            "g_debug_controller_dbus_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_debug_controller_dbus_stop = Interop.downcallHandle(
+            "g_debug_controller_dbus_stop",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
+    
+    private static class Callbacks {
+        
+        public static boolean signalDebugControllerDBusAuthorize(MemoryAddress source, MemoryAddress invocation, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (DebugControllerDBus.Authorize) Interop.signalRegistry.get(HASH);
+            return HANDLER.signalReceived(new DebugControllerDBus(Refcounted.get(source)), new org.gtk.gio.DBusMethodInvocation(Refcounted.get(invocation, false)));
+        }
     }
 }

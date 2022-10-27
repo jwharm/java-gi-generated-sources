@@ -1,5 +1,10 @@
 package org.gtk.gdk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Defines how device axes are interpreted by GTK.
  * <p>
@@ -8,7 +13,15 @@ package org.gtk.gdk;
  * X and Y are present as axes depends on the GDK backend.
  */
 public class AxisUse extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * the axis is ignored.
      */
@@ -77,5 +90,4 @@ public class AxisUse extends io.github.jwharm.javagi.Enumeration {
     public AxisUse(int value) {
         super(value);
     }
-    
 }

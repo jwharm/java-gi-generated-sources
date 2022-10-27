@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -17,5 +19,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface LogFunc {
-        void onLogFunc(@NotNull java.lang.String logDomain, @NotNull LogLevelFlags logLevel, @NotNull java.lang.String message);
+        void onLogFunc(@NotNull java.lang.String logDomain, @NotNull org.gtk.glib.LogLevelFlags logLevel, @NotNull java.lang.String message);
 }

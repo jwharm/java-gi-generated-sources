@@ -1,10 +1,23 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Error codes returned by spawning processes.
  */
 public class SpawnError extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Fork failed due to lack of memory.
      */
@@ -114,5 +127,4 @@ public class SpawnError extends io.github.jwharm.javagi.Enumeration {
     public SpawnError(int value) {
         super(value);
     }
-    
 }

@@ -1,5 +1,10 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Describes which edge of a widget a certain feature is positioned at.
  * <p>
@@ -7,7 +12,15 @@ package org.gtk.gtk;
  * of a {@link Scale}.
  */
 public class PositionType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The feature is at the left edge.
      */
@@ -31,5 +44,4 @@ public class PositionType extends io.github.jwharm.javagi.Enumeration {
     public PositionType(int value) {
         super(value);
     }
-    
 }

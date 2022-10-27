@@ -35,7 +35,19 @@ import org.jetbrains.annotations.*;
  * they are no longer needed and recreate them if necessary.
  */
 public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
-
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public MapListModel(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -45,74 +57,61 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
         return new MapListModel(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_map_list_model_new = Interop.downcallHandle(
-        "gtk_map_list_model_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNew(@Nullable org.gtk.gio.ListModel model, @Nullable MapListModelMapFunc mapFunc) {
+    private static Refcounted constructNew(@Nullable org.gtk.gio.ListModel model, @Nullable org.gtk.gtk.MapListModelMapFunc mapFunc) {
+        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(mapFunc, MemoryAddress.NULL);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_map_list_model_new.invokeExact(model.refcounted().unowned().handle(), 
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_map_list_model_new.invokeExact(model.refcounted().unowned().handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.class, "__cbMapListModelMapFunc",
+                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbMapListModelMapFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(mapFunc)), 
+                   (Addressable) (mapFunc == null ? MemoryAddress.NULL : Interop.registerCallback(mapFunc)), 
                     Interop.cbDestroyNotifySymbol()), true);
-            return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a new {@code GtkMapListModel} for the given arguments.
+     * @param model The model to map
+     * @param mapFunc map function
      */
-    public MapListModel(@Nullable org.gtk.gio.ListModel model, @Nullable MapListModelMapFunc mapFunc) {
+    public MapListModel(@Nullable org.gtk.gio.ListModel model, @Nullable org.gtk.gtk.MapListModelMapFunc mapFunc) {
         super(constructNew(model, mapFunc));
     }
     
-    private static final MethodHandle gtk_map_list_model_get_model = Interop.downcallHandle(
-        "gtk_map_list_model_get_model",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the model that is currently being mapped or {@code null} if none.
+     * @return The model that gets mapped
      */
     public @Nullable org.gtk.gio.ListModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_map_list_model_get_model.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_map_list_model_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gio.ListModel.ListModelImpl(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle gtk_map_list_model_has_map = Interop.downcallHandle(
-        "gtk_map_list_model_has_map",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Checks if a map function is currently set on {@code self}.
+     * @return {@code true} if a map function is set
      */
     public boolean hasMap() {
         int RESULT;
         try {
-            RESULT = (int) gtk_map_list_model_has_map.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_map_list_model_has_map.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gtk_map_list_model_set_map_func = Interop.downcallHandle(
-        "gtk_map_list_model_set_map_func",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the function used to map items.
@@ -126,26 +125,23 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
      * GTK makes no effort to ensure that {@code map_func} conforms to the item type
      * of {@code self}. It assumes that the caller knows what they are doing and the map
      * function returns items of the appropriate type.
+     * @param mapFunc map function
      */
-    public @NotNull void setMapFunc(@Nullable MapListModelMapFunc mapFunc) {
+    public void setMapFunc(@Nullable org.gtk.gtk.MapListModelMapFunc mapFunc) {
+        java.util.Objects.requireNonNullElse(mapFunc, MemoryAddress.NULL);
         try {
-            gtk_map_list_model_set_map_func.invokeExact(handle(), 
+            DowncallHandles.gtk_map_list_model_set_map_func.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.class, "__cbMapListModelMapFunc",
+                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbMapListModelMapFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(mapFunc)), 
+                   (Addressable) (mapFunc == null ? MemoryAddress.NULL : Interop.registerCallback(mapFunc)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_map_list_model_set_model = Interop.downcallHandle(
-        "gtk_map_list_model_set_model",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the model to be mapped.
@@ -153,13 +149,42 @@ public class MapListModel extends org.gtk.gobject.Object implements org.gtk.gio.
      * GTK makes no effort to ensure that {@code model} conforms to the item type
      * expected by the map function. It assumes that the caller knows what
      * they are doing and have set up an appropriate map function.
+     * @param model The model to be mapped
      */
-    public @NotNull void setModel(@Nullable org.gtk.gio.ListModel model) {
+    public void setModel(@Nullable org.gtk.gio.ListModel model) {
+        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         try {
-            gtk_map_list_model_set_model.invokeExact(handle(), model.handle());
+            DowncallHandles.gtk_map_list_model_set_model.invokeExact(handle(), model.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_map_list_model_new = Interop.downcallHandle(
+            "gtk_map_list_model_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_map_list_model_get_model = Interop.downcallHandle(
+            "gtk_map_list_model_get_model",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_map_list_model_has_map = Interop.downcallHandle(
+            "gtk_map_list_model_has_map",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_map_list_model_set_map_func = Interop.downcallHandle(
+            "gtk_map_list_model_set_map_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_map_list_model_set_model = Interop.downcallHandle(
+            "gtk_map_list_model_set_model",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

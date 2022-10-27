@@ -1,7 +1,20 @@
 package org.cairographics;
 
-public class Format extends io.github.jwharm.javagi.Enumeration {
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
+public class Format extends io.github.jwharm.javagi.Enumeration {
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public static final Format INVALID = new Format(-1);
     
     public static final Format ARGB32 = new Format(0);
@@ -19,5 +32,4 @@ public class Format extends io.github.jwharm.javagi.Enumeration {
     public Format(int value) {
         super(value);
     }
-    
 }

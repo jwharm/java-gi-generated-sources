@@ -1,10 +1,24 @@
 package org.harfbuzz;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The selectors defined for specifying AAT feature settings.
+ * @version 2.2.0
  */
 public class AatLayoutFeatureSelectorT extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Initial, unset feature selector
      */
@@ -1263,5 +1277,4 @@ public class AatLayoutFeatureSelectorT extends io.github.jwharm.javagi.Enumerati
     public AatLayoutFeatureSelectorT(int value) {
         super(value);
     }
-    
 }

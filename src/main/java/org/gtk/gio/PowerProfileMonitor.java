@@ -30,13 +30,9 @@ import org.jetbrains.annotations.*;
  * <p>
  * Don't forget to disconnect the {@link PowerProfileMonitor}::notify::power-saver-enabled
  * signal, and unref the {@link PowerProfileMonitor} itself when exiting.
+ * @version 2.70
  */
 public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
-
-    @ApiStatus.Internal static final MethodHandle g_power_profile_monitor_get_power_saver_enabled = Interop.downcallHandle(
-        "g_power_profile_monitor_get_power_saver_enabled",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets whether the system is in “Power Saver” mode.
@@ -44,36 +40,54 @@ public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
      * You are expected to listen to the
      * {@link PowerProfileMonitor}::notify::power-saver-enabled signal to know when the profile has
      * changed.
+     * @return Whether the system is in “Power Saver” mode.
      */
     default boolean getPowerSaverEnabled() {
         int RESULT;
         try {
-            RESULT = (int) g_power_profile_monitor_get_power_saver_enabled.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_power_profile_monitor_get_power_saver_enabled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    @ApiStatus.Internal static final MethodHandle g_power_profile_monitor_dup_default = Interop.downcallHandle(
-        "g_power_profile_monitor_dup_default",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets a reference to the default {@link PowerProfileMonitor} for the system.
+     * @return a new reference to the default {@link PowerProfileMonitor}
      */
-    public static @NotNull PowerProfileMonitor dupDefault() {
+    public static @NotNull org.gtk.gio.PowerProfileMonitor dupDefault() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_power_profile_monitor_dup_default.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.g_power_profile_monitor_dup_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PowerProfileMonitor.PowerProfileMonitorImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.PowerProfileMonitor.PowerProfileMonitorImpl(Refcounted.get(RESULT, true));
+    }
+    
+    @ApiStatus.Internal
+    static class DowncallHandles {
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_power_profile_monitor_get_power_saver_enabled = Interop.downcallHandle(
+            "g_power_profile_monitor_get_power_saver_enabled",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_power_profile_monitor_dup_default = Interop.downcallHandle(
+            "g_power_profile_monitor_dup_default",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
     }
     
     class PowerProfileMonitorImpl extends org.gtk.gobject.Object implements PowerProfileMonitor {
+        
+        static {
+            Gio.javagi$ensureInitialized();
+        }
+        
         public PowerProfileMonitorImpl(io.github.jwharm.javagi.Refcounted ref) {
             super(ref);
         }

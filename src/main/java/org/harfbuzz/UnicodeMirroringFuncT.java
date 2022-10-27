@@ -1,10 +1,12 @@
 package org.harfbuzz;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
- * A virtual method for the {@link unicode_funcs_t} structure.
+ * A virtual method for the {@link UnicodeFuncsT} structure.
  * <p>
  * This method should retrieve the Bi-Directional Mirroring Glyph
  * code point for a specified Unicode code point.
@@ -15,5 +17,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface UnicodeMirroringFuncT {
-        CodepointT onUnicodeMirroringFuncT(@NotNull UnicodeFuncsT ufuncs, @NotNull CodepointT unicode, @Nullable java.lang.foreign.MemoryAddress userData);
+        org.harfbuzz.CodepointT onUnicodeMirroringFuncT(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.CodepointT unicode, @Nullable java.lang.foreign.MemoryAddress userData);
 }

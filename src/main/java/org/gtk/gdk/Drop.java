@@ -11,18 +11,30 @@ import org.jetbrains.annotations.*;
  * Possible drop sites get informed about the status of the ongoing drag
  * operation with events of type {@link EventType#DRAG_ENTER}, {@link EventType#DRAG_LEAVE},
  * {@link EventType#DRAG_MOTION} and {@link EventType#DROP_START}. The {@code GdkDrop} object can be obtained
- * from these {@code Gdk.DNDEvent.get_drop}.
+ * from these {@link Event}.
  * <p>
  * The actual data transfer is initiated from the target side via an async
  * read, using one of the {@code GdkDrop} methods for this purpose:
- * {@code Gdk.Drop.read_value_async}.
+ * {@link Drop#readAsync} or {@link Drop#readValueAsync}.
  * <p>
  * GTK provides a higher level abstraction based on top of these functions,
  * and so they are not normally needed in GTK applications. See the
  * "Drag and Drop" section of the GTK documentation for more information.
  */
 public class Drop extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gdk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public Drop(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -32,35 +44,27 @@ public class Drop extends org.gtk.gobject.Object {
         return new Drop(gobject.refcounted());
     }
     
-    private static final MethodHandle gdk_drop_finish = Interop.downcallHandle(
-        "gdk_drop_finish",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Ends the drag operation after a drop.
      * <p>
      * The {@code action} must be a single action selected from the actions
      * available via {@link Drop#getActions}.
+     * @param action the action performed by the destination or 0 if the drop failed
      */
-    public @NotNull void finish(@NotNull DragAction action) {
+    public void finish(@NotNull org.gtk.gdk.DragAction action) {
+        java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
         try {
-            gdk_drop_finish.invokeExact(handle(), action.getValue());
+            DowncallHandles.gdk_drop_finish.invokeExact(handle(), action.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle gdk_drop_get_actions = Interop.downcallHandle(
-        "gdk_drop_get_actions",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the possible actions for this {@code GdkDrop}.
      * <p>
      * If this value contains multiple actions - i.e.
-     * {@link Gdk#DragAction} returns {@code false} for the result -
+     * {@link DragAction#isUnique} returns {@code false} for the result -
      * {@link Drop#finish} must choose the action to use when
      * accepting the drop. This will only happen if you passed
      * {@link DragAction#ASK} as one of the possible actions in
@@ -69,140 +73,119 @@ public class Drop extends org.gtk.gobject.Object {
      * <p>
      * This value may change over the lifetime of the {@link Drop}
      * both as a response to source side actions as well as to calls to
-     * {@code Gdk.Drop.finish}. The source
+     * {@link Drop#status} or {@link Drop#finish}. The source
      * side will not change this value anymore once a drop has started.
+     * @return The possible {@code GdkDragActions}
      */
-    public @NotNull DragAction getActions() {
+    public @NotNull org.gtk.gdk.DragAction getActions() {
         int RESULT;
         try {
-            RESULT = (int) gdk_drop_get_actions.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_drop_get_actions.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new DragAction(RESULT);
+        return new org.gtk.gdk.DragAction(RESULT);
     }
-    
-    private static final MethodHandle gdk_drop_get_device = Interop.downcallHandle(
-        "gdk_drop_get_device",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the {@code GdkDevice} performing the drop.
+     * @return The {@code GdkDevice} performing the drop.
      */
-    public @NotNull Device getDevice() {
+    public @NotNull org.gtk.gdk.Device getDevice() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gdk_drop_get_device.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_drop_get_device.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Device(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Device(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gdk_drop_get_display = Interop.downcallHandle(
-        "gdk_drop_get_display",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the {@code GdkDisplay} that {@code self} was created for.
+     * @return a {@code GdkDisplay}
      */
-    public @NotNull Display getDisplay() {
+    public @NotNull org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gdk_drop_get_display.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_drop_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Display(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gdk_drop_get_drag = Interop.downcallHandle(
-        "gdk_drop_get_drag",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * If this is an in-app drag-and-drop operation, returns the {@code GdkDrag}
      * that corresponds to this drop.
      * <p>
      * If it is not, {@code null} is returned.
+     * @return the corresponding {@code GdkDrag}
      */
-    public @Nullable Drag getDrag() {
+    public @Nullable org.gtk.gdk.Drag getDrag() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gdk_drop_get_drag.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_drop_get_drag.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Drag(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Drag(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gdk_drop_get_formats = Interop.downcallHandle(
-        "gdk_drop_get_formats",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the {@code GdkContentFormats} that the drop offers the data
      * to be read in.
+     * @return The possible {@code GdkContentFormats}
      */
-    public @NotNull ContentFormats getFormats() {
+    public @NotNull org.gtk.gdk.ContentFormats getFormats() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gdk_drop_get_formats.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_drop_get_formats.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ContentFormats(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.ContentFormats(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gdk_drop_get_surface = Interop.downcallHandle(
-        "gdk_drop_get_surface",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the {@code GdkSurface} performing the drop.
+     * @return The {@code GdkSurface} performing the drop.
      */
-    public @NotNull Surface getSurface() {
+    public @NotNull org.gtk.gdk.Surface getSurface() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gdk_drop_get_surface.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_drop_get_surface.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Surface(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Surface(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gdk_drop_read_async = Interop.downcallHandle(
-        "gdk_drop_read_async",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Asynchronously read the dropped data from a {@code GdkDrop}
      * in a format that complies with one of the mime types.
+     * @param mimeTypes pointer to an array of mime types
+     * @param ioPriority the I/O priority for the read operation
+     * @param cancellable optional {@code GCancellable} object
+     * @param callback a {@code GAsyncReadyCallback} to call when
+     *   the request is satisfied
      */
-    public @NotNull void readAsync(@NotNull java.lang.String[] mimeTypes, @NotNull int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+    public void readAsync(java.lang.String[] mimeTypes, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNull(mimeTypes, "Parameter 'mimeTypes' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            gdk_drop_read_async.invokeExact(handle(), Interop.allocateNativeArray(mimeTypes), ioPriority, cancellable.handle(), 
+            DowncallHandles.gdk_drop_read_async.invokeExact(handle(), Interop.allocateNativeArray(mimeTypes, false), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gdk.class, "__cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gdk.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
+                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gdk_drop_read_finish = Interop.downcallHandle(
-        "gdk_drop_read_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Finishes an async drop read operation.
@@ -213,27 +196,28 @@ public class Drop extends org.gtk.gobject.Object {
      * g_input_stream_read_bytes_async().
      * <p>
      * See {@link Drop#readAsync}.
+     * @param result a {@code GAsyncResult}
+     * @param outMimeType return location for the used mime type
+     * @return the {@code GInputStream}
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public @Nullable org.gtk.gio.InputStream readFinish(@NotNull org.gtk.gio.AsyncResult result, @NotNull Out<java.lang.String> outMimeType) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+        java.util.Objects.requireNonNull(outMimeType, "Parameter 'outMimeType' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment outMimeTypePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gdk_drop_read_finish.invokeExact(handle(), result.handle(), (Addressable) outMimeTypePOINTER.address(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_drop_read_finish.invokeExact(handle(), result.handle(), (Addressable) outMimeTypePOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        outMimeType.set(outMimeTypePOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        outMimeType.set(outMimeTypePOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
         return new org.gtk.gio.InputStream(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle gdk_drop_read_value_async = Interop.downcallHandle(
-        "gdk_drop_read_value_async",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Asynchronously request the drag operation's contents converted
@@ -246,36 +230,42 @@ public class Drop extends org.gtk.gobject.Object {
      * For local drag-and-drop operations that are available in the given
      * {@code GType}, the value will be copied directly. Otherwise, GDK will
      * try to use {@link Gdk#contentDeserializeAsync} to convert the data.
+     * @param type a {@code GType} to read
+     * @param ioPriority the I/O priority of the request.
+     * @param cancellable optional {@code GCancellable} object, {@code null} to ignore.
+     * @param callback callback to call when the request is satisfied
      */
-    public @NotNull void readValueAsync(@NotNull org.gtk.gobject.Type type, @NotNull int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+    public void readValueAsync(@NotNull org.gtk.glib.Type type, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            gdk_drop_read_value_async.invokeExact(handle(), type.getValue(), ioPriority, cancellable.handle(), 
+            DowncallHandles.gdk_drop_read_value_async.invokeExact(handle(), type.getValue(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gdk.class, "__cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gdk.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
+                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle gdk_drop_read_value_finish = Interop.downcallHandle(
-        "gdk_drop_read_value_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Finishes an async drop read.
      * <p>
      * See {@link Drop#readValueAsync}.
+     * @param result a {@code GAsyncResult}
+     * @return a {@code GValue} containing the result.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public @NotNull org.gtk.gobject.Value readValueFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gdk_drop_read_value_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.gdk_drop_read_value_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -284,11 +274,6 @@ public class Drop extends org.gtk.gobject.Object {
         }
         return new org.gtk.gobject.Value(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gdk_drop_status = Interop.downcallHandle(
-        "gdk_drop_status",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Selects all actions that are potentially supported by the destination.
@@ -304,13 +289,81 @@ public class Drop extends org.gtk.gobject.Object {
      * {@link EventType#DRAG_ENTER} or {@link EventType#DRAG_MOTION} events. If the destination does
      * not yet know the exact actions it supports, it should set any possible
      * actions first and then later call this function again.
+     * @param actions Supported actions of the destination, or 0 to indicate
+     *    that a drop will not be accepted
+     * @param preferred A unique action that's a member of {@code actions} indicating the
+     *    preferred action
      */
-    public @NotNull void status(@NotNull DragAction actions, @NotNull DragAction preferred) {
+    public void status(@NotNull org.gtk.gdk.DragAction actions, @NotNull org.gtk.gdk.DragAction preferred) {
+        java.util.Objects.requireNonNull(actions, "Parameter 'actions' must not be null");
+        java.util.Objects.requireNonNull(preferred, "Parameter 'preferred' must not be null");
         try {
-            gdk_drop_status.invokeExact(handle(), actions.getValue(), preferred.getValue());
+            DowncallHandles.gdk_drop_status.invokeExact(handle(), actions.getValue(), preferred.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gdk_drop_finish = Interop.downcallHandle(
+            "gdk_drop_finish",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gdk_drop_get_actions = Interop.downcallHandle(
+            "gdk_drop_get_actions",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_drop_get_device = Interop.downcallHandle(
+            "gdk_drop_get_device",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_drop_get_display = Interop.downcallHandle(
+            "gdk_drop_get_display",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_drop_get_drag = Interop.downcallHandle(
+            "gdk_drop_get_drag",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_drop_get_formats = Interop.downcallHandle(
+            "gdk_drop_get_formats",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_drop_get_surface = Interop.downcallHandle(
+            "gdk_drop_get_surface",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_drop_read_async = Interop.downcallHandle(
+            "gdk_drop_read_async",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_drop_read_finish = Interop.downcallHandle(
+            "gdk_drop_read_finish",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_drop_read_value_async = Interop.downcallHandle(
+            "gdk_drop_read_value_async",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_drop_read_value_finish = Interop.downcallHandle(
+            "gdk_drop_read_value_finish",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_drop_status = Interop.downcallHandle(
+            "gdk_drop_status",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+    }
 }

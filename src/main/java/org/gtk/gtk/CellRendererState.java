@@ -1,10 +1,23 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Tells how a cell is to be rendered.
  */
 public class CellRendererState extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The cell is currently selected, and
      *  probably has a selection colored background to render to.
@@ -44,5 +57,4 @@ public class CellRendererState extends io.github.jwharm.javagi.Bitfield {
     public CellRendererState(int value) {
         super(value);
     }
-    
 }

@@ -14,7 +14,7 @@ import org.jetbrains.annotations.*;
  * &lt;/picture&gt;
  * <p>
  * An action bar letting you switch between multiple views contained in a
- * {@code ViewSwitcher}. It is designed to be put at
+ * {@link ViewStack}. It is designed to be put at
  * the bottom of a window and to be revealed only on really narrow windows, e.g.
  * on mobile phones. It can't be revealed if there are less than two pages.
  * <p>
@@ -25,7 +25,6 @@ import org.jetbrains.annotations.*;
  * to {@code ViewSwitcherTitle:title-visible} to automatically reveal the
  * view switcher bar when the title label is displayed in place of the view
  * switcher, as follows:
- * 
  * <pre>{@code xml
  * <object class="GtkWindow">
  *   <child type="titlebar">
@@ -56,12 +55,25 @@ import org.jetbrains.annotations.*;
  *   </child>
  * </object>
  * }</pre>
- * 
- * <h2>CSS nodes</h2>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * {@code AdwViewSwitcherBar} has a single CSS node with name{@code  viewswitcherbar}.
+ * @version 1.0
  */
 public class ViewSwitcherBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
-
+    
+    static {
+        Adw.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public ViewSwitcherBar(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -71,18 +83,14 @@ public class ViewSwitcherBar extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         return new ViewSwitcherBar(gobject.refcounted());
     }
     
-    private static final MethodHandle adw_view_switcher_bar_new = Interop.downcallHandle(
-        "adw_view_switcher_bar_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_view_switcher_bar_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_view_switcher_bar_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -92,72 +100,84 @@ public class ViewSwitcherBar extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         super(constructNew());
     }
     
-    private static final MethodHandle adw_view_switcher_bar_get_reveal = Interop.downcallHandle(
-        "adw_view_switcher_bar_get_reveal",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets whether {@code self} should be revealed or hidden.
+     * @return whether {@code self} is revealed
      */
     public boolean getReveal() {
         int RESULT;
         try {
-            RESULT = (int) adw_view_switcher_bar_get_reveal.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_view_switcher_bar_get_reveal.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle adw_view_switcher_bar_get_stack = Interop.downcallHandle(
-        "adw_view_switcher_bar_get_stack",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the stack controlled by {@code self}.
+     * @return the stack
      */
-    public @Nullable ViewStack getStack() {
+    public @Nullable org.gnome.adw.ViewStack getStack() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_view_switcher_bar_get_stack.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_view_switcher_bar_get_stack.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ViewStack(Refcounted.get(RESULT, false));
+        return new org.gnome.adw.ViewStack(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle adw_view_switcher_bar_set_reveal = Interop.downcallHandle(
-        "adw_view_switcher_bar_set_reveal",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether {@code self} should be revealed or hidden.
+     * @param reveal whether to reveal {@code self}
      */
-    public @NotNull void setReveal(@NotNull boolean reveal) {
+    public void setReveal(boolean reveal) {
         try {
-            adw_view_switcher_bar_set_reveal.invokeExact(handle(), reveal ? 1 : 0);
+            DowncallHandles.adw_view_switcher_bar_set_reveal.invokeExact(handle(), reveal ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_view_switcher_bar_set_stack = Interop.downcallHandle(
-        "adw_view_switcher_bar_set_stack",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the stack controlled by {@code self}.
+     * @param stack a stack
      */
-    public @NotNull void setStack(@Nullable ViewStack stack) {
+    public void setStack(@Nullable org.gnome.adw.ViewStack stack) {
+        java.util.Objects.requireNonNullElse(stack, MemoryAddress.NULL);
         try {
-            adw_view_switcher_bar_set_stack.invokeExact(handle(), stack.handle());
+            DowncallHandles.adw_view_switcher_bar_set_stack.invokeExact(handle(), stack.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle adw_view_switcher_bar_new = Interop.downcallHandle(
+            "adw_view_switcher_bar_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_view_switcher_bar_get_reveal = Interop.downcallHandle(
+            "adw_view_switcher_bar_get_reveal",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_view_switcher_bar_get_stack = Interop.downcallHandle(
+            "adw_view_switcher_bar_get_stack",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_view_switcher_bar_set_reveal = Interop.downcallHandle(
+            "adw_view_switcher_bar_set_reveal",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle adw_view_switcher_bar_set_stack = Interop.downcallHandle(
+            "adw_view_switcher_bar_set_stack",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

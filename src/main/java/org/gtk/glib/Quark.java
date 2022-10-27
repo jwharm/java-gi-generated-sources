@@ -5,8 +5,8 @@ package org.gtk.glib;
  * particular string. A GQuark value of zero is associated to {@code null}.
  */
 public class Quark extends io.github.jwharm.javagi.Alias<Integer> {
+    
     public Quark(int value) {
         super(value);
     }
-    
 }

@@ -1,11 +1,24 @@
 package org.gtk.gdk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * This enumeration describes how the red, green and blue components
  * of physical pixels on an output device are laid out.
  */
 public class SubpixelLayout extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The layout is not known
      */
@@ -39,5 +52,4 @@ public class SubpixelLayout extends io.github.jwharm.javagi.Enumeration {
     public SubpixelLayout(int value) {
         super(value);
     }
-    
 }

@@ -13,13 +13,9 @@ import org.jetbrains.annotations.*;
  * Some example conversions are: character set conversion,
  * compression, decompression and regular expression
  * replace.
+ * @version 2.24
  */
 public interface Converter extends io.github.jwharm.javagi.Proxy {
-
-    @ApiStatus.Internal static final MethodHandle g_converter_convert = Interop.downcallHandle(
-        "g_converter_convert",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * This is the main operation used when converting data. It is to be called
@@ -104,44 +100,76 @@ public interface Converter extends io.github.jwharm.javagi.Proxy {
      * at a partial multibyte sequence). Converters are supposed to try
      * to produce as much output as possible and then return an error
      * (typically {@link IOErrorEnum#PARTIAL_INPUT}).
+     * @param inbuf the buffer
+     *         containing the data to convert.
+     * @param inbufSize the number of bytes in {@code inbuf}
+     * @param outbuf a buffer to write
+     *    converted data in.
+     * @param outbufSize the number of bytes in {@code outbuf}, must be at least one
+     * @param flags a {@link ConverterFlags} controlling the conversion details
+     * @param bytesRead will be set to the number of bytes read from {@code inbuf} on success
+     * @param bytesWritten will be set to the number of bytes written to {@code outbuf} on success
+     * @return a {@link ConverterResult}, {@link ConverterResult#ERROR} on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull ConverterResult convert(@NotNull byte[] inbuf, @NotNull long inbufSize, @NotNull byte[] outbuf, @NotNull long outbufSize, @NotNull ConverterFlags flags, @NotNull Out<Long> bytesRead, @NotNull Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull org.gtk.gio.ConverterResult convert(byte[] inbuf, long inbufSize, byte[] outbuf, long outbufSize, @NotNull org.gtk.gio.ConverterFlags flags, Out<Long> bytesRead, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(inbuf, "Parameter 'inbuf' must not be null");
+        java.util.Objects.requireNonNull(outbuf, "Parameter 'outbuf' must not be null");
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        java.util.Objects.requireNonNull(bytesRead, "Parameter 'bytesRead' must not be null");
+        java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         int RESULT;
         try {
-            RESULT = (int) g_converter_convert.invokeExact(handle(), Interop.allocateNativeArray(inbuf), inbufSize, Interop.allocateNativeArray(outbuf), outbufSize, flags.getValue(), (Addressable) bytesReadPOINTER.address(), (Addressable) bytesWrittenPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_converter_convert.invokeExact(handle(), Interop.allocateNativeArray(inbuf, false), inbufSize, Interop.allocateNativeArray(outbuf, false), outbufSize, flags.getValue(), (Addressable) bytesReadPOINTER.address(), (Addressable) bytesWrittenPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        bytesRead.set(bytesReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        bytesWritten.set(bytesWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new ConverterResult(RESULT);
+        bytesRead.set(bytesReadPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        bytesWritten.set(bytesWrittenPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        return new org.gtk.gio.ConverterResult(RESULT);
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_converter_reset = Interop.downcallHandle(
-        "g_converter_reset",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Resets all internal state in the converter, making it behave
      * as if it was just created. If the converter has any internal
      * state that would produce output then that output is lost.
      */
-    default @NotNull void reset() {
+    default void reset() {
         try {
-            g_converter_reset.invokeExact(handle());
+            DowncallHandles.g_converter_reset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    @ApiStatus.Internal
+    static class DowncallHandles {
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_converter_convert = Interop.downcallHandle(
+            "g_converter_convert",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_converter_reset = Interop.downcallHandle(
+            "g_converter_reset",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
+    
     class ConverterImpl extends org.gtk.gobject.Object implements Converter {
+        
+        static {
+            Gio.javagi$ensureInitialized();
+        }
+        
         public ConverterImpl(io.github.jwharm.javagi.Refcounted ref) {
             super(ref);
         }

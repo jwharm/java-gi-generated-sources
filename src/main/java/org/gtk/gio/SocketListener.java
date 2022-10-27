@@ -20,9 +20,27 @@ import org.jetbrains.annotations.*;
  * If you want to implement a network server, also look at {@link SocketService}
  * and {@link ThreadedSocketService} which are subclasses of {@link SocketListener}
  * that make this even easier.
+ * @version 2.22
  */
 public class SocketListener extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
+        org.gtk.gio.SocketListenerPrivate.getMemoryLayout().withName("priv")
+    ).withName("GSocketListener");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public SocketListener(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -32,18 +50,14 @@ public class SocketListener extends org.gtk.gobject.Object {
         return new SocketListener(gobject.refcounted());
     }
     
-    private static final MethodHandle g_socket_listener_new = Interop.downcallHandle(
-        "g_socket_listener_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_socket_listener_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_socket_listener_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -54,11 +68,6 @@ public class SocketListener extends org.gtk.gobject.Object {
     public SocketListener() {
         super(constructNew());
     }
-    
-    private static final MethodHandle g_socket_listener_accept = Interop.downcallHandle(
-        "g_socket_listener_accept",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Blocks waiting for a client to connect to any of the sockets added
@@ -72,27 +81,28 @@ public class SocketListener extends org.gtk.gobject.Object {
      * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
+     * @param sourceObject location where {@link org.gtk.gobject.Object} pointer will be stored, or {@code null}
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @return a {@link SocketConnection} on success, {@code null} on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull SocketConnection accept(@Nullable Out<org.gtk.gobject.Object> sourceObject, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.gio.SocketConnection accept(@Nullable Out<org.gtk.gobject.Object> sourceObject, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(sourceObject, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment sourceObjectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_socket_listener_accept.invokeExact(handle(), (Addressable) sourceObjectPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_listener_accept.invokeExact(handle(), (Addressable) sourceObjectPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        sourceObject.set(new org.gtk.gobject.Object(Refcounted.get(sourceObjectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new SocketConnection(Refcounted.get(RESULT, true));
+        sourceObject.set(new org.gtk.gobject.Object(Refcounted.get(sourceObjectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return new org.gtk.gio.SocketConnection(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_socket_listener_accept_async = Interop.downcallHandle(
-        "g_socket_listener_accept_async",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * This is the asynchronous version of g_socket_listener_accept().
@@ -100,49 +110,49 @@ public class SocketListener extends org.gtk.gobject.Object {
      * When the operation is finished {@code callback} will be
      * called. You can then call g_socket_listener_accept_finish()
      * to get the result of the operation.
+     * @param cancellable a {@link Cancellable}, or {@code null}
+     * @param callback a {@link AsyncReadyCallback}
      */
-    public @NotNull void acceptAsync(@Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
+    public void acceptAsync(@Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            g_socket_listener_accept_async.invokeExact(handle(), cancellable.handle(), 
+            DowncallHandles.g_socket_listener_accept_async.invokeExact(handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
+                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle g_socket_listener_accept_finish = Interop.downcallHandle(
-        "g_socket_listener_accept_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Finishes an async accept operation. See g_socket_listener_accept_async()
+     * @param result a {@link AsyncResult}.
+     * @param sourceObject Optional {@link org.gtk.gobject.Object} identifying this source
+     * @return a {@link SocketConnection} on success, {@code null} on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull SocketConnection acceptFinish(@NotNull AsyncResult result, @Nullable Out<org.gtk.gobject.Object> sourceObject) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.gio.SocketConnection acceptFinish(@NotNull org.gtk.gio.AsyncResult result, @Nullable Out<org.gtk.gobject.Object> sourceObject) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+        java.util.Objects.requireNonNullElse(sourceObject, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment sourceObjectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_socket_listener_accept_finish.invokeExact(handle(), result.handle(), (Addressable) sourceObjectPOINTER.address(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_listener_accept_finish.invokeExact(handle(), result.handle(), (Addressable) sourceObjectPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        sourceObject.set(new org.gtk.gobject.Object(Refcounted.get(sourceObjectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new SocketConnection(Refcounted.get(RESULT, true));
+        sourceObject.set(new org.gtk.gobject.Object(Refcounted.get(sourceObjectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return new org.gtk.gio.SocketConnection(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_socket_listener_accept_socket = Interop.downcallHandle(
-        "g_socket_listener_accept_socket",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Blocks waiting for a client to connect to any of the sockets added
@@ -159,27 +169,28 @@ public class SocketListener extends org.gtk.gobject.Object {
      * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
+     * @param sourceObject location where {@link org.gtk.gobject.Object} pointer will be stored, or {@code null}.
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @return a {@link Socket} on success, {@code null} on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull Socket acceptSocket(@Nullable Out<org.gtk.gobject.Object> sourceObject, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.gio.Socket acceptSocket(@Nullable Out<org.gtk.gobject.Object> sourceObject, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(sourceObject, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment sourceObjectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_socket_listener_accept_socket.invokeExact(handle(), (Addressable) sourceObjectPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_listener_accept_socket.invokeExact(handle(), (Addressable) sourceObjectPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        sourceObject.set(new org.gtk.gobject.Object(Refcounted.get(sourceObjectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Socket(Refcounted.get(RESULT, true));
+        sourceObject.set(new org.gtk.gobject.Object(Refcounted.get(sourceObjectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return new org.gtk.gio.Socket(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_socket_listener_accept_socket_async = Interop.downcallHandle(
-        "g_socket_listener_accept_socket_async",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * This is the asynchronous version of g_socket_listener_accept_socket().
@@ -187,49 +198,49 @@ public class SocketListener extends org.gtk.gobject.Object {
      * When the operation is finished {@code callback} will be
      * called. You can then call g_socket_listener_accept_socket_finish()
      * to get the result of the operation.
+     * @param cancellable a {@link Cancellable}, or {@code null}
+     * @param callback a {@link AsyncReadyCallback}
      */
-    public @NotNull void acceptSocketAsync(@Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
+    public void acceptSocketAsync(@Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            g_socket_listener_accept_socket_async.invokeExact(handle(), cancellable.handle(), 
+            DowncallHandles.g_socket_listener_accept_socket_async.invokeExact(handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
+                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle g_socket_listener_accept_socket_finish = Interop.downcallHandle(
-        "g_socket_listener_accept_socket_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Finishes an async accept operation. See g_socket_listener_accept_socket_async()
+     * @param result a {@link AsyncResult}.
+     * @param sourceObject Optional {@link org.gtk.gobject.Object} identifying this source
+     * @return a {@link Socket} on success, {@code null} on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull Socket acceptSocketFinish(@NotNull AsyncResult result, @Nullable Out<org.gtk.gobject.Object> sourceObject) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.gio.Socket acceptSocketFinish(@NotNull org.gtk.gio.AsyncResult result, @Nullable Out<org.gtk.gobject.Object> sourceObject) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+        java.util.Objects.requireNonNullElse(sourceObject, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment sourceObjectPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_socket_listener_accept_socket_finish.invokeExact(handle(), result.handle(), (Addressable) sourceObjectPOINTER.address(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_socket_listener_accept_socket_finish.invokeExact(handle(), result.handle(), (Addressable) sourceObjectPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        sourceObject.set(new org.gtk.gobject.Object(Refcounted.get(sourceObjectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Socket(Refcounted.get(RESULT, true));
+        sourceObject.set(new org.gtk.gobject.Object(Refcounted.get(sourceObjectPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        return new org.gtk.gio.Socket(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_socket_listener_add_address = Interop.downcallHandle(
-        "g_socket_listener_add_address",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Creates a socket of type {@code type} and protocol {@code protocol}, binds
@@ -255,27 +266,34 @@ public class SocketListener extends org.gtk.gobject.Object {
      * Call g_socket_listener_close() to stop listening on {@code address}; this will not
      * be done automatically when you drop your final reference to {@code listener}, as
      * references may be held internally.
+     * @param address a {@link SocketAddress}
+     * @param type a {@link SocketType}
+     * @param protocol a {@link SocketProtocol}
+     * @param sourceObject Optional {@link org.gtk.gobject.Object} identifying this source
+     * @param effectiveAddress location to store the address that was bound to, or {@code null}.
+     * @return {@code true} on success, {@code false} on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean addAddress(@NotNull SocketAddress address, @NotNull SocketType type, @NotNull SocketProtocol protocol, @Nullable org.gtk.gobject.Object sourceObject, @NotNull Out<SocketAddress> effectiveAddress) throws io.github.jwharm.javagi.GErrorException {
+    public boolean addAddress(@NotNull org.gtk.gio.SocketAddress address, @NotNull org.gtk.gio.SocketType type, @NotNull org.gtk.gio.SocketProtocol protocol, @Nullable org.gtk.gobject.Object sourceObject, @NotNull Out<org.gtk.gio.SocketAddress> effectiveAddress) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
+        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+        java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
+        java.util.Objects.requireNonNullElse(sourceObject, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(effectiveAddress, "Parameter 'effectiveAddress' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment effectiveAddressPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_socket_listener_add_address.invokeExact(handle(), address.handle(), type.getValue(), protocol.getValue(), sourceObject.handle(), (Addressable) effectiveAddressPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_socket_listener_add_address.invokeExact(handle(), address.handle(), type.getValue(), protocol.getValue(), sourceObject.handle(), (Addressable) effectiveAddressPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        effectiveAddress.set(new SocketAddress(Refcounted.get(effectiveAddressPOINTER.get(ValueLayout.ADDRESS, 0), true)));
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        effectiveAddress.set(new org.gtk.gio.SocketAddress(Refcounted.get(effectiveAddressPOINTER.get(ValueLayout.ADDRESS, 0), true)));
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_socket_listener_add_any_inet_port = Interop.downcallHandle(
-        "g_socket_listener_add_any_inet_port",
-        FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Listens for TCP connections on any available port number for both
@@ -288,12 +306,16 @@ public class SocketListener extends org.gtk.gobject.Object {
      * to accept to identify this particular source, which is
      * useful if you're listening on multiple addresses and do
      * different things depending on what address is connected to.
+     * @param sourceObject Optional {@link org.gtk.gobject.Object} identifying this source
+     * @return the port number, or 0 in case of failure.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public short addAnyInetPort(@Nullable org.gtk.gobject.Object sourceObject) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(sourceObject, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         short RESULT;
         try {
-            RESULT = (short) g_socket_listener_add_any_inet_port.invokeExact(handle(), sourceObject.handle(), (Addressable) GERROR);
+            RESULT = (short) DowncallHandles.g_socket_listener_add_any_inet_port.invokeExact(handle(), sourceObject.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -302,11 +324,6 @@ public class SocketListener extends org.gtk.gobject.Object {
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_socket_listener_add_inet_port = Interop.downcallHandle(
-        "g_socket_listener_add_inet_port",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Helper function for g_socket_listener_add_address() that
@@ -321,12 +338,17 @@ public class SocketListener extends org.gtk.gobject.Object {
      * Call g_socket_listener_close() to stop listening on {@code port}; this will not
      * be done automatically when you drop your final reference to {@code listener}, as
      * references may be held internally.
+     * @param port an IP port number (non-zero)
+     * @param sourceObject Optional {@link org.gtk.gobject.Object} identifying this source
+     * @return {@code true} on success, {@code false} on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean addInetPort(@NotNull short port, @Nullable org.gtk.gobject.Object sourceObject) throws io.github.jwharm.javagi.GErrorException {
+    public boolean addInetPort(short port, @Nullable org.gtk.gobject.Object sourceObject) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(sourceObject, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_socket_listener_add_inet_port.invokeExact(handle(), port, sourceObject.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_socket_listener_add_inet_port.invokeExact(handle(), port, sourceObject.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -335,11 +357,6 @@ public class SocketListener extends org.gtk.gobject.Object {
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_socket_listener_add_socket = Interop.downcallHandle(
-        "g_socket_listener_add_socket",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Adds {@code socket} to the set of sockets that we try to accept
@@ -355,12 +372,18 @@ public class SocketListener extends org.gtk.gobject.Object {
      * unless the listener held the final reference to the socket. Before GLib 2.42,
      * the {@code socket} was automatically closed on finalization of the {@code listener}, even
      * if references to it were held elsewhere.
+     * @param socket a listening {@link Socket}
+     * @param sourceObject Optional {@link org.gtk.gobject.Object} identifying this source
+     * @return {@code true} on success, {@code false} on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean addSocket(@NotNull Socket socket, @Nullable org.gtk.gobject.Object sourceObject) throws io.github.jwharm.javagi.GErrorException {
+    public boolean addSocket(@NotNull org.gtk.gio.Socket socket, @Nullable org.gtk.gobject.Object sourceObject) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(socket, "Parameter 'socket' must not be null");
+        java.util.Objects.requireNonNullElse(sourceObject, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_socket_listener_add_socket.invokeExact(handle(), socket.handle(), sourceObject.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_socket_listener_add_socket.invokeExact(handle(), socket.handle(), sourceObject.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -370,26 +393,16 @@ public class SocketListener extends org.gtk.gobject.Object {
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_socket_listener_close = Interop.downcallHandle(
-        "g_socket_listener_close",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Closes all the sockets in the listener.
      */
-    public @NotNull void close() {
+    public void close() {
         try {
-            g_socket_listener_close.invokeExact(handle());
+            DowncallHandles.g_socket_listener_close.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_socket_listener_set_backlog = Interop.downcallHandle(
-        "g_socket_listener_set_backlog",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the listen backlog on the sockets in the listener. This must be called
@@ -397,18 +410,19 @@ public class SocketListener extends org.gtk.gobject.Object {
      * example, by calling g_socket_listener_add_inet_port()) to be effective.
      * <p>
      * See g_socket_set_listen_backlog() for details
+     * @param listenBacklog an integer
      */
-    public @NotNull void setBacklog(@NotNull int listenBacklog) {
+    public void setBacklog(int listenBacklog) {
         try {
-            g_socket_listener_set_backlog.invokeExact(handle(), listenBacklog);
+            DowncallHandles.g_socket_listener_set_backlog.invokeExact(handle(), listenBacklog);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface EventHandler {
-        void signalReceived(SocketListener source, @NotNull SocketListenerEvent event, @NotNull Socket socket);
+    public interface Event {
+        void signalReceived(SocketListener source, @NotNull org.gtk.gio.SocketListenerEvent event, @NotNull org.gtk.gio.Socket socket);
     }
     
     /**
@@ -417,7 +431,7 @@ public class SocketListener extends org.gtk.gobject.Object {
      * IPv6, a separate set of signals will be emitted for each, and
      * the order they happen in is undefined.
      */
-    public SignalHandle onEvent(EventHandler handler) {
+    public Signal<SocketListener.Event> onEvent(SocketListener.Event handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -427,21 +441,88 @@ public class SocketListener extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<SocketListener.Event>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static void signalSocketListenerEvent(MemoryAddress source, int event, MemoryAddress socket, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (SocketListener.EventHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SocketListener(Refcounted.get(source)), new SocketListenerEvent(event), new Socket(Refcounted.get(socket, false)));
-        }
+    private static class DowncallHandles {
         
+        private static final MethodHandle g_socket_listener_new = Interop.downcallHandle(
+            "g_socket_listener_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_listener_accept = Interop.downcallHandle(
+            "g_socket_listener_accept",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_listener_accept_async = Interop.downcallHandle(
+            "g_socket_listener_accept_async",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_listener_accept_finish = Interop.downcallHandle(
+            "g_socket_listener_accept_finish",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_listener_accept_socket = Interop.downcallHandle(
+            "g_socket_listener_accept_socket",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_listener_accept_socket_async = Interop.downcallHandle(
+            "g_socket_listener_accept_socket_async",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_listener_accept_socket_finish = Interop.downcallHandle(
+            "g_socket_listener_accept_socket_finish",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_listener_add_address = Interop.downcallHandle(
+            "g_socket_listener_add_address",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_listener_add_any_inet_port = Interop.downcallHandle(
+            "g_socket_listener_add_any_inet_port",
+            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_listener_add_inet_port = Interop.downcallHandle(
+            "g_socket_listener_add_inet_port",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_listener_add_socket = Interop.downcallHandle(
+            "g_socket_listener_add_socket",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_listener_close = Interop.downcallHandle(
+            "g_socket_listener_close",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_socket_listener_set_backlog = Interop.downcallHandle(
+            "g_socket_listener_set_backlog",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
+    
+    private static class Callbacks {
+        
+        public static void signalSocketListenerEvent(MemoryAddress source, int event, MemoryAddress socket, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (SocketListener.Event) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new SocketListener(Refcounted.get(source)), new org.gtk.gio.SocketListenerEvent(event), new org.gtk.gio.Socket(Refcounted.get(socket, false)));
+        }
     }
 }

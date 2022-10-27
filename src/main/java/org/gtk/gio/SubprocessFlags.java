@@ -1,5 +1,10 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Flags to define the behaviour of a {@link Subprocess}.
  * <p>
@@ -10,9 +15,18 @@ package org.gtk.gio;
  * Note that it is a programmer error to mix 'incompatible' flags.  For
  * example, you may not request both {@link SubprocessFlags#STDOUT_PIPE} and
  * {@link SubprocessFlags#STDOUT_SILENCE}.
+ * @version 2.40
  */
 public class SubprocessFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * No flags.
      */
@@ -82,5 +96,4 @@ public class SubprocessFlags extends io.github.jwharm.javagi.Bitfield {
     public SubprocessFlags(int value) {
         super(value);
     }
-    
 }

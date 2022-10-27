@@ -11,23 +11,38 @@ import org.jetbrains.annotations.*;
  * Each side can have different width.
  */
 public class Border extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        ValueLayout.JAVA_SHORT.withName("left"),
+        ValueLayout.JAVA_SHORT.withName("right"),
+        ValueLayout.JAVA_SHORT.withName("top"),
+        ValueLayout.JAVA_SHORT.withName("bottom")
+    ).withName("GtkBorder");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public Border(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle gtk_border_new = Interop.downcallHandle(
-        "gtk_border_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_border_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_border_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -37,38 +52,46 @@ public class Border extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_border_copy = Interop.downcallHandle(
-        "gtk_border_copy",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Copies a {@code GtkBorder}.
+     * @return a copy of {@code border_}.
      */
-    public @NotNull Border copy() {
+    public @NotNull org.gtk.gtk.Border copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_border_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_border_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Border(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.Border(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle gtk_border_free = Interop.downcallHandle(
-        "gtk_border_free",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Frees a {@code GtkBorder}.
      */
-    public @NotNull void free() {
+    public void free() {
         try {
-            gtk_border_free.invokeExact(handle());
+            DowncallHandles.gtk_border_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_border_new = Interop.downcallHandle(
+            "gtk_border_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_border_copy = Interop.downcallHandle(
+            "gtk_border_copy",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_border_free = Interop.downcallHandle(
+            "gtk_border_free",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
 }

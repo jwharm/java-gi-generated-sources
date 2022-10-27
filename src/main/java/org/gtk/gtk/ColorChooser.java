@@ -12,15 +12,10 @@ import org.jetbrains.annotations.*;
  * Depending on the situation, colors may be allowed to have alpha (translucency).
  * <p>
  * In GTK, the main widgets that implement this interface are
- * {@code Gtk.ColorChooserDialog} and
+ * {@link ColorChooserWidget} and
  * {@link ColorButton}.
  */
 public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
-
-    @ApiStatus.Internal static final MethodHandle gtk_color_chooser_add_palette = Interop.downcallHandle(
-        "gtk_color_chooser_add_palette",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Adds a palette to the color chooser.
@@ -40,85 +35,79 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
      * of removing the default color palette from the color chooser.
      * <p>
      * If {@code colors} is {@code null}, removes all previously added palettes.
+     * @param orientation {@link Orientation#HORIZONTAL} if the palette should
+     *   be displayed in rows, {@link Orientation#VERTICAL} for columns
+     * @param colorsPerLine the number of colors to show in each row/column
+     * @param nColors the total number of elements in {@code colors}
+     * @param colors the colors of the palette
      */
-    default @NotNull void addPalette(@NotNull Orientation orientation, @NotNull int colorsPerLine, @NotNull int nColors, @Nullable org.gtk.gdk.RGBA[] colors) {
+    default void addPalette(@NotNull org.gtk.gtk.Orientation orientation, int colorsPerLine, int nColors, org.gtk.gdk.RGBA[] colors) {
+        java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
+        java.util.Objects.requireNonNullElse(colors, MemoryAddress.NULL);
         try {
-            gtk_color_chooser_add_palette.invokeExact(handle(), orientation.getValue(), colorsPerLine, nColors, Interop.allocateNativeArray(colors));
+            DowncallHandles.gtk_color_chooser_add_palette.invokeExact(handle(), orientation.getValue(), colorsPerLine, nColors, Interop.allocateNativeArray(colors, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    @ApiStatus.Internal static final MethodHandle gtk_color_chooser_get_rgba = Interop.downcallHandle(
-        "gtk_color_chooser_get_rgba",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the currently-selected color.
+     * @param color a {@code GdkRGBA} to fill in with the current color
      */
-    default @NotNull void getRgba(@NotNull Out<org.gtk.gdk.RGBA> color) {
+    default void getRgba(@NotNull Out<org.gtk.gdk.RGBA> color) {
+        java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
         MemorySegment colorPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_color_chooser_get_rgba.invokeExact(handle(), (Addressable) colorPOINTER.address());
+            DowncallHandles.gtk_color_chooser_get_rgba.invokeExact(handle(), (Addressable) colorPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         color.set(new org.gtk.gdk.RGBA(Refcounted.get(colorPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    @ApiStatus.Internal static final MethodHandle gtk_color_chooser_get_use_alpha = Interop.downcallHandle(
-        "gtk_color_chooser_get_use_alpha",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns whether the color chooser shows the alpha channel.
+     * @return {@code true} if the color chooser uses the alpha channel,
+     *   {@code false} if not
      */
     default boolean getUseAlpha() {
         int RESULT;
         try {
-            RESULT = (int) gtk_color_chooser_get_use_alpha.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_color_chooser_get_use_alpha.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    @ApiStatus.Internal static final MethodHandle gtk_color_chooser_set_rgba = Interop.downcallHandle(
-        "gtk_color_chooser_set_rgba",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Sets the color.
+     * @param color the new color
      */
-    default @NotNull void setRgba(@NotNull org.gtk.gdk.RGBA color) {
+    default void setRgba(@NotNull org.gtk.gdk.RGBA color) {
+        java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
         try {
-            gtk_color_chooser_set_rgba.invokeExact(handle(), color.handle());
+            DowncallHandles.gtk_color_chooser_set_rgba.invokeExact(handle(), color.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    @ApiStatus.Internal static final MethodHandle gtk_color_chooser_set_use_alpha = Interop.downcallHandle(
-        "gtk_color_chooser_set_use_alpha",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Sets whether or not the color chooser should use the alpha channel.
+     * @param useAlpha {@code true} if color chooser should use alpha channel, {@code false} if not
      */
-    default @NotNull void setUseAlpha(@NotNull boolean useAlpha) {
+    default void setUseAlpha(boolean useAlpha) {
         try {
-            gtk_color_chooser_set_use_alpha.invokeExact(handle(), useAlpha ? 1 : 0);
+            DowncallHandles.gtk_color_chooser_set_use_alpha.invokeExact(handle(), useAlpha ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ColorActivatedHandler {
+    public interface ColorActivated {
         void signalReceived(ColorChooser source, @NotNull org.gtk.gdk.RGBA color);
     }
     
@@ -129,7 +118,7 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
      * or a color is selected and the user presses one of the keys
      * Space, Shift+Space, Return or Enter.
      */
-    public default SignalHandle onColorActivated(ColorActivatedHandler handler) {
+    public default Signal<ColorChooser.ColorActivated> onColorActivated(ColorChooser.ColorActivated handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -139,25 +128,64 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<ColorChooser.ColorActivated>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static void signalColorChooserColorActivated(MemoryAddress source, MemoryAddress color, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (ColorChooser.ColorActivatedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ColorChooser.ColorChooserImpl(Refcounted.get(source)), new org.gtk.gdk.RGBA(Refcounted.get(color, false)));
-        }
+    @ApiStatus.Internal
+    static class DowncallHandles {
         
+        @ApiStatus.Internal
+        static final MethodHandle gtk_color_chooser_add_palette = Interop.downcallHandle(
+            "gtk_color_chooser_add_palette",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_color_chooser_get_rgba = Interop.downcallHandle(
+            "gtk_color_chooser_get_rgba",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_color_chooser_get_use_alpha = Interop.downcallHandle(
+            "gtk_color_chooser_get_use_alpha",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_color_chooser_set_rgba = Interop.downcallHandle(
+            "gtk_color_chooser_set_rgba",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_color_chooser_set_use_alpha = Interop.downcallHandle(
+            "gtk_color_chooser_set_use_alpha",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
+    
+    @ApiStatus.Internal
+    static class Callbacks {
+        
+        public static void signalColorChooserColorActivated(MemoryAddress source, MemoryAddress color, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (ColorChooser.ColorActivated) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new ColorChooser.ColorChooserImpl(Refcounted.get(source)), new org.gtk.gdk.RGBA(Refcounted.get(color, false)));
+        }
     }
     
     class ColorChooserImpl extends org.gtk.gobject.Object implements ColorChooser {
+        
+        static {
+            Gtk.javagi$ensureInitialized();
+        }
+        
         public ColorChooserImpl(io.github.jwharm.javagi.Refcounted ref) {
             super(ref);
         }

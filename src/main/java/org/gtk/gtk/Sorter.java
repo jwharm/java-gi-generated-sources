@@ -28,7 +28,23 @@ import org.jetbrains.annotations.*;
  * {@code GtkSorter} and provide one's own sorter.
  */
 public class Sorter extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
+    ).withName("GtkSorter");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public Sorter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -37,11 +53,6 @@ public class Sorter extends org.gtk.gobject.Object {
     public static Sorter castFrom(org.gtk.gobject.Object gobject) {
         return new Sorter(gobject.refcounted());
     }
-    
-    private static final MethodHandle gtk_sorter_changed = Interop.downcallHandle(
-        "gtk_sorter_changed",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Notifies all users of the sorter that it has changed.
@@ -56,19 +67,16 @@ public class Sorter extends org.gtk.gobject.Object {
      * <p>
      * This function is intended for implementors of {@code GtkSorter}
      * subclasses and should not be called from other functions.
+     * @param change How the sorter changed
      */
-    public @NotNull void changed(@NotNull SorterChange change) {
+    public void changed(@NotNull org.gtk.gtk.SorterChange change) {
+        java.util.Objects.requireNonNull(change, "Parameter 'change' must not be null");
         try {
-            gtk_sorter_changed.invokeExact(handle(), change.getValue());
+            DowncallHandles.gtk_sorter_changed.invokeExact(handle(), change.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_sorter_compare = Interop.downcallHandle(
-        "gtk_sorter_compare",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Compares two given items according to the sort order implemented
@@ -77,27 +85,29 @@ public class Sorter extends org.gtk.gobject.Object {
      * Sorters implement a partial order:
      * <p>
      * * It is reflexive, ie a = a
-     * * It is antisymmetric, ie if a < b and b < a, then a = b
+     * * It is antisymmetric, ie if a &lt; b and b &lt; a, then a = b
      * * It is transitive, ie given any 3 items with a ≤ b and b ≤ c,
      *   then a ≤ c
      * <p>
      * The sorter may signal it conforms to additional constraints
      * via the return value of {@link Sorter#getOrder}.
+     * @param item1 first item to compare
+     * @param item2 second item to compare
+     * @return {@link Ordering#EQUAL} if {@code item1} == {@code item2},
+     *   {@link Ordering#SMALLER} if {@code item1} &lt; {@code item2},
+     *   {@link Ordering#LARGER} if {@code item1} &gt; {@code item2}
      */
-    public @NotNull Ordering compare(@NotNull org.gtk.gobject.Object item1, @NotNull org.gtk.gobject.Object item2) {
+    public @NotNull org.gtk.gtk.Ordering compare(@NotNull org.gtk.gobject.Object item1, @NotNull org.gtk.gobject.Object item2) {
+        java.util.Objects.requireNonNull(item1, "Parameter 'item1' must not be null");
+        java.util.Objects.requireNonNull(item2, "Parameter 'item2' must not be null");
         int RESULT;
         try {
-            RESULT = (int) gtk_sorter_compare.invokeExact(handle(), item1.handle(), item2.handle());
+            RESULT = (int) DowncallHandles.gtk_sorter_compare.invokeExact(handle(), item1.handle(), item2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Ordering(RESULT);
+        return new org.gtk.gtk.Ordering(RESULT);
     }
-    
-    private static final MethodHandle gtk_sorter_get_order = Interop.downcallHandle(
-        "gtk_sorter_get_order",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the order that {@code self} conforms to.
@@ -106,20 +116,21 @@ public class Sorter extends org.gtk.gobject.Object {
      * of the possible return values.
      * <p>
      * This function is intended to allow optimizations.
+     * @return The order
      */
-    public @NotNull SorterOrder getOrder() {
+    public @NotNull org.gtk.gtk.SorterOrder getOrder() {
         int RESULT;
         try {
-            RESULT = (int) gtk_sorter_get_order.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_sorter_get_order.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new SorterOrder(RESULT);
+        return new org.gtk.gtk.SorterOrder(RESULT);
     }
     
     @FunctionalInterface
-    public interface ChangedHandler {
-        void signalReceived(Sorter source, @NotNull SorterChange change);
+    public interface Changed {
+        void signalReceived(Sorter source, @NotNull org.gtk.gtk.SorterChange change);
     }
     
     /**
@@ -134,7 +145,7 @@ public class Sorter extends org.gtk.gobject.Object {
      * the sort order without a full resorting. Refer to the
      * {@code Gtk.SorterChange} documentation for details.
      */
-    public SignalHandle onChanged(ChangedHandler handler) {
+    public Signal<Sorter.Changed> onChanged(Sorter.Changed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -144,21 +155,38 @@ public class Sorter extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<Sorter.Changed>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static void signalSorterChanged(MemoryAddress source, int change, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (Sorter.ChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Sorter(Refcounted.get(source)), new SorterChange(change));
-        }
+    private static class DowncallHandles {
         
+        private static final MethodHandle gtk_sorter_changed = Interop.downcallHandle(
+            "gtk_sorter_changed",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_sorter_compare = Interop.downcallHandle(
+            "gtk_sorter_compare",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_sorter_get_order = Interop.downcallHandle(
+            "gtk_sorter_get_order",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+    }
+    
+    private static class Callbacks {
+        
+        public static void signalSorterChanged(MemoryAddress source, int change, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (Sorter.Changed) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new Sorter(Refcounted.get(source)), new org.gtk.gtk.SorterChange(change));
+        }
     }
 }

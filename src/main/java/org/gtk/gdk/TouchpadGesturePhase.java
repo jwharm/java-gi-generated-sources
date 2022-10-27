@@ -1,5 +1,10 @@
 package org.gtk.gdk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Specifies the current state of a touchpad gesture.
  * <p>
@@ -21,7 +26,15 @@ package org.gtk.gdk;
  * progress of the gesture.
  */
 public class TouchpadGesturePhase extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The gesture has begun.
      */
@@ -47,5 +60,4 @@ public class TouchpadGesturePhase extends io.github.jwharm.javagi.Enumeration {
     public TouchpadGesturePhase(int value) {
         super(value);
     }
-    
 }

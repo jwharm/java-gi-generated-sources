@@ -15,7 +15,6 @@ import org.jetbrains.annotations.*;
  * use during the drag operation. After setting it up, the drag
  * source must be added to a widget as an event controller, using
  * {@link Widget#addController}.
- * 
  * <pre>{@code c
  * static void
  * my_widget_init (MyWidget *self)
@@ -32,13 +31,12 @@ import org.jetbrains.annotations.*;
  * Setting up the content provider and icon ahead of time only makes
  * sense when the data does not change. More commonly, you will want
  * to set them up just in time. To do so, {@code GtkDragSource} has
- * {@code Gtk.DragSource::drag-begin}
+ * {@code Gtk.DragSource::prepare} and {@code Gtk.DragSource::drag-begin}
  * signals.
  * <p>
  * The ::prepare signal is emitted before a drag is started, and
  * can be used to set the content provider and actions that the
  * drag should be started with.
- * 
  * <pre>{@code c
  * static GdkContentProvider *
  * on_drag_prepare (GtkDragSource *source,
@@ -61,7 +59,6 @@ import org.jetbrains.annotations.*;
  * <p>
  * The ::drag-begin signal is emitted after the {@code GdkDrag} object has
  * been created, and can be used to set up the drag icon.
- * 
  * <pre>{@code c
  * static void
  * on_drag_begin (GtkDragSource *source,
@@ -83,8 +80,20 @@ import org.jetbrains.annotations.*;
  * {@code Gtk.DragSource::drag-end} signal and delete the
  * data after it has been transferred.
  */
-public class DragSource extends GestureSingle {
-
+public class DragSource extends org.gtk.gtk.GestureSingle {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public DragSource(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -94,18 +103,14 @@ public class DragSource extends GestureSingle {
         return new DragSource(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_drag_source_new = Interop.downcallHandle(
-        "gtk_drag_source_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_drag_source_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_drag_source_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -115,80 +120,59 @@ public class DragSource extends GestureSingle {
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_drag_source_drag_cancel = Interop.downcallHandle(
-        "gtk_drag_source_drag_cancel",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Cancels a currently ongoing drag operation.
      */
-    public @NotNull void dragCancel() {
+    public void dragCancel() {
         try {
-            gtk_drag_source_drag_cancel.invokeExact(handle());
+            DowncallHandles.gtk_drag_source_drag_cancel.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle gtk_drag_source_get_actions = Interop.downcallHandle(
-        "gtk_drag_source_get_actions",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the actions that are currently set on the {@code GtkDragSource}.
+     * @return the actions set on {@code source}
      */
     public @NotNull org.gtk.gdk.DragAction getActions() {
         int RESULT;
         try {
-            RESULT = (int) gtk_drag_source_get_actions.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_drag_source_get_actions.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gdk.DragAction(RESULT);
     }
     
-    private static final MethodHandle gtk_drag_source_get_content = Interop.downcallHandle(
-        "gtk_drag_source_get_content",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the current content provider of a {@code GtkDragSource}.
+     * @return the {@code GdkContentProvider} of {@code source}
      */
     public @Nullable org.gtk.gdk.ContentProvider getContent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_drag_source_get_content.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drag_source_get_content.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gdk.ContentProvider(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle gtk_drag_source_get_drag = Interop.downcallHandle(
-        "gtk_drag_source_get_drag",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the underlying {@code GdkDrag} object for an ongoing drag.
+     * @return the {@code GdkDrag} of the current
+     *   drag operation
      */
     public @Nullable org.gtk.gdk.Drag getDrag() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_drag_source_get_drag.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drag_source_get_drag.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gdk.Drag(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_drag_source_set_actions = Interop.downcallHandle(
-        "gtk_drag_source_set_actions",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the actions on the {@code GtkDragSource}.
@@ -200,19 +184,16 @@ public class DragSource extends GestureSingle {
      * <p>
      * This function can be called before a drag is started,
      * or in a handler for the {@code Gtk.DragSource::prepare} signal.
+     * @param actions the actions to offer
      */
-    public @NotNull void setActions(@NotNull org.gtk.gdk.DragAction actions) {
+    public void setActions(@NotNull org.gtk.gdk.DragAction actions) {
+        java.util.Objects.requireNonNull(actions, "Parameter 'actions' must not be null");
         try {
-            gtk_drag_source_set_actions.invokeExact(handle(), actions.getValue());
+            DowncallHandles.gtk_drag_source_set_actions.invokeExact(handle(), actions.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_drag_source_set_content = Interop.downcallHandle(
-        "gtk_drag_source_set_content",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets a content provider on a {@code GtkDragSource}.
@@ -225,19 +206,16 @@ public class DragSource extends GestureSingle {
      * <p>
      * You may consider setting the content provider back to
      * {@code null} in a {@code Gtk.DragSource::drag-end} signal handler.
+     * @param content a {@code GdkContentProvider}
      */
-    public @NotNull void setContent(@Nullable org.gtk.gdk.ContentProvider content) {
+    public void setContent(@Nullable org.gtk.gdk.ContentProvider content) {
+        java.util.Objects.requireNonNullElse(content, MemoryAddress.NULL);
         try {
-            gtk_drag_source_set_content.invokeExact(handle(), content.handle());
+            DowncallHandles.gtk_drag_source_set_content.invokeExact(handle(), content.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_drag_source_set_icon = Interop.downcallHandle(
-        "gtk_drag_source_set_icon",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets a paintable to use as icon during DND operations.
@@ -250,17 +228,21 @@ public class DragSource extends GestureSingle {
      * This function can be called before a drag is started, or in
      * a {@code Gtk.DragSource::prepare} or
      * {@code Gtk.DragSource::drag-begin} signal handler.
+     * @param paintable the {@code GdkPaintable} to use as icon
+     * @param hotX the hotspot X coordinate on the icon
+     * @param hotY the hotspot Y coordinate on the icon
      */
-    public @NotNull void setIcon(@Nullable org.gtk.gdk.Paintable paintable, @NotNull int hotX, @NotNull int hotY) {
+    public void setIcon(@Nullable org.gtk.gdk.Paintable paintable, int hotX, int hotY) {
+        java.util.Objects.requireNonNullElse(paintable, MemoryAddress.NULL);
         try {
-            gtk_drag_source_set_icon.invokeExact(handle(), paintable.handle(), hotX, hotY);
+            DowncallHandles.gtk_drag_source_set_icon.invokeExact(handle(), paintable.handle(), hotX, hotY);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface DragBeginHandler {
+    public interface DragBegin {
         void signalReceived(DragSource source, @NotNull org.gtk.gdk.Drag drag);
     }
     
@@ -270,7 +252,7 @@ public class DragSource extends GestureSingle {
      * It can be used to e.g. set a custom drag icon with
      * {@link DragSource#setIcon}.
      */
-    public SignalHandle onDragBegin(DragBeginHandler handler) {
+    public Signal<DragSource.DragBegin> onDragBegin(DragSource.DragBegin handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -280,16 +262,16 @@ public class DragSource extends GestureSingle {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<DragSource.DragBegin>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface DragCancelHandler {
+    public interface DragCancel {
         boolean signalReceived(DragSource source, @NotNull org.gtk.gdk.Drag drag, @NotNull org.gtk.gdk.DragCancelReason reason);
     }
     
@@ -300,7 +282,7 @@ public class DragSource extends GestureSingle {
      * the type of error. It should return {@code true} if the failure has been handled
      * and the default "drag operation failed" animation should not be shown.
      */
-    public SignalHandle onDragCancel(DragCancelHandler handler) {
+    public Signal<DragSource.DragCancel> onDragCancel(DragSource.DragCancel handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -310,17 +292,17 @@ public class DragSource extends GestureSingle {
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<DragSource.DragCancel>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface DragEndHandler {
-        void signalReceived(DragSource source, @NotNull org.gtk.gdk.Drag drag, @NotNull boolean deleteData);
+    public interface DragEnd {
+        void signalReceived(DragSource source, @NotNull org.gtk.gdk.Drag drag, boolean deleteData);
     }
     
     /**
@@ -330,7 +312,7 @@ public class DragSource extends GestureSingle {
      * things done in {@code Gtk.DragSource::prepare} or
      * {@code Gtk.DragSource::drag-begin} handlers.
      */
-    public SignalHandle onDragEnd(DragEndHandler handler) {
+    public Signal<DragSource.DragEnd> onDragEnd(DragSource.DragEnd handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -340,17 +322,17 @@ public class DragSource extends GestureSingle {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<DragSource.DragEnd>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface PrepareHandler {
-        void signalReceived(DragSource source, @NotNull double x, @NotNull double y);
+    public interface Prepare {
+        void signalReceived(DragSource source, double x, double y);
     }
     
     /**
@@ -361,7 +343,7 @@ public class DragSource extends GestureSingle {
      * the {@code Gtk.DragSource:content} property, so if you set up that
      * property ahead of time, you don't need to connect to this signal.
      */
-    public SignalHandle onPrepare(PrepareHandler handler) {
+    public Signal<DragSource.Prepare> onPrepare(DragSource.Prepare handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -371,39 +353,81 @@ public class DragSource extends GestureSingle {
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<DragSource.Prepare>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_drag_source_new = Interop.downcallHandle(
+            "gtk_drag_source_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_drag_source_drag_cancel = Interop.downcallHandle(
+            "gtk_drag_source_drag_cancel",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_drag_source_get_actions = Interop.downcallHandle(
+            "gtk_drag_source_get_actions",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_drag_source_get_content = Interop.downcallHandle(
+            "gtk_drag_source_get_content",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_drag_source_get_drag = Interop.downcallHandle(
+            "gtk_drag_source_get_drag",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_drag_source_set_actions = Interop.downcallHandle(
+            "gtk_drag_source_set_actions",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_drag_source_set_content = Interop.downcallHandle(
+            "gtk_drag_source_set_content",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_drag_source_set_icon = Interop.downcallHandle(
+            "gtk_drag_source_set_icon",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static void signalDragSourceDragBegin(MemoryAddress source, MemoryAddress drag, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (DragSource.DragBeginHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DragSource(Refcounted.get(source)), new org.gtk.gdk.Drag(Refcounted.get(drag, false)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (DragSource.DragBegin) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new DragSource(Refcounted.get(source)), new org.gtk.gdk.Drag(Refcounted.get(drag, false)));
         }
         
         public static boolean signalDragSourceDragCancel(MemoryAddress source, MemoryAddress drag, int reason, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (DragSource.DragCancelHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new DragSource(Refcounted.get(source)), new org.gtk.gdk.Drag(Refcounted.get(drag, false)), new org.gtk.gdk.DragCancelReason(reason));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (DragSource.DragCancel) Interop.signalRegistry.get(HASH);
+            return HANDLER.signalReceived(new DragSource(Refcounted.get(source)), new org.gtk.gdk.Drag(Refcounted.get(drag, false)), new org.gtk.gdk.DragCancelReason(reason));
         }
         
         public static void signalDragSourceDragEnd(MemoryAddress source, MemoryAddress drag, int deleteData, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (DragSource.DragEndHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DragSource(Refcounted.get(source)), new org.gtk.gdk.Drag(Refcounted.get(drag, false)), deleteData != 0);
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (DragSource.DragEnd) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new DragSource(Refcounted.get(source)), new org.gtk.gdk.Drag(Refcounted.get(drag, false)), deleteData != 0);
         }
         
         public static void signalDragSourcePrepare(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (DragSource.PrepareHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DragSource(Refcounted.get(source)), x, y);
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (DragSource.Prepare) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new DragSource(Refcounted.get(source)), x, y);
         }
-        
     }
 }

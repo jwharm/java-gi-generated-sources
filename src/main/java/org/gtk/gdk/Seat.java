@@ -10,7 +10,23 @@ import org.jetbrains.annotations.*;
  * that belong to a user.
  */
 public class Seat extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gdk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
+    ).withName("GdkSeat");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public Seat(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -20,108 +36,91 @@ public class Seat extends org.gtk.gobject.Object {
         return new Seat(gobject.refcounted());
     }
     
-    private static final MethodHandle gdk_seat_get_capabilities = Interop.downcallHandle(
-        "gdk_seat_get_capabilities",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the capabilities this {@code GdkSeat} currently has.
+     * @return the seat capabilities
      */
-    public @NotNull SeatCapabilities getCapabilities() {
+    public @NotNull org.gtk.gdk.SeatCapabilities getCapabilities() {
         int RESULT;
         try {
-            RESULT = (int) gdk_seat_get_capabilities.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_seat_get_capabilities.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new SeatCapabilities(RESULT);
+        return new org.gtk.gdk.SeatCapabilities(RESULT);
     }
-    
-    private static final MethodHandle gdk_seat_get_devices = Interop.downcallHandle(
-        "gdk_seat_get_devices",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Returns the devices that match the given capabilities.
+     * @param capabilities capabilities to get devices for
+     * @return A list
+     *   of {@code GdkDevices}. The list must be freed with g_list_free(),
+     *   the elements are owned by GTK and must not be freed.
      */
-    public @NotNull org.gtk.glib.List getDevices(@NotNull SeatCapabilities capabilities) {
+    public @NotNull org.gtk.glib.List getDevices(@NotNull org.gtk.gdk.SeatCapabilities capabilities) {
+        java.util.Objects.requireNonNull(capabilities, "Parameter 'capabilities' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gdk_seat_get_devices.invokeExact(handle(), capabilities.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_seat_get_devices.invokeExact(handle(), capabilities.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.List(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle gdk_seat_get_display = Interop.downcallHandle(
-        "gdk_seat_get_display",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the {@code GdkDisplay} this seat belongs to.
+     * @return a {@code GdkDisplay}. This object
+     *   is owned by GTK and must not be freed.
      */
-    public @NotNull Display getDisplay() {
+    public @NotNull org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gdk_seat_get_display.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_seat_get_display.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Display(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Display(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gdk_seat_get_keyboard = Interop.downcallHandle(
-        "gdk_seat_get_keyboard",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the device that routes keyboard events.
+     * @return a {@code GdkDevice} with keyboard
+     *   capabilities. This object is owned by GTK and must not be freed.
      */
-    public @Nullable Device getKeyboard() {
+    public @Nullable org.gtk.gdk.Device getKeyboard() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gdk_seat_get_keyboard.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_seat_get_keyboard.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Device(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Device(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gdk_seat_get_pointer = Interop.downcallHandle(
-        "gdk_seat_get_pointer",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the device that routes pointer events.
+     * @return a {@code GdkDevice} with pointer
+     *   capabilities. This object is owned by GTK and must not be freed.
      */
-    public @Nullable Device getPointer() {
+    public @Nullable org.gtk.gdk.Device getPointer() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gdk_seat_get_pointer.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_seat_get_pointer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Device(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Device(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gdk_seat_get_tools = Interop.downcallHandle(
-        "gdk_seat_get_tools",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns all {@code GdkDeviceTools} that are known to the application.
+     * @return A list of tools. Free with g_list_free().
      */
     public @NotNull org.gtk.glib.List getTools() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gdk_seat_get_tools.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_seat_get_tools.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,14 +128,14 @@ public class Seat extends org.gtk.gobject.Object {
     }
     
     @FunctionalInterface
-    public interface DeviceAddedHandler {
-        void signalReceived(Seat source, @NotNull Device device);
+    public interface DeviceAdded {
+        void signalReceived(Seat source, @NotNull org.gtk.gdk.Device device);
     }
     
     /**
      * Emitted when a new input device is related to this seat.
      */
-    public SignalHandle onDeviceAdded(DeviceAddedHandler handler) {
+    public Signal<Seat.DeviceAdded> onDeviceAdded(Seat.DeviceAdded handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -146,23 +145,23 @@ public class Seat extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<Seat.DeviceAdded>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface DeviceRemovedHandler {
-        void signalReceived(Seat source, @NotNull Device device);
+    public interface DeviceRemoved {
+        void signalReceived(Seat source, @NotNull org.gtk.gdk.Device device);
     }
     
     /**
      * Emitted when an input device is removed (e.g. unplugged).
      */
-    public SignalHandle onDeviceRemoved(DeviceRemovedHandler handler) {
+    public Signal<Seat.DeviceRemoved> onDeviceRemoved(Seat.DeviceRemoved handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -172,17 +171,17 @@ public class Seat extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<Seat.DeviceRemoved>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ToolAddedHandler {
-        void signalReceived(Seat source, @NotNull DeviceTool tool);
+    public interface ToolAdded {
+        void signalReceived(Seat source, @NotNull org.gtk.gdk.DeviceTool tool);
     }
     
     /**
@@ -194,7 +193,7 @@ public class Seat extends org.gtk.gobject.Object {
      * <p>
      * A same tool may be used by several devices.
      */
-    public SignalHandle onToolAdded(ToolAddedHandler handler) {
+    public Signal<Seat.ToolAdded> onToolAdded(Seat.ToolAdded handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -204,23 +203,23 @@ public class Seat extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<Seat.ToolAdded>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ToolRemovedHandler {
-        void signalReceived(Seat source, @NotNull DeviceTool tool);
+    public interface ToolRemoved {
+        void signalReceived(Seat source, @NotNull org.gtk.gdk.DeviceTool tool);
     }
     
     /**
      * Emitted whenever a tool is no longer known to this {@code seat}.
      */
-    public SignalHandle onToolRemoved(ToolRemovedHandler handler) {
+    public Signal<Seat.ToolRemoved> onToolRemoved(Seat.ToolRemoved handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -230,39 +229,71 @@ public class Seat extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<Seat.ToolRemoved>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gdk_seat_get_capabilities = Interop.downcallHandle(
+            "gdk_seat_get_capabilities",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_seat_get_devices = Interop.downcallHandle(
+            "gdk_seat_get_devices",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gdk_seat_get_display = Interop.downcallHandle(
+            "gdk_seat_get_display",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_seat_get_keyboard = Interop.downcallHandle(
+            "gdk_seat_get_keyboard",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_seat_get_pointer = Interop.downcallHandle(
+            "gdk_seat_get_pointer",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_seat_get_tools = Interop.downcallHandle(
+            "gdk_seat_get_tools",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static void signalSeatDeviceAdded(MemoryAddress source, MemoryAddress device, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (Seat.DeviceAddedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Seat(Refcounted.get(source)), new Device(Refcounted.get(device, false)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (Seat.DeviceAdded) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new Seat(Refcounted.get(source)), new org.gtk.gdk.Device(Refcounted.get(device, false)));
         }
         
         public static void signalSeatDeviceRemoved(MemoryAddress source, MemoryAddress device, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (Seat.DeviceRemovedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Seat(Refcounted.get(source)), new Device(Refcounted.get(device, false)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (Seat.DeviceRemoved) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new Seat(Refcounted.get(source)), new org.gtk.gdk.Device(Refcounted.get(device, false)));
         }
         
         public static void signalSeatToolAdded(MemoryAddress source, MemoryAddress tool, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (Seat.ToolAddedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Seat(Refcounted.get(source)), new DeviceTool(Refcounted.get(tool, false)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (Seat.ToolAdded) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new Seat(Refcounted.get(source)), new org.gtk.gdk.DeviceTool(Refcounted.get(tool, false)));
         }
         
         public static void signalSeatToolRemoved(MemoryAddress source, MemoryAddress tool, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (Seat.ToolRemovedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Seat(Refcounted.get(source)), new DeviceTool(Refcounted.get(tool, false)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (Seat.ToolRemoved) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new Seat(Refcounted.get(source)), new org.gtk.gdk.DeviceTool(Refcounted.get(tool, false)));
         }
-        
     }
 }

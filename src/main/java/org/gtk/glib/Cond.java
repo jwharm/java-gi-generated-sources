@@ -73,15 +73,27 @@ import org.jetbrains.annotations.*;
  * A {@link Cond} should only be accessed via the g_cond_ functions.
  */
 public class Cond extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GLib.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.ADDRESS.withName("p"),
+        MemoryLayout.sequenceLayout(2, ValueLayout.JAVA_INT).withName("i")
+    ).withName("GCond");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public Cond(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
-    private static final MethodHandle g_cond_broadcast = Interop.downcallHandle(
-        "g_cond_broadcast",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * If threads are waiting for {@code cond}, all of them are unblocked.
@@ -89,18 +101,13 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      * It is good practice to lock the same mutex as the waiting threads
      * while calling this function, though not required.
      */
-    public @NotNull void broadcast() {
+    public void broadcast() {
         try {
-            g_cond_broadcast.invokeExact(handle());
+            DowncallHandles.g_cond_broadcast.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_cond_clear = Interop.downcallHandle(
-        "g_cond_clear",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Frees the resources allocated to a {@link Cond} with g_cond_init().
@@ -111,18 +118,13 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      * Calling g_cond_clear() for a {@link Cond} on which threads are
      * blocking leads to undefined behaviour.
      */
-    public @NotNull void clear() {
+    public void clear() {
         try {
-            g_cond_clear.invokeExact(handle());
+            DowncallHandles.g_cond_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_cond_init = Interop.downcallHandle(
-        "g_cond_init",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Initialises a {@link Cond} so that it can be used.
@@ -137,18 +139,13 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      * Calling g_cond_init() on an already-initialised {@link Cond} leads
      * to undefined behaviour.
      */
-    public @NotNull void init() {
+    public void init() {
         try {
-            g_cond_init.invokeExact(handle());
+            DowncallHandles.g_cond_init.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_cond_signal = Interop.downcallHandle(
-        "g_cond_signal",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * If threads are waiting for {@code cond}, at least one of them is unblocked.
@@ -156,18 +153,13 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      * It is good practice to hold the same lock as the waiting thread
      * while calling this function, though not required.
      */
-    public @NotNull void signal() {
+    public void signal() {
         try {
-            g_cond_signal.invokeExact(handle());
+            DowncallHandles.g_cond_signal.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_cond_wait = Interop.downcallHandle(
-        "g_cond_wait",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Atomically releases {@code mutex} and waits until {@code cond} is signalled.
@@ -184,19 +176,16 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * For this reason, g_cond_wait() must always be used in a loop.  See
      * the documentation for {@link Cond} for a complete example.
+     * @param mutex a {@link Mutex} that is currently locked
      */
-    public @NotNull void wait(@NotNull Mutex mutex) {
+    public void wait(@NotNull org.gtk.glib.Mutex mutex) {
+        java.util.Objects.requireNonNull(mutex, "Parameter 'mutex' must not be null");
         try {
-            g_cond_wait.invokeExact(handle(), mutex.handle());
+            DowncallHandles.g_cond_wait.invokeExact(handle(), mutex.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_cond_wait_until = Interop.downcallHandle(
-        "g_cond_wait_until",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
-    );
     
     /**
      * Waits until either {@code cond} is signalled or {@code end_time} has passed.
@@ -212,7 +201,6 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      * The following code shows how to correctly perform a timed wait on a
      * condition variable (extending the example presented in the
      * documentation for {@link Cond}):
-     * <p>
      * <pre>{@code <!-- language="C" -->
      * gpointer
      * pop_data_timed (void)
@@ -247,15 +235,51 @@ public class Cond extends io.github.jwharm.javagi.ResourceBase {
      * directly to the call and a spurious wakeup occurred, the program would
      * have to start over waiting again (which would lead to a total wait
      * time of more than 5 seconds).
+     * @param mutex a {@link Mutex} that is currently locked
+     * @param endTime the monotonic time to wait until
+     * @return {@code true} on a signal, {@code false} on a timeout
      */
-    public boolean waitUntil(@NotNull Mutex mutex, @NotNull long endTime) {
+    public boolean waitUntil(@NotNull org.gtk.glib.Mutex mutex, long endTime) {
+        java.util.Objects.requireNonNull(mutex, "Parameter 'mutex' must not be null");
         int RESULT;
         try {
-            RESULT = (int) g_cond_wait_until.invokeExact(handle(), mutex.handle(), endTime);
+            RESULT = (int) DowncallHandles.g_cond_wait_until.invokeExact(handle(), mutex.handle(), endTime);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_cond_broadcast = Interop.downcallHandle(
+            "g_cond_broadcast",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_cond_clear = Interop.downcallHandle(
+            "g_cond_clear",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_cond_init = Interop.downcallHandle(
+            "g_cond_init",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_cond_signal = Interop.downcallHandle(
+            "g_cond_signal",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_cond_wait = Interop.downcallHandle(
+            "g_cond_wait",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_cond_wait_until = Interop.downcallHandle(
+            "g_cond_wait_until",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+        );
+    }
 }

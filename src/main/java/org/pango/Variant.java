@@ -1,10 +1,23 @@
 package org.pango;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * An enumeration specifying capitalization variant of the font.
  */
 public class Variant extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * A normal font.
      */
@@ -51,5 +64,4 @@ public class Variant extends io.github.jwharm.javagi.Enumeration {
     public Variant(int value) {
         super(value);
     }
-    
 }

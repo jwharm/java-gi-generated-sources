@@ -10,9 +10,27 @@ import org.jetbrains.annotations.*;
  * with one or more D-Bus interfaces. Normally, you don't instantiate
  * a {@link DBusObjectProxy} yourself - typically {@link DBusObjectManagerClient}
  * is used to obtain it.
+ * @version 2.30
  */
-public class DBusObjectProxy extends org.gtk.gobject.Object implements DBusObject {
-
+public class DBusObjectProxy extends org.gtk.gobject.Object implements org.gtk.gio.DBusObject {
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
+        org.gtk.gio.DBusObjectProxyPrivate.getMemoryLayout().withName("priv")
+    ).withName("GDBusObjectProxy");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public DBusObjectProxy(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -22,44 +40,53 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements DBusObjec
         return new DBusObjectProxy(gobject.refcounted());
     }
     
-    private static final MethodHandle g_dbus_object_proxy_new = Interop.downcallHandle(
-        "g_dbus_object_proxy_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNew(@NotNull DBusConnection connection, @NotNull java.lang.String objectPath) {
+    private static Refcounted constructNew(@NotNull org.gtk.gio.DBusConnection connection, @NotNull java.lang.String objectPath) {
+        java.util.Objects.requireNonNull(connection, "Parameter 'connection' must not be null");
+        java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_object_proxy_new.invokeExact(connection.handle(), Interop.allocateNativeString(objectPath)), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_dbus_object_proxy_new.invokeExact(connection.handle(), Interop.allocateNativeString(objectPath)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a new {@link DBusObjectProxy} for the given connection and
      * object path.
+     * @param connection a {@link DBusConnection}
+     * @param objectPath the object path
      */
-    public DBusObjectProxy(@NotNull DBusConnection connection, @NotNull java.lang.String objectPath) {
+    public DBusObjectProxy(@NotNull org.gtk.gio.DBusConnection connection, @NotNull java.lang.String objectPath) {
         super(constructNew(connection, objectPath));
     }
     
-    private static final MethodHandle g_dbus_object_proxy_get_connection = Interop.downcallHandle(
-        "g_dbus_object_proxy_get_connection",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the connection that {@code proxy} is for.
+     * @return A {@link DBusConnection}. Do not free, the
+     *   object is owned by {@code proxy}.
      */
-    public @NotNull DBusConnection getConnection() {
+    public @NotNull org.gtk.gio.DBusConnection getConnection() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_dbus_object_proxy_get_connection.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_object_proxy_get_connection.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new DBusConnection(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.DBusConnection(Refcounted.get(RESULT, false));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_dbus_object_proxy_new = Interop.downcallHandle(
+            "g_dbus_object_proxy_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_dbus_object_proxy_get_connection = Interop.downcallHandle(
+            "g_dbus_object_proxy_get_connection",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

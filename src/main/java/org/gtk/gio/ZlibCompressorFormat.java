@@ -1,11 +1,25 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Used to select the type of data format to use for {@link ZlibDecompressor}
  * and {@link ZlibCompressor}.
+ * @version 2.24
  */
 public class ZlibCompressorFormat extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * deflate compression with zlib header
      */
@@ -24,5 +38,4 @@ public class ZlibCompressorFormat extends io.github.jwharm.javagi.Enumeration {
     public ZlibCompressorFormat(int value) {
         super(value);
     }
-    
 }

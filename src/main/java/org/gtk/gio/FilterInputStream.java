@@ -11,8 +11,25 @@ import org.jetbrains.annotations.*;
  * of filtering operations are character set conversion, compression
  * and byte order flipping.
  */
-public class FilterInputStream extends InputStream {
-
+public class FilterInputStream extends org.gtk.gio.InputStream {
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gio.InputStream.getMemoryLayout().withName("parent_instance"),
+        org.gtk.gio.InputStream.getMemoryLayout().withName("base_stream")
+    ).withName("GFilterInputStream");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public FilterInputStream(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -22,57 +39,62 @@ public class FilterInputStream extends InputStream {
         return new FilterInputStream(gobject.refcounted());
     }
     
-    private static final MethodHandle g_filter_input_stream_get_base_stream = Interop.downcallHandle(
-        "g_filter_input_stream_get_base_stream",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the base stream for the filter stream.
+     * @return a {@link InputStream}.
      */
-    public @NotNull InputStream getBaseStream() {
+    public @NotNull org.gtk.gio.InputStream getBaseStream() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_filter_input_stream_get_base_stream.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_filter_input_stream_get_base_stream.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new InputStream(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.InputStream(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_filter_input_stream_get_close_base_stream = Interop.downcallHandle(
-        "g_filter_input_stream_get_close_base_stream",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns whether the base stream will be closed when {@code stream} is
      * closed.
+     * @return {@code true} if the base stream will be closed.
      */
     public boolean getCloseBaseStream() {
         int RESULT;
         try {
-            RESULT = (int) g_filter_input_stream_get_close_base_stream.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_filter_input_stream_get_close_base_stream.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_filter_input_stream_set_close_base_stream = Interop.downcallHandle(
-        "g_filter_input_stream_set_close_base_stream",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Sets whether the base stream will be closed when {@code stream} is closed.
+     * @param closeBase {@code true} to close the base stream.
      */
-    public @NotNull void setCloseBaseStream(@NotNull boolean closeBase) {
+    public void setCloseBaseStream(boolean closeBase) {
         try {
-            g_filter_input_stream_set_close_base_stream.invokeExact(handle(), closeBase ? 1 : 0);
+            DowncallHandles.g_filter_input_stream_set_close_base_stream.invokeExact(handle(), closeBase ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_filter_input_stream_get_base_stream = Interop.downcallHandle(
+            "g_filter_input_stream_get_base_stream",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_filter_input_stream_get_close_base_stream = Interop.downcallHandle(
+            "g_filter_input_stream_get_close_base_stream",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_filter_input_stream_set_close_base_stream = Interop.downcallHandle(
+            "g_filter_input_stream_set_close_base_stream",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
 }

@@ -1,6 +1,8 @@
 package org.gtk.gmodule;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -12,5 +14,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ModuleCheckInit {
-        java.lang.String onModuleCheckInit(@NotNull Module module);
+        java.lang.String onModuleCheckInit(@NotNull org.gtk.gmodule.Module module);
 }

@@ -1,5 +1,10 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The possible accessible relations of a {@code Accessible}.
  * <p>
@@ -7,7 +12,15 @@ package org.gtk.gtk;
  * integers or strings.
  */
 public class AccessibleRelation extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Identifies the currently active
      *    element when focus is on a composite widget, combobox, textbox, group,
@@ -127,4 +140,21 @@ public class AccessibleRelation extends io.github.jwharm.javagi.Enumeration {
         super(value);
     }
     
+    public static void initValue(@NotNull org.gtk.gtk.AccessibleRelation relation, @NotNull org.gtk.gobject.Value value) {
+        java.util.Objects.requireNonNull(relation, "Parameter 'relation' must not be null");
+        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+        try {
+            DowncallHandles.gtk_accessible_relation_init_value.invokeExact(relation.getValue(), value.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_accessible_relation_init_value = Interop.downcallHandle(
+            "gtk_accessible_relation_init_value",
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+    }
 }

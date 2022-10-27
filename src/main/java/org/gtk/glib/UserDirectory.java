@@ -1,5 +1,10 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * These are logical ids for special directories which are defined
  * depending on the platform used. You should use g_get_user_special_dir()
@@ -8,9 +13,18 @@ package org.gtk.glib;
  * The {@link UserDirectory} enumeration can be extended at later date. Not
  * every platform has a directory for every logical id in this
  * enumeration.
+ * @version 2.14
  */
 public class UserDirectory extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * the user's Desktop directory
      */
@@ -59,5 +73,4 @@ public class UserDirectory extends io.github.jwharm.javagi.Enumeration {
     public UserDirectory(int value) {
         super(value);
     }
-    
 }

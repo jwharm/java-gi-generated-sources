@@ -8,8 +8,20 @@ import org.jetbrains.annotations.*;
 /**
  * {@code GtkLayoutChild} subclass for children in a {@code GtkFixedLayout}.
  */
-public class FixedLayoutChild extends LayoutChild {
-
+public class FixedLayoutChild extends org.gtk.gtk.LayoutChild {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public FixedLayoutChild(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -19,38 +31,43 @@ public class FixedLayoutChild extends LayoutChild {
         return new FixedLayoutChild(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_fixed_layout_child_get_transform = Interop.downcallHandle(
-        "gtk_fixed_layout_child_get_transform",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Retrieves the transformation of the child.
+     * @return a {@code GskTransform}
      */
     public @Nullable org.gtk.gsk.Transform getTransform() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_fixed_layout_child_get_transform.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_fixed_layout_child_get_transform.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gsk.Transform(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle gtk_fixed_layout_child_set_transform = Interop.downcallHandle(
-        "gtk_fixed_layout_child_set_transform",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Sets the transformation of the child of a {@code GtkFixedLayout}.
+     * @param transform a {@code GskTransform}
      */
-    public @NotNull void setTransform(@NotNull org.gtk.gsk.Transform transform) {
+    public void setTransform(@NotNull org.gtk.gsk.Transform transform) {
+        java.util.Objects.requireNonNull(transform, "Parameter 'transform' must not be null");
         try {
-            gtk_fixed_layout_child_set_transform.invokeExact(handle(), transform.handle());
+            DowncallHandles.gtk_fixed_layout_child_set_transform.invokeExact(handle(), transform.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_fixed_layout_child_get_transform = Interop.downcallHandle(
+            "gtk_fixed_layout_child_get_transform",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_fixed_layout_child_set_transform = Interop.downcallHandle(
+            "gtk_fixed_layout_child_set_transform",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

@@ -38,12 +38,24 @@ import org.jetbrains.annotations.*;
  * {@link Statusbar#pop}. A message can be removed from anywhere in the
  * stack if its message id was recorded at the time it was added. This is done
  * using {@link Statusbar#remove}.
- * 
- * <h2>CSS node</h2>
+ * <p>
+ * <strong>CSS node</strong><br/>
  * {@code GtkStatusbar} has a single CSS node with name {@code statusbar}.
  */
-public class Statusbar extends Widget implements Accessible, Buildable, ConstraintTarget {
-
+public class Statusbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public Statusbar(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -53,18 +65,14 @@ public class Statusbar extends Widget implements Accessible, Buildable, Constrai
         return new Statusbar(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_statusbar_new = Interop.downcallHandle(
-        "gtk_statusbar_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_statusbar_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_statusbar_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -74,31 +82,25 @@ public class Statusbar extends Widget implements Accessible, Buildable, Constrai
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_statusbar_get_context_id = Interop.downcallHandle(
-        "gtk_statusbar_get_context_id",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns a new context identifier, given a description
      * of the actual context.
      * <p>
      * Note that the description is not shown in the UI.
+     * @param contextDescription textual description of what context
+     *   the new message is being used in
+     * @return an integer id
      */
     public int getContextId(@NotNull java.lang.String contextDescription) {
+        java.util.Objects.requireNonNull(contextDescription, "Parameter 'contextDescription' must not be null");
         int RESULT;
         try {
-            RESULT = (int) gtk_statusbar_get_context_id.invokeExact(handle(), Interop.allocateNativeString(contextDescription));
+            RESULT = (int) DowncallHandles.gtk_statusbar_get_context_id.invokeExact(handle(), Interop.allocateNativeString(contextDescription));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle gtk_statusbar_pop = Interop.downcallHandle(
-        "gtk_statusbar_pop",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Removes the first message in the {@code GtkStatusbar}’s stack
@@ -107,76 +109,71 @@ public class Statusbar extends Widget implements Accessible, Buildable, Constrai
      * Note that this may not change the displayed message,
      * if the message at the top of the stack has a different
      * context id.
+     * @param contextId a context identifier
      */
-    public @NotNull void pop(@NotNull int contextId) {
+    public void pop(int contextId) {
         try {
-            gtk_statusbar_pop.invokeExact(handle(), contextId);
+            DowncallHandles.gtk_statusbar_pop.invokeExact(handle(), contextId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle gtk_statusbar_push = Interop.downcallHandle(
-        "gtk_statusbar_push",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Pushes a new message onto a statusbar’s stack.
+     * @param contextId the message’s context id, as returned by
+     *    gtk_statusbar_get_context_id()
+     * @param text the message to add to the statusbar
+     * @return a message id that can be used with
+     *   {@link Statusbar#remove}.
      */
-    public int push(@NotNull int contextId, @NotNull java.lang.String text) {
+    public int push(int contextId, @NotNull java.lang.String text) {
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         int RESULT;
         try {
-            RESULT = (int) gtk_statusbar_push.invokeExact(handle(), contextId, Interop.allocateNativeString(text));
+            RESULT = (int) DowncallHandles.gtk_statusbar_push.invokeExact(handle(), contextId, Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle gtk_statusbar_remove = Interop.downcallHandle(
-        "gtk_statusbar_remove",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Forces the removal of a message from a statusbar’s stack.
      * The exact {@code context_id} and {@code message_id} must be specified.
+     * @param contextId a context identifier
+     * @param messageId a message identifier, as returned by {@link Statusbar#push}
      */
-    public @NotNull void remove(@NotNull int contextId, @NotNull int messageId) {
+    public void remove(int contextId, int messageId) {
         try {
-            gtk_statusbar_remove.invokeExact(handle(), contextId, messageId);
+            DowncallHandles.gtk_statusbar_remove.invokeExact(handle(), contextId, messageId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle gtk_statusbar_remove_all = Interop.downcallHandle(
-        "gtk_statusbar_remove_all",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Forces the removal of all messages from a statusbar's
      * stack with the exact {@code context_id}.
+     * @param contextId a context identifier
      */
-    public @NotNull void removeAll(@NotNull int contextId) {
+    public void removeAll(int contextId) {
         try {
-            gtk_statusbar_remove_all.invokeExact(handle(), contextId);
+            DowncallHandles.gtk_statusbar_remove_all.invokeExact(handle(), contextId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface TextPoppedHandler {
-        void signalReceived(Statusbar source, @NotNull int contextId, @NotNull java.lang.String text);
+    public interface TextPopped {
+        void signalReceived(Statusbar source, int contextId, @NotNull java.lang.String text);
     }
     
     /**
      * Emitted whenever a new message is popped off a statusbar's stack.
      */
-    public SignalHandle onTextPopped(TextPoppedHandler handler) {
+    public Signal<Statusbar.TextPopped> onTextPopped(Statusbar.TextPopped handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -186,23 +183,23 @@ public class Statusbar extends Widget implements Accessible, Buildable, Constrai
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<Statusbar.TextPopped>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface TextPushedHandler {
-        void signalReceived(Statusbar source, @NotNull int contextId, @NotNull java.lang.String text);
+    public interface TextPushed {
+        void signalReceived(Statusbar source, int contextId, @NotNull java.lang.String text);
     }
     
     /**
      * Emitted whenever a new message gets pushed onto a statusbar's stack.
      */
-    public SignalHandle onTextPushed(TextPushedHandler handler) {
+    public Signal<Statusbar.TextPushed> onTextPushed(Statusbar.TextPushed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -212,27 +209,59 @@ public class Statusbar extends Widget implements Accessible, Buildable, Constrai
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<Statusbar.TextPushed>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_statusbar_new = Interop.downcallHandle(
+            "gtk_statusbar_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_statusbar_get_context_id = Interop.downcallHandle(
+            "gtk_statusbar_get_context_id",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_statusbar_pop = Interop.downcallHandle(
+            "gtk_statusbar_pop",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_statusbar_push = Interop.downcallHandle(
+            "gtk_statusbar_push",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_statusbar_remove = Interop.downcallHandle(
+            "gtk_statusbar_remove",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_statusbar_remove_all = Interop.downcallHandle(
+            "gtk_statusbar_remove_all",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static void signalStatusbarTextPopped(MemoryAddress source, int contextId, MemoryAddress text, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (Statusbar.TextPoppedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Statusbar(Refcounted.get(source)), contextId, text.getUtf8String(0));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (Statusbar.TextPopped) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new Statusbar(Refcounted.get(source)), contextId, text.getUtf8String(0));
         }
         
         public static void signalStatusbarTextPushed(MemoryAddress source, int contextId, MemoryAddress text, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (Statusbar.TextPushedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Statusbar(Refcounted.get(source)), contextId, text.getUtf8String(0));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (Statusbar.TextPushed) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new Statusbar(Refcounted.get(source)), contextId, text.getUtf8String(0));
         }
-        
     }
 }

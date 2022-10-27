@@ -1,11 +1,25 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * {@link TlsInteractionResult} is returned by various functions in {@link TlsInteraction}
  * when finishing an interaction request.
+ * @version 2.30
  */
 public class TlsInteractionResult extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The interaction was unhandled (i.e. not
      *     implemented).
@@ -27,5 +41,4 @@ public class TlsInteractionResult extends io.github.jwharm.javagi.Enumeration {
     public TlsInteractionResult(int value) {
         super(value);
     }
-    
 }

@@ -11,7 +11,24 @@ import org.jetbrains.annotations.*;
  * on the same screen as the launching window.
  */
 public class AppLaunchContext extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
+        org.gtk.gio.AppLaunchContextPrivate.getMemoryLayout().withName("priv")
+    ).withName("GAppLaunchContext");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public AppLaunchContext(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -21,18 +38,14 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
         return new AppLaunchContext(gobject.refcounted());
     }
     
-    private static final MethodHandle g_app_launch_context_new = Interop.downcallHandle(
-        "g_app_launch_context_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_app_launch_context_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_app_launch_context_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -43,51 +56,42 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
-    private static final MethodHandle g_app_launch_context_get_display = Interop.downcallHandle(
-        "g_app_launch_context_get_display",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the display string for the {@code context}. This is used to ensure new
      * applications are started on the same display as the launching
      * application, by setting the {@code DISPLAY} environment variable.
+     * @param info a {@link AppInfo}
+     * @param files a {@link org.gtk.glib.List} of {@link File} objects
+     * @return a display string for the display.
      */
-    public @Nullable java.lang.String getDisplay(@NotNull AppInfo info, @NotNull org.gtk.glib.List files) {
+    public @Nullable java.lang.String getDisplay(@NotNull org.gtk.gio.AppInfo info, @NotNull org.gtk.glib.List files) {
+        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
+        java.util.Objects.requireNonNull(files, "Parameter 'files' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_app_launch_context_get_display.invokeExact(handle(), info.handle(), files.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_app_launch_context_get_display.invokeExact(handle(), info.handle(), files.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle g_app_launch_context_get_environment = Interop.downcallHandle(
-        "g_app_launch_context_get_environment",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the complete environment variable list to be passed to
      * the child process when {@code context} is used to launch an application.
      * This is a {@code null}-terminated array of strings, where each string has
      * the form {@code KEY=VALUE}.
+     * @return the child's environment
      */
-    public PointerString getEnvironment() {
+    public @NotNull PointerString getEnvironment() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_app_launch_context_get_environment.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_app_launch_context_get_environment.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerString(RESULT);
     }
-    
-    private static final MethodHandle g_app_launch_context_get_startup_notify_id = Interop.downcallHandle(
-        "g_app_launch_context_get_startup_notify_id",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Initiates startup notification for the application and returns the
@@ -95,70 +99,69 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * <p>
      * Startup notification IDs are defined in the
      * <a href="http://standards.freedesktop.org/startup-notification-spec/startup-notification-latest.txt">FreeDesktop.Org Startup Notifications standard</a>.
+     * @param info a {@link AppInfo}
+     * @param files a {@link org.gtk.glib.List} of of {@link File} objects
+     * @return a startup notification ID for the application, or {@code null} if
+     *     not supported.
      */
-    public @Nullable java.lang.String getStartupNotifyId(@NotNull AppInfo info, @NotNull org.gtk.glib.List files) {
+    public @Nullable java.lang.String getStartupNotifyId(@NotNull org.gtk.gio.AppInfo info, @NotNull org.gtk.glib.List files) {
+        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
+        java.util.Objects.requireNonNull(files, "Parameter 'files' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_app_launch_context_get_startup_notify_id.invokeExact(handle(), info.handle(), files.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_app_launch_context_get_startup_notify_id.invokeExact(handle(), info.handle(), files.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle g_app_launch_context_launch_failed = Interop.downcallHandle(
-        "g_app_launch_context_launch_failed",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Called when an application has failed to launch, so that it can cancel
      * the application startup notification started in g_app_launch_context_get_startup_notify_id().
+     * @param startupNotifyId the startup notification id that was returned by g_app_launch_context_get_startup_notify_id().
      */
-    public @NotNull void launchFailed(@NotNull java.lang.String startupNotifyId) {
+    public void launchFailed(@NotNull java.lang.String startupNotifyId) {
+        java.util.Objects.requireNonNull(startupNotifyId, "Parameter 'startupNotifyId' must not be null");
         try {
-            g_app_launch_context_launch_failed.invokeExact(handle(), Interop.allocateNativeString(startupNotifyId));
+            DowncallHandles.g_app_launch_context_launch_failed.invokeExact(handle(), Interop.allocateNativeString(startupNotifyId));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_app_launch_context_setenv = Interop.downcallHandle(
-        "g_app_launch_context_setenv",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Arranges for {@code variable} to be set to {@code value} in the child's
      * environment when {@code context} is used to launch an application.
+     * @param variable the environment variable to set
+     * @param value the value for to set the variable to.
      */
-    public @NotNull void setenv(@NotNull java.lang.String variable, @NotNull java.lang.String value) {
+    public void setenv(@NotNull java.lang.String variable, @NotNull java.lang.String value) {
+        java.util.Objects.requireNonNull(variable, "Parameter 'variable' must not be null");
+        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            g_app_launch_context_setenv.invokeExact(handle(), Interop.allocateNativeString(variable), Interop.allocateNativeString(value));
+            DowncallHandles.g_app_launch_context_setenv.invokeExact(handle(), Interop.allocateNativeString(variable), Interop.allocateNativeString(value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle g_app_launch_context_unsetenv = Interop.downcallHandle(
-        "g_app_launch_context_unsetenv",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Arranges for {@code variable} to be unset in the child's environment
      * when {@code context} is used to launch an application.
+     * @param variable the environment variable to remove
      */
-    public @NotNull void unsetenv(@NotNull java.lang.String variable) {
+    public void unsetenv(@NotNull java.lang.String variable) {
+        java.util.Objects.requireNonNull(variable, "Parameter 'variable' must not be null");
         try {
-            g_app_launch_context_unsetenv.invokeExact(handle(), Interop.allocateNativeString(variable));
+            DowncallHandles.g_app_launch_context_unsetenv.invokeExact(handle(), Interop.allocateNativeString(variable));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface LaunchFailedHandler {
+    public interface LaunchFailed {
         void signalReceived(AppLaunchContext source, @NotNull java.lang.String startupNotifyId);
     }
     
@@ -167,7 +170,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * fails. The startup notification id is provided, so that the launcher
      * can cancel the startup notification.
      */
-    public SignalHandle onLaunchFailed(LaunchFailedHandler handler) {
+    public Signal<AppLaunchContext.LaunchFailed> onLaunchFailed(AppLaunchContext.LaunchFailed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -177,17 +180,17 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<AppLaunchContext.LaunchFailed>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface LaunchStartedHandler {
-        void signalReceived(AppLaunchContext source, @NotNull AppInfo info, @Nullable org.gtk.glib.Variant platformData);
+    public interface LaunchStarted {
+        void signalReceived(AppLaunchContext source, @NotNull org.gtk.gio.AppInfo info, @Nullable org.gtk.glib.Variant platformData);
     }
     
     /**
@@ -206,7 +209,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * It is guaranteed that this signal is followed by either a {@link AppLaunchContext}::launched or
      * {@link AppLaunchContext}::launch-failed signal.
      */
-    public SignalHandle onLaunchStarted(LaunchStartedHandler handler) {
+    public Signal<AppLaunchContext.LaunchStarted> onLaunchStarted(AppLaunchContext.LaunchStarted handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -216,17 +219,17 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<AppLaunchContext.LaunchStarted>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface LaunchedHandler {
-        void signalReceived(AppLaunchContext source, @NotNull AppInfo info, @NotNull org.gtk.glib.Variant platformData);
+    public interface Launched {
+        void signalReceived(AppLaunchContext source, @NotNull org.gtk.gio.AppInfo info, @NotNull org.gtk.glib.Variant platformData);
     }
     
     /**
@@ -240,7 +243,7 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
      * example if the process was launched via D-Bus). The {@code pid} may not be
      * set at all in subsequent releases.
      */
-    public SignalHandle onLaunched(LaunchedHandler handler) {
+    public Signal<AppLaunchContext.Launched> onLaunched(AppLaunchContext.Launched handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -250,33 +253,70 @@ public class AppLaunchContext extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<AppLaunchContext.Launched>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_app_launch_context_new = Interop.downcallHandle(
+            "g_app_launch_context_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_app_launch_context_get_display = Interop.downcallHandle(
+            "g_app_launch_context_get_display",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_app_launch_context_get_environment = Interop.downcallHandle(
+            "g_app_launch_context_get_environment",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_app_launch_context_get_startup_notify_id = Interop.downcallHandle(
+            "g_app_launch_context_get_startup_notify_id",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_app_launch_context_launch_failed = Interop.downcallHandle(
+            "g_app_launch_context_launch_failed",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_app_launch_context_setenv = Interop.downcallHandle(
+            "g_app_launch_context_setenv",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_app_launch_context_unsetenv = Interop.downcallHandle(
+            "g_app_launch_context_unsetenv",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static void signalAppLaunchContextLaunchFailed(MemoryAddress source, MemoryAddress startupNotifyId, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (AppLaunchContext.LaunchFailedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new AppLaunchContext(Refcounted.get(source)), startupNotifyId.getUtf8String(0));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (AppLaunchContext.LaunchFailed) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new AppLaunchContext(Refcounted.get(source)), startupNotifyId.getUtf8String(0));
         }
         
         public static void signalAppLaunchContextLaunchStarted(MemoryAddress source, MemoryAddress info, MemoryAddress platformData, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (AppLaunchContext.LaunchStartedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new AppLaunchContext(Refcounted.get(source)), new AppInfo.AppInfoImpl(Refcounted.get(info, false)), new org.gtk.glib.Variant(Refcounted.get(platformData, false)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (AppLaunchContext.LaunchStarted) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new AppLaunchContext(Refcounted.get(source)), new org.gtk.gio.AppInfo.AppInfoImpl(Refcounted.get(info, false)), new org.gtk.glib.Variant(Refcounted.get(platformData, false)));
         }
         
         public static void signalAppLaunchContextLaunched(MemoryAddress source, MemoryAddress info, MemoryAddress platformData, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (AppLaunchContext.LaunchedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new AppLaunchContext(Refcounted.get(source)), new AppInfo.AppInfoImpl(Refcounted.get(info, false)), new org.gtk.glib.Variant(Refcounted.get(platformData, false)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (AppLaunchContext.Launched) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new AppLaunchContext(Refcounted.get(source)), new org.gtk.gio.AppInfo.AppInfoImpl(Refcounted.get(info, false)), new org.gtk.glib.Variant(Refcounted.get(platformData, false)));
         }
-        
     }
 }

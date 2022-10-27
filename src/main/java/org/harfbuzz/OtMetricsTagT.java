@@ -1,11 +1,25 @@
 package org.harfbuzz;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Metric tags corresponding to [MVAR Value
  * Tags](https://docs.microsoft.com/en-us/typography/opentype/spec/mvar{@code value}-tags)
+ * @version 2.6.0
  */
 public class OtMetricsTagT extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * horizontal ascender.
      */
@@ -149,5 +163,4 @@ public class OtMetricsTagT extends io.github.jwharm.javagi.Enumeration {
     public OtMetricsTagT(int value) {
         super(value);
     }
-    
 }

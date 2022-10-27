@@ -1,5 +1,10 @@
 package org.pango;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * {@code PangoEllipsizeMode} describes what sort of ellipsization
  * should be applied to text.
@@ -9,7 +14,15 @@ package org.pango;
  * with an ellipsis.
  */
 public class EllipsizeMode extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * No ellipsization
      */
@@ -33,5 +46,4 @@ public class EllipsizeMode extends io.github.jwharm.javagi.Enumeration {
     public EllipsizeMode(int value) {
         super(value);
     }
-    
 }

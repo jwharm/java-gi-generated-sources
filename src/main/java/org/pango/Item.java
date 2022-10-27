@@ -9,26 +9,41 @@ import org.jetbrains.annotations.*;
  * The {@code PangoItem} structure stores information about a segment of text.
  * <p>
  * You typically obtain {@code PangoItems} by itemizing a piece of text
- * with {@link itemize#null}.
+ * with {@link Pango#itemize}.
  */
 public class Item extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Pango.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        ValueLayout.JAVA_INT.withName("offset"),
+        ValueLayout.JAVA_INT.withName("length"),
+        ValueLayout.JAVA_INT.withName("num_chars"),
+        org.pango.Analysis.getMemoryLayout().withName("analysis")
+    ).withName("PangoItem");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public Item(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle pango_item_new = Interop.downcallHandle(
-        "pango_item_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) pango_item_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.pango_item_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -37,11 +52,6 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
     public Item() {
         super(constructNew());
     }
-    
-    private static final MethodHandle pango_item_apply_attrs = Interop.downcallHandle(
-        "pango_item_apply_attrs",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Add attributes to a {@code PangoItem}.
@@ -55,53 +65,41 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
      * and will be advanced past it. This function is meant to be called
      * in a loop over the items resulting from itemization, while passing
      * the iter to each call.
+     * @param iter a {@code PangoAttrIterator}
      */
-    public @NotNull void applyAttrs(@NotNull AttrIterator iter) {
+    public void applyAttrs(@NotNull org.pango.AttrIterator iter) {
+        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         try {
-            pango_item_apply_attrs.invokeExact(handle(), iter.handle());
+            DowncallHandles.pango_item_apply_attrs.invokeExact(handle(), iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle pango_item_copy = Interop.downcallHandle(
-        "pango_item_copy",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Copy an existing {@code PangoItem} structure.
+     * @return the newly allocated {@code PangoItem}
      */
-    public @Nullable Item copy() {
+    public @Nullable org.pango.Item copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_item_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_item_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Item(Refcounted.get(RESULT, true));
+        return new org.pango.Item(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_item_free = Interop.downcallHandle(
-        "pango_item_free",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Free a {@code PangoItem} and all associated memory.
      */
-    public @NotNull void free() {
+    public void free() {
         try {
-            pango_item_free.invokeExact(handle());
+            DowncallHandles.pango_item_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle pango_item_split = Interop.downcallHandle(
-        "pango_item_split",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Modifies {@code orig} to cover only the text after {@code split_index}, and
@@ -116,15 +114,47 @@ public class Item extends io.github.jwharm.javagi.ResourceBase {
      * provided because the text used to generate the item isn't available,
      * so {@code pango_item_split()} can't count the char length of the split items
      * itself.
+     * @param splitIndex byte index of position to split item, relative to the
+     *   start of the item
+     * @param splitOffset number of chars between start of {@code orig} and {@code split_index}
+     * @return new item representing text before {@code split_index}, which
+     *   should be freed with {@link Item#free}.
      */
-    public @NotNull Item split(@NotNull int splitIndex, @NotNull int splitOffset) {
+    public @NotNull org.pango.Item split(int splitIndex, int splitOffset) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_item_split.invokeExact(handle(), splitIndex, splitOffset);
+            RESULT = (MemoryAddress) DowncallHandles.pango_item_split.invokeExact(handle(), splitIndex, splitOffset);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Item(Refcounted.get(RESULT, true));
+        return new org.pango.Item(Refcounted.get(RESULT, true));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle pango_item_new = Interop.downcallHandle(
+            "pango_item_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_item_apply_attrs = Interop.downcallHandle(
+            "pango_item_apply_attrs",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_item_copy = Interop.downcallHandle(
+            "pango_item_copy",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_item_free = Interop.downcallHandle(
+            "pango_item_free",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_item_split = Interop.downcallHandle(
+            "pango_item_split",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+    }
 }

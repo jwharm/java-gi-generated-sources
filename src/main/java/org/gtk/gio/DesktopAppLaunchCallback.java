@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -10,5 +12,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface DesktopAppLaunchCallback {
-        void onDesktopAppLaunchCallback(@NotNull DesktopAppInfo appinfo, @NotNull org.gtk.glib.Pid pid);
+        void onDesktopAppLaunchCallback(@NotNull org.gtk.gio.DesktopAppInfo appinfo, @NotNull org.gtk.glib.Pid pid);
 }

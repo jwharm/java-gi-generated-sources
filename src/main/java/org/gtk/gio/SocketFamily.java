@@ -1,12 +1,26 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The protocol family of a {@link SocketAddress}. (These values are
  * identical to the system defines {@code AF_INET}, {@code AF_INET6} and {@code AF_UNIX},
  * if available.)
+ * @version 2.22
  */
 public class SocketFamily extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * no address family
      */
@@ -30,5 +44,4 @@ public class SocketFamily extends io.github.jwharm.javagi.Enumeration {
     public SocketFamily(int value) {
         super(value);
     }
-    
 }

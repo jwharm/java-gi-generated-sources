@@ -15,13 +15,30 @@ import org.jetbrains.annotations.*;
  * <p>
  * The {@code AdwPreferencesWindow} widget presents an application's preferences
  * gathered into pages and groups. The preferences are searchable by the user.
- * 
- * <h2>CSS nodes</h2>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * {@code AdwPreferencesWindow} has a main CSS node with the name {@code window} and the
  * style class {@code .preferences}.
+ * @version 1.0
  */
-public class PreferencesWindow extends Window implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Native, org.gtk.gtk.Root, org.gtk.gtk.ShortcutManager {
-
+public class PreferencesWindow extends org.gnome.adw.Window implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Native, org.gtk.gtk.Root, org.gtk.gtk.ShortcutManager {
+    
+    static {
+        Adw.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gnome.adw.Window.getMemoryLayout().withName("parent_instance")
+    ).withName("AdwPreferencesWindow");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public PreferencesWindow(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -31,18 +48,14 @@ public class PreferencesWindow extends Window implements org.gtk.gtk.Accessible,
         return new PreferencesWindow(gobject.refcounted());
     }
     
-    private static final MethodHandle adw_preferences_window_new = Interop.downcallHandle(
-        "adw_preferences_window_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_preferences_window_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_preferences_window_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -52,227 +65,252 @@ public class PreferencesWindow extends Window implements org.gtk.gtk.Accessible,
         super(constructNew());
     }
     
-    private static final MethodHandle adw_preferences_window_add = Interop.downcallHandle(
-        "adw_preferences_window_add",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Adds a preferences page to {@code self}.
+     * @param page the page to add
      */
-    public @NotNull void add(@NotNull PreferencesPage page) {
+    public void add(@NotNull org.gnome.adw.PreferencesPage page) {
+        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
         try {
-            adw_preferences_window_add.invokeExact(handle(), page.handle());
+            DowncallHandles.adw_preferences_window_add.invokeExact(handle(), page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_preferences_window_add_toast = Interop.downcallHandle(
-        "adw_preferences_window_add_toast",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Displays {@code toast}.
      * <p>
-     * See {@link ToastOverlay#addToast}.
+     * See {@code ToastOverlay#addToast}.
+     * @param toast a toast
      */
-    public @NotNull void addToast(@NotNull Toast toast) {
+    public void addToast(@NotNull org.gnome.adw.Toast toast) {
+        java.util.Objects.requireNonNull(toast, "Parameter 'toast' must not be null");
         try {
-            adw_preferences_window_add_toast.invokeExact(handle(), toast.refcounted().unowned().handle());
+            DowncallHandles.adw_preferences_window_add_toast.invokeExact(handle(), toast.refcounted().unowned().handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_preferences_window_close_subpage = Interop.downcallHandle(
-        "adw_preferences_window_close_subpage",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Closes the current subpage.
      * <p>
      * If there is no presented subpage, this does nothing.
      */
-    public @NotNull void closeSubpage() {
+    public void closeSubpage() {
         try {
-            adw_preferences_window_close_subpage.invokeExact(handle());
+            DowncallHandles.adw_preferences_window_close_subpage.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle adw_preferences_window_get_can_navigate_back = Interop.downcallHandle(
-        "adw_preferences_window_get_can_navigate_back",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets whether gestures and shortcuts for closing subpages are enabled.
+     * @return whether gestures and shortcuts are enabled.
      */
     public boolean getCanNavigateBack() {
         int RESULT;
         try {
-            RESULT = (int) adw_preferences_window_get_can_navigate_back.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_preferences_window_get_can_navigate_back.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle adw_preferences_window_get_search_enabled = Interop.downcallHandle(
-        "adw_preferences_window_get_search_enabled",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets whether search is enabled for {@code self}.
+     * @return whether search is enabled for {@code self}.
      */
     public boolean getSearchEnabled() {
         int RESULT;
         try {
-            RESULT = (int) adw_preferences_window_get_search_enabled.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_preferences_window_get_search_enabled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle adw_preferences_window_get_visible_page = Interop.downcallHandle(
-        "adw_preferences_window_get_visible_page",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the currently visible page of {@code self}.
+     * @return the visible page
      */
-    public @Nullable PreferencesPage getVisiblePage() {
+    public @Nullable org.gnome.adw.PreferencesPage getVisiblePage() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_preferences_window_get_visible_page.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_window_get_visible_page.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PreferencesPage(Refcounted.get(RESULT, false));
+        return new org.gnome.adw.PreferencesPage(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle adw_preferences_window_get_visible_page_name = Interop.downcallHandle(
-        "adw_preferences_window_get_visible_page_name",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the name of currently visible page of {@code self}.
+     * @return the name of the visible page
      */
     public @Nullable java.lang.String getVisiblePageName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_preferences_window_get_visible_page_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_preferences_window_get_visible_page_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle adw_preferences_window_present_subpage = Interop.downcallHandle(
-        "adw_preferences_window_present_subpage",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Sets {@code subpage} as the window's subpage and opens it.
      * <p>
      * The transition can be cancelled by the user, in which case visible child will
      * change back to the previously visible child.
+     * @param subpage the subpage
      */
-    public @NotNull void presentSubpage(@NotNull org.gtk.gtk.Widget subpage) {
+    public void presentSubpage(@NotNull org.gtk.gtk.Widget subpage) {
+        java.util.Objects.requireNonNull(subpage, "Parameter 'subpage' must not be null");
         try {
-            adw_preferences_window_present_subpage.invokeExact(handle(), subpage.handle());
+            DowncallHandles.adw_preferences_window_present_subpage.invokeExact(handle(), subpage.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_preferences_window_remove = Interop.downcallHandle(
-        "adw_preferences_window_remove",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Removes a page from {@code self}.
+     * @param page the page to remove
      */
-    public @NotNull void remove(@NotNull PreferencesPage page) {
+    public void remove(@NotNull org.gnome.adw.PreferencesPage page) {
+        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
         try {
-            adw_preferences_window_remove.invokeExact(handle(), page.handle());
+            DowncallHandles.adw_preferences_window_remove.invokeExact(handle(), page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_preferences_window_set_can_navigate_back = Interop.downcallHandle(
-        "adw_preferences_window_set_can_navigate_back",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether gestures and shortcuts for closing subpages are enabled.
+     * @param canNavigateBack the new value
      */
-    public @NotNull void setCanNavigateBack(@NotNull boolean canNavigateBack) {
+    public void setCanNavigateBack(boolean canNavigateBack) {
         try {
-            adw_preferences_window_set_can_navigate_back.invokeExact(handle(), canNavigateBack ? 1 : 0);
+            DowncallHandles.adw_preferences_window_set_can_navigate_back.invokeExact(handle(), canNavigateBack ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_preferences_window_set_search_enabled = Interop.downcallHandle(
-        "adw_preferences_window_set_search_enabled",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether search is enabled for {@code self}.
+     * @param searchEnabled whether search is enabled
      */
-    public @NotNull void setSearchEnabled(@NotNull boolean searchEnabled) {
+    public void setSearchEnabled(boolean searchEnabled) {
         try {
-            adw_preferences_window_set_search_enabled.invokeExact(handle(), searchEnabled ? 1 : 0);
+            DowncallHandles.adw_preferences_window_set_search_enabled.invokeExact(handle(), searchEnabled ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_preferences_window_set_visible_page = Interop.downcallHandle(
-        "adw_preferences_window_set_visible_page",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Makes {@code page} the visible page of {@code self}.
+     * @param page a page of {@code self}
      */
-    public @NotNull void setVisiblePage(@NotNull PreferencesPage page) {
+    public void setVisiblePage(@NotNull org.gnome.adw.PreferencesPage page) {
+        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
         try {
-            adw_preferences_window_set_visible_page.invokeExact(handle(), page.handle());
+            DowncallHandles.adw_preferences_window_set_visible_page.invokeExact(handle(), page.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_preferences_window_set_visible_page_name = Interop.downcallHandle(
-        "adw_preferences_window_set_visible_page_name",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Makes the page with the given name visible.
+     * @param name the name of the page to make visible
      */
-    public @NotNull void setVisiblePageName(@NotNull java.lang.String name) {
+    public void setVisiblePageName(@NotNull java.lang.String name) {
+        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         try {
-            adw_preferences_window_set_visible_page_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.adw_preferences_window_set_visible_page_name.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle adw_preferences_window_new = Interop.downcallHandle(
+            "adw_preferences_window_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_preferences_window_add = Interop.downcallHandle(
+            "adw_preferences_window_add",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_preferences_window_add_toast = Interop.downcallHandle(
+            "adw_preferences_window_add_toast",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_preferences_window_close_subpage = Interop.downcallHandle(
+            "adw_preferences_window_close_subpage",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_preferences_window_get_can_navigate_back = Interop.downcallHandle(
+            "adw_preferences_window_get_can_navigate_back",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_preferences_window_get_search_enabled = Interop.downcallHandle(
+            "adw_preferences_window_get_search_enabled",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_preferences_window_get_visible_page = Interop.downcallHandle(
+            "adw_preferences_window_get_visible_page",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_preferences_window_get_visible_page_name = Interop.downcallHandle(
+            "adw_preferences_window_get_visible_page_name",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_preferences_window_present_subpage = Interop.downcallHandle(
+            "adw_preferences_window_present_subpage",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_preferences_window_remove = Interop.downcallHandle(
+            "adw_preferences_window_remove",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_preferences_window_set_can_navigate_back = Interop.downcallHandle(
+            "adw_preferences_window_set_can_navigate_back",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle adw_preferences_window_set_search_enabled = Interop.downcallHandle(
+            "adw_preferences_window_set_search_enabled",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle adw_preferences_window_set_visible_page = Interop.downcallHandle(
+            "adw_preferences_window_set_visible_page",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_preferences_window_set_visible_page_name = Interop.downcallHandle(
+            "adw_preferences_window_set_visible_page_name",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

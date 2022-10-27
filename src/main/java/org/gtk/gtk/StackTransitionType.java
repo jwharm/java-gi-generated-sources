@@ -1,12 +1,25 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Possible transitions between pages in a {@code GtkStack} widget.
  * <p>
  * New values may be added to this enumeration over time.
  */
 public class StackTransitionType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * No transition
      */
@@ -125,5 +138,4 @@ public class StackTransitionType extends io.github.jwharm.javagi.Enumeration {
     public StackTransitionType(int value) {
         super(value);
     }
-    
 }

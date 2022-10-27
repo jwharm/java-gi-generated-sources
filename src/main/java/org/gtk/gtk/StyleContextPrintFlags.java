@@ -1,12 +1,25 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Flags that modify the behavior of gtk_style_context_to_string().
  * <p>
  * New values may be added to this enumeration.
  */
 public class StyleContextPrintFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Default value.
      */
@@ -33,5 +46,4 @@ public class StyleContextPrintFlags extends io.github.jwharm.javagi.Bitfield {
     public StyleContextPrintFlags(int value) {
         super(value);
     }
-    
 }

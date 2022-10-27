@@ -1,5 +1,10 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Describes changes in a filter in more detail and allows objects
  * using the filter to optimize refiltering items.
@@ -9,7 +14,15 @@ package org.gtk.gtk;
  * choice.
  */
 public class FilterChange extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The filter change cannot be
      *   described with any of the other enumeration values.
@@ -33,5 +46,4 @@ public class FilterChange extends io.github.jwharm.javagi.Enumeration {
     public FilterChange(int value) {
         super(value);
     }
-    
 }

@@ -1,5 +1,10 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Defines how content overflowing a given area should be handled.
  * <p>
@@ -8,7 +13,15 @@ package org.gtk.gtk;
  * CSS overflow property, but implements it only partially.
  */
 public class Overflow extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * No change is applied. Content is drawn at the specified
      *   position.
@@ -24,5 +37,4 @@ public class Overflow extends io.github.jwharm.javagi.Enumeration {
     public Overflow(int value) {
         super(value);
     }
-    
 }

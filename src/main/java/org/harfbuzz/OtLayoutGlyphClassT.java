@@ -1,10 +1,23 @@
 package org.harfbuzz;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The GDEF classes defined for glyphs.
  */
 public class OtLayoutGlyphClassT extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Glyphs not matching the other classifications
      */
@@ -33,5 +46,4 @@ public class OtLayoutGlyphClassT extends io.github.jwharm.javagi.Enumeration {
     public OtLayoutGlyphClassT(int value) {
         super(value);
     }
-    
 }

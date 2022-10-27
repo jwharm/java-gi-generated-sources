@@ -1,5 +1,10 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Defines how a Unicode string is transformed in a canonical
  * form, standardizing such issues as whether a character with
@@ -8,7 +13,15 @@ package org.gtk.glib;
  * should generally be normalized before comparing them.
  */
 public class NormalizeMode extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * standardize differences that do not affect the
      *     text content, such as the above-mentioned accent representation
@@ -59,5 +72,4 @@ public class NormalizeMode extends io.github.jwharm.javagi.Enumeration {
     public NormalizeMode(int value) {
         super(value);
     }
-    
 }

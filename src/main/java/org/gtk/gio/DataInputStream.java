@@ -9,8 +9,25 @@ import org.jetbrains.annotations.*;
  * Data input stream implements {@link InputStream} and includes functions for
  * reading structured data directly from a binary input stream.
  */
-public class DataInputStream extends BufferedInputStream implements Seekable {
-
+public class DataInputStream extends org.gtk.gio.BufferedInputStream implements org.gtk.gio.Seekable {
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gio.BufferedInputStream.getMemoryLayout().withName("parent_instance"),
+        org.gtk.gio.DataInputStreamPrivate.getMemoryLayout().withName("priv")
+    ).withName("GDataInputStream");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public DataInputStream(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -20,76 +37,66 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
         return new DataInputStream(gobject.refcounted());
     }
     
-    private static final MethodHandle g_data_input_stream_new = Interop.downcallHandle(
-        "g_data_input_stream_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNew(@NotNull InputStream baseStream) {
+    private static Refcounted constructNew(@NotNull org.gtk.gio.InputStream baseStream) {
+        java.util.Objects.requireNonNull(baseStream, "Parameter 'baseStream' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_data_input_stream_new.invokeExact(baseStream.handle()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_data_input_stream_new.invokeExact(baseStream.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a new data input stream for the {@code base_stream}.
+     * @param baseStream a {@link InputStream}.
      */
-    public DataInputStream(@NotNull InputStream baseStream) {
+    public DataInputStream(@NotNull org.gtk.gio.InputStream baseStream) {
         super(constructNew(baseStream));
     }
     
-    private static final MethodHandle g_data_input_stream_get_byte_order = Interop.downcallHandle(
-        "g_data_input_stream_get_byte_order",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the byte order for the data input stream.
+     * @return the {@code stream}'s current {@link DataStreamByteOrder}.
      */
-    public @NotNull DataStreamByteOrder getByteOrder() {
+    public @NotNull org.gtk.gio.DataStreamByteOrder getByteOrder() {
         int RESULT;
         try {
-            RESULT = (int) g_data_input_stream_get_byte_order.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_data_input_stream_get_byte_order.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new DataStreamByteOrder(RESULT);
+        return new org.gtk.gio.DataStreamByteOrder(RESULT);
     }
-    
-    private static final MethodHandle g_data_input_stream_get_newline_type = Interop.downcallHandle(
-        "g_data_input_stream_get_newline_type",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the current newline type for the {@code stream}.
+     * @return {@link DataStreamNewlineType} for the given {@code stream}.
      */
-    public @NotNull DataStreamNewlineType getNewlineType() {
+    public @NotNull org.gtk.gio.DataStreamNewlineType getNewlineType() {
         int RESULT;
         try {
-            RESULT = (int) g_data_input_stream_get_newline_type.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_data_input_stream_get_newline_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new DataStreamNewlineType(RESULT);
+        return new org.gtk.gio.DataStreamNewlineType(RESULT);
     }
-    
-    private static final MethodHandle g_data_input_stream_read_byte = Interop.downcallHandle(
-        "g_data_input_stream_read_byte",
-        FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Reads an unsigned 8-bit/1-byte value from {@code stream}.
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @return an unsigned 8-bit/1-byte value read from the {@code stream} or {@code 0}
+     * if an error occurred.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public byte readByte(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public byte readByte(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         byte RESULT;
         try {
-            RESULT = (byte) g_data_input_stream_read_byte.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (byte) DowncallHandles.g_data_input_stream_read_byte.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -98,23 +105,23 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_data_input_stream_read_int16 = Interop.downcallHandle(
-        "g_data_input_stream_read_int16",
-        FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Reads a 16-bit/2-byte value from {@code stream}.
      * <p>
      * In order to get the correct byte order for this read operation,
      * see g_data_input_stream_get_byte_order() and g_data_input_stream_set_byte_order().
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @return a signed 16-bit/2-byte value read from {@code stream} or {@code 0} if
+     * an error occurred.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public short readInt16(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public short readInt16(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         short RESULT;
         try {
-            RESULT = (short) g_data_input_stream_read_int16.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (short) DowncallHandles.g_data_input_stream_read_int16.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -123,11 +130,6 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_data_input_stream_read_int32 = Interop.downcallHandle(
-        "g_data_input_stream_read_int32",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Reads a signed 32-bit/4-byte value from {@code stream}.
@@ -138,12 +140,17 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @return a signed 32-bit/4-byte value read from the {@code stream} or {@code 0} if
+     * an error occurred.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public int readInt32(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public int readInt32(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_data_input_stream_read_int32.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_data_input_stream_read_int32.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -152,11 +159,6 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_data_input_stream_read_int64 = Interop.downcallHandle(
-        "g_data_input_stream_read_int64",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Reads a 64-bit/8-byte value from {@code stream}.
@@ -167,12 +169,17 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @return a signed 64-bit/8-byte value read from {@code stream} or {@code 0} if
+     * an error occurred.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public long readInt64(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public long readInt64(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         long RESULT;
         try {
-            RESULT = (long) g_data_input_stream_read_int64.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (long) DowncallHandles.g_data_input_stream_read_int64.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,11 +188,6 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_data_input_stream_read_line = Interop.downcallHandle(
-        "g_data_input_stream_read_line",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Reads a line from the data input stream.  Note that no encoding
@@ -195,27 +197,32 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
+     * @param length a {@code gsize} to get the length of the data read in.
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @return a NUL terminated byte array with the line that was read in
+     *  (without the newlines).  Set {@code length} to a {@code gsize} to get the length
+     *  of the read line.  On an error, it will return {@code null} and {@code error}
+     *  will be set. If there's no content to read, it will still return
+     *  {@code null}, but {@code error} won't be set.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public PointerByte readLine(@NotNull Out<Long> length, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public @Nullable PointerByte readLine(Out<Long> length, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_data_input_stream_read_line.invokeExact(handle(), (Addressable) lengthPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_line.invokeExact(handle(), (Addressable) lengthPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
         return new PointerByte(RESULT);
     }
-    
-    private static final MethodHandle g_data_input_stream_read_line_async = Interop.downcallHandle(
-        "g_data_input_stream_read_line_async",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * The asynchronous version of g_data_input_stream_read_line().  It is
@@ -224,77 +231,88 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * When the operation is finished, {@code callback} will be called. You
      * can then call g_data_input_stream_read_line_finish() to get
      * the result of the operation.
+     * @param ioPriority the [I/O priority][io-priority] of the request
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @param callback callback to call when the request is satisfied.
      */
-    public @NotNull void readLineAsync(@NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
+    public void readLineAsync(int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            g_data_input_stream_read_line_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
+            DowncallHandles.g_data_input_stream_read_line_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
+                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_data_input_stream_read_line_finish = Interop.downcallHandle(
-        "g_data_input_stream_read_line_finish",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Finish an asynchronous call started by
      * g_data_input_stream_read_line_async().  Note the warning about
      * string encoding in g_data_input_stream_read_line() applies here as
      * well.
+     * @param result the {@link AsyncResult} that was provided to the callback.
+     * @param length a {@code gsize} to get the length of the data read in.
+     * @return a NUL-terminated byte array with the line that was read in
+     *  (without the newlines).  Set {@code length} to a {@code gsize} to get the length
+     *  of the read line.  On an error, it will return {@code null} and {@code error}
+     *  will be set. If there's no content to read, it will still return
+     *  {@code null}, but {@code error} won't be set.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public PointerByte readLineFinish(@NotNull AsyncResult result, @NotNull Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
+    public @Nullable PointerByte readLineFinish(@NotNull org.gtk.gio.AsyncResult result, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_data_input_stream_read_line_finish.invokeExact(handle(), result.handle(), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_line_finish.invokeExact(handle(), result.handle(), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
         return new PointerByte(RESULT);
     }
-    
-    private static final MethodHandle g_data_input_stream_read_line_finish_utf8 = Interop.downcallHandle(
-        "g_data_input_stream_read_line_finish_utf8",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Finish an asynchronous call started by
      * g_data_input_stream_read_line_async().
+     * @param result the {@link AsyncResult} that was provided to the callback.
+     * @param length a {@code gsize} to get the length of the data read in.
+     * @return a string with the line that
+     *  was read in (without the newlines).  Set {@code length} to a {@code gsize} to
+     *  get the length of the read line.  On an error, it will return
+     *  {@code null} and {@code error} will be set. For UTF-8 conversion errors, the set
+     *  error domain is {@code G_CONVERT_ERROR}.  If there's no content to read,
+     *  it will still return {@code null}, but {@code error} won't be set.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @Nullable java.lang.String readLineFinishUtf8(@NotNull AsyncResult result, @NotNull Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
+    public @Nullable java.lang.String readLineFinishUtf8(@NotNull org.gtk.gio.AsyncResult result, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_data_input_stream_read_line_finish_utf8.invokeExact(handle(), result.handle(), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_line_finish_utf8.invokeExact(handle(), result.handle(), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_data_input_stream_read_line_utf8 = Interop.downcallHandle(
-        "g_data_input_stream_read_line_utf8",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Reads a UTF-8 encoded line from the data input stream.
@@ -302,39 +320,51 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
+     * @param length a {@code gsize} to get the length of the data read in.
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @return a NUL terminated UTF-8 string
+     *  with the line that was read in (without the newlines).  Set
+     *  {@code length} to a {@code gsize} to get the length of the read line.  On an
+     *  error, it will return {@code null} and {@code error} will be set.  For UTF-8
+     *  conversion errors, the set error domain is {@code G_CONVERT_ERROR}.  If
+     *  there's no content to read, it will still return {@code null}, but {@code error}
+     *  won't be set.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @Nullable java.lang.String readLineUtf8(@NotNull Out<Long> length, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public @Nullable java.lang.String readLineUtf8(Out<Long> length, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_data_input_stream_read_line_utf8.invokeExact(handle(), (Addressable) lengthPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_line_utf8.invokeExact(handle(), (Addressable) lengthPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_data_input_stream_read_uint16 = Interop.downcallHandle(
-        "g_data_input_stream_read_uint16",
-        FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Reads an unsigned 16-bit/2-byte value from {@code stream}.
      * <p>
      * In order to get the correct byte order for this read operation,
      * see g_data_input_stream_get_byte_order() and g_data_input_stream_set_byte_order().
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @return an unsigned 16-bit/2-byte value read from the {@code stream} or {@code 0} if
+     * an error occurred.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public short readUint16(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public short readUint16(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         short RESULT;
         try {
-            RESULT = (short) g_data_input_stream_read_uint16.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (short) DowncallHandles.g_data_input_stream_read_uint16.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -343,11 +373,6 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_data_input_stream_read_uint32 = Interop.downcallHandle(
-        "g_data_input_stream_read_uint32",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Reads an unsigned 32-bit/4-byte value from {@code stream}.
@@ -358,12 +383,17 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @return an unsigned 32-bit/4-byte value read from the {@code stream} or {@code 0} if
+     * an error occurred.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public int readUint32(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public int readUint32(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_data_input_stream_read_uint32.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_data_input_stream_read_uint32.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -372,11 +402,6 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_data_input_stream_read_uint64 = Interop.downcallHandle(
-        "g_data_input_stream_read_uint64",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Reads an unsigned 64-bit/8-byte value from {@code stream}.
@@ -387,12 +412,17 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * If {@code cancellable} is not {@code null}, then the operation can be cancelled by
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be returned.
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @return an unsigned 64-bit/8-byte read from {@code stream} or {@code 0} if
+     * an error occurred.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public long readUint64(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public long readUint64(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         long RESULT;
         try {
-            RESULT = (long) g_data_input_stream_read_uint64.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (long) DowncallHandles.g_data_input_stream_read_uint64.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -402,10 +432,121 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
         return RESULT;
     }
     
-    private static final MethodHandle g_data_input_stream_read_upto = Interop.downcallHandle(
-        "g_data_input_stream_read_upto",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Reads a string from the data input stream, up to the first
+     * occurrence of any of the stop characters.
+     * <p>
+     * Note that, in contrast to g_data_input_stream_read_until_async(),
+     * this function consumes the stop character that it finds.
+     * <p>
+     * Don't use this function in new code.  Its functionality is
+     * inconsistent with g_data_input_stream_read_until_async().  Both
+     * functions will be marked as deprecated in a future release.  Use
+     * g_data_input_stream_read_upto() instead, but note that that function
+     * does not consume the stop character.
+     * @param stopChars characters to terminate the read.
+     * @param length a {@code gsize} to get the length of the data read in.
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @return a string with the data that was read
+     *     before encountering any of the stop characters. Set {@code length} to
+     *     a {@code gsize} to get the length of the string. This function will
+     *     return {@code null} on an error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
+     * @deprecated Use g_data_input_stream_read_upto() instead, which has more
+     *     consistent behaviour regarding the stop character.
+     */
+    @Deprecated
+    public @NotNull java.lang.String readUntil(@NotNull java.lang.String stopChars, Out<Long> length, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(stopChars, "Parameter 'stopChars' must not be null");
+        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_until.invokeExact(handle(), Interop.allocateNativeString(stopChars), (Addressable) lengthPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * The asynchronous version of g_data_input_stream_read_until().
+     * It is an error to have two outstanding calls to this function.
+     * <p>
+     * Note that, in contrast to g_data_input_stream_read_until(),
+     * this function does not consume the stop character that it finds.  You
+     * must read it for yourself.
+     * <p>
+     * When the operation is finished, {@code callback} will be called. You
+     * can then call g_data_input_stream_read_until_finish() to get
+     * the result of the operation.
+     * <p>
+     * Don't use this function in new code.  Its functionality is
+     * inconsistent with g_data_input_stream_read_until().  Both functions
+     * will be marked as deprecated in a future release.  Use
+     * g_data_input_stream_read_upto_async() instead.
+     * @param stopChars characters to terminate the read.
+     * @param ioPriority the [I/O priority][io-priority] of the request
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @param callback callback to call when the request is satisfied.
+     * @deprecated Use g_data_input_stream_read_upto_async() instead, which
+     *     has more consistent behaviour regarding the stop character.
+     */
+    @Deprecated
+    public void readUntilAsync(@NotNull java.lang.String stopChars, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNull(stopChars, "Parameter 'stopChars' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
+        try {
+            DowncallHandles.g_data_input_stream_read_until_async.invokeExact(handle(), Interop.allocateNativeString(stopChars), ioPriority, cancellable.handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
+    
+    /**
+     * Finish an asynchronous call started by
+     * g_data_input_stream_read_until_async().
+     * @param result the {@link AsyncResult} that was provided to the callback.
+     * @param length a {@code gsize} to get the length of the data read in.
+     * @return a string with the data that was read
+     *     before encountering any of the stop characters. Set {@code length} to
+     *     a {@code gsize} to get the length of the string. This function will
+     *     return {@code null} on an error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
+     * @deprecated Use g_data_input_stream_read_upto_finish() instead, which
+     *     has more consistent behaviour regarding the stop character.
+     */
+    @Deprecated
+    public @NotNull java.lang.String readUntilFinish(@NotNull org.gtk.gio.AsyncResult result, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_until_finish.invokeExact(handle(), result.handle(), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
+        return RESULT.getUtf8String(0);
+    }
     
     /**
      * Reads a string from the data input stream, up to the first
@@ -420,27 +561,35 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * specified.
      * <p>
      * The returned string will always be nul-terminated on success.
+     * @param stopChars characters to terminate the read
+     * @param stopCharsLen length of {@code stop_chars}. May be -1 if {@code stop_chars} is
+     *     nul-terminated
+     * @param length a {@code gsize} to get the length of the data read in
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore
+     * @return a string with the data that was read
+     *     before encountering any of the stop characters. Set {@code length} to
+     *     a {@code gsize} to get the length of the string. This function will
+     *     return {@code null} on an error
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull java.lang.String readUpto(@NotNull java.lang.String stopChars, @NotNull long stopCharsLen, @NotNull Out<Long> length, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull java.lang.String readUpto(@NotNull java.lang.String stopChars, long stopCharsLen, Out<Long> length, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(stopChars, "Parameter 'stopChars' must not be null");
+        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_data_input_stream_read_upto.invokeExact(handle(), Interop.allocateNativeString(stopChars), stopCharsLen, (Addressable) lengthPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_upto.invokeExact(handle(), Interop.allocateNativeString(stopChars), stopCharsLen, (Addressable) lengthPOINTER.address(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_data_input_stream_read_upto_async = Interop.downcallHandle(
-        "g_data_input_stream_read_upto_async",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * The asynchronous version of g_data_input_stream_read_upto().
@@ -457,25 +606,29 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * When the operation is finished, {@code callback} will be called. You
      * can then call g_data_input_stream_read_upto_finish() to get
      * the result of the operation.
+     * @param stopChars characters to terminate the read
+     * @param stopCharsLen length of {@code stop_chars}. May be -1 if {@code stop_chars} is
+     *     nul-terminated
+     * @param ioPriority the [I/O priority][io-priority] of the request
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore
+     * @param callback callback to call when the request is satisfied
      */
-    public @NotNull void readUptoAsync(@NotNull java.lang.String stopChars, @NotNull long stopCharsLen, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
+    public void readUptoAsync(@NotNull java.lang.String stopChars, long stopCharsLen, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNull(stopChars, "Parameter 'stopChars' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            g_data_input_stream_read_upto_async.invokeExact(handle(), Interop.allocateNativeString(stopChars), stopCharsLen, ioPriority, cancellable.handle(), 
+            DowncallHandles.g_data_input_stream_read_upto_async.invokeExact(handle(), Interop.allocateNativeString(stopChars), stopCharsLen, ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
+                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_data_input_stream_read_upto_finish = Interop.downcallHandle(
-        "g_data_input_stream_read_upto_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Finish an asynchronous call started by
@@ -486,44 +639,45 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * g_data_input_stream_read_upto_async() again.
      * <p>
      * The returned string will always be nul-terminated on success.
+     * @param result the {@link AsyncResult} that was provided to the callback
+     * @param length a {@code gsize} to get the length of the data read in
+     * @return a string with the data that was read
+     *     before encountering any of the stop characters. Set {@code length} to
+     *     a {@code gsize} to get the length of the string. This function will
+     *     return {@code null} on an error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull java.lang.String readUptoFinish(@NotNull AsyncResult result, @NotNull Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull java.lang.String readUptoFinish(@NotNull org.gtk.gio.AsyncResult result, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_data_input_stream_read_upto_finish.invokeExact(handle(), result.handle(), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_data_input_stream_read_upto_finish.invokeExact(handle(), result.handle(), (Addressable) lengthPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        length.set(lengthPOINTER.get(ValueLayout.JAVA_LONG, 0));
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_data_input_stream_set_byte_order = Interop.downcallHandle(
-        "g_data_input_stream_set_byte_order",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * This function sets the byte order for the given {@code stream}. All subsequent
      * reads from the {@code stream} will be read in the given {@code order}.
+     * @param order a {@link DataStreamByteOrder} to set.
      */
-    public @NotNull void setByteOrder(@NotNull DataStreamByteOrder order) {
+    public void setByteOrder(@NotNull org.gtk.gio.DataStreamByteOrder order) {
+        java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
         try {
-            g_data_input_stream_set_byte_order.invokeExact(handle(), order.getValue());
+            DowncallHandles.g_data_input_stream_set_byte_order.invokeExact(handle(), order.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_data_input_stream_set_newline_type = Interop.downcallHandle(
-        "g_data_input_stream_set_newline_type",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the newline type for the {@code stream}.
@@ -531,13 +685,132 @@ public class DataInputStream extends BufferedInputStream implements Seekable {
      * Note that using G_DATA_STREAM_NEWLINE_TYPE_ANY is slightly unsafe. If a read
      * chunk ends in "CR" we must read an additional byte to know if this is "CR" or
      * "CR LF", and this might block if there is no more data available.
+     * @param type the type of new line return as {@link DataStreamNewlineType}.
      */
-    public @NotNull void setNewlineType(@NotNull DataStreamNewlineType type) {
+    public void setNewlineType(@NotNull org.gtk.gio.DataStreamNewlineType type) {
+        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         try {
-            g_data_input_stream_set_newline_type.invokeExact(handle(), type.getValue());
+            DowncallHandles.g_data_input_stream_set_newline_type.invokeExact(handle(), type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_data_input_stream_new = Interop.downcallHandle(
+            "g_data_input_stream_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_data_input_stream_get_byte_order = Interop.downcallHandle(
+            "g_data_input_stream_get_byte_order",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_data_input_stream_get_newline_type = Interop.downcallHandle(
+            "g_data_input_stream_get_newline_type",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_data_input_stream_read_byte = Interop.downcallHandle(
+            "g_data_input_stream_read_byte",
+            FunctionDescriptor.of(ValueLayout.JAVA_BYTE, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_data_input_stream_read_int16 = Interop.downcallHandle(
+            "g_data_input_stream_read_int16",
+            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_data_input_stream_read_int32 = Interop.downcallHandle(
+            "g_data_input_stream_read_int32",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_data_input_stream_read_int64 = Interop.downcallHandle(
+            "g_data_input_stream_read_int64",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_data_input_stream_read_line = Interop.downcallHandle(
+            "g_data_input_stream_read_line",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_data_input_stream_read_line_async = Interop.downcallHandle(
+            "g_data_input_stream_read_line_async",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_data_input_stream_read_line_finish = Interop.downcallHandle(
+            "g_data_input_stream_read_line_finish",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_data_input_stream_read_line_finish_utf8 = Interop.downcallHandle(
+            "g_data_input_stream_read_line_finish_utf8",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_data_input_stream_read_line_utf8 = Interop.downcallHandle(
+            "g_data_input_stream_read_line_utf8",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_data_input_stream_read_uint16 = Interop.downcallHandle(
+            "g_data_input_stream_read_uint16",
+            FunctionDescriptor.of(ValueLayout.JAVA_SHORT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_data_input_stream_read_uint32 = Interop.downcallHandle(
+            "g_data_input_stream_read_uint32",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_data_input_stream_read_uint64 = Interop.downcallHandle(
+            "g_data_input_stream_read_uint64",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_data_input_stream_read_until = Interop.downcallHandle(
+            "g_data_input_stream_read_until",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_data_input_stream_read_until_async = Interop.downcallHandle(
+            "g_data_input_stream_read_until_async",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_data_input_stream_read_until_finish = Interop.downcallHandle(
+            "g_data_input_stream_read_until_finish",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_data_input_stream_read_upto = Interop.downcallHandle(
+            "g_data_input_stream_read_upto",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_data_input_stream_read_upto_async = Interop.downcallHandle(
+            "g_data_input_stream_read_upto_async",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_data_input_stream_read_upto_finish = Interop.downcallHandle(
+            "g_data_input_stream_read_upto_finish",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_data_input_stream_set_byte_order = Interop.downcallHandle(
+            "g_data_input_stream_set_byte_order",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_data_input_stream_set_newline_type = Interop.downcallHandle(
+            "g_data_input_stream_set_newline_type",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
 }

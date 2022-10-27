@@ -12,8 +12,8 @@ import org.jetbrains.annotations.*;
  * organize your UI flow, and add the sidebar to your sidebar area. You
  * can use {@link StackSidebar#setStack} to connect the {@code GtkStackSidebar}
  * to the {@code GtkStack}.
- * 
- * <h1>CSS nodes</h1>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * {@code GtkStackSidebar} has a single CSS node with name stacksidebar and
  * style class .sidebar.
  * <p>
@@ -21,8 +21,20 @@ import org.jetbrains.annotations.*;
  * .needs-attention style class to the widgets representing the stack
  * pages.
  */
-public class StackSidebar extends Widget implements Accessible, Buildable, ConstraintTarget {
-
+public class StackSidebar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public StackSidebar(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -32,18 +44,14 @@ public class StackSidebar extends Widget implements Accessible, Buildable, Const
         return new StackSidebar(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_stack_sidebar_new = Interop.downcallHandle(
-        "gtk_stack_sidebar_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_stack_sidebar_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_stack_sidebar_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -53,41 +61,52 @@ public class StackSidebar extends Widget implements Accessible, Buildable, Const
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_stack_sidebar_get_stack = Interop.downcallHandle(
-        "gtk_stack_sidebar_get_stack",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Retrieves the stack.
+     * @return the associated {@code GtkStack} or
+     *   {@code null} if none has been set explicitly
      */
-    public @Nullable Stack getStack() {
+    public @Nullable org.gtk.gtk.Stack getStack() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_stack_sidebar_get_stack.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_sidebar_get_stack.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Stack(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Stack(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_stack_sidebar_set_stack = Interop.downcallHandle(
-        "gtk_stack_sidebar_set_stack",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Set the {@code GtkStack} associated with this {@code GtkStackSidebar}.
      * <p>
      * The sidebar widget will automatically update according to
      * the order and items within the given {@code GtkStack}.
+     * @param stack a {@code GtkStack}
      */
-    public @NotNull void setStack(@NotNull Stack stack) {
+    public void setStack(@NotNull org.gtk.gtk.Stack stack) {
+        java.util.Objects.requireNonNull(stack, "Parameter 'stack' must not be null");
         try {
-            gtk_stack_sidebar_set_stack.invokeExact(handle(), stack.handle());
+            DowncallHandles.gtk_stack_sidebar_set_stack.invokeExact(handle(), stack.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_stack_sidebar_new = Interop.downcallHandle(
+            "gtk_stack_sidebar_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_stack_sidebar_get_stack = Interop.downcallHandle(
+            "gtk_stack_sidebar_get_stack",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_stack_sidebar_set_stack = Interop.downcallHandle(
+            "gtk_stack_sidebar_set_stack",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

@@ -11,8 +11,20 @@ import org.jetbrains.annotations.*;
  * Whenever the angle between both handled sequences changes, the
  * {@code Gtk.GestureRotate::angle-changed} signal is emitted.
  */
-public class GestureRotate extends Gesture {
-
+public class GestureRotate extends org.gtk.gtk.Gesture {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public GestureRotate(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -22,18 +34,14 @@ public class GestureRotate extends Gesture {
         return new GestureRotate(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_gesture_rotate_new = Interop.downcallHandle(
-        "gtk_gesture_rotate_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_gesture_rotate_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_gesture_rotate_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -44,22 +52,18 @@ public class GestureRotate extends Gesture {
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_gesture_rotate_get_angle_delta = Interop.downcallHandle(
-        "gtk_gesture_rotate_get_angle_delta",
-        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the angle delta in radians.
      * <p>
      * If {@code gesture} is active, this function returns the angle difference
      * in radians since the gesture was first recognized. If {@code gesture} is
      * not active, 0 is returned.
+     * @return the angle delta in radians
      */
     public double getAngleDelta() {
         double RESULT;
         try {
-            RESULT = (double) gtk_gesture_rotate_get_angle_delta.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_gesture_rotate_get_angle_delta.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -67,14 +71,14 @@ public class GestureRotate extends Gesture {
     }
     
     @FunctionalInterface
-    public interface AngleChangedHandler {
-        void signalReceived(GestureRotate source, @NotNull double angle, @NotNull double angleDelta);
+    public interface AngleChanged {
+        void signalReceived(GestureRotate source, double angle, double angleDelta);
     }
     
     /**
      * Emitted when the angle between both tracked points changes.
      */
-    public SignalHandle onAngleChanged(AngleChangedHandler handler) {
+    public Signal<GestureRotate.AngleChanged> onAngleChanged(GestureRotate.AngleChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -84,21 +88,33 @@ public class GestureRotate extends Gesture {
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<GestureRotate.AngleChanged>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static void signalGestureRotateAngleChanged(MemoryAddress source, double angle, double angleDelta, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (GestureRotate.AngleChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GestureRotate(Refcounted.get(source)), angle, angleDelta);
-        }
+    private static class DowncallHandles {
         
+        private static final MethodHandle gtk_gesture_rotate_new = Interop.downcallHandle(
+            "gtk_gesture_rotate_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_gesture_rotate_get_angle_delta = Interop.downcallHandle(
+            "gtk_gesture_rotate_get_angle_delta",
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+        );
+    }
+    
+    private static class Callbacks {
+        
+        public static void signalGestureRotateAngleChanged(MemoryAddress source, double angle, double angleDelta, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (GestureRotate.AngleChanged) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new GestureRotate(Refcounted.get(source)), angle, angleDelta);
+        }
     }
 }

@@ -1,12 +1,25 @@
 package org.gtk.gobject;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The match types specify what g_signal_handlers_block_matched(),
  * g_signal_handlers_unblock_matched() and g_signal_handlers_disconnect_matched()
  * match signals by.
  */
 public class SignalMatchType extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The signal id must be equal.
      */
@@ -40,5 +53,4 @@ public class SignalMatchType extends io.github.jwharm.javagi.Bitfield {
     public SignalMatchType(int value) {
         super(value);
     }
-    
 }

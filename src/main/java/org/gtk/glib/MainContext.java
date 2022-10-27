@@ -10,23 +10,31 @@ import org.jetbrains.annotations.*;
  * type representing a set of sources to be handled in a main loop.
  */
 public class MainContext extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GLib.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public MainContext(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle g_main_context_new = Interop.downcallHandle(
-        "g_main_context_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_main_context_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_main_context_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -36,31 +44,26 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
         super(constructNew());
     }
     
-    private static final MethodHandle g_main_context_new_with_flags = Interop.downcallHandle(
-        "g_main_context_new_with_flags",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
-    private static Refcounted constructNewWithFlags(@NotNull MainContextFlags flags) {
+    private static Refcounted constructNewWithFlags(@NotNull org.gtk.glib.MainContextFlags flags) {
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_main_context_new_with_flags.invokeExact(flags.getValue()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_main_context_new_with_flags.invokeExact(flags.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a new {@link MainContext} structure.
+     * @param flags a bitwise-OR combination of {@link MainContextFlags} flags that can only be
+     *         set at creation time.
+     * @return the new {@link MainContext}
      */
-    public static MainContext newWithFlags(@NotNull MainContextFlags flags) {
+    public static MainContext newWithFlags(@NotNull org.gtk.glib.MainContextFlags flags) {
         return new MainContext(constructNewWithFlags(flags));
     }
-    
-    private static final MethodHandle g_main_context_acquire = Interop.downcallHandle(
-        "g_main_context_acquire",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tries to become the owner of the specified context.
@@ -73,39 +76,37 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * You must be the owner of a context before you
      * can call g_main_context_prepare(), g_main_context_query(),
      * g_main_context_check(), g_main_context_dispatch().
+     * @return {@code true} if the operation succeeded, and
+     *   this thread is now the owner of {@code context}.
      */
     public boolean acquire() {
         int RESULT;
         try {
-            RESULT = (int) g_main_context_acquire.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_main_context_acquire.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_main_context_add_poll = Interop.downcallHandle(
-        "g_main_context_add_poll",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Adds a file descriptor to the set of file descriptors polled for
      * this context. This will very seldom be used directly. Instead
      * a typical event source will use g_source_add_unix_fd() instead.
+     * @param fd a {@link PollFD} structure holding information about a file
+     *      descriptor to watch.
+     * @param priority the priority for this file descriptor which should be
+     *      the same as the priority used for g_source_attach() to ensure that the
+     *      file descriptor is polled whenever the results may be needed.
      */
-    public @NotNull void addPoll(@NotNull PollFD fd, @NotNull int priority) {
+    public void addPoll(@NotNull org.gtk.glib.PollFD fd, int priority) {
+        java.util.Objects.requireNonNull(fd, "Parameter 'fd' must not be null");
         try {
-            g_main_context_add_poll.invokeExact(handle(), fd.handle(), priority);
+            DowncallHandles.g_main_context_add_poll.invokeExact(handle(), fd.handle(), priority);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_main_context_check = Interop.downcallHandle(
-        "g_main_context_check",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Passes the results of polling back to the main loop. You should be
@@ -115,21 +116,22 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * You must have successfully acquired the context with
      * g_main_context_acquire() before you may call this function.
+     * @param maxPriority the maximum numerical priority of sources to check
+     * @param fds array of {@link PollFD}'s that was passed to
+     *       the last call to g_main_context_query()
+     * @param nFds return value of g_main_context_query()
+     * @return {@code true} if some sources are ready to be dispatched.
      */
-    public boolean check(@NotNull int maxPriority, @NotNull PollFD[] fds, @NotNull int nFds) {
+    public boolean check(int maxPriority, org.gtk.glib.PollFD[] fds, int nFds) {
+        java.util.Objects.requireNonNull(fds, "Parameter 'fds' must not be null");
         int RESULT;
         try {
-            RESULT = (int) g_main_context_check.invokeExact(handle(), maxPriority, Interop.allocateNativeArray(fds), nFds);
+            RESULT = (int) DowncallHandles.g_main_context_check.invokeExact(handle(), maxPriority, Interop.allocateNativeArray(fds, false), nFds);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_main_context_dispatch = Interop.downcallHandle(
-        "g_main_context_dispatch",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Dispatches all pending sources.
@@ -137,38 +139,32 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * You must have successfully acquired the context with
      * g_main_context_acquire() before you may call this function.
      */
-    public @NotNull void dispatch() {
+    public void dispatch() {
         try {
-            g_main_context_dispatch.invokeExact(handle());
+            DowncallHandles.g_main_context_dispatch.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_main_context_find_source_by_funcs_user_data = Interop.downcallHandle(
-        "g_main_context_find_source_by_funcs_user_data",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Finds a source with the given source functions and user data.  If
      * multiple sources exist with the same source function and user data,
      * the first one found will be returned.
+     * @param funcs the {@code source_funcs} passed to g_source_new().
+     * @param userData the user data from the callback.
+     * @return the source, if one was found, otherwise {@code null}
      */
-    public @NotNull Source findSourceByFuncsUserData(@NotNull SourceFuncs funcs, @Nullable java.lang.foreign.MemoryAddress userData) {
+    public @NotNull org.gtk.glib.Source findSourceByFuncsUserData(@NotNull org.gtk.glib.SourceFuncs funcs, @Nullable java.lang.foreign.MemoryAddress userData) {
+        java.util.Objects.requireNonNull(funcs, "Parameter 'funcs' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_main_context_find_source_by_funcs_user_data.invokeExact(handle(), funcs.handle(), userData);
+            RESULT = (MemoryAddress) DowncallHandles.g_main_context_find_source_by_funcs_user_data.invokeExact(handle(), funcs.handle(), userData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Source(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Source(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_main_context_find_source_by_id = Interop.downcallHandle(
-        "g_main_context_find_source_by_id",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Finds a {@link Source} given a pair of context and ID.
@@ -183,41 +179,43 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * is called on its (now invalid) source ID.  This source ID may have
      * been reissued, leading to the operation being performed against the
      * wrong source.
+     * @param sourceId the source ID, as returned by g_source_get_id().
+     * @return the {@link Source}
      */
-    public @NotNull Source findSourceById(@NotNull int sourceId) {
+    public @NotNull org.gtk.glib.Source findSourceById(int sourceId) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_main_context_find_source_by_id.invokeExact(handle(), sourceId);
+            RESULT = (MemoryAddress) DowncallHandles.g_main_context_find_source_by_id.invokeExact(handle(), sourceId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Source(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Source(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_main_context_find_source_by_user_data = Interop.downcallHandle(
-        "g_main_context_find_source_by_user_data",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Finds a source with the given user data for the callback.  If
      * multiple sources exist with the same user data, the first
      * one found will be returned.
+     * @param userData the user_data for the callback.
+     * @return the source, if one was found, otherwise {@code null}
      */
-    public @NotNull Source findSourceByUserData(@Nullable java.lang.foreign.MemoryAddress userData) {
+    public @NotNull org.gtk.glib.Source findSourceByUserData(@Nullable java.lang.foreign.MemoryAddress userData) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_main_context_find_source_by_user_data.invokeExact(handle(), userData);
+            RESULT = (MemoryAddress) DowncallHandles.g_main_context_find_source_by_user_data.invokeExact(handle(), userData);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Source(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Source(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle g_main_context_invoke = Interop.downcallHandle(
-        "g_main_context_invoke",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Gets the poll function set by g_main_context_set_poll_func().
+     * @return the poll function
+     */
+    public @NotNull org.gtk.glib.PollFunc getPollFunc() {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Invokes a function in such a way that {@code context} is owned during the
@@ -241,25 +239,22 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * Note that, as with normal idle functions, {@code function} should probably
      * return {@code false}.  If it returns {@code true}, it will be continuously run in a
      * loop (and may prevent this call from returning).
+     * @param function function to call
      */
-    public @NotNull void invoke(@NotNull SourceFunc function) {
+    public void invoke(@NotNull org.gtk.glib.SourceFunc function) {
+        java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
         try {
-            g_main_context_invoke.invokeExact(handle(), 
+            DowncallHandles.g_main_context_invoke.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
+                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function)));
+                   (Addressable) (Interop.registerCallback(function)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_main_context_invoke_full = Interop.downcallHandle(
-        "g_main_context_invoke_full",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Invokes a function in such a way that {@code context} is owned during the
@@ -271,47 +266,41 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * {@code notify} should not assume that it is called from any particular
      * thread or with any particular context acquired.
+     * @param priority the priority at which to run {@code function}
+     * @param function function to call
      */
-    public @NotNull void invokeFull(@NotNull int priority, @NotNull SourceFunc function) {
+    public void invokeFull(int priority, @NotNull org.gtk.glib.SourceFunc function) {
+        java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
         try {
-            g_main_context_invoke_full.invokeExact(handle(), priority, 
+            DowncallHandles.g_main_context_invoke_full.invokeExact(handle(), priority, 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.class, "__cbSourceFunc",
+                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceFunc",
                             MethodType.methodType(int.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(function)), 
+                   (Addressable) (Interop.registerCallback(function)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle g_main_context_is_owner = Interop.downcallHandle(
-        "g_main_context_is_owner",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Determines whether this thread holds the (recursive)
      * ownership of this {@link MainContext}. This is useful to
      * know before waiting on another thread that may be
      * blocking to get ownership of {@code context}.
+     * @return {@code true} if current thread is owner of {@code context}.
      */
     public boolean isOwner() {
         int RESULT;
         try {
-            RESULT = (int) g_main_context_is_owner.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_main_context_is_owner.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_main_context_iteration = Interop.downcallHandle(
-        "g_main_context_iteration",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Runs a single iteration for the given main loop. This involves
@@ -326,56 +315,44 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * Note that even when {@code may_block} is {@code true}, it is still possible for
      * g_main_context_iteration() to return {@code false}, since the wait may
      * be interrupted for other reasons than an event source becoming ready.
+     * @param mayBlock whether the call may block.
+     * @return {@code true} if events were dispatched.
      */
-    public boolean iteration(@NotNull boolean mayBlock) {
+    public boolean iteration(boolean mayBlock) {
         int RESULT;
         try {
-            RESULT = (int) g_main_context_iteration.invokeExact(handle(), mayBlock ? 1 : 0);
+            RESULT = (int) DowncallHandles.g_main_context_iteration.invokeExact(handle(), mayBlock ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_main_context_pending = Interop.downcallHandle(
-        "g_main_context_pending",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Checks if any sources have pending events for the given context.
+     * @return {@code true} if events are pending.
      */
     public boolean pending() {
         int RESULT;
         try {
-            RESULT = (int) g_main_context_pending.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_main_context_pending.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_main_context_pop_thread_default = Interop.downcallHandle(
-        "g_main_context_pop_thread_default",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Pops {@code context} off the thread-default context stack (verifying that
      * it was on the top of the stack).
      */
-    public @NotNull void popThreadDefault() {
+    public void popThreadDefault() {
         try {
-            g_main_context_pop_thread_default.invokeExact(handle());
+            DowncallHandles.g_main_context_pop_thread_default.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_main_context_prepare = Interop.downcallHandle(
-        "g_main_context_prepare",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Prepares to poll sources within a main loop. The resulting information
@@ -383,23 +360,23 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * You must have successfully acquired the context with
      * g_main_context_acquire() before you may call this function.
+     * @param priority location to store priority of highest priority
+     *            source already ready.
+     * @return {@code true} if some source is ready to be dispatched
+     *               prior to polling.
      */
-    public boolean prepare(@NotNull Out<Integer> priority) {
+    public boolean prepare(Out<Integer> priority) {
+        java.util.Objects.requireNonNull(priority, "Parameter 'priority' must not be null");
         MemorySegment priorityPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) g_main_context_prepare.invokeExact(handle(), (Addressable) priorityPOINTER.address());
+            RESULT = (int) DowncallHandles.g_main_context_prepare.invokeExact(handle(), (Addressable) priorityPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         priority.set(priorityPOINTER.get(ValueLayout.JAVA_INT, 0));
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_main_context_push_thread_default = Interop.downcallHandle(
-        "g_main_context_push_thread_default",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Acquires {@code context} and sets it as the thread-default context for the
@@ -441,18 +418,13 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * handle being used from a thread with a thread-default context. Eg,
      * see g_file_supports_thread_contexts().
      */
-    public @NotNull void pushThreadDefault() {
+    public void pushThreadDefault() {
         try {
-            g_main_context_push_thread_default.invokeExact(handle());
+            DowncallHandles.g_main_context_push_thread_default.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_main_context_query = Interop.downcallHandle(
-        "g_main_context_query",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Determines information necessary to poll this main loop. You should
@@ -462,48 +434,49 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * You must have successfully acquired the context with
      * g_main_context_acquire() before you may call this function.
+     * @param maxPriority maximum priority source to check
+     * @param timeout location to store timeout to be used in polling
+     * @param fds location to
+     *       store {@link PollFD} records that need to be polled.
+     * @param nFds length of {@code fds}.
+     * @return the number of records actually stored in {@code fds},
+     *   or, if more than {@code n_fds} records need to be stored, the number
+     *   of records that need to be stored.
      */
-    public int query(@NotNull int maxPriority, @NotNull Out<Integer> timeout, @NotNull Out<PollFD[]> fds, @NotNull int nFds) {
+    public int query(int maxPriority, Out<Integer> timeout, Out<org.gtk.glib.PollFD[]> fds, int nFds) {
+        java.util.Objects.requireNonNull(timeout, "Parameter 'timeout' must not be null");
+        java.util.Objects.requireNonNull(fds, "Parameter 'fds' must not be null");
         MemorySegment timeoutPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment fdsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_main_context_query.invokeExact(handle(), maxPriority, (Addressable) timeoutPOINTER.address(), (Addressable) fdsPOINTER.address(), nFds);
+            RESULT = (int) DowncallHandles.g_main_context_query.invokeExact(handle(), maxPriority, (Addressable) timeoutPOINTER.address(), (Addressable) fdsPOINTER.address(), nFds);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         timeout.set(timeoutPOINTER.get(ValueLayout.JAVA_INT, 0));
-        PollFD[] fdsARRAY = new PollFD[nFds];
+        org.gtk.glib.PollFD[] fdsARRAY = new org.gtk.glib.PollFD[nFds];
         for (int I = 0; I < nFds; I++) {
             var OBJ = fdsPOINTER.get(ValueLayout.ADDRESS, I);
-            fdsARRAY[I] = new PollFD(Refcounted.get(OBJ, false));
+            fdsARRAY[I] = new org.gtk.glib.PollFD(Refcounted.get(OBJ, false));
         }
         fds.set(fdsARRAY);
         return RESULT;
     }
     
-    private static final MethodHandle g_main_context_ref = Interop.downcallHandle(
-        "g_main_context_ref",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Increases the reference count on a {@link MainContext} object by one.
+     * @return the {@code context} that was passed in (since 2.6)
      */
-    public @NotNull MainContext ref() {
+    public @NotNull org.gtk.glib.MainContext ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_main_context_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_main_context_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new MainContext(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.MainContext(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_main_context_release = Interop.downcallHandle(
-        "g_main_context_release",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Releases ownership of a context previously acquired by this thread
@@ -511,52 +484,78 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * times, the ownership will be released only when g_main_context_release()
      * is called as many times as it was acquired.
      */
-    public @NotNull void release() {
+    public void release() {
         try {
-            g_main_context_release.invokeExact(handle());
+            DowncallHandles.g_main_context_release.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_main_context_remove_poll = Interop.downcallHandle(
-        "g_main_context_remove_poll",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Removes file descriptor from the set of file descriptors to be
      * polled for a particular context.
+     * @param fd a {@link PollFD} descriptor previously added with g_main_context_add_poll()
      */
-    public @NotNull void removePoll(@NotNull PollFD fd) {
+    public void removePoll(@NotNull org.gtk.glib.PollFD fd) {
+        java.util.Objects.requireNonNull(fd, "Parameter 'fd' must not be null");
         try {
-            g_main_context_remove_poll.invokeExact(handle(), fd.handle());
+            DowncallHandles.g_main_context_remove_poll.invokeExact(handle(), fd.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle g_main_context_unref = Interop.downcallHandle(
-        "g_main_context_unref",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
+    /**
+     * Sets the function to use to handle polling of file descriptors. It
+     * will be used instead of the poll() system call
+     * (or GLib's replacement function, which is used where
+     * poll() isn't available).
+     * <p>
+     * This function could possibly be used to integrate the GLib event
+     * loop with an external event loop.
+     * @param func the function to call to poll all file descriptors
+     */
+    public void setPollFunc(@NotNull org.gtk.glib.PollFunc func) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Decreases the reference count on a {@link MainContext} object by one. If
      * the result is zero, free the context and free all associated memory.
      */
-    public @NotNull void unref() {
+    public void unref() {
         try {
-            g_main_context_unref.invokeExact(handle());
+            DowncallHandles.g_main_context_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle g_main_context_wakeup = Interop.downcallHandle(
-        "g_main_context_wakeup",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
+    /**
+     * Tries to become the owner of the specified context,
+     * as with g_main_context_acquire(). But if another thread
+     * is the owner, atomically drop {@code mutex} and wait on {@code cond} until
+     * that owner releases ownership or until {@code cond} is signaled, then
+     * try again (once) to become the owner.
+     * @param cond a condition variable
+     * @param mutex a mutex, currently held
+     * @return {@code true} if the operation succeeded, and
+     *   this thread is now the owner of {@code context}.
+     * @deprecated Use g_main_context_is_owner() and separate locking instead.
+     */
+    @Deprecated
+    public boolean wait(@NotNull org.gtk.glib.Cond cond, @NotNull org.gtk.glib.Mutex mutex) {
+        java.util.Objects.requireNonNull(cond, "Parameter 'cond' must not be null");
+        java.util.Objects.requireNonNull(mutex, "Parameter 'mutex' must not be null");
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_main_context_wait.invokeExact(handle(), cond.handle(), mutex.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT != 0;
+    }
     
     /**
      * If {@code context} is currently blocking in g_main_context_iteration()
@@ -570,7 +569,6 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Another related use for this function is when implementing a main
      * loop with a termination condition, computed from multiple threads:
-     * <p>
      * <pre>{@code <!-- language="C" -->
      *   #define NUM_TASKS 10
      *   static gint tasks_remaining = NUM_TASKS;  // (atomic)
@@ -588,39 +586,30 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      *     g_main_context_wakeup (NULL);
      * }</pre>
      */
-    public @NotNull void wakeup() {
+    public void wakeup() {
         try {
-            g_main_context_wakeup.invokeExact(handle());
+            DowncallHandles.g_main_context_wakeup.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_main_context_default = Interop.downcallHandle(
-        "g_main_context_default",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the global default main context. This is the main context
      * used for main loop functions when a main loop is not explicitly
      * specified, and corresponds to the "main" main loop. See also
      * g_main_context_get_thread_default().
+     * @return the global default main context.
      */
-    public static @NotNull MainContext default_() {
+    public static @NotNull org.gtk.glib.MainContext default_() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_main_context_default.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.g_main_context_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new MainContext(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.MainContext(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_main_context_get_thread_default = Interop.downcallHandle(
-        "g_main_context_get_thread_default",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the thread-default {@link MainContext} for this thread. Asynchronous
@@ -634,21 +623,18 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If you need to hold a reference on the context, use
      * g_main_context_ref_thread_default() instead.
+     * @return the thread-default {@link MainContext}, or
+     * {@code null} if the thread-default context is the global default context.
      */
-    public static @Nullable MainContext getThreadDefault() {
+    public static @Nullable org.gtk.glib.MainContext getThreadDefault() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_main_context_get_thread_default.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.g_main_context_get_thread_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new MainContext(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.MainContext(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_main_context_ref_thread_default = Interop.downcallHandle(
-        "g_main_context_ref_thread_default",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the thread-default {@link MainContext} for this thread, as with
@@ -657,15 +643,164 @@ public class MainContext extends io.github.jwharm.javagi.ResourceBase {
      * g_main_context_get_thread_default(), if the thread-default context
      * is the global default context, this will return that {@link MainContext}
      * (with a ref added to it) rather than returning {@code null}.
+     * @return the thread-default {@link MainContext}. Unref
+     *     with g_main_context_unref() when you are done with it.
      */
-    public static @NotNull MainContext refThreadDefault() {
+    public static @NotNull org.gtk.glib.MainContext refThreadDefault() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_main_context_ref_thread_default.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.g_main_context_ref_thread_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new MainContext(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.MainContext(Refcounted.get(RESULT, true));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_main_context_new = Interop.downcallHandle(
+            "g_main_context_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_main_context_new_with_flags = Interop.downcallHandle(
+            "g_main_context_new_with_flags",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_main_context_acquire = Interop.downcallHandle(
+            "g_main_context_acquire",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_main_context_add_poll = Interop.downcallHandle(
+            "g_main_context_add_poll",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_main_context_check = Interop.downcallHandle(
+            "g_main_context_check",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_main_context_dispatch = Interop.downcallHandle(
+            "g_main_context_dispatch",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_main_context_find_source_by_funcs_user_data = Interop.downcallHandle(
+            "g_main_context_find_source_by_funcs_user_data",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_main_context_find_source_by_id = Interop.downcallHandle(
+            "g_main_context_find_source_by_id",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_main_context_find_source_by_user_data = Interop.downcallHandle(
+            "g_main_context_find_source_by_user_data",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_main_context_get_poll_func = Interop.downcallHandle(
+            "g_main_context_get_poll_func",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_main_context_invoke = Interop.downcallHandle(
+            "g_main_context_invoke",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_main_context_invoke_full = Interop.downcallHandle(
+            "g_main_context_invoke_full",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_main_context_is_owner = Interop.downcallHandle(
+            "g_main_context_is_owner",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_main_context_iteration = Interop.downcallHandle(
+            "g_main_context_iteration",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_main_context_pending = Interop.downcallHandle(
+            "g_main_context_pending",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_main_context_pop_thread_default = Interop.downcallHandle(
+            "g_main_context_pop_thread_default",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_main_context_prepare = Interop.downcallHandle(
+            "g_main_context_prepare",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_main_context_push_thread_default = Interop.downcallHandle(
+            "g_main_context_push_thread_default",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_main_context_query = Interop.downcallHandle(
+            "g_main_context_query",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_main_context_ref = Interop.downcallHandle(
+            "g_main_context_ref",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_main_context_release = Interop.downcallHandle(
+            "g_main_context_release",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_main_context_remove_poll = Interop.downcallHandle(
+            "g_main_context_remove_poll",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_main_context_set_poll_func = Interop.downcallHandle(
+            "g_main_context_set_poll_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_main_context_unref = Interop.downcallHandle(
+            "g_main_context_unref",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_main_context_wait = Interop.downcallHandle(
+            "g_main_context_wait",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_main_context_wakeup = Interop.downcallHandle(
+            "g_main_context_wakeup",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_main_context_default = Interop.downcallHandle(
+            "g_main_context_default",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_main_context_get_thread_default = Interop.downcallHandle(
+            "g_main_context_get_thread_default",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_main_context_ref_thread_default = Interop.downcallHandle(
+            "g_main_context_ref_thread_default",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+    }
 }

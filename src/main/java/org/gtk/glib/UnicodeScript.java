@@ -1,5 +1,10 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The {@link UnicodeScript} enumeration identifies different writing
  * systems. The values correspond to the names as defined in the
@@ -11,7 +16,15 @@ package org.gtk.glib;
  * See <a href="http://www.unicode.org/reports/tr24/">Unicode Standard Annex #24: Script names</a>.
  */
 public class UnicodeScript extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * a value never returned from g_unichar_get_script()
      */
@@ -836,5 +849,4 @@ public class UnicodeScript extends io.github.jwharm.javagi.Enumeration {
     public UnicodeScript(int value) {
         super(value);
     }
-    
 }

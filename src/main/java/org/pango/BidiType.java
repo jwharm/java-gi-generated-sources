@@ -1,14 +1,28 @@
 package org.pango;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * {@code PangoBidiType} represents the bidirectional character
  * type of a Unicode character.
  * <p>
  * The values in this enumeration are specified by the
  * <a href="http://www.unicode.org/reports/tr9/">Unicode bidirectional algorithm</a>.
+ * @version 1.22
  */
 public class BidiType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Left-to-Right
      */
@@ -128,4 +142,31 @@ public class BidiType extends io.github.jwharm.javagi.Enumeration {
         super(value);
     }
     
+    /**
+     * Determines the bidirectional type of a character.
+     * <p>
+     * The bidirectional type is specified in the Unicode Character Database.
+     * <p>
+     * A simplified version of this function is available as {@link Pango#unicharDirection}.
+     * @param ch a Unicode character
+     * @return the bidirectional character type, as used in the
+     * Unicode bidirectional algorithm.
+     */
+    public static @NotNull org.pango.BidiType forUnichar(int ch) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.pango_bidi_type_for_unichar.invokeExact(ch);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.pango.BidiType(RESULT);
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle pango_bidi_type_for_unichar = Interop.downcallHandle(
+            "pango_bidi_type_for_unichar",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+    }
 }

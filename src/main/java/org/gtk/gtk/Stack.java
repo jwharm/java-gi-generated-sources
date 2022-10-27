@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * In contrast to {@code GtkNotebook}, {@code GtkStack} does not provide a means
  * for users to change the visible child. Instead, a separate widget
- * such as {@code Gtk.StackSidebar} can
+ * such as {@link StackSwitcher} can
  * be used with {@code GtkStack} to provide this functionality.
  * <p>
  * Transitions between pages can be animated as slides or fades. This
@@ -24,11 +24,10 @@ import org.jetbrains.annotations.*;
  * obtain the {@code GtkStackPage} for a child with {@link Stack#getPage}
  * and you can obtain a {@code GtkSelectionModel} containing all the pages
  * with {@link Stack#getPages}.
- * 
- * <h1>GtkStack as GtkBuildable</h1>
+ * <p>
+ * <strong>GtkStack as GtkBuildable</strong><br/>
  * To set child-specific properties in a .ui file, create {@code GtkStackPage}
  * objects explicitly, and set the child widget as a property on it:
- * 
  * <pre>{@code xml
  *   <object class="GtkStack" id="stack">
  *     <child>
@@ -43,16 +42,28 @@ import org.jetbrains.annotations.*;
  *       </object>
  *     </child>
  * }</pre>
- * 
- * <h1>CSS nodes</h1>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * {@code GtkStack} has a single CSS node named stack.
- * 
- * <h1>Accessibility</h1>
+ * <p>
+ * <strong>Accessibility</strong><br/>
  * {@code GtkStack} uses the {@link AccessibleRole#TAB_PANEL} for the stack
  * pages, which are the accessible parent objects of the child widgets.
  */
-public class Stack extends Widget implements Accessible, Buildable, ConstraintTarget {
-
+public class Stack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public Stack(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -62,18 +73,14 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
         return new Stack(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_stack_new = Interop.downcallHandle(
-        "gtk_stack_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_stack_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_stack_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -83,48 +90,41 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_stack_add_child = Interop.downcallHandle(
-        "gtk_stack_add_child",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Adds a child to {@code stack}.
+     * @param child the widget to add
+     * @return the {@code GtkStackPage} for {@code child}
      */
-    public @NotNull StackPage addChild(@NotNull Widget child) {
+    public @NotNull org.gtk.gtk.StackPage addChild(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_stack_add_child.invokeExact(handle(), child.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_add_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new StackPage(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.StackPage(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_stack_add_named = Interop.downcallHandle(
-        "gtk_stack_add_named",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Adds a child to {@code stack}.
      * <p>
      * The child is identified by the {@code name}.
+     * @param child the widget to add
+     * @param name the name for {@code child}
+     * @return the {@code GtkStackPage} for {@code child}
      */
-    public @NotNull StackPage addNamed(@NotNull Widget child, @Nullable java.lang.String name) {
+    public @NotNull org.gtk.gtk.StackPage addNamed(@NotNull org.gtk.gtk.Widget child, @Nullable java.lang.String name) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_stack_add_named.invokeExact(handle(), child.handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_add_named.invokeExact(handle(), child.handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new StackPage(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.StackPage(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_stack_add_titled = Interop.downcallHandle(
-        "gtk_stack_add_titled",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Adds a child to {@code stack}.
@@ -132,98 +132,89 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * The child is identified by the {@code name}. The {@code title}
      * will be used by {@code GtkStackSwitcher} to represent
      * {@code child} in a tab bar, so it should be short.
+     * @param child the widget to add
+     * @param name the name for {@code child}
+     * @param title a human-readable title for {@code child}
+     * @return the {@code GtkStackPage} for {@code child}
      */
-    public @NotNull StackPage addTitled(@NotNull Widget child, @Nullable java.lang.String name, @NotNull java.lang.String title) {
+    public @NotNull org.gtk.gtk.StackPage addTitled(@NotNull org.gtk.gtk.Widget child, @Nullable java.lang.String name, @NotNull java.lang.String title) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_stack_add_titled.invokeExact(handle(), child.handle(), Interop.allocateNativeString(name), Interop.allocateNativeString(title));
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_add_titled.invokeExact(handle(), child.handle(), Interop.allocateNativeString(name), Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new StackPage(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.StackPage(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_stack_get_child_by_name = Interop.downcallHandle(
-        "gtk_stack_get_child_by_name",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Finds the child with the name given as the argument.
      * <p>
      * Returns {@code null} if there is no child with this name.
+     * @param name the name of the child to find
+     * @return the requested child
+     *   of the {@code GtkStack}
      */
-    public @Nullable Widget getChildByName(@NotNull java.lang.String name) {
+    public @Nullable org.gtk.gtk.Widget getChildByName(@NotNull java.lang.String name) {
+        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_stack_get_child_by_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_get_child_by_name.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_stack_get_hhomogeneous = Interop.downcallHandle(
-        "gtk_stack_get_hhomogeneous",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets whether {@code stack} is horizontally homogeneous.
+     * @return whether {@code stack} is horizontally homogeneous.
      */
     public boolean getHhomogeneous() {
         int RESULT;
         try {
-            RESULT = (int) gtk_stack_get_hhomogeneous.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_stack_get_hhomogeneous.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gtk_stack_get_interpolate_size = Interop.downcallHandle(
-        "gtk_stack_get_interpolate_size",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns whether the {@code GtkStack} is set up to interpolate between
      * the sizes of children on page switch.
+     * @return {@code true} if child sizes are interpolated
      */
     public boolean getInterpolateSize() {
         int RESULT;
         try {
-            RESULT = (int) gtk_stack_get_interpolate_size.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_stack_get_interpolate_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gtk_stack_get_page = Interop.downcallHandle(
-        "gtk_stack_get_page",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves the stack page for the given {@code child}.
      * <p>
      * If the given {@code child} is not a child widget of the stack, this function will return {@code NULL}.
+     * @param child a child of {@code stack}
+     * @return the stack page object
      */
-    public @Nullable StackPage getPage(@NotNull Widget child) {
+    public @Nullable org.gtk.gtk.StackPage getPage(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_stack_get_page.invokeExact(handle(), child.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_get_page.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new StackPage(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.StackPage(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_stack_get_pages = Interop.downcallHandle(
-        "gtk_stack_get_pages",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns a {@code GListModel} that contains the pages of the stack.
@@ -231,152 +222,122 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * This can be used to keep an up-to-date view. The model also
      * implements {@code Gtk.SelectionModel} and can be used to track
      * and modify the visible page.
+     * @return a {@code GtkSelectionModel} for the stack's children
      */
-    public @NotNull SelectionModel getPages() {
+    public @NotNull org.gtk.gtk.SelectionModel getPages() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_stack_get_pages.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_get_pages.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle gtk_stack_get_transition_duration = Interop.downcallHandle(
-        "gtk_stack_get_transition_duration",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the amount of time (in milliseconds) that
      * transitions between pages in {@code stack} will take.
+     * @return the transition duration
      */
     public int getTransitionDuration() {
         int RESULT;
         try {
-            RESULT = (int) gtk_stack_get_transition_duration.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_stack_get_transition_duration.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle gtk_stack_get_transition_running = Interop.downcallHandle(
-        "gtk_stack_get_transition_running",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns whether the {@code stack} is currently in a transition from one page to
      * another.
+     * @return {@code true} if the transition is currently running, {@code false} otherwise.
      */
     public boolean getTransitionRunning() {
         int RESULT;
         try {
-            RESULT = (int) gtk_stack_get_transition_running.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_stack_get_transition_running.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gtk_stack_get_transition_type = Interop.downcallHandle(
-        "gtk_stack_get_transition_type",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the type of animation that will be used
      * for transitions between pages in {@code stack}.
+     * @return the current transition type of {@code stack}
      */
-    public @NotNull StackTransitionType getTransitionType() {
+    public @NotNull org.gtk.gtk.StackTransitionType getTransitionType() {
         int RESULT;
         try {
-            RESULT = (int) gtk_stack_get_transition_type.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_stack_get_transition_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new StackTransitionType(RESULT);
+        return new org.gtk.gtk.StackTransitionType(RESULT);
     }
-    
-    private static final MethodHandle gtk_stack_get_vhomogeneous = Interop.downcallHandle(
-        "gtk_stack_get_vhomogeneous",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets whether {@code stack} is vertically homogeneous.
+     * @return whether {@code stack} is vertically homogeneous.
      */
     public boolean getVhomogeneous() {
         int RESULT;
         try {
-            RESULT = (int) gtk_stack_get_vhomogeneous.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_stack_get_vhomogeneous.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gtk_stack_get_visible_child = Interop.downcallHandle(
-        "gtk_stack_get_visible_child",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the currently visible child of {@code stack}.
      * <p>
      * Returns {@code null} if there are no visible children.
+     * @return the visible child of the {@code GtkStack}
      */
-    public @Nullable Widget getVisibleChild() {
+    public @Nullable org.gtk.gtk.Widget getVisibleChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_stack_get_visible_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_get_visible_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_stack_get_visible_child_name = Interop.downcallHandle(
-        "gtk_stack_get_visible_child_name",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the name of the currently visible child of {@code stack}.
      * <p>
      * Returns {@code null} if there is no visible child.
+     * @return the name of the visible child
+     *   of the {@code GtkStack}
      */
     public @Nullable java.lang.String getVisibleChildName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_stack_get_visible_child_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_get_visible_child_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle gtk_stack_remove = Interop.downcallHandle(
-        "gtk_stack_remove",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Removes a child widget from {@code stack}.
+     * @param child the child to remove
      */
-    public @NotNull void remove(@NotNull Widget child) {
+    public void remove(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            gtk_stack_remove.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_stack_remove.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_stack_set_hhomogeneous = Interop.downcallHandle(
-        "gtk_stack_set_hhomogeneous",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the {@code GtkStack} to be horizontally homogeneous or not.
@@ -384,19 +345,15 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * If it is homogeneous, the {@code GtkStack} will request the same
      * width for all its children. If it isn't, the stack
      * may change width when a different child becomes visible.
+     * @param hhomogeneous {@code true} to make {@code stack} horizontally homogeneous
      */
-    public @NotNull void setHhomogeneous(@NotNull boolean hhomogeneous) {
+    public void setHhomogeneous(boolean hhomogeneous) {
         try {
-            gtk_stack_set_hhomogeneous.invokeExact(handle(), hhomogeneous ? 1 : 0);
+            DowncallHandles.gtk_stack_set_hhomogeneous.invokeExact(handle(), hhomogeneous ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_stack_set_interpolate_size = Interop.downcallHandle(
-        "gtk_stack_set_interpolate_size",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether or not {@code stack} will interpolate its size when
@@ -406,36 +363,28 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * to {@code true}, {@code stack} will interpolate its size between the current
      * one and the one it'll take after changing the visible child,
      * according to the set transition duration.
+     * @param interpolateSize the new value
      */
-    public @NotNull void setInterpolateSize(@NotNull boolean interpolateSize) {
+    public void setInterpolateSize(boolean interpolateSize) {
         try {
-            gtk_stack_set_interpolate_size.invokeExact(handle(), interpolateSize ? 1 : 0);
+            DowncallHandles.gtk_stack_set_interpolate_size.invokeExact(handle(), interpolateSize ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_stack_set_transition_duration = Interop.downcallHandle(
-        "gtk_stack_set_transition_duration",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the duration that transitions between pages in {@code stack}
      * will take.
+     * @param duration the new duration, in milliseconds
      */
-    public @NotNull void setTransitionDuration(@NotNull int duration) {
+    public void setTransitionDuration(int duration) {
         try {
-            gtk_stack_set_transition_duration.invokeExact(handle(), duration);
+            DowncallHandles.gtk_stack_set_transition_duration.invokeExact(handle(), duration);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_stack_set_transition_type = Interop.downcallHandle(
-        "gtk_stack_set_transition_type",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the type of animation that will be used for
@@ -446,19 +395,16 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * The transition type can be changed without problems
      * at runtime, so it is possible to change the animation
      * based on the page that is about to become current.
+     * @param transition the new transition type
      */
-    public @NotNull void setTransitionType(@NotNull StackTransitionType transition) {
+    public void setTransitionType(@NotNull org.gtk.gtk.StackTransitionType transition) {
+        java.util.Objects.requireNonNull(transition, "Parameter 'transition' must not be null");
         try {
-            gtk_stack_set_transition_type.invokeExact(handle(), transition.getValue());
+            DowncallHandles.gtk_stack_set_transition_type.invokeExact(handle(), transition.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_stack_set_vhomogeneous = Interop.downcallHandle(
-        "gtk_stack_set_vhomogeneous",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the {@code GtkStack} to be vertically homogeneous or not.
@@ -466,19 +412,15 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * If it is homogeneous, the {@code GtkStack} will request the same
      * height for all its children. If it isn't, the stack
      * may change height when a different child becomes visible.
+     * @param vhomogeneous {@code true} to make {@code stack} vertically homogeneous
      */
-    public @NotNull void setVhomogeneous(@NotNull boolean vhomogeneous) {
+    public void setVhomogeneous(boolean vhomogeneous) {
         try {
-            gtk_stack_set_vhomogeneous.invokeExact(handle(), vhomogeneous ? 1 : 0);
+            DowncallHandles.gtk_stack_set_vhomogeneous.invokeExact(handle(), vhomogeneous ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_stack_set_visible_child = Interop.downcallHandle(
-        "gtk_stack_set_visible_child",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Makes {@code child} the visible child of {@code stack}.
@@ -490,19 +432,16 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * Note that the {@code child} widget has to be visible itself
      * (see {@link Widget#show}) in order to become the visible
      * child of {@code stack}.
+     * @param child a child of {@code stack}
      */
-    public @NotNull void setVisibleChild(@NotNull Widget child) {
+    public void setVisibleChild(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            gtk_stack_set_visible_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_stack_set_visible_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_stack_set_visible_child_full = Interop.downcallHandle(
-        "gtk_stack_set_visible_child_full",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Makes the child with the given name visible.
@@ -510,19 +449,18 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * Note that the child widget has to be visible itself
      * (see {@link Widget#show}) in order to become the visible
      * child of {@code stack}.
+     * @param name the name of the child to make visible
+     * @param transition the transition type to use
      */
-    public @NotNull void setVisibleChildFull(@NotNull java.lang.String name, @NotNull StackTransitionType transition) {
+    public void setVisibleChildFull(@NotNull java.lang.String name, @NotNull org.gtk.gtk.StackTransitionType transition) {
+        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+        java.util.Objects.requireNonNull(transition, "Parameter 'transition' must not be null");
         try {
-            gtk_stack_set_visible_child_full.invokeExact(handle(), Interop.allocateNativeString(name), transition.getValue());
+            DowncallHandles.gtk_stack_set_visible_child_full.invokeExact(handle(), Interop.allocateNativeString(name), transition.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_stack_set_visible_child_name = Interop.downcallHandle(
-        "gtk_stack_set_visible_child_name",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Makes the child with the given name visible.
@@ -534,13 +472,137 @@ public class Stack extends Widget implements Accessible, Buildable, ConstraintTa
      * Note that the child widget has to be visible itself
      * (see {@link Widget#show}) in order to become the visible
      * child of {@code stack}.
+     * @param name the name of the child to make visible
      */
-    public @NotNull void setVisibleChildName(@NotNull java.lang.String name) {
+    public void setVisibleChildName(@NotNull java.lang.String name) {
+        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         try {
-            gtk_stack_set_visible_child_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.gtk_stack_set_visible_child_name.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_stack_new = Interop.downcallHandle(
+            "gtk_stack_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_stack_add_child = Interop.downcallHandle(
+            "gtk_stack_add_child",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_stack_add_named = Interop.downcallHandle(
+            "gtk_stack_add_named",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_stack_add_titled = Interop.downcallHandle(
+            "gtk_stack_add_titled",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_stack_get_child_by_name = Interop.downcallHandle(
+            "gtk_stack_get_child_by_name",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_stack_get_hhomogeneous = Interop.downcallHandle(
+            "gtk_stack_get_hhomogeneous",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_stack_get_interpolate_size = Interop.downcallHandle(
+            "gtk_stack_get_interpolate_size",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_stack_get_page = Interop.downcallHandle(
+            "gtk_stack_get_page",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_stack_get_pages = Interop.downcallHandle(
+            "gtk_stack_get_pages",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_stack_get_transition_duration = Interop.downcallHandle(
+            "gtk_stack_get_transition_duration",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_stack_get_transition_running = Interop.downcallHandle(
+            "gtk_stack_get_transition_running",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_stack_get_transition_type = Interop.downcallHandle(
+            "gtk_stack_get_transition_type",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_stack_get_vhomogeneous = Interop.downcallHandle(
+            "gtk_stack_get_vhomogeneous",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_stack_get_visible_child = Interop.downcallHandle(
+            "gtk_stack_get_visible_child",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_stack_get_visible_child_name = Interop.downcallHandle(
+            "gtk_stack_get_visible_child_name",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_stack_remove = Interop.downcallHandle(
+            "gtk_stack_remove",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_stack_set_hhomogeneous = Interop.downcallHandle(
+            "gtk_stack_set_hhomogeneous",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_stack_set_interpolate_size = Interop.downcallHandle(
+            "gtk_stack_set_interpolate_size",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_stack_set_transition_duration = Interop.downcallHandle(
+            "gtk_stack_set_transition_duration",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_stack_set_transition_type = Interop.downcallHandle(
+            "gtk_stack_set_transition_type",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_stack_set_vhomogeneous = Interop.downcallHandle(
+            "gtk_stack_set_vhomogeneous",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_stack_set_visible_child = Interop.downcallHandle(
+            "gtk_stack_set_visible_child",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_stack_set_visible_child_full = Interop.downcallHandle(
+            "gtk_stack_set_visible_child_full",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_stack_set_visible_child_name = Interop.downcallHandle(
+            "gtk_stack_set_visible_child_name",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

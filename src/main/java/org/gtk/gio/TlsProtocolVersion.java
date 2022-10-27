@@ -1,5 +1,10 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The TLS or DTLS protocol version used by a {@link TlsConnection} or
  * {@link DtlsConnection}. The integer values of these versions are sequential
@@ -10,9 +15,18 @@ package org.gtk.gio;
  * protocol version that GLib does not yet know about. This means that
  * it's possible for an unknown DTLS protocol version to compare less
  * than the TLS protocol versions.
+ * @version 2.70
  */
 public class TlsProtocolVersion extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * No protocol version or unknown protocol version
      */
@@ -56,5 +70,4 @@ public class TlsProtocolVersion extends io.github.jwharm.javagi.Enumeration {
     public TlsProtocolVersion(int value) {
         super(value);
     }
-    
 }

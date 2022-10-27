@@ -10,15 +10,28 @@ import org.jetbrains.annotations.*;
  * represent a color in an uncalibrated RGB color-space.
  */
 public class Color extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Pango.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        ValueLayout.JAVA_SHORT.withName("red"),
+        ValueLayout.JAVA_SHORT.withName("green"),
+        ValueLayout.JAVA_SHORT.withName("blue")
+    ).withName("PangoColor");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public Color(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
-    private static final MethodHandle pango_color_copy = Interop.downcallHandle(
-        "pango_color_copy",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Creates a copy of {@code src}.
@@ -27,37 +40,29 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
      * Primarily used by language bindings, not that useful
      * otherwise (since colors can just be copied by assignment
      * in C).
+     * @return the newly allocated {@code PangoColor},
+     *   which should be freed with {@link Color#free}
      */
-    public @Nullable Color copy() {
+    public @Nullable org.pango.Color copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_color_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_color_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Color(Refcounted.get(RESULT, true));
+        return new org.pango.Color(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_color_free = Interop.downcallHandle(
-        "pango_color_free",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Frees a color allocated by {@link Color#copy}.
      */
-    public @NotNull void free() {
+    public void free() {
         try {
-            pango_color_free.invokeExact(handle());
+            DowncallHandles.pango_color_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle pango_color_parse = Interop.downcallHandle(
-        "pango_color_parse",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fill in the fields of a color from a string specification.
@@ -69,21 +74,20 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
      * are hex digits of the red, green, and blue components
      * of the color, respectively. (White in the four forms is
      * {@code #fff}, {@code #ffffff}, {@code #fffffffff} and {@code #ffffffffffff}.)
+     * @param spec a string specifying the new color
+     * @return {@code true} if parsing of the specifier succeeded,
+     *   otherwise {@code false}
      */
     public boolean parse(@NotNull java.lang.String spec) {
+        java.util.Objects.requireNonNull(spec, "Parameter 'spec' must not be null");
         int RESULT;
         try {
-            RESULT = (int) pango_color_parse.invokeExact(handle(), Interop.allocateNativeString(spec));
+            RESULT = (int) DowncallHandles.pango_color_parse.invokeExact(handle(), Interop.allocateNativeString(spec));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle pango_color_parse_with_alpha = Interop.downcallHandle(
-        "pango_color_parse_with_alpha",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Fill in the fields of a color from a string specification.
@@ -101,12 +105,18 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
      * to the value specified by the hex digits for {@code a}. If no alpha
      * component is found in {@code spec}, {@code alpha} is set to 0xffff (for a
      * solid color).
+     * @param alpha return location for alpha
+     * @param spec a string specifying the new color
+     * @return {@code true} if parsing of the specifier succeeded,
+     *   otherwise {@code false}
      */
-    public boolean parseWithAlpha(@NotNull Out<Short> alpha, @NotNull java.lang.String spec) {
+    public boolean parseWithAlpha(Out<Short> alpha, @NotNull java.lang.String spec) {
+        java.util.Objects.requireNonNull(alpha, "Parameter 'alpha' must not be null");
+        java.util.Objects.requireNonNull(spec, "Parameter 'spec' must not be null");
         MemorySegment alphaPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_SHORT);
         int RESULT;
         try {
-            RESULT = (int) pango_color_parse_with_alpha.invokeExact(handle(), (Addressable) alphaPOINTER.address(), Interop.allocateNativeString(spec));
+            RESULT = (int) DowncallHandles.pango_color_parse_with_alpha.invokeExact(handle(), (Addressable) alphaPOINTER.address(), Interop.allocateNativeString(spec));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -114,26 +124,50 @@ public class Color extends io.github.jwharm.javagi.ResourceBase {
         return RESULT != 0;
     }
     
-    private static final MethodHandle pango_color_to_string = Interop.downcallHandle(
-        "pango_color_to_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns a textual specification of {@code color}.
      * <p>
      * The string is in the hexadecimal form {@code #rrrrggggbbbb},
      * where {@code r}, {@code g} and {@code b} are hex digits representing the
      * red, green, and blue components respectively.
+     * @return a newly-allocated text string that must
+     *   be freed with g_free().
      */
     public @NotNull java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_color_to_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_color_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle pango_color_copy = Interop.downcallHandle(
+            "pango_color_copy",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_color_free = Interop.downcallHandle(
+            "pango_color_free",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_color_parse = Interop.downcallHandle(
+            "pango_color_parse",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_color_parse_with_alpha = Interop.downcallHandle(
+            "pango_color_parse_with_alpha",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_color_to_string = Interop.downcallHandle(
+            "pango_color_to_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

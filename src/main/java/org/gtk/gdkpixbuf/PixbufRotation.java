@@ -1,12 +1,25 @@
 package org.gtk.gdkpixbuf;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The possible rotations which can be passed to gdk_pixbuf_rotate_simple().
  * <p>
  * To make them easier to use, their numerical values are the actual degrees.
  */
 public class PixbufRotation extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * No rotation.
      */
@@ -30,5 +43,4 @@ public class PixbufRotation extends io.github.jwharm.javagi.Enumeration {
     public PixbufRotation(int value) {
         super(value);
     }
-    
 }

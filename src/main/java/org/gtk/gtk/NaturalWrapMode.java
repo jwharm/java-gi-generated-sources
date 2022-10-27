@@ -1,13 +1,27 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Options for selecting a different wrap mode for natural size
  * requests.
  * <p>
  * See for example the {@code Gtk.Label:natural-wrap-mode} property.
+ * @version 4.6
  */
 public class NaturalWrapMode extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Inherit the minimum size request.
      *   In particular, this should be used with {@link org.pango.WrapMode#CHAR}.
@@ -31,5 +45,4 @@ public class NaturalWrapMode extends io.github.jwharm.javagi.Enumeration {
     public NaturalWrapMode(int value) {
         super(value);
     }
-    
 }

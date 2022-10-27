@@ -1,10 +1,24 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Flags describing the behavior of a {@link DBusInterfaceSkeleton} instance.
+ * @version 2.30
  */
 public class DBusInterfaceSkeletonFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * No flags set.
      */
@@ -21,5 +35,4 @@ public class DBusInterfaceSkeletonFlags extends io.github.jwharm.javagi.Bitfield
     public DBusInterfaceSkeletonFlags(int value) {
         super(value);
     }
-    
 }

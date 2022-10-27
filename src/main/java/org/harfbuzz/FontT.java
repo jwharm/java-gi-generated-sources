@@ -9,9 +9,20 @@ import org.jetbrains.annotations.*;
  * Data type for holding fonts.
  */
 public class FontT extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        HarfBuzz.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public FontT(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
 }

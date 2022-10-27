@@ -1,12 +1,26 @@
 package org.harfbuzz;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The 'MATH' table constants, refer to
  * <a href="https://docs.microsoft.com/en-us/typography/opentype/spec/math#mathconstants-table">OpenType documentation</a>
  * For more explanations.
+ * @version 1.3.3
  */
 public class OtMathConstantT extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * scriptPercentScaleDown
      */
@@ -290,5 +304,4 @@ public class OtMathConstantT extends io.github.jwharm.javagi.Enumeration {
     public OtMathConstantT(int value) {
         super(value);
     }
-    
 }

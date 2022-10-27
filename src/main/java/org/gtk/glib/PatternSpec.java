@@ -10,89 +10,83 @@ import org.jetbrains.annotations.*;
  * structure is opaque and its fields cannot be accessed directly.
  */
 public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GLib.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public PatternSpec(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle g_pattern_spec_new = Interop.downcallHandle(
-        "g_pattern_spec_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew(@NotNull java.lang.String pattern) {
+        java.util.Objects.requireNonNull(pattern, "Parameter 'pattern' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_pattern_spec_new.invokeExact(Interop.allocateNativeString(pattern)), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_pattern_spec_new.invokeExact(Interop.allocateNativeString(pattern)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Compiles a pattern to a {@link PatternSpec}.
+     * @param pattern a zero-terminated UTF-8 encoded string
      */
     public PatternSpec(@NotNull java.lang.String pattern) {
         super(constructNew(pattern));
     }
     
-    private static final MethodHandle g_pattern_spec_copy = Interop.downcallHandle(
-        "g_pattern_spec_copy",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Copies {@code pspec} in a new {@link PatternSpec}.
+     * @return a copy of {@code pspec}.
      */
-    public @NotNull PatternSpec copy() {
+    public @NotNull org.gtk.glib.PatternSpec copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_pattern_spec_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_pattern_spec_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PatternSpec(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.PatternSpec(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_pattern_spec_equal = Interop.downcallHandle(
-        "g_pattern_spec_equal",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Compares two compiled pattern specs and returns whether they will
      * match the same set of strings.
+     * @param pspec2 another {@link PatternSpec}
+     * @return Whether the compiled patterns are equal
      */
-    public boolean equal(@NotNull PatternSpec pspec2) {
+    public boolean equal(@NotNull org.gtk.glib.PatternSpec pspec2) {
+        java.util.Objects.requireNonNull(pspec2, "Parameter 'pspec2' must not be null");
         int RESULT;
         try {
-            RESULT = (int) g_pattern_spec_equal.invokeExact(handle(), pspec2.handle());
+            RESULT = (int) DowncallHandles.g_pattern_spec_equal.invokeExact(handle(), pspec2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_pattern_spec_free = Interop.downcallHandle(
-        "g_pattern_spec_free",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Frees the memory allocated for the {@link PatternSpec}.
      */
-    public @NotNull void free() {
+    public void free() {
         try {
-            g_pattern_spec_free.invokeExact(handle());
+            DowncallHandles.g_pattern_spec_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_pattern_spec_match = Interop.downcallHandle(
-        "g_pattern_spec_match",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Matches a string against a compiled pattern. Passing the correct
@@ -112,35 +106,72 @@ public class PatternSpec extends io.github.jwharm.javagi.ResourceBase {
      * not be obtained by g_strreverse(). This works only if the string
      * does not contain any multibyte characters. GLib offers the
      * g_utf8_strreverse() function to reverse UTF-8 encoded strings.
+     * @param stringLength the length of {@code string} (in bytes, i.e. strlen(),
+     *     not g_utf8_strlen())
+     * @param string the UTF-8 encoded string to match
+     * @param stringReversed the reverse of {@code string} or {@code null}
+     * @return {@code true} if {@code string} matches {@code pspec}
      */
-    public boolean match(@NotNull long stringLength, @NotNull java.lang.String string, @Nullable java.lang.String stringReversed) {
+    public boolean match(long stringLength, @NotNull java.lang.String string, @Nullable java.lang.String stringReversed) {
+        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+        java.util.Objects.requireNonNullElse(stringReversed, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) g_pattern_spec_match.invokeExact(handle(), stringLength, Interop.allocateNativeString(string), Interop.allocateNativeString(stringReversed));
+            RESULT = (int) DowncallHandles.g_pattern_spec_match.invokeExact(handle(), stringLength, Interop.allocateNativeString(string), Interop.allocateNativeString(stringReversed));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_pattern_spec_match_string = Interop.downcallHandle(
-        "g_pattern_spec_match_string",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Matches a string against a compiled pattern. If the string is to be
      * matched against more than one pattern, consider using
      * g_pattern_match() instead while supplying the reversed string.
+     * @param string the UTF-8 encoded string to match
+     * @return {@code true} if {@code string} matches {@code pspec}
      */
     public boolean matchString(@NotNull java.lang.String string) {
+        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         int RESULT;
         try {
-            RESULT = (int) g_pattern_spec_match_string.invokeExact(handle(), Interop.allocateNativeString(string));
+            RESULT = (int) DowncallHandles.g_pattern_spec_match_string.invokeExact(handle(), Interop.allocateNativeString(string));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_pattern_spec_new = Interop.downcallHandle(
+            "g_pattern_spec_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_pattern_spec_copy = Interop.downcallHandle(
+            "g_pattern_spec_copy",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_pattern_spec_equal = Interop.downcallHandle(
+            "g_pattern_spec_equal",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_pattern_spec_free = Interop.downcallHandle(
+            "g_pattern_spec_free",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_pattern_spec_match = Interop.downcallHandle(
+            "g_pattern_spec_match",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_pattern_spec_match_string = Interop.downcallHandle(
+            "g_pattern_spec_match_string",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

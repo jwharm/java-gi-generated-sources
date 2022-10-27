@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -10,8 +12,9 @@ import org.jetbrains.annotations.*;
  * <p>
  * Normally, it is better to use G_DEFINE_EXTENDED_ERROR(), as it
  * already takes care of getting the private data from {@code error}.
+ * @version 2.68
  */
 @FunctionalInterface
 public interface ErrorClearFunc {
-        void onErrorClearFunc(@NotNull Error error);
+        void onErrorClearFunc(@NotNull org.gtk.glib.Error error);
 }

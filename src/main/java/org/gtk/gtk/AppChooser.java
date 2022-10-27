@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * The main objects that implement this interface are
  * {@link AppChooserWidget},
- * {@code Gtk.AppChooserButton}.
+ * {@link AppChooserDialog}.
  * <p>
  * Applications are represented by GIO {@code GAppInfo} objects here.
  * GIO has a concept of recommended and fallback applications for a
@@ -27,61 +27,76 @@ import org.jetbrains.annotations.*;
  * use {@link AppChooser#getAppInfo}.
  */
 public interface AppChooser extends io.github.jwharm.javagi.Proxy {
-
-    @ApiStatus.Internal static final MethodHandle gtk_app_chooser_get_app_info = Interop.downcallHandle(
-        "gtk_app_chooser_get_app_info",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the currently selected application.
+     * @return a {@code GAppInfo} for the
+     *   currently selected application
      */
     default @Nullable org.gtk.gio.AppInfo getAppInfo() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_app_chooser_get_app_info.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_get_app_info.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gio.AppInfo.AppInfoImpl(Refcounted.get(RESULT, true));
     }
     
-    @ApiStatus.Internal static final MethodHandle gtk_app_chooser_get_content_type = Interop.downcallHandle(
-        "gtk_app_chooser_get_content_type",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the content type for which the {@code GtkAppChooser}
      * shows applications.
+     * @return the content type of {@code self}. Free with g_free()
      */
     default @NotNull java.lang.String getContentType() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_app_chooser_get_content_type.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_get_content_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    @ApiStatus.Internal static final MethodHandle gtk_app_chooser_refresh = Interop.downcallHandle(
-        "gtk_app_chooser_refresh",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Reloads the list of applications.
      */
-    default @NotNull void refresh() {
+    default void refresh() {
         try {
-            gtk_app_chooser_refresh.invokeExact(handle());
+            DowncallHandles.gtk_app_chooser_refresh.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    @ApiStatus.Internal
+    static class DowncallHandles {
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_app_chooser_get_app_info = Interop.downcallHandle(
+            "gtk_app_chooser_get_app_info",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_app_chooser_get_content_type = Interop.downcallHandle(
+            "gtk_app_chooser_get_content_type",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_app_chooser_refresh = Interop.downcallHandle(
+            "gtk_app_chooser_refresh",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
+    
     class AppChooserImpl extends org.gtk.gobject.Object implements AppChooser {
+        
+        static {
+            Gtk.javagi$ensureInitialized();
+        }
+        
         public AppChooserImpl(io.github.jwharm.javagi.Refcounted ref) {
             super(ref);
         }

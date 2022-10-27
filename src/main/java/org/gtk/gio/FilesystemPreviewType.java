@@ -1,12 +1,25 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Indicates a hint from the file system whether files should be
  * previewed in a file manager. Returned as the value of the key
  * {@code G_FILE_ATTRIBUTE_FILESYSTEM_USE_PREVIEW}.
  */
 public class FilesystemPreviewType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Only preview files if user has explicitly requested it.
      */
@@ -25,5 +38,4 @@ public class FilesystemPreviewType extends io.github.jwharm.javagi.Enumeration {
     public FilesystemPreviewType(int value) {
         super(value);
     }
-    
 }

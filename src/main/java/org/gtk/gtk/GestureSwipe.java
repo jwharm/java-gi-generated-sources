@@ -19,8 +19,20 @@ import org.jetbrains.annotations.*;
  * <p>
  * All velocities are reported in pixels/sec units.
  */
-public class GestureSwipe extends GestureSingle {
-
+public class GestureSwipe extends org.gtk.gtk.GestureSingle {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public GestureSwipe(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -30,18 +42,14 @@ public class GestureSwipe extends GestureSingle {
         return new GestureSwipe(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_gesture_swipe_new = Interop.downcallHandle(
-        "gtk_gesture_swipe_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_gesture_swipe_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_gesture_swipe_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -51,24 +59,24 @@ public class GestureSwipe extends GestureSingle {
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_gesture_swipe_get_velocity = Interop.downcallHandle(
-        "gtk_gesture_swipe_get_velocity",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the current velocity.
      * <p>
      * If the gesture is recognized, this function returns {@code true} and fills
      * in {@code velocity_x} and {@code velocity_y} with the recorded velocity, as per the
      * last events processed.
+     * @param velocityX return value for the velocity in the X axis, in pixels/sec
+     * @param velocityY return value for the velocity in the Y axis, in pixels/sec
+     * @return whether velocity could be calculated
      */
-    public boolean getVelocity(@NotNull Out<Double> velocityX, @NotNull Out<Double> velocityY) {
+    public boolean getVelocity(Out<Double> velocityX, Out<Double> velocityY) {
+        java.util.Objects.requireNonNull(velocityX, "Parameter 'velocityX' must not be null");
+        java.util.Objects.requireNonNull(velocityY, "Parameter 'velocityY' must not be null");
         MemorySegment velocityXPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         MemorySegment velocityYPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_DOUBLE);
         int RESULT;
         try {
-            RESULT = (int) gtk_gesture_swipe_get_velocity.invokeExact(handle(), (Addressable) velocityXPOINTER.address(), (Addressable) velocityYPOINTER.address());
+            RESULT = (int) DowncallHandles.gtk_gesture_swipe_get_velocity.invokeExact(handle(), (Addressable) velocityXPOINTER.address(), (Addressable) velocityYPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -78,8 +86,8 @@ public class GestureSwipe extends GestureSingle {
     }
     
     @FunctionalInterface
-    public interface SwipeHandler {
-        void signalReceived(GestureSwipe source, @NotNull double velocityX, @NotNull double velocityY);
+    public interface Swipe {
+        void signalReceived(GestureSwipe source, double velocityX, double velocityY);
     }
     
     /**
@@ -87,7 +95,7 @@ public class GestureSwipe extends GestureSingle {
      * <p>
      * Velocity and direction are a product of previously recorded events.
      */
-    public SignalHandle onSwipe(SwipeHandler handler) {
+    public Signal<GestureSwipe.Swipe> onSwipe(GestureSwipe.Swipe handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -97,21 +105,33 @@ public class GestureSwipe extends GestureSingle {
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<GestureSwipe.Swipe>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static void signalGestureSwipeSwipe(MemoryAddress source, double velocityX, double velocityY, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (GestureSwipe.SwipeHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GestureSwipe(Refcounted.get(source)), velocityX, velocityY);
-        }
+    private static class DowncallHandles {
         
+        private static final MethodHandle gtk_gesture_swipe_new = Interop.downcallHandle(
+            "gtk_gesture_swipe_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_gesture_swipe_get_velocity = Interop.downcallHandle(
+            "gtk_gesture_swipe_get_velocity",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
+    
+    private static class Callbacks {
+        
+        public static void signalGestureSwipeSwipe(MemoryAddress source, double velocityX, double velocityY, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (GestureSwipe.Swipe) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new GestureSwipe(Refcounted.get(source)), velocityX, velocityY);
+        }
     }
 }

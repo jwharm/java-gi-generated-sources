@@ -1,6 +1,8 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -11,8 +13,9 @@ import org.jetbrains.annotations.*;
  * {@code target_property} on the {@code target} object. If this is the
  * {@code transform_from} function of a {@link BindingFlags#BIDIRECTIONAL} binding,
  * then those roles are reversed.
+ * @version 2.26
  */
 @FunctionalInterface
 public interface BindingTransformFunc {
-        boolean onBindingTransformFunc(@NotNull Binding binding, @NotNull Value fromValue, @NotNull Value toValue);
+        boolean onBindingTransformFunc(@NotNull org.gtk.gobject.Binding binding, @NotNull org.gtk.gobject.Value fromValue, @NotNull org.gtk.gobject.Value toValue);
 }

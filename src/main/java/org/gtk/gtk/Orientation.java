@@ -1,12 +1,25 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Represents the orientation of widgets and other objects.
  * <p>
- * Typical examples are {@code GesturePan}.
+ * Typical examples are {@link Box}.
  */
 public class Orientation extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The element is in horizontal orientation.
      */
@@ -20,5 +33,4 @@ public class Orientation extends io.github.jwharm.javagi.Enumeration {
     public Orientation(int value) {
         super(value);
     }
-    
 }

@@ -1,6 +1,8 @@
 package org.gtk.gdkpixbuf;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -10,8 +12,9 @@ import org.jetbrains.annotations.*;
  * {@link PixbufLoader} uses a function of this type to emit the
  * "&lt;link linkend="GdkPixbufLoader-area-updated"&gt;area_updated&lt;/link&gt;"
  * signal.
+ * @version 2.2
  */
 @FunctionalInterface
 public interface PixbufModuleUpdatedFunc {
-        void onPixbufModuleUpdatedFunc(@NotNull Pixbuf pixbuf, @NotNull int x, @NotNull int y, @NotNull int width, @NotNull int height);
+        void onPixbufModuleUpdatedFunc(@NotNull org.gtk.gdkpixbuf.Pixbuf pixbuf, int x, int y, int width, int height);
 }

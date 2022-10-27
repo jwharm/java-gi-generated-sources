@@ -11,8 +11,24 @@ import org.jetbrains.annotations.*;
  * <p>
  * <img src="./doc-files/volumebutton.png" alt="An example GtkVolumeButton">
  */
-public class VolumeButton extends ScaleButton implements Accessible, Buildable, ConstraintTarget, Orientable {
-
+public class VolumeButton extends org.gtk.gtk.ScaleButton implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Orientable {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gtk.ScaleButton.getMemoryLayout().withName("parent")
+    ).withName("GtkVolumeButton");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public VolumeButton(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -22,18 +38,14 @@ public class VolumeButton extends ScaleButton implements Accessible, Buildable, 
         return new VolumeButton(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_volume_button_new = Interop.downcallHandle(
-        "gtk_volume_button_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_volume_button_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_volume_button_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -47,4 +59,11 @@ public class VolumeButton extends ScaleButton implements Accessible, Buildable, 
         super(constructNew());
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_volume_button_new = Interop.downcallHandle(
+            "gtk_volume_button_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+    }
 }

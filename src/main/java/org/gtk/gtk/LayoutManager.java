@@ -16,8 +16,8 @@ import org.jetbrains.annotations.*;
  * Each {@code GtkWidget} can only have a {@code GtkLayoutManager} instance associated
  * to it at any given time; it is possible, though, to replace the layout
  * manager instance using {@link Widget#setLayoutManager}.
- * 
- * <h2>Layout properties</h2>
+ * <p>
+ * <strong>Layout properties</strong><br/>
  * A layout manager can expose properties for controlling the layout of
  * each child, by creating an object type derived from {@link LayoutChild}
  * and installing the properties on it as normal {@code GObject} properties.
@@ -27,7 +27,6 @@ import org.jetbrains.annotations.*;
  * method; a {@code GtkLayoutManager} controls the creation of its {@code GtkLayoutChild}
  * instances by overriding the GtkLayoutManagerClass.create_layout_child()
  * virtual function. The typical implementation should look like:
- * 
  * <pre>{@code c
  * static GtkLayoutChild *
  * create_layout_child (GtkLayoutManager *manager,
@@ -55,7 +54,23 @@ import org.jetbrains.annotations.*;
  * updated, in order to queue a new size measuring and allocation.
  */
 public class LayoutManager extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
+    ).withName("GtkLayoutManager");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public LayoutManager(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -65,28 +80,23 @@ public class LayoutManager extends org.gtk.gobject.Object {
         return new LayoutManager(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_layout_manager_allocate = Interop.downcallHandle(
-        "gtk_layout_manager_allocate",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Assigns the given {@code width}, {@code height}, and {@code baseline} to
      * a {@code widget}, and computes the position and sizes of the children of
      * the {@code widget} using the layout management policy of {@code manager}.
+     * @param widget the {@code GtkWidget} using {@code manager}
+     * @param width the new width of the {@code widget}
+     * @param height the new height of the {@code widget}
+     * @param baseline the baseline position of the {@code widget}, or -1
      */
-    public @NotNull void allocate(@NotNull Widget widget, @NotNull int width, @NotNull int height, @NotNull int baseline) {
+    public void allocate(@NotNull org.gtk.gtk.Widget widget, int width, int height, int baseline) {
+        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            gtk_layout_manager_allocate.invokeExact(handle(), widget.handle(), width, height, baseline);
+            DowncallHandles.gtk_layout_manager_allocate.invokeExact(handle(), widget.handle(), width, height, baseline);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_layout_manager_get_layout_child = Interop.downcallHandle(
-        "gtk_layout_manager_get_layout_child",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves a {@code GtkLayoutChild} instance for the {@code GtkLayoutManager},
@@ -97,57 +107,47 @@ public class LayoutManager extends org.gtk.gobject.Object {
      * The {@code GtkLayoutChild} instance is owned by the {@code GtkLayoutManager},
      * and is guaranteed to exist as long as {@code child} is a child of the
      * {@code GtkWidget} using the given {@code GtkLayoutManager}.
+     * @param child a {@code GtkWidget}
+     * @return a {@code GtkLayoutChild}
      */
-    public @NotNull LayoutChild getLayoutChild(@NotNull Widget child) {
+    public @NotNull org.gtk.gtk.LayoutChild getLayoutChild(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_layout_manager_get_layout_child.invokeExact(handle(), child.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_layout_manager_get_layout_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new LayoutChild(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.LayoutChild(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_layout_manager_get_request_mode = Interop.downcallHandle(
-        "gtk_layout_manager_get_request_mode",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves the request mode of {@code manager}.
+     * @return a {@code GtkSizeRequestMode}
      */
-    public @NotNull SizeRequestMode getRequestMode() {
+    public @NotNull org.gtk.gtk.SizeRequestMode getRequestMode() {
         int RESULT;
         try {
-            RESULT = (int) gtk_layout_manager_get_request_mode.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_layout_manager_get_request_mode.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new SizeRequestMode(RESULT);
+        return new org.gtk.gtk.SizeRequestMode(RESULT);
     }
-    
-    private static final MethodHandle gtk_layout_manager_get_widget = Interop.downcallHandle(
-        "gtk_layout_manager_get_widget",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves the {@code GtkWidget} using the given {@code GtkLayoutManager}.
+     * @return a {@code GtkWidget}
      */
-    public @Nullable Widget getWidget() {
+    public @Nullable org.gtk.gtk.Widget getWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_layout_manager_get_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_layout_manager_get_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_layout_manager_layout_changed = Interop.downcallHandle(
-        "gtk_layout_manager_layout_changed",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Queues a resize on the {@code GtkWidget} using {@code manager}, if any.
@@ -155,18 +155,13 @@ public class LayoutManager extends org.gtk.gobject.Object {
      * This function should be called by subclasses of {@code GtkLayoutManager}
      * in response to changes to their layout management policies.
      */
-    public @NotNull void layoutChanged() {
+    public void layoutChanged() {
         try {
-            gtk_layout_manager_layout_changed.invokeExact(handle());
+            DowncallHandles.gtk_layout_manager_layout_changed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_layout_manager_measure = Interop.downcallHandle(
-        "gtk_layout_manager_measure",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Measures the size of the {@code widget} using {@code manager}, for the
@@ -174,14 +169,36 @@ public class LayoutManager extends org.gtk.gobject.Object {
      * <p>
      * See the {@link Widget} documentation on layout management for
      * more details.
+     * @param widget the {@code GtkWidget} using {@code manager}
+     * @param orientation the orientation to measure
+     * @param forSize Size for the opposite of {@code orientation}; for instance, if
+     *   the {@code orientation} is {@link Orientation#HORIZONTAL}, this is the height
+     *   of the widget; if the {@code orientation} is {@link Orientation#VERTICAL}, this
+     *   is the width of the widget. This allows to measure the height for the
+     *   given width, and the width for the given height. Use -1 if the size
+     *   is not known
+     * @param minimum the minimum size for the given size and
+     *   orientation
+     * @param natural the natural, or preferred size for the
+     *   given size and orientation
+     * @param minimumBaseline the baseline position for the
+     *   minimum size
+     * @param naturalBaseline the baseline position for the
+     *   natural size
      */
-    public @NotNull void measure(@NotNull Widget widget, @NotNull Orientation orientation, @NotNull int forSize, @NotNull Out<Integer> minimum, @NotNull Out<Integer> natural, @NotNull Out<Integer> minimumBaseline, @NotNull Out<Integer> naturalBaseline) {
+    public void measure(@NotNull org.gtk.gtk.Widget widget, @NotNull org.gtk.gtk.Orientation orientation, int forSize, Out<Integer> minimum, Out<Integer> natural, Out<Integer> minimumBaseline, Out<Integer> naturalBaseline) {
+        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
+        java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
+        java.util.Objects.requireNonNull(minimum, "Parameter 'minimum' must not be null");
+        java.util.Objects.requireNonNull(natural, "Parameter 'natural' must not be null");
+        java.util.Objects.requireNonNull(minimumBaseline, "Parameter 'minimumBaseline' must not be null");
+        java.util.Objects.requireNonNull(naturalBaseline, "Parameter 'naturalBaseline' must not be null");
         MemorySegment minimumPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment naturalPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment minimumBaselinePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment naturalBaselinePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gtk_layout_manager_measure.invokeExact(handle(), widget.handle(), orientation.getValue(), forSize, (Addressable) minimumPOINTER.address(), (Addressable) naturalPOINTER.address(), (Addressable) minimumBaselinePOINTER.address(), (Addressable) naturalBaselinePOINTER.address());
+            DowncallHandles.gtk_layout_manager_measure.invokeExact(handle(), widget.handle(), orientation.getValue(), forSize, (Addressable) minimumPOINTER.address(), (Addressable) naturalPOINTER.address(), (Addressable) minimumBaselinePOINTER.address(), (Addressable) naturalBaselinePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -191,4 +208,36 @@ public class LayoutManager extends org.gtk.gobject.Object {
         naturalBaseline.set(naturalBaselinePOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_layout_manager_allocate = Interop.downcallHandle(
+            "gtk_layout_manager_allocate",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_layout_manager_get_layout_child = Interop.downcallHandle(
+            "gtk_layout_manager_get_layout_child",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_layout_manager_get_request_mode = Interop.downcallHandle(
+            "gtk_layout_manager_get_request_mode",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_layout_manager_get_widget = Interop.downcallHandle(
+            "gtk_layout_manager_get_widget",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_layout_manager_layout_changed = Interop.downcallHandle(
+            "gtk_layout_manager_layout_changed",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_layout_manager_measure = Interop.downcallHandle(
+            "gtk_layout_manager_measure",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

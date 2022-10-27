@@ -11,12 +11,24 @@ import org.jetbrains.annotations.*;
  * It exposes the {@code Gtk.FileChooser} interface, and you should
  * use the methods of this interface to interact with the
  * widget.
- * 
- * <h1>CSS nodes</h1>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * {@code GtkFileChooserWidget} has a single CSS node with name filechooser.
  */
-public class FileChooserWidget extends Widget implements Accessible, Buildable, ConstraintTarget, FileChooser {
-
+public class FileChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.FileChooser {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public FileChooserWidget(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -26,18 +38,15 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
         return new FileChooserWidget(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_file_chooser_widget_new = Interop.downcallHandle(
-        "gtk_file_chooser_widget_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
-    private static Refcounted constructNew(@NotNull FileChooserAction action) {
+    private static Refcounted constructNew(@NotNull org.gtk.gtk.FileChooserAction action) {
+        java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_file_chooser_widget_new.invokeExact(action.getValue()), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_file_chooser_widget_new.invokeExact(action.getValue()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -46,13 +55,14 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * This is a file chooser widget that can be embedded in custom
      * windows, and it is the same widget that is used by
      * {@code GtkFileChooserDialog}.
+     * @param action Open or save mode for the widget
      */
-    public FileChooserWidget(@NotNull FileChooserAction action) {
+    public FileChooserWidget(@NotNull org.gtk.gtk.FileChooserAction action) {
         super(constructNew(action));
     }
     
     @FunctionalInterface
-    public interface DesktopFolderHandler {
+    public interface DesktopFolder {
         void signalReceived(FileChooserWidget source);
     }
     
@@ -66,7 +76,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Alt&lt;/kbd&gt;-&lt;kbd&gt;D&lt;/kbd&gt;.
      */
-    public SignalHandle onDesktopFolder(DesktopFolderHandler handler) {
+    public Signal<FileChooserWidget.DesktopFolder> onDesktopFolder(FileChooserWidget.DesktopFolder handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -76,16 +86,16 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<FileChooserWidget.DesktopFolder>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface DownFolderHandler {
+    public interface DownFolder {
         void signalReceived(FileChooserWidget source);
     }
     
@@ -103,7 +113,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Alt&lt;/kbd&gt;-&lt;kbd&gt;Down&lt;/kbd&gt;.
      */
-    public SignalHandle onDownFolder(DownFolderHandler handler) {
+    public Signal<FileChooserWidget.DownFolder> onDownFolder(FileChooserWidget.DownFolder handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -113,16 +123,16 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<FileChooserWidget.DownFolder>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface HomeFolderHandler {
+    public interface HomeFolder {
         void signalReceived(FileChooserWidget source);
     }
     
@@ -136,7 +146,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Alt&lt;/kbd&gt;-&lt;kbd&gt;Home&lt;/kbd&gt;.
      */
-    public SignalHandle onHomeFolder(HomeFolderHandler handler) {
+    public Signal<FileChooserWidget.HomeFolder> onHomeFolder(FileChooserWidget.HomeFolder handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -146,16 +156,16 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<FileChooserWidget.HomeFolder>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface LocationPopupHandler {
+    public interface LocationPopup {
         void signalReceived(FileChooserWidget source, @NotNull java.lang.String path);
     }
     
@@ -174,7 +184,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * bound to &lt;kbd&gt;~&lt;/kbd&gt; (tilde) with a {@code path} string of "~" itself for
      * access to home directories.
      */
-    public SignalHandle onLocationPopup(LocationPopupHandler handler) {
+    public Signal<FileChooserWidget.LocationPopup> onLocationPopup(FileChooserWidget.LocationPopup handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -184,16 +194,16 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<FileChooserWidget.LocationPopup>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface LocationPopupOnPasteHandler {
+    public interface LocationPopupOnPaste {
         void signalReceived(FileChooserWidget source);
     }
     
@@ -207,7 +217,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Control&lt;/kbd&gt;-&lt;kbd&gt;V&lt;/kbd&gt;.
      */
-    public SignalHandle onLocationPopupOnPaste(LocationPopupOnPasteHandler handler) {
+    public Signal<FileChooserWidget.LocationPopupOnPaste> onLocationPopupOnPaste(FileChooserWidget.LocationPopupOnPaste handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -217,16 +227,16 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<FileChooserWidget.LocationPopupOnPaste>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface LocationTogglePopupHandler {
+    public interface LocationTogglePopup {
         void signalReceived(FileChooserWidget source);
     }
     
@@ -241,7 +251,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Control&lt;/kbd&gt;-&lt;kbd&gt;L&lt;/kbd&gt;.
      */
-    public SignalHandle onLocationTogglePopup(LocationTogglePopupHandler handler) {
+    public Signal<FileChooserWidget.LocationTogglePopup> onLocationTogglePopup(FileChooserWidget.LocationTogglePopup handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -251,16 +261,16 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<FileChooserWidget.LocationTogglePopup>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface PlacesShortcutHandler {
+    public interface PlacesShortcut {
         void signalReceived(FileChooserWidget source);
     }
     
@@ -273,7 +283,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Alt&lt;/kbd&gt;-&lt;kbd&gt;P&lt;/kbd&gt;.
      */
-    public SignalHandle onPlacesShortcut(PlacesShortcutHandler handler) {
+    public Signal<FileChooserWidget.PlacesShortcut> onPlacesShortcut(FileChooserWidget.PlacesShortcut handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -283,17 +293,17 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<FileChooserWidget.PlacesShortcut>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface QuickBookmarkHandler {
-        void signalReceived(FileChooserWidget source, @NotNull int bookmarkIndex);
+    public interface QuickBookmark {
+        void signalReceived(FileChooserWidget source, int bookmarkIndex);
     }
     
     /**
@@ -312,7 +322,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * actually defined to switch to the bookmark at index 0, and so on
      * successively.
      */
-    public SignalHandle onQuickBookmark(QuickBookmarkHandler handler) {
+    public Signal<FileChooserWidget.QuickBookmark> onQuickBookmark(FileChooserWidget.QuickBookmark handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -322,16 +332,16 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<FileChooserWidget.QuickBookmark>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface RecentShortcutHandler {
+    public interface RecentShortcut {
         void signalReceived(FileChooserWidget source);
     }
     
@@ -344,7 +354,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Alt&lt;/kbd&gt;-&lt;kbd&gt;R&lt;/kbd&gt;.
      */
-    public SignalHandle onRecentShortcut(RecentShortcutHandler handler) {
+    public Signal<FileChooserWidget.RecentShortcut> onRecentShortcut(FileChooserWidget.RecentShortcut handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -354,16 +364,16 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<FileChooserWidget.RecentShortcut>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface SearchShortcutHandler {
+    public interface SearchShortcut {
         void signalReceived(FileChooserWidget source);
     }
     
@@ -376,7 +386,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Alt&lt;/kbd&gt;-&lt;kbd&gt;S&lt;/kbd&gt;.
      */
-    public SignalHandle onSearchShortcut(SearchShortcutHandler handler) {
+    public Signal<FileChooserWidget.SearchShortcut> onSearchShortcut(FileChooserWidget.SearchShortcut handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -386,16 +396,16 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<FileChooserWidget.SearchShortcut>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ShowHiddenHandler {
+    public interface ShowHidden {
         void signalReceived(FileChooserWidget source);
     }
     
@@ -408,7 +418,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Control&lt;/kbd&gt;-&lt;kbd&gt;H&lt;/kbd&gt;.
      */
-    public SignalHandle onShowHidden(ShowHiddenHandler handler) {
+    public Signal<FileChooserWidget.ShowHidden> onShowHidden(FileChooserWidget.ShowHidden handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -418,16 +428,16 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<FileChooserWidget.ShowHidden>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface UpFolderHandler {
+    public interface UpFolder {
         void signalReceived(FileChooserWidget source);
     }
     
@@ -441,7 +451,7 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Alt&lt;/kbd&gt;-&lt;kbd&gt;Up&lt;/kbd&gt;.
      */
-    public SignalHandle onUpFolder(UpFolderHandler handler) {
+    public Signal<FileChooserWidget.UpFolder> onUpFolder(FileChooserWidget.UpFolder handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -451,87 +461,94 @@ public class FileChooserWidget extends Widget implements Accessible, Buildable, 
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<FileChooserWidget.UpFolder>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_file_chooser_widget_new = Interop.downcallHandle(
+            "gtk_file_chooser_widget_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static void signalFileChooserWidgetDesktopFolder(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (FileChooserWidget.DesktopFolderHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FileChooserWidget(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (FileChooserWidget.DesktopFolder) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)));
         }
         
         public static void signalFileChooserWidgetDownFolder(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (FileChooserWidget.DownFolderHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FileChooserWidget(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (FileChooserWidget.DownFolder) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)));
         }
         
         public static void signalFileChooserWidgetHomeFolder(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (FileChooserWidget.HomeFolderHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FileChooserWidget(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (FileChooserWidget.HomeFolder) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)));
         }
         
         public static void signalFileChooserWidgetLocationPopup(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (FileChooserWidget.LocationPopupHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FileChooserWidget(Refcounted.get(source)), path.getUtf8String(0));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (FileChooserWidget.LocationPopup) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)), path.getUtf8String(0));
         }
         
         public static void signalFileChooserWidgetLocationPopupOnPaste(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (FileChooserWidget.LocationPopupOnPasteHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FileChooserWidget(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (FileChooserWidget.LocationPopupOnPaste) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)));
         }
         
         public static void signalFileChooserWidgetLocationTogglePopup(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (FileChooserWidget.LocationTogglePopupHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FileChooserWidget(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (FileChooserWidget.LocationTogglePopup) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)));
         }
         
         public static void signalFileChooserWidgetPlacesShortcut(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (FileChooserWidget.PlacesShortcutHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FileChooserWidget(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (FileChooserWidget.PlacesShortcut) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)));
         }
         
         public static void signalFileChooserWidgetQuickBookmark(MemoryAddress source, int bookmarkIndex, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (FileChooserWidget.QuickBookmarkHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FileChooserWidget(Refcounted.get(source)), bookmarkIndex);
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (FileChooserWidget.QuickBookmark) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)), bookmarkIndex);
         }
         
         public static void signalFileChooserWidgetRecentShortcut(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (FileChooserWidget.RecentShortcutHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FileChooserWidget(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (FileChooserWidget.RecentShortcut) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)));
         }
         
         public static void signalFileChooserWidgetSearchShortcut(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (FileChooserWidget.SearchShortcutHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FileChooserWidget(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (FileChooserWidget.SearchShortcut) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)));
         }
         
         public static void signalFileChooserWidgetShowHidden(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (FileChooserWidget.ShowHiddenHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FileChooserWidget(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (FileChooserWidget.ShowHidden) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)));
         }
         
         public static void signalFileChooserWidgetUpFolder(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (FileChooserWidget.UpFolderHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new FileChooserWidget(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (FileChooserWidget.UpFolder) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new FileChooserWidget(Refcounted.get(source)));
         }
-        
     }
 }

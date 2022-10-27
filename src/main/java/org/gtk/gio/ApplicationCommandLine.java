@@ -168,7 +168,24 @@ import org.jetbrains.annotations.*;
  * <a href="https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gapplication-example-cmdline3.c">gapplication-example-cmdline3.c</a>
  */
 public class ApplicationCommandLine extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
+        org.gtk.gio.ApplicationCommandLinePrivate.getMemoryLayout().withName("priv")
+    ).withName("GApplicationCommandLine");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public ApplicationCommandLine(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -178,11 +195,6 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
         return new ApplicationCommandLine(gobject.refcounted());
     }
     
-    private static final MethodHandle g_application_command_line_create_file_for_arg = Interop.downcallHandle(
-        "g_application_command_line_create_file_for_arg",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Creates a {@link File} corresponding to a filename that was given as part
      * of the invocation of {@code cmdline}.
@@ -190,21 +202,19 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * This differs from g_file_new_for_commandline_arg() in that it
      * resolves relative pathnames using the current working directory of
      * the invoking process rather than the local process.
+     * @param arg an argument from {@code cmdline}
+     * @return a new {@link File}
      */
-    public @NotNull File createFileForArg(@NotNull java.lang.String arg) {
+    public @NotNull org.gtk.gio.File createFileForArg(@NotNull java.lang.String arg) {
+        java.util.Objects.requireNonNull(arg, "Parameter 'arg' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_application_command_line_create_file_for_arg.invokeExact(handle(), Interop.allocateNativeString(arg));
+            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_create_file_for_arg.invokeExact(handle(), Interop.allocateNativeString(arg));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new File.FileImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_application_command_line_get_arguments = Interop.downcallHandle(
-        "g_application_command_line_get_arguments",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the list of arguments that was passed on the command line.
@@ -218,12 +228,15 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * <p>
      * The return value is {@code null}-terminated and should be freed using
      * g_strfreev().
+     * @param argc the length of the arguments array, or {@code null}
+     * @return the string array containing the arguments (the argv)
      */
-    public java.lang.String[] getArguments(@NotNull Out<Integer> argc) {
+    public @NotNull java.lang.String[] getArguments(Out<Integer> argc) {
+        java.util.Objects.requireNonNull(argc, "Parameter 'argc' must not be null");
         MemorySegment argcPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_application_command_line_get_arguments.invokeExact(handle(), (Addressable) argcPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_arguments.invokeExact(handle(), (Addressable) argcPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -236,11 +249,6 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
         return resultARRAY;
     }
     
-    private static final MethodHandle g_application_command_line_get_cwd = Interop.downcallHandle(
-        "g_application_command_line_get_cwd",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the working directory of the command line invocation.
      * The string may contain non-utf8 data.
@@ -250,21 +258,17 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * <p>
      * The return value should not be modified or freed and is valid for as
      * long as {@code cmdline} exists.
+     * @return the current directory, or {@code null}
      */
     public @Nullable java.lang.String getCwd() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_application_command_line_get_cwd.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_cwd.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_application_command_line_get_environ = Interop.downcallHandle(
-        "g_application_command_line_get_environ",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the contents of the 'environ' variable of the command line
@@ -282,58 +286,46 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * <p>
      * See g_application_command_line_getenv() if you are only interested
      * in the value of a single environment variable.
+     * @return the environment strings, or {@code null} if they were not sent
      */
-    public PointerString getEnviron() {
+    public @NotNull PointerString getEnviron() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_application_command_line_get_environ.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_environ.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerString(RESULT);
     }
     
-    private static final MethodHandle g_application_command_line_get_exit_status = Interop.downcallHandle(
-        "g_application_command_line_get_exit_status",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the exit status of {@code cmdline}.  See
      * g_application_command_line_set_exit_status() for more information.
+     * @return the exit status
      */
     public int getExitStatus() {
         int RESULT;
         try {
-            RESULT = (int) g_application_command_line_get_exit_status.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_application_command_line_get_exit_status.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle g_application_command_line_get_is_remote = Interop.downcallHandle(
-        "g_application_command_line_get_is_remote",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Determines if {@code cmdline} represents a remote invocation.
+     * @return {@code true} if the invocation was remote
      */
     public boolean getIsRemote() {
         int RESULT;
         try {
-            RESULT = (int) g_application_command_line_get_is_remote.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_application_command_line_get_is_remote.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_application_command_line_get_options_dict = Interop.downcallHandle(
-        "g_application_command_line_get_options_dict",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the options there were passed to g_application_command_line().
@@ -345,21 +337,17 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * <p>
      * If no options were sent then an empty dictionary is returned so that
      * you don't need to check for {@code null}.
+     * @return a {@link org.gtk.glib.VariantDict} with the options
      */
     public @NotNull org.gtk.glib.VariantDict getOptionsDict() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_application_command_line_get_options_dict.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_options_dict.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.VariantDict(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_application_command_line_get_platform_data = Interop.downcallHandle(
-        "g_application_command_line_get_platform_data",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the platform data associated with the invocation of {@code cmdline}.
@@ -370,21 +358,17 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * notification ID.
      * <p>
      * For local invocation, it will be {@code null}.
+     * @return the platform data, or {@code null}
      */
     public @Nullable org.gtk.glib.Variant getPlatformData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_application_command_line_get_platform_data.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_platform_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_application_command_line_get_stdin = Interop.downcallHandle(
-        "g_application_command_line_get_stdin",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the stdin of the invoking process.
@@ -397,21 +381,17 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * future, support may be expanded to other platforms.
      * <p>
      * You must only call this function once per commandline invocation.
+     * @return a {@link InputStream} for stdin
      */
-    public @Nullable InputStream getStdin() {
+    public @Nullable org.gtk.gio.InputStream getStdin() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_application_command_line_get_stdin.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_stdin.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new InputStream(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.InputStream(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_application_command_line_getenv = Interop.downcallHandle(
-        "g_application_command_line_getenv",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the value of a particular environment variable of the command
@@ -425,21 +405,45 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * <p>
      * The return value should not be modified or freed and is valid for as
      * long as {@code cmdline} exists.
+     * @param name the environment variable to get
+     * @return the value of the variable, or {@code null} if unset or unsent
      */
     public @Nullable java.lang.String getenv(@NotNull java.lang.String name) {
+        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_application_command_line_getenv.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_getenv.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle g_application_command_line_set_exit_status = Interop.downcallHandle(
-        "g_application_command_line_set_exit_status",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
+    /**
+     * Formats a message and prints it using the stdout print handler in the
+     * invoking process.
+     * <p>
+     * If {@code cmdline} is a local invocation then this is exactly equivalent to
+     * g_print().  If {@code cmdline} is remote then this is equivalent to calling
+     * g_print() in the invoking process.
+     * @param format a printf-style format string
+     */
+    public void print(@NotNull java.lang.String format) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Formats a message and prints it using the stderr print handler in the
+     * invoking process.
+     * <p>
+     * If {@code cmdline} is a local invocation then this is exactly equivalent to
+     * g_printerr().  If {@code cmdline} is remote then this is equivalent to
+     * calling g_printerr() in the invoking process.
+     * @param format a printf-style format string
+     */
+    public void printerr(@NotNull java.lang.String format) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Sets the exit status that will be used when the invoking process
@@ -463,13 +467,81 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * have been 'successful' in a certain sense, and the exit status is
      * always zero.  If the application use count is zero, though, the exit
      * status of the local {@link ApplicationCommandLine} is used.
+     * @param exitStatus the exit status
      */
-    public @NotNull void setExitStatus(@NotNull int exitStatus) {
+    public void setExitStatus(int exitStatus) {
         try {
-            g_application_command_line_set_exit_status.invokeExact(handle(), exitStatus);
+            DowncallHandles.g_application_command_line_set_exit_status.invokeExact(handle(), exitStatus);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_application_command_line_create_file_for_arg = Interop.downcallHandle(
+            "g_application_command_line_create_file_for_arg",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_application_command_line_get_arguments = Interop.downcallHandle(
+            "g_application_command_line_get_arguments",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_application_command_line_get_cwd = Interop.downcallHandle(
+            "g_application_command_line_get_cwd",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_application_command_line_get_environ = Interop.downcallHandle(
+            "g_application_command_line_get_environ",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_application_command_line_get_exit_status = Interop.downcallHandle(
+            "g_application_command_line_get_exit_status",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_application_command_line_get_is_remote = Interop.downcallHandle(
+            "g_application_command_line_get_is_remote",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_application_command_line_get_options_dict = Interop.downcallHandle(
+            "g_application_command_line_get_options_dict",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_application_command_line_get_platform_data = Interop.downcallHandle(
+            "g_application_command_line_get_platform_data",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_application_command_line_get_stdin = Interop.downcallHandle(
+            "g_application_command_line_get_stdin",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_application_command_line_getenv = Interop.downcallHandle(
+            "g_application_command_line_getenv",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_application_command_line_print = Interop.downcallHandle(
+            "g_application_command_line_print",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_application_command_line_printerr = Interop.downcallHandle(
+            "g_application_command_line_printerr",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_application_command_line_set_exit_status = Interop.downcallHandle(
+            "g_application_command_line_set_exit_status",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
 }

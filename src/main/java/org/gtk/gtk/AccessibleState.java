@@ -1,10 +1,23 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The possible accessible states of a {@code Accessible}.
  */
 public class AccessibleState extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * A “busy” state. This state has boolean values
      */
@@ -12,7 +25,7 @@ public class AccessibleState extends io.github.jwharm.javagi.Enumeration {
     
     /**
      * A “checked” state; indicates the current
-     *   state of a {@code AccessibleTristate}
+     *   state of a {@link CheckButton}
      */
     public static final AccessibleState CHECKED = new AccessibleState(1);
     
@@ -47,7 +60,7 @@ public class AccessibleState extends io.github.jwharm.javagi.Enumeration {
     
     /**
      * A “pressed” state; indicates the current
-     *   state of a {@code AccessibleTristate}
+     *   state of a {@link ToggleButton}
      *   enumeration
      */
     public static final AccessibleState PRESSED = new AccessibleState(6);
@@ -62,4 +75,21 @@ public class AccessibleState extends io.github.jwharm.javagi.Enumeration {
         super(value);
     }
     
+    public static void initValue(@NotNull org.gtk.gtk.AccessibleState state, @NotNull org.gtk.gobject.Value value) {
+        java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
+        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+        try {
+            DowncallHandles.gtk_accessible_state_init_value.invokeExact(state.getValue(), value.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_accessible_state_init_value = Interop.downcallHandle(
+            "gtk_accessible_state_init_value",
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+    }
 }

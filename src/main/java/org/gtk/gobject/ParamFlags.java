@@ -1,5 +1,10 @@
 package org.gtk.gobject;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Through the {@link ParamFlags} flag values, certain aspects of parameters
  * can be configured.
@@ -7,7 +12,15 @@ package org.gtk.gobject;
  * See also: {@code G_PARAM_STATIC_STRINGS}
  */
 public class ParamFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * the parameter is readable
      */
@@ -87,5 +100,4 @@ public class ParamFlags extends io.github.jwharm.javagi.Bitfield {
     public ParamFlags(int value) {
         super(value);
     }
-    
 }

@@ -1,15 +1,28 @@
 package org.pango;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The {@code PangoAttrType} distinguishes between different types of attributes.
  * <p>
  * Along with the predefined values, it is possible to allocate additional
- * values for custom attributes using {@link AttrType#register}. The predefined
+ * values for custom attributes using {@code AttrType.AttrType#register}. The predefined
  * values are given below. The type of structure used to store the attribute is
  * listed in parentheses after the description.
  */
 public class AttrType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * does not happen
      */
@@ -201,4 +214,61 @@ public class AttrType extends io.github.jwharm.javagi.Enumeration {
         super(value);
     }
     
+    /**
+     * Fetches the attribute type name.
+     * <p>
+     * The attribute type name is the string passed in
+     * when registering the type using
+     * {@link AttrType#register}.
+     * <p>
+     * The returned value is an interned string (see
+     * g_intern_string() for what that means) that should
+     * not be modified or freed.
+     * @param type an attribute type ID to fetch the name for
+     * @return the type ID name (which
+     *   may be {@code null}), or {@code null} if {@code type} is a built-in Pango
+     *   attribute type or invalid.
+     */
+    public static @Nullable java.lang.String getName(@NotNull org.pango.AttrType type) {
+        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_type_get_name.invokeExact(type.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT.getUtf8String(0);
+    }
+    
+    /**
+     * Allocate a new attribute type ID.
+     * <p>
+     * The attribute type name can be accessed later
+     * by using {@link AttrType#getName}.
+     * @param name an identifier for the type
+     * @return the new type ID.
+     */
+    public static @NotNull org.pango.AttrType register(@NotNull java.lang.String name) {
+        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.pango_attr_type_register.invokeExact(Interop.allocateNativeString(name));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.pango.AttrType(RESULT);
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle pango_attr_type_get_name = Interop.downcallHandle(
+            "pango_attr_type_get_name",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_attr_type_register = Interop.downcallHandle(
+            "pango_attr_type_register",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+    }
 }

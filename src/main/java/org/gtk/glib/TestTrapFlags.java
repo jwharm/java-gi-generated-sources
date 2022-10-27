@@ -1,11 +1,24 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Test traps are guards around forked tests.
  * These flags determine what traps to set.
  */
 public class TestTrapFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Redirect stdout of the test child to
      *     {@code /dev/null} so it cannot be observed on the console during test
@@ -32,5 +45,4 @@ public class TestTrapFlags extends io.github.jwharm.javagi.Bitfield {
     public TestTrapFlags(int value) {
         super(value);
     }
-    
 }

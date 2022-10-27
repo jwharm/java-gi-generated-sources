@@ -1,5 +1,10 @@
 package org.gtk.gdk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Specifies the kind of crossing for enter and leave events.
  * <p>
@@ -7,7 +12,15 @@ package org.gtk.gdk;
  * full details of crossing event generation.
  */
 public class NotifyType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * the surface is entered from an ancestor or
      *   left towards an ancestor.
@@ -48,5 +61,4 @@ public class NotifyType extends io.github.jwharm.javagi.Enumeration {
     public NotifyType(int value) {
         super(value);
     }
-    
 }

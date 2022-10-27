@@ -1,12 +1,25 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Types of user actions that may be blocked by {@code GtkApplication}.
  * <p>
  * See {@link Application#inhibit}.
  */
 public class ApplicationInhibitFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Inhibit ending the user session
      *   by logging out or by shutting down the computer
@@ -33,5 +46,4 @@ public class ApplicationInhibitFlags extends io.github.jwharm.javagi.Bitfield {
     public ApplicationInhibitFlags(int value) {
         super(value);
     }
-    
 }

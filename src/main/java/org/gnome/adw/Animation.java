@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * animation hasn't been started yet, is playing, paused or finished.
  * <p>
  * Currently there are two concrete animation types:
- * {@code SpringAnimation}.
+ * {@link TimedAnimation}.
  * <p>
  * {@code AdwAnimation} will automatically skip the animation if
  * {@code Animation:widget} is unmapped, or if
@@ -26,7 +26,6 @@ import org.jetbrains.annotations.*;
  * {@code AdwAnimation} will be kept alive while the animation is playing. As such,
  * it's safe to create an animation, start it and immediately unref it:
  * A fire-and-forget animation:
- * 
  * <pre>{@code c
  * static void
  * animation_cb (double    value,
@@ -51,9 +50,26 @@ import org.jetbrains.annotations.*;
  * If there's a chance the previous animation for the same target hasn't yet
  * finished, the previous animation should be stopped first, or the existing
  * {@code AdwAnimation} object can be reused.
+ * @version 1.0
  */
 public class Animation extends org.gtk.gobject.Object {
-
+    
+    static {
+        Adw.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
+    ).withName("AdwAnimation");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public Animation(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -63,85 +79,64 @@ public class Animation extends org.gtk.gobject.Object {
         return new Animation(gobject.refcounted());
     }
     
-    private static final MethodHandle adw_animation_get_state = Interop.downcallHandle(
-        "adw_animation_get_state",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the current value of {@code self}.
      * <p>
      * The state indicates whether {@code self} is currently playing, paused, finished or
      * hasn't been started yet.
+     * @return the animation value
      */
-    public @NotNull AnimationState getState() {
+    public @NotNull org.gnome.adw.AnimationState getState() {
         int RESULT;
         try {
-            RESULT = (int) adw_animation_get_state.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_animation_get_state.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new AnimationState(RESULT);
+        return new org.gnome.adw.AnimationState(RESULT);
     }
-    
-    private static final MethodHandle adw_animation_get_target = Interop.downcallHandle(
-        "adw_animation_get_target",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the target {@code self} animates.
+     * @return the animation target
      */
-    public @NotNull AnimationTarget getTarget() {
+    public @NotNull org.gnome.adw.AnimationTarget getTarget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_animation_get_target.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_animation_get_target.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new AnimationTarget(Refcounted.get(RESULT, false));
+        return new org.gnome.adw.AnimationTarget(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle adw_animation_get_value = Interop.downcallHandle(
-        "adw_animation_get_value",
-        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the current value of {@code self}.
+     * @return the current value
      */
     public double getValue() {
         double RESULT;
         try {
-            RESULT = (double) adw_animation_get_value.invokeExact(handle());
+            RESULT = (double) DowncallHandles.adw_animation_get_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle adw_animation_get_widget = Interop.downcallHandle(
-        "adw_animation_get_widget",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the widget {@code self} was created for.
+     * @return the animation widget
      */
     public @NotNull org.gtk.gtk.Widget getWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_animation_get_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_animation_get_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle adw_animation_pause = Interop.downcallHandle(
-        "adw_animation_pause",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Pauses a playing animation for {@code self}.
@@ -150,18 +145,13 @@ public class Animation extends org.gtk.gobject.Object {
      * <p>
      * Sets {@code Animation:state} to {@code ADW_ANIMATION_PAUSED}.
      */
-    public @NotNull void pause() {
+    public void pause() {
         try {
-            adw_animation_pause.invokeExact(handle());
+            DowncallHandles.adw_animation_pause.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_animation_play = Interop.downcallHandle(
-        "adw_animation_play",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Starts the animation for {@code self}.
@@ -176,61 +166,46 @@ public class Animation extends org.gtk.gobject.Object {
      * unmapped, or if {@code Gtk.Settings:gtk-enable-animations} is {@code FALSE}.
      * <p>
      * As such, it's not guaranteed that the animation will actually run. For
-     * example, when using {@link GLib#idleAdd} and starting an animation
+     * example, when using {@link org.gtk.glib.GLib#idleAdd} and starting an animation
      * immediately afterwards, it's entirely possible that the idle callback will
      * run after the animation has already finished, and not while it's playing.
      */
-    public @NotNull void play() {
+    public void play() {
         try {
-            adw_animation_play.invokeExact(handle());
+            DowncallHandles.adw_animation_play.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_animation_reset = Interop.downcallHandle(
-        "adw_animation_reset",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Resets the animation for {@code self}.
      * <p>
      * Sets {@code Animation:state} to {@code ADW_ANIMATION_IDLE}.
      */
-    public @NotNull void reset() {
+    public void reset() {
         try {
-            adw_animation_reset.invokeExact(handle());
+            DowncallHandles.adw_animation_reset.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_animation_resume = Interop.downcallHandle(
-        "adw_animation_resume",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Resumes a paused animation for {@code self}.
      * <p>
      * This function must only be used if the animation has been paused with
-     * {@link Animation#pause}.
+     * {@code Animation#pause}.
      * <p>
      * Sets {@code Animation:state} to {@code ADW_ANIMATION_PLAYING}.
      */
-    public @NotNull void resume() {
+    public void resume() {
         try {
-            adw_animation_resume.invokeExact(handle());
+            DowncallHandles.adw_animation_resume.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_animation_skip = Interop.downcallHandle(
-        "adw_animation_skip",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Skips the animation for {@code self}.
@@ -241,24 +216,24 @@ public class Animation extends org.gtk.gobject.Object {
      * <p>
      * Sets {@code Animation:state} to {@code ADW_ANIMATION_FINISHED}.
      */
-    public @NotNull void skip() {
+    public void skip() {
         try {
-            adw_animation_skip.invokeExact(handle());
+            DowncallHandles.adw_animation_skip.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface DoneHandler {
+    public interface Done {
         void signalReceived(Animation source);
     }
     
     /**
      * This signal is emitted when the animation has been completed, either on its
-     * own or via calling {@link Animation#skip}.
+     * own or via calling {@code Animation#skip}.
      */
-    public SignalHandle onDone(DoneHandler handler) {
+    public Signal<Animation.Done> onDone(Animation.Done handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -268,21 +243,68 @@ public class Animation extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<Animation.Done>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static void signalAnimationDone(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (Animation.DoneHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Animation(Refcounted.get(source)));
-        }
+    private static class DowncallHandles {
         
+        private static final MethodHandle adw_animation_get_state = Interop.downcallHandle(
+            "adw_animation_get_state",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_animation_get_target = Interop.downcallHandle(
+            "adw_animation_get_target",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_animation_get_value = Interop.downcallHandle(
+            "adw_animation_get_value",
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_animation_get_widget = Interop.downcallHandle(
+            "adw_animation_get_widget",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_animation_pause = Interop.downcallHandle(
+            "adw_animation_pause",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_animation_play = Interop.downcallHandle(
+            "adw_animation_play",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_animation_reset = Interop.downcallHandle(
+            "adw_animation_reset",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_animation_resume = Interop.downcallHandle(
+            "adw_animation_resume",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_animation_skip = Interop.downcallHandle(
+            "adw_animation_skip",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
+    
+    private static class Callbacks {
+        
+        public static void signalAnimationDone(MemoryAddress source, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (Animation.Done) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new Animation(Refcounted.get(source)));
+        }
     }
 }

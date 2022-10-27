@@ -1,10 +1,24 @@
 package org.pango;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
- * Errors that can be returned by {@link Pango#Layout}.
+ * Errors that can be returned by {@link Layout#deserialize}.
+ * @version 1.50
  */
 public class LayoutDeserializeError extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Unspecified error
      */
@@ -26,4 +40,21 @@ public class LayoutDeserializeError extends io.github.jwharm.javagi.Enumeration 
         super(value);
     }
     
+    public static @NotNull org.gtk.glib.Quark quark() {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.pango_layout_deserialize_error_quark.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Quark(RESULT);
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle pango_layout_deserialize_error_quark = Interop.downcallHandle(
+            "pango_layout_deserialize_error_quark",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+        );
+    }
 }

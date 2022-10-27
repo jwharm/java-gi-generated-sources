@@ -12,7 +12,6 @@ import org.jetbrains.annotations.*;
  * <p>
  * Whenever the source property changes, the same value is applied to the
  * target property; for instance, the following binding:
- * <p>
  * <pre>{@code <!-- language="C" -->
  *   g_object_bind_property (object1, "property-a",
  *                           object2, "property-b",
@@ -26,7 +25,6 @@ import org.jetbrains.annotations.*;
  * It is possible to create a bidirectional binding between two properties
  * of two {@link Object} instances, so that if either property changes, the
  * other is updated as well, for instance:
- * <p>
  * <pre>{@code <!-- language="C" -->
  *   g_object_bind_property (object1, "property-a",
  *                           object2, "property-b",
@@ -39,7 +37,6 @@ import org.jetbrains.annotations.*;
  * directions, in case of a bidirectional binding) to apply a custom
  * transformation from the source value to the target value before
  * applying it; for instance, the following binding:
- * <p>
  * <pre>{@code <!-- language="C" -->
  *   g_object_bind_property_full (adjustment1, "value",
  *                                adjustment2, "value",
@@ -60,7 +57,6 @@ import org.jetbrains.annotations.*;
  * of {@code adjustment1}.
  * <p>
  * Note that {@link Binding} does not resolve cycles by itself; a cycle like
- * <p>
  * <pre>{@code 
  *   object1:propertyA -> object2:propertyB
  *   object2:propertyB -> object3:propertyC
@@ -84,9 +80,22 @@ import org.jetbrains.annotations.*;
  * binding, source, and target instances to drop.
  * <p>
  * {@link Binding} is available since GObject 2.26
+ * @version 2.26
  */
-public class Binding extends Object {
-
+public class Binding extends org.gtk.gobject.Object {
+    
+    static {
+        GObject.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public Binding(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -96,32 +105,24 @@ public class Binding extends Object {
         return new Binding(gobject.refcounted());
     }
     
-    private static final MethodHandle g_binding_dup_source = Interop.downcallHandle(
-        "g_binding_dup_source",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Retrieves the {@link Object} instance used as the source of the binding.
      * <p>
      * A {@link Binding} can outlive the source {@link Object} as the binding does not hold a
      * strong reference to the source. If the source is destroyed before the
      * binding then this function will return {@code null}.
+     * @return the source {@link Object}, or {@code null} if the
+     *     source does not exist any more.
      */
-    public @Nullable Object dupSource() {
+    public @Nullable org.gtk.gobject.Object dupSource() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_binding_dup_source.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_binding_dup_source.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Object(Refcounted.get(RESULT, true));
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_binding_dup_target = Interop.downcallHandle(
-        "g_binding_dup_target",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves the {@link Object} instance used as the target of the binding.
@@ -129,77 +130,114 @@ public class Binding extends Object {
      * A {@link Binding} can outlive the target {@link Object} as the binding does not hold a
      * strong reference to the target. If the target is destroyed before the
      * binding then this function will return {@code null}.
+     * @return the target {@link Object}, or {@code null} if the
+     *     target does not exist any more.
      */
-    public @Nullable Object dupTarget() {
+    public @Nullable org.gtk.gobject.Object dupTarget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_binding_dup_target.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_binding_dup_target.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Object(Refcounted.get(RESULT, true));
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_binding_get_flags = Interop.downcallHandle(
-        "g_binding_get_flags",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves the flags passed when constructing the {@link Binding}.
+     * @return the {@link BindingFlags} used by the {@link Binding}
      */
-    public @NotNull BindingFlags getFlags() {
+    public @NotNull org.gtk.gobject.BindingFlags getFlags() {
         int RESULT;
         try {
-            RESULT = (int) g_binding_get_flags.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_binding_get_flags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BindingFlags(RESULT);
+        return new org.gtk.gobject.BindingFlags(RESULT);
     }
     
-    private static final MethodHandle g_binding_get_source_property = Interop.downcallHandle(
-        "g_binding_get_source_property",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Retrieves the {@link Object} instance used as the source of the binding.
+     * <p>
+     * A {@link Binding} can outlive the source {@link Object} as the binding does not hold a
+     * strong reference to the source. If the source is destroyed before the
+     * binding then this function will return {@code null}.
+     * <p>
+     * Use g_binding_dup_source() if the source or binding are used from different
+     * threads as otherwise the pointer returned from this function might become
+     * invalid if the source is finalized from another thread in the meantime.
+     * @return the source {@link Object}, or {@code null} if the
+     *     source does not exist any more.
+     * @deprecated Use g_binding_dup_source() for a safer version of this
+     * function.
+     */
+    @Deprecated
+    public @Nullable org.gtk.gobject.Object getSource() {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_binding_get_source.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
+    }
     
     /**
      * Retrieves the name of the property of {@link Binding}:source used as the source
      * of the binding.
+     * @return the name of the source property
      */
     public @NotNull java.lang.String getSourceProperty() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_binding_get_source_property.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_binding_get_source_property.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle g_binding_get_target_property = Interop.downcallHandle(
-        "g_binding_get_target_property",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Retrieves the {@link Object} instance used as the target of the binding.
+     * <p>
+     * A {@link Binding} can outlive the target {@link Object} as the binding does not hold a
+     * strong reference to the target. If the target is destroyed before the
+     * binding then this function will return {@code null}.
+     * <p>
+     * Use g_binding_dup_target() if the target or binding are used from different
+     * threads as otherwise the pointer returned from this function might become
+     * invalid if the target is finalized from another thread in the meantime.
+     * @return the target {@link Object}, or {@code null} if the
+     *     target does not exist any more.
+     * @deprecated Use g_binding_dup_target() for a safer version of this
+     * function.
+     */
+    @Deprecated
+    public @Nullable org.gtk.gobject.Object getTarget() {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_binding_get_target.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
+    }
     
     /**
      * Retrieves the name of the property of {@link Binding}:target used as the target
      * of the binding.
+     * @return the name of the target property
      */
     public @NotNull java.lang.String getTargetProperty() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_binding_get_target_property.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_binding_get_target_property.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_binding_unbind = Interop.downcallHandle(
-        "g_binding_unbind",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Explicitly releases the binding between the source and the target
@@ -214,12 +252,54 @@ public class Binding extends Object {
      * only unrefs the reference that was initially created by
      * g_object_bind_property() and is owned by the binding.
      */
-    public @NotNull void unbind() {
+    public void unbind() {
         try {
-            g_binding_unbind.invokeExact(handle());
+            DowncallHandles.g_binding_unbind.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_binding_dup_source = Interop.downcallHandle(
+            "g_binding_dup_source",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_binding_dup_target = Interop.downcallHandle(
+            "g_binding_dup_target",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_binding_get_flags = Interop.downcallHandle(
+            "g_binding_get_flags",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_binding_get_source = Interop.downcallHandle(
+            "g_binding_get_source",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_binding_get_source_property = Interop.downcallHandle(
+            "g_binding_get_source_property",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_binding_get_target = Interop.downcallHandle(
+            "g_binding_get_target",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_binding_get_target_property = Interop.downcallHandle(
+            "g_binding_get_target_property",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_binding_unbind = Interop.downcallHandle(
+            "g_binding_unbind",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
 }

@@ -16,10 +16,10 @@ import org.jetbrains.annotations.*;
  * {@code AdwSplitButton} is typically used to present a set of actions in a menu,
  * but allow access to one of them with a single click.
  * <p>
- * The API is very similar to {@code Gtk.MenuButton}, see
+ * The API is very similar to {@link org.gtk.gtk.Button}, see
  * their documentation for details.
- * 
- * <h2>CSS nodes</h2>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * <pre>{@code 
  * splitbutton[.image-button][.text-button]
  * ├── button
@@ -37,12 +37,25 @@ import org.jetbrains.annotations.*;
  * The main CSS node will contain the {@code .image-button} or {@code .text-button} style
  * classes matching the button contents. The nested button nodes will never
  * contain them.
- * 
- * <h2>Accessibility</h2>
+ * <p>
+ * <strong>Accessibility</strong><br/>
  * {@code AdwSplitButton} uses the {@code GTK_ACCESSIBLE_ROLE_GROUP} role.
+ * @version 1.0
  */
 public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Actionable, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
-
+    
+    static {
+        Adw.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public SplitButton(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -52,18 +65,14 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         return new SplitButton(gobject.refcounted());
     }
     
-    private static final MethodHandle adw_split_button_new = Interop.downcallHandle(
-        "adw_split_button_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_split_button_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_split_button_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -73,281 +82,221 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         super(constructNew());
     }
     
-    private static final MethodHandle adw_split_button_get_child = Interop.downcallHandle(
-        "adw_split_button_get_child",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the child widget.
+     * @return the child widget
      */
     public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_split_button_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_split_button_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle adw_split_button_get_direction = Interop.downcallHandle(
-        "adw_split_button_get_direction",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the direction in which the popup will be popped up.
+     * @return the direction
      */
     public @NotNull org.gtk.gtk.ArrowType getArrowDirection() {
         int RESULT;
         try {
-            RESULT = (int) adw_split_button_get_direction.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_split_button_get_direction.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gtk.ArrowType(RESULT);
     }
     
-    private static final MethodHandle adw_split_button_get_icon_name = Interop.downcallHandle(
-        "adw_split_button_get_icon_name",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the name of the icon used to automatically populate the button.
      * <p>
-     * If the icon name has not been set with {@link SplitButton#setIconName}
+     * If the icon name has not been set with {@code SplitButton#setIconName}
      * the return value will be {@code NULL}.
+     * @return the icon name
      */
     public @Nullable java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_split_button_get_icon_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_split_button_get_icon_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle adw_split_button_get_label = Interop.downcallHandle(
-        "adw_split_button_get_label",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the label for {@code self}.
+     * @return the label for {@code self}
      */
     public @Nullable java.lang.String getLabel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_split_button_get_label.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_split_button_get_label.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle adw_split_button_get_menu_model = Interop.downcallHandle(
-        "adw_split_button_get_menu_model",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the menu model from which the popup will be created.
+     * @return the menu model
      */
     public @Nullable org.gtk.gio.MenuModel getMenuModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_split_button_get_menu_model.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_split_button_get_menu_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle adw_split_button_get_popover = Interop.downcallHandle(
-        "adw_split_button_get_popover",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the popover that will be popped up when the dropdown is clicked.
+     * @return the popover
      */
     public @Nullable org.gtk.gtk.Popover getPopover() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_split_button_get_popover.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_split_button_get_popover.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gtk.Popover(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle adw_split_button_get_use_underline = Interop.downcallHandle(
-        "adw_split_button_get_use_underline",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets whether an underline in the text indicates a mnemonic.
+     * @return whether an underline in the text indicates a mnemonic
      */
     public boolean getUseUnderline() {
         int RESULT;
         try {
-            RESULT = (int) adw_split_button_get_use_underline.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_split_button_get_use_underline.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle adw_split_button_popdown = Interop.downcallHandle(
-        "adw_split_button_popdown",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Dismisses the menu.
      */
-    public @NotNull void popdown() {
+    public void popdown() {
         try {
-            adw_split_button_popdown.invokeExact(handle());
+            DowncallHandles.adw_split_button_popdown.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_split_button_popup = Interop.downcallHandle(
-        "adw_split_button_popup",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Pops up the menu.
      */
-    public @NotNull void popup() {
+    public void popup() {
         try {
-            adw_split_button_popup.invokeExact(handle());
+            DowncallHandles.adw_split_button_popup.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_split_button_set_child = Interop.downcallHandle(
-        "adw_split_button_set_child",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the child widget.
+     * @param child the new child widget
      */
-    public @NotNull void setChild(@Nullable org.gtk.gtk.Widget child) {
+    public void setChild(@Nullable org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            adw_split_button_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.adw_split_button_set_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_split_button_set_direction = Interop.downcallHandle(
-        "adw_split_button_set_direction",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the direction in which the popup will be popped up.
+     * @param direction the direction
      */
-    public @NotNull void setDirection(@NotNull org.gtk.gtk.ArrowType direction) {
+    public void setDirection(@NotNull org.gtk.gtk.ArrowType direction) {
+        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
         try {
-            adw_split_button_set_direction.invokeExact(handle(), direction.getValue());
+            DowncallHandles.adw_split_button_set_direction.invokeExact(handle(), direction.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_split_button_set_icon_name = Interop.downcallHandle(
-        "adw_split_button_set_icon_name",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the name of the icon used to automatically populate the button.
+     * @param iconName the icon name to set
      */
-    public @NotNull void setIconName(@NotNull java.lang.String iconName) {
+    public void setIconName(@NotNull java.lang.String iconName) {
+        java.util.Objects.requireNonNull(iconName, "Parameter 'iconName' must not be null");
         try {
-            adw_split_button_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName));
+            DowncallHandles.adw_split_button_set_icon_name.invokeExact(handle(), Interop.allocateNativeString(iconName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_split_button_set_label = Interop.downcallHandle(
-        "adw_split_button_set_label",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the label for {@code self}.
+     * @param label the label to set
      */
-    public @NotNull void setLabel(@NotNull java.lang.String label) {
+    public void setLabel(@NotNull java.lang.String label) {
+        java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
         try {
-            adw_split_button_set_label.invokeExact(handle(), Interop.allocateNativeString(label));
+            DowncallHandles.adw_split_button_set_label.invokeExact(handle(), Interop.allocateNativeString(label));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_split_button_set_menu_model = Interop.downcallHandle(
-        "adw_split_button_set_menu_model",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the menu model from which the popup will be created.
+     * @param menuModel the menu model
      */
-    public @NotNull void setMenuModel(@Nullable org.gtk.gio.MenuModel menuModel) {
+    public void setMenuModel(@Nullable org.gtk.gio.MenuModel menuModel) {
+        java.util.Objects.requireNonNullElse(menuModel, MemoryAddress.NULL);
         try {
-            adw_split_button_set_menu_model.invokeExact(handle(), menuModel.handle());
+            DowncallHandles.adw_split_button_set_menu_model.invokeExact(handle(), menuModel.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_split_button_set_popover = Interop.downcallHandle(
-        "adw_split_button_set_popover",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the popover that will be popped up when the dropdown is clicked.
+     * @param popover the popover
      */
-    public @NotNull void setPopover(@Nullable org.gtk.gtk.Popover popover) {
+    public void setPopover(@Nullable org.gtk.gtk.Popover popover) {
+        java.util.Objects.requireNonNullElse(popover, MemoryAddress.NULL);
         try {
-            adw_split_button_set_popover.invokeExact(handle(), popover.handle());
+            DowncallHandles.adw_split_button_set_popover.invokeExact(handle(), popover.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle adw_split_button_set_use_underline = Interop.downcallHandle(
-        "adw_split_button_set_use_underline",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Sets whether an underline in the text indicates a mnemonic.
+     * @param useUnderline whether an underline in the text indicates a mnemonic
      */
-    public @NotNull void setUseUnderline(@NotNull boolean useUnderline) {
+    public void setUseUnderline(boolean useUnderline) {
         try {
-            adw_split_button_set_use_underline.invokeExact(handle(), useUnderline ? 1 : 0);
+            DowncallHandles.adw_split_button_set_use_underline.invokeExact(handle(), useUnderline ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ActivateHandler {
+    public interface Activate {
         void signalReceived(SplitButton source);
     }
     
@@ -357,7 +306,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * This is an action signal. Applications should never connect to this signal,
      * but use the {@code SplitButton::clicked} signal.
      */
-    public SignalHandle onActivate(ActivateHandler handler) {
+    public Signal<SplitButton.Activate> onActivate(SplitButton.Activate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -367,23 +316,23 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<SplitButton.Activate>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ClickedHandler {
+    public interface Clicked {
         void signalReceived(SplitButton source);
     }
     
     /**
      * Emitted when the button has been activated (pressed and released).
      */
-    public SignalHandle onClicked(ClickedHandler handler) {
+    public Signal<SplitButton.Clicked> onClicked(SplitButton.Clicked handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -393,27 +342,114 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<SplitButton.Clicked>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle adw_split_button_new = Interop.downcallHandle(
+            "adw_split_button_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_split_button_get_child = Interop.downcallHandle(
+            "adw_split_button_get_child",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_split_button_get_direction = Interop.downcallHandle(
+            "adw_split_button_get_direction",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_split_button_get_icon_name = Interop.downcallHandle(
+            "adw_split_button_get_icon_name",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_split_button_get_label = Interop.downcallHandle(
+            "adw_split_button_get_label",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_split_button_get_menu_model = Interop.downcallHandle(
+            "adw_split_button_get_menu_model",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_split_button_get_popover = Interop.downcallHandle(
+            "adw_split_button_get_popover",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_split_button_get_use_underline = Interop.downcallHandle(
+            "adw_split_button_get_use_underline",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_split_button_popdown = Interop.downcallHandle(
+            "adw_split_button_popdown",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_split_button_popup = Interop.downcallHandle(
+            "adw_split_button_popup",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_split_button_set_child = Interop.downcallHandle(
+            "adw_split_button_set_child",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_split_button_set_direction = Interop.downcallHandle(
+            "adw_split_button_set_direction",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle adw_split_button_set_icon_name = Interop.downcallHandle(
+            "adw_split_button_set_icon_name",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_split_button_set_label = Interop.downcallHandle(
+            "adw_split_button_set_label",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_split_button_set_menu_model = Interop.downcallHandle(
+            "adw_split_button_set_menu_model",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_split_button_set_popover = Interop.downcallHandle(
+            "adw_split_button_set_popover",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_split_button_set_use_underline = Interop.downcallHandle(
+            "adw_split_button_set_use_underline",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static void signalSplitButtonActivate(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (SplitButton.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SplitButton(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (SplitButton.Activate) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new SplitButton(Refcounted.get(source)));
         }
         
         public static void signalSplitButtonClicked(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (SplitButton.ClickedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SplitButton(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (SplitButton.Clicked) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new SplitButton(Refcounted.get(source)));
         }
-        
     }
 }

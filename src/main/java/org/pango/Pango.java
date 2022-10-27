@@ -7,41 +7,48 @@ import org.jetbrains.annotations.*;
 
 public final class Pango {
     
+    static {
+        System.loadLibrary("pango-1.0");
+    }
+    
+    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    
     /**
      * Whether the segment should be shifted to center around the baseline.
      * <p>
      * This is mainly used in vertical writing directions.
      */
     public static final int ANALYSIS_FLAG_CENTERED_BASELINE = 1;
-
+    
     /**
      * Whether this run holds ellipsized text.
      */
     public static final int ANALYSIS_FLAG_IS_ELLIPSIS = 2;
-
+    
     /**
      * Whether to add a hyphen at the end of the run during shaping.
      */
     public static final int ANALYSIS_FLAG_NEED_HYPHEN = 4;
-
+    
     /**
      * Value for {@code start_index} in {@code PangoAttribute} that indicates
      * the beginning of the text.
      */
     public static final int ATTR_INDEX_FROM_TEXT_BEGINNING = 0;
-
+    
     /**
      * Value for {@code end_index} in {@code PangoAttribute} that indicates
      * the end of the text.
      */
+    
     /**
      * A {@code PangoGlyph} value that indicates a zero-width empty glpyh.
      * <p>
      * This is useful for example in shaper modules, to use as the glyph for
-     * various zero-width Unicode characters (those passing {@link is_zero_width#null}).
+     * various zero-width Unicode characters (those passing {@link Pango#isZeroWidth}).
      */
-    public static final Glyph GLYPH_EMPTY = new Glyph(268435455);
-
+    public static final org.pango.Glyph GLYPH_EMPTY = new org.pango.Glyph(268435455);
+    
     /**
      * A {@code PangoGlyph} value for invalid input.
      * <p>
@@ -51,14 +58,15 @@ public final class Pango {
      * Note that this value is defined such that it has the {@code PANGO_GLYPH_UNKNOWN_FLAG}
      * set.
      */
+    
     /**
      * Flag used in {@code PangoGlyph} to turn a {@code gunichar} value of a valid Unicode
      * character into an unknown-character glyph for that {@code gunichar}.
      * <p>
      * Such unknown-character glyphs may be rendered as a 'hex box'.
      */
-    public static final Glyph GLYPH_UNKNOWN_FLAG = new Glyph(268435456);
-
+    public static final org.pango.Glyph GLYPH_UNKNOWN_FLAG = new org.pango.Glyph(268435456);
+    
     /**
      * The scale between dimensions used for Pango distances and device units.
      * <p>
@@ -70,88 +78,82 @@ public final class Pango {
      * points (as in "12 point font"), rather than pixels.
      */
     public static final int SCALE = 1024;
-
+    
     /**
      * The major component of the version of Pango available at compile-time.
      */
     public static final int VERSION_MAJOR = 1;
-
+    
     /**
      * The micro component of the version of Pango available at compile-time.
      */
     public static final int VERSION_MICRO = 9;
-
+    
     /**
      * The minor component of the version of Pango available at compile-time.
      */
     public static final int VERSION_MINOR = 50;
-
+    
     /**
      * A string literal containing the version of Pango available at compile-time.
      */
     public static final java.lang.String VERSION_STRING = "1.50.9";
-
-    private static final MethodHandle pango_attr_allow_breaks_new = Interop.downcallHandle(
-        "pango_attr_allow_breaks_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Create a new allow-breaks attribute.
      * <p>
      * If breaks are disabled, the range will be kept in a
      * single run, as far as possible.
+     * @param allowBreaks {@code true} if we line breaks are allowed
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrAllowBreaksNew(@NotNull boolean allowBreaks) {
+    public static @NotNull org.pango.Attribute attrAllowBreaksNew(boolean allowBreaks) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_allow_breaks_new.invokeExact(allowBreaks ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_allow_breaks_new.invokeExact(allowBreaks ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_background_alpha_new = Interop.downcallHandle(
-        "pango_attr_background_alpha_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT)
-    );
     
     /**
      * Create a new background alpha attribute.
+     * @param alpha the alpha value, between 1 and 65536
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrBackgroundAlphaNew(@NotNull short alpha) {
+    public static @NotNull org.pango.Attribute attrBackgroundAlphaNew(short alpha) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_background_alpha_new.invokeExact(alpha);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_background_alpha_new.invokeExact(alpha);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_background_new = Interop.downcallHandle(
-        "pango_attr_background_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT)
-    );
     
     /**
      * Create a new background color attribute.
+     * @param red the red value (ranging from 0 to 65535)
+     * @param green the green value
+     * @param blue the blue value
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrBackgroundNew(@NotNull short red, @NotNull short green, @NotNull short blue) {
+    public static @NotNull org.pango.Attribute attrBackgroundNew(short red, short green, short blue) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_background_new.invokeExact(red, green, blue);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_background_new.invokeExact(red, green, blue);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_baseline_shift_new = Interop.downcallHandle(
-        "pango_attr_baseline_shift_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Create a new baseline displacement attribute.
@@ -163,40 +165,46 @@ public final class Pango {
      *   &lt;source srcset="baseline-shift-dark.png" media="(prefers-color-scheme: dark)"&gt;
      *   &lt;img alt="Baseline Shift" src="baseline-shift-light.png"&gt;
      * &lt;/picture&gt;
+     * @param shift either a {@code PangoBaselineShift} enumeration value or an absolute value (&gt; 1024)
+     *   in Pango units, relative to the baseline of the previous run.
+     *   Positive values displace the text upwards.
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrBaselineShiftNew(@NotNull int shift) {
+    public static @NotNull org.pango.Attribute attrBaselineShiftNew(int shift) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_baseline_shift_new.invokeExact(shift);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_baseline_shift_new.invokeExact(shift);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_break = Interop.downcallHandle(
-        "pango_attr_break",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Apply customization from attributes to the breaks in {@code attrs}.
      * <p>
      * The line breaks are assumed to have been produced
-     * by {@code Pango.tailor_break}.
+     * by {@code default_break#] and [func@Pango.tailorBreak}.
+     * @param text text to break. Must be valid UTF-8
+     * @param length length of text in bytes (may be -1 if {@code text} is nul-terminated)
+     * @param attrList {@code PangoAttrList} to apply
+     * @param offset Byte offset of {@code text} from the beginning of the paragraph
+     * @param attrs array with one {@code PangoLogAttr}
+     *   per character in {@code text}, plus one extra, to be filled in
+     * @param attrsLen length of {@code attrs} array
      */
-    public static @NotNull void attrBreak(@NotNull java.lang.String text, @NotNull int length, @NotNull AttrList attrList, @NotNull int offset, @NotNull LogAttr[] attrs, @NotNull int attrsLen) {
+    public static void attrBreak(@NotNull java.lang.String text, int length, @NotNull org.pango.AttrList attrList, int offset, org.pango.LogAttr[] attrs, int attrsLen) {
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+        java.util.Objects.requireNonNull(attrList, "Parameter 'attrList' must not be null");
+        java.util.Objects.requireNonNull(attrs, "Parameter 'attrs' must not be null");
         try {
-            pango_attr_break.invokeExact(Interop.allocateNativeString(text), length, attrList.handle(), offset, Interop.allocateNativeArray(attrs), attrsLen);
+            DowncallHandles.pango_attr_break.invokeExact(Interop.allocateNativeString(text), length, attrList.handle(), offset, Interop.allocateNativeArray(attrs, false), attrsLen);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle pango_attr_fallback_new = Interop.downcallHandle(
-        "pango_attr_fallback_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Create a new font fallback attribute.
@@ -205,174 +213,176 @@ public final class Pango {
      * used from the closest matching font on the system.
      * No fallback will be done to other fonts on the system
      * that might contain the characters in the text.
+     * @param enableFallback {@code true} if we should fall back on other fonts
+     *   for characters the active font is missing
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrFallbackNew(@NotNull boolean enableFallback) {
+    public static @NotNull org.pango.Attribute attrFallbackNew(boolean enableFallback) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_fallback_new.invokeExact(enableFallback ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_fallback_new.invokeExact(enableFallback ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_family_new = Interop.downcallHandle(
-        "pango_attr_family_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Create a new font family attribute.
+     * @param family the family or comma-separated list of families
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrFamilyNew(@NotNull java.lang.String family) {
+    public static @NotNull org.pango.Attribute attrFamilyNew(@NotNull java.lang.String family) {
+        java.util.Objects.requireNonNull(family, "Parameter 'family' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_family_new.invokeExact(Interop.allocateNativeString(family));
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_family_new.invokeExact(Interop.allocateNativeString(family));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_font_desc_new = Interop.downcallHandle(
-        "pango_attr_font_desc_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Create a new font description attribute.
      * <p>
      * This attribute allows setting family, style, weight, variant,
      * stretch, and size simultaneously.
+     * @param desc the font description
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrFontDescNew(@NotNull FontDescription desc) {
+    public static @NotNull org.pango.Attribute attrFontDescNew(@NotNull org.pango.FontDescription desc) {
+        java.util.Objects.requireNonNull(desc, "Parameter 'desc' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_font_desc_new.invokeExact(desc.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_font_desc_new.invokeExact(desc.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_font_features_new = Interop.downcallHandle(
-        "pango_attr_font_features_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Create a new font features tag attribute.
      * <p>
      * You can use this attribute to select OpenType font features like small-caps,
      * alternative glyphs, ligatures, etc. for fonts that support them.
+     * @param features a string with OpenType font features, with the syntax of the [CSS
+     * font-feature-settings property](https://www.w3.org/TR/css-fonts-4/{@code font}-rend-desc)
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrFontFeaturesNew(@NotNull java.lang.String features) {
+    public static @NotNull org.pango.Attribute attrFontFeaturesNew(@NotNull java.lang.String features) {
+        java.util.Objects.requireNonNull(features, "Parameter 'features' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_font_features_new.invokeExact(Interop.allocateNativeString(features));
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_font_features_new.invokeExact(Interop.allocateNativeString(features));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_font_scale_new = Interop.downcallHandle(
-        "pango_attr_font_scale_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Create a new font scale attribute.
      * <p>
      * The effect of this attribute is to change the font size of a run,
      * relative to the size of preceding run.
+     * @param scale a {@code PangoFontScale} value, which indicates font size change relative
+     *   to the size of the previous run.
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrFontScaleNew(@NotNull FontScale scale) {
+    public static @NotNull org.pango.Attribute attrFontScaleNew(@NotNull org.pango.FontScale scale) {
+        java.util.Objects.requireNonNull(scale, "Parameter 'scale' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_font_scale_new.invokeExact(scale.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_font_scale_new.invokeExact(scale.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_foreground_alpha_new = Interop.downcallHandle(
-        "pango_attr_foreground_alpha_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT)
-    );
     
     /**
      * Create a new foreground alpha attribute.
+     * @param alpha the alpha value, between 1 and 65536
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrForegroundAlphaNew(@NotNull short alpha) {
+    public static @NotNull org.pango.Attribute attrForegroundAlphaNew(short alpha) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_foreground_alpha_new.invokeExact(alpha);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_foreground_alpha_new.invokeExact(alpha);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_foreground_new = Interop.downcallHandle(
-        "pango_attr_foreground_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT)
-    );
     
     /**
      * Create a new foreground color attribute.
+     * @param red the red value (ranging from 0 to 65535)
+     * @param green the green value
+     * @param blue the blue value
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrForegroundNew(@NotNull short red, @NotNull short green, @NotNull short blue) {
+    public static @NotNull org.pango.Attribute attrForegroundNew(short red, short green, short blue) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_foreground_new.invokeExact(red, green, blue);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_foreground_new.invokeExact(red, green, blue);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_gravity_hint_new = Interop.downcallHandle(
-        "pango_attr_gravity_hint_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Create a new gravity hint attribute.
+     * @param hint the gravity hint value
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrGravityHintNew(@NotNull GravityHint hint) {
+    public static @NotNull org.pango.Attribute attrGravityHintNew(@NotNull org.pango.GravityHint hint) {
+        java.util.Objects.requireNonNull(hint, "Parameter 'hint' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_gravity_hint_new.invokeExact(hint.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_gravity_hint_new.invokeExact(hint.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_gravity_new = Interop.downcallHandle(
-        "pango_attr_gravity_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Create a new gravity attribute.
+     * @param gravity the gravity value; should not be {@link Gravity#AUTO}
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrGravityNew(@NotNull Gravity gravity) {
+    public static @NotNull org.pango.Attribute attrGravityNew(@NotNull org.pango.Gravity gravity) {
+        java.util.Objects.requireNonNull(gravity, "Parameter 'gravity' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_gravity_new.invokeExact(gravity.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_gravity_new.invokeExact(gravity.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_insert_hyphens_new = Interop.downcallHandle(
-        "pango_attr_insert_hyphens_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Create a new insert-hyphens attribute.
@@ -380,57 +390,56 @@ public final class Pango {
      * Pango will insert hyphens when breaking lines in
      * the middle of a word. This attribute can be used
      * to suppress the hyphen.
+     * @param insertHyphens {@code true} if hyphens should be inserted
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrInsertHyphensNew(@NotNull boolean insertHyphens) {
+    public static @NotNull org.pango.Attribute attrInsertHyphensNew(boolean insertHyphens) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_insert_hyphens_new.invokeExact(insertHyphens ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_insert_hyphens_new.invokeExact(insertHyphens ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_language_new = Interop.downcallHandle(
-        "pango_attr_language_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Create a new language tag attribute.
+     * @param language language tag
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrLanguageNew(@NotNull Language language) {
+    public static @NotNull org.pango.Attribute attrLanguageNew(@NotNull org.pango.Language language) {
+        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_language_new.invokeExact(language.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_language_new.invokeExact(language.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_letter_spacing_new = Interop.downcallHandle(
-        "pango_attr_letter_spacing_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Create a new letter-spacing attribute.
+     * @param letterSpacing amount of extra space to add between
+     *   graphemes of the text, in Pango units
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrLetterSpacingNew(@NotNull int letterSpacing) {
+    public static @NotNull org.pango.Attribute attrLetterSpacingNew(int letterSpacing) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_letter_spacing_new.invokeExact(letterSpacing);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_letter_spacing_new.invokeExact(letterSpacing);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_line_height_new = Interop.downcallHandle(
-        "pango_attr_line_height_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
-    );
     
     /**
      * Modify the height of logical line extents by a factor.
@@ -439,21 +448,17 @@ public final class Pango {
      * {@link LayoutLine#getExtents},
      * {@link LayoutLine#getPixelExtents} and
      * {@link LayoutIter#getLineExtents}.
+     * @param factor the scaling factor to apply to the logical height
      */
-    public static @NotNull Attribute attrLineHeightNew(@NotNull double factor) {
+    public static @NotNull org.pango.Attribute attrLineHeightNew(double factor) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_line_height_new.invokeExact(factor);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_line_height_new.invokeExact(factor);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_line_height_new_absolute = Interop.downcallHandle(
-        "pango_attr_line_height_new_absolute",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Override the height of logical line extents to be {@code height}.
@@ -462,141 +467,133 @@ public final class Pango {
      * {@link LayoutLine#getExtents},
      * {@link LayoutLine#getPixelExtents} and
      * {@link LayoutIter#getLineExtents}.
+     * @param height the line height, in {@code PANGO_SCALE}-ths of a point
      */
-    public static @NotNull Attribute attrLineHeightNewAbsolute(@NotNull int height) {
+    public static @NotNull org.pango.Attribute attrLineHeightNewAbsolute(int height) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_line_height_new_absolute.invokeExact(height);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_line_height_new_absolute.invokeExact(height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_list_from_string = Interop.downcallHandle(
-        "pango_attr_list_from_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Deserializes a {@code PangoAttrList} from a string.
      * <p>
      * This is the counterpart to {@link AttrList#toString}.
      * See that functions for details about the format.
+     * @param text a string
+     * @return a new {@code PangoAttrList}
      */
-    public static @Nullable AttrList attrListFromString(@NotNull java.lang.String text) {
+    public static @Nullable org.pango.AttrList attrListFromString(@NotNull java.lang.String text) {
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_list_from_string.invokeExact(Interop.allocateNativeString(text));
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_from_string.invokeExact(Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new AttrList(Refcounted.get(RESULT, true));
+        return new org.pango.AttrList(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_overline_color_new = Interop.downcallHandle(
-        "pango_attr_overline_color_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT)
-    );
     
     /**
      * Create a new overline color attribute.
      * <p>
      * This attribute modifies the color of overlines.
      * If not set, overlines will use the foreground color.
+     * @param red the red value (ranging from 0 to 65535)
+     * @param green the green value
+     * @param blue the blue value
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrOverlineColorNew(@NotNull short red, @NotNull short green, @NotNull short blue) {
+    public static @NotNull org.pango.Attribute attrOverlineColorNew(short red, short green, short blue) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_overline_color_new.invokeExact(red, green, blue);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_overline_color_new.invokeExact(red, green, blue);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_overline_new = Interop.downcallHandle(
-        "pango_attr_overline_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Create a new overline-style attribute.
+     * @param overline the overline style
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrOverlineNew(@NotNull Overline overline) {
+    public static @NotNull org.pango.Attribute attrOverlineNew(@NotNull org.pango.Overline overline) {
+        java.util.Objects.requireNonNull(overline, "Parameter 'overline' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_overline_new.invokeExact(overline.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_overline_new.invokeExact(overline.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_rise_new = Interop.downcallHandle(
-        "pango_attr_rise_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Create a new baseline displacement attribute.
+     * @param rise the amount that the text should be displaced vertically,
+     *   in Pango units. Positive values displace the text upwards.
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrRiseNew(@NotNull int rise) {
+    public static @NotNull org.pango.Attribute attrRiseNew(int rise) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_rise_new.invokeExact(rise);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_rise_new.invokeExact(rise);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_scale_new = Interop.downcallHandle(
-        "pango_attr_scale_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
-    );
     
     /**
      * Create a new font size scale attribute.
      * <p>
      * The base font for the affected text will have
      * its size multiplied by {@code scale_factor}.
+     * @param scaleFactor factor to scale the font
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrScaleNew(@NotNull double scaleFactor) {
+    public static @NotNull org.pango.Attribute attrScaleNew(double scaleFactor) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_scale_new.invokeExact(scaleFactor);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_scale_new.invokeExact(scaleFactor);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_sentence_new = Interop.downcallHandle(
-        "pango_attr_sentence_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Marks the range of the attribute as a single sentence.
      * <p>
      * Note that this may require adjustments to word and
      * sentence classification around the range.
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrSentenceNew() {
+    public static @NotNull org.pango.Attribute attrSentenceNew() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_sentence_new.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_sentence_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_shape_new = Interop.downcallHandle(
-        "pango_attr_shape_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Create a new shape attribute.
@@ -605,36 +602,49 @@ public final class Pango {
      * rectangle on the result of shaping a particular glyph.
      * This might be used, for instance, for embedding a picture
      * or a widget inside a {@code PangoLayout}.
+     * @param inkRect ink rectangle to assign to each character
+     * @param logicalRect logical rectangle to assign to each character
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrShapeNew(@NotNull Rectangle inkRect, @NotNull Rectangle logicalRect) {
+    public static @NotNull org.pango.Attribute attrShapeNew(@NotNull org.pango.Rectangle inkRect, @NotNull org.pango.Rectangle logicalRect) {
+        java.util.Objects.requireNonNull(inkRect, "Parameter 'inkRect' must not be null");
+        java.util.Objects.requireNonNull(logicalRect, "Parameter 'logicalRect' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_shape_new.invokeExact(inkRect.handle(), logicalRect.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_shape_new.invokeExact(inkRect.handle(), logicalRect.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_shape_new_with_data = Interop.downcallHandle(
-        "pango_attr_shape_new_with_data",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Creates a new shape attribute.
      * <p>
-     * Like {@link Pango#AttrShape}, but a user data pointer
+     * Like {@link AttrShape#new_}, but a user data pointer
      * is also provided; this pointer can be accessed when later
      * rendering the glyph.
+     * @param inkRect ink rectangle to assign to each character
+     * @param logicalRect logical rectangle to assign to each character
+     * @param copyFunc function to copy {@code data} when the
+     *   attribute is copied. If {@code null}, {@code data} is simply copied
+     *   as a pointer
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrShapeNewWithData(@NotNull Rectangle inkRect, @NotNull Rectangle logicalRect, @Nullable AttrDataCopyFunc copyFunc) {
+    public static @NotNull org.pango.Attribute attrShapeNewWithData(@NotNull org.pango.Rectangle inkRect, @NotNull org.pango.Rectangle logicalRect, @Nullable org.pango.AttrDataCopyFunc copyFunc) {
+        java.util.Objects.requireNonNull(inkRect, "Parameter 'inkRect' must not be null");
+        java.util.Objects.requireNonNull(logicalRect, "Parameter 'logicalRect' must not be null");
+        java.util.Objects.requireNonNullElse(copyFunc, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_shape_new_with_data.invokeExact(inkRect.handle(), logicalRect.handle(), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(copyFunc)), 
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_shape_new_with_data.invokeExact(inkRect.handle(), logicalRect.handle(), 
+                   (Addressable) (copyFunc == null ? MemoryAddress.NULL : Interop.registerCallback(copyFunc)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Pango.class, "__cbAttrDataCopyFunc",
+                        MethodHandles.lookup().findStatic(Pango.Callbacks.class, "cbAttrDataCopyFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
@@ -642,327 +652,339 @@ public final class Pango {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_show_new = Interop.downcallHandle(
-        "pango_attr_show_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Create a new attribute that influences how invisible
      * characters are rendered.
+     * @param flags {@code PangoShowFlags} to apply
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrShowNew(@NotNull ShowFlags flags) {
+    public static @NotNull org.pango.Attribute attrShowNew(@NotNull org.pango.ShowFlags flags) {
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_show_new.invokeExact(flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_show_new.invokeExact(flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_size_new = Interop.downcallHandle(
-        "pango_attr_size_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Create a new font-size attribute in fractional points.
+     * @param size the font size, in {@code PANGO_SCALE}-ths of a point
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrSizeNew(@NotNull int size) {
+    public static @NotNull org.pango.Attribute attrSizeNew(int size) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_size_new.invokeExact(size);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_size_new.invokeExact(size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_size_new_absolute = Interop.downcallHandle(
-        "pango_attr_size_new_absolute",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Create a new font-size attribute in device units.
+     * @param size the font size, in {@code PANGO_SCALE}-ths of a device unit
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrSizeNewAbsolute(@NotNull int size) {
+    public static @NotNull org.pango.Attribute attrSizeNewAbsolute(int size) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_size_new_absolute.invokeExact(size);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_size_new_absolute.invokeExact(size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_stretch_new = Interop.downcallHandle(
-        "pango_attr_stretch_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Create a new font stretch attribute.
+     * @param stretch the stretch
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrStretchNew(@NotNull Stretch stretch) {
+    public static @NotNull org.pango.Attribute attrStretchNew(@NotNull org.pango.Stretch stretch) {
+        java.util.Objects.requireNonNull(stretch, "Parameter 'stretch' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_stretch_new.invokeExact(stretch.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_stretch_new.invokeExact(stretch.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_strikethrough_color_new = Interop.downcallHandle(
-        "pango_attr_strikethrough_color_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT)
-    );
     
     /**
      * Create a new strikethrough color attribute.
      * <p>
      * This attribute modifies the color of strikethrough lines.
      * If not set, strikethrough lines will use the foreground color.
+     * @param red the red value (ranging from 0 to 65535)
+     * @param green the green value
+     * @param blue the blue value
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrStrikethroughColorNew(@NotNull short red, @NotNull short green, @NotNull short blue) {
+    public static @NotNull org.pango.Attribute attrStrikethroughColorNew(short red, short green, short blue) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_strikethrough_color_new.invokeExact(red, green, blue);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_strikethrough_color_new.invokeExact(red, green, blue);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_strikethrough_new = Interop.downcallHandle(
-        "pango_attr_strikethrough_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Create a new strike-through attribute.
+     * @param strikethrough {@code true} if the text should be struck-through
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrStrikethroughNew(@NotNull boolean strikethrough) {
+    public static @NotNull org.pango.Attribute attrStrikethroughNew(boolean strikethrough) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_strikethrough_new.invokeExact(strikethrough ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_strikethrough_new.invokeExact(strikethrough ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_style_new = Interop.downcallHandle(
-        "pango_attr_style_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Create a new font slant style attribute.
+     * @param style the slant style
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrStyleNew(@NotNull Style style) {
+    public static @NotNull org.pango.Attribute attrStyleNew(@NotNull org.pango.Style style) {
+        java.util.Objects.requireNonNull(style, "Parameter 'style' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_style_new.invokeExact(style.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_style_new.invokeExact(style.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_text_transform_new = Interop.downcallHandle(
-        "pango_attr_text_transform_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Create a new attribute that influences how characters
      * are transformed during shaping.
+     * @param transform {@code PangoTextTransform} to apply
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrTextTransformNew(@NotNull TextTransform transform) {
+    public static @NotNull org.pango.Attribute attrTextTransformNew(@NotNull org.pango.TextTransform transform) {
+        java.util.Objects.requireNonNull(transform, "Parameter 'transform' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_text_transform_new.invokeExact(transform.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_text_transform_new.invokeExact(transform.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_type_get_name = Interop.downcallHandle(
-        "pango_attr_type_get_name",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Fetches the attribute type name.
      * <p>
      * The attribute type name is the string passed in
      * when registering the type using
-     * {@link Pango#AttrType}.
+     * {@link AttrType#register}.
      * <p>
      * The returned value is an interned string (see
      * g_intern_string() for what that means) that should
      * not be modified or freed.
+     * @param type an attribute type ID to fetch the name for
+     * @return the type ID name (which
+     *   may be {@code null}), or {@code null} if {@code type} is a built-in Pango
+     *   attribute type or invalid.
      */
-    public static @Nullable java.lang.String attrTypeGetName(@NotNull AttrType type) {
+    public static @Nullable java.lang.String attrTypeGetName(@NotNull org.pango.AttrType type) {
+        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_type_get_name.invokeExact(type.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_type_get_name.invokeExact(type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle pango_attr_type_register = Interop.downcallHandle(
-        "pango_attr_type_register",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Allocate a new attribute type ID.
      * <p>
      * The attribute type name can be accessed later
-     * by using {@link Pango#AttrType}.
+     * by using {@link AttrType#getName}.
+     * @param name an identifier for the type
+     * @return the new type ID.
      */
-    public static @NotNull AttrType attrTypeRegister(@NotNull java.lang.String name) {
+    public static @NotNull org.pango.AttrType attrTypeRegister(@NotNull java.lang.String name) {
+        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         int RESULT;
         try {
-            RESULT = (int) pango_attr_type_register.invokeExact(Interop.allocateNativeString(name));
+            RESULT = (int) DowncallHandles.pango_attr_type_register.invokeExact(Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new AttrType(RESULT);
+        return new org.pango.AttrType(RESULT);
     }
-    
-    private static final MethodHandle pango_attr_underline_color_new = Interop.downcallHandle(
-        "pango_attr_underline_color_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT)
-    );
     
     /**
      * Create a new underline color attribute.
      * <p>
      * This attribute modifies the color of underlines.
      * If not set, underlines will use the foreground color.
+     * @param red the red value (ranging from 0 to 65535)
+     * @param green the green value
+     * @param blue the blue value
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrUnderlineColorNew(@NotNull short red, @NotNull short green, @NotNull short blue) {
+    public static @NotNull org.pango.Attribute attrUnderlineColorNew(short red, short green, short blue) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_underline_color_new.invokeExact(red, green, blue);
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_underline_color_new.invokeExact(red, green, blue);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_underline_new = Interop.downcallHandle(
-        "pango_attr_underline_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Create a new underline-style attribute.
+     * @param underline the underline style
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrUnderlineNew(@NotNull Underline underline) {
+    public static @NotNull org.pango.Attribute attrUnderlineNew(@NotNull org.pango.Underline underline) {
+        java.util.Objects.requireNonNull(underline, "Parameter 'underline' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_underline_new.invokeExact(underline.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_underline_new.invokeExact(underline.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_variant_new = Interop.downcallHandle(
-        "pango_attr_variant_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Create a new font variant attribute (normal or small caps).
+     * @param variant the variant
+     * @return the newly allocated {@code PangoAttribute},
+     *   which should be freed with {@link Attribute#destroy}.
      */
-    public static @NotNull Attribute attrVariantNew(@NotNull Variant variant) {
+    public static @NotNull org.pango.Attribute attrVariantNew(@NotNull org.pango.Variant variant) {
+        java.util.Objects.requireNonNull(variant, "Parameter 'variant' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_variant_new.invokeExact(variant.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_variant_new.invokeExact(variant.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_weight_new = Interop.downcallHandle(
-        "pango_attr_weight_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Create a new font weight attribute.
+     * @param weight the weight
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrWeightNew(@NotNull Weight weight) {
+    public static @NotNull org.pango.Attribute attrWeightNew(@NotNull org.pango.Weight weight) {
+        java.util.Objects.requireNonNull(weight, "Parameter 'weight' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_weight_new.invokeExact(weight.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_weight_new.invokeExact(weight.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_word_new = Interop.downcallHandle(
-        "pango_attr_word_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Marks the range of the attribute as a single word.
      * <p>
      * Note that this may require adjustments to word and
      * sentence classification around the range.
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute attrWordNew() {
+    public static @NotNull org.pango.Attribute attrWordNew() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_word_new.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_word_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_bidi_type_for_unichar = Interop.downcallHandle(
-        "pango_bidi_type_for_unichar",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Determines the bidirectional type of a character.
      * <p>
      * The bidirectional type is specified in the Unicode Character Database.
      * <p>
-     * A simplified version of this function is available as {@link unichar_direction#null}.
+     * A simplified version of this function is available as {@link Pango#unicharDirection}.
+     * @param ch a Unicode character
+     * @return the bidirectional character type, as used in the
+     * Unicode bidirectional algorithm.
      */
-    public static @NotNull BidiType bidiTypeForUnichar(@NotNull int ch) {
+    public static @NotNull org.pango.BidiType bidiTypeForUnichar(int ch) {
         int RESULT;
         try {
-            RESULT = (int) pango_bidi_type_for_unichar.invokeExact(ch);
+            RESULT = (int) DowncallHandles.pango_bidi_type_for_unichar.invokeExact(ch);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BidiType(RESULT);
+        return new org.pango.BidiType(RESULT);
     }
     
-    private static final MethodHandle pango_default_break = Interop.downcallHandle(
-        "pango_default_break",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
+    /**
+     * Determines possible line, word, and character breaks
+     * for a string of Unicode text with a single analysis.
+     * <p>
+     * For most purposes you may want to use {@link Pango#getLogAttrs}.
+     * @param text the text to process. Must be valid UTF-8
+     * @param length length of {@code text} in bytes (may be -1 if {@code text} is nul-terminated)
+     * @param analysis {@code PangoAnalysis} structure for {@code text}
+     * @param attrs an array to store character information in
+     * @param attrsLen size of the array passed as {@code attrs}
+     * @deprecated Use {@link Pango#defaultBreak},
+     *   {@code tailor_break#] and [func@Pango.attrBreak}.
+     */
+    @Deprecated
+    public static void break_(@NotNull java.lang.String text, int length, @NotNull org.pango.Analysis analysis, org.pango.LogAttr[] attrs, int attrsLen) {
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+        java.util.Objects.requireNonNull(analysis, "Parameter 'analysis' must not be null");
+        java.util.Objects.requireNonNull(attrs, "Parameter 'attrs' must not be null");
+        try {
+            DowncallHandles.pango_break.invokeExact(Interop.allocateNativeString(text), length, analysis.handle(), Interop.allocateNativeArray(attrs, false), attrsLen);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
     
     /**
      * This is the default break algorithm.
@@ -974,19 +996,22 @@ public final class Pango {
      * See {@link Pango#tailorBreak} for language-specific breaks.
      * <p>
      * See {@link Pango#attrBreak} for attribute-based customization.
+     * @param text text to break. Must be valid UTF-8
+     * @param length length of text in bytes (may be -1 if {@code text} is nul-terminated)
+     * @param analysis a {@code PangoAnalysis} structure for the {@code text}
+     * @param attrs logical attributes to fill in
+     * @param attrsLen size of the array passed as {@code attrs}
      */
-    public static @NotNull void defaultBreak(@NotNull java.lang.String text, @NotNull int length, @Nullable Analysis analysis, @NotNull LogAttr attrs, @NotNull int attrsLen) {
+    public static void defaultBreak(@NotNull java.lang.String text, int length, @Nullable org.pango.Analysis analysis, @NotNull org.pango.LogAttr attrs, int attrsLen) {
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+        java.util.Objects.requireNonNullElse(analysis, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(attrs, "Parameter 'attrs' must not be null");
         try {
-            pango_default_break.invokeExact(Interop.allocateNativeString(text), length, analysis.handle(), attrs.handle(), attrsLen);
+            DowncallHandles.pango_default_break.invokeExact(Interop.allocateNativeString(text), length, analysis.handle(), attrs.handle(), attrsLen);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle pango_extents_to_pixels = Interop.downcallHandle(
-        "pango_extents_to_pixels",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Converts extents from Pango units to device units.
@@ -1006,38 +1031,37 @@ public final class Pango {
      * {@code inclusive}. If you want two touching-but-not-overlapping rectangles stay
      * touching-but-not-overlapping after rounding to device units, pass them in
      * as {@code nearest}.
+     * @param inclusive rectangle to round to pixels inclusively
+     * @param nearest rectangle to round to nearest pixels
      */
-    public static @NotNull void extentsToPixels(@Nullable Rectangle inclusive, @Nullable Rectangle nearest) {
+    public static void extentsToPixels(@Nullable org.pango.Rectangle inclusive, @Nullable org.pango.Rectangle nearest) {
+        java.util.Objects.requireNonNullElse(inclusive, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(nearest, MemoryAddress.NULL);
         try {
-            pango_extents_to_pixels.invokeExact(inclusive.handle(), nearest.handle());
+            DowncallHandles.pango_extents_to_pixels.invokeExact(inclusive.handle(), nearest.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle pango_find_base_dir = Interop.downcallHandle(
-        "pango_find_base_dir",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Searches a string the first character that has a strong
      * direction, according to the Unicode bidirectional algorithm.
+     * @param text the text to process. Must be valid UTF-8
+     * @param length length of {@code text} in bytes (may be -1 if {@code text} is nul-terminated)
+     * @return The direction corresponding to the first strong character.
+     *   If no such character is found, then {@link Direction#NEUTRAL} is returned.
      */
-    public static @NotNull Direction findBaseDir(@NotNull java.lang.String text, @NotNull int length) {
+    public static @NotNull org.pango.Direction findBaseDir(@NotNull java.lang.String text, int length) {
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         int RESULT;
         try {
-            RESULT = (int) pango_find_base_dir.invokeExact(Interop.allocateNativeString(text), length);
+            RESULT = (int) DowncallHandles.pango_find_base_dir.invokeExact(Interop.allocateNativeString(text), length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Direction(RESULT);
+        return new org.pango.Direction(RESULT);
     }
-    
-    private static final MethodHandle pango_find_paragraph_boundary = Interop.downcallHandle(
-        "pango_find_paragraph_boundary",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Locates a paragraph boundary in {@code text}.
@@ -1054,23 +1078,27 @@ public final class Pango {
      * If no delimiters are found, both {@code paragraph_delimiter_index}
      * and {@code next_paragraph_start} are filled with the length of {@code text}
      * (an index one off the end).
+     * @param text UTF-8 text
+     * @param length length of {@code text} in bytes, or -1 if nul-terminated
+     * @param paragraphDelimiterIndex return location for index of
+     *   delimiter
+     * @param nextParagraphStart return location for start of next
+     *   paragraph
      */
-    public static @NotNull void findParagraphBoundary(@NotNull java.lang.String text, @NotNull int length, @NotNull Out<Integer> paragraphDelimiterIndex, @NotNull Out<Integer> nextParagraphStart) {
+    public static void findParagraphBoundary(@NotNull java.lang.String text, int length, Out<Integer> paragraphDelimiterIndex, Out<Integer> nextParagraphStart) {
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+        java.util.Objects.requireNonNull(paragraphDelimiterIndex, "Parameter 'paragraphDelimiterIndex' must not be null");
+        java.util.Objects.requireNonNull(nextParagraphStart, "Parameter 'nextParagraphStart' must not be null");
         MemorySegment paragraphDelimiterIndexPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment nextParagraphStartPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            pango_find_paragraph_boundary.invokeExact(Interop.allocateNativeString(text), length, (Addressable) paragraphDelimiterIndexPOINTER.address(), (Addressable) nextParagraphStartPOINTER.address());
+            DowncallHandles.pango_find_paragraph_boundary.invokeExact(Interop.allocateNativeString(text), length, (Addressable) paragraphDelimiterIndexPOINTER.address(), (Addressable) nextParagraphStartPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         paragraphDelimiterIndex.set(paragraphDelimiterIndexPOINTER.get(ValueLayout.JAVA_INT, 0));
         nextParagraphStart.set(nextParagraphStartPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
-    
-    private static final MethodHandle pango_font_description_from_string = Interop.downcallHandle(
-        "pango_font_description_from_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Creates a new font description from a string representation.
@@ -1117,21 +1145,19 @@ public final class Pango {
      * A typical example:
      * <p>
      *     "Cantarell Italic Light 15 \\{@code wght}=200"
+     * @param str string representation of a font description.
+     * @return a new {@code PangoFontDescription}.
      */
-    public static @NotNull FontDescription fontDescriptionFromString(@NotNull java.lang.String str) {
+    public static @NotNull org.pango.FontDescription fontDescriptionFromString(@NotNull java.lang.String str) {
+        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_font_description_from_string.invokeExact(Interop.allocateNativeString(str));
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_description_from_string.invokeExact(Interop.allocateNativeString(str));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new FontDescription(Refcounted.get(RESULT, true));
+        return new org.pango.FontDescription(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_get_log_attrs = Interop.downcallHandle(
-        "pango_get_log_attrs",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Computes a {@code PangoLogAttr} for each character in {@code text}.
@@ -1143,38 +1169,65 @@ public final class Pango {
      * logical attributes can't be computed without context
      * (for example you need to see spaces on either side of
      * a word to know the word is a word).
+     * @param text text to process. Must be valid UTF-8
+     * @param length length in bytes of {@code text}
+     * @param level embedding level, or -1 if unknown
+     * @param language language tag
+     * @param attrs array with one {@code PangoLogAttr}
+     *   per character in {@code text}, plus one extra, to be filled in
+     * @param attrsLen length of {@code attrs} array
      */
-    public static @NotNull void getLogAttrs(@NotNull java.lang.String text, @NotNull int length, @NotNull int level, @NotNull Language language, @NotNull LogAttr[] attrs, @NotNull int attrsLen) {
+    public static void getLogAttrs(@NotNull java.lang.String text, int length, int level, @NotNull org.pango.Language language, org.pango.LogAttr[] attrs, int attrsLen) {
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
+        java.util.Objects.requireNonNull(attrs, "Parameter 'attrs' must not be null");
         try {
-            pango_get_log_attrs.invokeExact(Interop.allocateNativeString(text), length, level, language.handle(), Interop.allocateNativeArray(attrs), attrsLen);
+            DowncallHandles.pango_get_log_attrs.invokeExact(Interop.allocateNativeString(text), length, level, language.handle(), Interop.allocateNativeArray(attrs, false), attrsLen);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle pango_gravity_get_for_matrix = Interop.downcallHandle(
-        "pango_gravity_get_for_matrix",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
+    /**
+     * Returns the mirrored character of a Unicode character.
+     * <p>
+     * Mirror characters are determined by the Unicode mirrored property.
+     * @param ch a Unicode character
+     * @param mirroredCh location to store the mirrored character
+     * @return {@code true} if {@code ch} has a mirrored character and {@code mirrored_ch} is
+     * filled in, {@code false} otherwise
+     * @deprecated Use {@link org.gtk.glib.GLib#unicharGetMirrorChar} instead;
+     *   the docs for that function provide full details.
+     */
+    @Deprecated
+    public static boolean getMirrorChar(int ch, PointerInteger mirroredCh) {
+        java.util.Objects.requireNonNull(mirroredCh, "Parameter 'mirroredCh' must not be null");
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.pango_get_mirror_char.invokeExact(ch, mirroredCh.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT != 0;
+    }
     
     /**
      * Finds the gravity that best matches the rotation component
      * in a {@code PangoMatrix}.
+     * @param matrix a {@code PangoMatrix}
+     * @return the gravity of {@code matrix}, which will never be
+     * {@link Gravity#AUTO}, or {@link Gravity#SOUTH} if {@code matrix} is {@code null}
      */
-    public static @NotNull Gravity gravityGetForMatrix(@Nullable Matrix matrix) {
+    public static @NotNull org.pango.Gravity gravityGetForMatrix(@Nullable org.pango.Matrix matrix) {
+        java.util.Objects.requireNonNullElse(matrix, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) pango_gravity_get_for_matrix.invokeExact(matrix.handle());
+            RESULT = (int) DowncallHandles.pango_gravity_get_for_matrix.invokeExact(matrix.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Gravity(RESULT);
+        return new org.pango.Gravity(RESULT);
     }
-    
-    private static final MethodHandle pango_gravity_get_for_script = Interop.downcallHandle(
-        "pango_gravity_get_for_script",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Returns the gravity to use in laying out a {@code PangoItem}.
@@ -1184,21 +1237,24 @@ public final class Pango {
      * If {@code base_gravity} is {@link Gravity#AUTO}, it is first replaced with the
      * preferred gravity of {@code script}.  To get the preferred gravity of a script,
      * pass {@link Gravity#AUTO} and {@link GravityHint#STRONG} in.
+     * @param script {@code PangoScript} to query
+     * @param baseGravity base gravity of the paragraph
+     * @param hint orientation hint
+     * @return resolved gravity suitable to use for a run of text
+     * with {@code script}
      */
-    public static @NotNull Gravity gravityGetForScript(@NotNull Script script, @NotNull Gravity baseGravity, @NotNull GravityHint hint) {
+    public static @NotNull org.pango.Gravity gravityGetForScript(@NotNull org.pango.Script script, @NotNull org.pango.Gravity baseGravity, @NotNull org.pango.GravityHint hint) {
+        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
+        java.util.Objects.requireNonNull(baseGravity, "Parameter 'baseGravity' must not be null");
+        java.util.Objects.requireNonNull(hint, "Parameter 'hint' must not be null");
         int RESULT;
         try {
-            RESULT = (int) pango_gravity_get_for_script.invokeExact(script.getValue(), baseGravity.getValue(), hint.getValue());
+            RESULT = (int) DowncallHandles.pango_gravity_get_for_script.invokeExact(script.getValue(), baseGravity.getValue(), hint.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Gravity(RESULT);
+        return new org.pango.Gravity(RESULT);
     }
-    
-    private static final MethodHandle pango_gravity_get_for_script_and_width = Interop.downcallHandle(
-        "pango_gravity_get_for_script_and_width",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Returns the gravity to use in laying out a single character
@@ -1207,75 +1263,74 @@ public final class Pango {
      * The gravity is determined based on the script, East Asian width,
      * base gravity, and hint,
      * <p>
-     * This function is similar to {@link Pango#Gravity} except
+     * This function is similar to {@link Gravity#getForScript} except
      * that this function makes a distinction between narrow/half-width and
      * wide/full-width characters also. Wide/full-width characters always
-     * stand <strong>upright</strong>, that is, they always take the base gravity,
+     * stand <em>upright</em>, that is, they always take the base gravity,
      * whereas narrow/full-width characters are always rotated in vertical
      * context.
      * <p>
      * If {@code base_gravity} is {@link Gravity#AUTO}, it is first replaced with the
      * preferred gravity of {@code script}.
+     * @param script {@code PangoScript} to query
+     * @param wide {@code true} for wide characters as returned by g_unichar_iswide()
+     * @param baseGravity base gravity of the paragraph
+     * @param hint orientation hint
+     * @return resolved gravity suitable to use for a run of text
+     * with {@code script} and {@code wide}.
      */
-    public static @NotNull Gravity gravityGetForScriptAndWidth(@NotNull Script script, @NotNull boolean wide, @NotNull Gravity baseGravity, @NotNull GravityHint hint) {
+    public static @NotNull org.pango.Gravity gravityGetForScriptAndWidth(@NotNull org.pango.Script script, boolean wide, @NotNull org.pango.Gravity baseGravity, @NotNull org.pango.GravityHint hint) {
+        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
+        java.util.Objects.requireNonNull(baseGravity, "Parameter 'baseGravity' must not be null");
+        java.util.Objects.requireNonNull(hint, "Parameter 'hint' must not be null");
         int RESULT;
         try {
-            RESULT = (int) pango_gravity_get_for_script_and_width.invokeExact(script.getValue(), wide ? 1 : 0, baseGravity.getValue(), hint.getValue());
+            RESULT = (int) DowncallHandles.pango_gravity_get_for_script_and_width.invokeExact(script.getValue(), wide ? 1 : 0, baseGravity.getValue(), hint.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Gravity(RESULT);
+        return new org.pango.Gravity(RESULT);
     }
-    
-    private static final MethodHandle pango_gravity_to_rotation = Interop.downcallHandle(
-        "pango_gravity_to_rotation",
-        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Converts a {@code PangoGravity} value to its natural rotation in radians.
      * <p>
      * Note that {@link Matrix#rotate} takes angle in degrees, not radians.
-     * So, to call {@link Pango#Matrix,rotate} with the output of this function
+     * So, to call {@code Pango#Matrix,rotate} with the output of this function
      * you should multiply it by (180. / G_PI).
+     * @param gravity gravity to query, should not be {@link Gravity#AUTO}
+     * @return the rotation value corresponding to {@code gravity}.
      */
-    public static double gravityToRotation(@NotNull Gravity gravity) {
+    public static double gravityToRotation(@NotNull org.pango.Gravity gravity) {
+        java.util.Objects.requireNonNull(gravity, "Parameter 'gravity' must not be null");
         double RESULT;
         try {
-            RESULT = (double) pango_gravity_to_rotation.invokeExact(gravity.getValue());
+            RESULT = (double) DowncallHandles.pango_gravity_to_rotation.invokeExact(gravity.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle pango_is_zero_width = Interop.downcallHandle(
-        "pango_is_zero_width",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Checks if a character that should not be normally rendered.
      * <p>
      * This includes all Unicode characters with "ZERO WIDTH" in their name,
-     * as well as <strong>bidi</strong> formatting characters, and a few other ones.
+     * as well as <em>bidi</em> formatting characters, and a few other ones.
      * <p>
-     * This is totally different from {@link GLib#unicharIszerowidth} and is at best misnamed.
+     * This is totally different from {@link org.gtk.glib.GLib#unicharIszerowidth} and is at best misnamed.
+     * @param ch a Unicode character
+     * @return {@code true} if {@code ch} is a zero-width character, {@code false} otherwise
      */
-    public static boolean isZeroWidth(@NotNull int ch) {
+    public static boolean isZeroWidth(int ch) {
         int RESULT;
         try {
-            RESULT = (int) pango_is_zero_width.invokeExact(ch);
+            RESULT = (int) DowncallHandles.pango_is_zero_width.invokeExact(ch);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle pango_itemize = Interop.downcallHandle(
-        "pango_itemize",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Breaks a piece of text into segments with consistent directional
@@ -1290,43 +1345,65 @@ public final class Pango {
      * advanced to the range covering the position just after
      * {@code start_index} + {@code length}. (i.e. if itemizing in a loop, just keep passing
      * in the same {@code cached_iter}).
+     * @param context a structure holding information that affects
+     *   the itemization process.
+     * @param text the text to itemize. Must be valid UTF-8
+     * @param startIndex first byte in {@code text} to process
+     * @param length the number of bytes (not characters) to process
+     *   after {@code start_index}. This must be &gt;= 0.
+     * @param attrs the set of attributes that apply to {@code text}.
+     * @param cachedIter Cached attribute iterator
+     * @return a {@code GList} of
+     *   {@code Pango.Item} structures. The items should be freed using
+     *   {@link Item#free} in combination with {@link org.gtk.glib.List#freeFull}.
      */
-    public static @NotNull org.gtk.glib.List itemize(@NotNull Context context, @NotNull java.lang.String text, @NotNull int startIndex, @NotNull int length, @NotNull AttrList attrs, @Nullable AttrIterator cachedIter) {
+    public static @NotNull org.gtk.glib.List itemize(@NotNull org.pango.Context context, @NotNull java.lang.String text, int startIndex, int length, @NotNull org.pango.AttrList attrs, @Nullable org.pango.AttrIterator cachedIter) {
+        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+        java.util.Objects.requireNonNull(attrs, "Parameter 'attrs' must not be null");
+        java.util.Objects.requireNonNullElse(cachedIter, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_itemize.invokeExact(context.handle(), Interop.allocateNativeString(text), startIndex, length, attrs.handle(), cachedIter.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_itemize.invokeExact(context.handle(), Interop.allocateNativeString(text), startIndex, length, attrs.handle(), cachedIter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_itemize_with_base_dir = Interop.downcallHandle(
-        "pango_itemize_with_base_dir",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Like {@code pango_itemize()}, but with an explicitly specified base direction.
      * <p>
      * The base direction is used when computing bidirectional levels.
-     * {@link itemize#null} gets the base direction from the {@code PangoContext}
+     * {@link Pango#itemize} gets the base direction from the {@code PangoContext}
      * (see {@link Context#setBaseDir}).
+     * @param context a structure holding information that affects
+     *   the itemization process.
+     * @param baseDir base direction to use for bidirectional processing
+     * @param text the text to itemize.
+     * @param startIndex first byte in {@code text} to process
+     * @param length the number of bytes (not characters) to process
+     *   after {@code start_index}. This must be &gt;= 0.
+     * @param attrs the set of attributes that apply to {@code text}.
+     * @param cachedIter Cached attribute iterator
+     * @return a {@code GList} of
+     *   {@code Pango.Item} structures. The items should be freed using
+     *   {@link Item#free} probably in combination with {@link org.gtk.glib.List#freeFull}.
      */
-    public static @NotNull org.gtk.glib.List itemizeWithBaseDir(@NotNull Context context, @NotNull Direction baseDir, @NotNull java.lang.String text, @NotNull int startIndex, @NotNull int length, @NotNull AttrList attrs, @Nullable AttrIterator cachedIter) {
+    public static @NotNull org.gtk.glib.List itemizeWithBaseDir(@NotNull org.pango.Context context, @NotNull org.pango.Direction baseDir, @NotNull java.lang.String text, int startIndex, int length, @NotNull org.pango.AttrList attrs, @Nullable org.pango.AttrIterator cachedIter) {
+        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
+        java.util.Objects.requireNonNull(baseDir, "Parameter 'baseDir' must not be null");
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+        java.util.Objects.requireNonNull(attrs, "Parameter 'attrs' must not be null");
+        java.util.Objects.requireNonNullElse(cachedIter, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_itemize_with_base_dir.invokeExact(context.handle(), baseDir.getValue(), Interop.allocateNativeString(text), startIndex, length, attrs.handle(), cachedIter.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_itemize_with_base_dir.invokeExact(context.handle(), baseDir.getValue(), Interop.allocateNativeString(text), startIndex, length, attrs.handle(), cachedIter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_language_from_string = Interop.downcallHandle(
-        "pango_language_from_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Convert a language tag to a {@code PangoLanguage}.
@@ -1339,23 +1416,21 @@ public final class Pango {
      * lowercase, mapping '_' to '-', and stripping all characters other
      * than letters and '-'.
      * <p>
-     * Use {@link Pango#Language} if you want to get the
+     * Use {@link Language#getDefault} if you want to get the
      * {@code PangoLanguage} for the current locale of the process.
+     * @param language a string representing a language tag
+     * @return a {@code PangoLanguage}
      */
-    public static @Nullable Language languageFromString(@Nullable java.lang.String language) {
+    public static @Nullable org.pango.Language languageFromString(@Nullable java.lang.String language) {
+        java.util.Objects.requireNonNullElse(language, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_language_from_string.invokeExact(Interop.allocateNativeString(language));
+            RESULT = (MemoryAddress) DowncallHandles.pango_language_from_string.invokeExact(Interop.allocateNativeString(language));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Language(Refcounted.get(RESULT, false));
+        return new org.pango.Language(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle pango_language_get_default = Interop.downcallHandle(
-        "pango_language_get_default",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the {@code PangoLanguage} for the current locale of the process.
@@ -1389,21 +1464,17 @@ public final class Pango {
      * Also note that this function will not do the right thing if you
      * use per-thread locales with uselocale(). In that case, you should
      * just call pango_language_from_string() yourself.
+     * @return the default language as a {@code PangoLanguage}
      */
-    public static @NotNull Language languageGetDefault() {
+    public static @NotNull org.pango.Language languageGetDefault() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_language_get_default.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.pango_language_get_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Language(Refcounted.get(RESULT, false));
+        return new org.pango.Language(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle pango_language_get_preferred = Interop.downcallHandle(
-        "pango_language_get_preferred",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the list of languages that the user prefers.
@@ -1411,42 +1482,34 @@ public final class Pango {
      * The list is specified by the {@code PANGO_LANGUAGE} or {@code LANGUAGE}
      * environment variables, in order of preference. Note that this
      * list does not necessarily include the language returned by
-     * {@link Pango#Language}.
+     * {@link Language#getDefault}.
      * <p>
      * When choosing language-specific resources, such as the sample
      * text returned by {@link Language#getSampleString},
      * you should first try the default language, followed by the
      * languages returned by this function.
+     * @return a {@code null}-terminated array
+     *   of {@code PangoLanguage}*
      */
-    public static @Nullable PointerProxy<Language> languageGetPreferred() {
+    public static @Nullable PointerProxy<org.pango.Language> languageGetPreferred() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_language_get_preferred.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.pango_language_get_preferred.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PointerProxy<Language>(RESULT, Language.class);
+        return new PointerProxy<org.pango.Language>(RESULT, org.pango.Language.class);
     }
-    
-    private static final MethodHandle pango_layout_deserialize_error_quark = Interop.downcallHandle(
-        "pango_layout_deserialize_error_quark",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT)
-    );
     
     public static @NotNull org.gtk.glib.Quark layoutDeserializeErrorQuark() {
         int RESULT;
         try {
-            RESULT = (int) pango_layout_deserialize_error_quark.invokeExact();
+            RESULT = (int) DowncallHandles.pango_layout_deserialize_error_quark.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.Quark(RESULT);
     }
-    
-    private static final MethodHandle pango_log2vis_get_embedding_levels = Interop.downcallHandle(
-        "pango_log2vis_get_embedding_levels",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Return the bidirectional embedding levels of the input paragraph.
@@ -1456,21 +1519,24 @@ public final class Pango {
      * <p>
      * If the input base direction is a weak direction, the direction of the
      * characters in the text will determine the final resolved direction.
+     * @param text the text to itemize.
+     * @param length the number of bytes (not characters) to process, or -1
+     *   if {@code text} is nul-terminated and the length should be calculated.
+     * @param pbaseDir input base direction, and output resolved direction.
+     * @return a newly allocated array of embedding levels, one item per
+     *   character (not byte), that should be freed using {@link org.gtk.glib.GLib#free}.
      */
-    public static PointerByte log2visGetEmbeddingLevels(@NotNull java.lang.String text, @NotNull int length, @NotNull Direction pbaseDir) {
+    public static PointerByte log2visGetEmbeddingLevels(@NotNull java.lang.String text, int length, @NotNull org.pango.Direction pbaseDir) {
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+        java.util.Objects.requireNonNull(pbaseDir, "Parameter 'pbaseDir' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_log2vis_get_embedding_levels.invokeExact(Interop.allocateNativeString(text), length, new PointerInteger(pbaseDir.getValue()).handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_log2vis_get_embedding_levels.invokeExact(Interop.allocateNativeString(text), length, new PointerInteger(pbaseDir.getValue()).handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerByte(RESULT);
     }
-    
-    private static final MethodHandle pango_markup_parser_finish = Interop.downcallHandle(
-        "pango_markup_parser_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Finishes parsing markup.
@@ -1479,31 +1545,36 @@ public final class Pango {
      * use this function to get the list of attributes and text out of the
      * markup. This function will not free {@code context}, use {@link org.gtk.glib.MarkupParseContext#free}
      * to do so.
+     * @param context A valid parse context that was returned from {@link Pango#markupParserNew}
+     * @param attrList address of return location for a {@code PangoAttrList}
+     * @param text address of return location for text with tags stripped
+     * @param accelChar address of return location for accelerator char
+     * @return {@code false} if {@code error} is set, otherwise {@code true}
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean markupParserFinish(@NotNull org.gtk.glib.MarkupParseContext context, @NotNull Out<AttrList> attrList, @NotNull Out<java.lang.String> text, @NotNull Out<Integer> accelChar) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean markupParserFinish(@NotNull org.gtk.glib.MarkupParseContext context, @NotNull Out<org.pango.AttrList> attrList, @NotNull Out<java.lang.String> text, Out<Integer> accelChar) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
+        java.util.Objects.requireNonNull(attrList, "Parameter 'attrList' must not be null");
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+        java.util.Objects.requireNonNull(accelChar, "Parameter 'accelChar' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment attrListPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment textPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment accelCharPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) pango_markup_parser_finish.invokeExact(context.handle(), (Addressable) attrListPOINTER.address(), (Addressable) textPOINTER.address(), (Addressable) accelCharPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.pango_markup_parser_finish.invokeExact(context.handle(), (Addressable) attrListPOINTER.address(), (Addressable) textPOINTER.address(), (Addressable) accelCharPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        attrList.set(new AttrList(Refcounted.get(attrListPOINTER.get(ValueLayout.ADDRESS, 0), true)));
-        text.set(textPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
-        accelChar.set(accelCharPOINTER.get(ValueLayout.JAVA_INT, 0));
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        attrList.set(new org.pango.AttrList(Refcounted.get(attrListPOINTER.get(ValueLayout.ADDRESS, 0), true)));
+        text.set(textPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        accelChar.set(accelCharPOINTER.get(ValueLayout.JAVA_INT, 0));
         return RESULT != 0;
     }
-    
-    private static final MethodHandle pango_markup_parser_new = Interop.downcallHandle(
-        "pango_markup_parser_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Incrementally parses marked-up text to create a plain-text string
@@ -1517,32 +1588,68 @@ public final class Pango {
      * might be an ampersand or underscore. All characters marked
      * as an accelerator will receive a {@link Underline#LOW} attribute,
      * and the first character so marked will be returned in {@code accel_char},
-     * when calling {@code accel_marker characters
-     * following each other produce a single literal @accel_marker character.
-     * 
-     * To feed markup to the parser, use [method@GLib.MarkupParseContext.parse}
+     * when calling {@link Pango#markupParserFinish}. Two {@code accel_marker} characters
+     * following each other produce a single literal {@code accel_marker} character.
+     * <p>
+     * To feed markup to the parser, use {@link org.gtk.glib.MarkupParseContext#parse}
      * on the returned {@code GLib.MarkupParseContext}. When done with feeding markup
-     * to the parser, use {@link markup_parser_finish#null} to get the data out
+     * to the parser, use {@link Pango#markupParserFinish} to get the data out
      * of it, and then use {@link org.gtk.glib.MarkupParseContext#free} to free it.
      * <p>
      * This function is designed for applications that read Pango markup
      * from streams. To simply parse a string containing Pango markup,
      * the {@link Pango#parseMarkup} API is recommended instead.
+     * @param accelMarker character that precedes an accelerator, or 0 for none
+     * @return a {@code GMarkupParseContext} that should be
+     * destroyed with {@link org.gtk.glib.MarkupParseContext#free}.
      */
-    public static @NotNull org.gtk.glib.MarkupParseContext markupParserNew(@NotNull int accelMarker) {
+    public static @NotNull org.gtk.glib.MarkupParseContext markupParserNew(int accelMarker) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_markup_parser_new.invokeExact(accelMarker);
+            RESULT = (MemoryAddress) DowncallHandles.pango_markup_parser_new.invokeExact(accelMarker);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.MarkupParseContext(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle pango_parse_markup = Interop.downcallHandle(
-        "pango_parse_markup",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Parses an enum type and stores the result in {@code value}.
+     * <p>
+     * If {@code str} does not match the nick name of any of the possible values
+     * for the enum and is not an integer, {@code false} is returned, a warning
+     * is issued if {@code warn} is {@code true}, and a string representing the list of
+     * possible values is stored in {@code possible_values}. The list is
+     * slash-separated, eg. "none/start/middle/end".
+     * <p>
+     * If failed and {@code possible_values} is not {@code null}, returned string should
+     * be freed using g_free().
+     * @param type enum type to parse, eg. {@code PANGO_TYPE_ELLIPSIZE_MODE}
+     * @param str string to parse
+     * @param value integer to store the result in
+     * @param warn if {@code true}, issue a g_warning() on bad input
+     * @param possibleValues place to store list of possible
+     *   values on failure
+     * @return {@code true} if {@code str} was successfully parsed
+     */
+    @Deprecated
+    public static boolean parseEnum(@NotNull org.gtk.glib.Type type, @Nullable java.lang.String str, Out<Integer> value, boolean warn, @NotNull Out<java.lang.String> possibleValues) {
+        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+        java.util.Objects.requireNonNullElse(str, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+        java.util.Objects.requireNonNull(possibleValues, "Parameter 'possibleValues' must not be null");
+        MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        MemorySegment possibleValuesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.pango_parse_enum.invokeExact(type.getValue(), Interop.allocateNativeString(str), (Addressable) valuePOINTER.address(), warn ? 1 : 0, (Addressable) possibleValuesPOINTER.address());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        value.set(valuePOINTER.get(ValueLayout.JAVA_INT, 0));
+        possibleValues.set(possibleValuesPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        return RESULT != 0;
+    }
     
     /**
      * Parses marked-up text to create a plain-text string and an attribute list.
@@ -1558,35 +1665,42 @@ public final class Pango {
      * Two {@code accel_marker} characters following each other produce a single
      * literal {@code accel_marker} character.
      * <p>
-     * To parse a stream of pango markup incrementally, use {@link markup_parser_new#null}.
+     * To parse a stream of pango markup incrementally, use {@link Pango#markupParserNew}.
      * <p>
      * If any error happens, none of the output arguments are touched except
      * for {@code error}.
+     * @param markupText markup to parse (see the <a href="pango_markup.html">Pango Markup</a> docs)
+     * @param length length of {@code markup_text}, or -1 if nul-terminated
+     * @param accelMarker character that precedes an accelerator, or 0 for none
+     * @param attrList address of return location for a {@code PangoAttrList}
+     * @param text address of return location for text with tags stripped
+     * @param accelChar address of return location for accelerator char
+     * @return {@code false} if {@code error} is set, otherwise {@code true}
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean parseMarkup(@NotNull java.lang.String markupText, @NotNull int length, @NotNull int accelMarker, @NotNull Out<AttrList> attrList, @NotNull Out<java.lang.String> text, @NotNull Out<Integer> accelChar) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean parseMarkup(@NotNull java.lang.String markupText, int length, int accelMarker, @NotNull Out<org.pango.AttrList> attrList, @NotNull Out<java.lang.String> text, Out<Integer> accelChar) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(markupText, "Parameter 'markupText' must not be null");
+        java.util.Objects.requireNonNull(attrList, "Parameter 'attrList' must not be null");
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+        java.util.Objects.requireNonNull(accelChar, "Parameter 'accelChar' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment attrListPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment textPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment accelCharPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) pango_parse_markup.invokeExact(Interop.allocateNativeString(markupText), length, accelMarker, (Addressable) attrListPOINTER.address(), (Addressable) textPOINTER.address(), (Addressable) accelCharPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.pango_parse_markup.invokeExact(Interop.allocateNativeString(markupText), length, accelMarker, (Addressable) attrListPOINTER.address(), (Addressable) textPOINTER.address(), (Addressable) accelCharPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        attrList.set(new AttrList(Refcounted.get(attrListPOINTER.get(ValueLayout.ADDRESS, 0), true)));
-        text.set(textPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
-        accelChar.set(accelCharPOINTER.get(ValueLayout.JAVA_INT, 0));
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        attrList.set(new org.pango.AttrList(Refcounted.get(attrListPOINTER.get(ValueLayout.ADDRESS, 0), true)));
+        text.set(textPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        accelChar.set(accelCharPOINTER.get(ValueLayout.JAVA_INT, 0));
         return RESULT != 0;
     }
-    
-    private static final MethodHandle pango_parse_stretch = Interop.downcallHandle(
-        "pango_parse_stretch",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Parses a font stretch.
@@ -1596,23 +1710,24 @@ public final class Pango {
      * "semi_condensed", "normal", "semi_expanded", "expanded",
      * "extra_expanded" and "ultra_expanded". Case variations are
      * ignored and the '_' characters may be omitted.
+     * @param str a string to parse.
+     * @param stretch a {@code PangoStretch} to store the result in.
+     * @param warn if {@code true}, issue a g_warning() on bad input.
+     * @return {@code true} if {@code str} was successfully parsed.
      */
-    public static boolean parseStretch(@NotNull java.lang.String str, @NotNull Out<Stretch> stretch, @NotNull boolean warn) {
+    public static boolean parseStretch(@NotNull java.lang.String str, @NotNull Out<org.pango.Stretch> stretch, boolean warn) {
+        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+        java.util.Objects.requireNonNull(stretch, "Parameter 'stretch' must not be null");
         MemorySegment stretchPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) pango_parse_stretch.invokeExact(Interop.allocateNativeString(str), (Addressable) stretchPOINTER.address(), warn ? 1 : 0);
+            RESULT = (int) DowncallHandles.pango_parse_stretch.invokeExact(Interop.allocateNativeString(str), (Addressable) stretchPOINTER.address(), warn ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        stretch.set(new Stretch(stretchPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        stretch.set(new org.pango.Stretch(stretchPOINTER.get(ValueLayout.JAVA_INT, 0)));
         return RESULT != 0;
     }
-    
-    private static final MethodHandle pango_parse_style = Interop.downcallHandle(
-        "pango_parse_style",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Parses a font style.
@@ -1620,23 +1735,24 @@ public final class Pango {
      * The allowed values are "normal", "italic" and "oblique", case
      * variations being
      * ignored.
+     * @param str a string to parse.
+     * @param style a {@code PangoStyle} to store the result in.
+     * @param warn if {@code true}, issue a g_warning() on bad input.
+     * @return {@code true} if {@code str} was successfully parsed.
      */
-    public static boolean parseStyle(@NotNull java.lang.String str, @NotNull Out<Style> style, @NotNull boolean warn) {
+    public static boolean parseStyle(@NotNull java.lang.String str, @NotNull Out<org.pango.Style> style, boolean warn) {
+        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+        java.util.Objects.requireNonNull(style, "Parameter 'style' must not be null");
         MemorySegment stylePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) pango_parse_style.invokeExact(Interop.allocateNativeString(str), (Addressable) stylePOINTER.address(), warn ? 1 : 0);
+            RESULT = (int) DowncallHandles.pango_parse_style.invokeExact(Interop.allocateNativeString(str), (Addressable) stylePOINTER.address(), warn ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        style.set(new Style(stylePOINTER.get(ValueLayout.JAVA_INT, 0)));
+        style.set(new org.pango.Style(stylePOINTER.get(ValueLayout.JAVA_INT, 0)));
         return RESULT != 0;
     }
-    
-    private static final MethodHandle pango_parse_variant = Interop.downcallHandle(
-        "pango_parse_variant",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Parses a font variant.
@@ -1644,23 +1760,24 @@ public final class Pango {
      * The allowed values are "normal", "small-caps", "all-small-caps",
      * "petite-caps", "all-petite-caps", "unicase" and "title-caps",
      * case variations being ignored.
+     * @param str a string to parse.
+     * @param variant a {@code PangoVariant} to store the result in.
+     * @param warn if {@code true}, issue a g_warning() on bad input.
+     * @return {@code true} if {@code str} was successfully parsed.
      */
-    public static boolean parseVariant(@NotNull java.lang.String str, @NotNull Out<Variant> variant, @NotNull boolean warn) {
+    public static boolean parseVariant(@NotNull java.lang.String str, @NotNull Out<org.pango.Variant> variant, boolean warn) {
+        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+        java.util.Objects.requireNonNull(variant, "Parameter 'variant' must not be null");
         MemorySegment variantPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) pango_parse_variant.invokeExact(Interop.allocateNativeString(str), (Addressable) variantPOINTER.address(), warn ? 1 : 0);
+            RESULT = (int) DowncallHandles.pango_parse_variant.invokeExact(Interop.allocateNativeString(str), (Addressable) variantPOINTER.address(), warn ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        variant.set(new Variant(variantPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        variant.set(new org.pango.Variant(variantPOINTER.get(ValueLayout.JAVA_INT, 0)));
         return RESULT != 0;
     }
-    
-    private static final MethodHandle pango_parse_weight = Interop.downcallHandle(
-        "pango_parse_weight",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Parses a font weight.
@@ -1668,23 +1785,24 @@ public final class Pango {
      * The allowed values are "heavy",
      * "ultrabold", "bold", "normal", "light", "ultraleight"
      * and integers. Case variations are ignored.
+     * @param str a string to parse.
+     * @param weight a {@code PangoWeight} to store the result in.
+     * @param warn if {@code true}, issue a g_warning() on bad input.
+     * @return {@code true} if {@code str} was successfully parsed.
      */
-    public static boolean parseWeight(@NotNull java.lang.String str, @NotNull Out<Weight> weight, @NotNull boolean warn) {
+    public static boolean parseWeight(@NotNull java.lang.String str, @NotNull Out<org.pango.Weight> weight, boolean warn) {
+        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+        java.util.Objects.requireNonNull(weight, "Parameter 'weight' must not be null");
         MemorySegment weightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) pango_parse_weight.invokeExact(Interop.allocateNativeString(str), (Addressable) weightPOINTER.address(), warn ? 1 : 0);
+            RESULT = (int) DowncallHandles.pango_parse_weight.invokeExact(Interop.allocateNativeString(str), (Addressable) weightPOINTER.address(), warn ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        weight.set(new Weight(weightPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        weight.set(new org.pango.Weight(weightPOINTER.get(ValueLayout.JAVA_INT, 0)));
         return RESULT != 0;
     }
-    
-    private static final MethodHandle pango_quantize_line_geometry = Interop.downcallHandle(
-        "pango_quantize_line_geometry",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Quantizes the thickness and position of a line to whole device pixels.
@@ -1695,12 +1813,16 @@ public final class Pango {
      * Care is taken to make sure {@code thickness} is at least one pixel when this
      * function returns, but returned {@code position} may become zero as a result
      * of rounding.
+     * @param thickness pointer to the thickness of a line, in Pango units
+     * @param position corresponding position
      */
-    public static @NotNull void quantizeLineGeometry(@NotNull Out<Integer> thickness, @NotNull Out<Integer> position) {
+    public static void quantizeLineGeometry(Out<Integer> thickness, Out<Integer> position) {
+        java.util.Objects.requireNonNull(thickness, "Parameter 'thickness' must not be null");
+        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
         MemorySegment thicknessPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment positionPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            pango_quantize_line_geometry.invokeExact((Addressable) thicknessPOINTER.address(), (Addressable) positionPOINTER.address());
+            DowncallHandles.pango_quantize_line_geometry.invokeExact((Addressable) thicknessPOINTER.address(), (Addressable) positionPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1708,10 +1830,33 @@ public final class Pango {
         position.set(positionPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    private static final MethodHandle pango_reorder_items = Interop.downcallHandle(
-        "pango_reorder_items",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Reads an entire line from a file into a buffer.
+     * <p>
+     * Lines may be delimited with '\\n', '\\r', '\\n\\r', or '\\r\\n'. The delimiter
+     * is not written into the buffer. Text after a '{@code '} character is treated as
+     * a comment and skipped. '\\' can be used to escape a # character.
+     * '\\' proceeding a line delimiter combines adjacent lines. A '\\' proceeding
+     * any other character is ignored and written into the output buffer
+     * unmodified.
+     * @param stream a stdio stream
+     * @param str {@code GString} buffer into which to write the result
+     * @return 0 if the stream was already at an {@code EOF} character,
+     *   otherwise the number of lines read (this is useful for maintaining
+     *   a line number counter which doesn't combine lines with '\\')
+     */
+    @Deprecated
+    public static int readLine(@Nullable java.lang.foreign.MemoryAddress stream, @NotNull org.gtk.glib.String str) {
+        java.util.Objects.requireNonNullElse(stream, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.pango_read_line.invokeExact(stream, str.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
+    }
     
     /**
      * Reorder items from logical order to visual order.
@@ -1722,21 +1867,123 @@ public final class Pango {
      * (Please open a bug if you use this function.
      *  It is not a particularly convenient interface, and the code
      *  is duplicated elsewhere in Pango for that reason.)
+     * @param items a {@code GList} of {@code PangoItem}
+     *   in logical order.
+     * @return a {@code GList}
+     *   of {@code PangoItem} structures in visual order.
      */
     public static @NotNull org.gtk.glib.List reorderItems(@NotNull org.gtk.glib.List items) {
+        java.util.Objects.requireNonNull(items, "Parameter 'items' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_reorder_items.invokeExact(items.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_reorder_items.invokeExact(items.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle pango_script_get_sample_language = Interop.downcallHandle(
-        "pango_script_get_sample_language",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
+    /**
+     * Scans an integer.
+     * <p>
+     * Leading white space is skipped.
+     * @param pos in/out string position
+     * @param out an int into which to write the result
+     * @return {@code false} if a parse error occurred
+     */
+    @Deprecated
+    public static boolean scanInt(@NotNull Out<java.lang.String> pos, Out<Integer> out) {
+        java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
+        java.util.Objects.requireNonNull(out, "Parameter 'out' must not be null");
+        MemorySegment posPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        MemorySegment outPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.pango_scan_int.invokeExact((Addressable) posPOINTER.address(), (Addressable) outPOINTER.address());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        pos.set(posPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        out.set(outPOINTER.get(ValueLayout.JAVA_INT, 0));
+        return RESULT != 0;
+    }
+    
+    /**
+     * Scans a string into a {@code GString} buffer.
+     * <p>
+     * The string may either be a sequence of non-white-space characters,
+     * or a quoted string with '"'. Instead a quoted string, '\\"' represents
+     * a literal quote. Leading white space outside of quotes is skipped.
+     * @param pos in/out string position
+     * @param out a {@code GString} into which to write the result
+     * @return {@code false} if a parse error occurred
+     */
+    @Deprecated
+    public static boolean scanString(@NotNull Out<java.lang.String> pos, @NotNull org.gtk.glib.String out) {
+        java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
+        java.util.Objects.requireNonNull(out, "Parameter 'out' must not be null");
+        MemorySegment posPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.pango_scan_string.invokeExact((Addressable) posPOINTER.address(), out.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        pos.set(posPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        return RESULT != 0;
+    }
+    
+    /**
+     * Scans a word into a {@code GString} buffer.
+     * <p>
+     * A word consists of [A-Za-z_] followed by zero or more
+     * [A-Za-z_0-9]. Leading white space is skipped.
+     * @param pos in/out string position
+     * @param out a {@code GString} into which to write the result
+     * @return {@code false} if a parse error occurred
+     */
+    @Deprecated
+    public static boolean scanWord(@NotNull Out<java.lang.String> pos, @NotNull org.gtk.glib.String out) {
+        java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
+        java.util.Objects.requireNonNull(out, "Parameter 'out' must not be null");
+        MemorySegment posPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.pango_scan_word.invokeExact((Addressable) posPOINTER.address(), out.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        pos.set(posPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        return RESULT != 0;
+    }
+    
+    /**
+     * Looks up the script for a particular character.
+     * <p>
+     * The script of a character is defined by
+     * <a href="http://www.unicode.org/reports/tr24/">Unicode Standard Annex 24: Script names</a>.
+     * <p>
+     * No check is made for {@code ch} being a valid Unicode character; if you pass
+     * in invalid character, the result is undefined.
+     * <p>
+     * Note that while the return type of this function is declared
+     * as {@code PangoScript}, as of Pango 1.18, this function simply returns
+     * the return value of {@link org.gtk.glib.GLib#unicharGetScript}. Callers must be
+     * prepared to handle unknown values.
+     * @param ch a Unicode character
+     * @return the {@code PangoScript} for the character.
+     * @deprecated Use g_unichar_get_script()
+     */
+    @Deprecated
+    public static @NotNull org.pango.Script scriptForUnichar(int ch) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.pango_script_for_unichar.invokeExact(ch);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.pango.Script(RESULT);
+    }
     
     /**
      * Finds a language tag that is reasonably representative of {@code script}.
@@ -1768,21 +2015,20 @@ public final class Pango {
      * in an otherwise non-Arabic text. The same trick can be used to
      * choose a default language for {@link Script#HAN} when setting
      * context language is not feasible.
+     * @param script a {@code PangoScript}
+     * @return a {@code PangoLanguage} that is representative
+     *   of the script
      */
-    public static @Nullable Language scriptGetSampleLanguage(@NotNull Script script) {
+    public static @Nullable org.pango.Language scriptGetSampleLanguage(@NotNull org.pango.Script script) {
+        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_script_get_sample_language.invokeExact(script.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_script_get_sample_language.invokeExact(script.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Language(Refcounted.get(RESULT, true));
+        return new org.pango.Language(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_shape = Interop.downcallHandle(
-        "pango_shape",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Convert the characters in {@code text} into glyphs.
@@ -1799,19 +2045,21 @@ public final class Pango {
      * {@link Pango#itemize} have indices that are relative to the entire paragraph,
      * so you need to subtract the item offset from their indices before
      * calling {@link Pango#shape}.
+     * @param text the text to process
+     * @param length the length (in bytes) of {@code text}
+     * @param analysis {@code PangoAnalysis} structure from {@link Pango#itemize}
+     * @param glyphs glyph string in which to store results
      */
-    public static @NotNull void shape(@NotNull java.lang.String text, @NotNull int length, @NotNull Analysis analysis, @NotNull GlyphString glyphs) {
+    public static void shape(@NotNull java.lang.String text, int length, @NotNull org.pango.Analysis analysis, @NotNull org.pango.GlyphString glyphs) {
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+        java.util.Objects.requireNonNull(analysis, "Parameter 'analysis' must not be null");
+        java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
         try {
-            pango_shape.invokeExact(Interop.allocateNativeString(text), length, analysis.handle(), glyphs.handle());
+            DowncallHandles.pango_shape.invokeExact(Interop.allocateNativeString(text), length, analysis.handle(), glyphs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle pango_shape_full = Interop.downcallHandle(
-        "pango_shape_full",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Convert the characters in {@code text} into glyphs.
@@ -1831,19 +2079,24 @@ public final class Pango {
      * so you do not pass the full paragraph text as {@code paragraph_text}, you need
      * to subtract the item offset from their indices before calling
      * {@link Pango#shapeFull}.
+     * @param itemText valid UTF-8 text to shape.
+     * @param itemLength the length (in bytes) of {@code item_text}. -1 means nul-terminated text.
+     * @param paragraphText text of the paragraph (see details).
+     * @param paragraphLength the length (in bytes) of {@code paragraph_text}. -1 means nul-terminated text.
+     * @param analysis {@code PangoAnalysis} structure from {@link Pango#itemize}.
+     * @param glyphs glyph string in which to store results.
      */
-    public static @NotNull void shapeFull(@NotNull java.lang.String itemText, @NotNull int itemLength, @Nullable java.lang.String paragraphText, @NotNull int paragraphLength, @NotNull Analysis analysis, @NotNull GlyphString glyphs) {
+    public static void shapeFull(@NotNull java.lang.String itemText, int itemLength, @Nullable java.lang.String paragraphText, int paragraphLength, @NotNull org.pango.Analysis analysis, @NotNull org.pango.GlyphString glyphs) {
+        java.util.Objects.requireNonNull(itemText, "Parameter 'itemText' must not be null");
+        java.util.Objects.requireNonNullElse(paragraphText, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(analysis, "Parameter 'analysis' must not be null");
+        java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
         try {
-            pango_shape_full.invokeExact(Interop.allocateNativeString(itemText), itemLength, Interop.allocateNativeString(paragraphText), paragraphLength, analysis.handle(), glyphs.handle());
+            DowncallHandles.pango_shape_full.invokeExact(Interop.allocateNativeString(itemText), itemLength, Interop.allocateNativeString(paragraphText), paragraphLength, analysis.handle(), glyphs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle pango_shape_item = Interop.downcallHandle(
-        "pango_shape_item",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Convert the characters in {@code item} into glyphs.
@@ -1858,19 +2111,26 @@ public final class Pango {
      * so you do not pass the full paragraph text as {@code paragraph_text}, you need
      * to subtract the item offset from their indices before calling
      * {@link Pango#shapeWithFlags}.
+     * @param item {@code PangoItem} to shape
+     * @param paragraphText text of the paragraph (see details).
+     * @param paragraphLength the length (in bytes) of {@code paragraph_text}.
+     *     -1 means nul-terminated text.
+     * @param logAttrs array of {@code PangoLogAttr} for {@code item}
+     * @param glyphs glyph string in which to store results
+     * @param flags flags influencing the shaping process
      */
-    public static @NotNull void shapeItem(@NotNull Item item, @Nullable java.lang.String paragraphText, @NotNull int paragraphLength, @Nullable LogAttr logAttrs, @NotNull GlyphString glyphs, @NotNull ShapeFlags flags) {
+    public static void shapeItem(@NotNull org.pango.Item item, @Nullable java.lang.String paragraphText, int paragraphLength, @Nullable org.pango.LogAttr logAttrs, @NotNull org.pango.GlyphString glyphs, @NotNull org.pango.ShapeFlags flags) {
+        java.util.Objects.requireNonNull(item, "Parameter 'item' must not be null");
+        java.util.Objects.requireNonNullElse(paragraphText, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(logAttrs, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         try {
-            pango_shape_item.invokeExact(item.handle(), Interop.allocateNativeString(paragraphText), paragraphLength, logAttrs.handle(), glyphs.handle(), flags.getValue());
+            DowncallHandles.pango_shape_item.invokeExact(item.handle(), Interop.allocateNativeString(paragraphText), paragraphLength, logAttrs.handle(), glyphs.handle(), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle pango_shape_with_flags = Interop.downcallHandle(
-        "pango_shape_with_flags",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Convert the characters in {@code text} into glyphs.
@@ -1887,40 +2147,86 @@ public final class Pango {
      * so you do not pass the full paragraph text as {@code paragraph_text}, you need
      * to subtract the item offset from their indices before calling
      * {@link Pango#shapeWithFlags}.
+     * @param itemText valid UTF-8 text to shape
+     * @param itemLength the length (in bytes) of {@code item_text}.
+     *     -1 means nul-terminated text.
+     * @param paragraphText text of the paragraph (see details).
+     * @param paragraphLength the length (in bytes) of {@code paragraph_text}.
+     *     -1 means nul-terminated text.
+     * @param analysis {@code PangoAnalysis} structure from {@link Pango#itemize}
+     * @param glyphs glyph string in which to store results
+     * @param flags flags influencing the shaping process
      */
-    public static @NotNull void shapeWithFlags(@NotNull java.lang.String itemText, @NotNull int itemLength, @Nullable java.lang.String paragraphText, @NotNull int paragraphLength, @NotNull Analysis analysis, @NotNull GlyphString glyphs, @NotNull ShapeFlags flags) {
+    public static void shapeWithFlags(@NotNull java.lang.String itemText, int itemLength, @Nullable java.lang.String paragraphText, int paragraphLength, @NotNull org.pango.Analysis analysis, @NotNull org.pango.GlyphString glyphs, @NotNull org.pango.ShapeFlags flags) {
+        java.util.Objects.requireNonNull(itemText, "Parameter 'itemText' must not be null");
+        java.util.Objects.requireNonNullElse(paragraphText, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(analysis, "Parameter 'analysis' must not be null");
+        java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         try {
-            pango_shape_with_flags.invokeExact(Interop.allocateNativeString(itemText), itemLength, Interop.allocateNativeString(paragraphText), paragraphLength, analysis.handle(), glyphs.handle(), flags.getValue());
+            DowncallHandles.pango_shape_with_flags.invokeExact(Interop.allocateNativeString(itemText), itemLength, Interop.allocateNativeString(paragraphText), paragraphLength, analysis.handle(), glyphs.handle(), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle pango_tab_array_from_string = Interop.downcallHandle(
-        "pango_tab_array_from_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Skips 0 or more characters of white space.
+     * @param pos in/out string position
+     * @return {@code false} if skipping the white space leaves
+     *   the position at a '\\0' character.
+     */
+    @Deprecated
+    public static boolean skipSpace(@NotNull Out<java.lang.String> pos) {
+        java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
+        MemorySegment posPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.pango_skip_space.invokeExact((Addressable) posPOINTER.address());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        pos.set(posPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        return RESULT != 0;
+    }
+    
+    /**
+     * Splits a {@code G_SEARCHPATH_SEPARATOR}-separated list of files, stripping
+     * white space and substituting ~/ with $HOME/.
+     * @param str a {@code G_SEARCHPATH_SEPARATOR} separated list of filenames
+     * @return a list of
+     *   strings to be freed with g_strfreev()
+     */
+    @Deprecated
+    public static @NotNull PointerString splitFileList(@NotNull java.lang.String str) {
+        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.pango_split_file_list.invokeExact(Interop.allocateNativeString(str));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new PointerString(RESULT);
+    }
     
     /**
      * Deserializes a {@code PangoTabArray} from a string.
      * <p>
      * This is the counterpart to {@link TabArray#toString}.
      * See that functions for details about the format.
+     * @param text a string
+     * @return a new {@code PangoTabArray}
      */
-    public static @Nullable TabArray tabArrayFromString(@NotNull java.lang.String text) {
+    public static @Nullable org.pango.TabArray tabArrayFromString(@NotNull java.lang.String text) {
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_tab_array_from_string.invokeExact(Interop.allocateNativeString(text));
+            RESULT = (MemoryAddress) DowncallHandles.pango_tab_array_from_string.invokeExact(Interop.allocateNativeString(text));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new TabArray(Refcounted.get(RESULT, true));
+        return new org.pango.TabArray(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_tailor_break = Interop.downcallHandle(
-        "pango_tailor_break",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Apply language-specific tailoring to the breaks in {@code attrs}.
@@ -1932,19 +2238,42 @@ public final class Pango {
      * <p>
      * Note that it is better to pass -1 for {@code offset} and use {@link Pango#attrBreak}
      * to apply attributes to the whole paragraph.
+     * @param text text to process. Must be valid UTF-8
+     * @param length length in bytes of {@code text}
+     * @param analysis {@code PangoAnalysis} for {@code text}
+     * @param offset Byte offset of {@code text} from the beginning of the
+     *   paragraph, or -1 to ignore attributes from {@code analysis}
+     * @param attrs array with one {@code PangoLogAttr}
+     *   per character in {@code text}, plus one extra, to be filled in
+     * @param attrsLen length of {@code attrs} array
      */
-    public static @NotNull void tailorBreak(@NotNull java.lang.String text, @NotNull int length, @NotNull Analysis analysis, @NotNull int offset, @NotNull LogAttr[] attrs, @NotNull int attrsLen) {
+    public static void tailorBreak(@NotNull java.lang.String text, int length, @NotNull org.pango.Analysis analysis, int offset, org.pango.LogAttr[] attrs, int attrsLen) {
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+        java.util.Objects.requireNonNull(analysis, "Parameter 'analysis' must not be null");
+        java.util.Objects.requireNonNull(attrs, "Parameter 'attrs' must not be null");
         try {
-            pango_tailor_break.invokeExact(Interop.allocateNativeString(text), length, analysis.handle(), offset, Interop.allocateNativeArray(attrs), attrsLen);
+            DowncallHandles.pango_tailor_break.invokeExact(Interop.allocateNativeString(text), length, analysis.handle(), offset, Interop.allocateNativeArray(attrs, false), attrsLen);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle pango_unichar_direction = Interop.downcallHandle(
-        "pango_unichar_direction",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
+    /**
+     * Trims leading and trailing whitespace from a string.
+     * @param str a string
+     * @return A newly-allocated string that must be freed with g_free()
+     */
+    @Deprecated
+    public static @NotNull java.lang.String trimString(@NotNull java.lang.String str) {
+        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.pango_trim_string.invokeExact(Interop.allocateNativeString(str));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT.getUtf8String(0);
+    }
     
     /**
      * Determines the inherent direction of a character.
@@ -1954,64 +2283,55 @@ public final class Pango {
      * <p>
      * This function is useful to categorize characters into left-to-right
      * letters, right-to-left letters, and everything else. If full Unicode
-     * bidirectional type of a character is needed, {@link Pango#BidiType}
+     * bidirectional type of a character is needed, {@link BidiType#forUnichar}
      * can be used instead.
+     * @param ch a Unicode character
+     * @return the direction of the character.
      */
-    public static @NotNull Direction unicharDirection(@NotNull int ch) {
+    public static @NotNull org.pango.Direction unicharDirection(int ch) {
         int RESULT;
         try {
-            RESULT = (int) pango_unichar_direction.invokeExact(ch);
+            RESULT = (int) DowncallHandles.pango_unichar_direction.invokeExact(ch);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Direction(RESULT);
+        return new org.pango.Direction(RESULT);
     }
-    
-    private static final MethodHandle pango_units_from_double = Interop.downcallHandle(
-        "pango_units_from_double",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE)
-    );
     
     /**
      * Converts a floating-point number to Pango units.
      * <p>
-     * The conversion is done by multiplying @d by {@code PANGO_SCALE} and
+     * The conversion is done by multiplying {@code d} by {@code PANGO_SCALE} and
      * rounding the result to nearest integer.
+     * @param d double floating-point value
+     * @return the value in Pango units.
      */
-    public static int unitsFromDouble(@NotNull double d) {
+    public static int unitsFromDouble(double d) {
         int RESULT;
         try {
-            RESULT = (int) pango_units_from_double.invokeExact(d);
+            RESULT = (int) DowncallHandles.pango_units_from_double.invokeExact(d);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle pango_units_to_double = Interop.downcallHandle(
-        "pango_units_to_double",
-        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Converts a number in Pango units to floating-point.
      * <p>
-     * The conversion is done by dividing @i by {@code PANGO_SCALE}.
+     * The conversion is done by dividing {@code i} by {@code PANGO_SCALE}.
+     * @param i value in Pango units
+     * @return the double value.
      */
-    public static double unitsToDouble(@NotNull int i) {
+    public static double unitsToDouble(int i) {
         double RESULT;
         try {
-            RESULT = (double) pango_units_to_double.invokeExact(i);
+            RESULT = (double) DowncallHandles.pango_units_to_double.invokeExact(i);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle pango_version = Interop.downcallHandle(
-        "pango_version",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT)
-    );
     
     /**
      * Returns the encoded version of Pango available at run-time.
@@ -2019,21 +2339,17 @@ public final class Pango {
      * This is similar to the macro {@code PANGO_VERSION} except that the macro
      * returns the encoded version available at compile-time. A version
      * number can be encoded into an integer using PANGO_VERSION_ENCODE().
+     * @return The encoded version of Pango library available at run time.
      */
     public static int version() {
         int RESULT;
         try {
-            RESULT = (int) pango_version.invokeExact();
+            RESULT = (int) DowncallHandles.pango_version.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle pango_version_check = Interop.downcallHandle(
-        "pango_version_check",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Checks that the Pango library in use is compatible with the
@@ -2053,54 +2369,538 @@ public final class Pango {
      * (same major version.)
      * <p>
      * For compile-time version checking use PANGO_VERSION_CHECK().
+     * @param requiredMajor the required major version
+     * @param requiredMinor the required minor version
+     * @param requiredMicro the required major version
+     * @return {@code null} if the Pango library is compatible
+     *   with the given version, or a string describing the version
+     *   mismatch.  The returned string is owned by Pango and should not
+     *   be modified or freed.
      */
-    public static @Nullable java.lang.String versionCheck(@NotNull int requiredMajor, @NotNull int requiredMinor, @NotNull int requiredMicro) {
+    public static @Nullable java.lang.String versionCheck(int requiredMajor, int requiredMinor, int requiredMicro) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_version_check.invokeExact(requiredMajor, requiredMinor, requiredMicro);
+            RESULT = (MemoryAddress) DowncallHandles.pango_version_check.invokeExact(requiredMajor, requiredMinor, requiredMicro);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle pango_version_string = Interop.downcallHandle(
-        "pango_version_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the version of Pango available at run-time.
      * <p>
      * This is similar to the macro {@code PANGO_VERSION_STRING} except that the
      * macro returns the version available at compile-time.
+     * @return A string containing the version of Pango library available
+     *   at run time. The returned string is owned by Pango and should not
+     *   be modified or freed.
      */
     public static @NotNull java.lang.String versionString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_version_string.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.pango_version_string.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    public static boolean __cbFontsetForeachFunc(MemoryAddress fontset, MemoryAddress font, MemoryAddress userData) {
-        int hash = userData.get(ValueLayout.JAVA_INT, 0);
-        var handler = (FontsetForeachFunc) Interop.signalRegistry.get(hash);
-        return handler.onFontsetForeachFunc(new Fontset(Refcounted.get(fontset, false)), new Font(Refcounted.get(font, false)));
+    private static class DowncallHandles {
+        
+        private static final MethodHandle pango_attr_allow_breaks_new = Interop.downcallHandle(
+            "pango_attr_allow_breaks_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_attr_background_alpha_new = Interop.downcallHandle(
+            "pango_attr_background_alpha_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT)
+        );
+        
+        private static final MethodHandle pango_attr_background_new = Interop.downcallHandle(
+            "pango_attr_background_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT)
+        );
+        
+        private static final MethodHandle pango_attr_baseline_shift_new = Interop.downcallHandle(
+            "pango_attr_baseline_shift_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_attr_break = Interop.downcallHandle(
+            "pango_attr_break",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_attr_fallback_new = Interop.downcallHandle(
+            "pango_attr_fallback_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_attr_family_new = Interop.downcallHandle(
+            "pango_attr_family_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_attr_font_desc_new = Interop.downcallHandle(
+            "pango_attr_font_desc_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_attr_font_features_new = Interop.downcallHandle(
+            "pango_attr_font_features_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_attr_font_scale_new = Interop.downcallHandle(
+            "pango_attr_font_scale_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_attr_foreground_alpha_new = Interop.downcallHandle(
+            "pango_attr_foreground_alpha_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT)
+        );
+        
+        private static final MethodHandle pango_attr_foreground_new = Interop.downcallHandle(
+            "pango_attr_foreground_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT)
+        );
+        
+        private static final MethodHandle pango_attr_gravity_hint_new = Interop.downcallHandle(
+            "pango_attr_gravity_hint_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_attr_gravity_new = Interop.downcallHandle(
+            "pango_attr_gravity_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_attr_insert_hyphens_new = Interop.downcallHandle(
+            "pango_attr_insert_hyphens_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_attr_language_new = Interop.downcallHandle(
+            "pango_attr_language_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_attr_letter_spacing_new = Interop.downcallHandle(
+            "pango_attr_letter_spacing_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_attr_line_height_new = Interop.downcallHandle(
+            "pango_attr_line_height_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+        );
+        
+        private static final MethodHandle pango_attr_line_height_new_absolute = Interop.downcallHandle(
+            "pango_attr_line_height_new_absolute",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_attr_list_from_string = Interop.downcallHandle(
+            "pango_attr_list_from_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_attr_overline_color_new = Interop.downcallHandle(
+            "pango_attr_overline_color_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT)
+        );
+        
+        private static final MethodHandle pango_attr_overline_new = Interop.downcallHandle(
+            "pango_attr_overline_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_attr_rise_new = Interop.downcallHandle(
+            "pango_attr_rise_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_attr_scale_new = Interop.downcallHandle(
+            "pango_attr_scale_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+        );
+        
+        private static final MethodHandle pango_attr_sentence_new = Interop.downcallHandle(
+            "pango_attr_sentence_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_attr_shape_new = Interop.downcallHandle(
+            "pango_attr_shape_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_attr_shape_new_with_data = Interop.downcallHandle(
+            "pango_attr_shape_new_with_data",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_attr_show_new = Interop.downcallHandle(
+            "pango_attr_show_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_attr_size_new = Interop.downcallHandle(
+            "pango_attr_size_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_attr_size_new_absolute = Interop.downcallHandle(
+            "pango_attr_size_new_absolute",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_attr_stretch_new = Interop.downcallHandle(
+            "pango_attr_stretch_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_attr_strikethrough_color_new = Interop.downcallHandle(
+            "pango_attr_strikethrough_color_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT)
+        );
+        
+        private static final MethodHandle pango_attr_strikethrough_new = Interop.downcallHandle(
+            "pango_attr_strikethrough_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_attr_style_new = Interop.downcallHandle(
+            "pango_attr_style_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_attr_text_transform_new = Interop.downcallHandle(
+            "pango_attr_text_transform_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_attr_type_get_name = Interop.downcallHandle(
+            "pango_attr_type_get_name",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_attr_type_register = Interop.downcallHandle(
+            "pango_attr_type_register",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_attr_underline_color_new = Interop.downcallHandle(
+            "pango_attr_underline_color_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT, ValueLayout.JAVA_SHORT)
+        );
+        
+        private static final MethodHandle pango_attr_underline_new = Interop.downcallHandle(
+            "pango_attr_underline_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_attr_variant_new = Interop.downcallHandle(
+            "pango_attr_variant_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_attr_weight_new = Interop.downcallHandle(
+            "pango_attr_weight_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_attr_word_new = Interop.downcallHandle(
+            "pango_attr_word_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_bidi_type_for_unichar = Interop.downcallHandle(
+            "pango_bidi_type_for_unichar",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_break = Interop.downcallHandle(
+            "pango_break",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_default_break = Interop.downcallHandle(
+            "pango_default_break",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_extents_to_pixels = Interop.downcallHandle(
+            "pango_extents_to_pixels",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_find_base_dir = Interop.downcallHandle(
+            "pango_find_base_dir",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_find_paragraph_boundary = Interop.downcallHandle(
+            "pango_find_paragraph_boundary",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_font_description_from_string = Interop.downcallHandle(
+            "pango_font_description_from_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_get_log_attrs = Interop.downcallHandle(
+            "pango_get_log_attrs",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_get_mirror_char = Interop.downcallHandle(
+            "pango_get_mirror_char",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_gravity_get_for_matrix = Interop.downcallHandle(
+            "pango_gravity_get_for_matrix",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_gravity_get_for_script = Interop.downcallHandle(
+            "pango_gravity_get_for_script",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_gravity_get_for_script_and_width = Interop.downcallHandle(
+            "pango_gravity_get_for_script_and_width",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_gravity_to_rotation = Interop.downcallHandle(
+            "pango_gravity_to_rotation",
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_is_zero_width = Interop.downcallHandle(
+            "pango_is_zero_width",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_itemize = Interop.downcallHandle(
+            "pango_itemize",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_itemize_with_base_dir = Interop.downcallHandle(
+            "pango_itemize_with_base_dir",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_language_from_string = Interop.downcallHandle(
+            "pango_language_from_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_language_get_default = Interop.downcallHandle(
+            "pango_language_get_default",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_language_get_preferred = Interop.downcallHandle(
+            "pango_language_get_preferred",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_layout_deserialize_error_quark = Interop.downcallHandle(
+            "pango_layout_deserialize_error_quark",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_log2vis_get_embedding_levels = Interop.downcallHandle(
+            "pango_log2vis_get_embedding_levels",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_markup_parser_finish = Interop.downcallHandle(
+            "pango_markup_parser_finish",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_markup_parser_new = Interop.downcallHandle(
+            "pango_markup_parser_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_parse_enum = Interop.downcallHandle(
+            "pango_parse_enum",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_parse_markup = Interop.downcallHandle(
+            "pango_parse_markup",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_parse_stretch = Interop.downcallHandle(
+            "pango_parse_stretch",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_parse_style = Interop.downcallHandle(
+            "pango_parse_style",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_parse_variant = Interop.downcallHandle(
+            "pango_parse_variant",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_parse_weight = Interop.downcallHandle(
+            "pango_parse_weight",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_quantize_line_geometry = Interop.downcallHandle(
+            "pango_quantize_line_geometry",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_read_line = Interop.downcallHandle(
+            "pango_read_line",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_reorder_items = Interop.downcallHandle(
+            "pango_reorder_items",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_scan_int = Interop.downcallHandle(
+            "pango_scan_int",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_scan_string = Interop.downcallHandle(
+            "pango_scan_string",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_scan_word = Interop.downcallHandle(
+            "pango_scan_word",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_script_for_unichar = Interop.downcallHandle(
+            "pango_script_for_unichar",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_script_get_sample_language = Interop.downcallHandle(
+            "pango_script_get_sample_language",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_shape = Interop.downcallHandle(
+            "pango_shape",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_shape_full = Interop.downcallHandle(
+            "pango_shape_full",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_shape_item = Interop.downcallHandle(
+            "pango_shape_item",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_shape_with_flags = Interop.downcallHandle(
+            "pango_shape_with_flags",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_skip_space = Interop.downcallHandle(
+            "pango_skip_space",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_split_file_list = Interop.downcallHandle(
+            "pango_split_file_list",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_tab_array_from_string = Interop.downcallHandle(
+            "pango_tab_array_from_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_tailor_break = Interop.downcallHandle(
+            "pango_tailor_break",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_trim_string = Interop.downcallHandle(
+            "pango_trim_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_unichar_direction = Interop.downcallHandle(
+            "pango_unichar_direction",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_units_from_double = Interop.downcallHandle(
+            "pango_units_from_double",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE)
+        );
+        
+        private static final MethodHandle pango_units_to_double = Interop.downcallHandle(
+            "pango_units_to_double",
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_version = Interop.downcallHandle(
+            "pango_version",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_version_check = Interop.downcallHandle(
+            "pango_version_check",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_version_string = Interop.downcallHandle(
+            "pango_version_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
     }
     
-    public static java.lang.foreign.MemoryAddress __cbAttrDataCopyFunc(MemoryAddress userData) {
-        int hash = userData.get(ValueLayout.JAVA_INT, 0);
-        var handler = (AttrDataCopyFunc) Interop.signalRegistry.get(hash);
-        return handler.onAttrDataCopyFunc();
+    @ApiStatus.Internal
+    public static class Callbacks {
+        
+        public static boolean cbFontsetForeachFunc(MemoryAddress fontset, MemoryAddress font, MemoryAddress userData) {
+            int HASH = userData.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (FontsetForeachFunc) Interop.signalRegistry.get(HASH);
+            var RESULT = HANDLER.onFontsetForeachFunc(new org.pango.Fontset(Refcounted.get(fontset, false)), new org.pango.Font(Refcounted.get(font, false)));
+            return RESULT;
+        }
+        
+        public static java.lang.foreign.MemoryAddress cbAttrDataCopyFunc(MemoryAddress userData) {
+            int HASH = userData.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (AttrDataCopyFunc) Interop.signalRegistry.get(HASH);
+            var RESULT = HANDLER.onAttrDataCopyFunc();
+            return RESULT;
+        }
+        
+        public static boolean cbAttrFilterFunc(MemoryAddress attribute, MemoryAddress userData) {
+            int HASH = userData.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (AttrFilterFunc) Interop.signalRegistry.get(HASH);
+            var RESULT = HANDLER.onAttrFilterFunc(new org.pango.Attribute(Refcounted.get(attribute, false)));
+            return RESULT;
+        }
     }
-    
-    public static boolean __cbAttrFilterFunc(MemoryAddress attribute, MemoryAddress userData) {
-        int hash = userData.get(ValueLayout.JAVA_INT, 0);
-        var handler = (AttrFilterFunc) Interop.signalRegistry.get(hash);
-        return handler.onAttrFilterFunc(new Attribute(Refcounted.get(attribute, false)));
-    }
-    
 }

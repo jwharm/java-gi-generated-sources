@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -19,5 +21,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface AsyncReadyCallback {
-        void onAsyncReadyCallback(@Nullable org.gtk.gobject.Object sourceObject, @NotNull AsyncResult res);
+        void onAsyncReadyCallback(@Nullable org.gtk.gobject.Object sourceObject, @NotNull org.gtk.gio.AsyncResult res);
 }

@@ -11,8 +11,20 @@ import org.jetbrains.annotations.*;
  * {@code GtkCellRendererProgress} renders a numeric value as a progress par in a cell.
  * Additionally, it can display a text on top of the progress bar.
  */
-public class CellRendererProgress extends CellRenderer implements Orientable {
-
+public class CellRendererProgress extends org.gtk.gtk.CellRenderer implements org.gtk.gtk.Orientable {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public CellRendererProgress(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -22,18 +34,14 @@ public class CellRendererProgress extends CellRenderer implements Orientable {
         return new CellRendererProgress(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_cell_renderer_progress_new = Interop.downcallHandle(
-        "gtk_cell_renderer_progress_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_cell_renderer_progress_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_cell_renderer_progress_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -43,4 +51,11 @@ public class CellRendererProgress extends CellRenderer implements Orientable {
         super(constructNew());
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_cell_renderer_progress_new = Interop.downcallHandle(
+            "gtk_cell_renderer_progress_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+    }
 }

@@ -1,13 +1,27 @@
 package org.gnome.adw;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Describes the available easing functions for use with
  * {@link TimedAnimation}.
  * <p>
  * New values may be added to this enumeration over time.
+ * @version 1.0
  */
 public class Easing extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Linear tweening.
      */
@@ -182,4 +196,30 @@ public class Easing extends io.github.jwharm.javagi.Enumeration {
         super(value);
     }
     
+    /**
+     * Computes easing with {@code easing} for {@code value}.
+     * <p>
+     * {@code value} should generally be in the [0, 1] range.
+     * @param self an easing value
+     * @param value a value to ease
+     * @return the easing for {@code value}
+     */
+    public static double ease(@NotNull org.gnome.adw.Easing self, double value) {
+        java.util.Objects.requireNonNull(self, "Parameter 'self' must not be null");
+        double RESULT;
+        try {
+            RESULT = (double) DowncallHandles.adw_easing_ease.invokeExact(self.getValue(), value);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle adw_easing_ease = Interop.downcallHandle(
+            "adw_easing_ease",
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE)
+        );
+    }
 }

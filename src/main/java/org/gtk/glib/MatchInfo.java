@@ -10,15 +10,22 @@ import org.jetbrains.annotations.*;
  * matches.
  */
 public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GLib.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public MatchInfo(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
-    private static final MethodHandle g_match_info_expand_references = Interop.downcallHandle(
-        "g_match_info_expand_references",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns a new string containing the text in {@code string_to_expand} with
@@ -38,12 +45,16 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      * while to expand "\\0" (whole match) one needs the result of a match.
      * Use g_regex_check_replacement() to find out whether {@code string_to_expand}
      * contains references.
+     * @param stringToExpand the string to expand
+     * @return the expanded string, or {@code null} if an error occurred
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public @Nullable java.lang.String expandReferences(@NotNull java.lang.String stringToExpand) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(stringToExpand, "Parameter 'stringToExpand' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_match_info_expand_references.invokeExact(handle(), Interop.allocateNativeString(stringToExpand), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_match_info_expand_references.invokeExact(handle(), Interop.allocateNativeString(stringToExpand), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -52,11 +63,6 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_match_info_fetch = Interop.downcallHandle(
-        "g_match_info_fetch",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Retrieves the text matching the {@code match_num}'th capturing
@@ -75,21 +81,19 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The string is fetched from the string passed to the match function,
      * so you cannot call this function after freeing the string.
+     * @param matchNum number of the sub expression
+     * @return The matched substring, or {@code null} if an error
+     *     occurred. You have to free the string yourself
      */
-    public @Nullable java.lang.String fetch(@NotNull int matchNum) {
+    public @Nullable java.lang.String fetch(int matchNum) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_match_info_fetch.invokeExact(handle(), matchNum);
+            RESULT = (MemoryAddress) DowncallHandles.g_match_info_fetch.invokeExact(handle(), matchNum);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_match_info_fetch_all = Interop.downcallHandle(
-        "g_match_info_fetch_all",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Bundles up pointers to each of the matching substrings from a match
@@ -108,21 +112,19 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The strings are fetched from the string passed to the match function,
      * so you cannot call this function after freeing the string.
+     * @return a {@code null}-terminated array of gchar *
+     *     pointers.  It must be freed using g_strfreev(). If the previous
+     *     match failed {@code null} is returned
      */
-    public PointerString fetchAll() {
+    public @NotNull PointerString fetchAll() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_match_info_fetch_all.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_match_info_fetch_all.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerString(RESULT);
     }
-    
-    private static final MethodHandle g_match_info_fetch_named = Interop.downcallHandle(
-        "g_match_info_fetch_named",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves the text matching the capturing parentheses named {@code name}.
@@ -133,21 +135,20 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The string is fetched from the string passed to the match function,
      * so you cannot call this function after freeing the string.
+     * @param name name of the subexpression
+     * @return The matched substring, or {@code null} if an error
+     *     occurred. You have to free the string yourself
      */
     public @Nullable java.lang.String fetchNamed(@NotNull java.lang.String name) {
+        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_match_info_fetch_named.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.g_match_info_fetch_named.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_match_info_fetch_named_pos = Interop.downcallHandle(
-        "g_match_info_fetch_named_pos",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves the position in bytes of the capturing parentheses named {@code name}.
@@ -155,13 +156,24 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      * If {@code name} is a valid sub pattern name but it didn't match anything
      * (e.g. sub pattern "X", matching "b" against "(?P&lt;X&gt;a)?b")
      * then {@code start_pos} and {@code end_pos} are set to -1 and {@code true} is returned.
+     * @param name name of the subexpression
+     * @param startPos pointer to location where to store
+     *     the start position, or {@code null}
+     * @param endPos pointer to location where to store
+     *     the end position, or {@code null}
+     * @return {@code true} if the position was fetched, {@code false} otherwise.
+     *     If the position cannot be fetched, {@code start_pos} and {@code end_pos}
+     *     are left unchanged.
      */
-    public boolean fetchNamedPos(@NotNull java.lang.String name, @NotNull Out<Integer> startPos, @NotNull Out<Integer> endPos) {
+    public boolean fetchNamedPos(@NotNull java.lang.String name, Out<Integer> startPos, Out<Integer> endPos) {
+        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+        java.util.Objects.requireNonNull(startPos, "Parameter 'startPos' must not be null");
+        java.util.Objects.requireNonNull(endPos, "Parameter 'endPos' must not be null");
         MemorySegment startPosPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment endPosPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) g_match_info_fetch_named_pos.invokeExact(handle(), Interop.allocateNativeString(name), (Addressable) startPosPOINTER.address(), (Addressable) endPosPOINTER.address());
+            RESULT = (int) DowncallHandles.g_match_info_fetch_named_pos.invokeExact(handle(), Interop.allocateNativeString(name), (Addressable) startPosPOINTER.address(), (Addressable) endPosPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,11 +181,6 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
         endPos.set(endPosPOINTER.get(ValueLayout.JAVA_INT, 0));
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_match_info_fetch_pos = Interop.downcallHandle(
-        "g_match_info_fetch_pos",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves the position in bytes of the {@code match_num}'th capturing
@@ -189,13 +196,23 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      * position is not that of a set of parentheses but that of a matched
      * substring. Substrings are matched in reverse order of length, so
      * 0 is the longest match.
+     * @param matchNum number of the sub expression
+     * @param startPos pointer to location where to store
+     *     the start position, or {@code null}
+     * @param endPos pointer to location where to store
+     *     the end position, or {@code null}
+     * @return {@code true} if the position was fetched, {@code false} otherwise. If
+     *   the position cannot be fetched, {@code start_pos} and {@code end_pos} are left
+     *   unchanged
      */
-    public boolean fetchPos(@NotNull int matchNum, @NotNull Out<Integer> startPos, @NotNull Out<Integer> endPos) {
+    public boolean fetchPos(int matchNum, Out<Integer> startPos, Out<Integer> endPos) {
+        java.util.Objects.requireNonNull(startPos, "Parameter 'startPos' must not be null");
+        java.util.Objects.requireNonNull(endPos, "Parameter 'endPos' must not be null");
         MemorySegment startPosPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment endPosPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) g_match_info_fetch_pos.invokeExact(handle(), matchNum, (Addressable) startPosPOINTER.address(), (Addressable) endPosPOINTER.address());
+            RESULT = (int) DowncallHandles.g_match_info_fetch_pos.invokeExact(handle(), matchNum, (Addressable) startPosPOINTER.address(), (Addressable) endPosPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -204,27 +221,17 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_match_info_free = Interop.downcallHandle(
-        "g_match_info_free",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-    
     /**
      * If {@code match_info} is not {@code null}, calls g_match_info_unref(); otherwise does
      * nothing.
      */
-    public @NotNull void free() {
+    public void free() {
         try {
-            g_match_info_free.invokeExact(handle());
+            DowncallHandles.g_match_info_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_match_info_get_match_count = Interop.downcallHandle(
-        "g_match_info_get_match_count",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves the number of matched substrings (including substring 0,
@@ -235,61 +242,49 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      * using g_regex_match_all() or g_regex_match_all_full(), the retrieved
      * count is not that of the number of capturing parentheses but that of
      * the number of matched substrings.
+     * @return Number of matched substrings, or -1 if an error occurred
      */
     public int getMatchCount() {
         int RESULT;
         try {
-            RESULT = (int) g_match_info_get_match_count.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_match_info_get_match_count.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle g_match_info_get_regex = Interop.downcallHandle(
-        "g_match_info_get_regex",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns {@link Regex} object used in {@code match_info}. It belongs to Glib
      * and must not be freed. Use g_regex_ref() if you need to keep it
      * after you free {@code match_info} object.
+     * @return {@link Regex} object used in {@code match_info}
      */
-    public @NotNull Regex getRegex() {
+    public @NotNull org.gtk.glib.Regex getRegex() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_match_info_get_regex.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_match_info_get_regex.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Regex(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Regex(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_match_info_get_string = Interop.downcallHandle(
-        "g_match_info_get_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the string searched with {@code match_info}. This is the
      * string passed to g_regex_match() or g_regex_replace() so
      * you may not free it before calling this function.
+     * @return the string searched with {@code match_info}
      */
     public @NotNull java.lang.String getString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_match_info_get_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_match_info_get_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_match_info_is_partial_match = Interop.downcallHandle(
-        "g_match_info_is_partial_match",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Usually if the string passed to g_regex_match*() matches as far as
@@ -325,39 +320,32 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      * The restrictions no longer apply.
      * <p>
      * See pcrepartial(3) for more information on partial matching.
+     * @return {@code true} if the match was partial, {@code false} otherwise
      */
     public boolean isPartialMatch() {
         int RESULT;
         try {
-            RESULT = (int) g_match_info_is_partial_match.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_match_info_is_partial_match.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_match_info_matches = Interop.downcallHandle(
-        "g_match_info_matches",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns whether the previous match operation succeeded.
+     * @return {@code true} if the previous match operation succeeded,
+     *   {@code false} otherwise
      */
     public boolean matches() {
         int RESULT;
         try {
-            RESULT = (int) g_match_info_matches.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_match_info_matches.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_match_info_next = Interop.downcallHandle(
-        "g_match_info_next",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Scans for the next match using the same parameters of the previous
@@ -366,12 +354,14 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The match is done on the string passed to the match function, so you
      * cannot free it before calling this function.
+     * @return {@code true} is the string matched, {@code false} otherwise
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean next() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_match_info_next.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_match_info_next.invokeExact(handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -381,39 +371,107 @@ public class MatchInfo extends io.github.jwharm.javagi.ResourceBase {
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_match_info_ref = Interop.downcallHandle(
-        "g_match_info_ref",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Increases reference count of {@code match_info} by 1.
+     * @return {@code match_info}
      */
-    public @NotNull MatchInfo ref() {
+    public @NotNull org.gtk.glib.MatchInfo ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_match_info_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_match_info_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new MatchInfo(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.MatchInfo(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_match_info_unref = Interop.downcallHandle(
-        "g_match_info_unref",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Decreases reference count of {@code match_info} by 1. When reference count drops
      * to zero, it frees all the memory associated with the match_info structure.
      */
-    public @NotNull void unref() {
+    public void unref() {
         try {
-            g_match_info_unref.invokeExact(handle());
+            DowncallHandles.g_match_info_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_match_info_expand_references = Interop.downcallHandle(
+            "g_match_info_expand_references",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_match_info_fetch = Interop.downcallHandle(
+            "g_match_info_fetch",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_match_info_fetch_all = Interop.downcallHandle(
+            "g_match_info_fetch_all",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_match_info_fetch_named = Interop.downcallHandle(
+            "g_match_info_fetch_named",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_match_info_fetch_named_pos = Interop.downcallHandle(
+            "g_match_info_fetch_named_pos",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_match_info_fetch_pos = Interop.downcallHandle(
+            "g_match_info_fetch_pos",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_match_info_free = Interop.downcallHandle(
+            "g_match_info_free",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_match_info_get_match_count = Interop.downcallHandle(
+            "g_match_info_get_match_count",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_match_info_get_regex = Interop.downcallHandle(
+            "g_match_info_get_regex",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_match_info_get_string = Interop.downcallHandle(
+            "g_match_info_get_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_match_info_is_partial_match = Interop.downcallHandle(
+            "g_match_info_is_partial_match",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_match_info_matches = Interop.downcallHandle(
+            "g_match_info_matches",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_match_info_next = Interop.downcallHandle(
+            "g_match_info_next",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_match_info_ref = Interop.downcallHandle(
+            "g_match_info_ref",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_match_info_unref = Interop.downcallHandle(
+            "g_match_info_unref",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
 }

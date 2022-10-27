@@ -18,9 +18,27 @@ import org.jetbrains.annotations.*;
  * Before GLib 2.72, {@code <gio/gunixconnection.h>} belonged to the UNIX-specific GIO
  * interfaces, thus you had to use the {@code gio-unix-2.0.pc} pkg-config file when
  * using it. This is no longer necessary since GLib 2.72.
+ * @version 2.22
  */
-public class UnixConnection extends SocketConnection {
-
+public class UnixConnection extends org.gtk.gio.SocketConnection {
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gio.SocketConnection.getMemoryLayout().withName("parent_instance"),
+        org.gtk.gio.UnixConnectionPrivate.getMemoryLayout().withName("priv")
+    ).withName("GUnixConnection");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public UnixConnection(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -29,11 +47,6 @@ public class UnixConnection extends SocketConnection {
     public static UnixConnection castFrom(org.gtk.gobject.Object gobject) {
         return new UnixConnection(gobject.refcounted());
     }
-    
-    private static final MethodHandle g_unix_connection_receive_credentials = Interop.downcallHandle(
-        "g_unix_connection_receive_credentials",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Receives credentials from the sending end of the connection.  The
@@ -55,25 +68,25 @@ public class UnixConnection extends SocketConnection {
      * <p>
      * Other ways to exchange credentials with a foreign peer includes the
      * {@link UnixCredentialsMessage} type and g_socket_get_credentials() function.
+     * @param cancellable A {@link Cancellable} or {@code null}.
+     * @return Received credentials on success (free with
+     * g_object_unref()), {@code null} if {@code error} is set.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull Credentials receiveCredentials(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.gio.Credentials receiveCredentials(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_unix_connection_receive_credentials.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_connection_receive_credentials.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Credentials(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Credentials(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_unix_connection_receive_credentials_async = Interop.downcallHandle(
-        "g_unix_connection_receive_credentials_async",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Asynchronously receive credentials.
@@ -83,48 +96,47 @@ public class UnixConnection extends SocketConnection {
      * <p>
      * When the operation is finished, {@code callback} will be called. You can then call
      * g_unix_connection_receive_credentials_finish() to get the result of the operation.
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @param callback a {@link AsyncReadyCallback} to call when the request is satisfied
      */
-    public @NotNull void receiveCredentialsAsync(@Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
+    public void receiveCredentialsAsync(@Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            g_unix_connection_receive_credentials_async.invokeExact(handle(), cancellable.handle(), 
+            DowncallHandles.g_unix_connection_receive_credentials_async.invokeExact(handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
+                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle g_unix_connection_receive_credentials_finish = Interop.downcallHandle(
-        "g_unix_connection_receive_credentials_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Finishes an asynchronous receive credentials operation started with
      * g_unix_connection_receive_credentials_async().
+     * @param result a {@link AsyncResult}.
+     * @return a {@link Credentials}, or {@code null} on error.
+     *     Free the returned object with g_object_unref().
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull Credentials receiveCredentialsFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.gio.Credentials receiveCredentialsFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_unix_connection_receive_credentials_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_connection_receive_credentials_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Credentials(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Credentials(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_unix_connection_receive_fd = Interop.downcallHandle(
-        "g_unix_connection_receive_fd",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Receives a file descriptor from the sending end of the connection.
@@ -134,12 +146,16 @@ public class UnixConnection extends SocketConnection {
      * As well as reading the fd this also reads a single byte from the
      * stream, as this is required for fd passing to work on some
      * implementations.
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore
+     * @return a file descriptor on success, -1 on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public int receiveFd(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public int receiveFd(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_unix_connection_receive_fd.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_unix_connection_receive_fd.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -148,11 +164,6 @@ public class UnixConnection extends SocketConnection {
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_unix_connection_send_credentials = Interop.downcallHandle(
-        "g_unix_connection_send_credentials",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Passes the credentials of the current user the receiving side
@@ -175,12 +186,16 @@ public class UnixConnection extends SocketConnection {
      * <p>
      * Other ways to exchange credentials with a foreign peer includes the
      * {@link UnixCredentialsMessage} type and g_socket_get_credentials() function.
+     * @param cancellable A {@link Cancellable} or {@code null}.
+     * @return {@code true} on success, {@code false} if {@code error} is set.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean sendCredentials(@Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public boolean sendCredentials(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_unix_connection_send_credentials.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_unix_connection_send_credentials.invokeExact(handle(), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -189,11 +204,6 @@ public class UnixConnection extends SocketConnection {
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_unix_connection_send_credentials_async = Interop.downcallHandle(
-        "g_unix_connection_send_credentials_async",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Asynchronously send credentials.
@@ -203,35 +213,38 @@ public class UnixConnection extends SocketConnection {
      * <p>
      * When the operation is finished, {@code callback} will be called. You can then call
      * g_unix_connection_send_credentials_finish() to get the result of the operation.
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @param callback a {@link AsyncReadyCallback} to call when the request is satisfied
      */
-    public @NotNull void sendCredentialsAsync(@Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
+    public void sendCredentialsAsync(@Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            g_unix_connection_send_credentials_async.invokeExact(handle(), cancellable.handle(), 
+            DowncallHandles.g_unix_connection_send_credentials_async.invokeExact(handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
+                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle g_unix_connection_send_credentials_finish = Interop.downcallHandle(
-        "g_unix_connection_send_credentials_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Finishes an asynchronous send credentials operation started with
      * g_unix_connection_send_credentials_async().
+     * @param result a {@link AsyncResult}.
+     * @return {@code true} if the operation was successful, otherwise {@code false}.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean sendCredentialsFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public boolean sendCredentialsFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_unix_connection_send_credentials_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_unix_connection_send_credentials_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -240,11 +253,6 @@ public class UnixConnection extends SocketConnection {
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_unix_connection_send_fd = Interop.downcallHandle(
-        "g_unix_connection_send_fd",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Passes a file descriptor to the receiving side of the
@@ -254,12 +262,17 @@ public class UnixConnection extends SocketConnection {
      * As well as sending the fd this also writes a single byte to the
      * stream, as this is required for fd passing to work on some
      * implementations.
+     * @param fd a file descriptor
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @return a {@code true} on success, {@code null} on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean sendFd(@NotNull int fd, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public boolean sendFd(int fd, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_unix_connection_send_fd.invokeExact(handle(), fd, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_unix_connection_send_fd.invokeExact(handle(), fd, cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -269,4 +282,46 @@ public class UnixConnection extends SocketConnection {
         return RESULT != 0;
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_unix_connection_receive_credentials = Interop.downcallHandle(
+            "g_unix_connection_receive_credentials",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_unix_connection_receive_credentials_async = Interop.downcallHandle(
+            "g_unix_connection_receive_credentials_async",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_unix_connection_receive_credentials_finish = Interop.downcallHandle(
+            "g_unix_connection_receive_credentials_finish",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_unix_connection_receive_fd = Interop.downcallHandle(
+            "g_unix_connection_receive_fd",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_unix_connection_send_credentials = Interop.downcallHandle(
+            "g_unix_connection_send_credentials",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_unix_connection_send_credentials_async = Interop.downcallHandle(
+            "g_unix_connection_send_credentials_async",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_unix_connection_send_credentials_finish = Interop.downcallHandle(
+            "g_unix_connection_send_credentials_finish",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_unix_connection_send_fd = Interop.downcallHandle(
+            "g_unix_connection_send_fd",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

@@ -1,11 +1,24 @@
 package org.pango;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The {@code PangoUnderline} enumeration is used to specify whether text
  * should be underlined, and if so, the type of underlining.
  */
 public class Underline extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * no underline should be drawn
      */
@@ -67,5 +80,4 @@ public class Underline extends io.github.jwharm.javagi.Enumeration {
     public Underline(int value) {
         super(value);
     }
-    
 }

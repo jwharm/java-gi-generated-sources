@@ -1,6 +1,8 @@
 package org.gtk.gdkpixbuf;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -8,5 +10,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PixbufModuleIncrementLoadFunc {
-        boolean onPixbufModuleIncrementLoadFunc(@Nullable java.lang.foreign.MemoryAddress context, @NotNull PointerByte buf, @NotNull int size);
+        boolean onPixbufModuleIncrementLoadFunc(@Nullable java.lang.foreign.MemoryAddress context, PointerByte buf, int size);
 }

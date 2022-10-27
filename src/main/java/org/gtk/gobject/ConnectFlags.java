@@ -1,11 +1,24 @@
 package org.gtk.gobject;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The connection flags are used to specify the behaviour of a signal's
  * connection.
  */
 public class ConnectFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * whether the handler should be called before or after the
      *  default handler of the signal.
@@ -21,5 +34,4 @@ public class ConnectFlags extends io.github.jwharm.javagi.Bitfield {
     public ConnectFlags(int value) {
         super(value);
     }
-    
 }

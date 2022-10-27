@@ -21,9 +21,27 @@ import org.jetbrains.annotations.*;
  * <p>
  * As with {@link SocketService}, you may connect to {@link ThreadedSocketService}::run,
  * or subclass and override the default handler.
+ * @version 2.22
  */
-public class ThreadedSocketService extends SocketService {
-
+public class ThreadedSocketService extends org.gtk.gio.SocketService {
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gio.SocketService.getMemoryLayout().withName("parent_instance"),
+        org.gtk.gio.ThreadedSocketServicePrivate.getMemoryLayout().withName("priv")
+    ).withName("GThreadedSocketService");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public ThreadedSocketService(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -33,31 +51,29 @@ public class ThreadedSocketService extends SocketService {
         return new ThreadedSocketService(gobject.refcounted());
     }
     
-    private static final MethodHandle g_threaded_socket_service_new = Interop.downcallHandle(
-        "g_threaded_socket_service_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
-    private static Refcounted constructNew(@NotNull int maxThreads) {
+    private static Refcounted constructNew(int maxThreads) {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_threaded_socket_service_new.invokeExact(maxThreads), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_threaded_socket_service_new.invokeExact(maxThreads), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a new {@link ThreadedSocketService} with no listeners. Listeners
      * must be added with one of the {@link SocketListener} "add" methods.
+     * @param maxThreads the maximal number of threads to execute concurrently
+     *   handling incoming clients, -1 means no limit
      */
-    public ThreadedSocketService(@NotNull int maxThreads) {
+    public ThreadedSocketService(int maxThreads) {
         super(constructNew(maxThreads));
     }
     
     @FunctionalInterface
-    public interface RunHandler {
-        boolean signalReceived(ThreadedSocketService source, @NotNull SocketConnection connection, @Nullable org.gtk.gobject.Object sourceObject);
+    public interface Run {
+        boolean signalReceived(ThreadedSocketService source, @NotNull org.gtk.gio.SocketConnection connection, @Nullable org.gtk.gobject.Object sourceObject);
     }
     
     /**
@@ -66,7 +82,7 @@ public class ThreadedSocketService extends SocketService {
      * {@code connection} and may perform blocking IO. The signal handler need
      * not return until the connection is closed.
      */
-    public SignalHandle onRun(RunHandler handler) {
+    public Signal<ThreadedSocketService.Run> onRun(ThreadedSocketService.Run handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -76,21 +92,28 @@ public class ThreadedSocketService extends SocketService {
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<ThreadedSocketService.Run>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static boolean signalThreadedSocketServiceRun(MemoryAddress source, MemoryAddress connection, MemoryAddress sourceObject, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (ThreadedSocketService.RunHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new ThreadedSocketService(Refcounted.get(source)), new SocketConnection(Refcounted.get(connection, false)), new org.gtk.gobject.Object(Refcounted.get(sourceObject, false)));
-        }
+    private static class DowncallHandles {
         
+        private static final MethodHandle g_threaded_socket_service_new = Interop.downcallHandle(
+            "g_threaded_socket_service_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
+    
+    private static class Callbacks {
+        
+        public static boolean signalThreadedSocketServiceRun(MemoryAddress source, MemoryAddress connection, MemoryAddress sourceObject, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (ThreadedSocketService.Run) Interop.signalRegistry.get(HASH);
+            return HANDLER.signalReceived(new ThreadedSocketService(Refcounted.get(source)), new org.gtk.gio.SocketConnection(Refcounted.get(connection, false)), new org.gtk.gobject.Object(Refcounted.get(sourceObject, false)));
+        }
     }
 }

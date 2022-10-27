@@ -27,81 +27,77 @@ import org.jetbrains.annotations.*;
  * is called, then it will be filled with any error information.
  */
 public interface Mount extends io.github.jwharm.javagi.Proxy {
-
-    @ApiStatus.Internal static final MethodHandle g_mount_can_eject = Interop.downcallHandle(
-        "g_mount_can_eject",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Checks if {@code mount} can be ejected.
+     * @return {@code true} if the {@code mount} can be ejected.
      */
     default boolean canEject() {
         int RESULT;
         try {
-            RESULT = (int) g_mount_can_eject.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_mount_can_eject.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    @ApiStatus.Internal static final MethodHandle g_mount_can_unmount = Interop.downcallHandle(
-        "g_mount_can_unmount",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Checks if {@code mount} can be unmounted.
+     * @return {@code true} if the {@code mount} can be unmounted.
      */
     default boolean canUnmount() {
         int RESULT;
         try {
-            RESULT = (int) g_mount_can_unmount.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_mount_can_unmount.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    @ApiStatus.Internal static final MethodHandle g_mount_eject_with_operation = Interop.downcallHandle(
-        "g_mount_eject_with_operation",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Ejects a mount. This is an asynchronous operation, and is
-     * finished by calling g_mount_eject_with_operation_finish() with the {@code mount}
+     * finished by calling g_mount_eject_finish() with the {@code mount}
      * and {@link AsyncResult} data returned in the {@code callback}.
+     * @param flags flags affecting the unmount if required for eject
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @param callback a {@link AsyncReadyCallback}, or {@code null}.
+     * @deprecated Use g_mount_eject_with_operation() instead.
      */
-    default @NotNull void ejectWithOperation(@NotNull MountUnmountFlags flags, @Nullable MountOperation mountOperation, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
+    @Deprecated
+    default void eject(@NotNull org.gtk.gio.MountUnmountFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            g_mount_eject_with_operation.invokeExact(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
+            DowncallHandles.g_mount_eject.invokeExact(handle(), flags.getValue(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
+                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    @ApiStatus.Internal static final MethodHandle g_mount_eject_with_operation_finish = Interop.downcallHandle(
-        "g_mount_eject_with_operation_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Finishes ejecting a mount. If any errors occurred during the operation,
      * {@code error} will be set to contain the errors and {@code false} will be returned.
+     * @param result a {@link AsyncResult}.
+     * @return {@code true} if the mount was successfully ejected. {@code false} otherwise.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
+     * @deprecated Use g_mount_eject_with_operation_finish() instead.
      */
-    default boolean ejectWithOperationFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    @Deprecated
+    default boolean ejectFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_mount_eject_with_operation_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_mount_eject_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -111,180 +107,208 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
         return RESULT != 0;
     }
     
-    @ApiStatus.Internal static final MethodHandle g_mount_get_default_location = Interop.downcallHandle(
-        "g_mount_get_default_location",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Ejects a mount. This is an asynchronous operation, and is
+     * finished by calling g_mount_eject_with_operation_finish() with the {@code mount}
+     * and {@link AsyncResult} data returned in the {@code callback}.
+     * @param flags flags affecting the unmount if required for eject
+     * @param mountOperation a {@link MountOperation} or {@code null} to avoid
+     *     user interaction.
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @param callback a {@link AsyncReadyCallback}, or {@code null}.
+     */
+    default void ejectWithOperation(@NotNull org.gtk.gio.MountUnmountFlags flags, @Nullable org.gtk.gio.MountOperation mountOperation, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        java.util.Objects.requireNonNullElse(mountOperation, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
+        try {
+            DowncallHandles.g_mount_eject_with_operation.invokeExact(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
+    
+    /**
+     * Finishes ejecting a mount. If any errors occurred during the operation,
+     * {@code error} will be set to contain the errors and {@code false} will be returned.
+     * @param result a {@link AsyncResult}.
+     * @return {@code true} if the mount was successfully ejected. {@code false} otherwise.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
+     */
+    default boolean ejectWithOperationFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_mount_eject_with_operation_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
+    }
     
     /**
      * Gets the default location of {@code mount}. The default location of the given
      * {@code mount} is a path that reflects the main entry point for the user (e.g.
      * the home directory, or the root of the volume).
+     * @return a {@link File}.
+     *      The returned object should be unreffed with
+     *      g_object_unref() when no longer needed.
      */
-    default @NotNull File getDefaultLocation() {
+    default @NotNull org.gtk.gio.File getDefaultLocation() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_mount_get_default_location.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_mount_get_default_location.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new File.FileImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, true));
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_mount_get_drive = Interop.downcallHandle(
-        "g_mount_get_drive",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the drive for the {@code mount}.
      * <p>
      * This is a convenience method for getting the {@link Volume} and then
      * using that object to get the {@link Drive}.
+     * @return a {@link Drive} or {@code null} if {@code mount} is not
+     *      associated with a volume or a drive.
+     *      The returned object should be unreffed with
+     *      g_object_unref() when no longer needed.
      */
-    default @Nullable Drive getDrive() {
+    default @Nullable org.gtk.gio.Drive getDrive() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_mount_get_drive.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_mount_get_drive.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Drive.DriveImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Drive.DriveImpl(Refcounted.get(RESULT, true));
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_mount_get_icon = Interop.downcallHandle(
-        "g_mount_get_icon",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the icon for {@code mount}.
+     * @return a {@link Icon}.
+     *      The returned object should be unreffed with
+     *      g_object_unref() when no longer needed.
      */
-    default @NotNull Icon getIcon() {
+    default @NotNull org.gtk.gio.Icon getIcon() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_mount_get_icon.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_mount_get_icon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Icon.IconImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, true));
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_mount_get_name = Interop.downcallHandle(
-        "g_mount_get_name",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the name of {@code mount}.
+     * @return the name for the given {@code mount}.
+     *     The returned string should be freed with g_free()
+     *     when no longer needed.
      */
     default @NotNull java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_mount_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_mount_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    @ApiStatus.Internal static final MethodHandle g_mount_get_root = Interop.downcallHandle(
-        "g_mount_get_root",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the root directory on {@code mount}.
+     * @return a {@link File}.
+     *      The returned object should be unreffed with
+     *      g_object_unref() when no longer needed.
      */
-    default @NotNull File getRoot() {
+    default @NotNull org.gtk.gio.File getRoot() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_mount_get_root.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_mount_get_root.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new File.FileImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, true));
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_mount_get_sort_key = Interop.downcallHandle(
-        "g_mount_get_sort_key",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the sort key for {@code mount}, if any.
+     * @return Sorting key for {@code mount} or {@code null} if no such key is available.
      */
     default @Nullable java.lang.String getSortKey() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_mount_get_sort_key.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_mount_get_sort_key.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    @ApiStatus.Internal static final MethodHandle g_mount_get_symbolic_icon = Interop.downcallHandle(
-        "g_mount_get_symbolic_icon",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the symbolic icon for {@code mount}.
+     * @return a {@link Icon}.
+     *      The returned object should be unreffed with
+     *      g_object_unref() when no longer needed.
      */
-    default @NotNull Icon getSymbolicIcon() {
+    default @NotNull org.gtk.gio.Icon getSymbolicIcon() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_mount_get_symbolic_icon.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_mount_get_symbolic_icon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Icon.IconImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, true));
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_mount_get_uuid = Interop.downcallHandle(
-        "g_mount_get_uuid",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the UUID for the {@code mount}. The reference is typically based on
      * the file system UUID for the mount in question and should be
      * considered an opaque string. Returns {@code null} if there is no UUID
      * available.
+     * @return the UUID for {@code mount} or {@code null} if no UUID
+     *     can be computed.
+     *     The returned string should be freed with g_free()
+     *     when no longer needed.
      */
     default @Nullable java.lang.String getUuid() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_mount_get_uuid.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_mount_get_uuid.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    @ApiStatus.Internal static final MethodHandle g_mount_get_volume = Interop.downcallHandle(
-        "g_mount_get_volume",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the volume for the {@code mount}.
+     * @return a {@link Volume} or {@code null} if {@code mount} is not
+     *      associated with a volume.
+     *      The returned object should be unreffed with
+     *      g_object_unref() when no longer needed.
      */
-    default @Nullable Volume getVolume() {
+    default @Nullable org.gtk.gio.Volume getVolume() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_mount_get_volume.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_mount_get_volume.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Volume.VolumeImpl(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.Volume.VolumeImpl(Refcounted.get(RESULT, true));
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_mount_guess_content_type = Interop.downcallHandle(
-        "g_mount_guess_content_type",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tries to guess the type of content stored on {@code mount}. Returns one or
@@ -298,25 +322,26 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
      * g_mount_guess_content_type_sync() for the synchronous version), and
      * is finished by calling g_mount_guess_content_type_finish() with the
      * {@code mount} and {@link AsyncResult} data returned in the {@code callback}.
+     * @param forceRescan Whether to force a rescan of the content.
+     *     Otherwise a cached result will be used if available
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore
+     * @param callback a {@link AsyncReadyCallback}
      */
-    default @NotNull void guessContentType(@NotNull boolean forceRescan, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
+    default void guessContentType(boolean forceRescan, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            g_mount_guess_content_type.invokeExact(handle(), forceRescan ? 1 : 0, cancellable.handle(), 
+            DowncallHandles.g_mount_guess_content_type.invokeExact(handle(), forceRescan ? 1 : 0, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
+                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_mount_guess_content_type_finish = Interop.downcallHandle(
-        "g_mount_guess_content_type_finish",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Finishes guessing content types of {@code mount}. If any errors occurred
@@ -324,12 +349,17 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
      * {@code false} will be returned. In particular, you may get an
      * {@link IOErrorEnum#NOT_SUPPORTED} if the mount does not support content
      * guessing.
+     * @param result a {@link AsyncResult}
+     * @return a {@code null}-terminated array of content types or {@code null} on error.
+     *     Caller should free this array with g_strfreev() when done with it.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default PointerString guessContentTypeFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull PointerString guessContentTypeFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_mount_guess_content_type_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_mount_guess_content_type_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -338,11 +368,6 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
         }
         return new PointerString(RESULT);
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_mount_guess_content_type_sync = Interop.downcallHandle(
-        "g_mount_guess_content_type_sync",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tries to guess the type of content stored on {@code mount}. Returns one or
@@ -354,12 +379,19 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
      * <p>
      * This is a synchronous operation and as such may block doing IO;
      * see g_mount_guess_content_type() for the asynchronous version.
+     * @param forceRescan Whether to force a rescan of the content.
+     *     Otherwise a cached result will be used if available
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore
+     * @return a {@code null}-terminated array of content types or {@code null} on error.
+     *     Caller should free this array with g_strfreev() when done with it.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default PointerString guessContentTypeSync(@NotNull boolean forceRescan, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default @NotNull PointerString guessContentTypeSync(boolean forceRescan, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_mount_guess_content_type_sync.invokeExact(handle(), forceRescan ? 1 : 0, cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_mount_guess_content_type_sync.invokeExact(handle(), forceRescan ? 1 : 0, cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -368,11 +400,6 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
         }
         return new PointerString(RESULT);
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_mount_is_shadowed = Interop.downcallHandle(
-        "g_mount_is_shadowed",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Determines if {@code mount} is shadowed. Applications or libraries should
@@ -398,21 +425,17 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
      * The proxy monitor in GVfs 2.26 and later, automatically creates and
      * manage shadow mounts (and shadows the underlying mount) if the
      * activation root on a {@link Volume} is set.
+     * @return {@code true} if {@code mount} is shadowed.
      */
     default boolean isShadowed() {
         int RESULT;
         try {
-            RESULT = (int) g_mount_is_shadowed.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_mount_is_shadowed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_mount_remount = Interop.downcallHandle(
-        "g_mount_remount",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Remounts a mount. This is an asynchronous operation, and is
@@ -424,35 +447,43 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
      * take affect. While this is semantically equivalent with unmounting
      * and then remounting not all backends might need to actually be
      * unmounted.
+     * @param flags flags affecting the operation
+     * @param mountOperation a {@link MountOperation} or {@code null} to avoid
+     *     user interaction.
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @param callback a {@link AsyncReadyCallback}, or {@code null}.
      */
-    default @NotNull void remount(@NotNull MountMountFlags flags, @Nullable MountOperation mountOperation, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
+    default void remount(@NotNull org.gtk.gio.MountMountFlags flags, @Nullable org.gtk.gio.MountOperation mountOperation, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        java.util.Objects.requireNonNullElse(mountOperation, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            g_mount_remount.invokeExact(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
+            DowncallHandles.g_mount_remount.invokeExact(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
+                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    @ApiStatus.Internal static final MethodHandle g_mount_remount_finish = Interop.downcallHandle(
-        "g_mount_remount_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Finishes remounting a mount. If any errors occurred during the operation,
      * {@code error} will be set to contain the errors and {@code false} will be returned.
+     * @param result a {@link AsyncResult}.
+     * @return {@code true} if the mount was successfully remounted. {@code false} otherwise.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean remountFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    default boolean remountFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_mount_remount_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_mount_remount_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -461,11 +492,6 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
         }
         return RESULT != 0;
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_mount_shadow = Interop.downcallHandle(
-        "g_mount_shadow",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Increments the shadow count on {@code mount}. Usually used by
@@ -473,52 +499,56 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
      * {@code mount}, see g_mount_is_shadowed() for more information. The caller
      * will need to emit the {@link Mount}::changed signal on {@code mount} manually.
      */
-    default @NotNull void shadow() {
+    default void shadow() {
         try {
-            g_mount_shadow.invokeExact(handle());
+            DowncallHandles.g_mount_shadow.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_mount_unmount_with_operation = Interop.downcallHandle(
-        "g_mount_unmount_with_operation",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Unmounts a mount. This is an asynchronous operation, and is
-     * finished by calling g_mount_unmount_with_operation_finish() with the {@code mount}
+     * finished by calling g_mount_unmount_finish() with the {@code mount}
      * and {@link AsyncResult} data returned in the {@code callback}.
+     * @param flags flags affecting the operation
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @param callback a {@link AsyncReadyCallback}, or {@code null}.
+     * @deprecated Use g_mount_unmount_with_operation() instead.
      */
-    default @NotNull void unmountWithOperation(@NotNull MountUnmountFlags flags, @Nullable MountOperation mountOperation, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
+    @Deprecated
+    default void unmount(@NotNull org.gtk.gio.MountUnmountFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            g_mount_unmount_with_operation.invokeExact(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
+            DowncallHandles.g_mount_unmount.invokeExact(handle(), flags.getValue(), cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
+                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_mount_unmount_with_operation_finish = Interop.downcallHandle(
-        "g_mount_unmount_with_operation_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Finishes unmounting a mount. If any errors occurred during the operation,
      * {@code error} will be set to contain the errors and {@code false} will be returned.
+     * @param result a {@link AsyncResult}.
+     * @return {@code true} if the mount was successfully unmounted. {@code false} otherwise.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
+     * @deprecated Use g_mount_unmount_with_operation_finish() instead.
      */
-    default boolean unmountWithOperationFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    @Deprecated
+    default boolean unmountFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_mount_unmount_with_operation_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_mount_unmount_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -528,10 +558,55 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
         return RESULT != 0;
     }
     
-    @ApiStatus.Internal static final MethodHandle g_mount_unshadow = Interop.downcallHandle(
-        "g_mount_unshadow",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
+    /**
+     * Unmounts a mount. This is an asynchronous operation, and is
+     * finished by calling g_mount_unmount_with_operation_finish() with the {@code mount}
+     * and {@link AsyncResult} data returned in the {@code callback}.
+     * @param flags flags affecting the operation
+     * @param mountOperation a {@link MountOperation} or {@code null} to avoid
+     *     user interaction.
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @param callback a {@link AsyncReadyCallback}, or {@code null}.
+     */
+    default void unmountWithOperation(@NotNull org.gtk.gio.MountUnmountFlags flags, @Nullable org.gtk.gio.MountOperation mountOperation, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        java.util.Objects.requireNonNullElse(mountOperation, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
+        try {
+            DowncallHandles.g_mount_unmount_with_operation.invokeExact(handle(), flags.getValue(), mountOperation.handle(), cancellable.handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
+    
+    /**
+     * Finishes unmounting a mount. If any errors occurred during the operation,
+     * {@code error} will be set to contain the errors and {@code false} will be returned.
+     * @param result a {@link AsyncResult}.
+     * @return {@code true} if the mount was successfully unmounted. {@code false} otherwise.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
+     */
+    default boolean unmountWithOperationFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+        MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_mount_unmount_with_operation_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT != 0;
+    }
     
     /**
      * Decrements the shadow count on {@code mount}. Usually used by
@@ -539,23 +614,23 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
      * {@code mount}, see g_mount_is_shadowed() for more information. The caller
      * will need to emit the {@link Mount}::changed signal on {@code mount} manually.
      */
-    default @NotNull void unshadow() {
+    default void unshadow() {
         try {
-            g_mount_unshadow.invokeExact(handle());
+            DowncallHandles.g_mount_unshadow.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ChangedHandler {
+    public interface Changed {
         void signalReceived(Mount source);
     }
     
     /**
      * Emitted when the mount has been changed.
      */
-    public default SignalHandle onChanged(ChangedHandler handler) {
+    public default Signal<Mount.Changed> onChanged(Mount.Changed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -565,16 +640,16 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<Mount.Changed>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface PreUnmountHandler {
+    public interface PreUnmount {
         void signalReceived(Mount source);
     }
     
@@ -585,7 +660,7 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
      * This signal depends on the backend and is only emitted if
      * GIO was used to unmount.
      */
-    public default SignalHandle onPreUnmount(PreUnmountHandler handler) {
+    public default Signal<Mount.PreUnmount> onPreUnmount(Mount.PreUnmount handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -595,16 +670,16 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<Mount.PreUnmount>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface UnmountedHandler {
+    public interface Unmounted {
         void signalReceived(Mount source);
     }
     
@@ -614,7 +689,7 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
      * object they should release them so the object can be
      * finalized.
      */
-    public default SignalHandle onUnmounted(UnmountedHandler handler) {
+    public default Signal<Mount.Unmounted> onUnmounted(Mount.Unmounted handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -624,37 +699,208 @@ public interface Mount extends io.github.jwharm.javagi.Proxy {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<Mount.Unmounted>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    @ApiStatus.Internal
+    static class DowncallHandles {
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_can_eject = Interop.downcallHandle(
+            "g_mount_can_eject",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_can_unmount = Interop.downcallHandle(
+            "g_mount_can_unmount",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_eject = Interop.downcallHandle(
+            "g_mount_eject",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_eject_finish = Interop.downcallHandle(
+            "g_mount_eject_finish",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_eject_with_operation = Interop.downcallHandle(
+            "g_mount_eject_with_operation",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_eject_with_operation_finish = Interop.downcallHandle(
+            "g_mount_eject_with_operation_finish",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_get_default_location = Interop.downcallHandle(
+            "g_mount_get_default_location",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_get_drive = Interop.downcallHandle(
+            "g_mount_get_drive",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_get_icon = Interop.downcallHandle(
+            "g_mount_get_icon",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_get_name = Interop.downcallHandle(
+            "g_mount_get_name",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_get_root = Interop.downcallHandle(
+            "g_mount_get_root",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_get_sort_key = Interop.downcallHandle(
+            "g_mount_get_sort_key",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_get_symbolic_icon = Interop.downcallHandle(
+            "g_mount_get_symbolic_icon",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_get_uuid = Interop.downcallHandle(
+            "g_mount_get_uuid",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_get_volume = Interop.downcallHandle(
+            "g_mount_get_volume",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_guess_content_type = Interop.downcallHandle(
+            "g_mount_guess_content_type",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_guess_content_type_finish = Interop.downcallHandle(
+            "g_mount_guess_content_type_finish",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_guess_content_type_sync = Interop.downcallHandle(
+            "g_mount_guess_content_type_sync",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_is_shadowed = Interop.downcallHandle(
+            "g_mount_is_shadowed",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_remount = Interop.downcallHandle(
+            "g_mount_remount",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_remount_finish = Interop.downcallHandle(
+            "g_mount_remount_finish",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_shadow = Interop.downcallHandle(
+            "g_mount_shadow",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_unmount = Interop.downcallHandle(
+            "g_mount_unmount",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_unmount_finish = Interop.downcallHandle(
+            "g_mount_unmount_finish",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_unmount_with_operation = Interop.downcallHandle(
+            "g_mount_unmount_with_operation",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_unmount_with_operation_finish = Interop.downcallHandle(
+            "g_mount_unmount_with_operation_finish",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_mount_unshadow = Interop.downcallHandle(
+            "g_mount_unshadow",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
     
+    @ApiStatus.Internal
+    static class Callbacks {
+        
         public static void signalMountChanged(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (Mount.ChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Mount.MountImpl(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (Mount.Changed) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new Mount.MountImpl(Refcounted.get(source)));
         }
         
         public static void signalMountPreUnmount(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (Mount.PreUnmountHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Mount.MountImpl(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (Mount.PreUnmount) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new Mount.MountImpl(Refcounted.get(source)));
         }
         
         public static void signalMountUnmounted(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (Mount.UnmountedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Mount.MountImpl(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (Mount.Unmounted) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new Mount.MountImpl(Refcounted.get(source)));
         }
-        
     }
     
     class MountImpl extends org.gtk.gobject.Object implements Mount {
+        
+        static {
+            Gio.javagi$ensureInitialized();
+        }
+        
         public MountImpl(io.github.jwharm.javagi.Refcounted ref) {
             super(ref);
         }

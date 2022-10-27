@@ -15,8 +15,24 @@ import org.jetbrains.annotations.*;
  * If the {@code GtkCellRenderer:mode} is {@link CellRendererMode#EDITABLE},
  * the {@code GtkCellRendererText} allows to edit its text using an entry.
  */
-public class CellRendererText extends CellRenderer {
-
+public class CellRendererText extends org.gtk.gtk.CellRenderer {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gtk.CellRenderer.getMemoryLayout().withName("parent")
+    ).withName("GtkCellRendererText");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public CellRendererText(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -26,18 +42,14 @@ public class CellRendererText extends CellRenderer {
         return new CellRendererText(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_cell_renderer_text_new = Interop.downcallHandle(
-        "gtk_cell_renderer_text_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_cell_renderer_text_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_cell_renderer_text_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -53,11 +65,6 @@ public class CellRendererText extends CellRenderer {
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_cell_renderer_text_set_fixed_height_from_font = Interop.downcallHandle(
-        "gtk_cell_renderer_text_set_fixed_height_from_font",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Sets the height of a renderer to explicitly be determined by the “font” and
      * “y_pad” property set on it.  Further changes in these properties do not
@@ -66,17 +73,18 @@ public class CellRendererText extends CellRenderer {
      * if calculating the size of a cell is too slow (ie, a massive number of cells
      * displayed).  If {@code number_of_rows} is -1, then the fixed height is unset, and
      * the height is determined by the properties again.
+     * @param numberOfRows Number of rows of text each cell renderer is allocated, or -1
      */
-    public @NotNull void setFixedHeightFromFont(@NotNull int numberOfRows) {
+    public void setFixedHeightFromFont(int numberOfRows) {
         try {
-            gtk_cell_renderer_text_set_fixed_height_from_font.invokeExact(handle(), numberOfRows);
+            DowncallHandles.gtk_cell_renderer_text_set_fixed_height_from_font.invokeExact(handle(), numberOfRows);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface EditedHandler {
+    public interface Edited {
         void signalReceived(CellRendererText source, @NotNull java.lang.String path, @NotNull java.lang.String newText);
     }
     
@@ -86,7 +94,7 @@ public class CellRendererText extends CellRenderer {
      * It is the responsibility of the application to update the model
      * and store {@code new_text} at the position indicated by {@code path}.
      */
-    public SignalHandle onEdited(EditedHandler handler) {
+    public Signal<CellRendererText.Edited> onEdited(CellRendererText.Edited handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -96,21 +104,33 @@ public class CellRendererText extends CellRenderer {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<CellRendererText.Edited>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static void signalCellRendererTextEdited(MemoryAddress source, MemoryAddress path, MemoryAddress newText, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (CellRendererText.EditedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new CellRendererText(Refcounted.get(source)), path.getUtf8String(0), newText.getUtf8String(0));
-        }
+    private static class DowncallHandles {
         
+        private static final MethodHandle gtk_cell_renderer_text_new = Interop.downcallHandle(
+            "gtk_cell_renderer_text_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_cell_renderer_text_set_fixed_height_from_font = Interop.downcallHandle(
+            "gtk_cell_renderer_text_set_fixed_height_from_font",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
+    
+    private static class Callbacks {
+        
+        public static void signalCellRendererTextEdited(MemoryAddress source, MemoryAddress path, MemoryAddress newText, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (CellRendererText.Edited) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new CellRendererText(Refcounted.get(source)), path.getUtf8String(0), newText.getUtf8String(0));
+        }
     }
 }

@@ -9,8 +9,8 @@ package org.harfbuzz;
  * <a href="https://docs.microsoft.com/en-us/typography/opentype/spec/name#name-ids">OpenType spec</a>.
  */
 public class OtNameIdT extends io.github.jwharm.javagi.Alias<Integer> {
+    
     public OtNameIdT(int value) {
         super(value);
     }
-    
 }

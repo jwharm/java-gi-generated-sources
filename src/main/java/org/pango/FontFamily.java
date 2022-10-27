@@ -13,7 +13,23 @@ import org.jetbrains.annotations.*;
  * slant, weight, width or other aspects.
  */
 public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
-
+    
+    static {
+        Pango.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
+    ).withName("PangoFontFamily");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public FontFamily(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -23,28 +39,24 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
         return new FontFamily(gobject.refcounted());
     }
     
-    private static final MethodHandle pango_font_family_get_face = Interop.downcallHandle(
-        "pango_font_family_get_face",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the {@code PangoFontFace} of {@code family} with the given name.
+     * @param name the name of a face. If the name is {@code null},
+     *   the family's default face (fontconfig calls it "Regular")
+     *   will be returned.
+     * @return the {@code PangoFontFace},
+     *   or {@code null} if no face with the given name exists.
      */
-    public @Nullable FontFace getFace(@Nullable java.lang.String name) {
+    public @Nullable org.pango.FontFace getFace(@Nullable java.lang.String name) {
+        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_font_family_get_face.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_family_get_face.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new FontFace(Refcounted.get(RESULT, false));
+        return new org.pango.FontFace(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle pango_font_family_get_name = Interop.downcallHandle(
-        "pango_font_family_get_name",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the name of the family.
@@ -52,21 +64,18 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * The name is unique among all fonts for the font backend and can
      * be used in a {@code PangoFontDescription} to specify that a face from
      * this family is desired.
+     * @return the name of the family. This string is owned
+     *   by the family object and must not be modified or freed.
      */
     public @NotNull java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_font_family_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_font_family_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle pango_font_family_is_monospace = Interop.downcallHandle(
-        "pango_font_family_is_monospace",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * A monospace font is a font designed for text display where the the
@@ -83,21 +92,17 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * {@link FontMetrics#getApproximateDigitWidth}, since the
      * results of {@link FontMetrics#getApproximateCharWidth} may
      * be affected by double-width characters.
+     * @return {@code true} if the family is monospace.
      */
     public boolean isMonospace() {
         int RESULT;
         try {
-            RESULT = (int) pango_font_family_is_monospace.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_font_family_is_monospace.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle pango_font_family_is_variable = Interop.downcallHandle(
-        "pango_font_family_is_variable",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * A variable font is a font which has axes that can be modified to
@@ -105,21 +110,17 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * <p>
      * Such axes are also known as _variations_; see
      * {@link FontDescription#setVariations} for more information.
+     * @return {@code true} if the family is variable
      */
     public boolean isVariable() {
         int RESULT;
         try {
-            RESULT = (int) pango_font_family_is_variable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_font_family_is_variable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle pango_font_family_list_faces = Interop.downcallHandle(
-        "pango_font_family_list_faces",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Lists the different font faces that make up {@code family}.
@@ -132,22 +133,55 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * <p>
      * {@code PangoFontFamily} also implemented the {@code Gio.ListModel} interface
      * for enumerating faces.
+     * @param faces location to store an array of pointers to {@code PangoFontFace} objects,
+     *   or {@code null}. This array should be freed with g_free() when it is no
+     *   longer needed.
+     * @param nFaces location to store number of elements in {@code faces}.
      */
-    public @NotNull void listFaces(@NotNull Out<FontFace[]> faces, @NotNull Out<Integer> nFaces) {
+    public void listFaces(Out<org.pango.FontFace[]> faces, Out<Integer> nFaces) {
+        java.util.Objects.requireNonNull(faces, "Parameter 'faces' must not be null");
+        java.util.Objects.requireNonNull(nFaces, "Parameter 'nFaces' must not be null");
         MemorySegment facesPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment nFacesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            pango_font_family_list_faces.invokeExact(handle(), (Addressable) facesPOINTER.address(), (Addressable) nFacesPOINTER.address());
+            DowncallHandles.pango_font_family_list_faces.invokeExact(handle(), (Addressable) facesPOINTER.address(), (Addressable) nFacesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         nFaces.set(nFacesPOINTER.get(ValueLayout.JAVA_INT, 0));
-        FontFace[] facesARRAY = new FontFace[nFaces.get().intValue()];
+        org.pango.FontFace[] facesARRAY = new org.pango.FontFace[nFaces.get().intValue()];
         for (int I = 0; I < nFaces.get().intValue(); I++) {
             var OBJ = facesPOINTER.get(ValueLayout.ADDRESS, I);
-            facesARRAY[I] = new FontFace(Refcounted.get(OBJ, false));
+            facesARRAY[I] = new org.pango.FontFace(Refcounted.get(OBJ, false));
         }
         faces.set(facesARRAY);
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle pango_font_family_get_face = Interop.downcallHandle(
+            "pango_font_family_get_face",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_font_family_get_name = Interop.downcallHandle(
+            "pango_font_family_get_name",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_font_family_is_monospace = Interop.downcallHandle(
+            "pango_font_family_is_monospace",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_font_family_is_variable = Interop.downcallHandle(
+            "pango_font_family_is_variable",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_font_family_list_faces = Interop.downcallHandle(
+            "pango_font_family_list_faces",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

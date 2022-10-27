@@ -19,8 +19,20 @@ import org.jetbrains.annotations.*;
  * {@code GtkCellRendererCombo}:text-column property. Further properties of the combo box
  * can be set in a handler for the {@code GtkCellRenderer::editing-started} signal.
  */
-public class CellRendererCombo extends CellRendererText {
-
+public class CellRendererCombo extends org.gtk.gtk.CellRendererText {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public CellRendererCombo(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -30,18 +42,14 @@ public class CellRendererCombo extends CellRendererText {
         return new CellRendererCombo(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_cell_renderer_combo_new = Interop.downcallHandle(
-        "gtk_cell_renderer_combo_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_cell_renderer_combo_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_cell_renderer_combo_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -58,8 +66,8 @@ public class CellRendererCombo extends CellRendererText {
     }
     
     @FunctionalInterface
-    public interface ChangedHandler {
-        void signalReceived(CellRendererCombo source, @NotNull java.lang.String pathString, @NotNull TreeIter newIter);
+    public interface Changed {
+        void signalReceived(CellRendererCombo source, @NotNull java.lang.String pathString, @NotNull org.gtk.gtk.TreeIter newIter);
     }
     
     /**
@@ -75,7 +83,7 @@ public class CellRendererCombo extends CellRendererText {
      * means that you most probably want to refrain from changing the model
      * until the combo cell renderer emits the edited or editing_canceled signal.
      */
-    public SignalHandle onChanged(ChangedHandler handler) {
+    public Signal<CellRendererCombo.Changed> onChanged(CellRendererCombo.Changed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -85,21 +93,28 @@ public class CellRendererCombo extends CellRendererText {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<CellRendererCombo.Changed>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static void signalCellRendererComboChanged(MemoryAddress source, MemoryAddress pathString, MemoryAddress newIter, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (CellRendererCombo.ChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new CellRendererCombo(Refcounted.get(source)), pathString.getUtf8String(0), new TreeIter(Refcounted.get(newIter, false)));
-        }
+    private static class DowncallHandles {
         
+        private static final MethodHandle gtk_cell_renderer_combo_new = Interop.downcallHandle(
+            "gtk_cell_renderer_combo_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+    }
+    
+    private static class Callbacks {
+        
+        public static void signalCellRendererComboChanged(MemoryAddress source, MemoryAddress pathString, MemoryAddress newIter, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (CellRendererCombo.Changed) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new CellRendererCombo(Refcounted.get(source)), pathString.getUtf8String(0), new org.gtk.gtk.TreeIter(Refcounted.get(newIter, false)));
+        }
     }
 }

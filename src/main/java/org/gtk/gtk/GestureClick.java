@@ -14,8 +14,20 @@ import org.jetbrains.annotations.*;
  * defaults, {@code Gtk.GestureClick::stopped} is emitted, and the
  * click counter is reset.
  */
-public class GestureClick extends GestureSingle {
-
+public class GestureClick extends org.gtk.gtk.GestureSingle {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public GestureClick(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -25,18 +37,14 @@ public class GestureClick extends GestureSingle {
         return new GestureClick(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_gesture_click_new = Interop.downcallHandle(
-        "gtk_gesture_click_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_gesture_click_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_gesture_click_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -48,14 +56,14 @@ public class GestureClick extends GestureSingle {
     }
     
     @FunctionalInterface
-    public interface PressedHandler {
-        void signalReceived(GestureClick source, @NotNull int nPress, @NotNull double x, @NotNull double y);
+    public interface Pressed {
+        void signalReceived(GestureClick source, int nPress, double x, double y);
     }
     
     /**
      * Emitted whenever a button or touch press happens.
      */
-    public SignalHandle onPressed(PressedHandler handler) {
+    public Signal<GestureClick.Pressed> onPressed(GestureClick.Pressed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -65,17 +73,17 @@ public class GestureClick extends GestureSingle {
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<GestureClick.Pressed>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ReleasedHandler {
-        void signalReceived(GestureClick source, @NotNull int nPress, @NotNull double x, @NotNull double y);
+    public interface Released {
+        void signalReceived(GestureClick source, int nPress, double x, double y);
     }
     
     /**
@@ -86,7 +94,7 @@ public class GestureClick extends GestureSingle {
      * have been emitted between the press and its release, {@code n_press}
      * will only start over at the next press.
      */
-    public SignalHandle onReleased(ReleasedHandler handler) {
+    public Signal<GestureClick.Released> onReleased(GestureClick.Released handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -96,23 +104,23 @@ public class GestureClick extends GestureSingle {
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<GestureClick.Released>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface StoppedHandler {
+    public interface Stopped {
         void signalReceived(GestureClick source);
     }
     
     /**
      * Emitted whenever any time/distance threshold has been exceeded.
      */
-    public SignalHandle onStopped(StoppedHandler handler) {
+    public Signal<GestureClick.Stopped> onStopped(GestureClick.Stopped handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -122,17 +130,17 @@ public class GestureClick extends GestureSingle {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<GestureClick.Stopped>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface UnpairedReleaseHandler {
-        void signalReceived(GestureClick source, @NotNull double x, @NotNull double y, @NotNull int button, @NotNull org.gtk.gdk.EventSequence sequence);
+    public interface UnpairedRelease {
+        void signalReceived(GestureClick source, double x, double y, int button, @NotNull org.gtk.gdk.EventSequence sequence);
     }
     
     /**
@@ -143,7 +151,7 @@ public class GestureClick extends GestureSingle {
      * where input is grabbed elsewhere mid-press or the pressed
      * widget voluntarily relinquishes its implicit grab.
      */
-    public SignalHandle onUnpairedRelease(UnpairedReleaseHandler handler) {
+    public Signal<GestureClick.UnpairedRelease> onUnpairedRelease(GestureClick.UnpairedRelease handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -153,39 +161,46 @@ public class GestureClick extends GestureSingle {
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, int.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<GestureClick.UnpairedRelease>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_gesture_click_new = Interop.downcallHandle(
+            "gtk_gesture_click_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static void signalGestureClickPressed(MemoryAddress source, int nPress, double x, double y, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (GestureClick.PressedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GestureClick(Refcounted.get(source)), nPress, x, y);
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (GestureClick.Pressed) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new GestureClick(Refcounted.get(source)), nPress, x, y);
         }
         
         public static void signalGestureClickReleased(MemoryAddress source, int nPress, double x, double y, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (GestureClick.ReleasedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GestureClick(Refcounted.get(source)), nPress, x, y);
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (GestureClick.Released) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new GestureClick(Refcounted.get(source)), nPress, x, y);
         }
         
         public static void signalGestureClickStopped(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (GestureClick.StoppedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GestureClick(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (GestureClick.Stopped) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new GestureClick(Refcounted.get(source)));
         }
         
         public static void signalGestureClickUnpairedRelease(MemoryAddress source, double x, double y, int button, MemoryAddress sequence, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (GestureClick.UnpairedReleaseHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GestureClick(Refcounted.get(source)), x, y, button, new org.gtk.gdk.EventSequence(Refcounted.get(sequence, false)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (GestureClick.UnpairedRelease) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new GestureClick(Refcounted.get(source)), x, y, button, new org.gtk.gdk.EventSequence(Refcounted.get(sequence, false)));
         }
-        
     }
 }

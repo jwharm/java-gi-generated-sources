@@ -50,9 +50,22 @@ import org.jetbrains.annotations.*;
  * clicked.
  * <p>
  * A notification can be sent with g_application_send_notification().
+ * @version 2.40
  */
 public class Notification extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public Notification(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -62,18 +75,15 @@ public class Notification extends org.gtk.gobject.Object {
         return new Notification(gobject.refcounted());
     }
     
-    private static final MethodHandle g_notification_new = Interop.downcallHandle(
-        "g_notification_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew(@NotNull java.lang.String title) {
+        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_notification_new.invokeExact(Interop.allocateNativeString(title)), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_notification_new.invokeExact(Interop.allocateNativeString(title)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -83,15 +93,11 @@ public class Notification extends org.gtk.gobject.Object {
      * the desktop shell with g_application_send_notification(). Changing
      * any properties after this call will not have any effect until
      * resending {@code notification}.
+     * @param title the title of the notification
      */
     public Notification(@NotNull java.lang.String title) {
         super(constructNew(title));
     }
-    
-    private static final MethodHandle g_notification_add_button = Interop.downcallHandle(
-        "g_notification_add_button",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Adds a button to {@code notification} that activates the action in
@@ -102,19 +108,34 @@ public class Notification extends org.gtk.gobject.Object {
      * <p>
      * See g_action_parse_detailed_name() for a description of the format
      * for {@code detailed_action}.
+     * @param label label of the button
+     * @param detailedAction a detailed action name
      */
-    public @NotNull void addButton(@NotNull java.lang.String label, @NotNull java.lang.String detailedAction) {
+    public void addButton(@NotNull java.lang.String label, @NotNull java.lang.String detailedAction) {
+        java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
+        java.util.Objects.requireNonNull(detailedAction, "Parameter 'detailedAction' must not be null");
         try {
-            g_notification_add_button.invokeExact(handle(), Interop.allocateNativeString(label), Interop.allocateNativeString(detailedAction));
+            DowncallHandles.g_notification_add_button.invokeExact(handle(), Interop.allocateNativeString(label), Interop.allocateNativeString(detailedAction));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle g_notification_add_button_with_target_value = Interop.downcallHandle(
-        "g_notification_add_button_with_target_value",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Adds a button to {@code notification} that activates {@code action} when clicked.
+     * {@code action} must be an application-wide action (it must start with "app.").
+     * <p>
+     * If {@code target_format} is given, it is used to collect remaining
+     * positional parameters into a {@link org.gtk.glib.Variant} instance, similar to
+     * g_variant_new(). {@code action} will be activated with that {@link org.gtk.glib.Variant} as its
+     * parameter.
+     * @param label label of the button
+     * @param action an action name
+     * @param targetFormat a {@link org.gtk.glib.Variant} format string, or {@code null}
+     */
+    public void addButtonWithTarget(@NotNull java.lang.String label, @NotNull java.lang.String action, @Nullable java.lang.String targetFormat) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Adds a button to {@code notification} that activates {@code action} when clicked.
@@ -122,35 +143,33 @@ public class Notification extends org.gtk.gobject.Object {
      * <p>
      * If {@code target} is non-{@code null}, {@code action} will be activated with {@code target} as
      * its parameter.
+     * @param label label of the button
+     * @param action an action name
+     * @param target a {@link org.gtk.glib.Variant} to use as {@code action}'s parameter, or {@code null}
      */
-    public @NotNull void addButtonWithTargetValue(@NotNull java.lang.String label, @NotNull java.lang.String action, @Nullable org.gtk.glib.Variant target) {
+    public void addButtonWithTargetValue(@NotNull java.lang.String label, @NotNull java.lang.String action, @Nullable org.gtk.glib.Variant target) {
+        java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
+        java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
+        java.util.Objects.requireNonNullElse(target, MemoryAddress.NULL);
         try {
-            g_notification_add_button_with_target_value.invokeExact(handle(), Interop.allocateNativeString(label), Interop.allocateNativeString(action), target.handle());
+            DowncallHandles.g_notification_add_button_with_target_value.invokeExact(handle(), Interop.allocateNativeString(label), Interop.allocateNativeString(action), target.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_notification_set_body = Interop.downcallHandle(
-        "g_notification_set_body",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the body of {@code notification} to {@code body}.
+     * @param body the new body for {@code notification}, or {@code null}
      */
-    public @NotNull void setBody(@Nullable java.lang.String body) {
+    public void setBody(@Nullable java.lang.String body) {
+        java.util.Objects.requireNonNullElse(body, MemoryAddress.NULL);
         try {
-            g_notification_set_body.invokeExact(handle(), Interop.allocateNativeString(body));
+            DowncallHandles.g_notification_set_body.invokeExact(handle(), Interop.allocateNativeString(body));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_notification_set_category = Interop.downcallHandle(
-        "g_notification_set_category",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the type of {@code notification} to {@code category}. Categories have a main
@@ -159,19 +178,16 @@ public class Notification extends org.gtk.gobject.Object {
      * helps the notification server to select proper feedback to the user.
      * <p>
      * Standard categories are <a href="https://specifications.freedesktop.org/notification-spec/latest/ar01s06.html">listed in the specification</a>.
+     * @param category the category for {@code notification}, or {@code null} for no category
      */
-    public @NotNull void setCategory(@Nullable java.lang.String category) {
+    public void setCategory(@Nullable java.lang.String category) {
+        java.util.Objects.requireNonNullElse(category, MemoryAddress.NULL);
         try {
-            g_notification_set_category.invokeExact(handle(), Interop.allocateNativeString(category));
+            DowncallHandles.g_notification_set_category.invokeExact(handle(), Interop.allocateNativeString(category));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_notification_set_default_action = Interop.downcallHandle(
-        "g_notification_set_default_action",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the default action of {@code notification} to {@code detailed_action}. This
@@ -185,19 +201,35 @@ public class Notification extends org.gtk.gobject.Object {
      * <p>
      * When no default action is set, the application that the notification
      * was sent on is activated.
+     * @param detailedAction a detailed action name
      */
-    public @NotNull void setDefaultAction(@NotNull java.lang.String detailedAction) {
+    public void setDefaultAction(@NotNull java.lang.String detailedAction) {
+        java.util.Objects.requireNonNull(detailedAction, "Parameter 'detailedAction' must not be null");
         try {
-            g_notification_set_default_action.invokeExact(handle(), Interop.allocateNativeString(detailedAction));
+            DowncallHandles.g_notification_set_default_action.invokeExact(handle(), Interop.allocateNativeString(detailedAction));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle g_notification_set_default_action_and_target_value = Interop.downcallHandle(
-        "g_notification_set_default_action_and_target_value",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Sets the default action of {@code notification} to {@code action}. This action is
+     * activated when the notification is clicked on. It must be an
+     * application-wide action (it must start with "app.").
+     * <p>
+     * If {@code target_format} is given, it is used to collect remaining
+     * positional parameters into a {@link org.gtk.glib.Variant} instance, similar to
+     * g_variant_new(). {@code action} will be activated with that {@link org.gtk.glib.Variant} as its
+     * parameter.
+     * <p>
+     * When no default action is set, the application that the notification
+     * was sent on is activated.
+     * @param action an action name
+     * @param targetFormat a {@link org.gtk.glib.Variant} format string, or {@code null}
+     */
+    public void setDefaultActionAndTarget(@NotNull java.lang.String action, @Nullable java.lang.String targetFormat) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Sets the default action of {@code notification} to {@code action}. This action is
@@ -209,62 +241,139 @@ public class Notification extends org.gtk.gobject.Object {
      * <p>
      * When no default action is set, the application that the notification
      * was sent on is activated.
+     * @param action an action name
+     * @param target a {@link org.gtk.glib.Variant} to use as {@code action}'s parameter, or {@code null}
      */
-    public @NotNull void setDefaultActionAndTargetValue(@NotNull java.lang.String action, @Nullable org.gtk.glib.Variant target) {
+    public void setDefaultActionAndTargetValue(@NotNull java.lang.String action, @Nullable org.gtk.glib.Variant target) {
+        java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
+        java.util.Objects.requireNonNullElse(target, MemoryAddress.NULL);
         try {
-            g_notification_set_default_action_and_target_value.invokeExact(handle(), Interop.allocateNativeString(action), target.handle());
+            DowncallHandles.g_notification_set_default_action_and_target_value.invokeExact(handle(), Interop.allocateNativeString(action), target.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_notification_set_icon = Interop.downcallHandle(
-        "g_notification_set_icon",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the icon of {@code notification} to {@code icon}.
+     * @param icon the icon to be shown in {@code notification}, as a {@link Icon}
      */
-    public @NotNull void setIcon(@NotNull Icon icon) {
+    public void setIcon(@NotNull org.gtk.gio.Icon icon) {
+        java.util.Objects.requireNonNull(icon, "Parameter 'icon' must not be null");
         try {
-            g_notification_set_icon.invokeExact(handle(), icon.handle());
+            DowncallHandles.g_notification_set_icon.invokeExact(handle(), icon.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_notification_set_priority = Interop.downcallHandle(
-        "g_notification_set_priority",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the priority of {@code notification} to {@code priority}. See
      * {@link NotificationPriority} for possible values.
+     * @param priority a {@link NotificationPriority}
      */
-    public @NotNull void setPriority(@NotNull NotificationPriority priority) {
+    public void setPriority(@NotNull org.gtk.gio.NotificationPriority priority) {
+        java.util.Objects.requireNonNull(priority, "Parameter 'priority' must not be null");
         try {
-            g_notification_set_priority.invokeExact(handle(), priority.getValue());
+            DowncallHandles.g_notification_set_priority.invokeExact(handle(), priority.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_notification_set_title = Interop.downcallHandle(
-        "g_notification_set_title",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the title of {@code notification} to {@code title}.
+     * @param title the new title for {@code notification}
      */
-    public @NotNull void setTitle(@NotNull java.lang.String title) {
+    public void setTitle(@NotNull java.lang.String title) {
+        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
         try {
-            g_notification_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
+            DowncallHandles.g_notification_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Deprecated in favor of g_notification_set_priority().
+     * @param urgent {@code true} if {@code notification} is urgent
+     * @deprecated Since 2.42, this has been deprecated in favour of
+     *    g_notification_set_priority().
+     */
+    @Deprecated
+    public void setUrgent(boolean urgent) {
+        try {
+            DowncallHandles.g_notification_set_urgent.invokeExact(handle(), urgent ? 1 : 0);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_notification_new = Interop.downcallHandle(
+            "g_notification_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_notification_add_button = Interop.downcallHandle(
+            "g_notification_add_button",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_notification_add_button_with_target = Interop.downcallHandle(
+            "g_notification_add_button_with_target",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_notification_add_button_with_target_value = Interop.downcallHandle(
+            "g_notification_add_button_with_target_value",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_notification_set_body = Interop.downcallHandle(
+            "g_notification_set_body",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_notification_set_category = Interop.downcallHandle(
+            "g_notification_set_category",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_notification_set_default_action = Interop.downcallHandle(
+            "g_notification_set_default_action",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_notification_set_default_action_and_target = Interop.downcallHandle(
+            "g_notification_set_default_action_and_target",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_notification_set_default_action_and_target_value = Interop.downcallHandle(
+            "g_notification_set_default_action_and_target_value",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_notification_set_icon = Interop.downcallHandle(
+            "g_notification_set_icon",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_notification_set_priority = Interop.downcallHandle(
+            "g_notification_set_priority",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_notification_set_title = Interop.downcallHandle(
+            "g_notification_set_title",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_notification_set_urgent = Interop.downcallHandle(
+            "g_notification_set_urgent",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
 }

@@ -1,5 +1,10 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Return value for various IO operations that signal errors via the
  * return value and not necessarily via a {@link org.gtk.glib.Error}.
@@ -10,9 +15,18 @@ package org.gtk.gio;
  * <p>
  * In case of {@link PollableReturn#FAILED} a {@link org.gtk.glib.Error} should be set for the
  * operation to give details about the error that happened.
+ * @version 2.60
  */
 public class PollableReturn extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Generic error condition for when an operation fails.
      */
@@ -31,5 +45,4 @@ public class PollableReturn extends io.github.jwharm.javagi.Enumeration {
     public PollableReturn(int value) {
         super(value);
     }
-    
 }

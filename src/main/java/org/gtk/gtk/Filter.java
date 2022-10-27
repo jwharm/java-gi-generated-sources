@@ -26,7 +26,23 @@ import org.jetbrains.annotations.*;
  * also possible to subclass {@code GtkFilter} and provide one's own filter.
  */
 public class Filter extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
+    ).withName("GtkFilter");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public Filter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -35,11 +51,6 @@ public class Filter extends org.gtk.gobject.Object {
     public static Filter castFrom(org.gtk.gobject.Object gobject) {
         return new Filter(gobject.refcounted());
     }
-    
-    private static final MethodHandle gtk_filter_changed = Interop.downcallHandle(
-        "gtk_filter_changed",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Notifies all users of the filter that it has changed.
@@ -54,19 +65,16 @@ public class Filter extends org.gtk.gobject.Object {
      * <p>
      * This function is intended for implementors of {@code GtkFilter}
      * subclasses and should not be called from other functions.
+     * @param change How the filter changed
      */
-    public @NotNull void changed(@NotNull FilterChange change) {
+    public void changed(@NotNull org.gtk.gtk.FilterChange change) {
+        java.util.Objects.requireNonNull(change, "Parameter 'change' must not be null");
         try {
-            gtk_filter_changed.invokeExact(handle(), change.getValue());
+            DowncallHandles.gtk_filter_changed.invokeExact(handle(), change.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_filter_get_strictness = Interop.downcallHandle(
-        "gtk_filter_get_strictness",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the known strictness of {@code filters}.
@@ -78,29 +86,29 @@ public class Filter extends org.gtk.gobject.Object {
      * <p>
      * This function is meant purely for optimization purposes, filters can
      * choose to omit implementing it, but {@code GtkFilterListModel} uses it.
+     * @return the strictness of {@code self}
      */
-    public @NotNull FilterMatch getStrictness() {
+    public @NotNull org.gtk.gtk.FilterMatch getStrictness() {
         int RESULT;
         try {
-            RESULT = (int) gtk_filter_get_strictness.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_filter_get_strictness.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new FilterMatch(RESULT);
+        return new org.gtk.gtk.FilterMatch(RESULT);
     }
-    
-    private static final MethodHandle gtk_filter_match = Interop.downcallHandle(
-        "gtk_filter_match",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Checks if the given {@code item} is matched by the filter or not.
+     * @param item The item to check
+     * @return {@code true} if the filter matches the item and a filter model should
+     *   keep it, {@code false} if not.
      */
     public boolean match(@NotNull org.gtk.gobject.Object item) {
+        java.util.Objects.requireNonNull(item, "Parameter 'item' must not be null");
         int RESULT;
         try {
-            RESULT = (int) gtk_filter_match.invokeExact(handle(), item.handle());
+            RESULT = (int) DowncallHandles.gtk_filter_match.invokeExact(handle(), item.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,8 +116,8 @@ public class Filter extends org.gtk.gobject.Object {
     }
     
     @FunctionalInterface
-    public interface ChangedHandler {
-        void signalReceived(Filter source, @NotNull FilterChange change);
+    public interface Changed {
+        void signalReceived(Filter source, @NotNull org.gtk.gtk.FilterChange change);
     }
     
     /**
@@ -124,7 +132,7 @@ public class Filter extends org.gtk.gobject.Object {
      * to be checked, but only some. Refer to the {@code Gtk.FilterChange}
      * documentation for details.
      */
-    public SignalHandle onChanged(ChangedHandler handler) {
+    public Signal<Filter.Changed> onChanged(Filter.Changed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -134,21 +142,38 @@ public class Filter extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<Filter.Changed>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static void signalFilterChanged(MemoryAddress source, int change, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (Filter.ChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new Filter(Refcounted.get(source)), new FilterChange(change));
-        }
+    private static class DowncallHandles {
         
+        private static final MethodHandle gtk_filter_changed = Interop.downcallHandle(
+            "gtk_filter_changed",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_filter_get_strictness = Interop.downcallHandle(
+            "gtk_filter_get_strictness",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_filter_match = Interop.downcallHandle(
+            "gtk_filter_match",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
+    
+    private static class Callbacks {
+        
+        public static void signalFilterChanged(MemoryAddress source, int change, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (Filter.Changed) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new Filter(Refcounted.get(source)), new org.gtk.gtk.FilterChange(change));
+        }
     }
 }

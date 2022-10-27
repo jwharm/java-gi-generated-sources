@@ -1,10 +1,23 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Describes the behavior of a {@code GtkEventControllerScroll}.
  */
 public class EventControllerScrollFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Don't emit scroll.
      */
@@ -38,5 +51,4 @@ public class EventControllerScrollFlags extends io.github.jwharm.javagi.Bitfield
     public EventControllerScrollFlags(int value) {
         super(value);
     }
-    
 }

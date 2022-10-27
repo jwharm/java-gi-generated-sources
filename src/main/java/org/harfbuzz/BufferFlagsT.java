@@ -1,10 +1,24 @@
 package org.harfbuzz;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
- * Flags for {@link buffer_t}.
+ * Flags for {@link BufferT}.
+ * @version 0.9.20
  */
 public class BufferFlagsT extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * the default buffer flag.
      */
@@ -73,5 +87,4 @@ public class BufferFlagsT extends io.github.jwharm.javagi.Bitfield {
     public BufferFlagsT(int value) {
         super(value);
     }
-    
 }

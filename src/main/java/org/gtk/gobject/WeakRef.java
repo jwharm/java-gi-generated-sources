@@ -32,15 +32,22 @@ import org.jetbrains.annotations.*;
  * without first having or creating a strong reference to the object.
  */
 public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GObject.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public WeakRef(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
-    private static final MethodHandle g_weak_ref_clear = Interop.downcallHandle(
-        "g_weak_ref_clear",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Frees resources associated with a non-statically-allocated {@link WeakRef}.
@@ -49,18 +56,13 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
      * You should only call this on a {@link WeakRef} that previously had
      * g_weak_ref_init() called on it.
      */
-    public @NotNull void clear() {
+    public void clear() {
         try {
-            g_weak_ref_clear.invokeExact(handle());
+            DowncallHandles.g_weak_ref_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_weak_ref_get = Interop.downcallHandle(
-        "g_weak_ref_get",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * If {@code weak_ref} is not empty, atomically acquire a strong
@@ -72,21 +74,18 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The caller should release the resulting reference in the usual way,
      * by using g_object_unref().
+     * @return the object pointed to
+     *     by {@code weak_ref}, or {@code null} if it was empty
      */
-    public @NotNull Object get() {
+    public @NotNull org.gtk.gobject.Object get() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_weak_ref_get.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_weak_ref_get.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Object(Refcounted.get(RESULT, true));
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_weak_ref_init = Interop.downcallHandle(
-        "g_weak_ref_init",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Initialise a non-statically-allocated {@link WeakRef}.
@@ -98,19 +97,16 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
      * g_weak_ref_clear().  It is not necessary to use this function for a
      * {@link WeakRef} in static storage because it will already be
      * properly initialised.  Just use g_weak_ref_set() directly.
+     * @param object a {@link Object} or {@code null}
      */
-    public @NotNull void init(@Nullable Object object) {
+    public void init(@Nullable org.gtk.gobject.Object object) {
+        java.util.Objects.requireNonNullElse(object, MemoryAddress.NULL);
         try {
-            g_weak_ref_init.invokeExact(handle(), object.handle());
+            DowncallHandles.g_weak_ref_init.invokeExact(handle(), object.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_weak_ref_set = Interop.downcallHandle(
-        "g_weak_ref_set",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Change the object to which {@code weak_ref} points, or set it to
@@ -118,13 +114,37 @@ public class WeakRef extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * You must own a strong reference on {@code object} while calling this
      * function.
+     * @param object a {@link Object} or {@code null}
      */
-    public @NotNull void set(@Nullable Object object) {
+    public void set(@Nullable org.gtk.gobject.Object object) {
+        java.util.Objects.requireNonNullElse(object, MemoryAddress.NULL);
         try {
-            g_weak_ref_set.invokeExact(handle(), object.handle());
+            DowncallHandles.g_weak_ref_set.invokeExact(handle(), object.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_weak_ref_clear = Interop.downcallHandle(
+            "g_weak_ref_clear",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_weak_ref_get = Interop.downcallHandle(
+            "g_weak_ref_get",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_weak_ref_init = Interop.downcallHandle(
+            "g_weak_ref_init",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_weak_ref_set = Interop.downcallHandle(
+            "g_weak_ref_set",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

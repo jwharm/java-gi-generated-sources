@@ -1,5 +1,10 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Error codes returned by GIO functions.
  * <p>
@@ -21,7 +26,15 @@ package org.gtk.gio;
  * {@link IOErrorEnum#WOULD_BLOCK} to callers without allocating a {@link org.gtk.glib.Error}.
  */
 public class IOErrorEnum extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Generic error condition for when an operation fails
      *     and no more specific {@link IOErrorEnum} value is defined.
@@ -278,5 +291,4 @@ public class IOErrorEnum extends io.github.jwharm.javagi.Enumeration {
     public IOErrorEnum(int value) {
         super(value);
     }
-    
 }

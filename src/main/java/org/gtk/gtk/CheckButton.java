@@ -16,8 +16,8 @@ import org.jetbrains.annotations.*;
  * The state of a {@code GtkCheckButton} can be set specifically using
  * {@link CheckButton#setActive}, and retrieved using
  * {@link CheckButton#getActive}.
- * 
- * <h1>Inconsistent state</h1>
+ * <p>
+ * <strong>Inconsistent state</strong><br/>
  * In addition to "on" and "off", check buttons can be an
  * "in between" state that is neither on nor off. This can be used
  * e.g. when the user has selected a range of elements (such as some
@@ -26,20 +26,20 @@ import org.jetbrains.annotations.*;
  * <p>
  * To set a {@code GtkCheckButton} to inconsistent state, use
  * {@link CheckButton#setInconsistent}.
- * 
- * <h1>Grouping</h1>
+ * <p>
+ * <strong>Grouping</strong><br/>
  * Check buttons can be grouped together, to form mutually exclusive
  * groups - only one of the buttons can be toggled at a time, and toggling
  * another one will switch the currently toggled one off.
  * <p>
  * Grouped check buttons use a different indicator, and are commonly referred
- * to as <strong>radio buttons</strong>.
+ * to as <em>radio buttons</em>.
  * <p>
  * <img src="./doc-files/radio-button.png" alt="Example GtkCheckButtons">
  * <p>
  * To add a {@code GtkCheckButton} to a group, use {@link CheckButton#setGroup}.
- * 
- * <h1>CSS nodes</h1>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * <pre>{@code 
  * checkbutton[.text-button]
  * ├── check
@@ -50,12 +50,28 @@ import org.jetbrains.annotations.*;
  * {@code Gtk.CheckButton:label} property is set, it contains a label
  * child. The indicator node is named check when no group is set, and
  * radio if the checkbutton is grouped together with other checkbuttons.
- * 
- * <h1>Accessibility</h1>
+ * <p>
+ * <strong>Accessibility</strong><br/>
  * {@code GtkCheckButton} uses the {@link AccessibleRole#CHECKBOX} role.
  */
-public class CheckButton extends Widget implements Accessible, Actionable, Buildable, ConstraintTarget {
-
+public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Actionable, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
+    ).withName("GtkCheckButton");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public CheckButton(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -65,18 +81,14 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
         return new CheckButton(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_check_button_new = Interop.downcallHandle(
-        "gtk_check_button_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_check_button_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_check_button_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -86,147 +98,124 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_check_button_new_with_label = Interop.downcallHandle(
-        "gtk_check_button_new_with_label",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNewWithLabel(@Nullable java.lang.String label) {
+        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_check_button_new_with_label.invokeExact(Interop.allocateNativeString(label)), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_check_button_new_with_label.invokeExact(Interop.allocateNativeString(label)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a new {@code GtkCheckButton} with the given text.
+     * @param label the text for the check button.
+     * @return a new {@code GtkCheckButton}
      */
     public static CheckButton newWithLabel(@Nullable java.lang.String label) {
         return new CheckButton(constructNewWithLabel(label));
     }
     
-    private static final MethodHandle gtk_check_button_new_with_mnemonic = Interop.downcallHandle(
-        "gtk_check_button_new_with_mnemonic",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNewWithMnemonic(@Nullable java.lang.String label) {
+        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_check_button_new_with_mnemonic.invokeExact(Interop.allocateNativeString(label)), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_check_button_new_with_mnemonic.invokeExact(Interop.allocateNativeString(label)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a new {@code GtkCheckButton} with the given text and a mnemonic.
+     * @param label The text of the button, with an underscore
+     *   in front of the mnemonic character
+     * @return a new {@code GtkCheckButton}
      */
     public static CheckButton newWithMnemonic(@Nullable java.lang.String label) {
         return new CheckButton(constructNewWithMnemonic(label));
     }
     
-    private static final MethodHandle gtk_check_button_get_active = Interop.downcallHandle(
-        "gtk_check_button_get_active",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns whether the check button is active.
+     * @return whether the check button is active
      */
     public boolean getActive() {
         int RESULT;
         try {
-            RESULT = (int) gtk_check_button_get_active.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_check_button_get_active.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_check_button_get_inconsistent = Interop.downcallHandle(
-        "gtk_check_button_get_inconsistent",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns whether the check button is in an inconsistent state.
+     * @return {@code true} if {@code check_button} is currently in an inconsistent state
      */
     public boolean getInconsistent() {
         int RESULT;
         try {
-            RESULT = (int) gtk_check_button_get_inconsistent.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_check_button_get_inconsistent.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_check_button_get_label = Interop.downcallHandle(
-        "gtk_check_button_get_label",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the label of the check button.
+     * @return The label {@code self} shows next
+     *   to the indicator. If no label is shown, {@code null} will be returned.
      */
     public @Nullable java.lang.String getLabel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_check_button_get_label.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_check_button_get_label.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle gtk_check_button_get_use_underline = Interop.downcallHandle(
-        "gtk_check_button_get_use_underline",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns whether underlines in the label indicate mnemonics.
+     * @return The value of the {@code Gtk.CheckButton:use-underline} property.
+     *   See {@link CheckButton#setUseUnderline} for details on how to set
+     *   a new value.
      */
     public boolean getUseUnderline() {
         int RESULT;
         try {
-            RESULT = (int) gtk_check_button_get_use_underline.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_check_button_get_use_underline.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_check_button_set_active = Interop.downcallHandle(
-        "gtk_check_button_set_active",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Changes the check buttons active state.
+     * @param setting the new value to set
      */
-    public @NotNull void setActive(@NotNull boolean setting) {
+    public void setActive(boolean setting) {
         try {
-            gtk_check_button_set_active.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_check_button_set_active.invokeExact(handle(), setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_check_button_set_group = Interop.downcallHandle(
-        "gtk_check_button_set_group",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Adds {@code self} to the group of {@code group}.
      * <p>
      * In a group of multiple check buttons, only one button can be active
      * at a time. The behavior of a checkbutton in a group is also commonly
-     * known as a <strong>radio button</strong>.
+     * known as a <em>radio button</em>.
      * <p>
      * Setting the group of a check button also changes the css name of the
      * indicator widget's CSS node to 'radio'.
@@ -237,38 +226,32 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
      * API, by using the same action with parameter type and state type 's'
      * for all buttons in the group, and giving each button its own target
      * value.
+     * @param group another {@code GtkCheckButton} to
+     *   form a group with
      */
-    public @NotNull void setGroup(@Nullable CheckButton group) {
+    public void setGroup(@Nullable org.gtk.gtk.CheckButton group) {
+        java.util.Objects.requireNonNullElse(group, MemoryAddress.NULL);
         try {
-            gtk_check_button_set_group.invokeExact(handle(), group.handle());
+            DowncallHandles.gtk_check_button_set_group.invokeExact(handle(), group.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_check_button_set_inconsistent = Interop.downcallHandle(
-        "gtk_check_button_set_inconsistent",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the {@code GtkCheckButton} to inconsistent state.
      * <p>
      * You shoud turn off the inconsistent state again if the user checks
      * the check button. This has to be done manually.
+     * @param inconsistent {@code true} if state is inconsistent
      */
-    public @NotNull void setInconsistent(@NotNull boolean inconsistent) {
+    public void setInconsistent(boolean inconsistent) {
         try {
-            gtk_check_button_set_inconsistent.invokeExact(handle(), inconsistent ? 1 : 0);
+            DowncallHandles.gtk_check_button_set_inconsistent.invokeExact(handle(), inconsistent ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_check_button_set_label = Interop.downcallHandle(
-        "gtk_check_button_set_label",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the text of {@code self}.
@@ -276,19 +259,17 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
      * If {@code Gtk.CheckButton:use-underline} is {@code true}, an underscore
      * in {@code label} is interpreted as mnemonic indicator, see
      * {@link CheckButton#setUseUnderline} for details on this behavior.
+     * @param label The text shown next to the indicator, or {@code null}
+     *   to show no text
      */
-    public @NotNull void setLabel(@Nullable java.lang.String label) {
+    public void setLabel(@Nullable java.lang.String label) {
+        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
         try {
-            gtk_check_button_set_label.invokeExact(handle(), Interop.allocateNativeString(label));
+            DowncallHandles.gtk_check_button_set_label.invokeExact(handle(), Interop.allocateNativeString(label));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_check_button_set_use_underline = Interop.downcallHandle(
-        "gtk_check_button_set_use_underline",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether underlines in the label indicate mnemonics.
@@ -296,17 +277,18 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
      * If {@code setting} is {@code true}, an underscore character in {@code self}'s label
      * indicates a mnemonic accelerator key. This behavior is similar
      * to {@code Gtk.Label:use-underline}.
+     * @param setting the new value to set
      */
-    public @NotNull void setUseUnderline(@NotNull boolean setting) {
+    public void setUseUnderline(boolean setting) {
         try {
-            gtk_check_button_set_use_underline.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_check_button_set_use_underline.invokeExact(handle(), setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ActivateHandler {
+    public interface Activate {
         void signalReceived(CheckButton source);
     }
     
@@ -319,7 +301,7 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
      * Applications should never connect to this signal, but use the
      * {@code Gtk.CheckButton::toggled} signal.
      */
-    public SignalHandle onActivate(ActivateHandler handler) {
+    public Signal<CheckButton.Activate> onActivate(CheckButton.Activate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -329,16 +311,16 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<CheckButton.Activate>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ToggledHandler {
+    public interface Toggled {
         void signalReceived(CheckButton source);
     }
     
@@ -346,7 +328,7 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
      * Emitted when the buttons's {@code Gtk.CheckButton:active}
      * property changes.
      */
-    public SignalHandle onToggled(ToggledHandler handler) {
+    public Signal<CheckButton.Toggled> onToggled(CheckButton.Toggled handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -356,27 +338,89 @@ public class CheckButton extends Widget implements Accessible, Actionable, Build
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<CheckButton.Toggled>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_check_button_new = Interop.downcallHandle(
+            "gtk_check_button_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_check_button_new_with_label = Interop.downcallHandle(
+            "gtk_check_button_new_with_label",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_check_button_new_with_mnemonic = Interop.downcallHandle(
+            "gtk_check_button_new_with_mnemonic",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_check_button_get_active = Interop.downcallHandle(
+            "gtk_check_button_get_active",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_check_button_get_inconsistent = Interop.downcallHandle(
+            "gtk_check_button_get_inconsistent",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_check_button_get_label = Interop.downcallHandle(
+            "gtk_check_button_get_label",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_check_button_get_use_underline = Interop.downcallHandle(
+            "gtk_check_button_get_use_underline",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_check_button_set_active = Interop.downcallHandle(
+            "gtk_check_button_set_active",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_check_button_set_group = Interop.downcallHandle(
+            "gtk_check_button_set_group",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_check_button_set_inconsistent = Interop.downcallHandle(
+            "gtk_check_button_set_inconsistent",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_check_button_set_label = Interop.downcallHandle(
+            "gtk_check_button_set_label",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_check_button_set_use_underline = Interop.downcallHandle(
+            "gtk_check_button_set_use_underline",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static void signalCheckButtonActivate(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (CheckButton.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new CheckButton(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (CheckButton.Activate) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new CheckButton(Refcounted.get(source)));
         }
         
         public static void signalCheckButtonToggled(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (CheckButton.ToggledHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new CheckButton(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (CheckButton.Toggled) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new CheckButton(Refcounted.get(source)));
         }
-        
     }
 }

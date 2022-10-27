@@ -16,8 +16,20 @@ import org.jetbrains.annotations.*;
  * Support for {@code GdkVulkanContext} is platform-specific and context creation
  * can fail, returning {@code null} context.
  */
-public class VulkanContext extends DrawContext implements org.gtk.gio.Initable {
-
+public class VulkanContext extends org.gtk.gdk.DrawContext implements org.gtk.gio.Initable {
+    
+    static {
+        Gdk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public VulkanContext(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -28,7 +40,7 @@ public class VulkanContext extends DrawContext implements org.gtk.gio.Initable {
     }
     
     @FunctionalInterface
-    public interface ImagesUpdatedHandler {
+    public interface ImagesUpdated {
         void signalReceived(VulkanContext source);
     }
     
@@ -38,7 +50,7 @@ public class VulkanContext extends DrawContext implements org.gtk.gio.Initable {
      * Usually this means that the swapchain had to be recreated,
      * for example in response to a change of the surface size.
      */
-    public SignalHandle onImagesUpdated(ImagesUpdatedHandler handler) {
+    public Signal<VulkanContext.ImagesUpdated> onImagesUpdated(VulkanContext.ImagesUpdated handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -48,21 +60,20 @@ public class VulkanContext extends DrawContext implements org.gtk.gio.Initable {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<VulkanContext.ImagesUpdated>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static void signalVulkanContextImagesUpdated(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (VulkanContext.ImagesUpdatedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new VulkanContext(Refcounted.get(source)));
-        }
+    private static class Callbacks {
         
+        public static void signalVulkanContextImagesUpdated(MemoryAddress source, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (VulkanContext.ImagesUpdated) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new VulkanContext(Refcounted.get(source)));
+        }
     }
 }

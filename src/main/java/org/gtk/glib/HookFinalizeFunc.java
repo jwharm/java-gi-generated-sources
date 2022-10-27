@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -9,5 +11,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface HookFinalizeFunc {
-        void onHookFinalizeFunc(@NotNull HookList hookList, @NotNull Hook hook);
+        void onHookFinalizeFunc(@NotNull org.gtk.glib.HookList hookList, @NotNull org.gtk.glib.Hook hook);
 }

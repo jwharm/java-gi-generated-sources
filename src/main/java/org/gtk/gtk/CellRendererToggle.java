@@ -13,8 +13,20 @@ import org.jetbrains.annotations.*;
  * {@code GtkCellRendererToggle:radio} property.
  * When activated, it emits the {@code GtkCellRendererToggle::toggled} signal.
  */
-public class CellRendererToggle extends CellRenderer {
-
+public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public CellRendererToggle(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -24,18 +36,14 @@ public class CellRendererToggle extends CellRenderer {
         return new CellRendererToggle(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_cell_renderer_toggle_new = Interop.downcallHandle(
-        "gtk_cell_renderer_toggle_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_cell_renderer_toggle_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_cell_renderer_toggle_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -51,98 +59,73 @@ public class CellRendererToggle extends CellRenderer {
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_cell_renderer_toggle_get_activatable = Interop.downcallHandle(
-        "gtk_cell_renderer_toggle_get_activatable",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns whether the cell renderer is activatable. See
      * gtk_cell_renderer_toggle_set_activatable().
+     * @return {@code true} if the cell renderer is activatable.
      */
     public boolean getActivatable() {
         int RESULT;
         try {
-            RESULT = (int) gtk_cell_renderer_toggle_get_activatable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_cell_renderer_toggle_get_activatable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gtk_cell_renderer_toggle_get_active = Interop.downcallHandle(
-        "gtk_cell_renderer_toggle_get_active",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns whether the cell renderer is active. See
      * gtk_cell_renderer_toggle_set_active().
+     * @return {@code true} if the cell renderer is active.
      */
     public boolean getActive() {
         int RESULT;
         try {
-            RESULT = (int) gtk_cell_renderer_toggle_get_active.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_cell_renderer_toggle_get_active.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_cell_renderer_toggle_get_radio = Interop.downcallHandle(
-        "gtk_cell_renderer_toggle_get_radio",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns whether we’re rendering radio toggles rather than checkboxes.
+     * @return {@code true} if we’re rendering radio toggles rather than checkboxes
      */
     public boolean getRadio() {
         int RESULT;
         try {
-            RESULT = (int) gtk_cell_renderer_toggle_get_radio.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_cell_renderer_toggle_get_radio.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_cell_renderer_toggle_set_activatable = Interop.downcallHandle(
-        "gtk_cell_renderer_toggle_set_activatable",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Makes the cell renderer activatable.
+     * @param setting the value to set.
      */
-    public @NotNull void setActivatable(@NotNull boolean setting) {
+    public void setActivatable(boolean setting) {
         try {
-            gtk_cell_renderer_toggle_set_activatable.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_cell_renderer_toggle_set_activatable.invokeExact(handle(), setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_cell_renderer_toggle_set_active = Interop.downcallHandle(
-        "gtk_cell_renderer_toggle_set_active",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Activates or deactivates a cell renderer.
+     * @param setting the value to set.
      */
-    public @NotNull void setActive(@NotNull boolean setting) {
+    public void setActive(boolean setting) {
         try {
-            gtk_cell_renderer_toggle_set_active.invokeExact(handle(), setting ? 1 : 0);
+            DowncallHandles.gtk_cell_renderer_toggle_set_active.invokeExact(handle(), setting ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_cell_renderer_toggle_set_radio = Interop.downcallHandle(
-        "gtk_cell_renderer_toggle_set_radio",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * If {@code radio} is {@code true}, the cell renderer renders a radio toggle
@@ -152,17 +135,18 @@ public class CellRendererToggle extends CellRenderer {
      * before rendering each cell in the model (for {@code GtkTreeView}, you set
      * up a per-row setting using {@code GtkTreeViewColumn} to associate model
      * columns with cell renderer properties).
+     * @param radio {@code true} to make the toggle look like a radio button
      */
-    public @NotNull void setRadio(@NotNull boolean radio) {
+    public void setRadio(boolean radio) {
         try {
-            gtk_cell_renderer_toggle_set_radio.invokeExact(handle(), radio ? 1 : 0);
+            DowncallHandles.gtk_cell_renderer_toggle_set_radio.invokeExact(handle(), radio ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ToggledHandler {
+    public interface Toggled {
         void signalReceived(CellRendererToggle source, @NotNull java.lang.String path);
     }
     
@@ -173,7 +157,7 @@ public class CellRendererToggle extends CellRenderer {
      * with the correct value to store at {@code path}.  Often this is simply the
      * opposite of the value currently stored at {@code path}.
      */
-    public SignalHandle onToggled(ToggledHandler handler) {
+    public Signal<CellRendererToggle.Toggled> onToggled(CellRendererToggle.Toggled handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -183,21 +167,58 @@ public class CellRendererToggle extends CellRenderer {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<CellRendererToggle.Toggled>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static void signalCellRendererToggleToggled(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (CellRendererToggle.ToggledHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new CellRendererToggle(Refcounted.get(source)), path.getUtf8String(0));
-        }
+    private static class DowncallHandles {
         
+        private static final MethodHandle gtk_cell_renderer_toggle_new = Interop.downcallHandle(
+            "gtk_cell_renderer_toggle_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_cell_renderer_toggle_get_activatable = Interop.downcallHandle(
+            "gtk_cell_renderer_toggle_get_activatable",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_cell_renderer_toggle_get_active = Interop.downcallHandle(
+            "gtk_cell_renderer_toggle_get_active",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_cell_renderer_toggle_get_radio = Interop.downcallHandle(
+            "gtk_cell_renderer_toggle_get_radio",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_cell_renderer_toggle_set_activatable = Interop.downcallHandle(
+            "gtk_cell_renderer_toggle_set_activatable",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_cell_renderer_toggle_set_active = Interop.downcallHandle(
+            "gtk_cell_renderer_toggle_set_active",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_cell_renderer_toggle_set_radio = Interop.downcallHandle(
+            "gtk_cell_renderer_toggle_set_radio",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
+    
+    private static class Callbacks {
+        
+        public static void signalCellRendererToggleToggled(MemoryAddress source, MemoryAddress path, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (CellRendererToggle.Toggled) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new CellRendererToggle(Refcounted.get(source)), path.getUtf8String(0));
+        }
     }
 }

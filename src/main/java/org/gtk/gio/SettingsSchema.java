@@ -23,7 +23,6 @@ import org.jetbrains.annotations.*;
  * access to some settings.
  * <p>
  * Consider the following example:
- * <p>
  * <pre>{@code <!-- language="C" -->
  * typedef struct
  * {
@@ -80,7 +79,6 @@ import org.jetbrains.annotations.*;
  * From the standpoint of the plugin, it would need to ensure that it
  * ships a gschemas.compiled file as part of itself, and then simply do
  * the following:
- * <p>
  * <pre>{@code <!-- language="C" -->
  * {
  *   GSettings *settings;
@@ -96,56 +94,58 @@ import org.jetbrains.annotations.*;
  * files (ie: .gschema.xml files) instead of a gschemas.compiled file.
  * In that case, the plugin loading system must compile the schemas for
  * itself before attempting to create the settings source.
+ * @version 2.32
  */
 public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public SettingsSchema(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle g_settings_schema_get_id = Interop.downcallHandle(
-        "g_settings_schema_get_id",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Get the ID of {@code schema}.
+     * @return the ID
      */
     public @NotNull java.lang.String getId() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_settings_schema_get_id.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_get_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle g_settings_schema_get_key = Interop.downcallHandle(
-        "g_settings_schema_get_key",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the key named {@code name} from {@code schema}.
      * <p>
      * It is a programmer error to request a key that does not exist.  See
      * g_settings_schema_list_keys().
+     * @param name the name of a key
+     * @return the {@link SettingsSchemaKey} for {@code name}
      */
-    public @NotNull SettingsSchemaKey getKey(@NotNull java.lang.String name) {
+    public @NotNull org.gtk.gio.SettingsSchemaKey getKey(@NotNull java.lang.String name) {
+        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_settings_schema_get_key.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_get_key.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new SettingsSchemaKey(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.SettingsSchemaKey(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_settings_schema_get_path = Interop.downcallHandle(
-        "g_settings_schema_get_path",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the path associated with {@code schema}, or {@code null}.
@@ -157,60 +157,51 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
      * Relocatable schemas can be referenced by other schemas and can
      * therefore describe multiple sets of keys at different locations.  For
      * relocatable schemas, this function will return {@code null}.
+     * @return the path of the schema, or {@code null}
      */
     public @Nullable java.lang.String getPath() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_settings_schema_get_path.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_get_path.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle g_settings_schema_has_key = Interop.downcallHandle(
-        "g_settings_schema_has_key",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Checks if {@code schema} has a key named {@code name}.
+     * @param name the name of a key
+     * @return {@code true} if such a key exists
      */
     public boolean hasKey(@NotNull java.lang.String name) {
+        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         int RESULT;
         try {
-            RESULT = (int) g_settings_schema_has_key.invokeExact(handle(), Interop.allocateNativeString(name));
+            RESULT = (int) DowncallHandles.g_settings_schema_has_key.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_settings_schema_list_children = Interop.downcallHandle(
-        "g_settings_schema_list_children",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the list of children in {@code schema}.
      * <p>
      * You should free the return value with g_strfreev() when you are done
      * with it.
+     * @return a list of
+     *    the children on {@code settings}, in no defined order
      */
-    public PointerString listChildren() {
+    public @NotNull PointerString listChildren() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_settings_schema_list_children.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_list_children.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerString(RESULT);
     }
-    
-    private static final MethodHandle g_settings_schema_list_keys = Interop.downcallHandle(
-        "g_settings_schema_list_keys",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Introspects the list of keys on {@code schema}.
@@ -218,49 +209,84 @@ public class SettingsSchema extends io.github.jwharm.javagi.ResourceBase {
      * You should probably not be calling this function from "normal" code
      * (since you should already know what keys are in your schema).  This
      * function is intended for introspection reasons.
+     * @return a list
+     *   of the keys on {@code schema}, in no defined order
      */
-    public PointerString listKeys() {
+    public @NotNull PointerString listKeys() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_settings_schema_list_keys.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_list_keys.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerString(RESULT);
     }
     
-    private static final MethodHandle g_settings_schema_ref = Interop.downcallHandle(
-        "g_settings_schema_ref",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Increase the reference count of {@code schema}, returning a new reference.
+     * @return a new reference to {@code schema}
      */
-    public @NotNull SettingsSchema ref() {
+    public @NotNull org.gtk.gio.SettingsSchema ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_settings_schema_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new SettingsSchema(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.SettingsSchema(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_settings_schema_unref = Interop.downcallHandle(
-        "g_settings_schema_unref",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Decrease the reference count of {@code schema}, possibly freeing it.
      */
-    public @NotNull void unref() {
+    public void unref() {
         try {
-            g_settings_schema_unref.invokeExact(handle());
+            DowncallHandles.g_settings_schema_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_settings_schema_get_id = Interop.downcallHandle(
+            "g_settings_schema_get_id",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_settings_schema_get_key = Interop.downcallHandle(
+            "g_settings_schema_get_key",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_settings_schema_get_path = Interop.downcallHandle(
+            "g_settings_schema_get_path",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_settings_schema_has_key = Interop.downcallHandle(
+            "g_settings_schema_has_key",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_settings_schema_list_children = Interop.downcallHandle(
+            "g_settings_schema_list_children",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_settings_schema_list_keys = Interop.downcallHandle(
+            "g_settings_schema_list_keys",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_settings_schema_ref = Interop.downcallHandle(
+            "g_settings_schema_ref",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_settings_schema_unref = Interop.downcallHandle(
+            "g_settings_schema_unref",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
 }

@@ -12,23 +12,35 @@ import org.jetbrains.annotations.*;
  * never be accessed directly.
  */
 public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Graphene.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.graphene.Simd4F.getMemoryLayout().withName("value")
+    ).withName("graphene_vec3_t");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public Vec3(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle graphene_vec3_alloc = Interop.downcallHandle(
-        "graphene_vec3_alloc",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructAlloc() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) graphene_vec3_alloc.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.graphene_vec3_alloc.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -37,621 +49,715 @@ public class Vec3 extends io.github.jwharm.javagi.ResourceBase {
      * The contents of the returned structure are undefined.
      * <p>
      * Use graphene_vec3_init() to initialize the vector.
+     * @return the newly allocated {@link Vec3}
+     *   structure. Use graphene_vec3_free() to free the resources allocated
+     *   by this function.
      */
     public static Vec3 alloc() {
         return new Vec3(constructAlloc());
     }
     
-    private static final MethodHandle graphene_vec3_add = Interop.downcallHandle(
-        "graphene_vec3_add",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Adds each component of the two given vectors.
+     * @param b a {@link Vec3}
+     * @param res return location for the resulting vector
      */
-    public @NotNull void add(@NotNull Vec3 b, @NotNull Out<Vec3> res) {
+    public void add(@NotNull org.gtk.graphene.Vec3 b, @NotNull Out<org.gtk.graphene.Vec3> res) {
+        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec3_add.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec3_add.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle graphene_vec3_cross = Interop.downcallHandle(
-        "graphene_vec3_cross",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Computes the cross product of the two given vectors.
+     * @param b a {@link Vec3}
+     * @param res return location for the resulting vector
      */
-    public @NotNull void cross(@NotNull Vec3 b, @NotNull Out<Vec3> res) {
+    public void cross(@NotNull org.gtk.graphene.Vec3 b, @NotNull Out<org.gtk.graphene.Vec3> res) {
+        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec3_cross.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec3_cross.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle graphene_vec3_divide = Interop.downcallHandle(
-        "graphene_vec3_divide",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
-     * Divides each component of the first operand @a by the corresponding
-     * component of the second operand @b, and places the results into the
+     * Divides each component of the first operand {@code a} by the corresponding
+     * component of the second operand {@code b}, and places the results into the
      * vector {@code res}.
+     * @param b a {@link Vec3}
+     * @param res return location for the resulting vector
      */
-    public @NotNull void divide(@NotNull Vec3 b, @NotNull Out<Vec3> res) {
+    public void divide(@NotNull org.gtk.graphene.Vec3 b, @NotNull Out<org.gtk.graphene.Vec3> res) {
+        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec3_divide.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec3_divide.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle graphene_vec3_dot = Interop.downcallHandle(
-        "graphene_vec3_dot",
-        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Computes the dot product of the two given vectors.
+     * @param b a {@link Vec3}
+     * @return the value of the dot product
      */
-    public float dot(@NotNull Vec3 b) {
+    public float dot(@NotNull org.gtk.graphene.Vec3 b) {
+        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         float RESULT;
         try {
-            RESULT = (float) graphene_vec3_dot.invokeExact(handle(), b.handle());
+            RESULT = (float) DowncallHandles.graphene_vec3_dot.invokeExact(handle(), b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle graphene_vec3_equal = Interop.downcallHandle(
-        "graphene_vec3_equal",
-        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Checks whether the two given {@link Vec3} are equal.
+     * @param v2 a {@link Vec3}
+     * @return {@code true} if the two vectors are equal, and false otherwise
      */
-    public boolean equal(@NotNull Vec3 v2) {
+    public boolean equal(@NotNull org.gtk.graphene.Vec3 v2) {
+        java.util.Objects.requireNonNull(v2, "Parameter 'v2' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) graphene_vec3_equal.invokeExact(handle(), v2.handle());
+            RESULT = (boolean) DowncallHandles.graphene_vec3_equal.invokeExact(handle(), v2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle graphene_vec3_free = Interop.downcallHandle(
-        "graphene_vec3_free",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Frees the resources allocated by @v
+     * Frees the resources allocated by {@code v}
      */
-    public @NotNull void free() {
+    public void free() {
         try {
-            graphene_vec3_free.invokeExact(handle());
+            DowncallHandles.graphene_vec3_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle graphene_vec3_get_x = Interop.downcallHandle(
-        "graphene_vec3_get_x",
-        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Retrieves the first component of the given vector @v.
+     * Retrieves the first component of the given vector {@code v}.
+     * @return the value of the first component of the vector
      */
     public float getX() {
         float RESULT;
         try {
-            RESULT = (float) graphene_vec3_get_x.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_vec3_get_x.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle graphene_vec3_get_xy = Interop.downcallHandle(
-        "graphene_vec3_get_xy",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Creates a {@link Vec2} that contains the first and second
      * components of the given {@link Vec3}.
+     * @param res return location for a {@link Vec2}
      */
-    public @NotNull void getXy(@NotNull Out<Vec2> res) {
+    public void getXy(@NotNull Out<org.gtk.graphene.Vec2> res) {
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec3_get_xy.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec3_get_xy.invokeExact(handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Vec2(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Vec2(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle graphene_vec3_get_xy0 = Interop.downcallHandle(
-        "graphene_vec3_get_xy0",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Creates a {@link Vec3} that contains the first two components of
      * the given {@link Vec3}, and the third component set to 0.
+     * @param res return location for a {@link Vec3}
      */
-    public @NotNull void getXy0(@NotNull Out<Vec3> res) {
+    public void getXy0(@NotNull Out<org.gtk.graphene.Vec3> res) {
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec3_get_xy0.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec3_get_xy0.invokeExact(handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle graphene_vec3_get_xyz0 = Interop.downcallHandle(
-        "graphene_vec3_get_xyz0",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Converts a {@link Vec3} in a {@link Vec4} using 0.0
      * as the value for the fourth component of the resulting vector.
+     * @param res return location for the vector
      */
-    public @NotNull void getXyz0(@NotNull Out<Vec4> res) {
+    public void getXyz0(@NotNull Out<org.gtk.graphene.Vec4> res) {
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec3_get_xyz0.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec3_get_xyz0.invokeExact(handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle graphene_vec3_get_xyz1 = Interop.downcallHandle(
-        "graphene_vec3_get_xyz1",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Converts a {@link Vec3} in a {@link Vec4} using 1.0
      * as the value for the fourth component of the resulting vector.
+     * @param res return location for the vector
      */
-    public @NotNull void getXyz1(@NotNull Out<Vec4> res) {
+    public void getXyz1(@NotNull Out<org.gtk.graphene.Vec4> res) {
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec3_get_xyz1.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec3_get_xyz1.invokeExact(handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    private static final MethodHandle graphene_vec3_get_xyzw = Interop.downcallHandle(
-        "graphene_vec3_get_xyzw",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Converts a {@link Vec3} in a {@link Vec4} using @w as
+     * Converts a {@link Vec3} in a {@link Vec4} using {@code w} as
      * the value of the fourth component of the resulting vector.
+     * @param w the value of the W component
+     * @param res return location for the vector
      */
-    public @NotNull void getXyzw(@NotNull float w, @NotNull Out<Vec4> res) {
+    public void getXyzw(float w, @NotNull Out<org.gtk.graphene.Vec4> res) {
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec3_get_xyzw.invokeExact(handle(), w, (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec3_get_xyzw.invokeExact(handle(), w, (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Vec4(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    private static final MethodHandle graphene_vec3_get_y = Interop.downcallHandle(
-        "graphene_vec3_get_y",
-        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Retrieves the second component of the given vector @v.
+     * Retrieves the second component of the given vector {@code v}.
+     * @return the value of the second component of the vector
      */
     public float getY() {
         float RESULT;
         try {
-            RESULT = (float) graphene_vec3_get_y.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_vec3_get_y.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle graphene_vec3_get_z = Interop.downcallHandle(
-        "graphene_vec3_get_z",
-        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Retrieves the third component of the given vector @v.
+     * Retrieves the third component of the given vector {@code v}.
+     * @return the value of the third component of the vector
      */
     public float getZ() {
         float RESULT;
         try {
-            RESULT = (float) graphene_vec3_get_z.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_vec3_get_z.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle graphene_vec3_init = Interop.downcallHandle(
-        "graphene_vec3_init",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
-    );
     
     /**
      * Initializes a {@link Vec3} using the given values.
      * <p>
      * This function can be called multiple times.
+     * @param x the X field of the vector
+     * @param y the Y field of the vector
+     * @param z the Z field of the vector
+     * @return a pointer to the initialized
+     *   vector
      */
-    public @NotNull Vec3 init(@NotNull float x, @NotNull float y, @NotNull float z) {
+    public @NotNull org.gtk.graphene.Vec3 init(float x, float y, float z) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_vec3_init.invokeExact(handle(), x, y, z);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_vec3_init.invokeExact(handle(), x, y, z);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Vec3(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Vec3(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle graphene_vec3_init_from_float = Interop.downcallHandle(
-        "graphene_vec3_init_from_float",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Initializes a {@link Vec3} with the values from an array.
+     * @param src an array of 3 floating point values
+     * @return the initialized vector
      */
-    public @NotNull Vec3 initFromFloat(@NotNull float[] src) {
+    public @NotNull org.gtk.graphene.Vec3 initFromFloat(float[] src) {
+        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_vec3_init_from_float.invokeExact(handle(), Interop.allocateNativeArray(src));
+            RESULT = (MemoryAddress) DowncallHandles.graphene_vec3_init_from_float.invokeExact(handle(), Interop.allocateNativeArray(src, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Vec3(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Vec3(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle graphene_vec3_init_from_vec3 = Interop.downcallHandle(
-        "graphene_vec3_init_from_vec3",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Initializes a {@link Vec3} with the values of another
      * {@link Vec3}.
+     * @param src a {@link Vec3}
+     * @return the initialized vector
      */
-    public @NotNull Vec3 initFromVec3(@NotNull Vec3 src) {
+    public @NotNull org.gtk.graphene.Vec3 initFromVec3(@NotNull org.gtk.graphene.Vec3 src) {
+        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_vec3_init_from_vec3.invokeExact(handle(), src.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_vec3_init_from_vec3.invokeExact(handle(), src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Vec3(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Vec3(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle graphene_vec3_interpolate = Interop.downcallHandle(
-        "graphene_vec3_interpolate",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
-    );
     
     /**
      * Linearly interpolates {@code v1} and {@code v2} using the given {@code factor}.
+     * @param v2 a {@link Vec3}
+     * @param factor the interpolation factor
+     * @param res the interpolated vector
      */
-    public @NotNull void interpolate(@NotNull Vec3 v2, @NotNull double factor, @NotNull Out<Vec3> res) {
+    public void interpolate(@NotNull org.gtk.graphene.Vec3 v2, double factor, @NotNull Out<org.gtk.graphene.Vec3> res) {
+        java.util.Objects.requireNonNull(v2, "Parameter 'v2' must not be null");
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec3_interpolate.invokeExact(handle(), v2.handle(), factor, (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec3_interpolate.invokeExact(handle(), v2.handle(), factor, (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    private static final MethodHandle graphene_vec3_length = Interop.downcallHandle(
-        "graphene_vec3_length",
-        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Retrieves the length of the given vector @v.
+     * Retrieves the length of the given vector {@code v}.
+     * @return the value of the length of the vector
      */
     public float length() {
         float RESULT;
         try {
-            RESULT = (float) graphene_vec3_length.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_vec3_length.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle graphene_vec3_max = Interop.downcallHandle(
-        "graphene_vec3_max",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Compares each component of the two given vectors and creates a
      * vector that contains the maximum values.
+     * @param b a {@link Vec3}
+     * @param res return location for the result vector
      */
-    public @NotNull void max(@NotNull Vec3 b, @NotNull Out<Vec3> res) {
+    public void max(@NotNull org.gtk.graphene.Vec3 b, @NotNull Out<org.gtk.graphene.Vec3> res) {
+        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec3_max.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec3_max.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle graphene_vec3_min = Interop.downcallHandle(
-        "graphene_vec3_min",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Compares each component of the two given vectors and creates a
      * vector that contains the minimum values.
+     * @param b a {@link Vec3}
+     * @param res return location for the result vector
      */
-    public @NotNull void min(@NotNull Vec3 b, @NotNull Out<Vec3> res) {
+    public void min(@NotNull org.gtk.graphene.Vec3 b, @NotNull Out<org.gtk.graphene.Vec3> res) {
+        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec3_min.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec3_min.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle graphene_vec3_multiply = Interop.downcallHandle(
-        "graphene_vec3_multiply",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Multiplies each component of the two given vectors.
+     * @param b a {@link Vec3}
+     * @param res return location for the resulting vector
      */
-    public @NotNull void multiply(@NotNull Vec3 b, @NotNull Out<Vec3> res) {
+    public void multiply(@NotNull org.gtk.graphene.Vec3 b, @NotNull Out<org.gtk.graphene.Vec3> res) {
+        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec3_multiply.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec3_multiply.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle graphene_vec3_near = Interop.downcallHandle(
-        "graphene_vec3_near",
-        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
-    );
     
     /**
      * Compares the two given {@link Vec3} vectors and checks
      * whether their values are within the given {@code epsilon}.
+     * @param v2 a {@link Vec3}
+     * @param epsilon the threshold between the two vectors
+     * @return {@code true} if the two vectors are near each other
      */
-    public boolean near(@NotNull Vec3 v2, @NotNull float epsilon) {
+    public boolean near(@NotNull org.gtk.graphene.Vec3 v2, float epsilon) {
+        java.util.Objects.requireNonNull(v2, "Parameter 'v2' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) graphene_vec3_near.invokeExact(handle(), v2.handle(), epsilon);
+            RESULT = (boolean) DowncallHandles.graphene_vec3_near.invokeExact(handle(), v2.handle(), epsilon);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle graphene_vec3_negate = Interop.downcallHandle(
-        "graphene_vec3_negate",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Negates the given {@link Vec3}.
+     * @param res return location for the result vector
      */
-    public @NotNull void negate(@NotNull Out<Vec3> res) {
+    public void negate(@NotNull Out<org.gtk.graphene.Vec3> res) {
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec3_negate.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec3_negate.invokeExact(handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle graphene_vec3_normalize = Interop.downcallHandle(
-        "graphene_vec3_normalize",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Normalizes the given {@link Vec3}.
+     * @param res return location for the normalized vector
      */
-    public @NotNull void normalize(@NotNull Out<Vec3> res) {
+    public void normalize(@NotNull Out<org.gtk.graphene.Vec3> res) {
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec3_normalize.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec3_normalize.invokeExact(handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle graphene_vec3_scale = Interop.downcallHandle(
-        "graphene_vec3_scale",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Multiplies all components of the given vector with the given scalar {@code factor}.
+     * @param factor the scalar factor
+     * @param res return location for the result vector
      */
-    public @NotNull void scale(@NotNull float factor, @NotNull Out<Vec3> res) {
+    public void scale(float factor, @NotNull Out<org.gtk.graphene.Vec3> res) {
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec3_scale.invokeExact(handle(), factor, (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec3_scale.invokeExact(handle(), factor, (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle graphene_vec3_subtract = Interop.downcallHandle(
-        "graphene_vec3_subtract",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
-     * Subtracts from each component of the first operand @a the
-     * corresponding component of the second operand @b and places
+     * Subtracts from each component of the first operand {@code a} the
+     * corresponding component of the second operand {@code b} and places
      * each result into the components of {@code res}.
+     * @param b a {@link Vec3}
+     * @param res return location for the resulting vector
      */
-    public @NotNull void subtract(@NotNull Vec3 b, @NotNull Out<Vec3> res) {
+    public void subtract(@NotNull org.gtk.graphene.Vec3 b, @NotNull Out<org.gtk.graphene.Vec3> res) {
+        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec3_subtract.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_vec3_subtract.invokeExact(handle(), b.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Vec3(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle graphene_vec3_to_float = Interop.downcallHandle(
-        "graphene_vec3_to_float",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Copies the components of a {@link Vec3} into the given array.
+     * @param dest return location for
+     *   an array of floating point values
      */
-    public @NotNull void toFloat(@NotNull Out<float[]> dest) {
+    public void toFloat(Out<float[]> dest) {
+        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
         MemorySegment destPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_vec3_to_float.invokeExact(handle(), (Addressable) destPOINTER.address());
+            DowncallHandles.graphene_vec3_to_float.invokeExact(handle(), (Addressable) destPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         dest.set(MemorySegment.ofAddress(destPOINTER.get(ValueLayout.ADDRESS, 0), 3 * ValueLayout.JAVA_FLOAT.byteSize(), Interop.getScope()).toArray(ValueLayout.JAVA_FLOAT));
     }
     
-    private static final MethodHandle graphene_vec3_one = Interop.downcallHandle(
-        "graphene_vec3_one",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Provides a constant pointer to a vector with three components,
      * all sets to 1.
+     * @return a constant vector
      */
-    public static @NotNull Vec3 one() {
+    public static @NotNull org.gtk.graphene.Vec3 one() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_vec3_one.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.graphene_vec3_one.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Vec3(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Vec3(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle graphene_vec3_x_axis = Interop.downcallHandle(
-        "graphene_vec3_x_axis",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Provides a constant pointer to a vector with three components
      * with values set to (1, 0, 0).
+     * @return a constant vector
      */
-    public static @NotNull Vec3 xAxis() {
+    public static @NotNull org.gtk.graphene.Vec3 xAxis() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_vec3_x_axis.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.graphene_vec3_x_axis.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Vec3(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Vec3(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle graphene_vec3_y_axis = Interop.downcallHandle(
-        "graphene_vec3_y_axis",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Provides a constant pointer to a vector with three components
      * with values set to (0, 1, 0).
+     * @return a constant vector
      */
-    public static @NotNull Vec3 yAxis() {
+    public static @NotNull org.gtk.graphene.Vec3 yAxis() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_vec3_y_axis.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.graphene_vec3_y_axis.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Vec3(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Vec3(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle graphene_vec3_z_axis = Interop.downcallHandle(
-        "graphene_vec3_z_axis",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Provides a constant pointer to a vector with three components
      * with values set to (0, 0, 1).
+     * @return a constant vector
      */
-    public static @NotNull Vec3 zAxis() {
+    public static @NotNull org.gtk.graphene.Vec3 zAxis() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_vec3_z_axis.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.graphene_vec3_z_axis.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Vec3(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Vec3(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle graphene_vec3_zero = Interop.downcallHandle(
-        "graphene_vec3_zero",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Provides a constant pointer to a vector with three components,
      * all sets to 0.
+     * @return a constant vector
      */
-    public static @NotNull Vec3 zero() {
+    public static @NotNull org.gtk.graphene.Vec3 zero() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_vec3_zero.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.graphene_vec3_zero.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Vec3(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Vec3(Refcounted.get(RESULT, false));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle graphene_vec3_alloc = Interop.downcallHandle(
+            "graphene_vec3_alloc",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_add = Interop.downcallHandle(
+            "graphene_vec3_add",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_cross = Interop.downcallHandle(
+            "graphene_vec3_cross",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_divide = Interop.downcallHandle(
+            "graphene_vec3_divide",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_dot = Interop.downcallHandle(
+            "graphene_vec3_dot",
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_equal = Interop.downcallHandle(
+            "graphene_vec3_equal",
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_free = Interop.downcallHandle(
+            "graphene_vec3_free",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_get_x = Interop.downcallHandle(
+            "graphene_vec3_get_x",
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_get_xy = Interop.downcallHandle(
+            "graphene_vec3_get_xy",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_get_xy0 = Interop.downcallHandle(
+            "graphene_vec3_get_xy0",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_get_xyz0 = Interop.downcallHandle(
+            "graphene_vec3_get_xyz0",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_get_xyz1 = Interop.downcallHandle(
+            "graphene_vec3_get_xyz1",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_get_xyzw = Interop.downcallHandle(
+            "graphene_vec3_get_xyzw",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_get_y = Interop.downcallHandle(
+            "graphene_vec3_get_y",
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_get_z = Interop.downcallHandle(
+            "graphene_vec3_get_z",
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_init = Interop.downcallHandle(
+            "graphene_vec3_init",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT, ValueLayout.JAVA_FLOAT)
+        );
+        
+        private static final MethodHandle graphene_vec3_init_from_float = Interop.downcallHandle(
+            "graphene_vec3_init_from_float",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_init_from_vec3 = Interop.downcallHandle(
+            "graphene_vec3_init_from_vec3",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_interpolate = Interop.downcallHandle(
+            "graphene_vec3_interpolate",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_length = Interop.downcallHandle(
+            "graphene_vec3_length",
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_max = Interop.downcallHandle(
+            "graphene_vec3_max",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_min = Interop.downcallHandle(
+            "graphene_vec3_min",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_multiply = Interop.downcallHandle(
+            "graphene_vec3_multiply",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_near = Interop.downcallHandle(
+            "graphene_vec3_near",
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+        );
+        
+        private static final MethodHandle graphene_vec3_negate = Interop.downcallHandle(
+            "graphene_vec3_negate",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_normalize = Interop.downcallHandle(
+            "graphene_vec3_normalize",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_scale = Interop.downcallHandle(
+            "graphene_vec3_scale",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_subtract = Interop.downcallHandle(
+            "graphene_vec3_subtract",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_to_float = Interop.downcallHandle(
+            "graphene_vec3_to_float",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_one = Interop.downcallHandle(
+            "graphene_vec3_one",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_x_axis = Interop.downcallHandle(
+            "graphene_vec3_x_axis",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_y_axis = Interop.downcallHandle(
+            "graphene_vec3_y_axis",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_z_axis = Interop.downcallHandle(
+            "graphene_vec3_z_axis",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_vec3_zero = Interop.downcallHandle(
+            "graphene_vec3_zero",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+    }
 }

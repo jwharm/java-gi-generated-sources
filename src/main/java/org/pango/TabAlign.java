@@ -1,11 +1,24 @@
 package org.pango;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * {@code PangoTabAlign} specifies where the text appears relative to the tab stop
  * position.
  */
 public class TabAlign extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * the text appears to the right of the tab stop position
      */
@@ -33,5 +46,4 @@ public class TabAlign extends io.github.jwharm.javagi.Enumeration {
     public TabAlign(int value) {
         super(value);
     }
-    
 }

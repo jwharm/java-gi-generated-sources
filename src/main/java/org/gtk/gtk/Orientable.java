@@ -13,42 +13,56 @@ import org.jetbrains.annotations.*;
  * changed at runtime, allowing the widgets to “flip”.
  */
 public interface Orientable extends io.github.jwharm.javagi.Proxy {
-
-    @ApiStatus.Internal static final MethodHandle gtk_orientable_get_orientation = Interop.downcallHandle(
-        "gtk_orientable_get_orientation",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves the orientation of the {@code orientable}.
+     * @return the orientation of the {@code orientable}
      */
-    default @NotNull Orientation getOrientation() {
+    default @NotNull org.gtk.gtk.Orientation getOrientation() {
         int RESULT;
         try {
-            RESULT = (int) gtk_orientable_get_orientation.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_orientable_get_orientation.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Orientation(RESULT);
+        return new org.gtk.gtk.Orientation(RESULT);
     }
-    
-    @ApiStatus.Internal static final MethodHandle gtk_orientable_set_orientation = Interop.downcallHandle(
-        "gtk_orientable_set_orientation",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the orientation of the {@code orientable}.
+     * @param orientation the orientable’s new orientation
      */
-    default @NotNull void setOrientation(@NotNull Orientation orientation) {
+    default void setOrientation(@NotNull org.gtk.gtk.Orientation orientation) {
+        java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
         try {
-            gtk_orientable_set_orientation.invokeExact(handle(), orientation.getValue());
+            DowncallHandles.gtk_orientable_set_orientation.invokeExact(handle(), orientation.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    @ApiStatus.Internal
+    static class DowncallHandles {
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_orientable_get_orientation = Interop.downcallHandle(
+            "gtk_orientable_get_orientation",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_orientable_set_orientation = Interop.downcallHandle(
+            "gtk_orientable_set_orientation",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
+    
     class OrientableImpl extends org.gtk.gobject.Object implements Orientable {
+        
+        static {
+            Gtk.javagi$ensureInitialized();
+        }
+        
         public OrientableImpl(io.github.jwharm.javagi.Refcounted ref) {
             super(ref);
         }

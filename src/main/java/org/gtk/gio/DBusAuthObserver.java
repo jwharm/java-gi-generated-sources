@@ -11,15 +11,14 @@ import org.jetbrains.annotations.*;
  * peers. Simply instantiate a {@link DBusAuthObserver} and connect to the
  * signals you are interested in. Note that new signals may be added
  * in the future
- * 
- * <h2>Controlling Authentication Mechanisms</h2>
+ * <p>
+ * <strong>Controlling Authentication Mechanisms</strong><br/>
  * By default, a {@link DBusServer} or server-side {@link DBusConnection} will allow
  * any authentication mechanism to be used. If you only
  * want to allow D-Bus connections with the {@code EXTERNAL} mechanism,
  * which makes use of credentials passing and is the recommended
  * mechanism for modern Unix platforms such as Linux and the BSD family,
  * you would use a signal handler like this:
- * <p>
  * <pre>{@code <!-- language="C" -->
  * static gboolean
  * on_allow_mechanism (GDBusAuthObserver *observer,
@@ -34,8 +33,8 @@ import org.jetbrains.annotations.*;
  *   return FALSE;
  * }
  * }</pre>
- * 
- * <h2>Controlling Authorization # {#auth-observer}</h2>
+ * <p>
+ * <strong>Controlling Authorization # {#auth-observer}</strong><br/>
  * By default, a {@link DBusServer} or server-side {@link DBusConnection} will accept
  * connections from any successfully authenticated user (but not from
  * anonymous connections using the {@code ANONYMOUS} mechanism). If you only
@@ -43,7 +42,6 @@ import org.jetbrains.annotations.*;
  * as the server, since GLib 2.68, you should use the
  * {@link DBusServerFlags#AUTHENTICATION_REQUIRE_SAME_USER} flag. It’s equivalent
  * to the following signal handler:
- * <p>
  * <pre>{@code <!-- language="C" -->
  * static gboolean
  * on_authorize_authenticated_peer (GDBusAuthObserver *observer,
@@ -66,9 +64,22 @@ import org.jetbrains.annotations.*;
  *   return authorized;
  * }
  * }</pre>
+ * @version 2.26
  */
 public class DBusAuthObserver extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public DBusAuthObserver(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -78,18 +89,14 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
         return new DBusAuthObserver(gobject.refcounted());
     }
     
-    private static final MethodHandle g_dbus_auth_observer_new = Interop.downcallHandle(
-        "g_dbus_auth_observer_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_auth_observer_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_dbus_auth_observer_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -99,36 +106,34 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
-    private static final MethodHandle g_dbus_auth_observer_allow_mechanism = Interop.downcallHandle(
-        "g_dbus_auth_observer_allow_mechanism",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Emits the {@link DBusAuthObserver}::allow-mechanism signal on {@code observer}.
+     * @param mechanism The name of the mechanism, e.g. {@code DBUS_COOKIE_SHA1}.
+     * @return {@code true} if {@code mechanism} can be used to authenticate the other peer, {@code false} if not.
      */
     public boolean allowMechanism(@NotNull java.lang.String mechanism) {
+        java.util.Objects.requireNonNull(mechanism, "Parameter 'mechanism' must not be null");
         int RESULT;
         try {
-            RESULT = (int) g_dbus_auth_observer_allow_mechanism.invokeExact(handle(), Interop.allocateNativeString(mechanism));
+            RESULT = (int) DowncallHandles.g_dbus_auth_observer_allow_mechanism.invokeExact(handle(), Interop.allocateNativeString(mechanism));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_dbus_auth_observer_authorize_authenticated_peer = Interop.downcallHandle(
-        "g_dbus_auth_observer_authorize_authenticated_peer",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Emits the {@link DBusAuthObserver}::authorize-authenticated-peer signal on {@code observer}.
+     * @param stream A {@link IOStream} for the {@link DBusConnection}.
+     * @param credentials Credentials received from the peer or {@code null}.
+     * @return {@code true} if the peer is authorized, {@code false} if not.
      */
-    public boolean authorizeAuthenticatedPeer(@NotNull IOStream stream, @Nullable Credentials credentials) {
+    public boolean authorizeAuthenticatedPeer(@NotNull org.gtk.gio.IOStream stream, @Nullable org.gtk.gio.Credentials credentials) {
+        java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
+        java.util.Objects.requireNonNullElse(credentials, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) g_dbus_auth_observer_authorize_authenticated_peer.invokeExact(handle(), stream.handle(), credentials.handle());
+            RESULT = (int) DowncallHandles.g_dbus_auth_observer_authorize_authenticated_peer.invokeExact(handle(), stream.handle(), credentials.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,14 +141,14 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
     }
     
     @FunctionalInterface
-    public interface AllowMechanismHandler {
+    public interface AllowMechanism {
         boolean signalReceived(DBusAuthObserver source, @NotNull java.lang.String mechanism);
     }
     
     /**
      * Emitted to check if {@code mechanism} is allowed to be used.
      */
-    public SignalHandle onAllowMechanism(AllowMechanismHandler handler) {
+    public Signal<DBusAuthObserver.AllowMechanism> onAllowMechanism(DBusAuthObserver.AllowMechanism handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -153,24 +158,24 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<DBusAuthObserver.AllowMechanism>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface AuthorizeAuthenticatedPeerHandler {
-        boolean signalReceived(DBusAuthObserver source, @NotNull IOStream stream, @Nullable Credentials credentials);
+    public interface AuthorizeAuthenticatedPeer {
+        boolean signalReceived(DBusAuthObserver source, @NotNull org.gtk.gio.IOStream stream, @Nullable org.gtk.gio.Credentials credentials);
     }
     
     /**
      * Emitted to check if a peer that is successfully authenticated
      * is authorized.
      */
-    public SignalHandle onAuthorizeAuthenticatedPeer(AuthorizeAuthenticatedPeerHandler handler) {
+    public Signal<DBusAuthObserver.AuthorizeAuthenticatedPeer> onAuthorizeAuthenticatedPeer(DBusAuthObserver.AuthorizeAuthenticatedPeer handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -180,27 +185,44 @@ public class DBusAuthObserver extends org.gtk.gobject.Object {
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<DBusAuthObserver.AuthorizeAuthenticatedPeer>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_dbus_auth_observer_new = Interop.downcallHandle(
+            "g_dbus_auth_observer_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_dbus_auth_observer_allow_mechanism = Interop.downcallHandle(
+            "g_dbus_auth_observer_allow_mechanism",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_dbus_auth_observer_authorize_authenticated_peer = Interop.downcallHandle(
+            "g_dbus_auth_observer_authorize_authenticated_peer",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static boolean signalDBusAuthObserverAllowMechanism(MemoryAddress source, MemoryAddress mechanism, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (DBusAuthObserver.AllowMechanismHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new DBusAuthObserver(Refcounted.get(source)), mechanism.getUtf8String(0));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (DBusAuthObserver.AllowMechanism) Interop.signalRegistry.get(HASH);
+            return HANDLER.signalReceived(new DBusAuthObserver(Refcounted.get(source)), mechanism.getUtf8String(0));
         }
         
         public static boolean signalDBusAuthObserverAuthorizeAuthenticatedPeer(MemoryAddress source, MemoryAddress stream, MemoryAddress credentials, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (DBusAuthObserver.AuthorizeAuthenticatedPeerHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new DBusAuthObserver(Refcounted.get(source)), new IOStream(Refcounted.get(stream, false)), new Credentials(Refcounted.get(credentials, false)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (DBusAuthObserver.AuthorizeAuthenticatedPeer) Interop.signalRegistry.get(HASH);
+            return HANDLER.signalReceived(new DBusAuthObserver(Refcounted.get(source)), new org.gtk.gio.IOStream(Refcounted.get(stream, false)), new org.gtk.gio.Credentials(Refcounted.get(credentials, false)));
         }
-        
     }
 }

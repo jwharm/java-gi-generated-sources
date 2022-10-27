@@ -10,8 +10,20 @@ import org.jetbrains.annotations.*;
  * <p>
  * To add filters to a {@code GtkEveryFilter}, use {@link MultiFilter#append}.
  */
-public class EveryFilter extends MultiFilter implements org.gtk.gio.ListModel, Buildable {
-
+public class EveryFilter extends org.gtk.gtk.MultiFilter implements org.gtk.gio.ListModel, org.gtk.gtk.Buildable {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public EveryFilter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -21,18 +33,14 @@ public class EveryFilter extends MultiFilter implements org.gtk.gio.ListModel, B
         return new EveryFilter(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_every_filter_new = Interop.downcallHandle(
-        "gtk_every_filter_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_every_filter_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_every_filter_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -48,4 +56,11 @@ public class EveryFilter extends MultiFilter implements org.gtk.gio.ListModel, B
         super(constructNew());
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_every_filter_new = Interop.downcallHandle(
+            "gtk_every_filter_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+    }
 }

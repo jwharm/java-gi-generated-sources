@@ -1,10 +1,24 @@
 package org.harfbuzz;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
- * Flags for {@link glyph_info_t}.
+ * Flags for {@link GlyphInfoT}.
+ * @version 1.5.0
  */
 public class GlyphFlagsT extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Indicates that if input text is broken at the
      * 				   beginning of the cluster this glyph is part of,
@@ -90,5 +104,4 @@ public class GlyphFlagsT extends io.github.jwharm.javagi.Bitfield {
     public GlyphFlagsT(int value) {
         super(value);
     }
-    
 }

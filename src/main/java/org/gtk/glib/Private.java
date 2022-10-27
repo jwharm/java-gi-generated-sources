@@ -25,15 +25,28 @@ import org.jetbrains.annotations.*;
  * be accessed via the g_private_ functions.
  */
 public class Private extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GLib.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.ADDRESS.withName("p"),
+        Interop.valueLayout.ADDRESS.withName("notify"),
+        MemoryLayout.sequenceLayout(2, ValueLayout.ADDRESS).withName("future")
+    ).withName("GPrivate");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public Private(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
-    private static final MethodHandle g_private_get = Interop.downcallHandle(
-        "g_private_get",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the current value of the thread local variable {@code key}.
@@ -41,21 +54,17 @@ public class Private extends io.github.jwharm.javagi.ResourceBase {
      * If the value has not yet been set in this thread, {@code null} is returned.
      * Values are never copied between threads (when a new thread is
      * created, for example).
+     * @return the thread-local value
      */
     public @Nullable java.lang.foreign.MemoryAddress get() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_private_get.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_private_get.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_private_replace = Interop.downcallHandle(
-        "g_private_replace",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the thread local variable {@code key} to have the value {@code value} in the
@@ -64,19 +73,16 @@ public class Private extends io.github.jwharm.javagi.ResourceBase {
      * This function differs from g_private_set() in the following way: if
      * the previous value was non-{@code null} then the {@link DestroyNotify} handler for
      * {@code key} is run on it.
+     * @param value the new value
      */
-    public @NotNull void replace(@Nullable java.lang.foreign.MemoryAddress value) {
+    public void replace(@Nullable java.lang.foreign.MemoryAddress value) {
+        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         try {
-            g_private_replace.invokeExact(handle(), value);
+            DowncallHandles.g_private_replace.invokeExact(handle(), value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_private_set = Interop.downcallHandle(
-        "g_private_set",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the thread local variable {@code key} to have the value {@code value} in the
@@ -84,13 +90,32 @@ public class Private extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function differs from g_private_replace() in the following way:
      * the {@link DestroyNotify} for {@code key} is not called on the old value.
+     * @param value the new value
      */
-    public @NotNull void set(@Nullable java.lang.foreign.MemoryAddress value) {
+    public void set(@Nullable java.lang.foreign.MemoryAddress value) {
+        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         try {
-            g_private_set.invokeExact(handle(), value);
+            DowncallHandles.g_private_set.invokeExact(handle(), value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_private_get = Interop.downcallHandle(
+            "g_private_get",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_private_replace = Interop.downcallHandle(
+            "g_private_replace",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_private_set = Interop.downcallHandle(
+            "g_private_set",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

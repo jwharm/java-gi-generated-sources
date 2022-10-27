@@ -14,9 +14,22 @@ import org.jetbrains.annotations.*;
  * a regular item, use g_menu_insert(). To add a section, use
  * g_menu_insert_section(). To add a submenu, use
  * g_menu_insert_submenu().
+ * @version 2.32
  */
-public class Menu extends MenuModel {
-
+public class Menu extends org.gtk.gio.MenuModel {
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public Menu(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -26,18 +39,14 @@ public class Menu extends MenuModel {
         return new Menu(gobject.refcounted());
     }
     
-    private static final MethodHandle g_menu_new = Interop.downcallHandle(
-        "g_menu_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_menu_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_menu_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -49,82 +58,71 @@ public class Menu extends MenuModel {
         super(constructNew());
     }
     
-    private static final MethodHandle g_menu_append = Interop.downcallHandle(
-        "g_menu_append",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Convenience function for appending a normal menu item to the end of
      * {@code menu}.  Combine g_menu_item_new() and g_menu_insert_item() for a more
      * flexible alternative.
+     * @param label the section label, or {@code null}
+     * @param detailedAction the detailed action string, or {@code null}
      */
-    public @NotNull void append(@Nullable java.lang.String label, @Nullable java.lang.String detailedAction) {
+    public void append(@Nullable java.lang.String label, @Nullable java.lang.String detailedAction) {
+        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(detailedAction, MemoryAddress.NULL);
         try {
-            g_menu_append.invokeExact(handle(), Interop.allocateNativeString(label), Interop.allocateNativeString(detailedAction));
+            DowncallHandles.g_menu_append.invokeExact(handle(), Interop.allocateNativeString(label), Interop.allocateNativeString(detailedAction));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_menu_append_item = Interop.downcallHandle(
-        "g_menu_append_item",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Appends {@code item} to the end of {@code menu}.
      * <p>
      * See g_menu_insert_item() for more information.
+     * @param item a {@link MenuItem} to append
      */
-    public @NotNull void appendItem(@NotNull MenuItem item) {
+    public void appendItem(@NotNull org.gtk.gio.MenuItem item) {
+        java.util.Objects.requireNonNull(item, "Parameter 'item' must not be null");
         try {
-            g_menu_append_item.invokeExact(handle(), item.handle());
+            DowncallHandles.g_menu_append_item.invokeExact(handle(), item.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_menu_append_section = Interop.downcallHandle(
-        "g_menu_append_section",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Convenience function for appending a section menu item to the end of
      * {@code menu}.  Combine g_menu_item_new_section() and g_menu_insert_item() for a
      * more flexible alternative.
+     * @param label the section label, or {@code null}
+     * @param section a {@link MenuModel} with the items of the section
      */
-    public @NotNull void appendSection(@Nullable java.lang.String label, @NotNull MenuModel section) {
+    public void appendSection(@Nullable java.lang.String label, @NotNull org.gtk.gio.MenuModel section) {
+        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(section, "Parameter 'section' must not be null");
         try {
-            g_menu_append_section.invokeExact(handle(), Interop.allocateNativeString(label), section.handle());
+            DowncallHandles.g_menu_append_section.invokeExact(handle(), Interop.allocateNativeString(label), section.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_menu_append_submenu = Interop.downcallHandle(
-        "g_menu_append_submenu",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Convenience function for appending a submenu menu item to the end of
      * {@code menu}.  Combine g_menu_item_new_submenu() and g_menu_insert_item() for a
      * more flexible alternative.
+     * @param label the section label, or {@code null}
+     * @param submenu a {@link MenuModel} with the items of the submenu
      */
-    public @NotNull void appendSubmenu(@Nullable java.lang.String label, @NotNull MenuModel submenu) {
+    public void appendSubmenu(@Nullable java.lang.String label, @NotNull org.gtk.gio.MenuModel submenu) {
+        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(submenu, "Parameter 'submenu' must not be null");
         try {
-            g_menu_append_submenu.invokeExact(handle(), Interop.allocateNativeString(label), submenu.handle());
+            DowncallHandles.g_menu_append_submenu.invokeExact(handle(), Interop.allocateNativeString(label), submenu.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_menu_freeze = Interop.downcallHandle(
-        "g_menu_freeze",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Marks {@code menu} as frozen.
@@ -136,36 +134,31 @@ public class Menu extends MenuModel {
      * This function causes g_menu_model_is_mutable() to begin returning
      * {@code false}, which has some positive performance implications.
      */
-    public @NotNull void freeze() {
+    public void freeze() {
         try {
-            g_menu_freeze.invokeExact(handle());
+            DowncallHandles.g_menu_freeze.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_menu_insert = Interop.downcallHandle(
-        "g_menu_insert",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Convenience function for inserting a normal menu item into {@code menu}.
      * Combine g_menu_item_new() and g_menu_insert_item() for a more flexible
      * alternative.
+     * @param position the position at which to insert the item
+     * @param label the section label, or {@code null}
+     * @param detailedAction the detailed action string, or {@code null}
      */
-    public @NotNull void insert(@NotNull int position, @Nullable java.lang.String label, @Nullable java.lang.String detailedAction) {
+    public void insert(int position, @Nullable java.lang.String label, @Nullable java.lang.String detailedAction) {
+        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(detailedAction, MemoryAddress.NULL);
         try {
-            g_menu_insert.invokeExact(handle(), position, Interop.allocateNativeString(label), Interop.allocateNativeString(detailedAction));
+            DowncallHandles.g_menu_insert.invokeExact(handle(), position, Interop.allocateNativeString(label), Interop.allocateNativeString(detailedAction));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_menu_insert_item = Interop.downcallHandle(
-        "g_menu_insert_item",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Inserts {@code item} into {@code menu}.
@@ -185,127 +178,119 @@ public class Menu extends MenuModel {
      * See g_menu_insert(), g_menu_insert_section() and
      * g_menu_insert_submenu() as well as "prepend" and "append" variants of
      * each of these functions.
+     * @param position the position at which to insert the item
+     * @param item the {@link MenuItem} to insert
      */
-    public @NotNull void insertItem(@NotNull int position, @NotNull MenuItem item) {
+    public void insertItem(int position, @NotNull org.gtk.gio.MenuItem item) {
+        java.util.Objects.requireNonNull(item, "Parameter 'item' must not be null");
         try {
-            g_menu_insert_item.invokeExact(handle(), position, item.handle());
+            DowncallHandles.g_menu_insert_item.invokeExact(handle(), position, item.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_menu_insert_section = Interop.downcallHandle(
-        "g_menu_insert_section",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Convenience function for inserting a section menu item into {@code menu}.
      * Combine g_menu_item_new_section() and g_menu_insert_item() for a more
      * flexible alternative.
+     * @param position the position at which to insert the item
+     * @param label the section label, or {@code null}
+     * @param section a {@link MenuModel} with the items of the section
      */
-    public @NotNull void insertSection(@NotNull int position, @Nullable java.lang.String label, @NotNull MenuModel section) {
+    public void insertSection(int position, @Nullable java.lang.String label, @NotNull org.gtk.gio.MenuModel section) {
+        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(section, "Parameter 'section' must not be null");
         try {
-            g_menu_insert_section.invokeExact(handle(), position, Interop.allocateNativeString(label), section.handle());
+            DowncallHandles.g_menu_insert_section.invokeExact(handle(), position, Interop.allocateNativeString(label), section.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_menu_insert_submenu = Interop.downcallHandle(
-        "g_menu_insert_submenu",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Convenience function for inserting a submenu menu item into {@code menu}.
      * Combine g_menu_item_new_submenu() and g_menu_insert_item() for a more
      * flexible alternative.
+     * @param position the position at which to insert the item
+     * @param label the section label, or {@code null}
+     * @param submenu a {@link MenuModel} with the items of the submenu
      */
-    public @NotNull void insertSubmenu(@NotNull int position, @Nullable java.lang.String label, @NotNull MenuModel submenu) {
+    public void insertSubmenu(int position, @Nullable java.lang.String label, @NotNull org.gtk.gio.MenuModel submenu) {
+        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(submenu, "Parameter 'submenu' must not be null");
         try {
-            g_menu_insert_submenu.invokeExact(handle(), position, Interop.allocateNativeString(label), submenu.handle());
+            DowncallHandles.g_menu_insert_submenu.invokeExact(handle(), position, Interop.allocateNativeString(label), submenu.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_menu_prepend = Interop.downcallHandle(
-        "g_menu_prepend",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Convenience function for prepending a normal menu item to the start
      * of {@code menu}.  Combine g_menu_item_new() and g_menu_insert_item() for a more
      * flexible alternative.
+     * @param label the section label, or {@code null}
+     * @param detailedAction the detailed action string, or {@code null}
      */
-    public @NotNull void prepend(@Nullable java.lang.String label, @Nullable java.lang.String detailedAction) {
+    public void prepend(@Nullable java.lang.String label, @Nullable java.lang.String detailedAction) {
+        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(detailedAction, MemoryAddress.NULL);
         try {
-            g_menu_prepend.invokeExact(handle(), Interop.allocateNativeString(label), Interop.allocateNativeString(detailedAction));
+            DowncallHandles.g_menu_prepend.invokeExact(handle(), Interop.allocateNativeString(label), Interop.allocateNativeString(detailedAction));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_menu_prepend_item = Interop.downcallHandle(
-        "g_menu_prepend_item",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Prepends {@code item} to the start of {@code menu}.
      * <p>
      * See g_menu_insert_item() for more information.
+     * @param item a {@link MenuItem} to prepend
      */
-    public @NotNull void prependItem(@NotNull MenuItem item) {
+    public void prependItem(@NotNull org.gtk.gio.MenuItem item) {
+        java.util.Objects.requireNonNull(item, "Parameter 'item' must not be null");
         try {
-            g_menu_prepend_item.invokeExact(handle(), item.handle());
+            DowncallHandles.g_menu_prepend_item.invokeExact(handle(), item.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_menu_prepend_section = Interop.downcallHandle(
-        "g_menu_prepend_section",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Convenience function for prepending a section menu item to the start
      * of {@code menu}.  Combine g_menu_item_new_section() and g_menu_insert_item() for
      * a more flexible alternative.
+     * @param label the section label, or {@code null}
+     * @param section a {@link MenuModel} with the items of the section
      */
-    public @NotNull void prependSection(@Nullable java.lang.String label, @NotNull MenuModel section) {
+    public void prependSection(@Nullable java.lang.String label, @NotNull org.gtk.gio.MenuModel section) {
+        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(section, "Parameter 'section' must not be null");
         try {
-            g_menu_prepend_section.invokeExact(handle(), Interop.allocateNativeString(label), section.handle());
+            DowncallHandles.g_menu_prepend_section.invokeExact(handle(), Interop.allocateNativeString(label), section.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_menu_prepend_submenu = Interop.downcallHandle(
-        "g_menu_prepend_submenu",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Convenience function for prepending a submenu menu item to the start
      * of {@code menu}.  Combine g_menu_item_new_submenu() and g_menu_insert_item() for
      * a more flexible alternative.
+     * @param label the section label, or {@code null}
+     * @param submenu a {@link MenuModel} with the items of the submenu
      */
-    public @NotNull void prependSubmenu(@Nullable java.lang.String label, @NotNull MenuModel submenu) {
+    public void prependSubmenu(@Nullable java.lang.String label, @NotNull org.gtk.gio.MenuModel submenu) {
+        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(submenu, "Parameter 'submenu' must not be null");
         try {
-            g_menu_prepend_submenu.invokeExact(handle(), Interop.allocateNativeString(label), submenu.handle());
+            DowncallHandles.g_menu_prepend_submenu.invokeExact(handle(), Interop.allocateNativeString(label), submenu.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_menu_remove = Interop.downcallHandle(
-        "g_menu_remove",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Removes an item from the menu.
@@ -318,29 +303,107 @@ public class Menu extends MenuModel {
      * It is not possible to remove items by identity since items are added
      * to the menu simply by copying their links and attributes (ie:
      * identity of the item itself is not preserved).
+     * @param position the position of the item to remove
      */
-    public @NotNull void remove(@NotNull int position) {
+    public void remove(int position) {
         try {
-            g_menu_remove.invokeExact(handle(), position);
+            DowncallHandles.g_menu_remove.invokeExact(handle(), position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_menu_remove_all = Interop.downcallHandle(
-        "g_menu_remove_all",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Removes all items in the menu.
      */
-    public @NotNull void removeAll() {
+    public void removeAll() {
         try {
-            g_menu_remove_all.invokeExact(handle());
+            DowncallHandles.g_menu_remove_all.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_menu_new = Interop.downcallHandle(
+            "g_menu_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_append = Interop.downcallHandle(
+            "g_menu_append",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_append_item = Interop.downcallHandle(
+            "g_menu_append_item",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_append_section = Interop.downcallHandle(
+            "g_menu_append_section",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_append_submenu = Interop.downcallHandle(
+            "g_menu_append_submenu",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_freeze = Interop.downcallHandle(
+            "g_menu_freeze",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_insert = Interop.downcallHandle(
+            "g_menu_insert",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_insert_item = Interop.downcallHandle(
+            "g_menu_insert_item",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_insert_section = Interop.downcallHandle(
+            "g_menu_insert_section",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_insert_submenu = Interop.downcallHandle(
+            "g_menu_insert_submenu",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_prepend = Interop.downcallHandle(
+            "g_menu_prepend",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_prepend_item = Interop.downcallHandle(
+            "g_menu_prepend_item",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_prepend_section = Interop.downcallHandle(
+            "g_menu_prepend_section",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_prepend_submenu = Interop.downcallHandle(
+            "g_menu_prepend_submenu",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_remove = Interop.downcallHandle(
+            "g_menu_remove",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_menu_remove_all = Interop.downcallHandle(
+            "g_menu_remove_all",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
 }

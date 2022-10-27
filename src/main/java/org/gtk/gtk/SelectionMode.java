@@ -1,10 +1,23 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Used to control what selections users are allowed to make.
  */
 public class SelectionMode extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * No selection is possible.
      */
@@ -36,5 +49,4 @@ public class SelectionMode extends io.github.jwharm.javagi.Enumeration {
     public SelectionMode(int value) {
         super(value);
     }
-    
 }

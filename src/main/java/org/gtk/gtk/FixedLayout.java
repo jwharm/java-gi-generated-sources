@@ -16,11 +16,15 @@ import org.jetbrains.annotations.*;
  * widgets positioned in a fixed layout manager will need to take into account:
  * <ul>
  * <li>Themes, which may change widget sizes.
+ * </ul>
+ * <ul>
  * <li>Fonts other than the one you used to write the app will of course
  *   change the size of widgets containing text; keep in mind that
  *   users may use a larger font because of difficulty reading the
  *   default, or they may be using a different OS that provides different
  *   fonts.
+ * </ul>
+ * <ul>
  * <li>Translation of text into other languages changes its size. Also,
  *   display of non-English text will use a different font in many
  *   cases.
@@ -37,8 +41,20 @@ import org.jetbrains.annotations.*;
  * elements, since you have to reposition all the other  elements. This is a
  * long-term maintenance problem for your application.
  */
-public class FixedLayout extends LayoutManager {
-
+public class FixedLayout extends org.gtk.gtk.LayoutManager {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public FixedLayout(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -48,18 +64,14 @@ public class FixedLayout extends LayoutManager {
         return new FixedLayout(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_fixed_layout_new = Interop.downcallHandle(
-        "gtk_fixed_layout_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_fixed_layout_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_fixed_layout_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -69,4 +81,11 @@ public class FixedLayout extends LayoutManager {
         super(constructNew());
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_fixed_layout_new = Interop.downcallHandle(
+            "gtk_fixed_layout_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+    }
 }

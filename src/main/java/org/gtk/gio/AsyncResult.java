@@ -80,8 +80,8 @@ import org.jetbrains.annotations.*;
  * The callback for an asynchronous operation is called only once, and is
  * always called, even in the case of a cancelled operation. On cancellation
  * the result is a {@link IOErrorEnum#CANCELLED} error.
- * 
- * <h2>I/O Priority # {#io-priority}</h2>
+ * <p>
+ * <strong>I/O Priority # {#io-priority}</strong><br/>
  * Many I/O-related asynchronous operations have a priority parameter,
  * which is used in certain cases to determine the order in which
  * operations are executed. They are not used to determine system-wide
@@ -91,66 +91,53 @@ import org.jetbrains.annotations.*;
  * as a default.
  */
 public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
-
-    @ApiStatus.Internal static final MethodHandle g_async_result_get_source_object = Interop.downcallHandle(
-        "g_async_result_get_source_object",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the source object from a {@link AsyncResult}.
+     * @return a new reference to the source
+     *    object for the {@code res}, or {@code null} if there is none.
      */
     default @Nullable org.gtk.gobject.Object getSourceObject() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_async_result_get_source_object.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_async_result_get_source_object.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gobject.Object(Refcounted.get(RESULT, true));
     }
     
-    @ApiStatus.Internal static final MethodHandle g_async_result_get_user_data = Interop.downcallHandle(
-        "g_async_result_get_user_data",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the user data from a {@link AsyncResult}.
+     * @return the user data for {@code res}.
      */
     default @Nullable java.lang.foreign.MemoryAddress getUserData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_async_result_get_user_data.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_async_result_get_user_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    @ApiStatus.Internal static final MethodHandle g_async_result_is_tagged = Interop.downcallHandle(
-        "g_async_result_is_tagged",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Checks if {@code res} has the given {@code source_tag} (generally a function
      * pointer indicating the function {@code res} was created by).
+     * @param sourceTag an application-defined tag
+     * @return {@code true} if {@code res} has the indicated {@code source_tag}, {@code false} if
+     *   not.
      */
     default boolean isTagged(@Nullable java.lang.foreign.MemoryAddress sourceTag) {
+        java.util.Objects.requireNonNullElse(sourceTag, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) g_async_result_is_tagged.invokeExact(handle(), sourceTag);
+            RESULT = (int) DowncallHandles.g_async_result_is_tagged.invokeExact(handle(), sourceTag);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_async_result_legacy_propagate_error = Interop.downcallHandle(
-        "g_async_result_legacy_propagate_error",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * If {@code res} is a {@link SimpleAsyncResult}, this is equivalent to
@@ -163,12 +150,15 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
      * This should not be used in new code; {@link AsyncResult} errors that are
      * set by virtual methods should also be extracted by virtual methods,
      * to enable subclasses to chain up correctly.
+     * @return {@code true} if {@code error} is has been filled in with an error from
+     *   {@code res}, {@code false} if not.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     default boolean legacyPropagateError() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_async_result_legacy_propagate_error.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_async_result_legacy_propagate_error.invokeExact(handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -178,7 +168,40 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
         return RESULT != 0;
     }
     
+    @ApiStatus.Internal
+    static class DowncallHandles {
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_async_result_get_source_object = Interop.downcallHandle(
+            "g_async_result_get_source_object",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_async_result_get_user_data = Interop.downcallHandle(
+            "g_async_result_get_user_data",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_async_result_is_tagged = Interop.downcallHandle(
+            "g_async_result_is_tagged",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_async_result_legacy_propagate_error = Interop.downcallHandle(
+            "g_async_result_legacy_propagate_error",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
+    
     class AsyncResultImpl extends org.gtk.gobject.Object implements AsyncResult {
+        
+        static {
+            Gio.javagi$ensureInitialized();
+        }
+        
         public AsyncResultImpl(io.github.jwharm.javagi.Refcounted ref) {
             super(ref);
         }

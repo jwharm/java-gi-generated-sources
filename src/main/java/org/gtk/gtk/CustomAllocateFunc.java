@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -8,5 +10,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface CustomAllocateFunc {
-        void onCustomAllocateFunc(@NotNull Widget widget, @NotNull int width, @NotNull int height, @NotNull int baseline);
+        void onCustomAllocateFunc(@NotNull org.gtk.gtk.Widget widget, int width, int height, int baseline);
 }

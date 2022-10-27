@@ -1,10 +1,23 @@
 package org.gtk.gdk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Flags describing the current capabilities of a device/tool.
  */
 public class AxisFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * X axis is present
      */
@@ -63,5 +76,4 @@ public class AxisFlags extends io.github.jwharm.javagi.Bitfield {
     public AxisFlags(int value) {
         super(value);
     }
-    
 }

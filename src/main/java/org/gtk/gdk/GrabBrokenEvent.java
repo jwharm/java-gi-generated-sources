@@ -8,8 +8,20 @@ import org.jetbrains.annotations.*;
 /**
  * An event related to a broken windowing system grab.
  */
-public class GrabBrokenEvent extends Event {
-
+public class GrabBrokenEvent extends org.gtk.gdk.Event {
+    
+    static {
+        Gdk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public GrabBrokenEvent(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -19,40 +31,44 @@ public class GrabBrokenEvent extends Event {
         return new GrabBrokenEvent(gobject.refcounted());
     }
     
-    private static final MethodHandle gdk_grab_broken_event_get_grab_surface = Interop.downcallHandle(
-        "gdk_grab_broken_event_get_grab_surface",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Extracts the grab surface from a grab broken event.
+     * @return the grab surface of {@code event}
      */
-    public @NotNull Surface getGrabSurface() {
+    public @NotNull org.gtk.gdk.Surface getGrabSurface() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gdk_grab_broken_event_get_grab_surface.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_grab_broken_event_get_grab_surface.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Surface(Refcounted.get(RESULT, false));
+        return new org.gtk.gdk.Surface(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gdk_grab_broken_event_get_implicit = Interop.downcallHandle(
-        "gdk_grab_broken_event_get_implicit",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Checks whether the grab broken event is for an implicit grab.
+     * @return {@code true} if the an implicit grab was broken
      */
     public boolean getImplicit() {
         int RESULT;
         try {
-            RESULT = (int) gdk_grab_broken_event_get_implicit.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_grab_broken_event_get_implicit.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gdk_grab_broken_event_get_grab_surface = Interop.downcallHandle(
+            "gdk_grab_broken_event_get_grab_surface",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_grab_broken_event_get_implicit = Interop.downcallHandle(
+            "gdk_grab_broken_event_get_implicit",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+    }
 }

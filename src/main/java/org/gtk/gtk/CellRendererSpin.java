@@ -22,8 +22,20 @@ import org.jetbrains.annotations.*;
  * <p>
  * The {@code GtkCellRendererSpin} cell renderer was added in GTK 2.10.
  */
-public class CellRendererSpin extends CellRendererText {
-
+public class CellRendererSpin extends org.gtk.gtk.CellRendererText {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public CellRendererSpin(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -33,18 +45,14 @@ public class CellRendererSpin extends CellRendererText {
         return new CellRendererSpin(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_cell_renderer_spin_new = Interop.downcallHandle(
-        "gtk_cell_renderer_spin_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_cell_renderer_spin_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_cell_renderer_spin_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -54,4 +62,11 @@ public class CellRendererSpin extends CellRendererText {
         super(constructNew());
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_cell_renderer_spin_new = Interop.downcallHandle(
+            "gtk_cell_renderer_spin_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+    }
 }

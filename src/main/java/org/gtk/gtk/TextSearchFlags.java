@@ -1,5 +1,10 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Flags affecting how a search is done.
  * <p>
@@ -8,7 +13,15 @@ package org.gtk.gtk;
  * embedded paintables or child widgets.
  */
 public class TextSearchFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Search only visible data. A search match may
      * have invisible text interspersed.
@@ -30,5 +43,4 @@ public class TextSearchFlags extends io.github.jwharm.javagi.Bitfield {
     public TextSearchFlags(int value) {
         super(value);
     }
-    
 }

@@ -1,11 +1,24 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Error codes that identify various errors that can occur while
  * using the GTK printing support.
  */
 public class PrintError extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * An unspecified error occurred.
      */
@@ -31,4 +44,25 @@ public class PrintError extends io.github.jwharm.javagi.Enumeration {
         super(value);
     }
     
+    /**
+     * Registers an error quark for {@code GtkPrintOperation} if necessary.
+     * @return The error quark used for {@code GtkPrintOperation} errors.
+     */
+    public static @NotNull org.gtk.glib.Quark quark() {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gtk_print_error_quark.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Quark(RESULT);
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_print_error_quark = Interop.downcallHandle(
+            "gtk_print_error_quark",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+        );
+    }
 }

@@ -1,6 +1,8 @@
 package org.gtk.gdk;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -12,5 +14,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ContentSerializeFunc {
-        void onContentSerializeFunc(@NotNull ContentSerializer serializer);
+        void onContentSerializeFunc(@NotNull org.gtk.gdk.ContentSerializer serializer);
 }

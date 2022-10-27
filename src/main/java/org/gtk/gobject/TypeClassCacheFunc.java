@@ -1,6 +1,8 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -17,5 +19,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface TypeClassCacheFunc {
-        boolean onTypeClassCacheFunc(@NotNull TypeClass gClass);
+        boolean onTypeClassCacheFunc(@NotNull org.gtk.gobject.TypeClass gClass);
 }

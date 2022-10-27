@@ -1,5 +1,10 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Disambiguates a given time in two ways.
  * <p>
@@ -11,7 +16,15 @@ package org.gtk.glib;
  * transitions, for example).
  */
 public class TimeType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * the time is in local standard time
      */
@@ -30,5 +43,4 @@ public class TimeType extends io.github.jwharm.javagi.Enumeration {
     public TimeType(int value) {
         super(value);
     }
-    
 }

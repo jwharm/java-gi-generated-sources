@@ -10,143 +10,125 @@ import org.jetbrains.annotations.*;
  * accessed through the g_rand_* functions.
  */
 public class Rand extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GLib.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public Rand(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
-    private static final MethodHandle g_rand_copy = Interop.downcallHandle(
-        "g_rand_copy",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Copies a {@link Rand} into a new one with the same exact state as before.
      * This way you can take a snapshot of the random number generator for
      * replaying later.
+     * @return the new {@link Rand}
      */
-    public @NotNull Rand copy() {
+    public @NotNull org.gtk.glib.Rand copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_rand_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_rand_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Rand(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Rand(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_rand_double = Interop.downcallHandle(
-        "g_rand_double",
-        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the next random {@code gdouble} from {@code rand_} equally distributed over
      * the range [0..1).
+     * @return a random number
      */
     public double double_() {
         double RESULT;
         try {
-            RESULT = (double) g_rand_double.invokeExact(handle());
+            RESULT = (double) DowncallHandles.g_rand_double.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_rand_double_range = Interop.downcallHandle(
-        "g_rand_double_range",
-        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
-    );
     
     /**
      * Returns the next random {@code gdouble} from {@code rand_} equally distributed over
      * the range [{@code begin}..{@code end}).
+     * @param begin lower closed bound of the interval
+     * @param end upper open bound of the interval
+     * @return a random number
      */
-    public double doubleRange(@NotNull double begin, @NotNull double end) {
+    public double doubleRange(double begin, double end) {
         double RESULT;
         try {
-            RESULT = (double) g_rand_double_range.invokeExact(handle(), begin, end);
+            RESULT = (double) DowncallHandles.g_rand_double_range.invokeExact(handle(), begin, end);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_rand_free = Interop.downcallHandle(
-        "g_rand_free",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Frees the memory allocated for the {@link Rand}.
      */
-    public @NotNull void free() {
+    public void free() {
         try {
-            g_rand_free.invokeExact(handle());
+            DowncallHandles.g_rand_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_rand_int = Interop.downcallHandle(
-        "g_rand_int",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the next random {@code guint32} from {@code rand_} equally distributed over
      * the range [0..2^32-1].
+     * @return a random number
      */
     public int int_() {
         int RESULT;
         try {
-            RESULT = (int) g_rand_int.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_rand_int.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_rand_int_range = Interop.downcallHandle(
-        "g_rand_int_range",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Returns the next random {@code gint32} from {@code rand_} equally distributed over
      * the range {@code end-1}.
+     * @param begin lower closed bound of the interval
+     * @param end upper open bound of the interval
+     * @return a random number
      */
-    public int intRange(@NotNull int begin, @NotNull int end) {
+    public int intRange(int begin, int end) {
         int RESULT;
         try {
-            RESULT = (int) g_rand_int_range.invokeExact(handle(), begin, end);
+            RESULT = (int) DowncallHandles.g_rand_int_range.invokeExact(handle(), begin, end);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle g_rand_set_seed = Interop.downcallHandle(
-        "g_rand_set_seed",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Sets the seed for the random number generator {@link Rand} to {@code seed}.
+     * @param seed a value to reinitialize the random number generator
      */
-    public @NotNull void setSeed(@NotNull int seed) {
+    public void setSeed(int seed) {
         try {
-            g_rand_set_seed.invokeExact(handle(), seed);
+            DowncallHandles.g_rand_set_seed.invokeExact(handle(), seed);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_rand_set_seed_array = Interop.downcallHandle(
-        "g_rand_set_seed_array",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Initializes the random number generator by an array of longs.
@@ -154,19 +136,17 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
      * are taken.  This function is useful if you have many low entropy
      * seeds, or if you require more then 32 bits of actual entropy for
      * your application.
+     * @param seed array to initialize with
+     * @param seedLength length of array
      */
-    public @NotNull void setSeedArray(@NotNull PointerInteger seed, @NotNull int seedLength) {
+    public void setSeedArray(PointerInteger seed, int seedLength) {
+        java.util.Objects.requireNonNull(seed, "Parameter 'seed' must not be null");
         try {
-            g_rand_set_seed_array.invokeExact(handle(), seed.handle(), seedLength);
+            DowncallHandles.g_rand_set_seed_array.invokeExact(handle(), seed.handle(), seedLength);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_rand_new = Interop.downcallHandle(
-        "g_rand_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Creates a new random number generator initialized with a seed taken
@@ -174,51 +154,106 @@ public class Rand extends io.github.jwharm.javagi.ResourceBase {
      * (as a fallback).
      * <p>
      * On Windows, the seed is taken from rand_s().
+     * @return the new {@link Rand}
      */
-    public static @NotNull Rand new_() {
+    public static @NotNull org.gtk.glib.Rand new_() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_rand_new.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.g_rand_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Rand(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Rand(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_rand_new_with_seed = Interop.downcallHandle(
-        "g_rand_new_with_seed",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Creates a new random number generator initialized with {@code seed}.
+     * @param seed a value to initialize the random number generator
+     * @return the new {@link Rand}
      */
-    public static @NotNull Rand newWithSeed(@NotNull int seed) {
+    public static @NotNull org.gtk.glib.Rand newWithSeed(int seed) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_rand_new_with_seed.invokeExact(seed);
+            RESULT = (MemoryAddress) DowncallHandles.g_rand_new_with_seed.invokeExact(seed);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Rand(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Rand(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_rand_new_with_seed_array = Interop.downcallHandle(
-        "g_rand_new_with_seed_array",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Creates a new random number generator initialized with {@code seed}.
+     * @param seed an array of seeds to initialize the random number generator
+     * @param seedLength an array of seeds to initialize the random number
+     *     generator
+     * @return the new {@link Rand}
      */
-    public static @NotNull Rand newWithSeedArray(@NotNull PointerInteger seed, @NotNull int seedLength) {
+    public static @NotNull org.gtk.glib.Rand newWithSeedArray(PointerInteger seed, int seedLength) {
+        java.util.Objects.requireNonNull(seed, "Parameter 'seed' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_rand_new_with_seed_array.invokeExact(seed.handle(), seedLength);
+            RESULT = (MemoryAddress) DowncallHandles.g_rand_new_with_seed_array.invokeExact(seed.handle(), seedLength);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Rand(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Rand(Refcounted.get(RESULT, false));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_rand_copy = Interop.downcallHandle(
+            "g_rand_copy",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_rand_double = Interop.downcallHandle(
+            "g_rand_double",
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_rand_double_range = Interop.downcallHandle(
+            "g_rand_double_range",
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+        );
+        
+        private static final MethodHandle g_rand_free = Interop.downcallHandle(
+            "g_rand_free",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_rand_int = Interop.downcallHandle(
+            "g_rand_int",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_rand_int_range = Interop.downcallHandle(
+            "g_rand_int_range",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_rand_set_seed = Interop.downcallHandle(
+            "g_rand_set_seed",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_rand_set_seed_array = Interop.downcallHandle(
+            "g_rand_set_seed_array",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_rand_new = Interop.downcallHandle(
+            "g_rand_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_rand_new_with_seed = Interop.downcallHandle(
+            "g_rand_new_with_seed",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_rand_new_with_seed_array = Interop.downcallHandle(
+            "g_rand_new_with_seed_array",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
 }

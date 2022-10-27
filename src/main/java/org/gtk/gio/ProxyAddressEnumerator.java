@@ -16,8 +16,25 @@ import org.jetbrains.annotations.*;
  * there should be no need to manually wrap a {@link SocketAddressEnumerator} instance
  * with one.
  */
-public class ProxyAddressEnumerator extends SocketAddressEnumerator {
-
+public class ProxyAddressEnumerator extends org.gtk.gio.SocketAddressEnumerator {
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gio.SocketAddressEnumerator.getMemoryLayout().withName("parent_instance"),
+        org.gtk.gio.ProxyAddressEnumeratorPrivate.getMemoryLayout().withName("priv")
+    ).withName("GProxyAddressEnumerator");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public ProxyAddressEnumerator(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -26,5 +43,4 @@ public class ProxyAddressEnumerator extends SocketAddressEnumerator {
     public static ProxyAddressEnumerator castFrom(org.gtk.gobject.Object gobject) {
         return new ProxyAddressEnumerator(gobject.refcounted());
     }
-    
 }

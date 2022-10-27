@@ -21,44 +21,58 @@ import org.jetbrains.annotations.*;
  * If your application or service is using the default GLib log writer function,
  * creating one of the built-in implementations of {@link DebugController} should be
  * all that’s needed to dynamically enable or disable debug output.
+ * @version 2.72
  */
 public interface DebugController extends io.github.jwharm.javagi.Proxy {
-
-    @ApiStatus.Internal static final MethodHandle g_debug_controller_get_debug_enabled = Interop.downcallHandle(
-        "g_debug_controller_get_debug_enabled",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Get the value of {@link DebugController}:debug-enabled.
+     * @return {@code true} if debug output should be exposed, {@code false} otherwise
      */
     default boolean getDebugEnabled() {
         int RESULT;
         try {
-            RESULT = (int) g_debug_controller_get_debug_enabled.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_debug_controller_get_debug_enabled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    @ApiStatus.Internal static final MethodHandle g_debug_controller_set_debug_enabled = Interop.downcallHandle(
-        "g_debug_controller_set_debug_enabled",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Set the value of {@link DebugController}:debug-enabled.
+     * @param debugEnabled {@code true} if debug output should be exposed, {@code false} otherwise
      */
-    default @NotNull void setDebugEnabled(@NotNull boolean debugEnabled) {
+    default void setDebugEnabled(boolean debugEnabled) {
         try {
-            g_debug_controller_set_debug_enabled.invokeExact(handle(), debugEnabled ? 1 : 0);
+            DowncallHandles.g_debug_controller_set_debug_enabled.invokeExact(handle(), debugEnabled ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    @ApiStatus.Internal
+    static class DowncallHandles {
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_debug_controller_get_debug_enabled = Interop.downcallHandle(
+            "g_debug_controller_get_debug_enabled",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_debug_controller_set_debug_enabled = Interop.downcallHandle(
+            "g_debug_controller_set_debug_enabled",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
+    
     class DebugControllerImpl extends org.gtk.gobject.Object implements DebugController {
+        
+        static {
+            Gio.javagi$ensureInitialized();
+        }
+        
         public DebugControllerImpl(io.github.jwharm.javagi.Refcounted ref) {
             super(ref);
         }

@@ -10,8 +10,8 @@ package org.gtk.glib;
  * g_autofree(), so that the reference counting metadata is also freed.
  */
 public class RefString extends io.github.jwharm.javagi.Alias<Byte> {
+    
     public RefString(byte value) {
         super(value);
     }
-    
 }

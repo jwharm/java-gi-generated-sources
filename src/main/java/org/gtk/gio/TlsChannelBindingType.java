@@ -1,13 +1,27 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The type of TLS channel binding data to retrieve from {@link TlsConnection}
  * or {@link DtlsConnection}, as documented by RFC 5929. The
  * <a href="https://tools.ietf.org/html/rfc5929#section-5">`tls-unique-for-telnet`</a>
  * binding type is not currently implemented.
+ * @version 2.66
  */
 public class TlsChannelBindingType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * <a href="https://tools.ietf.org/html/rfc5929#section-3">`tls-unique`</a> binding
      *    type
@@ -23,5 +37,4 @@ public class TlsChannelBindingType extends io.github.jwharm.javagi.Enumeration {
     public TlsChannelBindingType(int value) {
         super(value);
     }
-    
 }

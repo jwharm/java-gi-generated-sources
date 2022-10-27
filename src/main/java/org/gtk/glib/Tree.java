@@ -11,74 +11,96 @@ import org.jetbrains.annotations.*;
  * accessed only by using the following functions.
  */
 public class Tree extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GLib.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public Tree(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle g_tree_new_full = Interop.downcallHandle(
-        "g_tree_new_full",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    private static Refcounted constructNew(@NotNull org.gtk.glib.CompareFunc keyCompareFunc) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
-    private static Refcounted constructNewFull(@NotNull CompareDataFunc keyCompareFunc) {
+    /**
+     * Creates a new {@link Tree}.
+     * @param keyCompareFunc the function used to order the nodes in the {@link Tree}.
+     *   It should return values similar to the standard strcmp() function -
+     *   0 if the two arguments are equal, a negative value if the first argument
+     *   comes before the second, or a positive value if the first argument comes
+     *   after the second.
+     */
+    public Tree(@NotNull org.gtk.glib.CompareFunc keyCompareFunc) {
+        this(Refcounted.get(null)); // avoid compiler error
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    private static Refcounted constructNewFull(@NotNull org.gtk.glib.CompareDataFunc keyCompareFunc) {
+        java.util.Objects.requireNonNull(keyCompareFunc, "Parameter 'keyCompareFunc' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_tree_new_full.invokeExact(
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_tree_new_full.invokeExact(
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
+                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(keyCompareFunc)), 
+                   (Addressable) (Interop.registerCallback(keyCompareFunc)), 
                     Interop.cbDestroyNotifySymbol(), 
                     Interop.cbDestroyNotifySymbol()), true);
-            return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a new {@link Tree} like g_tree_new() and allows to specify functions
      * to free the memory allocated for the key and value that get called when
      * removing the entry from the {@link Tree}.
+     * @param keyCompareFunc qsort()-style comparison function
+     * @return a newly allocated {@link Tree}
      */
-    public static Tree newFull(@NotNull CompareDataFunc keyCompareFunc) {
+    public static Tree newFull(@NotNull org.gtk.glib.CompareDataFunc keyCompareFunc) {
         return new Tree(constructNewFull(keyCompareFunc));
     }
     
-    private static final MethodHandle g_tree_new_with_data = Interop.downcallHandle(
-        "g_tree_new_with_data",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNewWithData(@NotNull CompareDataFunc keyCompareFunc) {
+    private static Refcounted constructNewWithData(@NotNull org.gtk.glib.CompareDataFunc keyCompareFunc) {
+        java.util.Objects.requireNonNull(keyCompareFunc, "Parameter 'keyCompareFunc' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_tree_new_with_data.invokeExact(
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_tree_new_with_data.invokeExact(
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
+                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(keyCompareFunc))), true);
-            return RESULT;
+                   (Addressable) (Interop.registerCallback(keyCompareFunc))), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a new {@link Tree} with a comparison function that accepts user data.
      * See g_tree_new() for more details.
+     * @param keyCompareFunc qsort()-style comparison function
+     * @return a newly allocated {@link Tree}
      */
-    public static Tree newWithData(@NotNull CompareDataFunc keyCompareFunc) {
+    public static Tree newWithData(@NotNull org.gtk.glib.CompareDataFunc keyCompareFunc) {
         return new Tree(constructNewWithData(keyCompareFunc));
     }
-    
-    private static final MethodHandle g_tree_destroy = Interop.downcallHandle(
-        "g_tree_destroy",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Removes all keys and values from the {@link Tree} and decreases its
@@ -88,18 +110,13 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * you supplied will be called on all keys and values before destroying
      * the {@link Tree}.
      */
-    public @NotNull void destroy() {
+    public void destroy() {
         try {
-            g_tree_destroy.invokeExact(handle());
+            DowncallHandles.g_tree_destroy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_tree_foreach = Interop.downcallHandle(
-        "g_tree_foreach",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Calls the given function for each of the key/value pairs in the {@link Tree}.
@@ -110,25 +127,23 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * add/remove items). To remove all items matching a predicate, you need
      * to add each item to a list in your {@link TraverseFunc} as you walk over
      * the tree, then walk the list and remove each item.
+     * @param func the function to call for each node visited.
+     *     If this function returns {@code true}, the traversal is stopped.
      */
-    public @NotNull void foreach(@NotNull TraverseFunc func) {
+    public void foreach(@NotNull org.gtk.glib.TraverseFunc func) {
+        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            g_tree_foreach.invokeExact(handle(), 
+            DowncallHandles.g_tree_foreach.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.class, "__cbTraverseFunc",
+                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTraverseFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)));
+                   (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_tree_foreach_node = Interop.downcallHandle(
-        "g_tree_foreach_node",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Calls the given function for each of the nodes in the {@link Tree}.
@@ -139,25 +154,23 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * add/remove items). To remove all items matching a predicate, you need
      * to add each item to a list in your {@link TraverseFunc} as you walk over
      * the tree, then walk the list and remove each item.
+     * @param func the function to call for each node visited.
+     *     If this function returns {@code true}, the traversal is stopped.
      */
-    public @NotNull void foreachNode(@NotNull TraverseNodeFunc func) {
+    public void foreachNode(@NotNull org.gtk.glib.TraverseNodeFunc func) {
+        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            g_tree_foreach_node.invokeExact(handle(), 
+            DowncallHandles.g_tree_foreach_node.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.class, "__cbTraverseNodeFunc",
+                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTraverseNodeFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)));
+                   (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_tree_height = Interop.downcallHandle(
-        "g_tree_height",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the height of a {@link Tree}.
@@ -165,40 +178,35 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * If the {@link Tree} contains no nodes, the height is 0.
      * If the {@link Tree} contains only one root node the height is 1.
      * If the root node has children the height is 2, etc.
+     * @return the height of {@code tree}
      */
     public int height() {
         int RESULT;
         try {
-            RESULT = (int) g_tree_height.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_tree_height.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle g_tree_insert = Interop.downcallHandle(
-        "g_tree_insert",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Inserts a key/value pair into a {@link Tree}.
      * <p>
      * Inserts a new key and value into a {@link Tree} as g_tree_insert_node() does,
      * only this function does not return the inserted or set node.
+     * @param key the key to insert
+     * @param value the value corresponding to the key
      */
-    public @NotNull void insert(@Nullable java.lang.foreign.MemoryAddress key, @Nullable java.lang.foreign.MemoryAddress value) {
+    public void insert(@Nullable java.lang.foreign.MemoryAddress key, @Nullable java.lang.foreign.MemoryAddress value) {
+        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         try {
-            g_tree_insert.invokeExact(handle(), key, value);
+            DowncallHandles.g_tree_insert.invokeExact(handle(), key, value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_tree_insert_node = Interop.downcallHandle(
-        "g_tree_insert_node",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Inserts a key/value pair into a {@link Tree}.
@@ -214,54 +222,60 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * The cost of maintaining a balanced tree while inserting new key/value
      * result in a O(n log(n)) operation where most of the other operations
      * are O(log(n)).
+     * @param key the key to insert
+     * @param value the value corresponding to the key
+     * @return the inserted (or set) node.
      */
-    public @NotNull TreeNode insertNode(@Nullable java.lang.foreign.MemoryAddress key, @Nullable java.lang.foreign.MemoryAddress value) {
+    public @NotNull org.gtk.glib.TreeNode insertNode(@Nullable java.lang.foreign.MemoryAddress key, @Nullable java.lang.foreign.MemoryAddress value) {
+        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_tree_insert_node.invokeExact(handle(), key, value);
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_insert_node.invokeExact(handle(), key, value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new TreeNode(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.TreeNode(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_tree_lookup = Interop.downcallHandle(
-        "g_tree_lookup",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the value corresponding to the given key. Since a {@link Tree} is
      * automatically balanced as key/value pairs are added, key lookup
      * is O(log n) (where n is the number of key/value pairs in the tree).
+     * @param key the key to look up
+     * @return the value corresponding to the key, or {@code null}
+     *     if the key was not found
      */
     public @Nullable java.lang.foreign.MemoryAddress lookup(@Nullable java.lang.foreign.MemoryAddress key) {
+        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_tree_lookup.invokeExact(handle(), key);
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_lookup.invokeExact(handle(), key);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle g_tree_lookup_extended = Interop.downcallHandle(
-        "g_tree_lookup_extended",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Looks up a key in the {@link Tree}, returning the original key and the
      * associated value. This is useful if you need to free the memory
      * allocated for the original key, for example before calling
      * g_tree_remove().
+     * @param lookupKey the key to look up
+     * @param origKey returns the original key
+     * @param value returns the value associated with the key
+     * @return {@code true} if the key was found in the {@link Tree}
      */
     public boolean lookupExtended(@Nullable java.lang.foreign.MemoryAddress lookupKey, @Nullable Out<java.lang.foreign.MemoryAddress> origKey, @Nullable Out<java.lang.foreign.MemoryAddress> value) {
+        java.util.Objects.requireNonNullElse(lookupKey, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(origKey, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         MemorySegment origKeyPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_tree_lookup_extended.invokeExact(handle(), lookupKey, (Addressable) origKeyPOINTER.address(), (Addressable) valuePOINTER.address());
+            RESULT = (int) DowncallHandles.g_tree_lookup_extended.invokeExact(handle(), lookupKey, (Addressable) origKeyPOINTER.address(), (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -270,30 +284,24 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_tree_lookup_node = Interop.downcallHandle(
-        "g_tree_lookup_node",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the tree node corresponding to the given key. Since a {@link Tree} is
      * automatically balanced as key/value pairs are added, key lookup
      * is O(log n) (where n is the number of key/value pairs in the tree).
+     * @param key the key to look up
+     * @return the tree node corresponding to
+     *          the key, or {@code null} if the key was not found
      */
-    public @Nullable TreeNode lookupNode(@Nullable java.lang.foreign.MemoryAddress key) {
+    public @Nullable org.gtk.glib.TreeNode lookupNode(@Nullable java.lang.foreign.MemoryAddress key) {
+        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_tree_lookup_node.invokeExact(handle(), key);
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_lookup_node.invokeExact(handle(), key);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new TreeNode(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.TreeNode(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_tree_lower_bound = Interop.downcallHandle(
-        "g_tree_lower_bound",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the lower bound node corresponding to the given key,
@@ -302,97 +310,81 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The lower bound is the first node that has its key greater
      * than or equal to the searched key.
+     * @param key the key to calculate the lower bound for
+     * @return the tree node corresponding to
+     *          the lower bound, or {@code null} if the tree is empty or has only
+     *          keys strictly lower than the searched key.
      */
-    public @Nullable TreeNode lowerBound(@Nullable java.lang.foreign.MemoryAddress key) {
+    public @Nullable org.gtk.glib.TreeNode lowerBound(@Nullable java.lang.foreign.MemoryAddress key) {
+        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_tree_lower_bound.invokeExact(handle(), key);
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_lower_bound.invokeExact(handle(), key);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new TreeNode(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.TreeNode(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_tree_nnodes = Interop.downcallHandle(
-        "g_tree_nnodes",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the number of nodes in a {@link Tree}.
+     * @return the number of nodes in {@code tree}
      */
     public int nnodes() {
         int RESULT;
         try {
-            RESULT = (int) g_tree_nnodes.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_tree_nnodes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle g_tree_node_first = Interop.downcallHandle(
-        "g_tree_node_first",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the first in-order node of the tree, or {@code null}
      * for an empty tree.
+     * @return the first node in the tree
      */
-    public @Nullable TreeNode nodeFirst() {
+    public @Nullable org.gtk.glib.TreeNode nodeFirst() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_tree_node_first.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_first.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new TreeNode(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.TreeNode(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_tree_node_last = Interop.downcallHandle(
-        "g_tree_node_last",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the last in-order node of the tree, or {@code null}
      * for an empty tree.
+     * @return the last node in the tree
      */
-    public @Nullable TreeNode nodeLast() {
+    public @Nullable org.gtk.glib.TreeNode nodeLast() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_tree_node_last.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_node_last.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new TreeNode(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.TreeNode(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_tree_ref = Interop.downcallHandle(
-        "g_tree_ref",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Increments the reference count of {@code tree} by one.
      * <p>
      * It is safe to call this function from any thread.
+     * @return the passed in {@link Tree}
      */
-    public @NotNull Tree ref() {
+    public @NotNull org.gtk.glib.Tree ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_tree_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Tree(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Tree(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_tree_remove = Interop.downcallHandle(
-        "g_tree_remove",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Removes a key/value pair from a {@link Tree}.
@@ -405,55 +397,48 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * The cost of maintaining a balanced tree while removing a key/value
      * result in a O(n log(n)) operation where most of the other operations
      * are O(log(n)).
+     * @param key the key to remove
+     * @return {@code true} if the key was found (prior to 2.8, this function
+     *     returned nothing)
      */
     public boolean remove(@Nullable java.lang.foreign.MemoryAddress key) {
+        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) g_tree_remove.invokeExact(handle(), key);
+            RESULT = (int) DowncallHandles.g_tree_remove.invokeExact(handle(), key);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_tree_remove_all = Interop.downcallHandle(
-        "g_tree_remove_all",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Removes all nodes from a {@link Tree} and destroys their keys and values,
      * then resets the {@link Tree}’s root to {@code null}.
      */
-    public @NotNull void removeAll() {
+    public void removeAll() {
         try {
-            g_tree_remove_all.invokeExact(handle());
+            DowncallHandles.g_tree_remove_all.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_tree_replace = Interop.downcallHandle(
-        "g_tree_replace",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Inserts a new key and value into a {@link Tree} as g_tree_replace_node() does,
      * only this function does not return the inserted or set node.
+     * @param key the key to insert
+     * @param value the value corresponding to the key
      */
-    public @NotNull void replace(@Nullable java.lang.foreign.MemoryAddress key, @Nullable java.lang.foreign.MemoryAddress value) {
+    public void replace(@Nullable java.lang.foreign.MemoryAddress key, @Nullable java.lang.foreign.MemoryAddress value) {
+        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         try {
-            g_tree_replace.invokeExact(handle(), key, value);
+            DowncallHandles.g_tree_replace.invokeExact(handle(), key, value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_tree_replace_node = Interop.downcallHandle(
-        "g_tree_replace_node",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Inserts a new key and value into a {@link Tree} similar to g_tree_insert_node().
@@ -465,21 +450,21 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The tree is automatically 'balanced' as new key/value pairs are added,
      * so that the distance from the root to every leaf is as small as possible.
+     * @param key the key to insert
+     * @param value the value corresponding to the key
+     * @return the inserted (or set) node.
      */
-    public @NotNull TreeNode replaceNode(@Nullable java.lang.foreign.MemoryAddress key, @Nullable java.lang.foreign.MemoryAddress value) {
+    public @NotNull org.gtk.glib.TreeNode replaceNode(@Nullable java.lang.foreign.MemoryAddress key, @Nullable java.lang.foreign.MemoryAddress value) {
+        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_tree_replace_node.invokeExact(handle(), key, value);
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_replace_node.invokeExact(handle(), key, value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new TreeNode(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.TreeNode(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_tree_search = Interop.downcallHandle(
-        "g_tree_search",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Searches a {@link Tree} using {@code search_func}.
@@ -491,27 +476,26 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * will proceed among the key/value pairs that have a smaller key; if
      * {@code search_func} returns 1, searching will proceed among the key/value
      * pairs that have a larger key.
+     * @param searchFunc a function used to search the {@link Tree}
+     * @return the value corresponding to the found key, or {@code null}
+     *     if the key was not found
      */
-    public @Nullable java.lang.foreign.MemoryAddress search(@NotNull CompareFunc searchFunc) {
+    public @Nullable java.lang.foreign.MemoryAddress search(@NotNull org.gtk.glib.CompareFunc searchFunc) {
+        java.util.Objects.requireNonNull(searchFunc, "Parameter 'searchFunc' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_tree_search.invokeExact(handle(), 
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_search.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.class, "__cbCompareFunc",
+                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(searchFunc)));
+                   (Addressable) (Interop.registerCallback(searchFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_tree_search_node = Interop.downcallHandle(
-        "g_tree_search_node",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Searches a {@link Tree} using {@code search_func}.
@@ -523,48 +507,74 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * will proceed among the key/value pairs that have a smaller key; if
      * {@code search_func} returns 1, searching will proceed among the key/value
      * pairs that have a larger key.
+     * @param searchFunc a function used to search the {@link Tree}
+     * @return the node corresponding to the
+     *          found key, or {@code null} if the key was not found
      */
-    public @Nullable TreeNode searchNode(@NotNull CompareFunc searchFunc) {
+    public @Nullable org.gtk.glib.TreeNode searchNode(@NotNull org.gtk.glib.CompareFunc searchFunc) {
+        java.util.Objects.requireNonNull(searchFunc, "Parameter 'searchFunc' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_tree_search_node.invokeExact(handle(), 
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_search_node.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.class, "__cbCompareFunc",
+                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(searchFunc)));
+                   (Addressable) (Interop.registerCallback(searchFunc)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new TreeNode(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.TreeNode(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_tree_steal = Interop.downcallHandle(
-        "g_tree_steal",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Removes a key and its associated value from a {@link Tree} without calling
      * the key and value destroy functions.
      * <p>
      * If the key does not exist in the {@link Tree}, the function does nothing.
+     * @param key the key to remove
+     * @return {@code true} if the key was found (prior to 2.8, this function
+     *     returned nothing)
      */
     public boolean steal(@Nullable java.lang.foreign.MemoryAddress key) {
+        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) g_tree_steal.invokeExact(handle(), key);
+            RESULT = (int) DowncallHandles.g_tree_steal.invokeExact(handle(), key);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_tree_unref = Interop.downcallHandle(
-        "g_tree_unref",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
+    /**
+     * Calls the given function for each node in the {@link Tree}.
+     * @param traverseFunc the function to call for each node visited. If this
+     *   function returns {@code true}, the traversal is stopped.
+     * @param traverseType the order in which nodes are visited, one of {@link TraverseType#IN_ORDER},
+     *   {@link TraverseType#PRE_ORDER} and {@link TraverseType#POST_ORDER}
+     * @deprecated The order of a balanced tree is somewhat arbitrary.
+     *     If you just want to visit all nodes in sorted order, use
+     *     g_tree_foreach() instead. If you really need to visit nodes in
+     *     a different order, consider using an [n-ary tree][glib-N-ary-Trees].
+     */
+    @Deprecated
+    public void traverse(@NotNull org.gtk.glib.TraverseFunc traverseFunc, @NotNull org.gtk.glib.TraverseType traverseType) {
+        java.util.Objects.requireNonNull(traverseFunc, "Parameter 'traverseFunc' must not be null");
+        java.util.Objects.requireNonNull(traverseType, "Parameter 'traverseType' must not be null");
+        try {
+            DowncallHandles.g_tree_traverse.invokeExact(handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTraverseFunc",
+                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), traverseType.getValue(), 
+                   (Addressable) (Interop.registerCallback(traverseFunc)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
     
     /**
      * Decrements the reference count of {@code tree} by one.
@@ -574,18 +584,13 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * It is safe to call this function from any thread.
      */
-    public @NotNull void unref() {
+    public void unref() {
         try {
-            g_tree_unref.invokeExact(handle());
+            DowncallHandles.g_tree_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_tree_upper_bound = Interop.downcallHandle(
-        "g_tree_upper_bound",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the upper bound node corresponding to the given key,
@@ -594,15 +599,157 @@ public class Tree extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The upper bound is the first node that has its key strictly greater
      * than the searched key.
+     * @param key the key to calculate the upper bound for
+     * @return the tree node corresponding to the
+     *          upper bound, or {@code null} if the tree is empty or has only keys
+     *          lower than or equal to the searched key.
      */
-    public @Nullable TreeNode upperBound(@Nullable java.lang.foreign.MemoryAddress key) {
+    public @Nullable org.gtk.glib.TreeNode upperBound(@Nullable java.lang.foreign.MemoryAddress key) {
+        java.util.Objects.requireNonNullElse(key, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_tree_upper_bound.invokeExact(handle(), key);
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_upper_bound.invokeExact(handle(), key);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new TreeNode(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.TreeNode(Refcounted.get(RESULT, false));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_tree_new = Interop.downcallHandle(
+            "g_tree_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_new_full = Interop.downcallHandle(
+            "g_tree_new_full",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_new_with_data = Interop.downcallHandle(
+            "g_tree_new_with_data",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_destroy = Interop.downcallHandle(
+            "g_tree_destroy",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_foreach = Interop.downcallHandle(
+            "g_tree_foreach",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_foreach_node = Interop.downcallHandle(
+            "g_tree_foreach_node",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_height = Interop.downcallHandle(
+            "g_tree_height",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_insert = Interop.downcallHandle(
+            "g_tree_insert",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_insert_node = Interop.downcallHandle(
+            "g_tree_insert_node",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_lookup = Interop.downcallHandle(
+            "g_tree_lookup",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_lookup_extended = Interop.downcallHandle(
+            "g_tree_lookup_extended",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_lookup_node = Interop.downcallHandle(
+            "g_tree_lookup_node",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_lower_bound = Interop.downcallHandle(
+            "g_tree_lower_bound",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_nnodes = Interop.downcallHandle(
+            "g_tree_nnodes",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_node_first = Interop.downcallHandle(
+            "g_tree_node_first",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_node_last = Interop.downcallHandle(
+            "g_tree_node_last",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_ref = Interop.downcallHandle(
+            "g_tree_ref",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_remove = Interop.downcallHandle(
+            "g_tree_remove",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_remove_all = Interop.downcallHandle(
+            "g_tree_remove_all",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_replace = Interop.downcallHandle(
+            "g_tree_replace",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_replace_node = Interop.downcallHandle(
+            "g_tree_replace_node",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_search = Interop.downcallHandle(
+            "g_tree_search",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_search_node = Interop.downcallHandle(
+            "g_tree_search_node",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_steal = Interop.downcallHandle(
+            "g_tree_steal",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_traverse = Interop.downcallHandle(
+            "g_tree_traverse",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_unref = Interop.downcallHandle(
+            "g_tree_unref",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_tree_upper_bound = Interop.downcallHandle(
+            "g_tree_upper_bound",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

@@ -11,13 +11,29 @@ import org.jetbrains.annotations.*;
  * This kind of widget is commonly used for volume controls in multimedia
  * applications, and GTK provides a {@link VolumeButton} subclass that
  * is tailored for this use case.
- * 
- * <h1>CSS nodes</h1>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * {@code GtkScaleButton} has a single CSS node with name button. To differentiate
  * it from a plain {@code GtkButton}, it gets the .scale style class.
  */
-public class ScaleButton extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
-
+public class ScaleButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Orientable {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
+    ).withName("GtkScaleButton");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public ScaleButton(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -27,18 +43,15 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
         return new ScaleButton(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_scale_button_new = Interop.downcallHandle(
-        "gtk_scale_button_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNew(@NotNull double min, @NotNull double max, @NotNull double step, @Nullable java.lang.String[] icons) {
+    private static Refcounted constructNew(double min, double max, double step, java.lang.String[] icons) {
+        java.util.Objects.requireNonNullElse(icons, MemoryAddress.NULL);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_scale_button_new.invokeExact(min, max, step, Interop.allocateNativeArray(icons)), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_scale_button_new.invokeExact(min, max, step, Interop.allocateNativeArray(icons, false)), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -46,142 +59,120 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
      * <p>
      * The new scale button has a range between {@code min} and {@code max},
      * with a stepping of {@code step}.
+     * @param min the minimum value of the scale (usually 0)
+     * @param max the maximum value of the scale (usually 100)
+     * @param step the stepping of value when a scroll-wheel event,
+     *   or up/down arrow event occurs (usually 2)
+     * @param icons a {@code null}-terminated
+     *   array of icon names, or {@code null} if you want to set the list
+     *   later with gtk_scale_button_set_icons()
      */
-    public ScaleButton(@NotNull double min, @NotNull double max, @NotNull double step, @Nullable java.lang.String[] icons) {
+    public ScaleButton(double min, double max, double step, java.lang.String[] icons) {
         super(constructNew(min, max, step, icons));
     }
-    
-    private static final MethodHandle gtk_scale_button_get_adjustment = Interop.downcallHandle(
-        "gtk_scale_button_get_adjustment",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the {@code GtkAdjustment} associated with the {@code GtkScaleButton}’s scale.
      * <p>
      * See {@link Range#getAdjustment} for details.
+     * @return the adjustment associated with the scale
      */
-    public @NotNull Adjustment getAdjustment() {
+    public @NotNull org.gtk.gtk.Adjustment getAdjustment() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_scale_button_get_adjustment.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scale_button_get_adjustment.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Adjustment(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Adjustment(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_scale_button_get_minus_button = Interop.downcallHandle(
-        "gtk_scale_button_get_minus_button",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves the minus button of the {@code GtkScaleButton}.
+     * @return the minus button
+     *   of the {@code GtkScaleButton}
      */
-    public @NotNull Button getMinusButton() {
+    public @NotNull org.gtk.gtk.Button getMinusButton() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_scale_button_get_minus_button.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scale_button_get_minus_button.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Button(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Button(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_scale_button_get_plus_button = Interop.downcallHandle(
-        "gtk_scale_button_get_plus_button",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves the plus button of the {@code GtkScaleButton.}
+     * @return the plus button
+     *   of the {@code GtkScaleButton}
      */
-    public @NotNull Button getPlusButton() {
+    public @NotNull org.gtk.gtk.Button getPlusButton() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_scale_button_get_plus_button.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scale_button_get_plus_button.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Button(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Button(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_scale_button_get_popup = Interop.downcallHandle(
-        "gtk_scale_button_get_popup",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves the popup of the {@code GtkScaleButton}.
+     * @return the popup of the {@code GtkScaleButton}
      */
-    public @NotNull Widget getPopup() {
+    public @NotNull org.gtk.gtk.Widget getPopup() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_scale_button_get_popup.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scale_button_get_popup.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_scale_button_get_value = Interop.downcallHandle(
-        "gtk_scale_button_get_value",
-        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the current value of the scale button.
+     * @return current value of the scale button
      */
     public double getValue() {
         double RESULT;
         try {
-            RESULT = (double) gtk_scale_button_get_value.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_scale_button_get_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle gtk_scale_button_set_adjustment = Interop.downcallHandle(
-        "gtk_scale_button_set_adjustment",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Sets the {@code GtkAdjustment} to be used as a model
      * for the {@code GtkScaleButton}’s scale.
      * <p>
      * See {@link Range#setAdjustment} for details.
+     * @param adjustment a {@code GtkAdjustment}
      */
-    public @NotNull void setAdjustment(@NotNull Adjustment adjustment) {
+    public void setAdjustment(@NotNull org.gtk.gtk.Adjustment adjustment) {
+        java.util.Objects.requireNonNull(adjustment, "Parameter 'adjustment' must not be null");
         try {
-            gtk_scale_button_set_adjustment.invokeExact(handle(), adjustment.handle());
+            DowncallHandles.gtk_scale_button_set_adjustment.invokeExact(handle(), adjustment.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_scale_button_set_icons = Interop.downcallHandle(
-        "gtk_scale_button_set_icons",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the icons to be used by the scale button.
+     * @param icons a {@code null}-terminated array of icon names
      */
-    public @NotNull void setIcons(@NotNull java.lang.String[] icons) {
+    public void setIcons(java.lang.String[] icons) {
+        java.util.Objects.requireNonNull(icons, "Parameter 'icons' must not be null");
         try {
-            gtk_scale_button_set_icons.invokeExact(handle(), Interop.allocateNativeArray(icons));
+            DowncallHandles.gtk_scale_button_set_icons.invokeExact(handle(), Interop.allocateNativeArray(icons, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_scale_button_set_value = Interop.downcallHandle(
-        "gtk_scale_button_set_value",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
-    );
     
     /**
      * Sets the current value of the scale.
@@ -191,17 +182,18 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
      * <p>
      * The scale button emits the {@code Gtk.ScaleButton::value-changed}
      * signal if the value changes.
+     * @param value new value of the scale button
      */
-    public @NotNull void setValue(@NotNull double value) {
+    public void setValue(double value) {
         try {
-            gtk_scale_button_set_value.invokeExact(handle(), value);
+            DowncallHandles.gtk_scale_button_set_value.invokeExact(handle(), value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface PopdownHandler {
+    public interface Popdown {
         void signalReceived(ScaleButton source);
     }
     
@@ -212,7 +204,7 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
      * <p>
      * The default binding for this signal is &lt;kbd&gt;Escape&lt;/kbd&gt;.
      */
-    public SignalHandle onPopdown(PopdownHandler handler) {
+    public Signal<ScaleButton.Popdown> onPopdown(ScaleButton.Popdown handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -222,16 +214,16 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<ScaleButton.Popdown>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface PopupHandler {
+    public interface Popup {
         void signalReceived(ScaleButton source);
     }
     
@@ -243,7 +235,7 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
      * The default bindings for this signal are &lt;kbd&gt;Space&lt;/kbd&gt;,
      * &lt;kbd&gt;Enter&lt;/kbd&gt; and &lt;kbd&gt;Return&lt;/kbd&gt;.
      */
-    public SignalHandle onPopup(PopupHandler handler) {
+    public Signal<ScaleButton.Popup> onPopup(ScaleButton.Popup handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -253,23 +245,23 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<ScaleButton.Popup>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ValueChangedHandler {
-        void signalReceived(ScaleButton source, @NotNull double value);
+    public interface ValueChanged {
+        void signalReceived(ScaleButton source, double value);
     }
     
     /**
      * Emitted when the value field has changed.
      */
-    public SignalHandle onValueChanged(ValueChangedHandler handler) {
+    public Signal<ScaleButton.ValueChanged> onValueChanged(ScaleButton.ValueChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -279,33 +271,80 @@ public class ScaleButton extends Widget implements Accessible, Buildable, Constr
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<ScaleButton.ValueChanged>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_scale_button_new = Interop.downcallHandle(
+            "gtk_scale_button_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scale_button_get_adjustment = Interop.downcallHandle(
+            "gtk_scale_button_get_adjustment",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scale_button_get_minus_button = Interop.downcallHandle(
+            "gtk_scale_button_get_minus_button",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scale_button_get_plus_button = Interop.downcallHandle(
+            "gtk_scale_button_get_plus_button",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scale_button_get_popup = Interop.downcallHandle(
+            "gtk_scale_button_get_popup",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scale_button_get_value = Interop.downcallHandle(
+            "gtk_scale_button_get_value",
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scale_button_set_adjustment = Interop.downcallHandle(
+            "gtk_scale_button_set_adjustment",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scale_button_set_icons = Interop.downcallHandle(
+            "gtk_scale_button_set_icons",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scale_button_set_value = Interop.downcallHandle(
+            "gtk_scale_button_set_value",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static void signalScaleButtonPopdown(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (ScaleButton.PopdownHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ScaleButton(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (ScaleButton.Popdown) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new ScaleButton(Refcounted.get(source)));
         }
         
         public static void signalScaleButtonPopup(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (ScaleButton.PopupHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ScaleButton(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (ScaleButton.Popup) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new ScaleButton(Refcounted.get(source)));
         }
         
         public static void signalScaleButtonValueChanged(MemoryAddress source, double value, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (ScaleButton.ValueChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ScaleButton(Refcounted.get(source)), value);
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (ScaleButton.ValueChanged) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new ScaleButton(Refcounted.get(source)), value);
         }
-        
     }
 }

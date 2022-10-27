@@ -47,8 +47,20 @@ import org.jetbrains.annotations.*;
  * {@code Gtk.SignalListItemFactory::setup} signal and removed again during
  * {@code Gtk.SignalListItemFactory::teardown}.
  */
-public class SignalListItemFactory extends ListItemFactory {
-
+public class SignalListItemFactory extends org.gtk.gtk.ListItemFactory {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public SignalListItemFactory(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -58,18 +70,14 @@ public class SignalListItemFactory extends ListItemFactory {
         return new SignalListItemFactory(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_signal_list_item_factory_new = Interop.downcallHandle(
-        "gtk_signal_list_item_factory_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_signal_list_item_factory_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_signal_list_item_factory_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -82,8 +90,8 @@ public class SignalListItemFactory extends ListItemFactory {
     }
     
     @FunctionalInterface
-    public interface BindHandler {
-        void signalReceived(SignalListItemFactory source, @NotNull ListItem listitem);
+    public interface Bind {
+        void signalReceived(SignalListItemFactory source, @NotNull org.gtk.gtk.ListItem listitem);
     }
     
     /**
@@ -97,7 +105,7 @@ public class SignalListItemFactory extends ListItemFactory {
      * opposite of this signal and can be used to undo everything done
      * in this signal.
      */
-    public SignalHandle onBind(BindHandler handler) {
+    public Signal<SignalListItemFactory.Bind> onBind(SignalListItemFactory.Bind handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -107,17 +115,17 @@ public class SignalListItemFactory extends ListItemFactory {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<SignalListItemFactory.Bind>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface SetupHandler {
-        void signalReceived(SignalListItemFactory source, @NotNull ListItem listitem);
+    public interface Setup {
+        void signalReceived(SignalListItemFactory source, @NotNull org.gtk.gtk.ListItem listitem);
     }
     
     /**
@@ -128,7 +136,7 @@ public class SignalListItemFactory extends ListItemFactory {
      * The {@code Gtk.SignalListItemFactory::teardown} signal is the opposite
      * of this signal and can be used to undo everything done in this signal.
      */
-    public SignalHandle onSetup(SetupHandler handler) {
+    public Signal<SignalListItemFactory.Setup> onSetup(SignalListItemFactory.Setup handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -138,17 +146,17 @@ public class SignalListItemFactory extends ListItemFactory {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<SignalListItemFactory.Setup>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface TeardownHandler {
-        void signalReceived(SignalListItemFactory source, @NotNull ListItem listitem);
+    public interface Teardown {
+        void signalReceived(SignalListItemFactory source, @NotNull org.gtk.gtk.ListItem listitem);
     }
     
     /**
@@ -159,7 +167,7 @@ public class SignalListItemFactory extends ListItemFactory {
      * This signal is the opposite of the {@code Gtk.SignalListItemFactory::setup}
      * signal and should be used to undo everything done in that signal.
      */
-    public SignalHandle onTeardown(TeardownHandler handler) {
+    public Signal<SignalListItemFactory.Teardown> onTeardown(SignalListItemFactory.Teardown handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -169,17 +177,17 @@ public class SignalListItemFactory extends ListItemFactory {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<SignalListItemFactory.Teardown>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface UnbindHandler {
-        void signalReceived(SignalListItemFactory source, @NotNull ListItem listitem);
+    public interface Unbind {
+        void signalReceived(SignalListItemFactory source, @NotNull org.gtk.gtk.ListItem listitem);
     }
     
     /**
@@ -189,7 +197,7 @@ public class SignalListItemFactory extends ListItemFactory {
      * This signal is the opposite of the {@code Gtk.SignalListItemFactory::bind}
      * signal and should be used to undo everything done in that signal.
      */
-    public SignalHandle onUnbind(UnbindHandler handler) {
+    public Signal<SignalListItemFactory.Unbind> onUnbind(SignalListItemFactory.Unbind handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -199,39 +207,46 @@ public class SignalListItemFactory extends ListItemFactory {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<SignalListItemFactory.Unbind>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_signal_list_item_factory_new = Interop.downcallHandle(
+            "gtk_signal_list_item_factory_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static void signalSignalListItemFactoryBind(MemoryAddress source, MemoryAddress listitem, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (SignalListItemFactory.BindHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SignalListItemFactory(Refcounted.get(source)), new ListItem(Refcounted.get(listitem, false)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (SignalListItemFactory.Bind) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new SignalListItemFactory(Refcounted.get(source)), new org.gtk.gtk.ListItem(Refcounted.get(listitem, false)));
         }
         
         public static void signalSignalListItemFactorySetup(MemoryAddress source, MemoryAddress listitem, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (SignalListItemFactory.SetupHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SignalListItemFactory(Refcounted.get(source)), new ListItem(Refcounted.get(listitem, false)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (SignalListItemFactory.Setup) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new SignalListItemFactory(Refcounted.get(source)), new org.gtk.gtk.ListItem(Refcounted.get(listitem, false)));
         }
         
         public static void signalSignalListItemFactoryTeardown(MemoryAddress source, MemoryAddress listitem, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (SignalListItemFactory.TeardownHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SignalListItemFactory(Refcounted.get(source)), new ListItem(Refcounted.get(listitem, false)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (SignalListItemFactory.Teardown) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new SignalListItemFactory(Refcounted.get(source)), new org.gtk.gtk.ListItem(Refcounted.get(listitem, false)));
         }
         
         public static void signalSignalListItemFactoryUnbind(MemoryAddress source, MemoryAddress listitem, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (SignalListItemFactory.UnbindHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new SignalListItemFactory(Refcounted.get(source)), new ListItem(Refcounted.get(listitem, false)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (SignalListItemFactory.Unbind) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new SignalListItemFactory(Refcounted.get(source)), new org.gtk.gtk.ListItem(Refcounted.get(listitem, false)));
         }
-        
     }
 }

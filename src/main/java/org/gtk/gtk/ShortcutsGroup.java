@@ -15,8 +15,20 @@ import org.jetbrains.annotations.*;
  * <p>
  * This widget is only meant to be used with {@link ShortcutsWindow}.
  */
-public class ShortcutsGroup extends Box implements Accessible, Buildable, ConstraintTarget, Orientable {
-
+public class ShortcutsGroup extends org.gtk.gtk.Box implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Orientable {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public ShortcutsGroup(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -25,5 +37,4 @@ public class ShortcutsGroup extends Box implements Accessible, Buildable, Constr
     public static ShortcutsGroup castFrom(org.gtk.gobject.Object gobject) {
         return new ShortcutsGroup(gobject.refcounted());
     }
-    
 }

@@ -1,14 +1,28 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The hashing algorithm to be used by {@link Checksum} when performing the
  * digest of some data.
  * <p>
  * Note that the {@link ChecksumType} enumeration may be extended at a later
  * date to include new hashing algorithm types.
+ * @version 2.16
  */
 public class ChecksumType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Use the MD5 hashing algorithm
      */
@@ -37,5 +51,4 @@ public class ChecksumType extends io.github.jwharm.javagi.Enumeration {
     public ChecksumType(int value) {
         super(value);
     }
-    
 }

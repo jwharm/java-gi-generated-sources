@@ -18,17 +18,30 @@ import org.jetbrains.annotations.*;
  * <p>
  * A GRecMutex should only be accessed with the
  * g_rec_mutex_ functions.
+ * @version 2.32
  */
 public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GLib.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.ADDRESS.withName("p"),
+        MemoryLayout.sequenceLayout(2, ValueLayout.JAVA_INT).withName("i")
+    ).withName("GRecMutex");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public RecMutex(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
-    private static final MethodHandle g_rec_mutex_clear = Interop.downcallHandle(
-        "g_rec_mutex_clear",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Frees the resources allocated to a recursive mutex with
@@ -42,18 +55,13 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Sine: 2.32
      */
-    public @NotNull void clear() {
+    public void clear() {
         try {
-            g_rec_mutex_clear.invokeExact(handle());
+            DowncallHandles.g_rec_mutex_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_rec_mutex_init = Interop.downcallHandle(
-        "g_rec_mutex_init",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Initializes a {@link RecMutex} so that it can be used.
@@ -64,7 +72,6 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * It is not necessary to initialise a recursive mutex that has been
      * statically allocated.
-     * <p>
      * <pre>{@code <!-- language="C" -->
      *   typedef struct {
      *     GRecMutex m;
@@ -83,18 +90,13 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
      * To undo the effect of g_rec_mutex_init() when a recursive mutex
      * is no longer needed, use g_rec_mutex_clear().
      */
-    public @NotNull void init() {
+    public void init() {
         try {
-            g_rec_mutex_init.invokeExact(handle());
+            DowncallHandles.g_rec_mutex_init.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_rec_mutex_lock = Interop.downcallHandle(
-        "g_rec_mutex_lock",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Locks {@code rec_mutex}. If {@code rec_mutex} is already locked by another
@@ -104,38 +106,29 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
      * The mutex will only become available again when it is unlocked
      * as many times as it has been locked.
      */
-    public @NotNull void lock() {
+    public void lock() {
         try {
-            g_rec_mutex_lock.invokeExact(handle());
+            DowncallHandles.g_rec_mutex_lock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_rec_mutex_trylock = Interop.downcallHandle(
-        "g_rec_mutex_trylock",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tries to lock {@code rec_mutex}. If {@code rec_mutex} is already locked
      * by another thread, it immediately returns {@code false}. Otherwise
      * it locks {@code rec_mutex} and returns {@code true}.
+     * @return {@code true} if {@code rec_mutex} could be locked
      */
     public boolean trylock() {
         int RESULT;
         try {
-            RESULT = (int) g_rec_mutex_trylock.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_rec_mutex_trylock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_rec_mutex_unlock = Interop.downcallHandle(
-        "g_rec_mutex_unlock",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Unlocks {@code rec_mutex}. If another thread is blocked in a
@@ -145,12 +138,39 @@ public class RecMutex extends io.github.jwharm.javagi.ResourceBase {
      * Calling g_rec_mutex_unlock() on a recursive mutex that is not
      * locked by the current thread leads to undefined behaviour.
      */
-    public @NotNull void unlock() {
+    public void unlock() {
         try {
-            g_rec_mutex_unlock.invokeExact(handle());
+            DowncallHandles.g_rec_mutex_unlock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_rec_mutex_clear = Interop.downcallHandle(
+            "g_rec_mutex_clear",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_rec_mutex_init = Interop.downcallHandle(
+            "g_rec_mutex_init",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_rec_mutex_lock = Interop.downcallHandle(
+            "g_rec_mutex_lock",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_rec_mutex_trylock = Interop.downcallHandle(
+            "g_rec_mutex_trylock",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_rec_mutex_unlock = Interop.downcallHandle(
+            "g_rec_mutex_unlock",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
 }

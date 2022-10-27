@@ -1,5 +1,10 @@
 package org.gtk.gsk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The categories of matrices relevant for GSK and GTK.
  * <p>
@@ -13,7 +18,15 @@ package org.gtk.gsk;
  * multiplication {@code C = A * B}, {@code category(C) = MIN (category(A), category(B))}.
  */
 public class TransformCategory extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The category of the matrix has not been
      *   determined.
@@ -59,5 +72,4 @@ public class TransformCategory extends io.github.jwharm.javagi.Enumeration {
     public TransformCategory(int value) {
         super(value);
     }
-    
 }

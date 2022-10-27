@@ -1,11 +1,24 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The possible errors, used in the {@code v_error} field
  * of {@link TokenValue}, when the token is a {@link TokenType#ERROR}.
  */
 public class ErrorType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * unknown error
      */
@@ -49,5 +62,4 @@ public class ErrorType extends io.github.jwharm.javagi.Enumeration {
     public ErrorType(int value) {
         super(value);
     }
-    
 }

@@ -1,10 +1,24 @@
 package org.harfbuzz;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Baseline tags from <a href="https://docs.microsoft.com/en-us/typography/opentype/spec/baselinetags">Baseline Tags</a> registry.
+ * @version 2.6.0
  */
 public class OtLayoutBaselineTagT extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The baseline used by alphabetic scripts such as Latin, Cyrillic and Greek.
      * In vertical writing mode, the alphabetic baseline for characters rotated 90 degrees clockwise.
@@ -63,5 +77,4 @@ public class OtLayoutBaselineTagT extends io.github.jwharm.javagi.Enumeration {
     public OtLayoutBaselineTagT(int value) {
         super(value);
     }
-    
 }

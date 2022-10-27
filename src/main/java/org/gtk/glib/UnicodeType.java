@@ -1,12 +1,25 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * These are the possible character classifications from the
  * Unicode specification.
  * See <a href="http://www.unicode.org/reports/tr44/#General_Category_Values">Unicode Character Database</a>.
  */
 public class UnicodeType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * General category "Other, Control" (Cc)
      */
@@ -160,5 +173,4 @@ public class UnicodeType extends io.github.jwharm.javagi.Enumeration {
     public UnicodeType(int value) {
         super(value);
     }
-    
 }

@@ -26,8 +26,20 @@ import org.jetbrains.annotations.*;
  * with gtk_cell_area_cell_set_property() or by specifying the "align"
  * argument to gtk_cell_area_box_pack_start() and gtk_cell_area_box_pack_end().
  */
-public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orientable {
-
+public class CellAreaBox extends org.gtk.gtk.CellArea implements org.gtk.gtk.Buildable, org.gtk.gtk.CellLayout, org.gtk.gtk.Orientable {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public CellAreaBox(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -37,18 +49,14 @@ public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orie
         return new CellAreaBox(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_cell_area_box_new = Interop.downcallHandle(
-        "gtk_cell_area_box_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_cell_area_box_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_cell_area_box_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -58,76 +66,97 @@ public class CellAreaBox extends CellArea implements Buildable, CellLayout, Orie
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_cell_area_box_get_spacing = Interop.downcallHandle(
-        "gtk_cell_area_box_get_spacing",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the spacing added between cell renderers.
+     * @return the space added between cell renderers in {@code box}.
      */
     public int getSpacing() {
         int RESULT;
         try {
-            RESULT = (int) gtk_cell_area_box_get_spacing.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_cell_area_box_get_spacing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle gtk_cell_area_box_pack_end = Interop.downcallHandle(
-        "gtk_cell_area_box_pack_end",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Adds {@code renderer} to {@code box}, packed with reference to the end of {@code box}.
      * <p>
      * The {@code renderer} is packed after (away from end of) any other
      * {@code GtkCellRenderer} packed with reference to the end of {@code box}.
+     * @param renderer the {@code GtkCellRenderer} to add
+     * @param expand whether {@code renderer} should receive extra space when the area receives
+     * more than its natural size
+     * @param align whether {@code renderer} should be aligned in adjacent rows
+     * @param fixed whether {@code renderer} should have the same size in all rows
      */
-    public @NotNull void packEnd(@NotNull CellRenderer renderer, @NotNull boolean expand, @NotNull boolean align, @NotNull boolean fixed) {
+    public void packEnd(@NotNull org.gtk.gtk.CellRenderer renderer, boolean expand, boolean align, boolean fixed) {
+        java.util.Objects.requireNonNull(renderer, "Parameter 'renderer' must not be null");
         try {
-            gtk_cell_area_box_pack_end.invokeExact(handle(), renderer.handle(), expand ? 1 : 0, align ? 1 : 0, fixed ? 1 : 0);
+            DowncallHandles.gtk_cell_area_box_pack_end.invokeExact(handle(), renderer.handle(), expand ? 1 : 0, align ? 1 : 0, fixed ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_cell_area_box_pack_start = Interop.downcallHandle(
-        "gtk_cell_area_box_pack_start",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Adds {@code renderer} to {@code box}, packed with reference to the start of {@code box}.
      * <p>
      * The {@code renderer} is packed after any other {@code GtkCellRenderer} packed
      * with reference to the start of {@code box}.
+     * @param renderer the {@code GtkCellRenderer} to add
+     * @param expand whether {@code renderer} should receive extra space when the area receives
+     * more than its natural size
+     * @param align whether {@code renderer} should be aligned in adjacent rows
+     * @param fixed whether {@code renderer} should have the same size in all rows
      */
-    public @NotNull void packStart(@NotNull CellRenderer renderer, @NotNull boolean expand, @NotNull boolean align, @NotNull boolean fixed) {
+    public void packStart(@NotNull org.gtk.gtk.CellRenderer renderer, boolean expand, boolean align, boolean fixed) {
+        java.util.Objects.requireNonNull(renderer, "Parameter 'renderer' must not be null");
         try {
-            gtk_cell_area_box_pack_start.invokeExact(handle(), renderer.handle(), expand ? 1 : 0, align ? 1 : 0, fixed ? 1 : 0);
+            DowncallHandles.gtk_cell_area_box_pack_start.invokeExact(handle(), renderer.handle(), expand ? 1 : 0, align ? 1 : 0, fixed ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_cell_area_box_set_spacing = Interop.downcallHandle(
-        "gtk_cell_area_box_set_spacing",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the spacing to add between cell renderers in {@code box}.
+     * @param spacing the space to add between {@code GtkCellRenderer}s
      */
-    public @NotNull void setSpacing(@NotNull int spacing) {
+    public void setSpacing(int spacing) {
         try {
-            gtk_cell_area_box_set_spacing.invokeExact(handle(), spacing);
+            DowncallHandles.gtk_cell_area_box_set_spacing.invokeExact(handle(), spacing);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_cell_area_box_new = Interop.downcallHandle(
+            "gtk_cell_area_box_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_cell_area_box_get_spacing = Interop.downcallHandle(
+            "gtk_cell_area_box_get_spacing",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_cell_area_box_pack_end = Interop.downcallHandle(
+            "gtk_cell_area_box_pack_end",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_cell_area_box_pack_start = Interop.downcallHandle(
+            "gtk_cell_area_box_pack_start",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_cell_area_box_set_spacing = Interop.downcallHandle(
+            "gtk_cell_area_box_set_spacing",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
 }

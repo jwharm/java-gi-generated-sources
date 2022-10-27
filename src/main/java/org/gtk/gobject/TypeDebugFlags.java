@@ -1,5 +1,10 @@
 package org.gtk.gobject;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * These flags used to be passed to g_type_init_with_debug_flags() which
  * is now deprecated.
@@ -8,7 +13,15 @@ package org.gtk.gobject;
  * environment variable.
  */
 public class TypeDebugFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Print no messages
      */
@@ -37,5 +50,4 @@ public class TypeDebugFlags extends io.github.jwharm.javagi.Bitfield {
     public TypeDebugFlags(int value) {
         super(value);
     }
-    
 }

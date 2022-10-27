@@ -1,16 +1,30 @@
 package org.gnome.adw;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Describes transitions types of a {@link Flap} widget.
  * <p>
  * It determines the type of animation when transitioning between children in a
  * {@link Flap} widget, as well as which areas can be swiped via
- * {@code Flap:swipe-to-close}.
+ * {@code Flap:swipe-to-open] and [property@Flap:swipe-to-close}.
  * <p>
  * New values may be added to this enum over time.
+ * @version 1.0
  */
 public class FlapTransitionType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The flap slides over the content, which is
      *   dimmed. When folded, only the flap can be swiped.
@@ -33,5 +47,4 @@ public class FlapTransitionType extends io.github.jwharm.javagi.Enumeration {
     public FlapTransitionType(int value) {
         super(value);
     }
-    
 }

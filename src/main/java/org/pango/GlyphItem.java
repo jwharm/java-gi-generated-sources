@@ -14,15 +14,30 @@ import org.jetbrains.annotations.*;
  * each of which contains a list of {@code PangoGlyphItem}.
  */
 public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Pango.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.pango.Item.getMemoryLayout().withName("item"),
+        org.pango.GlyphString.getMemoryLayout().withName("glyphs"),
+        ValueLayout.JAVA_INT.withName("y_offset"),
+        ValueLayout.JAVA_INT.withName("start_x_offset"),
+        ValueLayout.JAVA_INT.withName("end_x_offset")
+    ).withName("PangoGlyphItem");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public GlyphItem(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
-    private static final MethodHandle pango_glyph_item_apply_attrs = Interop.downcallHandle(
-        "pango_glyph_item_apply_attrs",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Splits a shaped item ({@code PangoGlyphItem}) into multiple items based
@@ -37,60 +52,54 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
      * to that cluster; for instance, if half of a cluster is underlined
      * and the other-half strikethrough, then the cluster will end
      * up with both underline and strikethrough attributes. In these
-     * cases, it may happen that {@code item}->extra_attrs for some of the
+     * cases, it may happen that {@code item}-&gt;extra_attrs for some of the
      * result items can have multiple attributes of the same type.
      * <p>
      * This function takes ownership of {@code glyph_item}; it will be reused
      * as one of the elements in the list.
+     * @param text text that {@code list} applies to
+     * @param list a {@code PangoAttrList}
+     * @return a
+     *   list of glyph items resulting from splitting {@code glyph_item}. Free
+     *   the elements using {@link GlyphItem#free}, the list using
+     *   g_slist_free().
      */
-    public @NotNull org.gtk.glib.SList applyAttrs(@NotNull java.lang.String text, @NotNull AttrList list) {
+    public @NotNull org.gtk.glib.SList applyAttrs(@NotNull java.lang.String text, @NotNull org.pango.AttrList list) {
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_glyph_item_apply_attrs.invokeExact(handle(), Interop.allocateNativeString(text), list.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_glyph_item_apply_attrs.invokeExact(handle(), Interop.allocateNativeString(text), list.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.SList(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle pango_glyph_item_copy = Interop.downcallHandle(
-        "pango_glyph_item_copy",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Make a deep copy of an existing {@code PangoGlyphItem} structure.
+     * @return the newly allocated {@code PangoGlyphItem}
      */
-    public @Nullable GlyphItem copy() {
+    public @Nullable org.pango.GlyphItem copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_glyph_item_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_glyph_item_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new GlyphItem(Refcounted.get(RESULT, true));
+        return new org.pango.GlyphItem(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_glyph_item_free = Interop.downcallHandle(
-        "pango_glyph_item_free",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Frees a {@code PangoGlyphItem} and resources to which it points.
      */
-    public @NotNull void free() {
+    public void free() {
         try {
-            pango_glyph_item_free.invokeExact(handle());
+            DowncallHandles.pango_glyph_item_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle pango_glyph_item_get_logical_widths = Interop.downcallHandle(
-        "pango_glyph_item_get_logical_widths",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Given a {@code PangoGlyphItem} and the corresponding text, determine the
@@ -100,36 +109,45 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
      * entire cluster is divided equally among the characters.
      * <p>
      * See also {@link GlyphString#getLogicalWidths}.
+     * @param text text that {@code glyph_item} corresponds to
+     *   (glyph_item-&gt;item-&gt;offset is an offset from the
+     *   start of {@code text})
+     * @param logicalWidths an array whose length is the number of
+     *   characters in glyph_item (equal to glyph_item-&gt;item-&gt;num_chars)
+     *   to be filled in with the resulting character widths.
      */
-    public @NotNull void getLogicalWidths(@NotNull java.lang.String text, @NotNull int[] logicalWidths) {
+    public void getLogicalWidths(@NotNull java.lang.String text, int[] logicalWidths) {
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+        java.util.Objects.requireNonNull(logicalWidths, "Parameter 'logicalWidths' must not be null");
         try {
-            pango_glyph_item_get_logical_widths.invokeExact(handle(), Interop.allocateNativeString(text), Interop.allocateNativeArray(logicalWidths));
+            DowncallHandles.pango_glyph_item_get_logical_widths.invokeExact(handle(), Interop.allocateNativeString(text), Interop.allocateNativeArray(logicalWidths, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle pango_glyph_item_letter_space = Interop.downcallHandle(
-        "pango_glyph_item_letter_space",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Adds spacing between the graphemes of {@code glyph_item} to
      * give the effect of typographic letter spacing.
+     * @param text text that {@code glyph_item} corresponds to
+     *   (glyph_item-&gt;item-&gt;offset is an offset from the
+     *   start of {@code text})
+     * @param logAttrs logical attributes for the item
+     *   (the first logical attribute refers to the position
+     *   before the first character in the item)
+     * @param letterSpacing amount of letter spacing to add
+     *   in Pango units. May be negative, though too large
+     *   negative values will give ugly results.
      */
-    public @NotNull void letterSpace(@NotNull java.lang.String text, @NotNull LogAttr[] logAttrs, @NotNull int letterSpacing) {
+    public void letterSpace(@NotNull java.lang.String text, org.pango.LogAttr[] logAttrs, int letterSpacing) {
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+        java.util.Objects.requireNonNull(logAttrs, "Parameter 'logAttrs' must not be null");
         try {
-            pango_glyph_item_letter_space.invokeExact(handle(), Interop.allocateNativeString(text), Interop.allocateNativeArray(logAttrs), letterSpacing);
+            DowncallHandles.pango_glyph_item_letter_space.invokeExact(handle(), Interop.allocateNativeString(text), Interop.allocateNativeArray(logAttrs, false), letterSpacing);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle pango_glyph_item_split = Interop.downcallHandle(
-        "pango_glyph_item_split",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Modifies {@code orig} to cover only the text after {@code split_index}, and
@@ -143,15 +161,54 @@ public class GlyphItem extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function is similar in function to pango_item_split() (and uses
      * it internally.)
+     * @param text text to which positions in {@code orig} apply
+     * @param splitIndex byte index of position to split item, relative to the
+     *   start of the item
+     * @return the newly allocated item representing text before
+     *   {@code split_index}, which should be freed
+     *   with pango_glyph_item_free().
      */
-    public @NotNull GlyphItem split(@NotNull java.lang.String text, @NotNull int splitIndex) {
+    public @NotNull org.pango.GlyphItem split(@NotNull java.lang.String text, int splitIndex) {
+        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_glyph_item_split.invokeExact(handle(), Interop.allocateNativeString(text), splitIndex);
+            RESULT = (MemoryAddress) DowncallHandles.pango_glyph_item_split.invokeExact(handle(), Interop.allocateNativeString(text), splitIndex);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new GlyphItem(Refcounted.get(RESULT, true));
+        return new org.pango.GlyphItem(Refcounted.get(RESULT, true));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle pango_glyph_item_apply_attrs = Interop.downcallHandle(
+            "pango_glyph_item_apply_attrs",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_glyph_item_copy = Interop.downcallHandle(
+            "pango_glyph_item_copy",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_glyph_item_free = Interop.downcallHandle(
+            "pango_glyph_item_free",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_glyph_item_get_logical_widths = Interop.downcallHandle(
+            "pango_glyph_item_get_logical_widths",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_glyph_item_letter_space = Interop.downcallHandle(
+            "pango_glyph_item_letter_space",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_glyph_item_split = Interop.downcallHandle(
+            "pango_glyph_item_split",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
 }

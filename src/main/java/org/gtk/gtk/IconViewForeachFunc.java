@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -11,5 +13,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface IconViewForeachFunc {
-        void onIconViewForeachFunc(@NotNull IconView iconView, @NotNull TreePath path);
+        void onIconViewForeachFunc(@NotNull org.gtk.gtk.IconView iconView, @NotNull org.gtk.gtk.TreePath path);
 }

@@ -9,31 +9,33 @@ import org.jetbrains.annotations.*;
  * An opaque structure representing an opened directory.
  */
 public class Dir extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GLib.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public Dir(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle g_dir_close = Interop.downcallHandle(
-        "g_dir_close",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Closes the directory and deallocates all related resources.
      */
-    public @NotNull void close() {
+    public void close() {
         try {
-            g_dir_close.invokeExact(handle());
+            DowncallHandles.g_dir_close.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_dir_read_name = Interop.downcallHandle(
-        "g_dir_read_name",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves the name of another entry in the directory, or {@code null}.
@@ -49,38 +51,31 @@ public class Dir extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * On Windows, as is true of all GLib functions which operate on
      * filenames, the returned name is in UTF-8.
+     * @return The entry's name or {@code null} if there are no
+     *   more entries. The return value is owned by GLib and
+     *   must not be modified or freed.
      */
     public @NotNull java.lang.String readName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_dir_read_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dir_read_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle g_dir_rewind = Interop.downcallHandle(
-        "g_dir_rewind",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Resets the given directory. The next call to g_dir_read_name()
      * will return the first entry again.
      */
-    public @NotNull void rewind() {
+    public void rewind() {
         try {
-            g_dir_rewind.invokeExact(handle());
+            DowncallHandles.g_dir_rewind.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_dir_make_tmp = Interop.downcallHandle(
-        "g_dir_make_tmp",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Creates a subdirectory in the preferred directory for temporary
@@ -94,12 +89,20 @@ public class Dir extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Note that in contrast to g_mkdtemp() (and mkdtemp()) {@code tmpl} is not
      * modified, and might thus be a read-only literal string.
+     * @param tmpl Template for directory name,
+     *     as in g_mkdtemp(), basename only, or {@code null} for a default template
+     * @return The actual name used. This string
+     *     should be freed with g_free() when not needed any longer and is
+     *     is in the GLib file name encoding. In case of errors, {@code null} is
+     *     returned and {@code error} will be set.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static @NotNull java.lang.String makeTmp(@Nullable java.lang.String tmpl) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(tmpl, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_dir_make_tmp.invokeExact(Interop.allocateNativeString(tmpl), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_dir_make_tmp.invokeExact(Interop.allocateNativeString(tmpl), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -109,28 +112,58 @@ public class Dir extends io.github.jwharm.javagi.ResourceBase {
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle g_dir_open = Interop.downcallHandle(
-        "g_dir_open",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Opens a directory for reading. The names of the files in the
      * directory can then be retrieved using g_dir_read_name().  Note
      * that the ordering is not defined.
+     * @param path the path to the directory you are interested in. On Unix
+     *         in the on-disk encoding. On Windows in UTF-8
+     * @param flags Currently must be set to 0. Reserved for future use.
+     * @return a newly allocated {@link Dir} on success, {@code null} on failure.
+     *   If non-{@code null}, you must free the result with g_dir_close()
+     *   when you are finished with it.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull Dir open(@NotNull java.lang.String path, @NotNull int flags) throws io.github.jwharm.javagi.GErrorException {
+    public static @NotNull org.gtk.glib.Dir open(@NotNull java.lang.String path, int flags) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_dir_open.invokeExact(Interop.allocateNativeString(path), flags, (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_dir_open.invokeExact(Interop.allocateNativeString(path), flags, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Dir(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Dir(Refcounted.get(RESULT, false));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_dir_close = Interop.downcallHandle(
+            "g_dir_close",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_dir_read_name = Interop.downcallHandle(
+            "g_dir_read_name",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_dir_rewind = Interop.downcallHandle(
+            "g_dir_rewind",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_dir_make_tmp = Interop.downcallHandle(
+            "g_dir_make_tmp",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_dir_open = Interop.downcallHandle(
+            "g_dir_open",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+    }
 }

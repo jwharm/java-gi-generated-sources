@@ -1,11 +1,25 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Flags modifying the way parameters are handled by g_uri_parse_params() and
  * {@link UriParamsIter}.
+ * @version 2.66
  */
 public class UriParamsFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * No flags set.
      */
@@ -30,5 +44,4 @@ public class UriParamsFlags extends io.github.jwharm.javagi.Bitfield {
     public UriParamsFlags(int value) {
         super(value);
     }
-    
 }

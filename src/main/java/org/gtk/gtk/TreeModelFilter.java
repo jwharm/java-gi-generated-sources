@@ -16,10 +16,14 @@ import org.jetbrains.annotations.*;
  *   or based on the return value of a “visible function”, which gets a
  *   model, iter and user_data and returns a boolean indicating whether the
  *   row should be filtered or not.
+ * </ul>
+ * <ul>
  * <li>Modify the “appearance” of the model, using a modify function.
  *   This is extremely powerful and allows for just changing some
  *   values and also for creating a completely different model based
  *   on the given child model.
+ * </ul>
+ * <ul>
  * <li>Set a different root node, also known as a “virtual root”. You can pass
  *   in a {@code GtkTreePath} indicating the root node for the filter at construction
  *   time.
@@ -73,8 +77,25 @@ import org.jetbrains.annotations.*;
  * do implement reference counting, obtain references on these child levels
  * yourself.
  */
-public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragSource, TreeModel {
-
+public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.gtk.TreeDragSource, org.gtk.gtk.TreeModel {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.Object.getMemoryLayout().withName("parent"),
+        org.gtk.gtk.TreeModelFilterPrivate.getMemoryLayout().withName("priv")
+    ).withName("GtkTreeModelFilter");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public TreeModelFilter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -84,11 +105,6 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
         return new TreeModelFilter(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_tree_model_filter_clear_cache = Interop.downcallHandle(
-        "gtk_tree_model_filter_clear_cache",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-    
     /**
      * This function should almost never be called. It clears the {@code filter}
      * of any cached iterators that haven’t been reffed with
@@ -97,40 +113,36 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
      * a lot of unreffed access to nodes. As a side effect of this function,
      * all unreffed iters will be invalid.
      */
-    public @NotNull void clearCache() {
+    public void clearCache() {
         try {
-            gtk_tree_model_filter_clear_cache.invokeExact(handle());
+            DowncallHandles.gtk_tree_model_filter_clear_cache.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_tree_model_filter_convert_child_iter_to_iter = Interop.downcallHandle(
-        "gtk_tree_model_filter_convert_child_iter_to_iter",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets {@code filter_iter} to point to the row in {@code filter} that corresponds to the
      * row pointed at by {@code child_iter}.  If {@code filter_iter} was not set, {@code false} is
      * returned.
+     * @param filterIter An uninitialized {@code GtkTreeIter}
+     * @param childIter A valid {@code GtkTreeIter} pointing to a row on the child model.
+     * @return {@code true}, if {@code filter_iter} was set, i.e. if {@code child_iter} is a
+     * valid iterator pointing to a visible row in child model.
      */
-    public boolean convertChildIterToIter(@NotNull Out<TreeIter> filterIter, @NotNull TreeIter childIter) {
+    public boolean convertChildIterToIter(@NotNull Out<org.gtk.gtk.TreeIter> filterIter, @NotNull org.gtk.gtk.TreeIter childIter) {
+        java.util.Objects.requireNonNull(filterIter, "Parameter 'filterIter' must not be null");
+        java.util.Objects.requireNonNull(childIter, "Parameter 'childIter' must not be null");
         MemorySegment filterIterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) gtk_tree_model_filter_convert_child_iter_to_iter.invokeExact(handle(), (Addressable) filterIterPOINTER.address(), childIter.handle());
+            RESULT = (int) DowncallHandles.gtk_tree_model_filter_convert_child_iter_to_iter.invokeExact(handle(), (Addressable) filterIterPOINTER.address(), childIter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        filterIter.set(new TreeIter(Refcounted.get(filterIterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        filterIter.set(new org.gtk.gtk.TreeIter(Refcounted.get(filterIterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gtk_tree_model_filter_convert_child_path_to_path = Interop.downcallHandle(
-        "gtk_tree_model_filter_convert_child_path_to_path",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Converts {@code child_path} to a path relative to {@code filter}. That is, {@code child_path}
@@ -138,95 +150,81 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
      * same row in the filtered model. If {@code child_path} isn’t a valid path on the
      * child model or points to a row which is not visible in {@code filter}, then {@code null}
      * is returned.
+     * @param childPath A {@code GtkTreePath} to convert.
+     * @return A newly allocated {@code GtkTreePath}
      */
-    public @Nullable TreePath convertChildPathToPath(@NotNull TreePath childPath) {
+    public @Nullable org.gtk.gtk.TreePath convertChildPathToPath(@NotNull org.gtk.gtk.TreePath childPath) {
+        java.util.Objects.requireNonNull(childPath, "Parameter 'childPath' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_tree_model_filter_convert_child_path_to_path.invokeExact(handle(), childPath.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_filter_convert_child_path_to_path.invokeExact(handle(), childPath.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new TreePath(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.TreePath(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle gtk_tree_model_filter_convert_iter_to_child_iter = Interop.downcallHandle(
-        "gtk_tree_model_filter_convert_iter_to_child_iter",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets {@code child_iter} to point to the row pointed to by {@code filter_iter}.
+     * @param childIter An uninitialized {@code GtkTreeIter}
+     * @param filterIter A valid {@code GtkTreeIter} pointing to a row on {@code filter}.
      */
-    public @NotNull void convertIterToChildIter(@NotNull Out<TreeIter> childIter, @NotNull TreeIter filterIter) {
+    public void convertIterToChildIter(@NotNull Out<org.gtk.gtk.TreeIter> childIter, @NotNull org.gtk.gtk.TreeIter filterIter) {
+        java.util.Objects.requireNonNull(childIter, "Parameter 'childIter' must not be null");
+        java.util.Objects.requireNonNull(filterIter, "Parameter 'filterIter' must not be null");
         MemorySegment childIterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_tree_model_filter_convert_iter_to_child_iter.invokeExact(handle(), (Addressable) childIterPOINTER.address(), filterIter.handle());
+            DowncallHandles.gtk_tree_model_filter_convert_iter_to_child_iter.invokeExact(handle(), (Addressable) childIterPOINTER.address(), filterIter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        childIter.set(new TreeIter(Refcounted.get(childIterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        childIter.set(new org.gtk.gtk.TreeIter(Refcounted.get(childIterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle gtk_tree_model_filter_convert_path_to_child_path = Interop.downcallHandle(
-        "gtk_tree_model_filter_convert_path_to_child_path",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Converts {@code filter_path} to a path on the child model of {@code filter}. That is,
      * {@code filter_path} points to a location in {@code filter}. The returned path will
      * point to the same location in the model not being filtered. If {@code filter_path}
      * does not point to a location in the child model, {@code null} is returned.
+     * @param filterPath A {@code GtkTreePath} to convert.
+     * @return A newly allocated {@code GtkTreePath}
      */
-    public @Nullable TreePath convertPathToChildPath(@NotNull TreePath filterPath) {
+    public @Nullable org.gtk.gtk.TreePath convertPathToChildPath(@NotNull org.gtk.gtk.TreePath filterPath) {
+        java.util.Objects.requireNonNull(filterPath, "Parameter 'filterPath' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_tree_model_filter_convert_path_to_child_path.invokeExact(handle(), filterPath.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_filter_convert_path_to_child_path.invokeExact(handle(), filterPath.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new TreePath(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.TreePath(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle gtk_tree_model_filter_get_model = Interop.downcallHandle(
-        "gtk_tree_model_filter_get_model",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns a pointer to the child model of {@code filter}.
+     * @return A pointer to a {@code GtkTreeModel}
      */
-    public @NotNull TreeModel getModel() {
+    public @NotNull org.gtk.gtk.TreeModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_tree_model_filter_get_model.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_filter_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_tree_model_filter_refilter = Interop.downcallHandle(
-        "gtk_tree_model_filter_refilter",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Emits ::row_changed for each row in the child model, which causes
      * the filter to re-evaluate whether a row is visible or not.
      */
-    public @NotNull void refilter() {
+    public void refilter() {
         try {
-            gtk_tree_model_filter_refilter.invokeExact(handle());
+            DowncallHandles.gtk_tree_model_filter_refilter.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_tree_model_filter_set_modify_func = Interop.downcallHandle(
-        "gtk_tree_model_filter_set_modify_func",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * With the {@code n_columns} and {@code types} parameters, you give an array of column
@@ -239,26 +237,26 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
      * <p>
      * Note that gtk_tree_model_filter_set_modify_func()
      * can only be called once for a given filter model.
+     * @param nColumns The number of columns in the filter model.
+     * @param types The {@code GType}s of the columns.
+     * @param func A {@code GtkTreeModelFilterModifyFunc}
      */
-    public @NotNull void setModifyFunc(@NotNull int nColumns, @NotNull org.gtk.gobject.Type[] types, @NotNull TreeModelFilterModifyFunc func) {
+    public void setModifyFunc(int nColumns, org.gtk.glib.Type[] types, @NotNull org.gtk.gtk.TreeModelFilterModifyFunc func) {
+        java.util.Objects.requireNonNull(types, "Parameter 'types' must not be null");
+        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            gtk_tree_model_filter_set_modify_func.invokeExact(handle(), nColumns, Interop.allocateNativeArray(org.gtk.gobject.Type.getLongValues(types)), 
+            DowncallHandles.gtk_tree_model_filter_set_modify_func.invokeExact(handle(), nColumns, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(types), false), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.class, "__cbTreeModelFilterModifyFunc",
+                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTreeModelFilterModifyFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)), 
+                   (Addressable) (Interop.registerCallback(func)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_tree_model_filter_set_visible_column = Interop.downcallHandle(
-        "gtk_tree_model_filter_set_visible_column",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets {@code column} of the child_model to be the column where {@code filter} should
@@ -269,19 +267,15 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
      * Note that gtk_tree_model_filter_set_visible_func() or
      * gtk_tree_model_filter_set_visible_column() can only be called
      * once for a given filter model.
+     * @param column A {@code int} which is the column containing the visible information
      */
-    public @NotNull void setVisibleColumn(@NotNull int column) {
+    public void setVisibleColumn(int column) {
         try {
-            gtk_tree_model_filter_set_visible_column.invokeExact(handle(), column);
+            DowncallHandles.gtk_tree_model_filter_set_visible_column.invokeExact(handle(), column);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_tree_model_filter_set_visible_func = Interop.downcallHandle(
-        "gtk_tree_model_filter_set_visible_func",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the visible function used when filtering the {@code filter} to be {@code func}.
@@ -296,7 +290,6 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
      * Note that {@code func} is called whenever a row is inserted, when it may still
      * be empty. The visible function should therefore take special care of empty
      * rows, like in the example below.
-     * <p>
      * <pre>{@code <!-- language="C" -->
      * static gboolean
      * visible_func (GtkTreeModel *model,
@@ -319,20 +312,74 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements TreeDragS
      * Note that gtk_tree_model_filter_set_visible_func() or
      * gtk_tree_model_filter_set_visible_column() can only be called
      * once for a given filter model.
+     * @param func A {@code GtkTreeModelFilterVisibleFunc}, the visible function
      */
-    public @NotNull void setVisibleFunc(@NotNull TreeModelFilterVisibleFunc func) {
+    public void setVisibleFunc(@NotNull org.gtk.gtk.TreeModelFilterVisibleFunc func) {
+        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            gtk_tree_model_filter_set_visible_func.invokeExact(handle(), 
+            DowncallHandles.gtk_tree_model_filter_set_visible_func.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.class, "__cbTreeModelFilterVisibleFunc",
+                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTreeModelFilterVisibleFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)), 
+                   (Addressable) (Interop.registerCallback(func)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_tree_model_filter_clear_cache = Interop.downcallHandle(
+            "gtk_tree_model_filter_clear_cache",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_model_filter_convert_child_iter_to_iter = Interop.downcallHandle(
+            "gtk_tree_model_filter_convert_child_iter_to_iter",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_model_filter_convert_child_path_to_path = Interop.downcallHandle(
+            "gtk_tree_model_filter_convert_child_path_to_path",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_model_filter_convert_iter_to_child_iter = Interop.downcallHandle(
+            "gtk_tree_model_filter_convert_iter_to_child_iter",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_model_filter_convert_path_to_child_path = Interop.downcallHandle(
+            "gtk_tree_model_filter_convert_path_to_child_path",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_model_filter_get_model = Interop.downcallHandle(
+            "gtk_tree_model_filter_get_model",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_model_filter_refilter = Interop.downcallHandle(
+            "gtk_tree_model_filter_refilter",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_model_filter_set_modify_func = Interop.downcallHandle(
+            "gtk_tree_model_filter_set_modify_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_model_filter_set_visible_column = Interop.downcallHandle(
+            "gtk_tree_model_filter_set_visible_column",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_tree_model_filter_set_visible_func = Interop.downcallHandle(
+            "gtk_tree_model_filter_set_visible_func",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

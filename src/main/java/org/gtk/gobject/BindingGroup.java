@@ -13,9 +13,22 @@ import org.jetbrains.annotations.*;
  * object to multiple destination objects. Properties can be bound
  * bidirectionally and are connected when the source object is set
  * with g_binding_group_set_source().
+ * @version 2.72
  */
-public class BindingGroup extends Object {
-
+public class BindingGroup extends org.gtk.gobject.Object {
+    
+    static {
+        GObject.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public BindingGroup(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -25,18 +38,14 @@ public class BindingGroup extends Object {
         return new BindingGroup(gobject.refcounted());
     }
     
-    private static final MethodHandle g_binding_group_new = Interop.downcallHandle(
-        "g_binding_group_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_binding_group_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_binding_group_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -46,11 +55,6 @@ public class BindingGroup extends Object {
         super(constructNew());
     }
     
-    private static final MethodHandle g_binding_group_bind = Interop.downcallHandle(
-        "g_binding_group_bind",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Creates a binding between {@code source_property} on the source object
      * and {@code target_property} on {@code target}. Whenever the {@code source_property}
@@ -58,19 +62,22 @@ public class BindingGroup extends Object {
      * The binding flag {@link BindingFlags#SYNC_CREATE} is automatically specified.
      * <p>
      * See g_object_bind_property() for more information.
+     * @param sourceProperty the property on the source to bind
+     * @param target the target {@link Object}
+     * @param targetProperty the property on {@code target} to bind
+     * @param flags the flags used to create the {@link Binding}
      */
-    public @NotNull void bind(@NotNull java.lang.String sourceProperty, @NotNull Object target, @NotNull java.lang.String targetProperty, @NotNull BindingFlags flags) {
+    public void bind(@NotNull java.lang.String sourceProperty, @NotNull org.gtk.gobject.Object target, @NotNull java.lang.String targetProperty, @NotNull org.gtk.gobject.BindingFlags flags) {
+        java.util.Objects.requireNonNull(sourceProperty, "Parameter 'sourceProperty' must not be null");
+        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
+        java.util.Objects.requireNonNull(targetProperty, "Parameter 'targetProperty' must not be null");
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         try {
-            g_binding_group_bind.invokeExact(handle(), Interop.allocateNativeString(sourceProperty), target.handle(), Interop.allocateNativeString(targetProperty), flags.getValue());
+            DowncallHandles.g_binding_group_bind.invokeExact(handle(), Interop.allocateNativeString(sourceProperty), target.handle(), Interop.allocateNativeString(targetProperty), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_binding_group_bind_full = Interop.downcallHandle(
-        "g_binding_group_bind_full",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Creates a binding between {@code source_property} on the source object and
@@ -79,31 +86,40 @@ public class BindingGroup extends Object {
      * {@link BindingFlags#SYNC_CREATE} is automatically specified.
      * <p>
      * See g_object_bind_property_full() for more information.
+     * @param sourceProperty the property on the source to bind
+     * @param target the target {@link Object}
+     * @param targetProperty the property on {@code target} to bind
+     * @param flags the flags used to create the {@link Binding}
+     * @param transformTo the transformation function
+     *     from the source object to the {@code target}, or {@code null} to use the default
+     * @param transformFrom the transformation function
+     *     from the {@code target} to the source object, or {@code null} to use the default
      */
-    public @NotNull void bindFull(@NotNull java.lang.String sourceProperty, @NotNull Object target, @NotNull java.lang.String targetProperty, @NotNull BindingFlags flags, @Nullable BindingTransformFunc transformTo, @Nullable BindingTransformFunc transformFrom) {
+    public void bindFull(@NotNull java.lang.String sourceProperty, @NotNull org.gtk.gobject.Object target, @NotNull java.lang.String targetProperty, @NotNull org.gtk.gobject.BindingFlags flags, @Nullable org.gtk.gobject.BindingTransformFunc transformTo, @Nullable org.gtk.gobject.BindingTransformFunc transformFrom) {
+        java.util.Objects.requireNonNull(sourceProperty, "Parameter 'sourceProperty' must not be null");
+        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
+        java.util.Objects.requireNonNull(targetProperty, "Parameter 'targetProperty' must not be null");
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        java.util.Objects.requireNonNullElse(transformTo, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(transformFrom, MemoryAddress.NULL);
         try {
-            g_binding_group_bind_full.invokeExact(handle(), Interop.allocateNativeString(sourceProperty), target.handle(), Interop.allocateNativeString(targetProperty), flags.getValue(), 
+            DowncallHandles.g_binding_group_bind_full.invokeExact(handle(), Interop.allocateNativeString(sourceProperty), target.handle(), Interop.allocateNativeString(targetProperty), flags.getValue(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GObject.class, "__cbBindingTransformFunc",
+                        MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbBindingTransformFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GObject.class, "__cbBindingTransformFunc",
+                        MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbBindingTransformFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(transformTo)), 
+                   (Addressable) (transformTo == null ? MemoryAddress.NULL : Interop.registerCallback(transformTo)), 
                     Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_binding_group_bind_with_closures = Interop.downcallHandle(
-        "g_binding_group_bind_with_closures",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Creates a binding between {@code source_property} on the source object and
@@ -116,37 +132,44 @@ public class BindingGroup extends Object {
      * instead of function pointers.
      * <p>
      * See g_object_bind_property_with_closures() for more information.
+     * @param sourceProperty the property on the source to bind
+     * @param target the target {@link Object}
+     * @param targetProperty the property on {@code target} to bind
+     * @param flags the flags used to create the {@link Binding}
+     * @param transformTo a {@link Closure} wrapping the
+     *     transformation function from the source object to the {@code target},
+     *     or {@code null} to use the default
+     * @param transformFrom a {@link Closure} wrapping the
+     *     transformation function from the {@code target} to the source object,
+     *     or {@code null} to use the default
      */
-    public @NotNull void bindWithClosures(@NotNull java.lang.String sourceProperty, @NotNull Object target, @NotNull java.lang.String targetProperty, @NotNull BindingFlags flags, @Nullable Closure transformTo, @Nullable Closure transformFrom) {
+    public void bindWithClosures(@NotNull java.lang.String sourceProperty, @NotNull org.gtk.gobject.Object target, @NotNull java.lang.String targetProperty, @NotNull org.gtk.gobject.BindingFlags flags, @Nullable org.gtk.gobject.Closure transformTo, @Nullable org.gtk.gobject.Closure transformFrom) {
+        java.util.Objects.requireNonNull(sourceProperty, "Parameter 'sourceProperty' must not be null");
+        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
+        java.util.Objects.requireNonNull(targetProperty, "Parameter 'targetProperty' must not be null");
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        java.util.Objects.requireNonNullElse(transformTo, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(transformFrom, MemoryAddress.NULL);
         try {
-            g_binding_group_bind_with_closures.invokeExact(handle(), Interop.allocateNativeString(sourceProperty), target.handle(), Interop.allocateNativeString(targetProperty), flags.getValue(), transformTo.handle(), transformFrom.handle());
+            DowncallHandles.g_binding_group_bind_with_closures.invokeExact(handle(), Interop.allocateNativeString(sourceProperty), target.handle(), Interop.allocateNativeString(targetProperty), flags.getValue(), transformTo.handle(), transformFrom.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_binding_group_dup_source = Interop.downcallHandle(
-        "g_binding_group_dup_source",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the source object used for binding properties.
+     * @return a {@link Object} or {@code null}.
      */
-    public @Nullable Object dupSource() {
+    public @Nullable org.gtk.gobject.Object dupSource() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_binding_group_dup_source.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_binding_group_dup_source.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Object(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_binding_group_set_source = Interop.downcallHandle(
-        "g_binding_group_set_source",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets {@code source} as the source object used for creating property
@@ -154,13 +177,48 @@ public class BindingGroup extends Object {
      * will be removed.
      * <p>
      * Note that all properties that have been bound must exist on {@code source}.
+     * @param source the source {@link Object},
+     *   or {@code null} to clear it
      */
-    public @NotNull void setSource(@Nullable Object source) {
+    public void setSource(@Nullable org.gtk.gobject.Object source) {
+        java.util.Objects.requireNonNullElse(source, MemoryAddress.NULL);
         try {
-            g_binding_group_set_source.invokeExact(handle(), source.handle());
+            DowncallHandles.g_binding_group_set_source.invokeExact(handle(), source.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_binding_group_new = Interop.downcallHandle(
+            "g_binding_group_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_binding_group_bind = Interop.downcallHandle(
+            "g_binding_group_bind",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_binding_group_bind_full = Interop.downcallHandle(
+            "g_binding_group_bind_full",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_binding_group_bind_with_closures = Interop.downcallHandle(
+            "g_binding_group_bind_with_closures",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_binding_group_dup_source = Interop.downcallHandle(
+            "g_binding_group_dup_source",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_binding_group_set_source = Interop.downcallHandle(
+            "g_binding_group_set_source",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

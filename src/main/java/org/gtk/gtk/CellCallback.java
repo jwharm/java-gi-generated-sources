@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -9,5 +11,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface CellCallback {
-        boolean onCellCallback(@NotNull CellRenderer renderer);
+        boolean onCellCallback(@NotNull org.gtk.gtk.CellRenderer renderer);
 }

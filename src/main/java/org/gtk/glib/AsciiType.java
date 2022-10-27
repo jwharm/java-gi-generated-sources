@@ -1,7 +1,20 @@
 package org.gtk.glib;
 
-public class AsciiType extends io.github.jwharm.javagi.Bitfield {
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
+public class AsciiType extends io.github.jwharm.javagi.Bitfield {
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public static final AsciiType ALNUM = new AsciiType(1);
     
     public static final AsciiType ALPHA = new AsciiType(2);
@@ -27,5 +40,4 @@ public class AsciiType extends io.github.jwharm.javagi.Bitfield {
     public AsciiType(int value) {
         super(value);
     }
-    
 }

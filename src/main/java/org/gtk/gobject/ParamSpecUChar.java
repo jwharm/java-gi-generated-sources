@@ -8,8 +8,27 @@ import org.jetbrains.annotations.*;
 /**
  * A {@link ParamSpec} derived structure that contains the meta data for unsigned character properties.
  */
-public class ParamSpecUChar extends ParamSpec {
-
+public class ParamSpecUChar extends org.gtk.gobject.ParamSpec {
+    
+    static {
+        GObject.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.ParamSpec.getMemoryLayout().withName("parent_instance"),
+        ValueLayout.JAVA_BYTE.withName("minimum"),
+        ValueLayout.JAVA_BYTE.withName("maximum"),
+        ValueLayout.JAVA_BYTE.withName("default_value")
+    ).withName("GParamSpecUChar");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public ParamSpecUChar(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -18,5 +37,4 @@ public class ParamSpecUChar extends ParamSpec {
     public static ParamSpecUChar castFrom(org.gtk.gobject.Object gobject) {
         return new ParamSpecUChar(gobject.refcounted());
     }
-    
 }

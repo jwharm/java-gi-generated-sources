@@ -1,12 +1,25 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The sizing method the column uses to determine its width.  Please note
  * that {@link TreeViewColumnSizing#AUTOSIZE} are inefficient for large views, and
  * can make columns appear choppy.
  */
 public class TreeViewColumnSizing extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Columns only get bigger in reaction to changes in the model
      */
@@ -25,5 +38,4 @@ public class TreeViewColumnSizing extends io.github.jwharm.javagi.Enumeration {
     public TreeViewColumnSizing(int value) {
         super(value);
     }
-    
 }

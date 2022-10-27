@@ -29,7 +29,24 @@ import org.jetbrains.annotations.*;
  * improvements and auditing fixes.
  */
 public class MountOperation extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
+        org.gtk.gio.MountOperationPrivate.getMemoryLayout().withName("priv")
+    ).withName("GMountOperation");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public MountOperation(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -39,18 +56,14 @@ public class MountOperation extends org.gtk.gobject.Object {
         return new MountOperation(gobject.refcounted());
     }
     
-    private static final MethodHandle g_mount_operation_new = Interop.downcallHandle(
-        "g_mount_operation_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_mount_operation_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_mount_operation_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -60,333 +73,263 @@ public class MountOperation extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
-    private static final MethodHandle g_mount_operation_get_anonymous = Interop.downcallHandle(
-        "g_mount_operation_get_anonymous",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Check to see whether the mount operation is being used
      * for an anonymous user.
+     * @return {@code true} if mount operation is anonymous.
      */
     public boolean getAnonymous() {
         int RESULT;
         try {
-            RESULT = (int) g_mount_operation_get_anonymous.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_mount_operation_get_anonymous.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_mount_operation_get_choice = Interop.downcallHandle(
-        "g_mount_operation_get_choice",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets a choice from the mount operation.
+     * @return an integer containing an index of the user's choice from
+     * the choice's list, or {@code 0}.
      */
     public int getChoice() {
         int RESULT;
         try {
-            RESULT = (int) g_mount_operation_get_choice.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_mount_operation_get_choice.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle g_mount_operation_get_domain = Interop.downcallHandle(
-        "g_mount_operation_get_domain",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the domain of the mount operation.
+     * @return a string set to the domain.
      */
     public @Nullable java.lang.String getDomain() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_mount_operation_get_domain.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_mount_operation_get_domain.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_mount_operation_get_is_tcrypt_hidden_volume = Interop.downcallHandle(
-        "g_mount_operation_get_is_tcrypt_hidden_volume",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Check to see whether the mount operation is being used
      * for a TCRYPT hidden volume.
+     * @return {@code true} if mount operation is for hidden volume.
      */
     public boolean getIsTcryptHiddenVolume() {
         int RESULT;
         try {
-            RESULT = (int) g_mount_operation_get_is_tcrypt_hidden_volume.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_mount_operation_get_is_tcrypt_hidden_volume.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_mount_operation_get_is_tcrypt_system_volume = Interop.downcallHandle(
-        "g_mount_operation_get_is_tcrypt_system_volume",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Check to see whether the mount operation is being used
      * for a TCRYPT system volume.
+     * @return {@code true} if mount operation is for system volume.
      */
     public boolean getIsTcryptSystemVolume() {
         int RESULT;
         try {
-            RESULT = (int) g_mount_operation_get_is_tcrypt_system_volume.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_mount_operation_get_is_tcrypt_system_volume.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_mount_operation_get_password = Interop.downcallHandle(
-        "g_mount_operation_get_password",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets a password from the mount operation.
+     * @return a string containing the password within {@code op}.
      */
     public @Nullable java.lang.String getPassword() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_mount_operation_get_password.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_mount_operation_get_password.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle g_mount_operation_get_password_save = Interop.downcallHandle(
-        "g_mount_operation_get_password_save",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the state of saving passwords for the mount operation.
+     * @return a {@link PasswordSave} flag.
      */
-    public @NotNull PasswordSave getPasswordSave() {
+    public @NotNull org.gtk.gio.PasswordSave getPasswordSave() {
         int RESULT;
         try {
-            RESULT = (int) g_mount_operation_get_password_save.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_mount_operation_get_password_save.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PasswordSave(RESULT);
+        return new org.gtk.gio.PasswordSave(RESULT);
     }
-    
-    private static final MethodHandle g_mount_operation_get_pim = Interop.downcallHandle(
-        "g_mount_operation_get_pim",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets a PIM from the mount operation.
+     * @return The VeraCrypt PIM within {@code op}.
      */
     public int getPim() {
         int RESULT;
         try {
-            RESULT = (int) g_mount_operation_get_pim.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_mount_operation_get_pim.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle g_mount_operation_get_username = Interop.downcallHandle(
-        "g_mount_operation_get_username",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Get the user name from the mount operation.
+     * @return a string containing the user name.
      */
     public @Nullable java.lang.String getUsername() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_mount_operation_get_username.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_mount_operation_get_username.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle g_mount_operation_reply = Interop.downcallHandle(
-        "g_mount_operation_reply",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Emits the {@link MountOperation}::reply signal.
+     * @param result a {@link MountOperationResult}
      */
-    public @NotNull void reply(@NotNull MountOperationResult result) {
+    public void reply(@NotNull org.gtk.gio.MountOperationResult result) {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
         try {
-            g_mount_operation_reply.invokeExact(handle(), result.getValue());
+            DowncallHandles.g_mount_operation_reply.invokeExact(handle(), result.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_mount_operation_set_anonymous = Interop.downcallHandle(
-        "g_mount_operation_set_anonymous",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the mount operation to use an anonymous user if {@code anonymous} is {@code true}.
+     * @param anonymous boolean value.
      */
-    public @NotNull void setAnonymous(@NotNull boolean anonymous) {
+    public void setAnonymous(boolean anonymous) {
         try {
-            g_mount_operation_set_anonymous.invokeExact(handle(), anonymous ? 1 : 0);
+            DowncallHandles.g_mount_operation_set_anonymous.invokeExact(handle(), anonymous ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_mount_operation_set_choice = Interop.downcallHandle(
-        "g_mount_operation_set_choice",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets a default choice for the mount operation.
+     * @param choice an integer.
      */
-    public @NotNull void setChoice(@NotNull int choice) {
+    public void setChoice(int choice) {
         try {
-            g_mount_operation_set_choice.invokeExact(handle(), choice);
+            DowncallHandles.g_mount_operation_set_choice.invokeExact(handle(), choice);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_mount_operation_set_domain = Interop.downcallHandle(
-        "g_mount_operation_set_domain",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the mount operation's domain.
+     * @param domain the domain to set.
      */
-    public @NotNull void setDomain(@Nullable java.lang.String domain) {
+    public void setDomain(@Nullable java.lang.String domain) {
+        java.util.Objects.requireNonNullElse(domain, MemoryAddress.NULL);
         try {
-            g_mount_operation_set_domain.invokeExact(handle(), Interop.allocateNativeString(domain));
+            DowncallHandles.g_mount_operation_set_domain.invokeExact(handle(), Interop.allocateNativeString(domain));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_mount_operation_set_is_tcrypt_hidden_volume = Interop.downcallHandle(
-        "g_mount_operation_set_is_tcrypt_hidden_volume",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the mount operation to use a hidden volume if {@code hidden_volume} is {@code true}.
+     * @param hiddenVolume boolean value.
      */
-    public @NotNull void setIsTcryptHiddenVolume(@NotNull boolean hiddenVolume) {
+    public void setIsTcryptHiddenVolume(boolean hiddenVolume) {
         try {
-            g_mount_operation_set_is_tcrypt_hidden_volume.invokeExact(handle(), hiddenVolume ? 1 : 0);
+            DowncallHandles.g_mount_operation_set_is_tcrypt_hidden_volume.invokeExact(handle(), hiddenVolume ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_mount_operation_set_is_tcrypt_system_volume = Interop.downcallHandle(
-        "g_mount_operation_set_is_tcrypt_system_volume",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the mount operation to use a system volume if {@code system_volume} is {@code true}.
+     * @param systemVolume boolean value.
      */
-    public @NotNull void setIsTcryptSystemVolume(@NotNull boolean systemVolume) {
+    public void setIsTcryptSystemVolume(boolean systemVolume) {
         try {
-            g_mount_operation_set_is_tcrypt_system_volume.invokeExact(handle(), systemVolume ? 1 : 0);
+            DowncallHandles.g_mount_operation_set_is_tcrypt_system_volume.invokeExact(handle(), systemVolume ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_mount_operation_set_password = Interop.downcallHandle(
-        "g_mount_operation_set_password",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the mount operation's password to {@code password}.
+     * @param password password to set.
      */
-    public @NotNull void setPassword(@Nullable java.lang.String password) {
+    public void setPassword(@Nullable java.lang.String password) {
+        java.util.Objects.requireNonNullElse(password, MemoryAddress.NULL);
         try {
-            g_mount_operation_set_password.invokeExact(handle(), Interop.allocateNativeString(password));
+            DowncallHandles.g_mount_operation_set_password.invokeExact(handle(), Interop.allocateNativeString(password));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_mount_operation_set_password_save = Interop.downcallHandle(
-        "g_mount_operation_set_password_save",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the state of saving passwords for the mount operation.
+     * @param save a set of {@link PasswordSave} flags.
      */
-    public @NotNull void setPasswordSave(@NotNull PasswordSave save) {
+    public void setPasswordSave(@NotNull org.gtk.gio.PasswordSave save) {
+        java.util.Objects.requireNonNull(save, "Parameter 'save' must not be null");
         try {
-            g_mount_operation_set_password_save.invokeExact(handle(), save.getValue());
+            DowncallHandles.g_mount_operation_set_password_save.invokeExact(handle(), save.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_mount_operation_set_pim = Interop.downcallHandle(
-        "g_mount_operation_set_pim",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the mount operation's PIM to {@code pim}.
+     * @param pim an unsigned integer.
      */
-    public @NotNull void setPim(@NotNull int pim) {
+    public void setPim(int pim) {
         try {
-            g_mount_operation_set_pim.invokeExact(handle(), pim);
+            DowncallHandles.g_mount_operation_set_pim.invokeExact(handle(), pim);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle g_mount_operation_set_username = Interop.downcallHandle(
-        "g_mount_operation_set_username",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Sets the user name within {@code op} to {@code username}.
+     * @param username input username.
      */
-    public @NotNull void setUsername(@Nullable java.lang.String username) {
+    public void setUsername(@Nullable java.lang.String username) {
+        java.util.Objects.requireNonNullElse(username, MemoryAddress.NULL);
         try {
-            g_mount_operation_set_username.invokeExact(handle(), Interop.allocateNativeString(username));
+            DowncallHandles.g_mount_operation_set_username.invokeExact(handle(), Interop.allocateNativeString(username));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface AbortedHandler {
+    public interface Aborted {
         void signalReceived(MountOperation source);
     }
     
@@ -397,7 +340,7 @@ public class MountOperation extends org.gtk.gobject.Object {
      * Implementations of GMountOperation should handle this signal
      * by dismissing open password dialogs.
      */
-    public SignalHandle onAborted(AbortedHandler handler) {
+    public Signal<MountOperation.Aborted> onAborted(MountOperation.Aborted handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -407,17 +350,17 @@ public class MountOperation extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<MountOperation.Aborted>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface AskPasswordHandler {
-        void signalReceived(MountOperation source, @NotNull java.lang.String message, @NotNull java.lang.String defaultUser, @NotNull java.lang.String defaultDomain, @NotNull AskPasswordFlags flags);
+    public interface AskPassword {
+        void signalReceived(MountOperation source, @NotNull java.lang.String message, @NotNull java.lang.String defaultUser, @NotNull java.lang.String defaultDomain, @NotNull org.gtk.gio.AskPasswordFlags flags);
     }
     
     /**
@@ -427,7 +370,7 @@ public class MountOperation extends org.gtk.gobject.Object {
      * presented as a heading. For example, it may be used as the
      * primary text in a {@link org.gtk.gtk.MessageDialog}.
      */
-    public SignalHandle onAskPassword(AskPasswordHandler handler) {
+    public Signal<MountOperation.AskPassword> onAskPassword(MountOperation.AskPassword handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -437,23 +380,40 @@ public class MountOperation extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<MountOperation.AskPassword>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ReplyHandler {
-        void signalReceived(MountOperation source, @NotNull MountOperationResult result);
+    public interface AskQuestion {
+        void signalReceived(MountOperation source, @NotNull java.lang.String message, java.lang.String[] choices);
+    }
+    
+    /**
+     * Emitted when asking the user a question and gives a list of
+     * choices for the user to choose from.
+     * <p>
+     * If the message contains a line break, the first line should be
+     * presented as a heading. For example, it may be used as the
+     * primary text in a {@link org.gtk.gtk.MessageDialog}.
+     */
+    public Signal<MountOperation.AskQuestion> onAskQuestion(MountOperation.AskQuestion handler) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    @FunctionalInterface
+    public interface Reply {
+        void signalReceived(MountOperation source, @NotNull org.gtk.gio.MountOperationResult result);
     }
     
     /**
      * Emitted when the user has replied to the mount operation.
      */
-    public SignalHandle onReply(ReplyHandler handler) {
+    public Signal<MountOperation.Reply> onReply(MountOperation.Reply handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -463,17 +423,40 @@ public class MountOperation extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<MountOperation.Reply>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ShowUnmountProgressHandler {
-        void signalReceived(MountOperation source, @NotNull java.lang.String message, @NotNull long timeLeft, @NotNull long bytesLeft);
+    public interface ShowProcesses {
+        void signalReceived(MountOperation source, @NotNull java.lang.String message, org.gtk.glib.Pid[] processes, java.lang.String[] choices);
+    }
+    
+    /**
+     * Emitted when one or more processes are blocking an operation
+     * e.g. unmounting/ejecting a {@link Mount} or stopping a {@link Drive}.
+     * <p>
+     * Note that this signal may be emitted several times to update the
+     * list of blocking processes as processes close files. The
+     * application should only respond with g_mount_operation_reply() to
+     * the latest signal (setting {@link MountOperation}:choice to the choice
+     * the user made).
+     * <p>
+     * If the message contains a line break, the first line should be
+     * presented as a heading. For example, it may be used as the
+     * primary text in a {@link org.gtk.gtk.MessageDialog}.
+     */
+    public Signal<MountOperation.ShowProcesses> onShowProcesses(MountOperation.ShowProcesses handler) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    @FunctionalInterface
+    public interface ShowUnmountProgress {
+        void signalReceived(MountOperation source, @NotNull java.lang.String message, long timeLeft, long bytesLeft);
     }
     
     /**
@@ -494,7 +477,7 @@ public class MountOperation extends org.gtk.gobject.Object {
      * presented as a heading. For example, it may be used as the
      * primary text in a {@link org.gtk.gtk.MessageDialog}.
      */
-    public SignalHandle onShowUnmountProgress(ShowUnmountProgressHandler handler) {
+    public Signal<MountOperation.ShowUnmountProgress> onShowUnmountProgress(MountOperation.ShowUnmountProgress handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -504,39 +487,149 @@ public class MountOperation extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, long.class, long.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<MountOperation.ShowUnmountProgress>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_mount_operation_new = Interop.downcallHandle(
+            "g_mount_operation_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_mount_operation_get_anonymous = Interop.downcallHandle(
+            "g_mount_operation_get_anonymous",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_mount_operation_get_choice = Interop.downcallHandle(
+            "g_mount_operation_get_choice",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_mount_operation_get_domain = Interop.downcallHandle(
+            "g_mount_operation_get_domain",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_mount_operation_get_is_tcrypt_hidden_volume = Interop.downcallHandle(
+            "g_mount_operation_get_is_tcrypt_hidden_volume",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_mount_operation_get_is_tcrypt_system_volume = Interop.downcallHandle(
+            "g_mount_operation_get_is_tcrypt_system_volume",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_mount_operation_get_password = Interop.downcallHandle(
+            "g_mount_operation_get_password",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_mount_operation_get_password_save = Interop.downcallHandle(
+            "g_mount_operation_get_password_save",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_mount_operation_get_pim = Interop.downcallHandle(
+            "g_mount_operation_get_pim",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_mount_operation_get_username = Interop.downcallHandle(
+            "g_mount_operation_get_username",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_mount_operation_reply = Interop.downcallHandle(
+            "g_mount_operation_reply",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_mount_operation_set_anonymous = Interop.downcallHandle(
+            "g_mount_operation_set_anonymous",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_mount_operation_set_choice = Interop.downcallHandle(
+            "g_mount_operation_set_choice",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_mount_operation_set_domain = Interop.downcallHandle(
+            "g_mount_operation_set_domain",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_mount_operation_set_is_tcrypt_hidden_volume = Interop.downcallHandle(
+            "g_mount_operation_set_is_tcrypt_hidden_volume",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_mount_operation_set_is_tcrypt_system_volume = Interop.downcallHandle(
+            "g_mount_operation_set_is_tcrypt_system_volume",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_mount_operation_set_password = Interop.downcallHandle(
+            "g_mount_operation_set_password",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_mount_operation_set_password_save = Interop.downcallHandle(
+            "g_mount_operation_set_password_save",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_mount_operation_set_pim = Interop.downcallHandle(
+            "g_mount_operation_set_pim",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_mount_operation_set_username = Interop.downcallHandle(
+            "g_mount_operation_set_username",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static void signalMountOperationAborted(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (MountOperation.AbortedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new MountOperation(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (MountOperation.Aborted) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new MountOperation(Refcounted.get(source)));
         }
         
         public static void signalMountOperationAskPassword(MemoryAddress source, MemoryAddress message, MemoryAddress defaultUser, MemoryAddress defaultDomain, int flags, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (MountOperation.AskPasswordHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new MountOperation(Refcounted.get(source)), message.getUtf8String(0), defaultUser.getUtf8String(0), defaultDomain.getUtf8String(0), new AskPasswordFlags(flags));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (MountOperation.AskPassword) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new MountOperation(Refcounted.get(source)), message.getUtf8String(0), defaultUser.getUtf8String(0), defaultDomain.getUtf8String(0), new org.gtk.gio.AskPasswordFlags(flags));
         }
+        
+        public static void signalMountOperationAskQuestion(MemoryAddress source, MemoryAddress message, MemoryAddress choices, MemoryAddress data) {
+        // Operation not supported yet
+    }
         
         public static void signalMountOperationReply(MemoryAddress source, int result, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (MountOperation.ReplyHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new MountOperation(Refcounted.get(source)), new MountOperationResult(result));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (MountOperation.Reply) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new MountOperation(Refcounted.get(source)), new org.gtk.gio.MountOperationResult(result));
         }
+        
+        public static void signalMountOperationShowProcesses(MemoryAddress source, MemoryAddress message, MemoryAddress processes, MemoryAddress choices, MemoryAddress data) {
+        // Operation not supported yet
+    }
         
         public static void signalMountOperationShowUnmountProgress(MemoryAddress source, MemoryAddress message, long timeLeft, long bytesLeft, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (MountOperation.ShowUnmountProgressHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new MountOperation(Refcounted.get(source)), message.getUtf8String(0), timeLeft, bytesLeft);
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (MountOperation.ShowUnmountProgress) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new MountOperation(Refcounted.get(source)), message.getUtf8String(0), timeLeft, bytesLeft);
         }
-        
     }
 }

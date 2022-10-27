@@ -1,10 +1,24 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Error codes returned by {@link Uri} methods.
+ * @version 2.66
  */
 public class UriError extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Generic error if no more specific error is available.
      *     See the error message for details.
@@ -59,5 +73,4 @@ public class UriError extends io.github.jwharm.javagi.Enumeration {
     public UriError(int value) {
         super(value);
     }
-    
 }

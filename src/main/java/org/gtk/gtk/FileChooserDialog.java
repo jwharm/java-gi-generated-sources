@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * <img src="./doc-files/filechooser.png" alt="An example GtkFileChooserDialog">
  * <p>
  * This widget works by putting a {@link FileChooserWidget}
- * inside a {@code Gtk.FileChooser}
+ * inside a {@link Dialog}
  * interface, so you can use all of the {@code Gtk.FileChooser} functions
  * on the file chooser dialog as well as those for {@link Dialog}.
  * <p>
@@ -24,11 +24,10 @@ import org.jetbrains.annotations.*;
  * {@link FileChooserNative} API, which will use a platform-specific
  * dialog if available and fall back to {@code GtkFileChooserDialog}
  * otherwise.
- * 
- * <h2>Typical usage</h2>
+ * <p>
+ * <strong>Typical usage</strong><br/>
  * In the simplest of cases, you can the following code to use
  * {@code GtkFileChooserDialog} to select a file for opening:
- * 
  * <pre>{@code c
  * static void
  * on_open_response (GtkDialog *dialog,
@@ -67,7 +66,6 @@ import org.jetbrains.annotations.*;
  * }</pre>
  * <p>
  * To use a dialog for saving, you can use this:
- * 
  * <pre>{@code c
  * static void
  * on_save_response (GtkDialog *dialog,
@@ -111,16 +109,22 @@ import org.jetbrains.annotations.*;
  *                     G_CALLBACK (on_save_response),
  *                     NULL);
  * }</pre>
- * 
- * <h2>Setting up a file chooser dialog</h2>
+ * <p>
+ * <strong>Setting up a file chooser dialog</strong><br/>
  * There are various cases in which you may need to use a {@code GtkFileChooserDialog}:
  * <ul>
  * <li>To select a file for opening, use {@link FileChooserAction#OPEN}.
+ * </ul>
+ * <ul>
  * <li>To save a file for the first time, use {@link FileChooserAction#SAVE},
  *   and suggest a name such as “Untitled” with
  *   {@link FileChooser#setCurrentName}.
+ * </ul>
+ * <ul>
  * <li>To save a file under a different name, use {@link FileChooserAction#SAVE},
  *   and set the existing file with {@link FileChooser#setFile}.
+ * </ul>
+ * <ul>
  * <li>To choose a folder instead of a filem use {@link FileChooserAction#SELECT_FOLDER}.
  * </ul>
  * <p>
@@ -128,13 +132,12 @@ import org.jetbrains.annotations.*;
  * folder when it is appropriate to use {@link FileChooser#setFile},
  * i.e. when you are doing a “Save As” command and you already have a file
  * saved somewhere.
- * 
- * <h2>Response Codes</h2>
+ * <p>
+ * <strong>Response Codes</strong><br/>
  * {@code GtkFileChooserDialog} inherits from {@link Dialog}, so buttons that
  * go in its action area have response codes such as {@link ResponseType#ACCEPT} and
  * {@link ResponseType#CANCEL}. For example, you could call
  * {@link FileChooserDialog#FileChooserDialog} as follows:
- * 
  * <pre>{@code c
  * GtkWidget *dialog;
  * GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
@@ -170,8 +173,20 @@ import org.jetbrains.annotations.*;
  * To summarize, make sure you use a predefined response code
  * when you use {@code GtkFileChooserDialog} to ensure proper operation.
  */
-public class FileChooserDialog extends Dialog implements Accessible, Buildable, ConstraintTarget, FileChooser, Native, Root, ShortcutManager {
-
+public class FileChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.FileChooser, org.gtk.gtk.Native, org.gtk.gtk.Root, org.gtk.gtk.ShortcutManager {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public FileChooserDialog(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -181,4 +196,29 @@ public class FileChooserDialog extends Dialog implements Accessible, Buildable, 
         return new FileChooserDialog(gobject.refcounted());
     }
     
+    private static Refcounted constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.FileChooserAction action, @Nullable java.lang.String firstButtonText) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Creates a new {@code GtkFileChooserDialog}.
+     * <p>
+     * This function is analogous to {@link Dialog#newWithButtons}.
+     * @param title Title of the dialog
+     * @param parent Transient parent of the dialog
+     * @param action Open or save mode for the dialog
+     * @param firstButtonText text to go in the first button
+     */
+    public FileChooserDialog(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.FileChooserAction action, @Nullable java.lang.String firstButtonText) {
+        this(Refcounted.get(null)); // avoid compiler error
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_file_chooser_dialog_new = Interop.downcallHandle(
+            "gtk_file_chooser_dialog_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

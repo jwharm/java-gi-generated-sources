@@ -13,15 +13,22 @@ import org.jetbrains.annotations.*;
  * copied and compared with each other.
  */
 public class Language extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Pango.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public Language(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
-    private static final MethodHandle pango_language_get_sample_string = Interop.downcallHandle(
-        "pango_language_get_sample_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Get a string that is representative of the characters needed to
@@ -33,31 +40,26 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * as sample text in a font selection dialog.
      * <p>
      * If {@code language} is {@code null}, the default language as found by
-     * {@link Pango#Language} is used.
+     * {@link Language#getDefault} is used.
      * <p>
      * If Pango does not have a sample string for {@code language}, the classic
      * "The quick brown fox..." is returned.  This can be detected by
      * comparing the returned pointer value to that returned for (non-existent)
      * language code "xx".  That is, compare to:
-     * 
      * <pre>{@code 
      * pango_language_get_sample_string (pango_language_from_string ("xx"))
      * }</pre>
+     * @return the sample string
      */
     public @NotNull java.lang.String getSampleString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_language_get_sample_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_language_get_sample_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle pango_language_get_scripts = Interop.downcallHandle(
-        "pango_language_get_scripts",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Determines the scripts used to to write {@code language}.
@@ -83,28 +85,31 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * Note: while the return value is declared as {@code PangoScript}, the
      * returned values are from the {@code GUnicodeScript} enumeration, which
      * may have more values. Callers need to handle unknown values.
+     * @param numScripts location to
+     *   return number of scripts
+     * @return An array of {@code PangoScript} values, with the number of entries in
+     *   the array stored in {@code num_scripts}, or {@code null} if Pango does not have
+     *   any information about this particular language tag (also the case
+     *   if {@code language} is {@code null}).
      */
-    public Script[] getScripts(@NotNull Out<Integer> numScripts) {
+    public @Nullable org.pango.Script[] getScripts(Out<Integer> numScripts) {
+        java.util.Objects.requireNonNull(numScripts, "Parameter 'numScripts' must not be null");
         MemorySegment numScriptsPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_language_get_scripts.invokeExact(handle(), (Addressable) numScriptsPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.pango_language_get_scripts.invokeExact(handle(), (Addressable) numScriptsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         numScripts.set(numScriptsPOINTER.get(ValueLayout.JAVA_INT, 0));
-        Script[] resultARRAY = new Script[numScripts.get().intValue()];
+        if (RESULT.equals(MemoryAddress.NULL)) return null;
+        org.pango.Script[] resultARRAY = new org.pango.Script[numScripts.get().intValue()];
         for (int I = 0; I < numScripts.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.JAVA_INT, I);
-            resultARRAY[I] = new Script(OBJ);
+            resultARRAY[I] = new org.pango.Script(OBJ);
         }
         return resultARRAY;
     }
-    
-    private static final MethodHandle pango_language_includes_script = Interop.downcallHandle(
-        "pango_language_includes_script",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Determines if {@code script} is one of the scripts used to
@@ -120,21 +125,21 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * for applications in most circumstances.
      * <p>
      * This function uses {@link Language#getScripts} internally.
+     * @param script a {@code PangoScript}
+     * @return {@code true} if {@code script} is one of the scripts used
+     *   to write {@code language} or if nothing is known about {@code language}
+     *   (including the case that {@code language} is {@code null}), {@code false} otherwise.
      */
-    public boolean includesScript(@NotNull Script script) {
+    public boolean includesScript(@NotNull org.pango.Script script) {
+        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
         int RESULT;
         try {
-            RESULT = (int) pango_language_includes_script.invokeExact(handle(), script.getValue());
+            RESULT = (int) DowncallHandles.pango_language_includes_script.invokeExact(handle(), script.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle pango_language_matches = Interop.downcallHandle(
-        "pango_language_matches",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Checks if a language tag matches one of the elements in a list of
@@ -143,21 +148,22 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * A language tag is considered to match a range in the list if the
      * range is '*', the range is exactly the tag, or the range is a prefix
      * of the tag, and the character after it in the tag is '-'.
+     * @param rangeList a list of language ranges, separated by ';', ':',
+     *   ',', or space characters.
+     *   Each element must either be '*', or a RFC 3066 language range
+     *   canonicalized as by {@link Language#fromString}
+     * @return {@code true} if a match was found
      */
     public boolean matches(@NotNull java.lang.String rangeList) {
+        java.util.Objects.requireNonNull(rangeList, "Parameter 'rangeList' must not be null");
         int RESULT;
         try {
-            RESULT = (int) pango_language_matches.invokeExact(handle(), Interop.allocateNativeString(rangeList));
+            RESULT = (int) DowncallHandles.pango_language_matches.invokeExact(handle(), Interop.allocateNativeString(rangeList));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle pango_language_to_string = Interop.downcallHandle(
-        "pango_language_to_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the RFC-3066 format string representing the given language tag.
@@ -167,17 +173,12 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
     public @NotNull java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_language_to_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_language_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle pango_language_from_string = Interop.downcallHandle(
-        "pango_language_from_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Convert a language tag to a {@code PangoLanguage}.
@@ -190,23 +191,21 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * lowercase, mapping '_' to '-', and stripping all characters other
      * than letters and '-'.
      * <p>
-     * Use {@link Pango#Language} if you want to get the
+     * Use {@link Language#getDefault} if you want to get the
      * {@code PangoLanguage} for the current locale of the process.
+     * @param language a string representing a language tag
+     * @return a {@code PangoLanguage}
      */
-    public static @Nullable Language fromString(@Nullable java.lang.String language) {
+    public static @Nullable org.pango.Language fromString(@Nullable java.lang.String language) {
+        java.util.Objects.requireNonNullElse(language, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_language_from_string.invokeExact(Interop.allocateNativeString(language));
+            RESULT = (MemoryAddress) DowncallHandles.pango_language_from_string.invokeExact(Interop.allocateNativeString(language));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Language(Refcounted.get(RESULT, false));
+        return new org.pango.Language(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle pango_language_get_default = Interop.downcallHandle(
-        "pango_language_get_default",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the {@code PangoLanguage} for the current locale of the process.
@@ -240,21 +239,17 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * Also note that this function will not do the right thing if you
      * use per-thread locales with uselocale(). In that case, you should
      * just call pango_language_from_string() yourself.
+     * @return the default language as a {@code PangoLanguage}
      */
-    public static @NotNull Language getDefault() {
+    public static @NotNull org.pango.Language getDefault() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_language_get_default.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.pango_language_get_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Language(Refcounted.get(RESULT, false));
+        return new org.pango.Language(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle pango_language_get_preferred = Interop.downcallHandle(
-        "pango_language_get_preferred",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the list of languages that the user prefers.
@@ -262,21 +257,65 @@ public class Language extends io.github.jwharm.javagi.ResourceBase {
      * The list is specified by the {@code PANGO_LANGUAGE} or {@code LANGUAGE}
      * environment variables, in order of preference. Note that this
      * list does not necessarily include the language returned by
-     * {@link Pango#Language}.
+     * {@link Language#getDefault}.
      * <p>
      * When choosing language-specific resources, such as the sample
      * text returned by {@link Language#getSampleString},
      * you should first try the default language, followed by the
      * languages returned by this function.
+     * @return a {@code null}-terminated array
+     *   of {@code PangoLanguage}*
      */
-    public static @Nullable PointerProxy<Language> getPreferred() {
+    public static @Nullable PointerProxy<org.pango.Language> getPreferred() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_language_get_preferred.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.pango_language_get_preferred.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PointerProxy<Language>(RESULT, Language.class);
+        return new PointerProxy<org.pango.Language>(RESULT, org.pango.Language.class);
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle pango_language_get_sample_string = Interop.downcallHandle(
+            "pango_language_get_sample_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_language_get_scripts = Interop.downcallHandle(
+            "pango_language_get_scripts",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_language_includes_script = Interop.downcallHandle(
+            "pango_language_includes_script",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_language_matches = Interop.downcallHandle(
+            "pango_language_matches",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_language_to_string = Interop.downcallHandle(
+            "pango_language_to_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_language_from_string = Interop.downcallHandle(
+            "pango_language_from_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_language_get_default = Interop.downcallHandle(
+            "pango_language_get_default",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_language_get_preferred = Interop.downcallHandle(
+            "pango_language_get_preferred",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+    }
 }

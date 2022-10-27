@@ -8,8 +8,20 @@ import org.jetbrains.annotations.*;
 /**
  * A {@code GtkShortcutTrigger} that never triggers.
  */
-public class NeverTrigger extends ShortcutTrigger {
-
+public class NeverTrigger extends org.gtk.gtk.ShortcutTrigger {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public NeverTrigger(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -19,26 +31,29 @@ public class NeverTrigger extends ShortcutTrigger {
         return new NeverTrigger(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_never_trigger_get = Interop.downcallHandle(
-        "gtk_never_trigger_get",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the never trigger.
      * <p>
      * This is a singleton for a trigger that never triggers.
      * Use this trigger instead of {@code null} because it implements
      * all virtual functions.
+     * @return The never trigger
      */
-    public static @NotNull NeverTrigger get() {
+    public static @NotNull org.gtk.gtk.NeverTrigger get() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_never_trigger_get.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.gtk_never_trigger_get.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new NeverTrigger(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.NeverTrigger(Refcounted.get(RESULT, false));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_never_trigger_get = Interop.downcallHandle(
+            "gtk_never_trigger_get",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+    }
 }

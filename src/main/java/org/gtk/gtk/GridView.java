@@ -19,8 +19,8 @@ import org.jetbrains.annotations.*;
  * <p>
  * To learn more about the list widget framework, see the
  * <a href="section-list-widget.html">overview</a>.
- * 
- * <h1>CSS nodes</h1>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * <pre>{@code 
  * gridview
  * ├── child[.activatable]
@@ -35,13 +35,25 @@ import org.jetbrains.annotations.*;
  * a single CSS node with name {@code child}. If the {@code Gtk.ListItem:activatable}
  * property is set, the corresponding row will have the {@code .activatable} style
  * class. For rubberband selection, a subnode with name {@code rubberband} is used.
- * 
- * <h1>Accessibility</h1>
+ * <p>
+ * <strong>Accessibility</strong><br/>
  * {@code GtkGridView} uses the {@link AccessibleRole#GRID} role, and the items
  * use the {@link AccessibleRole#GRID_CELL} role.
  */
-public class GridView extends ListBase implements Accessible, Buildable, ConstraintTarget, Orientable, Scrollable {
-
+public class GridView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Orientable, org.gtk.gtk.Scrollable {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public GridView(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -51,18 +63,16 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
         return new GridView(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_grid_view_new = Interop.downcallHandle(
-        "gtk_grid_view_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNew(@Nullable SelectionModel model, @Nullable ListItemFactory factory) {
+    private static Refcounted constructNew(@Nullable org.gtk.gtk.SelectionModel model, @Nullable org.gtk.gtk.ListItemFactory factory) {
+        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(factory, MemoryAddress.NULL);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_grid_view_new.invokeExact(model.refcounted().unowned().handle(), factory.refcounted().unowned().handle()), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_grid_view_new.invokeExact(model.refcounted().unowned().handle(), factory.refcounted().unowned().handle()), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -75,156 +85,122 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      * grid_view = gtk_grid_view_new (create_model (),
      *   gtk_builder_list_item_factory_new_from_resource ("/resource.ui"));
      * }</pre>
+     * @param model the model to use
+     * @param factory The factory to populate items with
      */
-    public GridView(@Nullable SelectionModel model, @Nullable ListItemFactory factory) {
+    public GridView(@Nullable org.gtk.gtk.SelectionModel model, @Nullable org.gtk.gtk.ListItemFactory factory) {
         super(constructNew(model, factory));
     }
     
-    private static final MethodHandle gtk_grid_view_get_enable_rubberband = Interop.downcallHandle(
-        "gtk_grid_view_get_enable_rubberband",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns whether rows can be selected by dragging with the mouse.
+     * @return {@code true} if rubberband selection is enabled
      */
     public boolean getEnableRubberband() {
         int RESULT;
         try {
-            RESULT = (int) gtk_grid_view_get_enable_rubberband.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_grid_view_get_enable_rubberband.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_grid_view_get_factory = Interop.downcallHandle(
-        "gtk_grid_view_get_factory",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the factory that's currently used to populate list items.
+     * @return The factory in use
      */
-    public @Nullable ListItemFactory getFactory() {
+    public @Nullable org.gtk.gtk.ListItemFactory getFactory() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_grid_view_get_factory.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_grid_view_get_factory.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ListItemFactory(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.ListItemFactory(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_grid_view_get_max_columns = Interop.downcallHandle(
-        "gtk_grid_view_get_max_columns",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the maximum number of columns that the grid will use.
+     * @return The maximum number of columns
      */
     public int getMaxColumns() {
         int RESULT;
         try {
-            RESULT = (int) gtk_grid_view_get_max_columns.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_grid_view_get_max_columns.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle gtk_grid_view_get_min_columns = Interop.downcallHandle(
-        "gtk_grid_view_get_min_columns",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the minimum number of columns that the grid will use.
+     * @return The minimum number of columns
      */
     public int getMinColumns() {
         int RESULT;
         try {
-            RESULT = (int) gtk_grid_view_get_min_columns.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_grid_view_get_min_columns.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle gtk_grid_view_get_model = Interop.downcallHandle(
-        "gtk_grid_view_get_model",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the model that's currently used to read the items displayed.
+     * @return The model in use
      */
-    public @Nullable SelectionModel getModel() {
+    public @Nullable org.gtk.gtk.SelectionModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_grid_view_get_model.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_grid_view_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_grid_view_get_single_click_activate = Interop.downcallHandle(
-        "gtk_grid_view_get_single_click_activate",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns whether items will be activated on single click and
      * selected on hover.
+     * @return {@code true} if items are activated on single click
      */
     public boolean getSingleClickActivate() {
         int RESULT;
         try {
-            RESULT = (int) gtk_grid_view_get_single_click_activate.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_grid_view_get_single_click_activate.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_grid_view_set_enable_rubberband = Interop.downcallHandle(
-        "gtk_grid_view_set_enable_rubberband",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Sets whether selections can be changed by dragging with the mouse.
+     * @param enableRubberband {@code true} to enable rubberband selection
      */
-    public @NotNull void setEnableRubberband(@NotNull boolean enableRubberband) {
+    public void setEnableRubberband(boolean enableRubberband) {
         try {
-            gtk_grid_view_set_enable_rubberband.invokeExact(handle(), enableRubberband ? 1 : 0);
+            DowncallHandles.gtk_grid_view_set_enable_rubberband.invokeExact(handle(), enableRubberband ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_grid_view_set_factory = Interop.downcallHandle(
-        "gtk_grid_view_set_factory",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the {@code GtkListItemFactory} to use for populating list items.
+     * @param factory the factory to use
      */
-    public @NotNull void setFactory(@Nullable ListItemFactory factory) {
+    public void setFactory(@Nullable org.gtk.gtk.ListItemFactory factory) {
+        java.util.Objects.requireNonNullElse(factory, MemoryAddress.NULL);
         try {
-            gtk_grid_view_set_factory.invokeExact(handle(), factory.handle());
+            DowncallHandles.gtk_grid_view_set_factory.invokeExact(handle(), factory.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_grid_view_set_max_columns = Interop.downcallHandle(
-        "gtk_grid_view_set_max_columns",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the maximum number of columns to use.
@@ -233,19 +209,15 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      * <p>
      * If {@code max_columns} is smaller than the minimum set via
      * {@link GridView#setMinColumns}, that value is used instead.
+     * @param maxColumns The maximum number of columns
      */
-    public @NotNull void setMaxColumns(@NotNull int maxColumns) {
+    public void setMaxColumns(int maxColumns) {
         try {
-            gtk_grid_view_set_max_columns.invokeExact(handle(), maxColumns);
+            DowncallHandles.gtk_grid_view_set_max_columns.invokeExact(handle(), maxColumns);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_grid_view_set_min_columns = Interop.downcallHandle(
-        "gtk_grid_view_set_min_columns",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the minimum number of columns to use.
@@ -254,53 +226,47 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      * <p>
      * If {@code min_columns} is smaller than the minimum set via
      * {@link GridView#setMaxColumns}, that value is ignored.
+     * @param minColumns The minimum number of columns
      */
-    public @NotNull void setMinColumns(@NotNull int minColumns) {
+    public void setMinColumns(int minColumns) {
         try {
-            gtk_grid_view_set_min_columns.invokeExact(handle(), minColumns);
+            DowncallHandles.gtk_grid_view_set_min_columns.invokeExact(handle(), minColumns);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_grid_view_set_model = Interop.downcallHandle(
-        "gtk_grid_view_set_model",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the imodel to use.
      * <p>
      * This must be a {@code Gtk.SelectionModel}.
+     * @param model the model to use
      */
-    public @NotNull void setModel(@Nullable SelectionModel model) {
+    public void setModel(@Nullable org.gtk.gtk.SelectionModel model) {
+        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         try {
-            gtk_grid_view_set_model.invokeExact(handle(), model.handle());
+            DowncallHandles.gtk_grid_view_set_model.invokeExact(handle(), model.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle gtk_grid_view_set_single_click_activate = Interop.downcallHandle(
-        "gtk_grid_view_set_single_click_activate",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Sets whether items should be activated on single click and
      * selected on hover.
+     * @param singleClickActivate {@code true} to activate items on single click
      */
-    public @NotNull void setSingleClickActivate(@NotNull boolean singleClickActivate) {
+    public void setSingleClickActivate(boolean singleClickActivate) {
         try {
-            gtk_grid_view_set_single_click_activate.invokeExact(handle(), singleClickActivate ? 1 : 0);
+            DowncallHandles.gtk_grid_view_set_single_click_activate.invokeExact(handle(), singleClickActivate ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ActivateHandler {
-        void signalReceived(GridView source, @NotNull int position);
+    public interface Activate {
+        void signalReceived(GridView source, int position);
     }
     
     /**
@@ -311,7 +277,7 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
      * See {@code Gtk.ListItem:activatable} for details on how to use
      * this signal.
      */
-    public SignalHandle onActivate(ActivateHandler handler) {
+    public Signal<GridView.Activate> onActivate(GridView.Activate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -321,21 +287,88 @@ public class GridView extends ListBase implements Accessible, Buildable, Constra
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<GridView.Activate>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static void signalGridViewActivate(MemoryAddress source, int position, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (GridView.ActivateHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GridView(Refcounted.get(source)), position);
-        }
+    private static class DowncallHandles {
         
+        private static final MethodHandle gtk_grid_view_new = Interop.downcallHandle(
+            "gtk_grid_view_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_grid_view_get_enable_rubberband = Interop.downcallHandle(
+            "gtk_grid_view_get_enable_rubberband",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_grid_view_get_factory = Interop.downcallHandle(
+            "gtk_grid_view_get_factory",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_grid_view_get_max_columns = Interop.downcallHandle(
+            "gtk_grid_view_get_max_columns",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_grid_view_get_min_columns = Interop.downcallHandle(
+            "gtk_grid_view_get_min_columns",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_grid_view_get_model = Interop.downcallHandle(
+            "gtk_grid_view_get_model",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_grid_view_get_single_click_activate = Interop.downcallHandle(
+            "gtk_grid_view_get_single_click_activate",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_grid_view_set_enable_rubberband = Interop.downcallHandle(
+            "gtk_grid_view_set_enable_rubberband",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_grid_view_set_factory = Interop.downcallHandle(
+            "gtk_grid_view_set_factory",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_grid_view_set_max_columns = Interop.downcallHandle(
+            "gtk_grid_view_set_max_columns",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_grid_view_set_min_columns = Interop.downcallHandle(
+            "gtk_grid_view_set_min_columns",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_grid_view_set_model = Interop.downcallHandle(
+            "gtk_grid_view_set_model",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_grid_view_set_single_click_activate = Interop.downcallHandle(
+            "gtk_grid_view_set_single_click_activate",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
+    
+    private static class Callbacks {
+        
+        public static void signalGridViewActivate(MemoryAddress source, int position, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (GridView.Activate) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new GridView(Refcounted.get(source)), position);
+        }
     }
 }

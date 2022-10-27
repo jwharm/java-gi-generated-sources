@@ -21,29 +21,39 @@ import org.jetbrains.annotations.*;
  * accessed.
  */
 public class Thread extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GLib.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public Thread(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle g_thread_new = Interop.downcallHandle(
-        "g_thread_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNew(@Nullable java.lang.String name, @NotNull ThreadFunc func) {
+    private static Refcounted constructNew(@Nullable java.lang.String name, @NotNull org.gtk.glib.ThreadFunc func) {
+        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_thread_new.invokeExact(Interop.allocateNativeString(name), 
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_thread_new.invokeExact(Interop.allocateNativeString(name), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.class, "__cbThreadFunc",
+                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbThreadFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func))), true);
-            return RESULT;
+                   (Addressable) (Interop.registerCallback(func))), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -74,33 +84,33 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
      * inheriting the thread priority but were spawned with the default priority.
      * Starting with GLib 2.64 the behaviour is now consistent between Windows and
      * POSIX and all threads inherit their parent thread's priority.
+     * @param name an (optional) name for the new thread
+     * @param func a function to execute in the new thread
      */
-    public Thread(@Nullable java.lang.String name, @NotNull ThreadFunc func) {
+    public Thread(@Nullable java.lang.String name, @NotNull org.gtk.glib.ThreadFunc func) {
         super(constructNew(name, func));
     }
     
-    private static final MethodHandle g_thread_try_new = Interop.downcallHandle(
-        "g_thread_try_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructTryNew(@Nullable java.lang.String name, @NotNull ThreadFunc func) throws GErrorException {
+    private static Refcounted constructTryNew(@Nullable java.lang.String name, @NotNull org.gtk.glib.ThreadFunc func) throws GErrorException {
+        java.util.Objects.requireNonNullElse(name, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_thread_try_new.invokeExact(Interop.allocateNativeString(name), 
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_thread_try_new.invokeExact(Interop.allocateNativeString(name), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.class, "__cbThreadFunc",
+                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbThreadFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)), (Addressable) GERROR), true);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+                   (Addressable) (Interop.registerCallback(func)), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
     /**
@@ -109,15 +119,14 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If a thread can not be created (due to resource limits),
      * {@code error} is set and {@code null} is returned.
+     * @param name an (optional) name for the new thread
+     * @param func a function to execute in the new thread
+     * @return the new {@link Thread}, or {@code null} if an error occurred
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static Thread tryNew(@Nullable java.lang.String name, @NotNull ThreadFunc func) throws GErrorException {
+    public static Thread tryNew(@Nullable java.lang.String name, @NotNull org.gtk.glib.ThreadFunc func) throws GErrorException {
         return new Thread(constructTryNew(name, func));
     }
-    
-    private static final MethodHandle g_thread_join = Interop.downcallHandle(
-        "g_thread_join",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Waits until {@code thread} finishes, i.e. the function {@code func}, as
@@ -136,39 +145,31 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
      * This will usually cause the {@link Thread} struct and associated resources
      * to be freed. Use g_thread_ref() to obtain an extra reference if you
      * want to keep the GThread alive beyond the g_thread_join() call.
+     * @return the return value of the thread
      */
     public @Nullable java.lang.foreign.MemoryAddress join() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_thread_join.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_thread_join.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle g_thread_ref = Interop.downcallHandle(
-        "g_thread_ref",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Increase the reference count on {@code thread}.
+     * @return a new reference to {@code thread}
      */
-    public @NotNull Thread ref() {
+    public @NotNull org.gtk.glib.Thread ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_thread_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_thread_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Thread(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Thread(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_thread_unref = Interop.downcallHandle(
-        "g_thread_unref",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Decrease the reference count on {@code thread}, possibly freeing all
@@ -178,33 +179,23 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
      * it is running, so it is safe to drop your own reference to it
      * if you don't need it anymore.
      */
-    public @NotNull void unref() {
+    public void unref() {
         try {
-            g_thread_unref.invokeExact(handle());
+            DowncallHandles.g_thread_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle g_thread_error_quark = Interop.downcallHandle(
-        "g_thread_error_quark",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT)
-    );
-    
-    public static @NotNull Quark errorQuark() {
+    public static @NotNull org.gtk.glib.Quark errorQuark() {
         int RESULT;
         try {
-            RESULT = (int) g_thread_error_quark.invokeExact();
+            RESULT = (int) DowncallHandles.g_thread_error_quark.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Quark(RESULT);
+        return new org.gtk.glib.Quark(RESULT);
     }
-    
-    private static final MethodHandle g_thread_exit = Interop.downcallHandle(
-        "g_thread_exit",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Terminates the current thread.
@@ -220,19 +211,16 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
      * yourself with g_thread_new() or related APIs. You must not call
      * this function from a thread created with another threading library
      * or or from within a {@link ThreadPool}.
+     * @param retval the return value of this thread
      */
-    public static @NotNull void exit(@Nullable java.lang.foreign.MemoryAddress retval) {
+    public static void exit(@Nullable java.lang.foreign.MemoryAddress retval) {
+        java.util.Objects.requireNonNullElse(retval, MemoryAddress.NULL);
         try {
-            g_thread_exit.invokeExact(retval);
+            DowncallHandles.g_thread_exit.invokeExact(retval);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_thread_self = Interop.downcallHandle(
-        "g_thread_self",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * This function returns the {@link Thread} corresponding to the
@@ -244,21 +232,17 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
      * APIs). This may be useful for thread identification purposes
      * (i.e. comparisons) but you must not use GLib functions (such
      * as g_thread_join()) on these threads.
+     * @return the {@link Thread} representing the current thread
      */
-    public static @NotNull Thread self() {
+    public static @NotNull org.gtk.glib.Thread self() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_thread_self.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.g_thread_self.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Thread(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.Thread(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_thread_yield = Interop.downcallHandle(
-        "g_thread_yield",
-        FunctionDescriptor.ofVoid()
-    );
     
     /**
      * Causes the calling thread to voluntarily relinquish the CPU, so
@@ -266,12 +250,59 @@ public class Thread extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * This function is often used as a method to make busy wait less evil.
      */
-    public static @NotNull void yield() {
+    public static void yield() {
         try {
-            g_thread_yield.invokeExact();
+            DowncallHandles.g_thread_yield.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_thread_new = Interop.downcallHandle(
+            "g_thread_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_thread_try_new = Interop.downcallHandle(
+            "g_thread_try_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_thread_join = Interop.downcallHandle(
+            "g_thread_join",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_thread_ref = Interop.downcallHandle(
+            "g_thread_ref",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_thread_unref = Interop.downcallHandle(
+            "g_thread_unref",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_thread_error_quark = Interop.downcallHandle(
+            "g_thread_error_quark",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_thread_exit = Interop.downcallHandle(
+            "g_thread_exit",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_thread_self = Interop.downcallHandle(
+            "g_thread_self",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_thread_yield = Interop.downcallHandle(
+            "g_thread_yield",
+            FunctionDescriptor.ofVoid()
+        );
+    }
 }

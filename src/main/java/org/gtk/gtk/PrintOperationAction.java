@@ -1,12 +1,25 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Determines what action the print operation should perform.
  * <p>
  * A parameter of this typs is passed to {@link PrintOperation#run}.
  */
 public class PrintOperationAction extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Show the print dialog.
      */
@@ -32,5 +45,4 @@ public class PrintOperationAction extends io.github.jwharm.javagi.Enumeration {
     public PrintOperationAction(int value) {
         super(value);
     }
-    
 }

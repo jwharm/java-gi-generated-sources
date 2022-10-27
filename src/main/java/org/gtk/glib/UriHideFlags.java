@@ -1,13 +1,27 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Flags describing what parts of the URI to hide in
  * g_uri_to_string_partial(). Note that {@link UriHideFlags#PASSWORD} and
  * {@link UriHideFlags#AUTH_PARAMS} will only work if the {@link Uri} was parsed with
  * the corresponding flags.
+ * @version 2.66
  */
 public class UriHideFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * No flags set.
      */
@@ -41,5 +55,4 @@ public class UriHideFlags extends io.github.jwharm.javagi.Bitfield {
     public UriHideFlags(int value) {
         super(value);
     }
-    
 }

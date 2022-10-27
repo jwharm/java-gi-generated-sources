@@ -1,5 +1,10 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Specifies which features the print dialog should offer.
  * <p>
@@ -8,7 +13,15 @@ package org.gtk.gtk;
  * formats are supported.
  */
 public class PrintCapabilities extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Print dialog will offer printing even/odd pages.
      */
@@ -66,5 +79,4 @@ public class PrintCapabilities extends io.github.jwharm.javagi.Bitfield {
     public PrintCapabilities(int value) {
         super(value);
     }
-    
 }

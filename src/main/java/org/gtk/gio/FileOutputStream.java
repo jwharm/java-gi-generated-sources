@@ -21,8 +21,25 @@ import org.jetbrains.annotations.*;
  * truncating, use g_seekable_can_truncate(). To truncate a file output
  * stream, use g_seekable_truncate().
  */
-public class FileOutputStream extends OutputStream implements Seekable {
-
+public class FileOutputStream extends org.gtk.gio.OutputStream implements org.gtk.gio.Seekable {
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gio.OutputStream.getMemoryLayout().withName("parent_instance"),
+        org.gtk.gio.FileOutputStreamPrivate.getMemoryLayout().withName("priv")
+    ).withName("GFileOutputStream");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public FileOutputStream(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -32,30 +49,21 @@ public class FileOutputStream extends OutputStream implements Seekable {
         return new FileOutputStream(gobject.refcounted());
     }
     
-    private static final MethodHandle g_file_output_stream_get_etag = Interop.downcallHandle(
-        "g_file_output_stream_get_etag",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the entity tag for the file when it has been written.
      * This must be called after the stream has been written
      * and closed, as the etag can change while writing.
+     * @return the entity tag for the stream.
      */
     public @Nullable java.lang.String getEtag() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_file_output_stream_get_etag.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_output_stream_get_etag.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_file_output_stream_query_info = Interop.downcallHandle(
-        "g_file_output_stream_query_info",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Queries a file output stream for the given {@code attributes}.
@@ -75,25 +83,26 @@ public class FileOutputStream extends OutputStream implements Seekable {
      * triggering the cancellable object from another thread. If the operation
      * was cancelled, the error {@link IOErrorEnum#CANCELLED} will be set, and {@code null} will
      * be returned.
+     * @param attributes a file attribute query string.
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @return a {@link FileInfo} for the {@code stream}, or {@code null} on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull FileInfo queryInfo(@NotNull java.lang.String attributes, @Nullable Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.gio.FileInfo queryInfo(@NotNull java.lang.String attributes, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(attributes, "Parameter 'attributes' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_file_output_stream_query_info.invokeExact(handle(), Interop.allocateNativeString(attributes), cancellable.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_file_output_stream_query_info.invokeExact(handle(), Interop.allocateNativeString(attributes), cancellable.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileInfo(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.FileInfo(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_file_output_stream_query_info_async = Interop.downcallHandle(
-        "g_file_output_stream_query_info_async",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Asynchronously queries the {@code stream} for a {@link FileInfo}. When completed,
@@ -102,42 +111,70 @@ public class FileOutputStream extends OutputStream implements Seekable {
      * <p>
      * For the synchronous version of this function, see
      * g_file_output_stream_query_info().
+     * @param attributes a file attribute query string.
+     * @param ioPriority the [I/O priority][gio-GIOScheduler] of the request
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @param callback callback to call when the request is satisfied
      */
-    public @NotNull void queryInfoAsync(@NotNull java.lang.String attributes, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
+    public void queryInfoAsync(@NotNull java.lang.String attributes, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNull(attributes, "Parameter 'attributes' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            g_file_output_stream_query_info_async.invokeExact(handle(), Interop.allocateNativeString(attributes), ioPriority, cancellable.handle(), 
+            DowncallHandles.g_file_output_stream_query_info_async.invokeExact(handle(), Interop.allocateNativeString(attributes), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
+                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle g_file_output_stream_query_info_finish = Interop.downcallHandle(
-        "g_file_output_stream_query_info_finish",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Finalizes the asynchronous query started
      * by g_file_output_stream_query_info_async().
+     * @param result a {@link AsyncResult}.
+     * @return A {@link FileInfo} for the finished query.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull FileInfo queryInfoFinish(@NotNull AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.gio.FileInfo queryInfoFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_file_output_stream_query_info_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_file_output_stream_query_info_finish.invokeExact(handle(), result.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new FileInfo(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.FileInfo(Refcounted.get(RESULT, true));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_file_output_stream_get_etag = Interop.downcallHandle(
+            "g_file_output_stream_get_etag",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_output_stream_query_info = Interop.downcallHandle(
+            "g_file_output_stream_query_info",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_output_stream_query_info_async = Interop.downcallHandle(
+            "g_file_output_stream_query_info_async",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_output_stream_query_info_finish = Interop.downcallHandle(
+            "g_file_output_stream_query_info_finish",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

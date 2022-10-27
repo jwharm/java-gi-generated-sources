@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -11,5 +13,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface DrawingAreaDrawFunc {
-        void onDrawingAreaDrawFunc(@NotNull DrawingArea drawingArea, @NotNull org.cairographics.Context cr, @NotNull int width, @NotNull int height);
+        void onDrawingAreaDrawFunc(@NotNull org.gtk.gtk.DrawingArea drawingArea, @NotNull org.cairographics.Context cr, int width, int height);
 }

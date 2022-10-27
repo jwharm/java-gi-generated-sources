@@ -1,6 +1,8 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -11,5 +13,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ValueTransform {
-        void onValueTransform(@NotNull Value srcValue, @NotNull Value destValue);
+        void onValueTransform(@NotNull org.gtk.gobject.Value srcValue, @NotNull org.gtk.gobject.Value destValue);
 }

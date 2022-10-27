@@ -1,11 +1,25 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Flags to pass to g_main_context_new_with_flags() which affect the behaviour
  * of a {@link MainContext}.
+ * @version 2.72
  */
 public class MainContextFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Default behaviour.
      */
@@ -22,5 +36,4 @@ public class MainContextFlags extends io.github.jwharm.javagi.Bitfield {
     public MainContextFlags(int value) {
         super(value);
     }
-    
 }

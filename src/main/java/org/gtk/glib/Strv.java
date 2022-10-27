@@ -5,8 +5,8 @@ package org.gtk.glib;
  * g_auto().
  */
 public class Strv extends io.github.jwharm.javagi.Alias<java.lang.String> {
+    
     public Strv(java.lang.String value) {
         super(value);
     }
-    
 }

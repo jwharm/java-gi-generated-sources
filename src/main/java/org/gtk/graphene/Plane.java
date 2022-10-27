@@ -10,187 +10,183 @@ import org.jetbrains.annotations.*;
  * <p>
  * The contents of the {@code graphene_plane_t} are private, and should not be
  * modified directly.
+ * @version 1.2
  */
 public class Plane extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Graphene.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.graphene.Vec3.getMemoryLayout().withName("normal"),
+        ValueLayout.JAVA_FLOAT.withName("constant")
+    ).withName("graphene_plane_t");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public Plane(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle graphene_plane_alloc = Interop.downcallHandle(
-        "graphene_plane_alloc",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructAlloc() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) graphene_plane_alloc.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.graphene_plane_alloc.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Allocates a new {@link Plane} structure.
      * <p>
      * The contents of the returned structure are undefined.
+     * @return the newly allocated {@link Plane}.
+     *   Use graphene_plane_free() to free the resources allocated by
+     *   this function
      */
     public static Plane alloc() {
         return new Plane(constructAlloc());
     }
     
-    private static final MethodHandle graphene_plane_distance = Interop.downcallHandle(
-        "graphene_plane_distance",
-        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Computes the distance of {@code point} from a {@link Plane}.
+     * @param point a {@link Point3D}
+     * @return the distance of the given {@link Point3D} from the plane
      */
-    public float distance(@NotNull Point3D point) {
+    public float distance(@NotNull org.gtk.graphene.Point3D point) {
+        java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
         float RESULT;
         try {
-            RESULT = (float) graphene_plane_distance.invokeExact(handle(), point.handle());
+            RESULT = (float) DowncallHandles.graphene_plane_distance.invokeExact(handle(), point.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle graphene_plane_equal = Interop.downcallHandle(
-        "graphene_plane_equal",
-        FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Checks whether the two given {@link Plane} are equal.
+     * @param b a {@link Plane}
+     * @return {@code true} if the given planes are equal
      */
-    public boolean equal(@NotNull Plane b) {
+    public boolean equal(@NotNull org.gtk.graphene.Plane b) {
+        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         boolean RESULT;
         try {
-            RESULT = (boolean) graphene_plane_equal.invokeExact(handle(), b.handle());
+            RESULT = (boolean) DowncallHandles.graphene_plane_equal.invokeExact(handle(), b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle graphene_plane_free = Interop.downcallHandle(
-        "graphene_plane_free",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Frees the resources allocated by graphene_plane_alloc().
      */
-    public @NotNull void free() {
+    public void free() {
         try {
-            graphene_plane_free.invokeExact(handle());
+            DowncallHandles.graphene_plane_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle graphene_plane_get_constant = Interop.downcallHandle(
-        "graphene_plane_get_constant",
-        FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Retrieves the distance along the normal vector of the
      * given {@link Plane} from the origin.
+     * @return the constant value of the plane
      */
     public float getConstant() {
         float RESULT;
         try {
-            RESULT = (float) graphene_plane_get_constant.invokeExact(handle());
+            RESULT = (float) DowncallHandles.graphene_plane_get_constant.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle graphene_plane_get_normal = Interop.downcallHandle(
-        "graphene_plane_get_normal",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Retrieves the normal vector pointing towards the origin of the
      * given {@link Plane}.
+     * @param normal return location for the normal vector
      */
-    public @NotNull void getNormal(@NotNull Out<Vec3> normal) {
+    public void getNormal(@NotNull Out<org.gtk.graphene.Vec3> normal) {
+        java.util.Objects.requireNonNull(normal, "Parameter 'normal' must not be null");
         MemorySegment normalPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_plane_get_normal.invokeExact(handle(), (Addressable) normalPOINTER.address());
+            DowncallHandles.graphene_plane_get_normal.invokeExact(handle(), (Addressable) normalPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        normal.set(new Vec3(Refcounted.get(normalPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        normal.set(new org.gtk.graphene.Vec3(Refcounted.get(normalPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle graphene_plane_init = Interop.downcallHandle(
-        "graphene_plane_init",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
-    );
     
     /**
      * Initializes the given {@link Plane} using the given {@code normal} vector
      * and {@code constant} values.
+     * @param normal a unit length normal vector defining the plane
+     *   pointing towards the origin; if unset, we use the X axis by default
+     * @param constant the distance from the origin to the plane along the
+     *   normal vector; the sign determines the half-space occupied by the
+     *   plane
+     * @return the initialized plane
      */
-    public @NotNull Plane init(@Nullable Vec3 normal, @NotNull float constant) {
+    public @NotNull org.gtk.graphene.Plane init(@Nullable org.gtk.graphene.Vec3 normal, float constant) {
+        java.util.Objects.requireNonNullElse(normal, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_plane_init.invokeExact(handle(), normal.handle(), constant);
+            RESULT = (MemoryAddress) DowncallHandles.graphene_plane_init.invokeExact(handle(), normal.handle(), constant);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Plane(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Plane(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle graphene_plane_init_from_plane = Interop.downcallHandle(
-        "graphene_plane_init_from_plane",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Initializes the given {@link Plane} using the normal
      * vector and constant of another {@link Plane}.
+     * @param src a {@link Plane}
+     * @return the initialized plane
      */
-    public @NotNull Plane initFromPlane(@NotNull Plane src) {
+    public @NotNull org.gtk.graphene.Plane initFromPlane(@NotNull org.gtk.graphene.Plane src) {
+        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_plane_init_from_plane.invokeExact(handle(), src.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_plane_init_from_plane.invokeExact(handle(), src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Plane(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Plane(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle graphene_plane_init_from_point = Interop.downcallHandle(
-        "graphene_plane_init_from_point",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Initializes the given {@link Plane} using the given normal vector
      * and an arbitrary co-planar point.
+     * @param normal a normal vector defining the plane pointing towards the origin
+     * @param point a {@link Point3D}
+     * @return the initialized plane
      */
-    public @NotNull Plane initFromPoint(@NotNull Vec3 normal, @NotNull Point3D point) {
+    public @NotNull org.gtk.graphene.Plane initFromPoint(@NotNull org.gtk.graphene.Vec3 normal, @NotNull org.gtk.graphene.Point3D point) {
+        java.util.Objects.requireNonNull(normal, "Parameter 'normal' must not be null");
+        java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_plane_init_from_point.invokeExact(handle(), normal.handle(), point.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_plane_init_from_point.invokeExact(handle(), normal.handle(), point.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Plane(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Plane(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle graphene_plane_init_from_points = Interop.downcallHandle(
-        "graphene_plane_init_from_points",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Initializes the given {@link Plane} using the 3 provided co-planar
@@ -198,81 +194,76 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * The winding order is counter-clockwise, and determines which direction
      * the normal vector will point.
+     * @param a a {@link Point3D}
+     * @param b a {@link Point3D}
+     * @param c a {@link Point3D}
+     * @return the initialized plane
      */
-    public @NotNull Plane initFromPoints(@NotNull Point3D a, @NotNull Point3D b, @NotNull Point3D c) {
+    public @NotNull org.gtk.graphene.Plane initFromPoints(@NotNull org.gtk.graphene.Point3D a, @NotNull org.gtk.graphene.Point3D b, @NotNull org.gtk.graphene.Point3D c) {
+        java.util.Objects.requireNonNull(a, "Parameter 'a' must not be null");
+        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+        java.util.Objects.requireNonNull(c, "Parameter 'c' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_plane_init_from_points.invokeExact(handle(), a.handle(), b.handle(), c.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_plane_init_from_points.invokeExact(handle(), a.handle(), b.handle(), c.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Plane(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Plane(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle graphene_plane_init_from_vec4 = Interop.downcallHandle(
-        "graphene_plane_init_from_vec4",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Initializes the given {@link Plane} using the components of
      * the given {@link Vec4} vector.
+     * @param src a {@link Vec4} containing the normal vector in its first
+     *   three components, and the distance in its fourth component
+     * @return the initialized plane
      */
-    public @NotNull Plane initFromVec4(@NotNull Vec4 src) {
+    public @NotNull org.gtk.graphene.Plane initFromVec4(@NotNull org.gtk.graphene.Vec4 src) {
+        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) graphene_plane_init_from_vec4.invokeExact(handle(), src.handle());
+            RESULT = (MemoryAddress) DowncallHandles.graphene_plane_init_from_vec4.invokeExact(handle(), src.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Plane(Refcounted.get(RESULT, false));
+        return new org.gtk.graphene.Plane(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle graphene_plane_negate = Interop.downcallHandle(
-        "graphene_plane_negate",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Negates the normal vector and constant of a {@link Plane}, effectively
      * mirroring the plane across the origin.
+     * @param res return location for the negated plane
      */
-    public @NotNull void negate(@NotNull Out<Plane> res) {
+    public void negate(@NotNull Out<org.gtk.graphene.Plane> res) {
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_plane_negate.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_plane_negate.invokeExact(handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Plane(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Plane(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle graphene_plane_normalize = Interop.downcallHandle(
-        "graphene_plane_normalize",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Normalizes the vector of the given {@link Plane},
      * and adjusts the constant accordingly.
+     * @param res return location for the normalized plane
      */
-    public @NotNull void normalize(@NotNull Out<Plane> res) {
+    public void normalize(@NotNull Out<org.gtk.graphene.Plane> res) {
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_plane_normalize.invokeExact(handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_plane_normalize.invokeExact(handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Plane(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Plane(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    private static final MethodHandle graphene_plane_transform = Interop.downcallHandle(
-        "graphene_plane_transform",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
-     * Transforms a {@link Plane} @p using the given {@code matrix}
+     * Transforms a {@link Plane} {@code p} using the given {@code matrix}
      * and {@code normal_matrix}.
      * <p>
      * If {@code normal_matrix} is {@code null}, a transformation matrix for the plane
@@ -280,15 +271,93 @@ public class Plane extends io.github.jwharm.javagi.ResourceBase {
      * multiple planes using the same {@code matrix} it's recommended to compute
      * the normal matrix beforehand to avoid incurring in the cost of
      * recomputing it every time.
+     * @param matrix a {@link Matrix}
+     * @param normalMatrix a {@link Matrix}
+     * @param res the transformed plane
      */
-    public @NotNull void transform(@NotNull Matrix matrix, @Nullable Matrix normalMatrix, @NotNull Out<Plane> res) {
+    public void transform(@NotNull org.gtk.graphene.Matrix matrix, @Nullable org.gtk.graphene.Matrix normalMatrix, @NotNull Out<org.gtk.graphene.Plane> res) {
+        java.util.Objects.requireNonNull(matrix, "Parameter 'matrix' must not be null");
+        java.util.Objects.requireNonNullElse(normalMatrix, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment resPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            graphene_plane_transform.invokeExact(handle(), matrix.handle(), normalMatrix.handle(), (Addressable) resPOINTER.address());
+            DowncallHandles.graphene_plane_transform.invokeExact(handle(), matrix.handle(), normalMatrix.handle(), (Addressable) resPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new Plane(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        res.set(new org.gtk.graphene.Plane(Refcounted.get(resPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle graphene_plane_alloc = Interop.downcallHandle(
+            "graphene_plane_alloc",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_plane_distance = Interop.downcallHandle(
+            "graphene_plane_distance",
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_plane_equal = Interop.downcallHandle(
+            "graphene_plane_equal",
+            FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_plane_free = Interop.downcallHandle(
+            "graphene_plane_free",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_plane_get_constant = Interop.downcallHandle(
+            "graphene_plane_get_constant",
+            FunctionDescriptor.of(ValueLayout.JAVA_FLOAT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_plane_get_normal = Interop.downcallHandle(
+            "graphene_plane_get_normal",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_plane_init = Interop.downcallHandle(
+            "graphene_plane_init",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_FLOAT)
+        );
+        
+        private static final MethodHandle graphene_plane_init_from_plane = Interop.downcallHandle(
+            "graphene_plane_init_from_plane",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_plane_init_from_point = Interop.downcallHandle(
+            "graphene_plane_init_from_point",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_plane_init_from_points = Interop.downcallHandle(
+            "graphene_plane_init_from_points",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_plane_init_from_vec4 = Interop.downcallHandle(
+            "graphene_plane_init_from_vec4",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_plane_negate = Interop.downcallHandle(
+            "graphene_plane_negate",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_plane_normalize = Interop.downcallHandle(
+            "graphene_plane_normalize",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle graphene_plane_transform = Interop.downcallHandle(
+            "graphene_plane_transform",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

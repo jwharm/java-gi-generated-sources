@@ -12,8 +12,25 @@ import org.jetbrains.annotations.*;
  * As of GLib 2.34, {@link MemoryOutputStream} trivially implements
  * {@link PollableOutputStream}: it always polls as ready.
  */
-public class MemoryOutputStream extends OutputStream implements PollableOutputStream, Seekable {
-
+public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.gtk.gio.PollableOutputStream, org.gtk.gio.Seekable {
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gio.OutputStream.getMemoryLayout().withName("parent_instance"),
+        org.gtk.gio.MemoryOutputStreamPrivate.getMemoryLayout().withName("priv")
+    ).withName("GMemoryOutputStream");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public MemoryOutputStream(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -23,25 +40,22 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
         return new MemoryOutputStream(gobject.refcounted());
     }
     
-    private static final MethodHandle g_memory_output_stream_new = Interop.downcallHandle(
-        "g_memory_output_stream_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNew(@NotNull long size, @Nullable ReallocFunc reallocFunction) {
+    private static Refcounted constructNew(long size, @Nullable org.gtk.gio.ReallocFunc reallocFunction) {
+        java.util.Objects.requireNonNullElse(reallocFunction, MemoryAddress.NULL);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_memory_output_stream_new.invokeExact(
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(reallocFunction)), size, 
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_memory_output_stream_new.invokeExact(
+                   (Addressable) (reallocFunction == null ? MemoryAddress.NULL : Interop.registerCallback(reallocFunction)), size, 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.class, "__cbReallocFunc",
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbReallocFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class, long.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG),
                         Interop.getScope()), 
                     Interop.cbDestroyNotifySymbol()), true);
-            return RESULT;
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -74,7 +88,6 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * is non-{@code null} then it makes most sense to give {@code data} as {@code null} and
      * {@code size} as 0 (allowing {@link MemoryOutputStream} to do the initial
      * allocation for itself).
-     * <p>
      * <pre>{@code <!-- language="C" -->
      * // a stream that can grow
      * stream = g_memory_output_stream_new (NULL, 0, realloc, free);
@@ -86,23 +99,22 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * data = malloc (200);
      * stream3 = g_memory_output_stream_new (data, 200, NULL, free);
      * }</pre>
+     * @param size the size of {@code data}
+     * @param reallocFunction a function with realloc() semantics (like g_realloc())
+     *     to be called when {@code data} needs to be grown, or {@code null}
      */
-    public MemoryOutputStream(@NotNull long size, @Nullable ReallocFunc reallocFunction) {
+    public MemoryOutputStream(long size, @Nullable org.gtk.gio.ReallocFunc reallocFunction) {
         super(constructNew(size, reallocFunction));
     }
     
-    private static final MethodHandle g_memory_output_stream_new_resizable = Interop.downcallHandle(
-        "g_memory_output_stream_new_resizable",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNewResizable() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_memory_output_stream_new_resizable.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_memory_output_stream_new_resizable.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -113,50 +125,38 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
         return new MemoryOutputStream(constructNewResizable());
     }
     
-    private static final MethodHandle g_memory_output_stream_get_data = Interop.downcallHandle(
-        "g_memory_output_stream_get_data",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets any loaded data from the {@code ostream}.
      * <p>
      * Note that the returned pointer may become invalid on the next
      * write or truncate operation on the stream.
+     * @return pointer to the stream's data, or {@code null} if the data
+     *    has been stolen
      */
     public @Nullable java.lang.foreign.MemoryAddress getData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_memory_output_stream_get_data.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_memory_output_stream_get_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_memory_output_stream_get_data_size = Interop.downcallHandle(
-        "g_memory_output_stream_get_data_size",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the number of bytes from the start up to including the last
      * byte written in the stream that has not been truncated away.
+     * @return the number of bytes written to the stream
      */
     public long getDataSize() {
         long RESULT;
         try {
-            RESULT = (long) g_memory_output_stream_get_data_size.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_memory_output_stream_get_data_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_memory_output_stream_get_size = Interop.downcallHandle(
-        "g_memory_output_stream_get_size",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the size of the currently allocated data area (available from
@@ -174,40 +174,32 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * <p>
      * In any case, if you want the number of bytes currently written to the
      * stream, use g_memory_output_stream_get_data_size().
+     * @return the number of bytes allocated for the data buffer
      */
     public long getSize() {
         long RESULT;
         try {
-            RESULT = (long) g_memory_output_stream_get_size.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_memory_output_stream_get_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle g_memory_output_stream_steal_as_bytes = Interop.downcallHandle(
-        "g_memory_output_stream_steal_as_bytes",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns data from the {@code ostream} as a {@link org.gtk.glib.Bytes}. {@code ostream} must be
      * closed before calling this function.
+     * @return the stream's data
      */
     public @NotNull org.gtk.glib.Bytes stealAsBytes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_memory_output_stream_steal_as_bytes.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_memory_output_stream_steal_as_bytes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_memory_output_stream_steal_data = Interop.downcallHandle(
-        "g_memory_output_stream_steal_data",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets any loaded data from the {@code ostream}. Ownership of the data
@@ -216,15 +208,54 @@ public class MemoryOutputStream extends OutputStream implements PollableOutputSt
      * {@link MemoryOutputStream}:destroy-function property.
      * <p>
      * {@code ostream} must be closed before calling this function.
+     * @return the stream's data, or {@code null} if it has previously
+     *    been stolen
      */
     public @Nullable java.lang.foreign.MemoryAddress stealData() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_memory_output_stream_steal_data.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_memory_output_stream_steal_data.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_memory_output_stream_new = Interop.downcallHandle(
+            "g_memory_output_stream_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_memory_output_stream_new_resizable = Interop.downcallHandle(
+            "g_memory_output_stream_new_resizable",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_memory_output_stream_get_data = Interop.downcallHandle(
+            "g_memory_output_stream_get_data",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_memory_output_stream_get_data_size = Interop.downcallHandle(
+            "g_memory_output_stream_get_data_size",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_memory_output_stream_get_size = Interop.downcallHandle(
+            "g_memory_output_stream_get_size",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_memory_output_stream_steal_as_bytes = Interop.downcallHandle(
+            "g_memory_output_stream_steal_as_bytes",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_memory_output_stream_steal_data = Interop.downcallHandle(
+            "g_memory_output_stream_steal_data",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

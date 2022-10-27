@@ -1,15 +1,17 @@
 package org.harfbuzz;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
- * A virtual method for the {@link font_funcs_t} of an {@link font_t} object.
+ * A virtual method for the {@link FontFuncsT} of an {@link FontT} object.
  * <p>
  * This method should retrieve the glyph ID that corresponds to a glyph-name
  * string.
  */
 @FunctionalInterface
 public interface FontGetGlyphFromNameFuncT {
-        BoolT onFontGetGlyphFromNameFuncT(@NotNull FontT font, @Nullable java.lang.foreign.MemoryAddress fontData, @NotNull PointerString name, @NotNull int len, @NotNull Out<CodepointT> glyph, @Nullable java.lang.foreign.MemoryAddress userData);
+        org.harfbuzz.BoolT onFontGetGlyphFromNameFuncT(@NotNull org.harfbuzz.FontT font, @Nullable java.lang.foreign.MemoryAddress fontData, PointerString name, int len, @NotNull Out<org.harfbuzz.CodepointT> glyph, @Nullable java.lang.foreign.MemoryAddress userData);
 }

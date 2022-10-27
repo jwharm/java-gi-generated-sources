@@ -6,9 +6,20 @@ import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 public class InetAddressPrivate extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public InetAddressPrivate(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
 }

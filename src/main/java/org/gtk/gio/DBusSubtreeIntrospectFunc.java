@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -22,8 +24,9 @@ import org.jetbrains.annotations.*;
  * items is that the standard DBus interfaces will returned to the
  * remote introspector in the empty array case, but not in the {@code null}
  * case.
+ * @version 2.26
  */
 @FunctionalInterface
 public interface DBusSubtreeIntrospectFunc {
-        void onDBusSubtreeIntrospectFunc(@NotNull DBusConnection connection, @NotNull java.lang.String sender, @NotNull java.lang.String objectPath, @NotNull java.lang.String node);
+        void onDBusSubtreeIntrospectFunc(@NotNull org.gtk.gio.DBusConnection connection, @NotNull java.lang.String sender, @NotNull java.lang.String objectPath, @NotNull java.lang.String node);
 }

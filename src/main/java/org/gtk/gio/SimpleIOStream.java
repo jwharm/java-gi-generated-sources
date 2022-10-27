@@ -14,9 +14,22 @@ import org.jetbrains.annotations.*;
  * by other means, for instance creating them with platform specific methods as
  * g_unix_input_stream_new() or g_win32_input_stream_new(), and you want
  * to take advantage of the methods provided by {@link IOStream}.
+ * @version 2.44
  */
-public class SimpleIOStream extends IOStream {
-
+public class SimpleIOStream extends org.gtk.gio.IOStream {
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public SimpleIOStream(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -26,26 +39,33 @@ public class SimpleIOStream extends IOStream {
         return new SimpleIOStream(gobject.refcounted());
     }
     
-    private static final MethodHandle g_simple_io_stream_new = Interop.downcallHandle(
-        "g_simple_io_stream_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNew(@NotNull InputStream inputStream, @NotNull OutputStream outputStream) {
+    private static Refcounted constructNew(@NotNull org.gtk.gio.InputStream inputStream, @NotNull org.gtk.gio.OutputStream outputStream) {
+        java.util.Objects.requireNonNull(inputStream, "Parameter 'inputStream' must not be null");
+        java.util.Objects.requireNonNull(outputStream, "Parameter 'outputStream' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_simple_io_stream_new.invokeExact(inputStream.handle(), outputStream.handle()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_simple_io_stream_new.invokeExact(inputStream.handle(), outputStream.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a new {@link SimpleIOStream} wrapping {@code input_stream} and {@code output_stream}.
      * See also {@link IOStream}.
+     * @param inputStream a {@link InputStream}.
+     * @param outputStream a {@link OutputStream}.
      */
-    public SimpleIOStream(@NotNull InputStream inputStream, @NotNull OutputStream outputStream) {
+    public SimpleIOStream(@NotNull org.gtk.gio.InputStream inputStream, @NotNull org.gtk.gio.OutputStream outputStream) {
         super(constructNew(inputStream, outputStream));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_simple_io_stream_new = Interop.downcallHandle(
+            "g_simple_io_stream_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

@@ -10,15 +10,31 @@ import org.jetbrains.annotations.*;
  * impose shape restrictions.
  */
 public class AttrShape extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Pango.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.pango.Attribute.getMemoryLayout().withName("attr"),
+        org.pango.Rectangle.getMemoryLayout().withName("ink_rect"),
+        org.pango.Rectangle.getMemoryLayout().withName("logical_rect"),
+        Interop.valueLayout.ADDRESS.withName("data"),
+        Interop.valueLayout.ADDRESS.withName("copy_func"),
+        Interop.valueLayout.ADDRESS.withName("destroy_func")
+    ).withName("PangoAttrShape");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public AttrShape(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
-    private static final MethodHandle pango_attr_shape_new = Interop.downcallHandle(
-        "pango_attr_shape_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Create a new shape attribute.
@@ -27,36 +43,49 @@ public class AttrShape extends io.github.jwharm.javagi.ResourceBase {
      * rectangle on the result of shaping a particular glyph.
      * This might be used, for instance, for embedding a picture
      * or a widget inside a {@code PangoLayout}.
+     * @param inkRect ink rectangle to assign to each character
+     * @param logicalRect logical rectangle to assign to each character
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute new_(@NotNull Rectangle inkRect, @NotNull Rectangle logicalRect) {
+    public static @NotNull org.pango.Attribute new_(@NotNull org.pango.Rectangle inkRect, @NotNull org.pango.Rectangle logicalRect) {
+        java.util.Objects.requireNonNull(inkRect, "Parameter 'inkRect' must not be null");
+        java.util.Objects.requireNonNull(logicalRect, "Parameter 'logicalRect' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_shape_new.invokeExact(inkRect.handle(), logicalRect.handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_shape_new.invokeExact(inkRect.handle(), logicalRect.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_shape_new_with_data = Interop.downcallHandle(
-        "pango_attr_shape_new_with_data",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Creates a new shape attribute.
      * <p>
-     * Like {@link Pango#AttrShape}, but a user data pointer
+     * Like {@link AttrShape#new_}, but a user data pointer
      * is also provided; this pointer can be accessed when later
      * rendering the glyph.
+     * @param inkRect ink rectangle to assign to each character
+     * @param logicalRect logical rectangle to assign to each character
+     * @param copyFunc function to copy {@code data} when the
+     *   attribute is copied. If {@code null}, {@code data} is simply copied
+     *   as a pointer
+     * @return the newly allocated
+     *   {@code PangoAttribute}, which should be freed with
+     *   {@link Attribute#destroy}
      */
-    public static @NotNull Attribute newWithData(@NotNull Rectangle inkRect, @NotNull Rectangle logicalRect, @Nullable AttrDataCopyFunc copyFunc) {
+    public static @NotNull org.pango.Attribute newWithData(@NotNull org.pango.Rectangle inkRect, @NotNull org.pango.Rectangle logicalRect, @Nullable org.pango.AttrDataCopyFunc copyFunc) {
+        java.util.Objects.requireNonNull(inkRect, "Parameter 'inkRect' must not be null");
+        java.util.Objects.requireNonNull(logicalRect, "Parameter 'logicalRect' must not be null");
+        java.util.Objects.requireNonNullElse(copyFunc, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_shape_new_with_data.invokeExact(inkRect.handle(), logicalRect.handle(), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(copyFunc)), 
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_shape_new_with_data.invokeExact(inkRect.handle(), logicalRect.handle(), 
+                   (Addressable) (copyFunc == null ? MemoryAddress.NULL : Interop.registerCallback(copyFunc)), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Pango.class, "__cbAttrDataCopyFunc",
+                        MethodHandles.lookup().findStatic(Pango.Callbacks.class, "cbAttrDataCopyFunc",
                             MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
@@ -64,7 +93,19 @@ public class AttrShape extends io.github.jwharm.javagi.ResourceBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, true));
+        return new org.pango.Attribute(Refcounted.get(RESULT, true));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle pango_attr_shape_new = Interop.downcallHandle(
+            "pango_attr_shape_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_attr_shape_new_with_data = Interop.downcallHandle(
+            "pango_attr_shape_new_with_data",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

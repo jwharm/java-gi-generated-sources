@@ -1,11 +1,24 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * These identify the various errors that can occur while calling
  * {@code GtkFileChooser} functions.
  */
 public class FileChooserError extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Indicates that a file does not exist.
      */
@@ -32,4 +45,25 @@ public class FileChooserError extends io.github.jwharm.javagi.Enumeration {
         super(value);
     }
     
+    /**
+     * Registers an error quark for {@code GtkFileChooser} errors.
+     * @return The error quark used for {@code GtkFileChooser} errors.
+     */
+    public static @NotNull org.gtk.glib.Quark quark() {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gtk_file_chooser_error_quark.invokeExact();
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.glib.Quark(RESULT);
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_file_chooser_error_quark = Interop.downcallHandle(
+            "gtk_file_chooser_error_quark",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+        );
+    }
 }

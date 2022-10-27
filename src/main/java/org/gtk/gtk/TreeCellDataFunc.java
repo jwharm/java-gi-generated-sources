@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -15,5 +17,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface TreeCellDataFunc {
-        void onTreeCellDataFunc(@NotNull TreeViewColumn treeColumn, @NotNull CellRenderer cell, @NotNull TreeModel treeModel, @NotNull TreeIter iter);
+        void onTreeCellDataFunc(@NotNull org.gtk.gtk.TreeViewColumn treeColumn, @NotNull org.gtk.gtk.CellRenderer cell, @NotNull org.gtk.gtk.TreeModel treeModel, @NotNull org.gtk.gtk.TreeIter iter);
 }

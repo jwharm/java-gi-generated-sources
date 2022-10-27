@@ -13,15 +13,29 @@ import org.jetbrains.annotations.*;
  * members.
  */
 public class TreeIter extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        ValueLayout.JAVA_INT.withName("stamp"),
+        Interop.valueLayout.ADDRESS.withName("user_data"),
+        Interop.valueLayout.ADDRESS.withName("user_data2"),
+        Interop.valueLayout.ADDRESS.withName("user_data3")
+    ).withName("GtkTreeIter");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public TreeIter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
-    private static final MethodHandle gtk_tree_iter_copy = Interop.downcallHandle(
-        "gtk_tree_iter_copy",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Creates a dynamically allocated tree iterator as a copy of {@code iter}.
@@ -30,33 +44,41 @@ public class TreeIter extends io.github.jwharm.javagi.ResourceBase {
      * because you can just copy the structs by value
      * ({@code GtkTreeIter new_iter = iter;}).
      * You must free this iter with gtk_tree_iter_free().
+     * @return a newly-allocated copy of {@code iter}
      */
-    public @NotNull TreeIter copy() {
+    public @NotNull org.gtk.gtk.TreeIter copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_tree_iter_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_iter_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new TreeIter(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.TreeIter(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle gtk_tree_iter_free = Interop.downcallHandle(
-        "gtk_tree_iter_free",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Frees an iterator that has been allocated by gtk_tree_iter_copy().
      * <p>
      * This function is mainly used for language bindings.
      */
-    public @NotNull void free() {
+    public void free() {
         try {
-            gtk_tree_iter_free.invokeExact(handle());
+            DowncallHandles.gtk_tree_iter_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_tree_iter_copy = Interop.downcallHandle(
+            "gtk_tree_iter_copy",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_iter_free = Interop.downcallHandle(
+            "gtk_tree_iter_free",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
 }

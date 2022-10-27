@@ -36,25 +36,34 @@ import org.jetbrains.annotations.*;
  * * Larger than 1: an overdamped spring.
  * <p>
  * As such
+ * @version 1.0
  */
 public class SpringParams extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Adw.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public SpringParams(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle adw_spring_params_new = Interop.downcallHandle(
-        "adw_spring_params_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
-    );
-    
-    private static Refcounted constructNew(@NotNull double dampingRatio, @NotNull double mass, @NotNull double stiffness) {
+    private static Refcounted constructNew(double dampingRatio, double mass, double stiffness) {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_spring_params_new.invokeExact(dampingRatio, mass, stiffness), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_spring_params_new.invokeExact(dampingRatio, mass, stiffness), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -72,142 +81,162 @@ public class SpringParams extends io.github.jwharm.javagi.ResourceBase {
      * * If {@code damping_ratio} is larger than 1, the spring is overdamped and will reach
      *   its resting position faster than it can complete an oscillation.
      * <p>
-     * {@link SpringParams#newFull} allows to pass a raw damping value instead.
+     * {@code SpringParams#newFull} allows to pass a raw damping value instead.
+     * @param dampingRatio the damping ratio of the spring
+     * @param mass the mass of the spring
+     * @param stiffness the stiffness of the spring
      */
-    public SpringParams(@NotNull double dampingRatio, @NotNull double mass, @NotNull double stiffness) {
+    public SpringParams(double dampingRatio, double mass, double stiffness) {
         super(constructNew(dampingRatio, mass, stiffness));
     }
     
-    private static final MethodHandle adw_spring_params_new_full = Interop.downcallHandle(
-        "adw_spring_params_new_full",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
-    );
-    
-    private static Refcounted constructNewFull(@NotNull double damping, @NotNull double mass, @NotNull double stiffness) {
+    private static Refcounted constructNewFull(double damping, double mass, double stiffness) {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_spring_params_new_full.invokeExact(damping, mass, stiffness), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_spring_params_new_full.invokeExact(damping, mass, stiffness), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a new {@code AdwSpringParams} from {@code mass}, {@code stiffness} and {@code damping}.
      * <p>
-     * See {@link SpringParams#new_} for a simplified constructor using damping ratio
+     * See {@link SpringParams#SpringParams} for a simplified constructor using damping ratio
      * instead of {@code damping}.
+     * @param damping the damping of the spring
+     * @param mass the mass of the spring
+     * @param stiffness the stiffness of the spring
+     * @return the newly created spring parameters
      */
-    public static SpringParams newFull(@NotNull double damping, @NotNull double mass, @NotNull double stiffness) {
+    public static SpringParams newFull(double damping, double mass, double stiffness) {
         return new SpringParams(constructNewFull(damping, mass, stiffness));
     }
     
-    private static final MethodHandle adw_spring_params_get_damping = Interop.downcallHandle(
-        "adw_spring_params_get_damping",
-        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the damping of {@code self}.
+     * @return the damping
      */
     public double getDamping() {
         double RESULT;
         try {
-            RESULT = (double) adw_spring_params_get_damping.invokeExact(handle());
+            RESULT = (double) DowncallHandles.adw_spring_params_get_damping.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle adw_spring_params_get_damping_ratio = Interop.downcallHandle(
-        "adw_spring_params_get_damping_ratio",
-        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the damping ratio of {@code self}.
+     * @return the damping ratio
      */
     public double getDampingRatio() {
         double RESULT;
         try {
-            RESULT = (double) adw_spring_params_get_damping_ratio.invokeExact(handle());
+            RESULT = (double) DowncallHandles.adw_spring_params_get_damping_ratio.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle adw_spring_params_get_mass = Interop.downcallHandle(
-        "adw_spring_params_get_mass",
-        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the mass of {@code self}.
+     * @return the mass
      */
     public double getMass() {
         double RESULT;
         try {
-            RESULT = (double) adw_spring_params_get_mass.invokeExact(handle());
+            RESULT = (double) DowncallHandles.adw_spring_params_get_mass.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle adw_spring_params_get_stiffness = Interop.downcallHandle(
-        "adw_spring_params_get_stiffness",
-        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the stiffness of {@code self}.
+     * @return the stiffness
      */
     public double getStiffness() {
         double RESULT;
         try {
-            RESULT = (double) adw_spring_params_get_stiffness.invokeExact(handle());
+            RESULT = (double) DowncallHandles.adw_spring_params_get_stiffness.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle adw_spring_params_ref = Interop.downcallHandle(
-        "adw_spring_params_ref",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Increases the reference count of {@code self}.
+     * @return {@code self}
      */
-    public @NotNull SpringParams ref() {
+    public @NotNull org.gnome.adw.SpringParams ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_spring_params_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_spring_params_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new SpringParams(Refcounted.get(RESULT, true));
+        return new org.gnome.adw.SpringParams(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle adw_spring_params_unref = Interop.downcallHandle(
-        "adw_spring_params_unref",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Decreases the reference count of {@code self}.
      * <p>
      * If the last reference is dropped, the structure is freed.
      */
-    public @NotNull void unref() {
+    public void unref() {
         try {
-            adw_spring_params_unref.invokeExact(handle());
+            DowncallHandles.adw_spring_params_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle adw_spring_params_new = Interop.downcallHandle(
+            "adw_spring_params_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+        );
+        
+        private static final MethodHandle adw_spring_params_new_full = Interop.downcallHandle(
+            "adw_spring_params_new_full",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE)
+        );
+        
+        private static final MethodHandle adw_spring_params_get_damping = Interop.downcallHandle(
+            "adw_spring_params_get_damping",
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_spring_params_get_damping_ratio = Interop.downcallHandle(
+            "adw_spring_params_get_damping_ratio",
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_spring_params_get_mass = Interop.downcallHandle(
+            "adw_spring_params_get_mass",
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_spring_params_get_stiffness = Interop.downcallHandle(
+            "adw_spring_params_get_stiffness",
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_spring_params_ref = Interop.downcallHandle(
+            "adw_spring_params_ref",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_spring_params_unref = Interop.downcallHandle(
+            "adw_spring_params_unref",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
 }

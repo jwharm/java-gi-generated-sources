@@ -1,7 +1,20 @@
 package org.cairographics;
 
-public class DeviceType extends io.github.jwharm.javagi.Enumeration {
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
+public class DeviceType extends io.github.jwharm.javagi.Enumeration {
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public static final DeviceType DRM = new DeviceType(0);
     
     public static final DeviceType GL = new DeviceType(1);
@@ -23,5 +36,4 @@ public class DeviceType extends io.github.jwharm.javagi.Enumeration {
     public DeviceType(int value) {
         super(value);
     }
-    
 }

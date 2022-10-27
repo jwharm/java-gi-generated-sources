@@ -1,7 +1,12 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
- * Values that can be passed to the {@link Widget#systemSettingChanged}
+ * Values that can be passed to the {@code Widget#systemSettingChanged}
  * vfunc.
  * <p>
  * The values indicate which system setting has changed.
@@ -12,7 +17,15 @@ package org.gtk.gtk;
  * More values may be added over time.
  */
 public class SystemSetting extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * the {@code Gtk.Settings:gtk-xft-dpi} setting has changed
      */
@@ -48,5 +61,4 @@ public class SystemSetting extends io.github.jwharm.javagi.Enumeration {
     public SystemSetting(int value) {
         super(value);
     }
-    
 }

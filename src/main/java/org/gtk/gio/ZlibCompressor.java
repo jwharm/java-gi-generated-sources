@@ -9,8 +9,20 @@ import org.jetbrains.annotations.*;
  * {@link ZlibCompressor} is an implementation of {@link Converter} that
  * compresses data using zlib.
  */
-public class ZlibCompressor extends org.gtk.gobject.Object implements Converter {
-
+public class ZlibCompressor extends org.gtk.gobject.Object implements org.gtk.gio.Converter {
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public ZlibCompressor(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -20,49 +32,39 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements Converter 
         return new ZlibCompressor(gobject.refcounted());
     }
     
-    private static final MethodHandle g_zlib_compressor_new = Interop.downcallHandle(
-        "g_zlib_compressor_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
-    
-    private static Refcounted constructNew(@NotNull ZlibCompressorFormat format, @NotNull int level) {
+    private static Refcounted constructNew(@NotNull org.gtk.gio.ZlibCompressorFormat format, int level) {
+        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_zlib_compressor_new.invokeExact(format.getValue(), level), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_zlib_compressor_new.invokeExact(format.getValue(), level), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a new {@link ZlibCompressor}.
+     * @param format The format to use for the compressed data
+     * @param level compression level (0-9), -1 for default
      */
-    public ZlibCompressor(@NotNull ZlibCompressorFormat format, @NotNull int level) {
+    public ZlibCompressor(@NotNull org.gtk.gio.ZlibCompressorFormat format, int level) {
         super(constructNew(format, level));
     }
     
-    private static final MethodHandle g_zlib_compressor_get_file_info = Interop.downcallHandle(
-        "g_zlib_compressor_get_file_info",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the {@link ZlibCompressor}:file-info property.
+     * @return a {@link FileInfo}, or {@code null}
      */
-    public @Nullable FileInfo getFileInfo() {
+    public @Nullable org.gtk.gio.FileInfo getFileInfo() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_zlib_compressor_get_file_info.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_zlib_compressor_get_file_info.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new FileInfo(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.FileInfo(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_zlib_compressor_set_file_info = Interop.downcallHandle(
-        "g_zlib_compressor_set_file_info",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets {@code file_info} in {@code compressor}. If non-{@code null}, and {@code compressor}'s
@@ -73,13 +75,32 @@ public class ZlibCompressor extends org.gtk.gobject.Object implements Converter 
      * Note: it is an error to call this function while a compression is in
      * progress; it may only be called immediately after creation of {@code compressor},
      * or after resetting it with g_converter_reset().
+     * @param fileInfo a {@link FileInfo}
      */
-    public @NotNull void setFileInfo(@Nullable FileInfo fileInfo) {
+    public void setFileInfo(@Nullable org.gtk.gio.FileInfo fileInfo) {
+        java.util.Objects.requireNonNullElse(fileInfo, MemoryAddress.NULL);
         try {
-            g_zlib_compressor_set_file_info.invokeExact(handle(), fileInfo.handle());
+            DowncallHandles.g_zlib_compressor_set_file_info.invokeExact(handle(), fileInfo.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_zlib_compressor_new = Interop.downcallHandle(
+            "g_zlib_compressor_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_zlib_compressor_get_file_info = Interop.downcallHandle(
+            "g_zlib_compressor_get_file_info",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_zlib_compressor_set_file_info = Interop.downcallHandle(
+            "g_zlib_compressor_set_file_info",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

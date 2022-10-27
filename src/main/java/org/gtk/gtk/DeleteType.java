@@ -1,10 +1,23 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Passed to various keybinding signals for deleting text.
  */
 public class DeleteType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Delete characters.
      */
@@ -54,5 +67,4 @@ public class DeleteType extends io.github.jwharm.javagi.Enumeration {
     public DeleteType(int value) {
         super(value);
     }
-    
 }

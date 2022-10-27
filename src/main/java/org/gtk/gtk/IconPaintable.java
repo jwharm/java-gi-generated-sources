@@ -10,8 +10,20 @@ import org.jetbrains.annotations.*;
  * <p>
  * {@code GtkIconPaintable} implements {@code GdkPaintable}.
  */
-public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk.Paintable, SymbolicPaintable {
-
+public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk.Paintable, org.gtk.gtk.SymbolicPaintable {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public IconPaintable(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -21,53 +33,46 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
         return new IconPaintable(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_icon_paintable_new_for_file = Interop.downcallHandle(
-        "gtk_icon_paintable_new_for_file",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
-    
-    private static Refcounted constructNewForFile(@NotNull org.gtk.gio.File file, @NotNull int size, @NotNull int scale) {
+    private static Refcounted constructNewForFile(@NotNull org.gtk.gio.File file, int size, int scale) {
+        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_icon_paintable_new_for_file.invokeExact(file.handle(), size, scale), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_icon_paintable_new_for_file.invokeExact(file.handle(), size, scale), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a {@code GtkIconPaintable} for a file with a given size and scale.
      * <p>
      * The icon can then be rendered by using it as a {@code GdkPaintable}.
+     * @param file a {@code GFile}
+     * @param size desired icon size
+     * @param scale the desired scale
+     * @return a {@code GtkIconPaintable} containing
+     *   for the icon. Unref with g_object_unref()
      */
-    public static IconPaintable newForFile(@NotNull org.gtk.gio.File file, @NotNull int size, @NotNull int scale) {
+    public static IconPaintable newForFile(@NotNull org.gtk.gio.File file, int size, int scale) {
         return new IconPaintable(constructNewForFile(file, size, scale));
     }
-    
-    private static final MethodHandle gtk_icon_paintable_get_file = Interop.downcallHandle(
-        "gtk_icon_paintable_get_file",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the {@code GFile} that was used to load the icon.
      * <p>
      * Returns {@code null} if the icon was not loaded from a file.
+     * @return the {@code GFile} for the icon
      */
     public @Nullable org.gtk.gio.File getFile() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_icon_paintable_get_file.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_icon_paintable_get_file.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle gtk_icon_paintable_get_icon_name = Interop.downcallHandle(
-        "gtk_icon_paintable_get_icon_name",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Get the icon name being used for this icon.
@@ -79,21 +84,18 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
      * <p>
      * If the icon was created without an icon theme, this function
      * returns {@code null}.
+     * @return the themed icon-name for the
+     *   icon, or {@code null} if its not a themed icon.
      */
     public @Nullable java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_icon_paintable_get_icon_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_icon_paintable_get_icon_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle gtk_icon_paintable_is_symbolic = Interop.downcallHandle(
-        "gtk_icon_paintable_is_symbolic",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Checks if the icon is symbolic or not.
@@ -103,15 +105,38 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
      * <p>
      * Note that to render a symbolic {@code GtkIconPaintable} properly (with
      * recoloring), you have to set its icon name on a {@code GtkImage}.
+     * @return {@code true} if the icon is symbolic, {@code false} otherwise
      */
     public boolean isSymbolic() {
         int RESULT;
         try {
-            RESULT = (int) gtk_icon_paintable_is_symbolic.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_icon_paintable_is_symbolic.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_icon_paintable_new_for_file = Interop.downcallHandle(
+            "gtk_icon_paintable_new_for_file",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_icon_paintable_get_file = Interop.downcallHandle(
+            "gtk_icon_paintable_get_file",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_icon_paintable_get_icon_name = Interop.downcallHandle(
+            "gtk_icon_paintable_get_icon_name",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_icon_paintable_is_symbolic = Interop.downcallHandle(
+            "gtk_icon_paintable_is_symbolic",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+    }
 }

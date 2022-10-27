@@ -34,7 +34,6 @@ import org.jetbrains.annotations.*;
  * <p>
  * A simple example of {@code GtkPadController} usage: Assigning button 1 in all
  * modes and pad devices to an "invert-selection" action:
- * 
  * <pre>{@code c
  * GtkPadActionEntry *pad_actions[] = {
  *   { GTK_PAD_ACTION_BUTTON, 1, -1, "Invert selection", "pad-actions.invert-selection" },
@@ -54,8 +53,20 @@ import org.jetbrains.annotations.*;
  * of type {@code G_VARIANT_TYPE_DOUBLE} bearing the value of the given axis, it
  * is required that those are made stateful and accepting this {@code GVariantType}.
  */
-public class PadController extends EventController {
-
+public class PadController extends org.gtk.gtk.EventController {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public PadController(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -65,18 +76,16 @@ public class PadController extends EventController {
         return new PadController(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_pad_controller_new = Interop.downcallHandle(
-        "gtk_pad_controller_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew(@NotNull org.gtk.gio.ActionGroup group, @Nullable org.gtk.gdk.Device pad) {
+        java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
+        java.util.Objects.requireNonNullElse(pad, MemoryAddress.NULL);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_pad_controller_new.invokeExact(group.handle(), pad.handle()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_pad_controller_new.invokeExact(group.handle(), pad.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -94,15 +103,12 @@ public class PadController extends EventController {
      * <p>
      * Be aware that pad events will only be delivered to {@code GtkWindow}s, so adding
      * a pad controller to any other type of widget will not have an effect.
+     * @param group {@code GActionGroup} to trigger actions from
+     * @param pad A {@link org.gtk.gdk.InputSource#TABLET_PAD} device, or {@code null} to handle all pads
      */
     public PadController(@NotNull org.gtk.gio.ActionGroup group, @Nullable org.gtk.gdk.Device pad) {
         super(constructNew(group, pad));
     }
-    
-    private static final MethodHandle gtk_pad_controller_set_action = Interop.downcallHandle(
-        "gtk_pad_controller_set_action",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Adds an individual action to {@code controller}.
@@ -114,32 +120,56 @@ public class PadController extends EventController {
      * The given {@code label} should be considered user-visible, so internationalization
      * rules apply. Some windowing systems may be able to use those for user
      * feedback.
+     * @param type the type of pad feature that will trigger this action
+     * @param index the 0-indexed button/ring/strip number that will trigger this action
+     * @param mode the mode that will trigger this action, or -1 for all modes.
+     * @param label Human readable description of this action, this string should
+     *   be deemed user-visible.
+     * @param actionName action name that will be activated in the {@code GActionGroup}
      */
-    public @NotNull void setAction(@NotNull PadActionType type, @NotNull int index, @NotNull int mode, @NotNull java.lang.String label, @NotNull java.lang.String actionName) {
+    public void setAction(@NotNull org.gtk.gtk.PadActionType type, int index, int mode, @NotNull java.lang.String label, @NotNull java.lang.String actionName) {
+        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+        java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
+        java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         try {
-            gtk_pad_controller_set_action.invokeExact(handle(), type.getValue(), index, mode, Interop.allocateNativeString(label), Interop.allocateNativeString(actionName));
+            DowncallHandles.gtk_pad_controller_set_action.invokeExact(handle(), type.getValue(), index, mode, Interop.allocateNativeString(label), Interop.allocateNativeString(actionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_pad_controller_set_action_entries = Interop.downcallHandle(
-        "gtk_pad_controller_set_action_entries",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * A convenience function to add a group of action entries on
      * {@code controller}.
      * <p>
-     * See {@code Gtk.PadController.set_action}.
+     * See {@code Gtk.PadActionEntry] and [method@Gtk.PadController.set_action}.
+     * @param entries the action entries to set on {@code controller}
+     * @param nEntries the number of elements in {@code entries}
      */
-    public @NotNull void setActionEntries(@NotNull PadActionEntry[] entries, @NotNull int nEntries) {
+    public void setActionEntries(org.gtk.gtk.PadActionEntry[] entries, int nEntries) {
+        java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
         try {
-            gtk_pad_controller_set_action_entries.invokeExact(handle(), Interop.allocateNativeArray(entries), nEntries);
+            DowncallHandles.gtk_pad_controller_set_action_entries.invokeExact(handle(), Interop.allocateNativeArray(entries, false), nEntries);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_pad_controller_new = Interop.downcallHandle(
+            "gtk_pad_controller_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_pad_controller_set_action = Interop.downcallHandle(
+            "gtk_pad_controller_set_action",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_pad_controller_set_action_entries = Interop.downcallHandle(
+            "gtk_pad_controller_set_action_entries",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
 }

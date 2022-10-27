@@ -10,23 +10,55 @@ import org.jetbrains.annotations.*;
  * an error that has occurred.
  */
 public class Error extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GLib.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        ValueLayout.JAVA_INT.withName("domain"),
+        ValueLayout.JAVA_INT.withName("code"),
+        Interop.valueLayout.ADDRESS.withName("message")
+    ).withName("GError");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public Error(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle g_error_new_literal = Interop.downcallHandle(
-        "g_error_new_literal",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
+    private static Refcounted constructNew(@NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
-    private static Refcounted constructNewLiteral(@NotNull Quark domain, @NotNull int code, @NotNull java.lang.String message) {
+    /**
+     * Creates a new {@link Error} with the given {@code domain} and {@code code},
+     * and a message formatted with {@code format}.
+     * @param domain error domain
+     * @param code error code
+     * @param format printf()-style format for error message
+     */
+    public Error(@NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format) {
+        this(Refcounted.get(null)); // avoid compiler error
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    private static Refcounted constructNewLiteral(@NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String message) {
+        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
+        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_error_new_literal.invokeExact(domain.getValue(), code, Interop.allocateNativeString(message)), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_error_new_literal.invokeExact(domain.getValue(), code, Interop.allocateNativeString(message)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -34,71 +66,65 @@ public class Error extends io.github.jwharm.javagi.ResourceBase {
      * not a printf()-style format string. Use this function if
      * {@code message} contains text you don't have control over,
      * that could include printf() escape sequences.
+     * @param domain error domain
+     * @param code error code
+     * @param message error message
+     * @return a new {@link Error}
      */
-    public static Error newLiteral(@NotNull Quark domain, @NotNull int code, @NotNull java.lang.String message) {
+    public static Error newLiteral(@NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String message) {
         return new Error(constructNewLiteral(domain, code, message));
     }
     
-    private static final MethodHandle g_error_new_valist = Interop.downcallHandle(
-        "g_error_new_valist",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNewValist(@NotNull Quark domain, @NotNull int code, @NotNull java.lang.String format, @NotNull VaList args) {
+    private static Refcounted constructNewValist(@NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format, @NotNull VaList args) {
+        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
+        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_error_new_valist.invokeExact(domain.getValue(), code, Interop.allocateNativeString(format), args), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_error_new_valist.invokeExact(domain.getValue(), code, Interop.allocateNativeString(format), args), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a new {@link Error} with the given {@code domain} and {@code code},
      * and a message formatted with {@code format}.
+     * @param domain error domain
+     * @param code error code
+     * @param format printf()-style format for error message
+     * @param args {@code va_list} of parameters for the message format
+     * @return a new {@link Error}
      */
-    public static Error newValist(@NotNull Quark domain, @NotNull int code, @NotNull java.lang.String format, @NotNull VaList args) {
+    public static Error newValist(@NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format, @NotNull VaList args) {
         return new Error(constructNewValist(domain, code, format, args));
     }
     
-    private static final MethodHandle g_error_copy = Interop.downcallHandle(
-        "g_error_copy",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Makes a copy of {@code error}.
+     * @return a new {@link Error}
      */
-    public @NotNull Error copy() {
+    public @NotNull org.gtk.glib.Error copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_error_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_error_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Error(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Error(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_error_free = Interop.downcallHandle(
-        "g_error_free",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Frees a {@link Error} and associated resources.
      */
-    public @NotNull void free() {
+    public void free() {
         try {
-            g_error_free.invokeExact(handle());
+            DowncallHandles.g_error_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_error_matches = Interop.downcallHandle(
-        "g_error_matches",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Returns {@code true} if {@code error} matches {@code domain} and {@code code}, {@code false}
@@ -111,15 +137,105 @@ public class Error extends io.github.jwharm.javagi.ResourceBase {
      * equivalent to the {@code FAILED} code. This way, if the domain is
      * extended in the future to provide a more specific error code for
      * a certain case, your code will still work.
+     * @param domain an error domain
+     * @param code an error code
+     * @return whether {@code error} has {@code domain} and {@code code}
      */
-    public boolean matches(@NotNull Quark domain, @NotNull int code) {
+    public boolean matches(@NotNull org.gtk.glib.Quark domain, int code) {
+        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
         int RESULT;
         try {
-            RESULT = (int) g_error_matches.invokeExact(handle(), domain.getValue(), code);
+            RESULT = (int) DowncallHandles.g_error_matches.invokeExact(handle(), domain.getValue(), code);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
+    /**
+     * This function registers an extended {@link Error} domain.
+     * {@code error_type_name} will be duplicated. Otherwise does the same as
+     * g_error_domain_register_static().
+     * @param errorTypeName string to create a {@link Quark} from
+     * @param errorTypePrivateSize size of the private error data in bytes
+     * @param errorTypeInit function initializing fields of the private error data
+     * @param errorTypeCopy function copying fields of the private error data
+     * @param errorTypeClear function freeing fields of the private error data
+     * @return {@link Quark} representing the error domain
+     */
+    public static @NotNull org.gtk.glib.Quark domainRegister(@NotNull java.lang.String errorTypeName, long errorTypePrivateSize, @NotNull org.gtk.glib.ErrorInitFunc errorTypeInit, @NotNull org.gtk.glib.ErrorCopyFunc errorTypeCopy, @NotNull org.gtk.glib.ErrorClearFunc errorTypeClear) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * This function registers an extended {@link Error} domain.
+     * <p>
+     * {@code error_type_name} should not be freed. {@code error_type_private_size} must
+     * be greater than 0.
+     * <p>
+     * {@code error_type_init} receives an initialized {@link Error} and should then initialize
+     * the private data.
+     * <p>
+     * {@code error_type_copy} is a function that receives both original and a copy
+     * {@link Error} and should copy the fields of the private error data. The standard
+     * {@link Error} fields are already handled.
+     * <p>
+     * {@code error_type_clear} receives the pointer to the error, and it should free the
+     * fields of the private error data. It should not free the struct itself though.
+     * <p>
+     * Normally, it is better to use G_DEFINE_EXTENDED_ERROR(), as it
+     * already takes care of passing valid information to this function.
+     * @param errorTypeName static string to create a {@link Quark} from
+     * @param errorTypePrivateSize size of the private error data in bytes
+     * @param errorTypeInit function initializing fields of the private error data
+     * @param errorTypeCopy function copying fields of the private error data
+     * @param errorTypeClear function freeing fields of the private error data
+     * @return {@link Quark} representing the error domain
+     */
+    public static @NotNull org.gtk.glib.Quark domainRegisterStatic(@NotNull java.lang.String errorTypeName, long errorTypePrivateSize, @NotNull org.gtk.glib.ErrorInitFunc errorTypeInit, @NotNull org.gtk.glib.ErrorCopyFunc errorTypeCopy, @NotNull org.gtk.glib.ErrorClearFunc errorTypeClear) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_error_new = Interop.downcallHandle(
+            "g_error_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_error_new_literal = Interop.downcallHandle(
+            "g_error_new_literal",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_error_new_valist = Interop.downcallHandle(
+            "g_error_new_valist",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_error_copy = Interop.downcallHandle(
+            "g_error_copy",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_error_free = Interop.downcallHandle(
+            "g_error_free",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_error_matches = Interop.downcallHandle(
+            "g_error_matches",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_error_domain_register = Interop.downcallHandle(
+            "g_error_domain_register",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_error_domain_register_static = Interop.downcallHandle(
+            "g_error_domain_register_static",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

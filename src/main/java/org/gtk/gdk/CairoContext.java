@@ -13,8 +13,20 @@ import org.jetbrains.annotations.*;
  * {@link Surface#createCairoContext}, and the context
  * can then be used to draw on that surface.
  */
-public class CairoContext extends DrawContext {
-
+public class CairoContext extends org.gtk.gdk.DrawContext {
+    
+    static {
+        Gdk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public CairoContext(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -23,11 +35,6 @@ public class CairoContext extends DrawContext {
     public static CairoContext castFrom(org.gtk.gobject.Object gobject) {
         return new CairoContext(gobject.refcounted());
     }
-    
-    private static final MethodHandle gdk_cairo_context_cairo_create = Interop.downcallHandle(
-        "gdk_cairo_context_cairo_create",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves a Cairo context to be used to draw on the {@code GdkSurface}
@@ -38,15 +45,24 @@ public class CairoContext extends DrawContext {
      * <p>
      * The returned context is guaranteed to be valid until
      * {@link DrawContext#endFrame} is called.
+     * @return a Cairo context
+     *   to draw on `GdkSurface
      */
     public @Nullable org.cairographics.Context cairoCreate() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gdk_cairo_context_cairo_create.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_cairo_context_cairo_create.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.cairographics.Context(Refcounted.get(RESULT, true));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gdk_cairo_context_cairo_create = Interop.downcallHandle(
+            "gdk_cairo_context_cairo_create",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

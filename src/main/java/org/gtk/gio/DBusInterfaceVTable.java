@@ -47,11 +47,30 @@ import org.jetbrains.annotations.*;
  * you must ensure that you either provide a non-{@code null} {@code set_property}()
  * function or provide an implementation of the {@code Set} call. If implementing
  * the call, you must return the value of type {@code G_VARIANT_TYPE_UNIT}.
+ * @version 2.26
  */
 public class DBusInterfaceVTable extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.ADDRESS.withName("method_call"),
+        Interop.valueLayout.ADDRESS.withName("get_property"),
+        Interop.valueLayout.ADDRESS.withName("set_property"),
+        MemoryLayout.sequenceLayout(8, ValueLayout.ADDRESS).withName("padding")
+    ).withName("GDBusInterfaceVTable");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public DBusInterfaceVTable(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
 }

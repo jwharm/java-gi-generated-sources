@@ -1,5 +1,10 @@
 package org.harfbuzz;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Data type for holding HarfBuzz's clustering behavior options. The cluster level
  * dictates one aspect of how HarfBuzz will treat non-base characters
@@ -17,9 +22,18 @@ package org.harfbuzz;
  * backward compatibility with older versions of HarfBuzz. New client programs that
  * do not need to maintain such backward compatibility are recommended to use
  * {@code HB_BUFFER_CLUSTER_LEVEL_MONOTONE_CHARACTERS} instead of the default.
+ * @version 0.9.42
  */
 public class BufferClusterLevelT extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Return cluster values grouped by graphemes into
      *   monotone order.
@@ -45,5 +59,4 @@ public class BufferClusterLevelT extends io.github.jwharm.javagi.Enumeration {
     public BufferClusterLevelT(int value) {
         super(value);
     }
-    
 }

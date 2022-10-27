@@ -37,7 +37,19 @@ import org.jetbrains.annotations.*;
  * attributes.
  */
 public class FileInfo extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public FileInfo(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -47,18 +59,14 @@ public class FileInfo extends org.gtk.gobject.Object {
         return new FileInfo(gobject.refcounted());
     }
     
-    private static final MethodHandle g_file_info_new = Interop.downcallHandle(
-        "g_file_info_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_file_info_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_file_info_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -68,61 +76,44 @@ public class FileInfo extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
-    private static final MethodHandle g_file_info_clear_status = Interop.downcallHandle(
-        "g_file_info_clear_status",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Clears the status information from {@code info}.
      */
-    public @NotNull void clearStatus() {
+    public void clearStatus() {
         try {
-            g_file_info_clear_status.invokeExact(handle());
+            DowncallHandles.g_file_info_clear_status.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_copy_into = Interop.downcallHandle(
-        "g_file_info_copy_into",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * First clears all of the [GFileAttribute][gio-GFileAttribute] of {@code dest_info},
      * and then copies all of the file attributes from {@code src_info} to {@code dest_info}.
+     * @param destInfo destination to copy attributes to.
      */
-    public @NotNull void copyInto(@NotNull FileInfo destInfo) {
+    public void copyInto(@NotNull org.gtk.gio.FileInfo destInfo) {
+        java.util.Objects.requireNonNull(destInfo, "Parameter 'destInfo' must not be null");
         try {
-            g_file_info_copy_into.invokeExact(handle(), destInfo.handle());
+            DowncallHandles.g_file_info_copy_into.invokeExact(handle(), destInfo.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_dup = Interop.downcallHandle(
-        "g_file_info_dup",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Duplicates a file info structure.
+     * @return a duplicate {@link FileInfo} of {@code other}.
      */
-    public @NotNull FileInfo dup() {
+    public @NotNull org.gtk.gio.FileInfo dup() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_file_info_dup.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_dup.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new FileInfo(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.FileInfo(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_file_info_get_access_date_time = Interop.downcallHandle(
-        "g_file_info_get_access_date_time",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the access time of the current {@code info} and returns it as a
@@ -131,294 +122,277 @@ public class FileInfo extends org.gtk.gobject.Object {
      * This requires the {@code G_FILE_ATTRIBUTE_TIME_ACCESS} attribute. If
      * {@code G_FILE_ATTRIBUTE_TIME_ACCESS_USEC} is provided, the resulting {@link org.gtk.glib.DateTime}
      * will have microsecond precision.
+     * @return access time, or {@code null} if unknown
      */
     public @Nullable org.gtk.glib.DateTime getAccessDateTime() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_file_info_get_access_date_time.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_access_date_time.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle g_file_info_get_attribute_as_string = Interop.downcallHandle(
-        "g_file_info_get_attribute_as_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the value of a attribute, formatted as a string.
      * This escapes things as needed to make the string valid
      * UTF-8.
+     * @param attribute a file attribute key.
+     * @return a UTF-8 string associated with the given {@code attribute}, or
+     *    {@code null} if the attribute wasn’t set.
+     *    When you're done with the string it must be freed with g_free().
      */
     public @Nullable java.lang.String getAttributeAsString(@NotNull java.lang.String attribute) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_file_info_get_attribute_as_string.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_attribute_as_string.invokeExact(handle(), Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle g_file_info_get_attribute_boolean = Interop.downcallHandle(
-        "g_file_info_get_attribute_boolean",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the value of a boolean attribute. If the attribute does not
      * contain a boolean value, {@code false} will be returned.
+     * @param attribute a file attribute key.
+     * @return the boolean value contained within the attribute.
      */
     public boolean getAttributeBoolean(@NotNull java.lang.String attribute) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         int RESULT;
         try {
-            RESULT = (int) g_file_info_get_attribute_boolean.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (int) DowncallHandles.g_file_info_get_attribute_boolean.invokeExact(handle(), Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_file_info_get_attribute_byte_string = Interop.downcallHandle(
-        "g_file_info_get_attribute_byte_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the value of a byte string attribute. If the attribute does
      * not contain a byte string, {@code null} will be returned.
+     * @param attribute a file attribute key.
+     * @return the contents of the {@code attribute} value as a byte string, or
+     * {@code null} otherwise.
      */
     public @Nullable java.lang.String getAttributeByteString(@NotNull java.lang.String attribute) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_file_info_get_attribute_byte_string.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_attribute_byte_string.invokeExact(handle(), Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle g_file_info_get_attribute_data = Interop.downcallHandle(
-        "g_file_info_get_attribute_data",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Gets the attribute type, value and status for an attribute key.
+     * @param attribute a file attribute key
+     * @param type return location for the attribute type, or {@code null}
+     * @param valuePp return location for the
+     *    attribute value, or {@code null}; the attribute value will not be {@code null}
+     * @param status return location for the attribute status, or {@code null}
+     * @return {@code true} if {@code info} has an attribute named {@code attribute},
+     *      {@code false} otherwise.
      */
-    public boolean getAttributeData(@NotNull java.lang.String attribute, @NotNull Out<FileAttributeType> type, @NotNull Out<java.lang.foreign.MemoryAddress> valuePp, @NotNull Out<FileAttributeStatus> status) {
+    public boolean getAttributeData(@NotNull java.lang.String attribute, @NotNull Out<org.gtk.gio.FileAttributeType> type, @NotNull Out<java.lang.foreign.MemoryAddress> valuePp, @NotNull Out<org.gtk.gio.FileAttributeStatus> status) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
+        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+        java.util.Objects.requireNonNull(valuePp, "Parameter 'valuePp' must not be null");
+        java.util.Objects.requireNonNull(status, "Parameter 'status' must not be null");
         MemorySegment typePOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment valuePpPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment statusPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) g_file_info_get_attribute_data.invokeExact(handle(), Interop.allocateNativeString(attribute), (Addressable) typePOINTER.address(), (Addressable) valuePpPOINTER.address(), (Addressable) statusPOINTER.address());
+            RESULT = (int) DowncallHandles.g_file_info_get_attribute_data.invokeExact(handle(), Interop.allocateNativeString(attribute), (Addressable) typePOINTER.address(), (Addressable) valuePpPOINTER.address(), (Addressable) statusPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        type.set(new FileAttributeType(typePOINTER.get(ValueLayout.JAVA_INT, 0)));
+        type.set(new org.gtk.gio.FileAttributeType(typePOINTER.get(ValueLayout.JAVA_INT, 0)));
         valuePp.set(valuePpPOINTER.get(ValueLayout.ADDRESS, 0));
-        status.set(new FileAttributeStatus(statusPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        status.set(new org.gtk.gio.FileAttributeStatus(statusPOINTER.get(ValueLayout.JAVA_INT, 0)));
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_file_info_get_attribute_int32 = Interop.downcallHandle(
-        "g_file_info_get_attribute_int32",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets a signed 32-bit integer contained within the attribute. If the
      * attribute does not contain a signed 32-bit integer, or is invalid,
      * 0 will be returned.
+     * @param attribute a file attribute key.
+     * @return a signed 32-bit integer from the attribute.
      */
     public int getAttributeInt32(@NotNull java.lang.String attribute) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         int RESULT;
         try {
-            RESULT = (int) g_file_info_get_attribute_int32.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (int) DowncallHandles.g_file_info_get_attribute_int32.invokeExact(handle(), Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_file_info_get_attribute_int64 = Interop.downcallHandle(
-        "g_file_info_get_attribute_int64",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets a signed 64-bit integer contained within the attribute. If the
      * attribute does not contain a signed 64-bit integer, or is invalid,
      * 0 will be returned.
+     * @param attribute a file attribute key.
+     * @return a signed 64-bit integer from the attribute.
      */
     public long getAttributeInt64(@NotNull java.lang.String attribute) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         long RESULT;
         try {
-            RESULT = (long) g_file_info_get_attribute_int64.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (long) DowncallHandles.g_file_info_get_attribute_int64.invokeExact(handle(), Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle g_file_info_get_attribute_object = Interop.downcallHandle(
-        "g_file_info_get_attribute_object",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the value of a {@link org.gtk.gobject.Object} attribute. If the attribute does
      * not contain a {@link org.gtk.gobject.Object}, {@code null} will be returned.
+     * @param attribute a file attribute key.
+     * @return a {@link org.gtk.gobject.Object} associated with the given {@code attribute},
+     * or {@code null} otherwise.
      */
     public @Nullable org.gtk.gobject.Object getAttributeObject(@NotNull java.lang.String attribute) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_file_info_get_attribute_object.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_attribute_object.invokeExact(handle(), Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gobject.Object(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle g_file_info_get_attribute_status = Interop.downcallHandle(
-        "g_file_info_get_attribute_status",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the attribute status for an attribute key.
+     * @param attribute a file attribute key
+     * @return a {@link FileAttributeStatus} for the given {@code attribute}, or
+     *    {@link FileAttributeStatus#UNSET} if the key is invalid.
      */
-    public @NotNull FileAttributeStatus getAttributeStatus(@NotNull java.lang.String attribute) {
+    public @NotNull org.gtk.gio.FileAttributeStatus getAttributeStatus(@NotNull java.lang.String attribute) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         int RESULT;
         try {
-            RESULT = (int) g_file_info_get_attribute_status.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (int) DowncallHandles.g_file_info_get_attribute_status.invokeExact(handle(), Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new FileAttributeStatus(RESULT);
+        return new org.gtk.gio.FileAttributeStatus(RESULT);
     }
-    
-    private static final MethodHandle g_file_info_get_attribute_string = Interop.downcallHandle(
-        "g_file_info_get_attribute_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the value of a string attribute. If the attribute does
      * not contain a string, {@code null} will be returned.
+     * @param attribute a file attribute key.
+     * @return the contents of the {@code attribute} value as a UTF-8 string,
+     * or {@code null} otherwise.
      */
     public @Nullable java.lang.String getAttributeString(@NotNull java.lang.String attribute) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_file_info_get_attribute_string.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_attribute_string.invokeExact(handle(), Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle g_file_info_get_attribute_stringv = Interop.downcallHandle(
-        "g_file_info_get_attribute_stringv",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the value of a stringv attribute. If the attribute does
      * not contain a stringv, {@code null} will be returned.
+     * @param attribute a file attribute key.
+     * @return the contents of the {@code attribute} value as a stringv,
+     * or {@code null} otherwise. Do not free. These returned strings are UTF-8.
      */
-    public PointerString getAttributeStringv(@NotNull java.lang.String attribute) {
+    public @Nullable PointerString getAttributeStringv(@NotNull java.lang.String attribute) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_file_info_get_attribute_stringv.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_attribute_stringv.invokeExact(handle(), Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerString(RESULT);
     }
     
-    private static final MethodHandle g_file_info_get_attribute_type = Interop.downcallHandle(
-        "g_file_info_get_attribute_type",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the attribute type for an attribute key.
+     * @param attribute a file attribute key.
+     * @return a {@link FileAttributeType} for the given {@code attribute}, or
+     * {@link FileAttributeType#INVALID} if the key is not set.
      */
-    public @NotNull FileAttributeType getAttributeType(@NotNull java.lang.String attribute) {
+    public @NotNull org.gtk.gio.FileAttributeType getAttributeType(@NotNull java.lang.String attribute) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         int RESULT;
         try {
-            RESULT = (int) g_file_info_get_attribute_type.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (int) DowncallHandles.g_file_info_get_attribute_type.invokeExact(handle(), Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new FileAttributeType(RESULT);
+        return new org.gtk.gio.FileAttributeType(RESULT);
     }
-    
-    private static final MethodHandle g_file_info_get_attribute_uint32 = Interop.downcallHandle(
-        "g_file_info_get_attribute_uint32",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets an unsigned 32-bit integer contained within the attribute. If the
      * attribute does not contain an unsigned 32-bit integer, or is invalid,
      * 0 will be returned.
+     * @param attribute a file attribute key.
+     * @return an unsigned 32-bit integer from the attribute.
      */
     public int getAttributeUint32(@NotNull java.lang.String attribute) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         int RESULT;
         try {
-            RESULT = (int) g_file_info_get_attribute_uint32.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (int) DowncallHandles.g_file_info_get_attribute_uint32.invokeExact(handle(), Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_file_info_get_attribute_uint64 = Interop.downcallHandle(
-        "g_file_info_get_attribute_uint64",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets a unsigned 64-bit integer contained within the attribute. If the
      * attribute does not contain an unsigned 64-bit integer, or is invalid,
      * 0 will be returned.
+     * @param attribute a file attribute key.
+     * @return a unsigned 64-bit integer from the attribute.
      */
     public long getAttributeUint64(@NotNull java.lang.String attribute) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         long RESULT;
         try {
-            RESULT = (long) g_file_info_get_attribute_uint64.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (long) DowncallHandles.g_file_info_get_attribute_uint64.invokeExact(handle(), Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle g_file_info_get_content_type = Interop.downcallHandle(
-        "g_file_info_get_content_type",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the file's content type.
+     * @return a string containing the file's content type,
+     * or {@code null} if unknown.
      */
     public @Nullable java.lang.String getContentType() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_file_info_get_content_type.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_content_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_file_info_get_creation_date_time = Interop.downcallHandle(
-        "g_file_info_get_creation_date_time",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the creation time of the current {@code info} and returns it as a
@@ -427,187 +401,147 @@ public class FileInfo extends org.gtk.gobject.Object {
      * This requires the {@code G_FILE_ATTRIBUTE_TIME_CREATED} attribute. If
      * {@code G_FILE_ATTRIBUTE_TIME_CREATED_USEC} is provided, the resulting {@link org.gtk.glib.DateTime}
      * will have microsecond precision.
+     * @return creation time, or {@code null} if unknown
      */
     public @Nullable org.gtk.glib.DateTime getCreationDateTime() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_file_info_get_creation_date_time.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_creation_date_time.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_file_info_get_deletion_date = Interop.downcallHandle(
-        "g_file_info_get_deletion_date",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the {@link org.gtk.glib.DateTime} representing the deletion date of the file, as
      * available in G_FILE_ATTRIBUTE_TRASH_DELETION_DATE. If the
      * G_FILE_ATTRIBUTE_TRASH_DELETION_DATE attribute is unset, {@code null} is returned.
+     * @return a {@link org.gtk.glib.DateTime}, or {@code null}.
      */
     public @Nullable org.gtk.glib.DateTime getDeletionDate() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_file_info_get_deletion_date.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_deletion_date.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle g_file_info_get_display_name = Interop.downcallHandle(
-        "g_file_info_get_display_name",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets a display name for a file. This is guaranteed to always be set.
+     * @return a string containing the display name.
      */
     public @NotNull java.lang.String getDisplayName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_file_info_get_display_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_display_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle g_file_info_get_edit_name = Interop.downcallHandle(
-        "g_file_info_get_edit_name",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the edit name for a file.
+     * @return a string containing the edit name.
      */
     public @NotNull java.lang.String getEditName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_file_info_get_edit_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_edit_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_file_info_get_etag = Interop.downcallHandle(
-        "g_file_info_get_etag",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the [entity tag][gfile-etag] for a given
      * {@link FileInfo}. See {@code G_FILE_ATTRIBUTE_ETAG_VALUE}.
+     * @return a string containing the value of the "etag:value" attribute.
      */
     public @Nullable java.lang.String getEtag() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_file_info_get_etag.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_etag.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle g_file_info_get_file_type = Interop.downcallHandle(
-        "g_file_info_get_file_type",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets a file's type (whether it is a regular file, symlink, etc).
      * This is different from the file's content type, see g_file_info_get_content_type().
+     * @return a {@link FileType} for the given file.
      */
-    public @NotNull FileType getFileType() {
+    public @NotNull org.gtk.gio.FileType getFileType() {
         int RESULT;
         try {
-            RESULT = (int) g_file_info_get_file_type.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_file_info_get_file_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new FileType(RESULT);
+        return new org.gtk.gio.FileType(RESULT);
     }
-    
-    private static final MethodHandle g_file_info_get_icon = Interop.downcallHandle(
-        "g_file_info_get_icon",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the icon for a file.
+     * @return {@link Icon} for the given {@code info}.
      */
-    public @Nullable Icon getIcon() {
+    public @Nullable org.gtk.gio.Icon getIcon() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_file_info_get_icon.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_icon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Icon.IconImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_file_info_get_is_backup = Interop.downcallHandle(
-        "g_file_info_get_is_backup",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Checks if a file is a backup file.
+     * @return {@code true} if file is a backup file, {@code false} otherwise.
      */
     public boolean getIsBackup() {
         int RESULT;
         try {
-            RESULT = (int) g_file_info_get_is_backup.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_file_info_get_is_backup.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_file_info_get_is_hidden = Interop.downcallHandle(
-        "g_file_info_get_is_hidden",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Checks if a file is hidden.
+     * @return {@code true} if the file is a hidden file, {@code false} otherwise.
      */
     public boolean getIsHidden() {
         int RESULT;
         try {
-            RESULT = (int) g_file_info_get_is_hidden.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_file_info_get_is_hidden.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_file_info_get_is_symlink = Interop.downcallHandle(
-        "g_file_info_get_is_symlink",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Checks if a file is a symlink.
+     * @return {@code true} if the given {@code info} is a symlink.
      */
     public boolean getIsSymlink() {
         int RESULT;
         try {
-            RESULT = (int) g_file_info_get_is_symlink.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_file_info_get_is_symlink.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_file_info_get_modification_date_time = Interop.downcallHandle(
-        "g_file_info_get_modification_date_time",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the modification time of the current {@code info} and returns it as a
@@ -616,321 +550,299 @@ public class FileInfo extends org.gtk.gobject.Object {
      * This requires the {@code G_FILE_ATTRIBUTE_TIME_MODIFIED} attribute. If
      * {@code G_FILE_ATTRIBUTE_TIME_MODIFIED_USEC} is provided, the resulting {@link org.gtk.glib.DateTime}
      * will have microsecond precision.
+     * @return modification time, or {@code null} if unknown
      */
     public @Nullable org.gtk.glib.DateTime getModificationDateTime() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_file_info_get_modification_date_time.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_modification_date_time.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.DateTime(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle g_file_info_get_name = Interop.downcallHandle(
-        "g_file_info_get_name",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Gets the modification time of the current {@code info} and sets it
+     * in {@code result}.
+     * @param result a {@link org.gtk.glib.TimeVal}.
+     * @deprecated Use g_file_info_get_modification_date_time() instead, as
+     *    {@link org.gtk.glib.TimeVal} is deprecated due to the year 2038 problem.
+     */
+    @Deprecated
+    public void getModificationTime(@NotNull Out<org.gtk.glib.TimeVal> result) {
+        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+        MemorySegment resultPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        try {
+            DowncallHandles.g_file_info_get_modification_time.invokeExact(handle(), (Addressable) resultPOINTER.address());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        result.set(new org.gtk.glib.TimeVal(Refcounted.get(resultPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+    }
     
     /**
      * Gets the name for a file. This is guaranteed to always be set.
+     * @return a string containing the file name.
      */
     public @NotNull java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_file_info_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_file_info_get_size = Interop.downcallHandle(
-        "g_file_info_get_size",
-        FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the file's size (in bytes). The size is retrieved through the value of
      * the {@code G_FILE_ATTRIBUTE_STANDARD_SIZE} attribute and is converted
      * from {@code guint64} to {@code goffset} before returning the result.
+     * @return a {@code goffset} containing the file's size (in bytes).
      */
     public long getSize() {
         long RESULT;
         try {
-            RESULT = (long) g_file_info_get_size.invokeExact(handle());
+            RESULT = (long) DowncallHandles.g_file_info_get_size.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_file_info_get_sort_order = Interop.downcallHandle(
-        "g_file_info_get_sort_order",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the value of the sort_order attribute from the {@link FileInfo}.
      * See {@code G_FILE_ATTRIBUTE_STANDARD_SORT_ORDER}.
+     * @return a {@code gint32} containing the value of the "standard::sort_order" attribute.
      */
     public int getSortOrder() {
         int RESULT;
         try {
-            RESULT = (int) g_file_info_get_sort_order.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_file_info_get_sort_order.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle g_file_info_get_symbolic_icon = Interop.downcallHandle(
-        "g_file_info_get_symbolic_icon",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the symbolic icon for a file.
+     * @return {@link Icon} for the given {@code info}.
      */
-    public @Nullable Icon getSymbolicIcon() {
+    public @Nullable org.gtk.gio.Icon getSymbolicIcon() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_file_info_get_symbolic_icon.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_symbolic_icon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Icon.IconImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_file_info_get_symlink_target = Interop.downcallHandle(
-        "g_file_info_get_symlink_target",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the symlink target for a given {@link FileInfo}.
+     * @return a string containing the symlink target.
      */
     public @Nullable java.lang.String getSymlinkTarget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_file_info_get_symlink_target.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_get_symlink_target.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle g_file_info_has_attribute = Interop.downcallHandle(
-        "g_file_info_has_attribute",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Checks if a file info structure has an attribute named {@code attribute}.
+     * @param attribute a file attribute key.
+     * @return {@code true} if {@code info} has an attribute named {@code attribute},
+     *     {@code false} otherwise.
      */
     public boolean hasAttribute(@NotNull java.lang.String attribute) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         int RESULT;
         try {
-            RESULT = (int) g_file_info_has_attribute.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            RESULT = (int) DowncallHandles.g_file_info_has_attribute.invokeExact(handle(), Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_file_info_has_namespace = Interop.downcallHandle(
-        "g_file_info_has_namespace",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Checks if a file info structure has an attribute in the
      * specified {@code name_space}.
+     * @param nameSpace a file attribute namespace.
+     * @return {@code true} if {@code info} has an attribute in {@code name_space},
+     *     {@code false} otherwise.
      */
     public boolean hasNamespace(@NotNull java.lang.String nameSpace) {
+        java.util.Objects.requireNonNull(nameSpace, "Parameter 'nameSpace' must not be null");
         int RESULT;
         try {
-            RESULT = (int) g_file_info_has_namespace.invokeExact(handle(), Interop.allocateNativeString(nameSpace));
+            RESULT = (int) DowncallHandles.g_file_info_has_namespace.invokeExact(handle(), Interop.allocateNativeString(nameSpace));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_file_info_list_attributes = Interop.downcallHandle(
-        "g_file_info_list_attributes",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Lists the file info structure's attributes.
+     * @param nameSpace a file attribute key's namespace, or {@code null} to list
+     *   all attributes.
+     * @return a
+     * null-terminated array of strings of all of the possible attribute
+     * types for the given {@code name_space}, or {@code null} on error.
      */
-    public PointerString listAttributes(@Nullable java.lang.String nameSpace) {
+    public @Nullable PointerString listAttributes(@Nullable java.lang.String nameSpace) {
+        java.util.Objects.requireNonNullElse(nameSpace, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_file_info_list_attributes.invokeExact(handle(), Interop.allocateNativeString(nameSpace));
+            RESULT = (MemoryAddress) DowncallHandles.g_file_info_list_attributes.invokeExact(handle(), Interop.allocateNativeString(nameSpace));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerString(RESULT);
     }
     
-    private static final MethodHandle g_file_info_remove_attribute = Interop.downcallHandle(
-        "g_file_info_remove_attribute",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Removes all cases of {@code attribute} from {@code info} if it exists.
+     * @param attribute a file attribute key.
      */
-    public @NotNull void removeAttribute(@NotNull java.lang.String attribute) {
+    public void removeAttribute(@NotNull java.lang.String attribute) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         try {
-            g_file_info_remove_attribute.invokeExact(handle(), Interop.allocateNativeString(attribute));
+            DowncallHandles.g_file_info_remove_attribute.invokeExact(handle(), Interop.allocateNativeString(attribute));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_set_access_date_time = Interop.downcallHandle(
-        "g_file_info_set_access_date_time",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the {@code G_FILE_ATTRIBUTE_TIME_ACCESS} and
      * {@code G_FILE_ATTRIBUTE_TIME_ACCESS_USEC} attributes in the file info to the
      * given date/time value.
+     * @param atime a {@link org.gtk.glib.DateTime}.
      */
-    public @NotNull void setAccessDateTime(@NotNull org.gtk.glib.DateTime atime) {
+    public void setAccessDateTime(@NotNull org.gtk.glib.DateTime atime) {
+        java.util.Objects.requireNonNull(atime, "Parameter 'atime' must not be null");
         try {
-            g_file_info_set_access_date_time.invokeExact(handle(), atime.handle());
+            DowncallHandles.g_file_info_set_access_date_time.invokeExact(handle(), atime.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_set_attribute = Interop.downcallHandle(
-        "g_file_info_set_attribute",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the {@code attribute} to contain the given value, if possible. To unset the
      * attribute, use {@link FileAttributeType#INVALID} for {@code type}.
+     * @param attribute a file attribute key.
+     * @param type a {@link FileAttributeType}
+     * @param valueP pointer to the value
      */
-    public @NotNull void setAttribute(@NotNull java.lang.String attribute, @NotNull FileAttributeType type, @NotNull java.lang.foreign.MemoryAddress valueP) {
+    public void setAttribute(@NotNull java.lang.String attribute, @NotNull org.gtk.gio.FileAttributeType type, @NotNull java.lang.foreign.MemoryAddress valueP) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
+        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+        java.util.Objects.requireNonNull(valueP, "Parameter 'valueP' must not be null");
         try {
-            g_file_info_set_attribute.invokeExact(handle(), Interop.allocateNativeString(attribute), type.getValue(), valueP);
+            DowncallHandles.g_file_info_set_attribute.invokeExact(handle(), Interop.allocateNativeString(attribute), type.getValue(), valueP);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_set_attribute_boolean = Interop.downcallHandle(
-        "g_file_info_set_attribute_boolean",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the {@code attribute} to contain the given {@code attr_value},
      * if possible.
+     * @param attribute a file attribute key.
+     * @param attrValue a boolean value.
      */
-    public @NotNull void setAttributeBoolean(@NotNull java.lang.String attribute, @NotNull boolean attrValue) {
+    public void setAttributeBoolean(@NotNull java.lang.String attribute, boolean attrValue) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         try {
-            g_file_info_set_attribute_boolean.invokeExact(handle(), Interop.allocateNativeString(attribute), attrValue ? 1 : 0);
+            DowncallHandles.g_file_info_set_attribute_boolean.invokeExact(handle(), Interop.allocateNativeString(attribute), attrValue ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_set_attribute_byte_string = Interop.downcallHandle(
-        "g_file_info_set_attribute_byte_string",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the {@code attribute} to contain the given {@code attr_value},
      * if possible.
+     * @param attribute a file attribute key.
+     * @param attrValue a byte string.
      */
-    public @NotNull void setAttributeByteString(@NotNull java.lang.String attribute, @NotNull java.lang.String attrValue) {
+    public void setAttributeByteString(@NotNull java.lang.String attribute, @NotNull java.lang.String attrValue) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
+        java.util.Objects.requireNonNull(attrValue, "Parameter 'attrValue' must not be null");
         try {
-            g_file_info_set_attribute_byte_string.invokeExact(handle(), Interop.allocateNativeString(attribute), Interop.allocateNativeString(attrValue));
+            DowncallHandles.g_file_info_set_attribute_byte_string.invokeExact(handle(), Interop.allocateNativeString(attribute), Interop.allocateNativeString(attrValue));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_set_attribute_int32 = Interop.downcallHandle(
-        "g_file_info_set_attribute_int32",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the {@code attribute} to contain the given {@code attr_value},
      * if possible.
+     * @param attribute a file attribute key.
+     * @param attrValue a signed 32-bit integer
      */
-    public @NotNull void setAttributeInt32(@NotNull java.lang.String attribute, @NotNull int attrValue) {
+    public void setAttributeInt32(@NotNull java.lang.String attribute, int attrValue) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         try {
-            g_file_info_set_attribute_int32.invokeExact(handle(), Interop.allocateNativeString(attribute), attrValue);
+            DowncallHandles.g_file_info_set_attribute_int32.invokeExact(handle(), Interop.allocateNativeString(attribute), attrValue);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_set_attribute_int64 = Interop.downcallHandle(
-        "g_file_info_set_attribute_int64",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
-    );
     
     /**
      * Sets the {@code attribute} to contain the given {@code attr_value},
      * if possible.
+     * @param attribute attribute name to set.
+     * @param attrValue int64 value to set attribute to.
      */
-    public @NotNull void setAttributeInt64(@NotNull java.lang.String attribute, @NotNull long attrValue) {
+    public void setAttributeInt64(@NotNull java.lang.String attribute, long attrValue) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         try {
-            g_file_info_set_attribute_int64.invokeExact(handle(), Interop.allocateNativeString(attribute), attrValue);
+            DowncallHandles.g_file_info_set_attribute_int64.invokeExact(handle(), Interop.allocateNativeString(attribute), attrValue);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_set_attribute_mask = Interop.downcallHandle(
-        "g_file_info_set_attribute_mask",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets {@code mask} on {@code info} to match specific attribute types.
+     * @param mask a {@link FileAttributeMatcher}.
      */
-    public @NotNull void setAttributeMask(@NotNull FileAttributeMatcher mask) {
+    public void setAttributeMask(@NotNull org.gtk.gio.FileAttributeMatcher mask) {
+        java.util.Objects.requireNonNull(mask, "Parameter 'mask' must not be null");
         try {
-            g_file_info_set_attribute_mask.invokeExact(handle(), mask.handle());
+            DowncallHandles.g_file_info_set_attribute_mask.invokeExact(handle(), mask.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_set_attribute_object = Interop.downcallHandle(
-        "g_file_info_set_attribute_object",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the {@code attribute} to contain the given {@code attr_value},
      * if possible.
+     * @param attribute a file attribute key.
+     * @param attrValue a {@link org.gtk.gobject.Object}.
      */
-    public @NotNull void setAttributeObject(@NotNull java.lang.String attribute, @NotNull org.gtk.gobject.Object attrValue) {
+    public void setAttributeObject(@NotNull java.lang.String attribute, @NotNull org.gtk.gobject.Object attrValue) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
+        java.util.Objects.requireNonNull(attrValue, "Parameter 'attrValue' must not be null");
         try {
-            g_file_info_set_attribute_object.invokeExact(handle(), Interop.allocateNativeString(attribute), attrValue.handle());
+            DowncallHandles.g_file_info_set_attribute_object.invokeExact(handle(), Interop.allocateNativeString(attribute), attrValue.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_set_attribute_status = Interop.downcallHandle(
-        "g_file_info_set_attribute_status",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the attribute status for an attribute key. This is only
@@ -939,342 +851,656 @@ public class FileInfo extends org.gtk.gobject.Object {
      * <p>
      * The attribute must exist in {@code info} for this to work. Otherwise {@code false}
      * is returned and {@code info} is unchanged.
+     * @param attribute a file attribute key
+     * @param status a {@link FileAttributeStatus}
+     * @return {@code true} if the status was changed, {@code false} if the key was not set.
      */
-    public boolean setAttributeStatus(@NotNull java.lang.String attribute, @NotNull FileAttributeStatus status) {
+    public boolean setAttributeStatus(@NotNull java.lang.String attribute, @NotNull org.gtk.gio.FileAttributeStatus status) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
+        java.util.Objects.requireNonNull(status, "Parameter 'status' must not be null");
         int RESULT;
         try {
-            RESULT = (int) g_file_info_set_attribute_status.invokeExact(handle(), Interop.allocateNativeString(attribute), status.getValue());
+            RESULT = (int) DowncallHandles.g_file_info_set_attribute_status.invokeExact(handle(), Interop.allocateNativeString(attribute), status.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_file_info_set_attribute_string = Interop.downcallHandle(
-        "g_file_info_set_attribute_string",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Sets the {@code attribute} to contain the given {@code attr_value},
      * if possible.
+     * @param attribute a file attribute key.
+     * @param attrValue a UTF-8 string.
      */
-    public @NotNull void setAttributeString(@NotNull java.lang.String attribute, @NotNull java.lang.String attrValue) {
+    public void setAttributeString(@NotNull java.lang.String attribute, @NotNull java.lang.String attrValue) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
+        java.util.Objects.requireNonNull(attrValue, "Parameter 'attrValue' must not be null");
         try {
-            g_file_info_set_attribute_string.invokeExact(handle(), Interop.allocateNativeString(attribute), Interop.allocateNativeString(attrValue));
+            DowncallHandles.g_file_info_set_attribute_string.invokeExact(handle(), Interop.allocateNativeString(attribute), Interop.allocateNativeString(attrValue));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_set_attribute_stringv = Interop.downcallHandle(
-        "g_file_info_set_attribute_stringv",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the {@code attribute} to contain the given {@code attr_value},
      * if possible.
      * <p>
      * Sinze: 2.22
+     * @param attribute a file attribute key
+     * @param attrValue a {@code null}
+     *   terminated array of UTF-8 strings.
      */
-    public @NotNull void setAttributeStringv(@NotNull java.lang.String attribute, @NotNull java.lang.String[] attrValue) {
+    public void setAttributeStringv(@NotNull java.lang.String attribute, java.lang.String[] attrValue) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
+        java.util.Objects.requireNonNull(attrValue, "Parameter 'attrValue' must not be null");
         try {
-            g_file_info_set_attribute_stringv.invokeExact(handle(), Interop.allocateNativeString(attribute), Interop.allocateNativeArray(attrValue));
+            DowncallHandles.g_file_info_set_attribute_stringv.invokeExact(handle(), Interop.allocateNativeString(attribute), Interop.allocateNativeArray(attrValue, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_set_attribute_uint32 = Interop.downcallHandle(
-        "g_file_info_set_attribute_uint32",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the {@code attribute} to contain the given {@code attr_value},
      * if possible.
+     * @param attribute a file attribute key.
+     * @param attrValue an unsigned 32-bit integer.
      */
-    public @NotNull void setAttributeUint32(@NotNull java.lang.String attribute, @NotNull int attrValue) {
+    public void setAttributeUint32(@NotNull java.lang.String attribute, int attrValue) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         try {
-            g_file_info_set_attribute_uint32.invokeExact(handle(), Interop.allocateNativeString(attribute), attrValue);
+            DowncallHandles.g_file_info_set_attribute_uint32.invokeExact(handle(), Interop.allocateNativeString(attribute), attrValue);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_set_attribute_uint64 = Interop.downcallHandle(
-        "g_file_info_set_attribute_uint64",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
-    );
     
     /**
      * Sets the {@code attribute} to contain the given {@code attr_value},
      * if possible.
+     * @param attribute a file attribute key.
+     * @param attrValue an unsigned 64-bit integer.
      */
-    public @NotNull void setAttributeUint64(@NotNull java.lang.String attribute, @NotNull long attrValue) {
+    public void setAttributeUint64(@NotNull java.lang.String attribute, long attrValue) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
         try {
-            g_file_info_set_attribute_uint64.invokeExact(handle(), Interop.allocateNativeString(attribute), attrValue);
+            DowncallHandles.g_file_info_set_attribute_uint64.invokeExact(handle(), Interop.allocateNativeString(attribute), attrValue);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_set_content_type = Interop.downcallHandle(
-        "g_file_info_set_content_type",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the content type attribute for a given {@link FileInfo}.
      * See {@code G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE}.
+     * @param contentType a content type. See [GContentType][gio-GContentType]
      */
-    public @NotNull void setContentType(@NotNull java.lang.String contentType) {
+    public void setContentType(@NotNull java.lang.String contentType) {
+        java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
         try {
-            g_file_info_set_content_type.invokeExact(handle(), Interop.allocateNativeString(contentType));
+            DowncallHandles.g_file_info_set_content_type.invokeExact(handle(), Interop.allocateNativeString(contentType));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_set_creation_date_time = Interop.downcallHandle(
-        "g_file_info_set_creation_date_time",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the {@code G_FILE_ATTRIBUTE_TIME_CREATED} and
      * {@code G_FILE_ATTRIBUTE_TIME_CREATED_USEC} attributes in the file info to the
      * given date/time value.
+     * @param creationTime a {@link org.gtk.glib.DateTime}.
      */
-    public @NotNull void setCreationDateTime(@NotNull org.gtk.glib.DateTime creationTime) {
+    public void setCreationDateTime(@NotNull org.gtk.glib.DateTime creationTime) {
+        java.util.Objects.requireNonNull(creationTime, "Parameter 'creationTime' must not be null");
         try {
-            g_file_info_set_creation_date_time.invokeExact(handle(), creationTime.handle());
+            DowncallHandles.g_file_info_set_creation_date_time.invokeExact(handle(), creationTime.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_set_display_name = Interop.downcallHandle(
-        "g_file_info_set_display_name",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the display name for the current {@link FileInfo}.
      * See {@code G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME}.
+     * @param displayName a string containing a display name.
      */
-    public @NotNull void setDisplayName(@NotNull java.lang.String displayName) {
+    public void setDisplayName(@NotNull java.lang.String displayName) {
+        java.util.Objects.requireNonNull(displayName, "Parameter 'displayName' must not be null");
         try {
-            g_file_info_set_display_name.invokeExact(handle(), Interop.allocateNativeString(displayName));
+            DowncallHandles.g_file_info_set_display_name.invokeExact(handle(), Interop.allocateNativeString(displayName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_set_edit_name = Interop.downcallHandle(
-        "g_file_info_set_edit_name",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the edit name for the current file.
      * See {@code G_FILE_ATTRIBUTE_STANDARD_EDIT_NAME}.
+     * @param editName a string containing an edit name.
      */
-    public @NotNull void setEditName(@NotNull java.lang.String editName) {
+    public void setEditName(@NotNull java.lang.String editName) {
+        java.util.Objects.requireNonNull(editName, "Parameter 'editName' must not be null");
         try {
-            g_file_info_set_edit_name.invokeExact(handle(), Interop.allocateNativeString(editName));
+            DowncallHandles.g_file_info_set_edit_name.invokeExact(handle(), Interop.allocateNativeString(editName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_set_file_type = Interop.downcallHandle(
-        "g_file_info_set_file_type",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the file type in a {@link FileInfo} to {@code type}.
      * See {@code G_FILE_ATTRIBUTE_STANDARD_TYPE}.
+     * @param type a {@link FileType}.
      */
-    public @NotNull void setFileType(@NotNull FileType type) {
+    public void setFileType(@NotNull org.gtk.gio.FileType type) {
+        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         try {
-            g_file_info_set_file_type.invokeExact(handle(), type.getValue());
+            DowncallHandles.g_file_info_set_file_type.invokeExact(handle(), type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_set_icon = Interop.downcallHandle(
-        "g_file_info_set_icon",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the icon for a given {@link FileInfo}.
      * See {@code G_FILE_ATTRIBUTE_STANDARD_ICON}.
+     * @param icon a {@link Icon}.
      */
-    public @NotNull void setIcon(@NotNull Icon icon) {
+    public void setIcon(@NotNull org.gtk.gio.Icon icon) {
+        java.util.Objects.requireNonNull(icon, "Parameter 'icon' must not be null");
         try {
-            g_file_info_set_icon.invokeExact(handle(), icon.handle());
+            DowncallHandles.g_file_info_set_icon.invokeExact(handle(), icon.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_set_is_hidden = Interop.downcallHandle(
-        "g_file_info_set_is_hidden",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the "is_hidden" attribute in a {@link FileInfo} according to {@code is_hidden}.
      * See {@code G_FILE_ATTRIBUTE_STANDARD_IS_HIDDEN}.
+     * @param isHidden a {@code gboolean}.
      */
-    public @NotNull void setIsHidden(@NotNull boolean isHidden) {
+    public void setIsHidden(boolean isHidden) {
         try {
-            g_file_info_set_is_hidden.invokeExact(handle(), isHidden ? 1 : 0);
+            DowncallHandles.g_file_info_set_is_hidden.invokeExact(handle(), isHidden ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_set_is_symlink = Interop.downcallHandle(
-        "g_file_info_set_is_symlink",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the "is_symlink" attribute in a {@link FileInfo} according to {@code is_symlink}.
      * See {@code G_FILE_ATTRIBUTE_STANDARD_IS_SYMLINK}.
+     * @param isSymlink a {@code gboolean}.
      */
-    public @NotNull void setIsSymlink(@NotNull boolean isSymlink) {
+    public void setIsSymlink(boolean isSymlink) {
         try {
-            g_file_info_set_is_symlink.invokeExact(handle(), isSymlink ? 1 : 0);
+            DowncallHandles.g_file_info_set_is_symlink.invokeExact(handle(), isSymlink ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_set_modification_date_time = Interop.downcallHandle(
-        "g_file_info_set_modification_date_time",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the {@code G_FILE_ATTRIBUTE_TIME_MODIFIED} and
      * {@code G_FILE_ATTRIBUTE_TIME_MODIFIED_USEC} attributes in the file info to the
      * given date/time value.
+     * @param mtime a {@link org.gtk.glib.DateTime}.
      */
-    public @NotNull void setModificationDateTime(@NotNull org.gtk.glib.DateTime mtime) {
+    public void setModificationDateTime(@NotNull org.gtk.glib.DateTime mtime) {
+        java.util.Objects.requireNonNull(mtime, "Parameter 'mtime' must not be null");
         try {
-            g_file_info_set_modification_date_time.invokeExact(handle(), mtime.handle());
+            DowncallHandles.g_file_info_set_modification_date_time.invokeExact(handle(), mtime.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle g_file_info_set_name = Interop.downcallHandle(
-        "g_file_info_set_name",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Sets the {@code G_FILE_ATTRIBUTE_TIME_MODIFIED} and
+     * {@code G_FILE_ATTRIBUTE_TIME_MODIFIED_USEC} attributes in the file info to the
+     * given time value.
+     * @param mtime a {@link org.gtk.glib.TimeVal}.
+     * @deprecated Use g_file_info_set_modification_date_time() instead, as
+     *    {@link org.gtk.glib.TimeVal} is deprecated due to the year 2038 problem.
+     */
+    @Deprecated
+    public void setModificationTime(@NotNull org.gtk.glib.TimeVal mtime) {
+        java.util.Objects.requireNonNull(mtime, "Parameter 'mtime' must not be null");
+        try {
+            DowncallHandles.g_file_info_set_modification_time.invokeExact(handle(), mtime.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
     
     /**
      * Sets the name attribute for the current {@link FileInfo}.
      * See {@code G_FILE_ATTRIBUTE_STANDARD_NAME}.
+     * @param name a string containing a name.
      */
-    public @NotNull void setName(@NotNull java.lang.String name) {
+    public void setName(@NotNull java.lang.String name) {
+        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         try {
-            g_file_info_set_name.invokeExact(handle(), Interop.allocateNativeString(name));
+            DowncallHandles.g_file_info_set_name.invokeExact(handle(), Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_set_size = Interop.downcallHandle(
-        "g_file_info_set_size",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
-    );
     
     /**
      * Sets the {@code G_FILE_ATTRIBUTE_STANDARD_SIZE} attribute in the file info
      * to the given size.
+     * @param size a {@code goffset} containing the file's size.
      */
-    public @NotNull void setSize(@NotNull long size) {
+    public void setSize(long size) {
         try {
-            g_file_info_set_size.invokeExact(handle(), size);
+            DowncallHandles.g_file_info_set_size.invokeExact(handle(), size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_set_sort_order = Interop.downcallHandle(
-        "g_file_info_set_sort_order",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the sort order attribute in the file info structure. See
      * {@code G_FILE_ATTRIBUTE_STANDARD_SORT_ORDER}.
+     * @param sortOrder a sort order integer.
      */
-    public @NotNull void setSortOrder(@NotNull int sortOrder) {
+    public void setSortOrder(int sortOrder) {
         try {
-            g_file_info_set_sort_order.invokeExact(handle(), sortOrder);
+            DowncallHandles.g_file_info_set_sort_order.invokeExact(handle(), sortOrder);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_set_symbolic_icon = Interop.downcallHandle(
-        "g_file_info_set_symbolic_icon",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the symbolic icon for a given {@link FileInfo}.
      * See {@code G_FILE_ATTRIBUTE_STANDARD_SYMBOLIC_ICON}.
+     * @param icon a {@link Icon}.
      */
-    public @NotNull void setSymbolicIcon(@NotNull Icon icon) {
+    public void setSymbolicIcon(@NotNull org.gtk.gio.Icon icon) {
+        java.util.Objects.requireNonNull(icon, "Parameter 'icon' must not be null");
         try {
-            g_file_info_set_symbolic_icon.invokeExact(handle(), icon.handle());
+            DowncallHandles.g_file_info_set_symbolic_icon.invokeExact(handle(), icon.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_set_symlink_target = Interop.downcallHandle(
-        "g_file_info_set_symlink_target",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the {@code G_FILE_ATTRIBUTE_STANDARD_SYMLINK_TARGET} attribute in the file info
      * to the given symlink target.
+     * @param symlinkTarget a static string containing a path to a symlink target.
      */
-    public @NotNull void setSymlinkTarget(@NotNull java.lang.String symlinkTarget) {
+    public void setSymlinkTarget(@NotNull java.lang.String symlinkTarget) {
+        java.util.Objects.requireNonNull(symlinkTarget, "Parameter 'symlinkTarget' must not be null");
         try {
-            g_file_info_set_symlink_target.invokeExact(handle(), Interop.allocateNativeString(symlinkTarget));
+            DowncallHandles.g_file_info_set_symlink_target.invokeExact(handle(), Interop.allocateNativeString(symlinkTarget));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_file_info_unset_attribute_mask = Interop.downcallHandle(
-        "g_file_info_unset_attribute_mask",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Unsets a mask set by g_file_info_set_attribute_mask(), if one
      * is set.
      */
-    public @NotNull void unsetAttributeMask() {
+    public void unsetAttributeMask() {
         try {
-            g_file_info_unset_attribute_mask.invokeExact(handle());
+            DowncallHandles.g_file_info_unset_attribute_mask.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_file_info_new = Interop.downcallHandle(
+            "g_file_info_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_clear_status = Interop.downcallHandle(
+            "g_file_info_clear_status",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_copy_into = Interop.downcallHandle(
+            "g_file_info_copy_into",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_dup = Interop.downcallHandle(
+            "g_file_info_dup",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_access_date_time = Interop.downcallHandle(
+            "g_file_info_get_access_date_time",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_attribute_as_string = Interop.downcallHandle(
+            "g_file_info_get_attribute_as_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_attribute_boolean = Interop.downcallHandle(
+            "g_file_info_get_attribute_boolean",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_attribute_byte_string = Interop.downcallHandle(
+            "g_file_info_get_attribute_byte_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_attribute_data = Interop.downcallHandle(
+            "g_file_info_get_attribute_data",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_file_info_get_attribute_int32 = Interop.downcallHandle(
+            "g_file_info_get_attribute_int32",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_attribute_int64 = Interop.downcallHandle(
+            "g_file_info_get_attribute_int64",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_attribute_object = Interop.downcallHandle(
+            "g_file_info_get_attribute_object",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_attribute_status = Interop.downcallHandle(
+            "g_file_info_get_attribute_status",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_attribute_string = Interop.downcallHandle(
+            "g_file_info_get_attribute_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_attribute_stringv = Interop.downcallHandle(
+            "g_file_info_get_attribute_stringv",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_attribute_type = Interop.downcallHandle(
+            "g_file_info_get_attribute_type",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_attribute_uint32 = Interop.downcallHandle(
+            "g_file_info_get_attribute_uint32",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_attribute_uint64 = Interop.downcallHandle(
+            "g_file_info_get_attribute_uint64",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_content_type = Interop.downcallHandle(
+            "g_file_info_get_content_type",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_creation_date_time = Interop.downcallHandle(
+            "g_file_info_get_creation_date_time",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_deletion_date = Interop.downcallHandle(
+            "g_file_info_get_deletion_date",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_display_name = Interop.downcallHandle(
+            "g_file_info_get_display_name",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_edit_name = Interop.downcallHandle(
+            "g_file_info_get_edit_name",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_etag = Interop.downcallHandle(
+            "g_file_info_get_etag",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_file_type = Interop.downcallHandle(
+            "g_file_info_get_file_type",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_icon = Interop.downcallHandle(
+            "g_file_info_get_icon",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_is_backup = Interop.downcallHandle(
+            "g_file_info_get_is_backup",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_is_hidden = Interop.downcallHandle(
+            "g_file_info_get_is_hidden",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_is_symlink = Interop.downcallHandle(
+            "g_file_info_get_is_symlink",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_modification_date_time = Interop.downcallHandle(
+            "g_file_info_get_modification_date_time",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_modification_time = Interop.downcallHandle(
+            "g_file_info_get_modification_time",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_name = Interop.downcallHandle(
+            "g_file_info_get_name",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_size = Interop.downcallHandle(
+            "g_file_info_get_size",
+            FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_sort_order = Interop.downcallHandle(
+            "g_file_info_get_sort_order",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_symbolic_icon = Interop.downcallHandle(
+            "g_file_info_get_symbolic_icon",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_get_symlink_target = Interop.downcallHandle(
+            "g_file_info_get_symlink_target",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_has_attribute = Interop.downcallHandle(
+            "g_file_info_has_attribute",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_has_namespace = Interop.downcallHandle(
+            "g_file_info_has_namespace",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_list_attributes = Interop.downcallHandle(
+            "g_file_info_list_attributes",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_remove_attribute = Interop.downcallHandle(
+            "g_file_info_remove_attribute",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_set_access_date_time = Interop.downcallHandle(
+            "g_file_info_set_access_date_time",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_set_attribute = Interop.downcallHandle(
+            "g_file_info_set_attribute",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_set_attribute_boolean = Interop.downcallHandle(
+            "g_file_info_set_attribute_boolean",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_file_info_set_attribute_byte_string = Interop.downcallHandle(
+            "g_file_info_set_attribute_byte_string",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_set_attribute_int32 = Interop.downcallHandle(
+            "g_file_info_set_attribute_int32",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_file_info_set_attribute_int64 = Interop.downcallHandle(
+            "g_file_info_set_attribute_int64",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+        );
+        
+        private static final MethodHandle g_file_info_set_attribute_mask = Interop.downcallHandle(
+            "g_file_info_set_attribute_mask",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_set_attribute_object = Interop.downcallHandle(
+            "g_file_info_set_attribute_object",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_set_attribute_status = Interop.downcallHandle(
+            "g_file_info_set_attribute_status",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_file_info_set_attribute_string = Interop.downcallHandle(
+            "g_file_info_set_attribute_string",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_set_attribute_stringv = Interop.downcallHandle(
+            "g_file_info_set_attribute_stringv",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_set_attribute_uint32 = Interop.downcallHandle(
+            "g_file_info_set_attribute_uint32",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_file_info_set_attribute_uint64 = Interop.downcallHandle(
+            "g_file_info_set_attribute_uint64",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+        );
+        
+        private static final MethodHandle g_file_info_set_content_type = Interop.downcallHandle(
+            "g_file_info_set_content_type",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_set_creation_date_time = Interop.downcallHandle(
+            "g_file_info_set_creation_date_time",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_set_display_name = Interop.downcallHandle(
+            "g_file_info_set_display_name",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_set_edit_name = Interop.downcallHandle(
+            "g_file_info_set_edit_name",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_set_file_type = Interop.downcallHandle(
+            "g_file_info_set_file_type",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_file_info_set_icon = Interop.downcallHandle(
+            "g_file_info_set_icon",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_set_is_hidden = Interop.downcallHandle(
+            "g_file_info_set_is_hidden",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_file_info_set_is_symlink = Interop.downcallHandle(
+            "g_file_info_set_is_symlink",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_file_info_set_modification_date_time = Interop.downcallHandle(
+            "g_file_info_set_modification_date_time",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_set_modification_time = Interop.downcallHandle(
+            "g_file_info_set_modification_time",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_set_name = Interop.downcallHandle(
+            "g_file_info_set_name",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_set_size = Interop.downcallHandle(
+            "g_file_info_set_size",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+        );
+        
+        private static final MethodHandle g_file_info_set_sort_order = Interop.downcallHandle(
+            "g_file_info_set_sort_order",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_file_info_set_symbolic_icon = Interop.downcallHandle(
+            "g_file_info_set_symbolic_icon",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_set_symlink_target = Interop.downcallHandle(
+            "g_file_info_set_symlink_target",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_file_info_unset_attribute_mask = Interop.downcallHandle(
+            "g_file_info_unset_attribute_mask",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
 }

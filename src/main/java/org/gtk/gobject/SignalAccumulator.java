@@ -1,6 +1,8 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -15,5 +17,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface SignalAccumulator {
-        boolean onSignalAccumulator(@NotNull SignalInvocationHint ihint, @NotNull Value returnAccu, @NotNull Value handlerReturn);
+        boolean onSignalAccumulator(@NotNull org.gtk.gobject.SignalInvocationHint ihint, @NotNull org.gtk.gobject.Value returnAccu, @NotNull org.gtk.gobject.Value handlerReturn);
 }

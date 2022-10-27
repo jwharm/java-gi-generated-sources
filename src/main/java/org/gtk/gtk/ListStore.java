@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * can use all of the methods available there.  It also implements the
  * {@code GtkTreeSortable} interface so it can be sorted by the view.
  * Finally, it also implements the tree
- * <a href="iface.TreeDragDest.html">drag](iface.TreeDragSource.html) and [drop</a>
+ * <a href="iface.TreeDragSource.html">drag</a> and <a href="iface.TreeDragDest.html">drop</a>
  * interfaces.
  * <p>
  * The {@code GtkListStore} can accept most {@code GType}s as a column type, though
@@ -27,7 +27,6 @@ import org.jetbrains.annotations.*;
  * with {@link org.gtk.gdk.Texture}s stored.
  * <p>
  * An example for creating a simple list store:
- * 
  * <pre>{@code c
  * enum {
  *   COLUMN_STRING,
@@ -77,8 +76,8 @@ import org.jetbrains.annotations.*;
  *                       -1);
  * }
  * }</pre>
- * 
- * <h1>Performance Considerations</h1>
+ * <p>
+ * <strong>Performance Considerations</strong><br/>
  * Internally, the {@code GtkListStore} was originally implemented with a linked list
  * with a tail pointer.  As a result, it was fast at data insertion and deletion,
  * and not fast at random data access.  The {@code GtkListStore} sets the
@@ -86,8 +85,8 @@ import org.jetbrains.annotations.*;
  * cached while the row exists.  Thus, if access to a particular row is needed
  * often and your code is expected to run on older versions of GTK, it is worth
  * keeping the iter around.
- * 
- * <h1>Atomic Operations</h1>
+ * <p>
+ * <strong>Atomic Operations</strong><br/>
  * It is important to note that only the methods
  * gtk_list_store_insert_with_values() and gtk_list_store_insert_with_valuesv()
  * are atomic, in the sense that the row is being appended to the store and the
@@ -102,8 +101,8 @@ import org.jetbrains.annotations.*;
  * to append rows to the {@code GtkListStore} will cause the
  * {@code GtkTreeModel}FilterVisibleFunc to be visited with an empty row first; the
  * function must be prepared for that.
- * 
- * <h1>GtkListStore as GtkBuildable</h1>
+ * <p>
+ * <strong>GtkListStore as GtkBuildable</strong><br/>
  * The GtkListStore implementation of the {@code Gtk.Buildable} interface allows
  * to specify the model columns with a {@code <columns>} element that may contain
  * multiple {@code <column>} elements, each specifying one model column. The “type”
@@ -120,7 +119,6 @@ import org.jetbrains.annotations.*;
  * is to separate the two, as far as possible.
  * <p>
  * An example of a UI Definition fragment for a list store:
- * 
  * <pre>{@code xml
  * <object class="GtkListStore">
  *   <columns>
@@ -143,8 +141,25 @@ import org.jetbrains.annotations.*;
  * </object>
  * }</pre>
  */
-public class ListStore extends org.gtk.gobject.Object implements Buildable, TreeDragDest, TreeDragSource, TreeModel, TreeSortable {
-
+public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Buildable, org.gtk.gtk.TreeDragDest, org.gtk.gtk.TreeDragSource, org.gtk.gtk.TreeModel, org.gtk.gtk.TreeSortable {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.Object.getMemoryLayout().withName("parent"),
+        org.gtk.gtk.ListStorePrivate.getMemoryLayout().withName("priv")
+    ).withName("GtkListStore");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public ListStore(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -154,67 +169,73 @@ public class ListStore extends org.gtk.gobject.Object implements Buildable, Tree
         return new ListStore(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_list_store_newv = Interop.downcallHandle(
-        "gtk_list_store_newv",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
+    private static Refcounted constructNew(int nColumns) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
-    private static Refcounted constructNewv(@NotNull int nColumns, @NotNull org.gtk.gobject.Type[] types) {
+    /**
+     * Creates a new list store as with {@code n_columns} columns each of the types passed
+     * in.  Note that only types derived from standard GObject fundamental types
+     * are supported.
+     * <p>
+     * As an example, {@code gtk_list_store_new (3, G_TYPE_INT, G_TYPE_STRING,
+     * GDK_TYPE_TEXTURE);} will create a new {@code GtkListStore} with three columns, of type
+     * int, string and {@code GdkTexture}, respectively.
+     * @param nColumns number of columns in the list store
+     */
+    public ListStore(int nColumns) {
+        this(Refcounted.get(null)); // avoid compiler error
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    private static Refcounted constructNewv(int nColumns, org.gtk.glib.Type[] types) {
+        java.util.Objects.requireNonNull(types, "Parameter 'types' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_list_store_newv.invokeExact(nColumns, Interop.allocateNativeArray(org.gtk.gobject.Type.getLongValues(types))), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_list_store_newv.invokeExact(nColumns, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(types), false)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Non-vararg creation function.  Used primarily by language bindings.
+     * @param nColumns number of columns in the list store
+     * @param types an array of {@code GType} types for the columns, from first to last
+     * @return a new {@code GtkListStore}
      */
-    public static ListStore newv(@NotNull int nColumns, @NotNull org.gtk.gobject.Type[] types) {
+    public static ListStore newv(int nColumns, org.gtk.glib.Type[] types) {
         return new ListStore(constructNewv(nColumns, types));
     }
-    
-    private static final MethodHandle gtk_list_store_append = Interop.downcallHandle(
-        "gtk_list_store_append",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Appends a new row to {@code list_store}.  {@code iter} will be changed to point to this new
      * row.  The row will be empty after this function is called.  To fill in
      * values, you need to call gtk_list_store_set() or gtk_list_store_set_value().
+     * @param iter An unset {@code GtkTreeIter} to set to the appended row
      */
-    public @NotNull void append(@NotNull Out<TreeIter> iter) {
+    public void append(@NotNull Out<org.gtk.gtk.TreeIter> iter) {
+        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_list_store_append.invokeExact(handle(), (Addressable) iterPOINTER.address());
+            DowncallHandles.gtk_list_store_append.invokeExact(handle(), (Addressable) iterPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle gtk_list_store_clear = Interop.downcallHandle(
-        "gtk_list_store_clear",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Removes all rows from the list store.
      */
-    public @NotNull void clear() {
+    public void clear() {
         try {
-            gtk_list_store_clear.invokeExact(handle());
+            DowncallHandles.gtk_list_store_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_store_insert = Interop.downcallHandle(
-        "gtk_list_store_insert",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Creates a new row at {@code position}.  {@code iter} will be changed to point to this new
@@ -222,63 +243,98 @@ public class ListStore extends org.gtk.gobject.Object implements Buildable, Tree
      * then the new row will be appended to the list. The row will be empty after
      * this function is called.  To fill in values, you need to call
      * gtk_list_store_set() or gtk_list_store_set_value().
+     * @param iter An unset {@code GtkTreeIter} to set to the new row
+     * @param position position to insert the new row, or -1 for last
      */
-    public @NotNull void insert(@NotNull Out<TreeIter> iter, @NotNull int position) {
+    public void insert(@NotNull Out<org.gtk.gtk.TreeIter> iter, int position) {
+        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_list_store_insert.invokeExact(handle(), (Addressable) iterPOINTER.address(), position);
+            DowncallHandles.gtk_list_store_insert.invokeExact(handle(), (Addressable) iterPOINTER.address(), position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle gtk_list_store_insert_after = Interop.downcallHandle(
-        "gtk_list_store_insert_after",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Inserts a new row after {@code sibling}. If {@code sibling} is {@code null}, then the row will be
      * prepended to the beginning of the list. {@code iter} will be changed to point to
      * this new row. The row will be empty after this function is called. To fill
      * in values, you need to call gtk_list_store_set() or gtk_list_store_set_value().
+     * @param iter An unset {@code GtkTreeIter} to set to the new row
+     * @param sibling A valid {@code GtkTreeIter}
      */
-    public @NotNull void insertAfter(@NotNull Out<TreeIter> iter, @Nullable TreeIter sibling) {
+    public void insertAfter(@NotNull Out<org.gtk.gtk.TreeIter> iter, @Nullable org.gtk.gtk.TreeIter sibling) {
+        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+        java.util.Objects.requireNonNullElse(sibling, MemoryAddress.NULL);
         MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_list_store_insert_after.invokeExact(handle(), (Addressable) iterPOINTER.address(), sibling.handle());
+            DowncallHandles.gtk_list_store_insert_after.invokeExact(handle(), (Addressable) iterPOINTER.address(), sibling.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle gtk_list_store_insert_before = Interop.downcallHandle(
-        "gtk_list_store_insert_before",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Inserts a new row before {@code sibling}. If {@code sibling} is {@code null}, then the row will
      * be appended to the end of the list. {@code iter} will be changed to point to this
      * new row. The row will be empty after this function is called. To fill in
      * values, you need to call gtk_list_store_set() or gtk_list_store_set_value().
+     * @param iter An unset {@code GtkTreeIter} to set to the new row
+     * @param sibling A valid {@code GtkTreeIter}
      */
-    public @NotNull void insertBefore(@NotNull Out<TreeIter> iter, @Nullable TreeIter sibling) {
+    public void insertBefore(@NotNull Out<org.gtk.gtk.TreeIter> iter, @Nullable org.gtk.gtk.TreeIter sibling) {
+        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+        java.util.Objects.requireNonNullElse(sibling, MemoryAddress.NULL);
         MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_list_store_insert_before.invokeExact(handle(), (Addressable) iterPOINTER.address(), sibling.handle());
+            DowncallHandles.gtk_list_store_insert_before.invokeExact(handle(), (Addressable) iterPOINTER.address(), sibling.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
     
-    private static final MethodHandle gtk_list_store_insert_with_valuesv = Interop.downcallHandle(
-        "gtk_list_store_insert_with_valuesv",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
+    /**
+     * Creates a new row at {@code position}. {@code iter} will be changed to point to this new
+     * row. If {@code position} is -1, or larger than the number of rows in the list, then
+     * the new row will be appended to the list. The row will be filled with the
+     * values given to this function.
+     * <p>
+     * Calling
+     * {@code gtk_list_store_insert_with_values (list_store, iter, position...)}
+     * has the same effect as calling:
+     * <pre>{@code <!-- language="C" -->
+     * static void
+     * insert_value (GtkListStore *list_store,
+     *               GtkTreeIter  *iter,
+     *               int           position)
+     * {
+     *   gtk_list_store_insert (list_store, iter, position);
+     *   gtk_list_store_set (list_store,
+     *                       iter
+     *                       // ...
+     *                       );
+     * }
+     * }</pre>
+     * <p>
+     * with the difference that the former will only emit {@code GtkTreeModel}::row-inserted
+     * once, while the latter will emit {@code GtkTreeModel}::row-inserted,
+     * {@code GtkTreeModel}::row-changed and, if the list store is sorted,
+     * {@code GtkTreeModel}::rows-reordered for every inserted value.
+     * <p>
+     * Since emitting the {@code GtkTreeModel::rows-reordered} signal repeatedly can
+     * affect the performance of the program, gtk_list_store_insert_with_values()
+     * should generally be preferred when inserting rows in a sorted list store.
+     * @param iter An unset {@code GtkTreeIter} to set to the new row
+     * @param position position to insert the new row, or -1 to append after existing
+     *    rows
+     */
+    public void insertWithValues(@NotNull Out<org.gtk.gtk.TreeIter> iter, int position) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * A variant of gtk_list_store_insert_with_values() which
@@ -286,189 +342,196 @@ public class ListStore extends org.gtk.gobject.Object implements Buildable, Tree
      * varargs.
      * <p>
      * This function is mainly intended for language-bindings.
+     * @param iter An unset {@code GtkTreeIter} to set to the new row
+     * @param position position to insert the new row, or -1 for last
+     * @param columns an array of column numbers
+     * @param values an array of GValues
+     * @param nValues the length of the {@code columns} and {@code values} arrays
      */
-    public @NotNull void insertWithValuesv(@NotNull Out<TreeIter> iter, @NotNull int position, @NotNull int[] columns, @NotNull org.gtk.gobject.Value[] values, @NotNull int nValues) {
+    public void insertWithValuesv(@NotNull Out<org.gtk.gtk.TreeIter> iter, int position, int[] columns, org.gtk.gobject.Value[] values, int nValues) {
+        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+        java.util.Objects.requireNonNull(columns, "Parameter 'columns' must not be null");
+        java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
         MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_list_store_insert_with_valuesv.invokeExact(handle(), (Addressable) iterPOINTER.address(), position, Interop.allocateNativeArray(columns), Interop.allocateNativeArray(values), nValues);
+            DowncallHandles.gtk_list_store_insert_with_valuesv.invokeExact(handle(), (Addressable) iterPOINTER.address(), position, Interop.allocateNativeArray(columns, false), Interop.allocateNativeArray(values, false), nValues);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle gtk_list_store_iter_is_valid = Interop.downcallHandle(
-        "gtk_list_store_iter_is_valid",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Checks if the given iter is a valid iter for this {@code GtkListStore}.
      * <p>
      * This function is slow. Only use it for debugging and/or testing
      * purposes.
+     * @param iter the iterator to check
+     * @return {@code true} if the iter is valid, {@code false} if the iter is invalid.
      */
-    public boolean iterIsValid(@NotNull TreeIter iter) {
+    public boolean iterIsValid(@NotNull org.gtk.gtk.TreeIter iter) {
+        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         int RESULT;
         try {
-            RESULT = (int) gtk_list_store_iter_is_valid.invokeExact(handle(), iter.handle());
+            RESULT = (int) DowncallHandles.gtk_list_store_iter_is_valid.invokeExact(handle(), iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gtk_list_store_move_after = Interop.downcallHandle(
-        "gtk_list_store_move_after",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Moves {@code iter} in {@code store} to the position after {@code position}. Note that this
      * function only works with unsorted stores. If {@code position} is {@code null}, {@code iter}
      * will be moved to the start of the list.
+     * @param iter A {@code GtkTreeIter}
+     * @param position A {@code GtkTreeIter}
      */
-    public @NotNull void moveAfter(@NotNull TreeIter iter, @Nullable TreeIter position) {
+    public void moveAfter(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter position) {
+        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+        java.util.Objects.requireNonNullElse(position, MemoryAddress.NULL);
         try {
-            gtk_list_store_move_after.invokeExact(handle(), iter.handle(), position.handle());
+            DowncallHandles.gtk_list_store_move_after.invokeExact(handle(), iter.handle(), position.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_store_move_before = Interop.downcallHandle(
-        "gtk_list_store_move_before",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Moves {@code iter} in {@code store} to the position before {@code position}. Note that this
      * function only works with unsorted stores. If {@code position} is {@code null}, {@code iter}
      * will be moved to the end of the list.
+     * @param iter A {@code GtkTreeIter}
+     * @param position A {@code GtkTreeIter}
      */
-    public @NotNull void moveBefore(@NotNull TreeIter iter, @Nullable TreeIter position) {
+    public void moveBefore(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter position) {
+        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+        java.util.Objects.requireNonNullElse(position, MemoryAddress.NULL);
         try {
-            gtk_list_store_move_before.invokeExact(handle(), iter.handle(), position.handle());
+            DowncallHandles.gtk_list_store_move_before.invokeExact(handle(), iter.handle(), position.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_store_prepend = Interop.downcallHandle(
-        "gtk_list_store_prepend",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Prepends a new row to {@code list_store}. {@code iter} will be changed to point to this new
      * row. The row will be empty after this function is called. To fill in
      * values, you need to call gtk_list_store_set() or gtk_list_store_set_value().
+     * @param iter An unset {@code GtkTreeIter} to set to the prepend row
      */
-    public @NotNull void prepend(@NotNull Out<TreeIter> iter) {
+    public void prepend(@NotNull Out<org.gtk.gtk.TreeIter> iter) {
+        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         MemorySegment iterPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            gtk_list_store_prepend.invokeExact(handle(), (Addressable) iterPOINTER.address());
+            DowncallHandles.gtk_list_store_prepend.invokeExact(handle(), (Addressable) iterPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        iter.set(new TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
+        iter.set(new org.gtk.gtk.TreeIter(Refcounted.get(iterPOINTER.get(ValueLayout.ADDRESS, 0), false)));
     }
-    
-    private static final MethodHandle gtk_list_store_remove = Interop.downcallHandle(
-        "gtk_list_store_remove",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Removes the given row from the list store.  After being removed,
      * {@code iter} is set to be the next valid row, or invalidated if it pointed
      * to the last row in {@code list_store}.
+     * @param iter A valid {@code GtkTreeIter}
+     * @return {@code true} if {@code iter} is valid, {@code false} if not.
      */
-    public boolean remove(@NotNull TreeIter iter) {
+    public boolean remove(@NotNull org.gtk.gtk.TreeIter iter) {
+        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         int RESULT;
         try {
-            RESULT = (int) gtk_list_store_remove.invokeExact(handle(), iter.handle());
+            RESULT = (int) DowncallHandles.gtk_list_store_remove.invokeExact(handle(), iter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_list_store_reorder = Interop.downcallHandle(
-        "gtk_list_store_reorder",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Reorders {@code store} to follow the order indicated by {@code new_order}. Note that
      * this function only works with unsorted stores.
+     * @param newOrder an array of integers mapping the new
+     *   position of each child to its old position before the re-ordering,
+     *   i.e. {@code new_order}{@code [newpos] = oldpos}. It must have
+     *   exactly as many items as the list store’s length.
      */
-    public @NotNull void reorder(@NotNull int[] newOrder) {
+    public void reorder(int[] newOrder) {
+        java.util.Objects.requireNonNull(newOrder, "Parameter 'newOrder' must not be null");
         try {
-            gtk_list_store_reorder.invokeExact(handle(), Interop.allocateNativeArray(newOrder));
+            DowncallHandles.gtk_list_store_reorder.invokeExact(handle(), Interop.allocateNativeArray(newOrder, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle gtk_list_store_set_column_types = Interop.downcallHandle(
-        "gtk_list_store_set_column_types",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
+    /**
+     * Sets the value of one or more cells in the row referenced by {@code iter}.
+     * The variable argument list should contain integer column numbers,
+     * each column number followed by the value to be set.
+     * The list is terminated by a -1. For example, to set column 0 with type
+     * {@code G_TYPE_STRING} to “Foo”, you would write {@code gtk_list_store_set (store, iter,
+     * 0, "Foo", -1)}.
+     * <p>
+     * The value will be referenced by the store if it is a {@code G_TYPE_OBJECT}, and it
+     * will be copied if it is a {@code G_TYPE_STRING} or {@code G_TYPE_BOXED}.
+     * @param iter row iterator
+     */
+    public void set(@NotNull org.gtk.gtk.TreeIter iter) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * This function is meant primarily for {@code GObject}s that inherit from {@code GtkListStore},
      * and should only be used when constructing a new {@code GtkListStore}.  It will not
      * function after a row has been added, or a method on the {@code GtkTreeModel}
      * interface is called.
+     * @param nColumns Number of columns for the list store
+     * @param types An array length n of {@code GType}s
      */
-    public @NotNull void setColumnTypes(@NotNull int nColumns, @NotNull org.gtk.gobject.Type[] types) {
+    public void setColumnTypes(int nColumns, org.gtk.glib.Type[] types) {
+        java.util.Objects.requireNonNull(types, "Parameter 'types' must not be null");
         try {
-            gtk_list_store_set_column_types.invokeExact(handle(), nColumns, Interop.allocateNativeArray(org.gtk.gobject.Type.getLongValues(types)));
+            DowncallHandles.gtk_list_store_set_column_types.invokeExact(handle(), nColumns, Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(types), false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_store_set_valist = Interop.downcallHandle(
-        "gtk_list_store_set_valist",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * See gtk_list_store_set(); this version takes a va_list for use by language
      * bindings.
+     * @param iter A valid {@code GtkTreeIter} for the row being modified
+     * @param varArgs va_list of column/value pairs
      */
-    public @NotNull void setValist(@NotNull TreeIter iter, @NotNull VaList varArgs) {
+    public void setValist(@NotNull org.gtk.gtk.TreeIter iter, @NotNull VaList varArgs) {
+        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+        java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
         try {
-            gtk_list_store_set_valist.invokeExact(handle(), iter.handle(), varArgs);
+            DowncallHandles.gtk_list_store_set_valist.invokeExact(handle(), iter.handle(), varArgs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_store_set_value = Interop.downcallHandle(
-        "gtk_list_store_set_value",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the data in the cell specified by {@code iter} and {@code column}.
      * The type of {@code value} must be convertible to the type of the
      * column.
+     * @param iter A valid {@code GtkTreeIter} for the row being modified
+     * @param column column number to modify
+     * @param value new value for the cell
      */
-    public @NotNull void setValue(@NotNull TreeIter iter, @NotNull int column, @NotNull org.gtk.gobject.Value value) {
+    public void setValue(@NotNull org.gtk.gtk.TreeIter iter, int column, @NotNull org.gtk.gobject.Value value) {
+        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            gtk_list_store_set_value.invokeExact(handle(), iter.handle(), column, value.handle());
+            DowncallHandles.gtk_list_store_set_value.invokeExact(handle(), iter.handle(), column, value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_store_set_valuesv = Interop.downcallHandle(
-        "gtk_list_store_set_valuesv",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * A variant of gtk_list_store_set_valist() which
@@ -476,30 +539,143 @@ public class ListStore extends org.gtk.gobject.Object implements Buildable, Tree
      * varargs. This function is mainly intended for
      * language-bindings and in case the number of columns to
      * change is not known until run-time.
+     * @param iter A valid {@code GtkTreeIter} for the row being modified
+     * @param columns an array of column numbers
+     * @param values an array of GValues
+     * @param nValues the length of the {@code columns} and {@code values} arrays
      */
-    public @NotNull void setValuesv(@NotNull TreeIter iter, @NotNull int[] columns, @NotNull org.gtk.gobject.Value[] values, @NotNull int nValues) {
+    public void setValuesv(@NotNull org.gtk.gtk.TreeIter iter, int[] columns, org.gtk.gobject.Value[] values, int nValues) {
+        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+        java.util.Objects.requireNonNull(columns, "Parameter 'columns' must not be null");
+        java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
         try {
-            gtk_list_store_set_valuesv.invokeExact(handle(), iter.handle(), Interop.allocateNativeArray(columns), Interop.allocateNativeArray(values), nValues);
+            DowncallHandles.gtk_list_store_set_valuesv.invokeExact(handle(), iter.handle(), Interop.allocateNativeArray(columns, false), Interop.allocateNativeArray(values, false), nValues);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_list_store_swap = Interop.downcallHandle(
-        "gtk_list_store_swap",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
-     * Swaps @a and @b in {@code store}. Note that this function only works with
+     * Swaps {@code a} and {@code b} in {@code store}. Note that this function only works with
      * unsorted stores.
+     * @param a A {@code GtkTreeIter}
+     * @param b Another {@code GtkTreeIter}
      */
-    public @NotNull void swap(@NotNull TreeIter a, @NotNull TreeIter b) {
+    public void swap(@NotNull org.gtk.gtk.TreeIter a, @NotNull org.gtk.gtk.TreeIter b) {
+        java.util.Objects.requireNonNull(a, "Parameter 'a' must not be null");
+        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         try {
-            gtk_list_store_swap.invokeExact(handle(), a.handle(), b.handle());
+            DowncallHandles.gtk_list_store_swap.invokeExact(handle(), a.handle(), b.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_list_store_new = Interop.downcallHandle(
+            "gtk_list_store_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_store_newv = Interop.downcallHandle(
+            "gtk_list_store_newv",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_store_append = Interop.downcallHandle(
+            "gtk_list_store_append",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_store_clear = Interop.downcallHandle(
+            "gtk_list_store_clear",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_store_insert = Interop.downcallHandle(
+            "gtk_list_store_insert",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_list_store_insert_after = Interop.downcallHandle(
+            "gtk_list_store_insert_after",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_store_insert_before = Interop.downcallHandle(
+            "gtk_list_store_insert_before",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_store_insert_with_values = Interop.downcallHandle(
+            "gtk_list_store_insert_with_values",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_store_insert_with_valuesv = Interop.downcallHandle(
+            "gtk_list_store_insert_with_valuesv",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_list_store_iter_is_valid = Interop.downcallHandle(
+            "gtk_list_store_iter_is_valid",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_store_move_after = Interop.downcallHandle(
+            "gtk_list_store_move_after",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_store_move_before = Interop.downcallHandle(
+            "gtk_list_store_move_before",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_store_prepend = Interop.downcallHandle(
+            "gtk_list_store_prepend",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_store_remove = Interop.downcallHandle(
+            "gtk_list_store_remove",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_store_reorder = Interop.downcallHandle(
+            "gtk_list_store_reorder",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_store_set = Interop.downcallHandle(
+            "gtk_list_store_set",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_store_set_column_types = Interop.downcallHandle(
+            "gtk_list_store_set_column_types",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_store_set_valist = Interop.downcallHandle(
+            "gtk_list_store_set_valist",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_store_set_value = Interop.downcallHandle(
+            "gtk_list_store_set_value",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_list_store_set_valuesv = Interop.downcallHandle(
+            "gtk_list_store_set_valuesv",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_list_store_swap = Interop.downcallHandle(
+            "gtk_list_store_swap",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

@@ -1,6 +1,8 @@
 package org.gtk.gdkpixbuf;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -14,5 +16,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PixbufDestroyNotify {
-        void onPixbufDestroyNotify(@NotNull PointerByte pixels);
+        void onPixbufDestroyNotify(PointerByte pixels);
 }

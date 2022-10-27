@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -8,5 +10,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ListBoxSortFunc {
-        int onListBoxSortFunc(@NotNull ListBoxRow row1, @NotNull ListBoxRow row2);
+        int onListBoxSortFunc(@NotNull org.gtk.gtk.ListBoxRow row1, @NotNull org.gtk.gtk.ListBoxRow row2);
 }

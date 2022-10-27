@@ -1,6 +1,8 @@
 package org.gtk.gsk;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -9,5 +11,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ParseErrorFunc {
-        void onParseErrorFunc(@NotNull ParseLocation start, @NotNull ParseLocation end, @NotNull org.gtk.glib.Error error);
+        void onParseErrorFunc(@NotNull org.gtk.gsk.ParseLocation start, @NotNull org.gtk.gsk.ParseLocation end, @NotNull org.gtk.glib.Error error);
 }

@@ -5,8 +5,8 @@ package org.harfbuzz;
  * used to hold glyph IDs.
  */
 public class CodepointT extends io.github.jwharm.javagi.Alias<Integer> {
+    
     public CodepointT(int value) {
         super(value);
     }
-    
 }

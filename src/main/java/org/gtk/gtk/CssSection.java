@@ -9,80 +9,83 @@ import org.jetbrains.annotations.*;
  * Defines a part of a CSS document.
  * <p>
  * Because sections are nested into one another, you can use
- * {@link CssSection#getParent} to get the containing region.
+ * {@code CssSection#getParent} to get the containing region.
  */
 public class CssSection extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public CssSection(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle gtk_css_section_new = Interop.downcallHandle(
-        "gtk_css_section_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNew(@Nullable org.gtk.gio.File file, @NotNull CssLocation start, @NotNull CssLocation end) {
+    private static Refcounted constructNew(@Nullable org.gtk.gio.File file, @NotNull org.gtk.gtk.CssLocation start, @NotNull org.gtk.gtk.CssLocation end) {
+        java.util.Objects.requireNonNullElse(file, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
+        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_css_section_new.invokeExact(file.handle(), start.handle(), end.handle()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_css_section_new.invokeExact(file.handle(), start.handle(), end.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a new {@code GtkCssSection} referring to the section
      * in the given {@code file} from the {@code start} location to the
      * {@code end} location.
+     * @param file The file this section refers to
+     * @param start The start location
+     * @param end The end location
      */
-    public CssSection(@Nullable org.gtk.gio.File file, @NotNull CssLocation start, @NotNull CssLocation end) {
+    public CssSection(@Nullable org.gtk.gio.File file, @NotNull org.gtk.gtk.CssLocation start, @NotNull org.gtk.gtk.CssLocation end) {
         super(constructNew(file, start, end));
     }
     
-    private static final MethodHandle gtk_css_section_get_end_location = Interop.downcallHandle(
-        "gtk_css_section_get_end_location",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the location in the CSS document where this section ends.
+     * @return The end location of
+     *   this section
      */
-    public @NotNull CssLocation getEndLocation() {
+    public @NotNull org.gtk.gtk.CssLocation getEndLocation() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_css_section_get_end_location.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_css_section_get_end_location.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new CssLocation(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.CssLocation(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_css_section_get_file = Interop.downcallHandle(
-        "gtk_css_section_get_file",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the file that {@code section} was parsed from.
      * <p>
      * If no such file exists, for example because the CSS was loaded via
      * {@link CssProvider#loadFromData}, then {@code NULL} is returned.
+     * @return the {@code GFile} from which the {@code section}
+     *   was parsed
      */
     public @Nullable org.gtk.gio.File getFile() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_css_section_get_file.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_css_section_get_file.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gio.File.FileImpl(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_css_section_get_parent = Interop.downcallHandle(
-        "gtk_css_section_get_parent",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the parent section for the given {@code section}.
@@ -93,106 +96,135 @@ public class CssSection extends io.github.jwharm.javagi.ResourceBase {
      * {@link CssProvider#loadFromFile} or a section of type
      * {@code GTK_CSS_SECTION_IMPORT} if it was loaded with an {@code @import} rule from
      * a different file.
+     * @return the parent section
      */
-    public @Nullable CssSection getParent() {
+    public @Nullable org.gtk.gtk.CssSection getParent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_css_section_get_parent.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_css_section_get_parent.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new CssSection(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.CssSection(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_css_section_get_start_location = Interop.downcallHandle(
-        "gtk_css_section_get_start_location",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the location in the CSS document where this section starts.
+     * @return The start location of
+     *   this section
      */
-    public @NotNull CssLocation getStartLocation() {
+    public @NotNull org.gtk.gtk.CssLocation getStartLocation() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_css_section_get_start_location.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_css_section_get_start_location.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new CssLocation(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.CssLocation(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_css_section_print = Interop.downcallHandle(
-        "gtk_css_section_print",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Prints the {@code section} into {@code string} in a human-readable form.
      * <p>
      * This is a form like {@code gtk.css:32:1-23} to denote line 32, characters
      * 1 to 23 in the file {@code gtk.css}.
+     * @param string a {@code GString} to print to
      */
-    public @NotNull void print(@NotNull org.gtk.glib.String string) {
+    public void print(@NotNull org.gtk.glib.String string) {
+        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         try {
-            gtk_css_section_print.invokeExact(handle(), string.handle());
+            DowncallHandles.gtk_css_section_print.invokeExact(handle(), string.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_css_section_ref = Interop.downcallHandle(
-        "gtk_css_section_ref",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Increments the reference count on {@code section}.
+     * @return the CSS section itself.
      */
-    public @NotNull CssSection ref() {
+    public @NotNull org.gtk.gtk.CssSection ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_css_section_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_css_section_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new CssSection(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.CssSection(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle gtk_css_section_to_string = Interop.downcallHandle(
-        "gtk_css_section_to_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Prints the section into a human-readable text form using
      * {@link CssSection#print}.
+     * @return A new string.
      */
     public @NotNull java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_css_section_to_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_css_section_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle gtk_css_section_unref = Interop.downcallHandle(
-        "gtk_css_section_unref",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Decrements the reference count on {@code section}, freeing the
      * structure if the reference count reaches 0.
      */
-    public @NotNull void unref() {
+    public void unref() {
         try {
-            gtk_css_section_unref.invokeExact(handle());
+            DowncallHandles.gtk_css_section_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_css_section_new = Interop.downcallHandle(
+            "gtk_css_section_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_css_section_get_end_location = Interop.downcallHandle(
+            "gtk_css_section_get_end_location",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_css_section_get_file = Interop.downcallHandle(
+            "gtk_css_section_get_file",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_css_section_get_parent = Interop.downcallHandle(
+            "gtk_css_section_get_parent",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_css_section_get_start_location = Interop.downcallHandle(
+            "gtk_css_section_get_start_location",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_css_section_print = Interop.downcallHandle(
+            "gtk_css_section_print",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_css_section_ref = Interop.downcallHandle(
+            "gtk_css_section_ref",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_css_section_to_string = Interop.downcallHandle(
+            "gtk_css_section_to_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_css_section_unref = Interop.downcallHandle(
+            "gtk_css_section_unref",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
 }

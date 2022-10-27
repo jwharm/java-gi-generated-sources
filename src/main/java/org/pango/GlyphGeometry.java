@@ -23,9 +23,26 @@ import org.jetbrains.annotations.*;
  * 4. Render the next glyph
  */
 public class GlyphGeometry extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Pango.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        ValueLayout.JAVA_INT.withName("width"),
+        ValueLayout.JAVA_INT.withName("x_offset"),
+        ValueLayout.JAVA_INT.withName("y_offset")
+    ).withName("PangoGlyphGeometry");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public GlyphGeometry(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
 }

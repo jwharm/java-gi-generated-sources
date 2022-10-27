@@ -1,5 +1,10 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * A set of flags describing TLS certification validation. This can be
  * used to describe why a particular certificate was rejected (for
@@ -12,9 +17,18 @@ package org.gtk.gio;
  * {@link TlsCertificateFlags#EXPIRED} if you want to allow expired certificates,
  * because this could potentially be the only error flag set even if
  * other problems exist with the certificate.
+ * @version 2.28
  */
 public class TlsCertificateFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The signing certificate authority is
      *   not known.
@@ -65,5 +79,4 @@ public class TlsCertificateFlags extends io.github.jwharm.javagi.Bitfield {
     public TlsCertificateFlags(int value) {
         super(value);
     }
-    
 }

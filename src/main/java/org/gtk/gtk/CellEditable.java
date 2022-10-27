@@ -13,43 +13,28 @@ import org.jetbrains.annotations.*;
  * temporary widgets should be configured for editing, get the new value, etc.
  */
 public interface CellEditable extends io.github.jwharm.javagi.Proxy {
-
-    @ApiStatus.Internal static final MethodHandle gtk_cell_editable_editing_done = Interop.downcallHandle(
-        "gtk_cell_editable_editing_done",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Emits the {@code GtkCellEditable::editing-done} signal.
      */
-    default @NotNull void editingDone() {
+    default void editingDone() {
         try {
-            gtk_cell_editable_editing_done.invokeExact(handle());
+            DowncallHandles.gtk_cell_editable_editing_done.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    @ApiStatus.Internal static final MethodHandle gtk_cell_editable_remove_widget = Interop.downcallHandle(
-        "gtk_cell_editable_remove_widget",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Emits the {@code GtkCellEditable::remove-widget} signal.
      */
-    default @NotNull void removeWidget() {
+    default void removeWidget() {
         try {
-            gtk_cell_editable_remove_widget.invokeExact(handle());
+            DowncallHandles.gtk_cell_editable_remove_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    @ApiStatus.Internal static final MethodHandle gtk_cell_editable_start_editing = Interop.downcallHandle(
-        "gtk_cell_editable_start_editing",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Begins editing on a {@code cell_editable}.
@@ -62,17 +47,20 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
      * <p>
      * Note that the {@code cell_editable} is created on-demand for the current edit; its
      * lifetime is temporary and does not persist across other edits and/or cells.
+     * @param event The {@code GdkEvent} that began the editing process, or
+     *   {@code null} if editing was initiated programmatically
      */
-    default @NotNull void startEditing(@Nullable org.gtk.gdk.Event event) {
+    default void startEditing(@Nullable org.gtk.gdk.Event event) {
+        java.util.Objects.requireNonNullElse(event, MemoryAddress.NULL);
         try {
-            gtk_cell_editable_start_editing.invokeExact(handle(), event.handle());
+            DowncallHandles.gtk_cell_editable_start_editing.invokeExact(handle(), event.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface EditingDoneHandler {
+    public interface EditingDone {
         void signalReceived(CellEditable source);
     }
     
@@ -89,7 +77,7 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
      * gtk_cell_editable_editing_done() is a convenience method
      * for emitting {@code GtkCellEditable::editing-done}.
      */
-    public default SignalHandle onEditingDone(EditingDoneHandler handler) {
+    public default Signal<CellEditable.EditingDone> onEditingDone(CellEditable.EditingDone handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -99,16 +87,16 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<CellEditable.EditingDone>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface RemoveWidgetHandler {
+    public interface RemoveWidget {
         void signalReceived(CellEditable source);
     }
     
@@ -126,7 +114,7 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
      * gtk_cell_editable_remove_widget() is a convenience method
      * for emitting {@code GtkCellEditable::remove-widget}.
      */
-    public default SignalHandle onRemoveWidget(RemoveWidgetHandler handler) {
+    public default Signal<CellEditable.RemoveWidget> onRemoveWidget(CellEditable.RemoveWidget handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -136,31 +124,58 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<CellEditable.RemoveWidget>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    @ApiStatus.Internal
+    static class DowncallHandles {
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_cell_editable_editing_done = Interop.downcallHandle(
+            "gtk_cell_editable_editing_done",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_cell_editable_remove_widget = Interop.downcallHandle(
+            "gtk_cell_editable_remove_widget",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle gtk_cell_editable_start_editing = Interop.downcallHandle(
+            "gtk_cell_editable_start_editing",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
     
+    @ApiStatus.Internal
+    static class Callbacks {
+        
         public static void signalCellEditableEditingDone(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (CellEditable.EditingDoneHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new CellEditable.CellEditableImpl(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (CellEditable.EditingDone) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new CellEditable.CellEditableImpl(Refcounted.get(source)));
         }
         
         public static void signalCellEditableRemoveWidget(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (CellEditable.RemoveWidgetHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new CellEditable.CellEditableImpl(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (CellEditable.RemoveWidget) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new CellEditable.CellEditableImpl(Refcounted.get(source)));
         }
-        
     }
     
     class CellEditableImpl extends org.gtk.gobject.Object implements CellEditable {
+        
+        static {
+            Gtk.javagi$ensureInitialized();
+        }
+        
         public CellEditableImpl(io.github.jwharm.javagi.Refcounted ref) {
             super(ref);
         }

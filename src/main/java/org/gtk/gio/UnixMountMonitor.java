@@ -9,7 +9,19 @@ import org.jetbrains.annotations.*;
  * Watches {@code GUnixMounts} for changes.
  */
 public class UnixMountMonitor extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public UnixMountMonitor(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -19,10 +31,26 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
         return new UnixMountMonitor(gobject.refcounted());
     }
     
-    private static final MethodHandle g_unix_mount_monitor_get = Interop.downcallHandle(
-        "g_unix_mount_monitor_get",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
+    /**
+     * This function does nothing.
+     * <p>
+     * Before 2.44, this was a partially-effective way of controlling the
+     * rate at which events would be reported under some uncommon
+     * circumstances.  Since {@code mount_monitor} is a singleton, it also meant
+     * that calling this function would have side effects for other users of
+     * the monitor.
+     * @param limitMsec a integer with the limit in milliseconds to
+     *     poll for changes.
+     * @deprecated This function does nothing.  Don't call it.
+     */
+    @Deprecated
+    public void setRateLimit(int limitMsec) {
+        try {
+            DowncallHandles.g_unix_mount_monitor_set_rate_limit.invokeExact(handle(), limitMsec);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
     
     /**
      * Gets the {@link UnixMountMonitor} for the current thread-default main
@@ -34,26 +62,27 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
      * <p>
      * You must only call g_object_unref() on the return value from under
      * the same main context as you called this function.
+     * @return the {@link UnixMountMonitor}.
      */
-    public static @NotNull UnixMountMonitor get() {
+    public static @NotNull org.gtk.gio.UnixMountMonitor get() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_unix_mount_monitor_get.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_monitor_get.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new UnixMountMonitor(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.UnixMountMonitor(Refcounted.get(RESULT, true));
     }
     
     @FunctionalInterface
-    public interface MountpointsChangedHandler {
+    public interface MountpointsChanged {
         void signalReceived(UnixMountMonitor source);
     }
     
     /**
      * Emitted when the unix mount points have changed.
      */
-    public SignalHandle onMountpointsChanged(MountpointsChangedHandler handler) {
+    public Signal<UnixMountMonitor.MountpointsChanged> onMountpointsChanged(UnixMountMonitor.MountpointsChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -63,23 +92,23 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<UnixMountMonitor.MountpointsChanged>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface MountsChangedHandler {
+    public interface MountsChanged {
         void signalReceived(UnixMountMonitor source);
     }
     
     /**
      * Emitted when the unix mounts have changed.
      */
-    public SignalHandle onMountsChanged(MountsChangedHandler handler) {
+    public Signal<UnixMountMonitor.MountsChanged> onMountsChanged(UnixMountMonitor.MountsChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -89,27 +118,44 @@ public class UnixMountMonitor extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<UnixMountMonitor.MountsChanged>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_unix_mount_monitor_new = Interop.downcallHandle(
+            "g_unix_mount_monitor_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_unix_mount_monitor_set_rate_limit = Interop.downcallHandle(
+            "g_unix_mount_monitor_set_rate_limit",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_unix_mount_monitor_get = Interop.downcallHandle(
+            "g_unix_mount_monitor_get",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static void signalUnixMountMonitorMountpointsChanged(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (UnixMountMonitor.MountpointsChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new UnixMountMonitor(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (UnixMountMonitor.MountpointsChanged) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new UnixMountMonitor(Refcounted.get(source)));
         }
         
         public static void signalUnixMountMonitorMountsChanged(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (UnixMountMonitor.MountsChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new UnixMountMonitor(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (UnixMountMonitor.MountsChanged) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new UnixMountMonitor(Refcounted.get(source)));
         }
-        
     }
 }

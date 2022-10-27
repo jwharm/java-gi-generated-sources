@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -9,5 +11,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PollFunc {
-        int onPollFunc(@NotNull PollFD ufds, @NotNull int nfsd, @NotNull int timeout);
+        int onPollFunc(@NotNull org.gtk.glib.PollFD ufds, int nfsd, int timeout);
 }

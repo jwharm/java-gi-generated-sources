@@ -1,12 +1,25 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Specifies properties of a {@link IOChannel}. Some of the flags can only be
  * read with g_io_channel_get_flags(), but not changed with
  * g_io_channel_set_flags().
  */
 public class IOFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * turns on append mode, corresponds to {@code O_APPEND}
      *     (see the documentation of the UNIX open() syscall)
@@ -66,5 +79,4 @@ public class IOFlags extends io.github.jwharm.javagi.Bitfield {
     public IOFlags(int value) {
         super(value);
     }
-    
 }

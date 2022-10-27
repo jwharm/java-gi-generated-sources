@@ -22,7 +22,6 @@ import org.jetbrains.annotations.*;
  * it is more efficient to use the default manager created by GTK.
  * <p>
  * Adding a new recently used file is as simple as:
- * 
  * <pre>{@code c
  * GtkRecentManager *manager;
  * 
@@ -35,7 +34,6 @@ import org.jetbrains.annotations.*;
  * <p>
  * Looking up the meta-data associated with a recently used file
  * given its URI requires calling {@link RecentManager#lookupItem}:
- * 
  * <pre>{@code c
  * GtkRecentManager *manager;
  * GtkRecentInfo *info;
@@ -64,7 +62,24 @@ import org.jetbrains.annotations.*;
  * property.
  */
 public class RecentManager extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
+        org.gtk.gtk.RecentManagerPrivate.getMemoryLayout().withName("priv")
+    ).withName("GtkRecentManager");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public RecentManager(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -74,18 +89,14 @@ public class RecentManager extends org.gtk.gobject.Object {
         return new RecentManager(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_recent_manager_new = Interop.downcallHandle(
-        "gtk_recent_manager_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_recent_manager_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_recent_manager_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -97,17 +108,12 @@ public class RecentManager extends org.gtk.gobject.Object {
      * signal each time something inside the list changes.
      * <p>
      * {@code GtkRecentManager} objects are expensive: be sure to create them
-     * only when needed. You should use {@link Gtk#RecentManager}
+     * only when needed. You should use {@link RecentManager#getDefault}
      * instead.
      */
     public RecentManager() {
         super(constructNew());
     }
-    
-    private static final MethodHandle gtk_recent_manager_add_full = Interop.downcallHandle(
-        "gtk_recent_manager_add_full",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Adds a new resource, pointed by {@code uri}, into the recently used
@@ -129,21 +135,22 @@ public class RecentManager extends org.gtk.gobject.Object {
      * the URI; a short description of the item; whether the item should
      * be considered private - that is, should be displayed only by the
      * applications that have registered it.
+     * @param uri a valid URI
+     * @param recentData metadata of the resource
+     * @return {@code true} if the new item was successfully added to the
+     *   recently used resources list, {@code false} otherwise
      */
-    public boolean addFull(@NotNull java.lang.String uri, @NotNull RecentData recentData) {
+    public boolean addFull(@NotNull java.lang.String uri, @NotNull org.gtk.gtk.RecentData recentData) {
+        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+        java.util.Objects.requireNonNull(recentData, "Parameter 'recentData' must not be null");
         int RESULT;
         try {
-            RESULT = (int) gtk_recent_manager_add_full.invokeExact(handle(), Interop.allocateNativeString(uri), recentData.handle());
+            RESULT = (int) DowncallHandles.gtk_recent_manager_add_full.invokeExact(handle(), Interop.allocateNativeString(uri), recentData.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gtk_recent_manager_add_item = Interop.downcallHandle(
-        "gtk_recent_manager_add_item",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Adds a new resource, pointed by {@code uri}, into the recently used
@@ -155,94 +162,99 @@ public class RecentManager extends org.gtk.gobject.Object {
      * <p>
      * See {@link RecentManager#addFull} if you want to explicitly
      * define the metadata for the resource pointed by {@code uri}.
+     * @param uri a valid URI
+     * @return {@code true} if the new item was successfully added
+     *   to the recently used resources list
      */
     public boolean addItem(@NotNull java.lang.String uri) {
+        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         int RESULT;
         try {
-            RESULT = (int) gtk_recent_manager_add_item.invokeExact(handle(), Interop.allocateNativeString(uri));
+            RESULT = (int) DowncallHandles.gtk_recent_manager_add_item.invokeExact(handle(), Interop.allocateNativeString(uri));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_recent_manager_get_items = Interop.downcallHandle(
-        "gtk_recent_manager_get_items",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the list of recently used resources.
+     * @return a list of
+     *   newly allocated {@code GtkRecentInfo objects}. Use
+     *   {@link RecentInfo#unref} on each item inside the list, and then
+     *   free the list itself using g_list_free().
      */
     public @NotNull org.gtk.glib.List getItems() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_recent_manager_get_items.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_manager_get_items.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.List(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle gtk_recent_manager_has_item = Interop.downcallHandle(
-        "gtk_recent_manager_has_item",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Checks whether there is a recently used resource registered
      * with {@code uri} inside the recent manager.
+     * @param uri a URI
+     * @return {@code true} if the resource was found, {@code false} otherwise
      */
     public boolean hasItem(@NotNull java.lang.String uri) {
+        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         int RESULT;
         try {
-            RESULT = (int) gtk_recent_manager_has_item.invokeExact(handle(), Interop.allocateNativeString(uri));
+            RESULT = (int) DowncallHandles.gtk_recent_manager_has_item.invokeExact(handle(), Interop.allocateNativeString(uri));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_recent_manager_lookup_item = Interop.downcallHandle(
-        "gtk_recent_manager_lookup_item",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Searches for a URI inside the recently used resources list, and
      * returns a {@code GtkRecentInfo} containing information about the resource
      * like its MIME type, or its display name.
+     * @param uri a URI
+     * @return a {@code GtkRecentInfo} containing information
+     *   about the resource pointed by {@code uri}, or {@code null} if the URI was
+     *   not registered in the recently used resources list. Free with
+     *   {@link RecentInfo#unref}.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @Nullable RecentInfo lookupItem(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
+    public @Nullable org.gtk.gtk.RecentInfo lookupItem(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_recent_manager_lookup_item.invokeExact(handle(), Interop.allocateNativeString(uri), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_manager_lookup_item.invokeExact(handle(), Interop.allocateNativeString(uri), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new RecentInfo(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.RecentInfo(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle gtk_recent_manager_move_item = Interop.downcallHandle(
-        "gtk_recent_manager_move_item",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Changes the location of a recently used resource from {@code uri} to {@code new_uri}.
      * <p>
      * Please note that this function will not affect the resource pointed
      * by the URIs, but only the URI used in the recently used resources list.
+     * @param uri the URI of a recently used resource
+     * @param newUri the new URI of the recently used resource, or
+     *    {@code null} to remove the item pointed by {@code uri} in the list
+     * @return {@code true} on success
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean moveItem(@NotNull java.lang.String uri, @Nullable java.lang.String newUri) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+        java.util.Objects.requireNonNullElse(newUri, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) gtk_recent_manager_move_item.invokeExact(handle(), Interop.allocateNativeString(uri), Interop.allocateNativeString(newUri), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gtk_recent_manager_move_item.invokeExact(handle(), Interop.allocateNativeString(uri), Interop.allocateNativeString(newUri), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -252,19 +264,17 @@ public class RecentManager extends org.gtk.gobject.Object {
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_recent_manager_purge_items = Interop.downcallHandle(
-        "gtk_recent_manager_purge_items",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Purges every item from the recently used resources list.
+     * @return the number of items that have been removed from the
+     *   recently used resources list
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public int purgeItems() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) gtk_recent_manager_purge_items.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gtk_recent_manager_purge_items.invokeExact(handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -274,20 +284,20 @@ public class RecentManager extends org.gtk.gobject.Object {
         return RESULT;
     }
     
-    private static final MethodHandle gtk_recent_manager_remove_item = Interop.downcallHandle(
-        "gtk_recent_manager_remove_item",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Removes a resource pointed by {@code uri} from the recently used resources
      * list handled by a recent manager.
+     * @param uri the URI of the item you wish to remove
+     * @return {@code true} if the item pointed by {@code uri} has been successfully
+     *   removed by the recently used resources list, and {@code false} otherwise
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean removeItem(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) gtk_recent_manager_remove_item.invokeExact(handle(), Interop.allocateNativeString(uri), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gtk_recent_manager_remove_item.invokeExact(handle(), Interop.allocateNativeString(uri), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -297,27 +307,24 @@ public class RecentManager extends org.gtk.gobject.Object {
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_recent_manager_get_default = Interop.downcallHandle(
-        "gtk_recent_manager_get_default",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets a unique instance of {@code GtkRecentManager} that you can share
      * in your application without caring about memory management.
+     * @return A unique {@code GtkRecentManager}. Do not ref or
+     *   unref it.
      */
-    public static @NotNull RecentManager getDefault() {
+    public static @NotNull org.gtk.gtk.RecentManager getDefault() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_recent_manager_get_default.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.gtk_recent_manager_get_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new RecentManager(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.RecentManager(Refcounted.get(RESULT, false));
     }
     
     @FunctionalInterface
-    public interface ChangedHandler {
+    public interface Changed {
         void signalReceived(RecentManager source);
     }
     
@@ -328,7 +335,7 @@ public class RecentManager extends org.gtk.gobject.Object {
      * This can happen either by calling {@link RecentManager#addItem}
      * or by another application.
      */
-    public SignalHandle onChanged(ChangedHandler handler) {
+    public Signal<RecentManager.Changed> onChanged(RecentManager.Changed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -338,21 +345,73 @@ public class RecentManager extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<RecentManager.Changed>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static void signalRecentManagerChanged(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (RecentManager.ChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new RecentManager(Refcounted.get(source)));
-        }
+    private static class DowncallHandles {
         
+        private static final MethodHandle gtk_recent_manager_new = Interop.downcallHandle(
+            "gtk_recent_manager_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_recent_manager_add_full = Interop.downcallHandle(
+            "gtk_recent_manager_add_full",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_recent_manager_add_item = Interop.downcallHandle(
+            "gtk_recent_manager_add_item",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_recent_manager_get_items = Interop.downcallHandle(
+            "gtk_recent_manager_get_items",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_recent_manager_has_item = Interop.downcallHandle(
+            "gtk_recent_manager_has_item",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_recent_manager_lookup_item = Interop.downcallHandle(
+            "gtk_recent_manager_lookup_item",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_recent_manager_move_item = Interop.downcallHandle(
+            "gtk_recent_manager_move_item",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_recent_manager_purge_items = Interop.downcallHandle(
+            "gtk_recent_manager_purge_items",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_recent_manager_remove_item = Interop.downcallHandle(
+            "gtk_recent_manager_remove_item",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_recent_manager_get_default = Interop.downcallHandle(
+            "gtk_recent_manager_get_default",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+    }
+    
+    private static class Callbacks {
+        
+        public static void signalRecentManagerChanged(MemoryAddress source, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (RecentManager.Changed) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new RecentManager(Refcounted.get(source)));
+        }
     }
 }

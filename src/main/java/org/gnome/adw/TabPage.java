@@ -9,7 +9,19 @@ import org.jetbrains.annotations.*;
  * An auxiliary class used by {@link TabView}.
  */
 public class TabPage extends org.gtk.gobject.Object {
-
+    
+    static {
+        Adw.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public TabPage(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -19,314 +31,338 @@ public class TabPage extends org.gtk.gobject.Object {
         return new TabPage(gobject.refcounted());
     }
     
-    private static final MethodHandle adw_tab_page_get_child = Interop.downcallHandle(
-        "adw_tab_page_get_child",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the child of {@code self}.
+     * @return the child of {@code self}
      */
     public @NotNull org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_tab_page_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_tab_page_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle adw_tab_page_get_icon = Interop.downcallHandle(
-        "adw_tab_page_get_icon",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the icon of {@code self}.
+     * @return the icon of {@code self}
      */
     public @Nullable org.gtk.gio.Icon getIcon() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_tab_page_get_icon.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_tab_page_get_icon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle adw_tab_page_get_indicator_activatable = Interop.downcallHandle(
-        "adw_tab_page_get_indicator_activatable",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets whether the indicator of {@code self} is activatable.
+     * @return whether the indicator is activatable
      */
     public boolean getIndicatorActivatable() {
         int RESULT;
         try {
-            RESULT = (int) adw_tab_page_get_indicator_activatable.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_tab_page_get_indicator_activatable.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle adw_tab_page_get_indicator_icon = Interop.downcallHandle(
-        "adw_tab_page_get_indicator_icon",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the indicator icon of {@code self}.
+     * @return the indicator icon of {@code self}
      */
     public @Nullable org.gtk.gio.Icon getIndicatorIcon() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_tab_page_get_indicator_icon.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_tab_page_get_indicator_icon.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gio.Icon.IconImpl(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle adw_tab_page_get_loading = Interop.downcallHandle(
-        "adw_tab_page_get_loading",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets whether {@code self} is loading.
+     * @return whether {@code self} is loading
      */
     public boolean getLoading() {
         int RESULT;
         try {
-            RESULT = (int) adw_tab_page_get_loading.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_tab_page_get_loading.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle adw_tab_page_get_needs_attention = Interop.downcallHandle(
-        "adw_tab_page_get_needs_attention",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets whether {@code self} needs attention.
+     * @return whether {@code self} needs attention
      */
     public boolean getNeedsAttention() {
         int RESULT;
         try {
-            RESULT = (int) adw_tab_page_get_needs_attention.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_tab_page_get_needs_attention.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle adw_tab_page_get_parent = Interop.downcallHandle(
-        "adw_tab_page_get_parent",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the parent page of {@code self}.
+     * @return the parent page
      */
-    public @Nullable TabPage getParent() {
+    public @Nullable org.gnome.adw.TabPage getParent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_tab_page_get_parent.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_tab_page_get_parent.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new TabPage(Refcounted.get(RESULT, false));
+        return new org.gnome.adw.TabPage(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle adw_tab_page_get_pinned = Interop.downcallHandle(
-        "adw_tab_page_get_pinned",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets whether {@code self} is pinned.
+     * @return whether {@code self} is pinned
      */
     public boolean getPinned() {
         int RESULT;
         try {
-            RESULT = (int) adw_tab_page_get_pinned.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_tab_page_get_pinned.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle adw_tab_page_get_selected = Interop.downcallHandle(
-        "adw_tab_page_get_selected",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets whether {@code self} is selected.
+     * @return whether {@code self} is selected
      */
     public boolean getSelected() {
         int RESULT;
         try {
-            RESULT = (int) adw_tab_page_get_selected.invokeExact(handle());
+            RESULT = (int) DowncallHandles.adw_tab_page_get_selected.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle adw_tab_page_get_title = Interop.downcallHandle(
-        "adw_tab_page_get_title",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the title of {@code self}.
+     * @return the title of {@code self}
      */
     public @NotNull java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_tab_page_get_title.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_tab_page_get_title.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle adw_tab_page_get_tooltip = Interop.downcallHandle(
-        "adw_tab_page_get_tooltip",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the tooltip of {@code self}.
+     * @return the tooltip of {@code self}
      */
     public @Nullable java.lang.String getTooltip() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_tab_page_get_tooltip.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_tab_page_get_tooltip.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle adw_tab_page_set_icon = Interop.downcallHandle(
-        "adw_tab_page_set_icon",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Sets the icon of {@code self}.
+     * @param icon the icon of {@code self}
      */
-    public @NotNull void setIcon(@Nullable org.gtk.gio.Icon icon) {
+    public void setIcon(@Nullable org.gtk.gio.Icon icon) {
+        java.util.Objects.requireNonNullElse(icon, MemoryAddress.NULL);
         try {
-            adw_tab_page_set_icon.invokeExact(handle(), icon.handle());
+            DowncallHandles.adw_tab_page_set_icon.invokeExact(handle(), icon.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_tab_page_set_indicator_activatable = Interop.downcallHandle(
-        "adw_tab_page_set_indicator_activatable",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether the indicator of {@code self} is activatable.
+     * @param activatable whether the indicator is activatable
      */
-    public @NotNull void setIndicatorActivatable(@NotNull boolean activatable) {
+    public void setIndicatorActivatable(boolean activatable) {
         try {
-            adw_tab_page_set_indicator_activatable.invokeExact(handle(), activatable ? 1 : 0);
+            DowncallHandles.adw_tab_page_set_indicator_activatable.invokeExact(handle(), activatable ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_tab_page_set_indicator_icon = Interop.downcallHandle(
-        "adw_tab_page_set_indicator_icon",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the indicator icon of {@code self}.
+     * @param indicatorIcon the indicator icon of {@code self}
      */
-    public @NotNull void setIndicatorIcon(@Nullable org.gtk.gio.Icon indicatorIcon) {
+    public void setIndicatorIcon(@Nullable org.gtk.gio.Icon indicatorIcon) {
+        java.util.Objects.requireNonNullElse(indicatorIcon, MemoryAddress.NULL);
         try {
-            adw_tab_page_set_indicator_icon.invokeExact(handle(), indicatorIcon.handle());
+            DowncallHandles.adw_tab_page_set_indicator_icon.invokeExact(handle(), indicatorIcon.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_tab_page_set_loading = Interop.downcallHandle(
-        "adw_tab_page_set_loading",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets wether {@code self} is loading.
+     * @param loading whether {@code self} is loading
      */
-    public @NotNull void setLoading(@NotNull boolean loading) {
+    public void setLoading(boolean loading) {
         try {
-            adw_tab_page_set_loading.invokeExact(handle(), loading ? 1 : 0);
+            DowncallHandles.adw_tab_page_set_loading.invokeExact(handle(), loading ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_tab_page_set_needs_attention = Interop.downcallHandle(
-        "adw_tab_page_set_needs_attention",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether {@code self} needs attention.
+     * @param needsAttention whether {@code self} needs attention
      */
-    public @NotNull void setNeedsAttention(@NotNull boolean needsAttention) {
+    public void setNeedsAttention(boolean needsAttention) {
         try {
-            adw_tab_page_set_needs_attention.invokeExact(handle(), needsAttention ? 1 : 0);
+            DowncallHandles.adw_tab_page_set_needs_attention.invokeExact(handle(), needsAttention ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_tab_page_set_title = Interop.downcallHandle(
-        "adw_tab_page_set_title",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the title of {@code self}.
+     * @param title the title of {@code self}
      */
-    public @NotNull void setTitle(@NotNull java.lang.String title) {
+    public void setTitle(@NotNull java.lang.String title) {
+        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
         try {
-            adw_tab_page_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
+            DowncallHandles.adw_tab_page_set_title.invokeExact(handle(), Interop.allocateNativeString(title));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle adw_tab_page_set_tooltip = Interop.downcallHandle(
-        "adw_tab_page_set_tooltip",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the tooltip of {@code self}.
+     * @param tooltip the tooltip of {@code self}
      */
-    public @NotNull void setTooltip(@NotNull java.lang.String tooltip) {
+    public void setTooltip(@NotNull java.lang.String tooltip) {
+        java.util.Objects.requireNonNull(tooltip, "Parameter 'tooltip' must not be null");
         try {
-            adw_tab_page_set_tooltip.invokeExact(handle(), Interop.allocateNativeString(tooltip));
+            DowncallHandles.adw_tab_page_set_tooltip.invokeExact(handle(), Interop.allocateNativeString(tooltip));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle adw_tab_page_get_child = Interop.downcallHandle(
+            "adw_tab_page_get_child",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_tab_page_get_icon = Interop.downcallHandle(
+            "adw_tab_page_get_icon",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_tab_page_get_indicator_activatable = Interop.downcallHandle(
+            "adw_tab_page_get_indicator_activatable",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_tab_page_get_indicator_icon = Interop.downcallHandle(
+            "adw_tab_page_get_indicator_icon",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_tab_page_get_loading = Interop.downcallHandle(
+            "adw_tab_page_get_loading",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_tab_page_get_needs_attention = Interop.downcallHandle(
+            "adw_tab_page_get_needs_attention",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_tab_page_get_parent = Interop.downcallHandle(
+            "adw_tab_page_get_parent",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_tab_page_get_pinned = Interop.downcallHandle(
+            "adw_tab_page_get_pinned",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_tab_page_get_selected = Interop.downcallHandle(
+            "adw_tab_page_get_selected",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_tab_page_get_title = Interop.downcallHandle(
+            "adw_tab_page_get_title",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_tab_page_get_tooltip = Interop.downcallHandle(
+            "adw_tab_page_get_tooltip",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_tab_page_set_icon = Interop.downcallHandle(
+            "adw_tab_page_set_icon",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_tab_page_set_indicator_activatable = Interop.downcallHandle(
+            "adw_tab_page_set_indicator_activatable",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle adw_tab_page_set_indicator_icon = Interop.downcallHandle(
+            "adw_tab_page_set_indicator_icon",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_tab_page_set_loading = Interop.downcallHandle(
+            "adw_tab_page_set_loading",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle adw_tab_page_set_needs_attention = Interop.downcallHandle(
+            "adw_tab_page_set_needs_attention",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle adw_tab_page_set_title = Interop.downcallHandle(
+            "adw_tab_page_set_title",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_tab_page_set_tooltip = Interop.downcallHandle(
+            "adw_tab_page_set_tooltip",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

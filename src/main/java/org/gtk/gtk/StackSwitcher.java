@@ -19,26 +19,38 @@ import org.jetbrains.annotations.*;
  * <p>
  * It is possible to associate multiple {@code GtkStackSwitcher} widgets
  * with the same {@code GtkStack} widget.
- * 
- * <h1>CSS nodes</h1>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * {@code GtkStackSwitcher} has a single CSS node named stackswitcher and
  * style class .stack-switcher.
  * <p>
  * When circumstances require it, {@code GtkStackSwitcher} adds the
  * .needs-attention style class to the widgets representing the
  * stack pages.
- * 
- * <h1>Accessibility</h1>
+ * <p>
+ * <strong>Accessibility</strong><br/>
  * {@code GtkStackSwitcher} uses the {@link AccessibleRole#TAB_LIST} role
  * and uses the {@link AccessibleRole#TAB} for its buttons.
- * 
- * <h1>Orientable</h1>
+ * <p>
+ * <strong>Orientable</strong><br/>
  * Since GTK 4.4, {@code GtkStackSwitcher} implements {@code GtkOrientable} allowing
  * the stack switcher to be made vertical with
  * {@code gtk_orientable_set_orientation()}.
  */
-public class StackSwitcher extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
-
+public class StackSwitcher extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Orientable {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public StackSwitcher(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -48,18 +60,14 @@ public class StackSwitcher extends Widget implements Accessible, Buildable, Cons
         return new StackSwitcher(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_stack_switcher_new = Interop.downcallHandle(
-        "gtk_stack_switcher_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_stack_switcher_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_stack_switcher_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -69,38 +77,48 @@ public class StackSwitcher extends Widget implements Accessible, Buildable, Cons
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_stack_switcher_get_stack = Interop.downcallHandle(
-        "gtk_stack_switcher_get_stack",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Retrieves the stack.
+     * @return the stack
      */
-    public @Nullable Stack getStack() {
+    public @Nullable org.gtk.gtk.Stack getStack() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_stack_switcher_get_stack.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_stack_switcher_get_stack.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Stack(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Stack(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_stack_switcher_set_stack = Interop.downcallHandle(
-        "gtk_stack_switcher_set_stack",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the stack to control.
+     * @param stack a {@code GtkStack}
      */
-    public @NotNull void setStack(@Nullable Stack stack) {
+    public void setStack(@Nullable org.gtk.gtk.Stack stack) {
+        java.util.Objects.requireNonNullElse(stack, MemoryAddress.NULL);
         try {
-            gtk_stack_switcher_set_stack.invokeExact(handle(), stack.handle());
+            DowncallHandles.gtk_stack_switcher_set_stack.invokeExact(handle(), stack.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_stack_switcher_new = Interop.downcallHandle(
+            "gtk_stack_switcher_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_stack_switcher_get_stack = Interop.downcallHandle(
+            "gtk_stack_switcher_get_stack",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_stack_switcher_set_stack = Interop.downcallHandle(
+            "gtk_stack_switcher_set_stack",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

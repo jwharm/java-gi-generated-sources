@@ -1,10 +1,23 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
- * Flags that influence the behavior of {@link Widget#pick}.
+ * Flags that influence the behavior of {@code Widget#pick}.
  */
 public class PickFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The default behavior, include widgets that are receiving events
      */
@@ -23,5 +36,4 @@ public class PickFlags extends io.github.jwharm.javagi.Bitfield {
     public PickFlags(int value) {
         super(value);
     }
-    
 }

@@ -11,7 +11,19 @@ import org.jetbrains.annotations.*;
  * be used by others to implement module loading.
  */
 public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobject.TypePlugin {
-
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public IOModule(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -21,32 +33,25 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
         return new IOModule(gobject.refcounted());
     }
     
-    private static final MethodHandle g_io_module_new = Interop.downcallHandle(
-        "g_io_module_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew(@NotNull java.lang.String filename) {
+        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_io_module_new.invokeExact(Interop.allocateNativeString(filename)), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_io_module_new.invokeExact(Interop.allocateNativeString(filename)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a new GIOModule that will load the specific
      * shared library when in use.
+     * @param filename filename of the shared library module.
      */
     public IOModule(@NotNull java.lang.String filename) {
         super(constructNew(filename));
     }
-    
-    private static final MethodHandle g_io_module_load = Interop.downcallHandle(
-        "g_io_module_load",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Required API for GIO modules to implement.
@@ -63,18 +68,13 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      * statically. The old symbol names continue to be supported, but cannot be used
      * for static builds.
      */
-    public @NotNull void load() {
+    public void load() {
         try {
-            g_io_module_load.invokeExact(handle());
+            DowncallHandles.g_io_module_load.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_io_module_unload = Interop.downcallHandle(
-        "g_io_module_unload",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Required API for GIO modules to implement.
@@ -90,18 +90,13 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      * statically. The old symbol names continue to be supported, but cannot be used
      * for static builds.
      */
-    public @NotNull void unload() {
+    public void unload() {
         try {
-            g_io_module_unload.invokeExact(handle());
+            DowncallHandles.g_io_module_unload.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_io_module_query = Interop.downcallHandle(
-        "g_io_module_query",
-        FunctionDescriptor.ofVoid()
-    );
     
     /**
      * Optional API for GIO modules to implement.
@@ -135,15 +130,40 @@ public class IOModule extends org.gtk.gobject.TypeModule implements org.gtk.gobj
      * Using the new symbol names avoids name clashes when building modules
      * statically. The old symbol names continue to be supported, but cannot be used
      * for static builds.
+     * @return A {@code null}-terminated array of strings,
+     *     listing the supported extension points of the module. The array
+     *     must be suitable for freeing with g_strfreev().
      */
-    public static PointerString query() {
+    public static @NotNull PointerString query() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_io_module_query.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.g_io_module_query.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerString(RESULT);
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_io_module_new = Interop.downcallHandle(
+            "g_io_module_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_io_module_load = Interop.downcallHandle(
+            "g_io_module_load",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_io_module_unload = Interop.downcallHandle(
+            "g_io_module_unload",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_io_module_query = Interop.downcallHandle(
+            "g_io_module_query",
+            FunctionDescriptor.ofVoid()
+        );
+    }
 }

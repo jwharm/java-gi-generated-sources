@@ -1,10 +1,23 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Passed as argument to various keybinding signals.
  */
 public class ScrollStep extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Scroll in steps.
      */
@@ -38,5 +51,4 @@ public class ScrollStep extends io.github.jwharm.javagi.Enumeration {
     public ScrollStep(int value) {
         super(value);
     }
-    
 }

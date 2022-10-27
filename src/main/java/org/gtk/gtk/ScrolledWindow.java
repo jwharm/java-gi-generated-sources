@@ -22,7 +22,6 @@ import org.jetbrains.annotations.*;
  * If {@link ScrolledWindow#setChild} has added a {@code GtkViewport} for you,
  * you can remove both your added child widget from the {@code GtkViewport}, and the
  * {@code GtkViewport} from the {@code GtkScrolledWindow}, like this:
- * 
  * <pre>{@code c
  * GtkWidget *scrolled_window = gtk_scrolled_window_new ();
  * GtkWidget *child_widget = gtk_button_new ();
@@ -51,8 +50,8 @@ import org.jetbrains.annotations.*;
  * If a {@code GtkScrolledWindow} doesn’t behave quite as you would like, or
  * doesn’t have exactly the right layout, it’s very possible to set up
  * your own scrolling with {@code GtkScrollbar} and for example a {@code GtkGrid}.
- * 
- * <h1>Touch support</h1>
+ * <p>
+ * <strong>Touch support</strong><br/>
  * {@code GtkScrolledWindow} has built-in support for touch devices. When a
  * touchscreen is used, swiping will move the scrolled window, and will
  * expose 'kinetic' behavior. This can be turned off with the
@@ -67,8 +66,8 @@ import org.jetbrains.annotations.*;
  * scrollbars are desired although no mouse is present, this behaviour
  * can be turned off with the {@code Gtk.ScrolledWindow:overlay-scrolling}
  * property.
- * 
- * <h1>CSS nodes</h1>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * {@code GtkScrolledWindow} has a main CSS node with name scrolledwindow.
  * It gets a .frame style class added when {@code Gtk.ScrolledWindow:has-frame}
  * is {@code true}.
@@ -83,12 +82,24 @@ import org.jetbrains.annotations.*;
  * <p>
  * If both scrollbars are visible, the area where they meet is drawn
  * with a subnode named junction.
- * 
- * <h1>Accessibility</h1>
+ * <p>
+ * <strong>Accessibility</strong><br/>
  * {@code GtkScrolledWindow} uses the {@link AccessibleRole#GROUP} role.
  */
-public class ScrolledWindow extends Widget implements Accessible, Buildable, ConstraintTarget {
-
+public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public ScrolledWindow(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -98,18 +109,14 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
         return new ScrolledWindow(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_scrolled_window_new = Interop.downcallHandle(
-        "gtk_scrolled_window_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_scrolled_window_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_scrolled_window_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -119,378 +126,300 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_scrolled_window_get_child = Interop.downcallHandle(
-        "gtk_scrolled_window_get_child",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the child widget of {@code scrolled_window}.
+     * @return the child widget of {@code scrolled_window}
      */
-    public @Nullable Widget getChild() {
+    public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_scrolled_window_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scrolled_window_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_scrolled_window_get_hadjustment = Interop.downcallHandle(
-        "gtk_scrolled_window_get_hadjustment",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the horizontal scrollbar’s adjustment.
      * <p>
      * This is the adjustment used to connect the horizontal scrollbar
      * to the child widget’s horizontal scroll functionality.
+     * @return the horizontal {@code GtkAdjustment}
      */
-    public @NotNull Adjustment getHadjustment() {
+    public @NotNull org.gtk.gtk.Adjustment getHadjustment() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_scrolled_window_get_hadjustment.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scrolled_window_get_hadjustment.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Adjustment(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Adjustment(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_scrolled_window_get_has_frame = Interop.downcallHandle(
-        "gtk_scrolled_window_get_has_frame",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets whether the scrolled window draws a frame.
+     * @return {@code true} if the {@code scrolled_window} has a frame
      */
     public boolean getHasFrame() {
         int RESULT;
         try {
-            RESULT = (int) gtk_scrolled_window_get_has_frame.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_has_frame.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_scrolled_window_get_hscrollbar = Interop.downcallHandle(
-        "gtk_scrolled_window_get_hscrollbar",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the horizontal scrollbar of {@code scrolled_window}.
+     * @return the horizontal scrollbar of the scrolled window.
      */
-    public @NotNull Widget getHscrollbar() {
+    public @NotNull org.gtk.gtk.Widget getHscrollbar() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_scrolled_window_get_hscrollbar.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scrolled_window_get_hscrollbar.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_scrolled_window_get_kinetic_scrolling = Interop.downcallHandle(
-        "gtk_scrolled_window_get_kinetic_scrolling",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the specified kinetic scrolling behavior.
+     * @return the scrolling behavior flags.
      */
     public boolean getKineticScrolling() {
         int RESULT;
         try {
-            RESULT = (int) gtk_scrolled_window_get_kinetic_scrolling.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_kinetic_scrolling.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_scrolled_window_get_max_content_height = Interop.downcallHandle(
-        "gtk_scrolled_window_get_max_content_height",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the maximum content height set.
+     * @return the maximum content height, or -1
      */
     public int getMaxContentHeight() {
         int RESULT;
         try {
-            RESULT = (int) gtk_scrolled_window_get_max_content_height.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_max_content_height.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle gtk_scrolled_window_get_max_content_width = Interop.downcallHandle(
-        "gtk_scrolled_window_get_max_content_width",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the maximum content width set.
+     * @return the maximum content width, or -1
      */
     public int getMaxContentWidth() {
         int RESULT;
         try {
-            RESULT = (int) gtk_scrolled_window_get_max_content_width.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_max_content_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle gtk_scrolled_window_get_min_content_height = Interop.downcallHandle(
-        "gtk_scrolled_window_get_min_content_height",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the minimal content height of {@code scrolled_window}.
+     * @return the minimal content height
      */
     public int getMinContentHeight() {
         int RESULT;
         try {
-            RESULT = (int) gtk_scrolled_window_get_min_content_height.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_min_content_height.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle gtk_scrolled_window_get_min_content_width = Interop.downcallHandle(
-        "gtk_scrolled_window_get_min_content_width",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the minimum content width of {@code scrolled_window}.
+     * @return the minimum content width
      */
     public int getMinContentWidth() {
         int RESULT;
         try {
-            RESULT = (int) gtk_scrolled_window_get_min_content_width.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_min_content_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle gtk_scrolled_window_get_overlay_scrolling = Interop.downcallHandle(
-        "gtk_scrolled_window_get_overlay_scrolling",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns whether overlay scrolling is enabled for this scrolled window.
+     * @return {@code true} if overlay scrolling is enabled
      */
     public boolean getOverlayScrolling() {
         int RESULT;
         try {
-            RESULT = (int) gtk_scrolled_window_get_overlay_scrolling.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_overlay_scrolling.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_scrolled_window_get_placement = Interop.downcallHandle(
-        "gtk_scrolled_window_get_placement",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the placement of the contents with respect to the scrollbars.
+     * @return the current placement value.
      */
-    public @NotNull CornerType getPlacement() {
+    public @NotNull org.gtk.gtk.CornerType getPlacement() {
         int RESULT;
         try {
-            RESULT = (int) gtk_scrolled_window_get_placement.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_placement.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new CornerType(RESULT);
+        return new org.gtk.gtk.CornerType(RESULT);
     }
-    
-    private static final MethodHandle gtk_scrolled_window_get_policy = Interop.downcallHandle(
-        "gtk_scrolled_window_get_policy",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Retrieves the current policy values for the horizontal and vertical
      * scrollbars.
      * <p>
      * See {@link ScrolledWindow#setPolicy}.
+     * @param hscrollbarPolicy location to store the policy
+     *   for the horizontal scrollbar
+     * @param vscrollbarPolicy location to store the policy
+     *   for the vertical scrollbar
      */
-    public @NotNull void getPolicy(@NotNull Out<PolicyType> hscrollbarPolicy, @NotNull Out<PolicyType> vscrollbarPolicy) {
+    public void getPolicy(@NotNull Out<org.gtk.gtk.PolicyType> hscrollbarPolicy, @NotNull Out<org.gtk.gtk.PolicyType> vscrollbarPolicy) {
+        java.util.Objects.requireNonNull(hscrollbarPolicy, "Parameter 'hscrollbarPolicy' must not be null");
+        java.util.Objects.requireNonNull(vscrollbarPolicy, "Parameter 'vscrollbarPolicy' must not be null");
         MemorySegment hscrollbarPolicyPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment vscrollbarPolicyPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gtk_scrolled_window_get_policy.invokeExact(handle(), (Addressable) hscrollbarPolicyPOINTER.address(), (Addressable) vscrollbarPolicyPOINTER.address());
+            DowncallHandles.gtk_scrolled_window_get_policy.invokeExact(handle(), (Addressable) hscrollbarPolicyPOINTER.address(), (Addressable) vscrollbarPolicyPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        hscrollbarPolicy.set(new PolicyType(hscrollbarPolicyPOINTER.get(ValueLayout.JAVA_INT, 0)));
-        vscrollbarPolicy.set(new PolicyType(vscrollbarPolicyPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        hscrollbarPolicy.set(new org.gtk.gtk.PolicyType(hscrollbarPolicyPOINTER.get(ValueLayout.JAVA_INT, 0)));
+        vscrollbarPolicy.set(new org.gtk.gtk.PolicyType(vscrollbarPolicyPOINTER.get(ValueLayout.JAVA_INT, 0)));
     }
-    
-    private static final MethodHandle gtk_scrolled_window_get_propagate_natural_height = Interop.downcallHandle(
-        "gtk_scrolled_window_get_propagate_natural_height",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Reports whether the natural height of the child will be calculated
      * and propagated through the scrolled window’s requested natural height.
+     * @return whether natural height propagation is enabled.
      */
     public boolean getPropagateNaturalHeight() {
         int RESULT;
         try {
-            RESULT = (int) gtk_scrolled_window_get_propagate_natural_height.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_propagate_natural_height.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gtk_scrolled_window_get_propagate_natural_width = Interop.downcallHandle(
-        "gtk_scrolled_window_get_propagate_natural_width",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Reports whether the natural width of the child will be calculated
      * and propagated through the scrolled window’s requested natural width.
+     * @return whether natural width propagation is enabled.
      */
     public boolean getPropagateNaturalWidth() {
         int RESULT;
         try {
-            RESULT = (int) gtk_scrolled_window_get_propagate_natural_width.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_scrolled_window_get_propagate_natural_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gtk_scrolled_window_get_vadjustment = Interop.downcallHandle(
-        "gtk_scrolled_window_get_vadjustment",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the vertical scrollbar’s adjustment.
      * <p>
      * This is the adjustment used to connect the vertical
      * scrollbar to the child widget’s vertical scroll functionality.
+     * @return the vertical {@code GtkAdjustment}
      */
-    public @NotNull Adjustment getVadjustment() {
+    public @NotNull org.gtk.gtk.Adjustment getVadjustment() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_scrolled_window_get_vadjustment.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scrolled_window_get_vadjustment.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Adjustment(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Adjustment(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_scrolled_window_get_vscrollbar = Interop.downcallHandle(
-        "gtk_scrolled_window_get_vscrollbar",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the vertical scrollbar of {@code scrolled_window}.
+     * @return the vertical scrollbar of the scrolled window.
      */
-    public @NotNull Widget getVscrollbar() {
+    public @NotNull org.gtk.gtk.Widget getVscrollbar() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_scrolled_window_get_vscrollbar.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_scrolled_window_get_vscrollbar.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_scrolled_window_set_child = Interop.downcallHandle(
-        "gtk_scrolled_window_set_child",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the child widget of {@code scrolled_window}.
+     * @param child the child widget
      */
-    public @NotNull void setChild(@Nullable Widget child) {
+    public void setChild(@Nullable org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            gtk_scrolled_window_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_scrolled_window_set_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_scrolled_window_set_hadjustment = Interop.downcallHandle(
-        "gtk_scrolled_window_set_hadjustment",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the {@code GtkAdjustment} for the horizontal scrollbar.
+     * @param hadjustment the {@code GtkAdjustment} to use, or {@code null} to create a new one
      */
-    public @NotNull void setHadjustment(@Nullable Adjustment hadjustment) {
+    public void setHadjustment(@Nullable org.gtk.gtk.Adjustment hadjustment) {
+        java.util.Objects.requireNonNullElse(hadjustment, MemoryAddress.NULL);
         try {
-            gtk_scrolled_window_set_hadjustment.invokeExact(handle(), hadjustment.handle());
+            DowncallHandles.gtk_scrolled_window_set_hadjustment.invokeExact(handle(), hadjustment.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_scrolled_window_set_has_frame = Interop.downcallHandle(
-        "gtk_scrolled_window_set_has_frame",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Changes the frame drawn around the contents of {@code scrolled_window}.
+     * @param hasFrame whether to draw a frame around scrolled window contents
      */
-    public @NotNull void setHasFrame(@NotNull boolean hasFrame) {
+    public void setHasFrame(boolean hasFrame) {
         try {
-            gtk_scrolled_window_set_has_frame.invokeExact(handle(), hasFrame ? 1 : 0);
+            DowncallHandles.gtk_scrolled_window_set_has_frame.invokeExact(handle(), hasFrame ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_scrolled_window_set_kinetic_scrolling = Interop.downcallHandle(
-        "gtk_scrolled_window_set_kinetic_scrolling",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Turns kinetic scrolling on or off.
      * <p>
      * Kinetic scrolling only applies to devices with source
      * {@link org.gtk.gdk.InputSource#TOUCHSCREEN}.
+     * @param kineticScrolling {@code true} to enable kinetic scrolling
      */
-    public @NotNull void setKineticScrolling(@NotNull boolean kineticScrolling) {
+    public void setKineticScrolling(boolean kineticScrolling) {
         try {
-            gtk_scrolled_window_set_kinetic_scrolling.invokeExact(handle(), kineticScrolling ? 1 : 0);
+            DowncallHandles.gtk_scrolled_window_set_kinetic_scrolling.invokeExact(handle(), kineticScrolling ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_scrolled_window_set_max_content_height = Interop.downcallHandle(
-        "gtk_scrolled_window_set_max_content_height",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the maximum height that {@code scrolled_window} should keep visible.
@@ -500,19 +429,15 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * <p>
      * It is a programming error to set the maximum content height to a value
      * smaller than {@code Gtk.ScrolledWindow:min-content-height}.
+     * @param height the maximum content height
      */
-    public @NotNull void setMaxContentHeight(@NotNull int height) {
+    public void setMaxContentHeight(int height) {
         try {
-            gtk_scrolled_window_set_max_content_height.invokeExact(handle(), height);
+            DowncallHandles.gtk_scrolled_window_set_max_content_height.invokeExact(handle(), height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_scrolled_window_set_max_content_width = Interop.downcallHandle(
-        "gtk_scrolled_window_set_max_content_width",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the maximum width that {@code scrolled_window} should keep visible.
@@ -522,19 +447,15 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * <p>
      * It is a programming error to set the maximum content width to a
      * value smaller than {@code Gtk.ScrolledWindow:min-content-width}.
+     * @param width the maximum content width
      */
-    public @NotNull void setMaxContentWidth(@NotNull int width) {
+    public void setMaxContentWidth(int width) {
         try {
-            gtk_scrolled_window_set_max_content_width.invokeExact(handle(), width);
+            DowncallHandles.gtk_scrolled_window_set_max_content_width.invokeExact(handle(), width);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_scrolled_window_set_min_content_height = Interop.downcallHandle(
-        "gtk_scrolled_window_set_min_content_height",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the minimum height that {@code scrolled_window} should keep visible.
@@ -544,19 +465,15 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * <p>
      * It is a programming error to set the minimum content height to a
      * value greater than {@code Gtk.ScrolledWindow:max-content-height}.
+     * @param height the minimal content height
      */
-    public @NotNull void setMinContentHeight(@NotNull int height) {
+    public void setMinContentHeight(int height) {
         try {
-            gtk_scrolled_window_set_min_content_height.invokeExact(handle(), height);
+            DowncallHandles.gtk_scrolled_window_set_min_content_height.invokeExact(handle(), height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_scrolled_window_set_min_content_width = Interop.downcallHandle(
-        "gtk_scrolled_window_set_min_content_width",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the minimum width that {@code scrolled_window} should keep visible.
@@ -566,35 +483,27 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * <p>
      * It is a programming error to set the minimum content width to a
      * value greater than {@code Gtk.ScrolledWindow:max-content-width}.
+     * @param width the minimal content width
      */
-    public @NotNull void setMinContentWidth(@NotNull int width) {
+    public void setMinContentWidth(int width) {
         try {
-            gtk_scrolled_window_set_min_content_width.invokeExact(handle(), width);
+            DowncallHandles.gtk_scrolled_window_set_min_content_width.invokeExact(handle(), width);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_scrolled_window_set_overlay_scrolling = Interop.downcallHandle(
-        "gtk_scrolled_window_set_overlay_scrolling",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Enables or disables overlay scrolling for this scrolled window.
+     * @param overlayScrolling whether to enable overlay scrolling
      */
-    public @NotNull void setOverlayScrolling(@NotNull boolean overlayScrolling) {
+    public void setOverlayScrolling(boolean overlayScrolling) {
         try {
-            gtk_scrolled_window_set_overlay_scrolling.invokeExact(handle(), overlayScrolling ? 1 : 0);
+            DowncallHandles.gtk_scrolled_window_set_overlay_scrolling.invokeExact(handle(), overlayScrolling ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_scrolled_window_set_placement = Interop.downcallHandle(
-        "gtk_scrolled_window_set_placement",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the placement of the contents with respect to the scrollbars
@@ -607,19 +516,16 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * <p>
      * See also {@link ScrolledWindow#getPlacement} and
      * {@link ScrolledWindow#unsetPlacement}.
+     * @param windowPlacement position of the child window
      */
-    public @NotNull void setPlacement(@NotNull CornerType windowPlacement) {
+    public void setPlacement(@NotNull org.gtk.gtk.CornerType windowPlacement) {
+        java.util.Objects.requireNonNull(windowPlacement, "Parameter 'windowPlacement' must not be null");
         try {
-            gtk_scrolled_window_set_placement.invokeExact(handle(), windowPlacement.getValue());
+            DowncallHandles.gtk_scrolled_window_set_placement.invokeExact(handle(), windowPlacement.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_scrolled_window_set_policy = Interop.downcallHandle(
-        "gtk_scrolled_window_set_policy",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the scrollbar policy for the horizontal and vertical scrollbars.
@@ -630,69 +536,57 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * never present; if {@link PolicyType#AUTOMATIC}, the scrollbar is present only
      * if needed (that is, if the slider part of the bar would be smaller
      * than the trough — the display is larger than the page size).
+     * @param hscrollbarPolicy policy for horizontal bar
+     * @param vscrollbarPolicy policy for vertical bar
      */
-    public @NotNull void setPolicy(@NotNull PolicyType hscrollbarPolicy, @NotNull PolicyType vscrollbarPolicy) {
+    public void setPolicy(@NotNull org.gtk.gtk.PolicyType hscrollbarPolicy, @NotNull org.gtk.gtk.PolicyType vscrollbarPolicy) {
+        java.util.Objects.requireNonNull(hscrollbarPolicy, "Parameter 'hscrollbarPolicy' must not be null");
+        java.util.Objects.requireNonNull(vscrollbarPolicy, "Parameter 'vscrollbarPolicy' must not be null");
         try {
-            gtk_scrolled_window_set_policy.invokeExact(handle(), hscrollbarPolicy.getValue(), vscrollbarPolicy.getValue());
+            DowncallHandles.gtk_scrolled_window_set_policy.invokeExact(handle(), hscrollbarPolicy.getValue(), vscrollbarPolicy.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_scrolled_window_set_propagate_natural_height = Interop.downcallHandle(
-        "gtk_scrolled_window_set_propagate_natural_height",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether the natural height of the child should be calculated
      * and propagated through the scrolled window’s requested natural height.
+     * @param propagate whether to propagate natural height
      */
-    public @NotNull void setPropagateNaturalHeight(@NotNull boolean propagate) {
+    public void setPropagateNaturalHeight(boolean propagate) {
         try {
-            gtk_scrolled_window_set_propagate_natural_height.invokeExact(handle(), propagate ? 1 : 0);
+            DowncallHandles.gtk_scrolled_window_set_propagate_natural_height.invokeExact(handle(), propagate ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_scrolled_window_set_propagate_natural_width = Interop.downcallHandle(
-        "gtk_scrolled_window_set_propagate_natural_width",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether the natural width of the child should be calculated
      * and propagated through the scrolled window’s requested natural width.
+     * @param propagate whether to propagate natural width
      */
-    public @NotNull void setPropagateNaturalWidth(@NotNull boolean propagate) {
+    public void setPropagateNaturalWidth(boolean propagate) {
         try {
-            gtk_scrolled_window_set_propagate_natural_width.invokeExact(handle(), propagate ? 1 : 0);
+            DowncallHandles.gtk_scrolled_window_set_propagate_natural_width.invokeExact(handle(), propagate ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_scrolled_window_set_vadjustment = Interop.downcallHandle(
-        "gtk_scrolled_window_set_vadjustment",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the {@code GtkAdjustment} for the vertical scrollbar.
+     * @param vadjustment the {@code GtkAdjustment} to use, or {@code null} to create a new one
      */
-    public @NotNull void setVadjustment(@Nullable Adjustment vadjustment) {
+    public void setVadjustment(@Nullable org.gtk.gtk.Adjustment vadjustment) {
+        java.util.Objects.requireNonNullElse(vadjustment, MemoryAddress.NULL);
         try {
-            gtk_scrolled_window_set_vadjustment.invokeExact(handle(), vadjustment.handle());
+            DowncallHandles.gtk_scrolled_window_set_vadjustment.invokeExact(handle(), vadjustment.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_scrolled_window_unset_placement = Interop.downcallHandle(
-        "gtk_scrolled_window_unset_placement",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Unsets the placement of the contents with respect to the scrollbars.
@@ -700,17 +594,17 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * If no window placement is set for a scrolled window,
      * it defaults to {@link CornerType#TOP_LEFT}.
      */
-    public @NotNull void unsetPlacement() {
+    public void unsetPlacement() {
         try {
-            gtk_scrolled_window_unset_placement.invokeExact(handle());
+            DowncallHandles.gtk_scrolled_window_unset_placement.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface EdgeOvershotHandler {
-        void signalReceived(ScrolledWindow source, @NotNull PositionType pos);
+    public interface EdgeOvershot {
+        void signalReceived(ScrolledWindow source, @NotNull org.gtk.gtk.PositionType pos);
     }
     
     /**
@@ -724,7 +618,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * Note: The {@code pos} argument is LTR/RTL aware, so callers should be
      * aware too if intending to provide behavior on horizontal edges.
      */
-    public SignalHandle onEdgeOvershot(EdgeOvershotHandler handler) {
+    public Signal<ScrolledWindow.EdgeOvershot> onEdgeOvershot(ScrolledWindow.EdgeOvershot handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -734,17 +628,17 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<ScrolledWindow.EdgeOvershot>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface EdgeReachedHandler {
-        void signalReceived(ScrolledWindow source, @NotNull PositionType pos);
+    public interface EdgeReached {
+        void signalReceived(ScrolledWindow source, @NotNull org.gtk.gtk.PositionType pos);
     }
     
     /**
@@ -758,7 +652,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * Note: The {@code pos} argument is LTR/RTL aware, so callers should be
      * aware too if intending to provide behavior on horizontal edges.
      */
-    public SignalHandle onEdgeReached(EdgeReachedHandler handler) {
+    public Signal<ScrolledWindow.EdgeReached> onEdgeReached(ScrolledWindow.EdgeReached handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -768,17 +662,17 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<ScrolledWindow.EdgeReached>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface MoveFocusOutHandler {
-        void signalReceived(ScrolledWindow source, @NotNull DirectionType directionType);
+    public interface MoveFocusOut {
+        void signalReceived(ScrolledWindow source, @NotNull org.gtk.gtk.DirectionType directionType);
     }
     
     /**
@@ -791,7 +685,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * {@code Ctrl + Tab} to move forward and {@code Ctrl + Shift + Tab} to
      * move backward.
      */
-    public SignalHandle onMoveFocusOut(MoveFocusOutHandler handler) {
+    public Signal<ScrolledWindow.MoveFocusOut> onMoveFocusOut(ScrolledWindow.MoveFocusOut handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -801,17 +695,17 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<ScrolledWindow.MoveFocusOut>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ScrollChildHandler {
-        boolean signalReceived(ScrolledWindow source, @NotNull ScrollType scroll, @NotNull boolean horizontal);
+    public interface ScrollChild {
+        boolean signalReceived(ScrolledWindow source, @NotNull org.gtk.gtk.ScrollType scroll, boolean horizontal);
     }
     
     /**
@@ -822,7 +716,7 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
      * The horizontal or vertical adjustment is updated which triggers a
      * signal that the scrolled window’s child may listen to and scroll itself.
      */
-    public SignalHandle onScrollChild(ScrollChildHandler handler) {
+    public Signal<ScrolledWindow.ScrollChild> onScrollChild(ScrolledWindow.ScrollChild handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -832,39 +726,201 @@ public class ScrolledWindow extends Widget implements Accessible, Buildable, Con
                         MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<ScrolledWindow.ScrollChild>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_scrolled_window_new = Interop.downcallHandle(
+            "gtk_scrolled_window_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_get_child = Interop.downcallHandle(
+            "gtk_scrolled_window_get_child",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_get_hadjustment = Interop.downcallHandle(
+            "gtk_scrolled_window_get_hadjustment",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_get_has_frame = Interop.downcallHandle(
+            "gtk_scrolled_window_get_has_frame",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_get_hscrollbar = Interop.downcallHandle(
+            "gtk_scrolled_window_get_hscrollbar",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_get_kinetic_scrolling = Interop.downcallHandle(
+            "gtk_scrolled_window_get_kinetic_scrolling",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_get_max_content_height = Interop.downcallHandle(
+            "gtk_scrolled_window_get_max_content_height",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_get_max_content_width = Interop.downcallHandle(
+            "gtk_scrolled_window_get_max_content_width",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_get_min_content_height = Interop.downcallHandle(
+            "gtk_scrolled_window_get_min_content_height",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_get_min_content_width = Interop.downcallHandle(
+            "gtk_scrolled_window_get_min_content_width",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_get_overlay_scrolling = Interop.downcallHandle(
+            "gtk_scrolled_window_get_overlay_scrolling",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_get_placement = Interop.downcallHandle(
+            "gtk_scrolled_window_get_placement",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_get_policy = Interop.downcallHandle(
+            "gtk_scrolled_window_get_policy",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_get_propagate_natural_height = Interop.downcallHandle(
+            "gtk_scrolled_window_get_propagate_natural_height",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_get_propagate_natural_width = Interop.downcallHandle(
+            "gtk_scrolled_window_get_propagate_natural_width",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_get_vadjustment = Interop.downcallHandle(
+            "gtk_scrolled_window_get_vadjustment",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_get_vscrollbar = Interop.downcallHandle(
+            "gtk_scrolled_window_get_vscrollbar",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_set_child = Interop.downcallHandle(
+            "gtk_scrolled_window_set_child",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_set_hadjustment = Interop.downcallHandle(
+            "gtk_scrolled_window_set_hadjustment",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_set_has_frame = Interop.downcallHandle(
+            "gtk_scrolled_window_set_has_frame",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_set_kinetic_scrolling = Interop.downcallHandle(
+            "gtk_scrolled_window_set_kinetic_scrolling",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_set_max_content_height = Interop.downcallHandle(
+            "gtk_scrolled_window_set_max_content_height",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_set_max_content_width = Interop.downcallHandle(
+            "gtk_scrolled_window_set_max_content_width",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_set_min_content_height = Interop.downcallHandle(
+            "gtk_scrolled_window_set_min_content_height",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_set_min_content_width = Interop.downcallHandle(
+            "gtk_scrolled_window_set_min_content_width",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_set_overlay_scrolling = Interop.downcallHandle(
+            "gtk_scrolled_window_set_overlay_scrolling",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_set_placement = Interop.downcallHandle(
+            "gtk_scrolled_window_set_placement",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_set_policy = Interop.downcallHandle(
+            "gtk_scrolled_window_set_policy",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_set_propagate_natural_height = Interop.downcallHandle(
+            "gtk_scrolled_window_set_propagate_natural_height",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_set_propagate_natural_width = Interop.downcallHandle(
+            "gtk_scrolled_window_set_propagate_natural_width",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_set_vadjustment = Interop.downcallHandle(
+            "gtk_scrolled_window_set_vadjustment",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_scrolled_window_unset_placement = Interop.downcallHandle(
+            "gtk_scrolled_window_unset_placement",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static void signalScrolledWindowEdgeOvershot(MemoryAddress source, int pos, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (ScrolledWindow.EdgeOvershotHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ScrolledWindow(Refcounted.get(source)), new PositionType(pos));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (ScrolledWindow.EdgeOvershot) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new ScrolledWindow(Refcounted.get(source)), new org.gtk.gtk.PositionType(pos));
         }
         
         public static void signalScrolledWindowEdgeReached(MemoryAddress source, int pos, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (ScrolledWindow.EdgeReachedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ScrolledWindow(Refcounted.get(source)), new PositionType(pos));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (ScrolledWindow.EdgeReached) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new ScrolledWindow(Refcounted.get(source)), new org.gtk.gtk.PositionType(pos));
         }
         
         public static void signalScrolledWindowMoveFocusOut(MemoryAddress source, int directionType, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (ScrolledWindow.MoveFocusOutHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ScrolledWindow(Refcounted.get(source)), new DirectionType(directionType));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (ScrolledWindow.MoveFocusOut) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new ScrolledWindow(Refcounted.get(source)), new org.gtk.gtk.DirectionType(directionType));
         }
         
         public static boolean signalScrolledWindowScrollChild(MemoryAddress source, int scroll, int horizontal, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (ScrolledWindow.ScrollChildHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new ScrolledWindow(Refcounted.get(source)), new ScrollType(scroll), horizontal != 0);
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (ScrolledWindow.ScrollChild) Interop.signalRegistry.get(HASH);
+            return HANDLER.signalReceived(new ScrolledWindow(Refcounted.get(source)), new org.gtk.gtk.ScrollType(scroll), horizontal != 0);
         }
-        
     }
 }

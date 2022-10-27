@@ -1,13 +1,27 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Describes an event occurring on a {@link SocketClient}. See the
  * {@link SocketClient}::event signal for more details.
  * <p>
  * Additional values may be added to this type in the future.
+ * @version 2.32
  */
 public class SocketClientEvent extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The client is doing a DNS lookup.
      */
@@ -63,5 +77,4 @@ public class SocketClientEvent extends io.github.jwharm.javagi.Enumeration {
     public SocketClientEvent(int value) {
         super(value);
     }
-    
 }

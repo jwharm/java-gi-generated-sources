@@ -15,7 +15,6 @@ import org.jetbrains.annotations.*;
  * <p>
  * The {@code AdwWindow} widget is a subclass of {@link org.gtk.gtk.Window} which has no
  * titlebar area. It means {@link org.gtk.gtk.HeaderBar} can be used as follows:
- * 
  * <pre>{@code xml
  * <object class="AdwWindow">
  *   <property name="content">
@@ -32,11 +31,28 @@ import org.jetbrains.annotations.*;
  * </object>
  * }</pre>
  * <p>
- * Using {@code Gtk.Window.set_titlebar}
+ * Using {@link org.gtk.gtk.Window#getTitlebar} and {@link org.gtk.gtk.Window#setTitlebar}
  * is not supported and will result in a crash.
+ * @version 1.0
  */
 public class Window extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Native, org.gtk.gtk.Root, org.gtk.gtk.ShortcutManager {
-
+    
+    static {
+        Adw.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gtk.Window.getMemoryLayout().withName("parent_instance")
+    ).withName("AdwWindow");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public Window(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -46,18 +62,14 @@ public class Window extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
         return new Window(gobject.refcounted());
     }
     
-    private static final MethodHandle adw_window_new = Interop.downcallHandle(
-        "adw_window_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) adw_window_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.adw_window_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -67,42 +79,52 @@ public class Window extends org.gtk.gtk.Window implements org.gtk.gtk.Accessible
         super(constructNew());
     }
     
-    private static final MethodHandle adw_window_get_content = Interop.downcallHandle(
-        "adw_window_get_content",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the content widget of {@code self}.
      * <p>
      * This method should always be used instead of {@link org.gtk.gtk.Window#getChild}.
+     * @return the content widget of {@code self}
      */
     public @Nullable org.gtk.gtk.Widget getContent() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) adw_window_get_content.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.adw_window_get_content.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle adw_window_set_content = Interop.downcallHandle(
-        "adw_window_set_content",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Sets the content widget of {@code self}.
      * <p>
      * This method should always be used instead of {@link org.gtk.gtk.Window#setChild}.
+     * @param content the content widget
      */
-    public @NotNull void setContent(@Nullable org.gtk.gtk.Widget content) {
+    public void setContent(@Nullable org.gtk.gtk.Widget content) {
+        java.util.Objects.requireNonNullElse(content, MemoryAddress.NULL);
         try {
-            adw_window_set_content.invokeExact(handle(), content.handle());
+            DowncallHandles.adw_window_set_content.invokeExact(handle(), content.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle adw_window_new = Interop.downcallHandle(
+            "adw_window_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_window_get_content = Interop.downcallHandle(
+            "adw_window_get_content",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle adw_window_set_content = Interop.downcallHandle(
+            "adw_window_set_content",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

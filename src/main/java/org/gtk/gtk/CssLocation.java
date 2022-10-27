@@ -20,9 +20,28 @@ import org.jetbrains.annotations.*;
  * run into problems here.
  */
 public class CssLocation extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        ValueLayout.JAVA_LONG.withName("bytes"),
+        ValueLayout.JAVA_LONG.withName("chars"),
+        ValueLayout.JAVA_LONG.withName("lines"),
+        ValueLayout.JAVA_LONG.withName("line_bytes"),
+        ValueLayout.JAVA_LONG.withName("line_chars")
+    ).withName("GtkCssLocation");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public CssLocation(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
 }

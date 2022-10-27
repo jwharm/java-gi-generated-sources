@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -63,8 +65,9 @@ import org.jetbrains.annotations.*;
  * logged to standard error. Applications can
  * check this ahead of time using g_dbus_message_to_blob() passing a
  * {@link DBusCapabilityFlags} value obtained from {@code connection}.
+ * @version 2.26
  */
 @FunctionalInterface
 public interface DBusMessageFilterFunction {
-        DBusMessage onDBusMessageFilterFunction(@NotNull DBusConnection connection, @NotNull DBusMessage message, @NotNull boolean incoming);
+        org.gtk.gio.DBusMessage onDBusMessageFilterFunction(@NotNull org.gtk.gio.DBusConnection connection, @NotNull org.gtk.gio.DBusMessage message, boolean incoming);
 }

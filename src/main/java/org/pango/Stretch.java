@@ -1,11 +1,24 @@
 package org.pango;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * An enumeration specifying the width of the font relative to other designs
  * within a family.
  */
 public class Stretch extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * ultra condensed width
      */
@@ -54,5 +67,4 @@ public class Stretch extends io.github.jwharm.javagi.Enumeration {
     public Stretch(int value) {
         super(value);
     }
-    
 }

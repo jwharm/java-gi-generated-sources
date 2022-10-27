@@ -37,11 +37,6 @@ import org.jetbrains.annotations.*;
  * inside of a {@link SimpleActionGroup}.
  */
 public interface Action extends io.github.jwharm.javagi.Proxy {
-
-    @ApiStatus.Internal static final MethodHandle g_action_activate = Interop.downcallHandle(
-        "g_action_activate",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Activates the action.
@@ -51,19 +46,16 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      * type was {@code null} then {@code parameter} must also be {@code null}.
      * <p>
      * If the {@code parameter} GVariant is floating, it is consumed.
+     * @param parameter the parameter to the activation
      */
-    default @NotNull void activate(@Nullable org.gtk.glib.Variant parameter) {
+    default void activate(@Nullable org.gtk.glib.Variant parameter) {
+        java.util.Objects.requireNonNullElse(parameter, MemoryAddress.NULL);
         try {
-            g_action_activate.invokeExact(handle(), parameter.handle());
+            DowncallHandles.g_action_activate.invokeExact(handle(), parameter.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_action_change_state = Interop.downcallHandle(
-        "g_action_change_state",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Request for the state of {@code action} to be changed to {@code value}.
@@ -76,58 +68,47 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      * See g_action_get_state_hint().
      * <p>
      * If the {@code value} GVariant is floating, it is consumed.
+     * @param value the new state
      */
-    default @NotNull void changeState(@NotNull org.gtk.glib.Variant value) {
+    default void changeState(@NotNull org.gtk.glib.Variant value) {
+        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         try {
-            g_action_change_state.invokeExact(handle(), value.handle());
+            DowncallHandles.g_action_change_state.invokeExact(handle(), value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_action_get_enabled = Interop.downcallHandle(
-        "g_action_get_enabled",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Checks if {@code action} is currently enabled.
      * <p>
      * An action must be enabled in order to be activated or in order to
      * have its state changed from outside callers.
+     * @return whether the action is enabled
      */
     default boolean getEnabled() {
         int RESULT;
         try {
-            RESULT = (int) g_action_get_enabled.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_action_get_enabled.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    @ApiStatus.Internal static final MethodHandle g_action_get_name = Interop.downcallHandle(
-        "g_action_get_name",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Queries the name of {@code action}.
+     * @return the name of the action
      */
     default @NotNull java.lang.String getName() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_action_get_name.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_action_get_name.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_action_get_parameter_type = Interop.downcallHandle(
-        "g_action_get_parameter_type",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Queries the type of the parameter that must be given when activating
@@ -138,21 +119,17 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      * <p>
      * In the case that this function returns {@code null}, you must not give any
      * {@link org.gtk.glib.Variant}, but {@code null} instead.
+     * @return the parameter type
      */
     default @Nullable org.gtk.glib.VariantType getParameterType() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_action_get_parameter_type.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_action_get_parameter_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.VariantType(Refcounted.get(RESULT, false));
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_action_get_state = Interop.downcallHandle(
-        "g_action_get_state",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Queries the current state of {@code action}.
@@ -163,21 +140,17 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      * <p>
      * The return value (if non-{@code null}) should be freed with
      * g_variant_unref() when it is no longer required.
+     * @return the current state of the action
      */
     default @Nullable org.gtk.glib.Variant getState() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_action_get_state.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_action_get_state.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_action_get_state_hint = Interop.downcallHandle(
-        "g_action_get_state_hint",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Requests a hint about the valid range of values for the state of
@@ -198,21 +171,17 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      * <p>
      * The return value (if non-{@code null}) should be freed with
      * g_variant_unref() when it is no longer required.
+     * @return the state range hint
      */
     default @Nullable org.gtk.glib.Variant getStateHint() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_action_get_state_hint.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_action_get_state_hint.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_action_get_state_type = Interop.downcallHandle(
-        "g_action_get_state_type",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Queries the type of the state of {@code action}.
@@ -227,21 +196,17 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      * If the action is not stateful (e.g. created with g_simple_action_new())
      * then this function will return {@code null}. In that case, g_action_get_state()
      * will return {@code null} and you must not call g_action_change_state().
+     * @return the state type, if the action is stateful
      */
     default @Nullable org.gtk.glib.VariantType getStateType() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_action_get_state_type.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_action_get_state_type.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.VariantType(Refcounted.get(RESULT, false));
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_action_name_is_valid = Interop.downcallHandle(
-        "g_action_name_is_valid",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Checks if {@code action_name} is valid.
@@ -251,21 +216,19 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      * <p>
      * It is an error to call this function with a non-utf8 {@code action_name}.
      * {@code action_name} must not be {@code null}.
+     * @param actionName a potential action name
+     * @return {@code true} if {@code action_name} is valid
      */
     public static boolean nameIsValid(@NotNull java.lang.String actionName) {
+        java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         int RESULT;
         try {
-            RESULT = (int) g_action_name_is_valid.invokeExact(Interop.allocateNativeString(actionName));
+            RESULT = (int) DowncallHandles.g_action_name_is_valid.invokeExact(Interop.allocateNativeString(actionName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_action_parse_detailed_name = Interop.downcallHandle(
-        "g_action_parse_detailed_name",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Parses a detailed action name into its separate name and target
@@ -292,29 +255,32 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      * target can be specified this way as well: "app.action('target')".
      * For strings, this third format must be used if * target value is
      * empty or contains characters other than alphanumerics, '-' and '.'.
+     * @param detailedName a detailed action name
+     * @param actionName the action name
+     * @param targetValue the target value, or {@code null} for no target
+     * @return {@code true} if successful, else {@code false} with {@code error} set
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static boolean parseDetailedName(@NotNull java.lang.String detailedName, @NotNull Out<java.lang.String> actionName, @NotNull Out<org.gtk.glib.Variant> targetValue) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(detailedName, "Parameter 'detailedName' must not be null");
+        java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
+        java.util.Objects.requireNonNull(targetValue, "Parameter 'targetValue' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment actionNamePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment targetValuePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_action_parse_detailed_name.invokeExact(Interop.allocateNativeString(detailedName), (Addressable) actionNamePOINTER.address(), (Addressable) targetValuePOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_action_parse_detailed_name.invokeExact(Interop.allocateNativeString(detailedName), (Addressable) actionNamePOINTER.address(), (Addressable) targetValuePOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        actionName.set(actionNamePOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
-        targetValue.set(new org.gtk.glib.Variant(Refcounted.get(targetValuePOINTER.get(ValueLayout.ADDRESS, 0), true)));
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
+        actionName.set(actionNamePOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
+        targetValue.set(new org.gtk.glib.Variant(Refcounted.get(targetValuePOINTER.get(ValueLayout.ADDRESS, 0), true)));
         return RESULT != 0;
     }
-    
-    @ApiStatus.Internal static final MethodHandle g_action_print_detailed_name = Interop.downcallHandle(
-        "g_action_print_detailed_name",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Formats a detailed action name from {@code action_name} and {@code target_value}.
@@ -327,18 +293,98 @@ public interface Action extends io.github.jwharm.javagi.Proxy {
      * <p>
      * See that function for the types of strings that will be printed by
      * this function.
+     * @param actionName a valid action name
+     * @param targetValue a {@link org.gtk.glib.Variant} target value, or {@code null}
+     * @return a detailed format string
      */
     public static @NotNull java.lang.String printDetailedName(@NotNull java.lang.String actionName, @Nullable org.gtk.glib.Variant targetValue) {
+        java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
+        java.util.Objects.requireNonNullElse(targetValue, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_action_print_detailed_name.invokeExact(Interop.allocateNativeString(actionName), targetValue.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_action_print_detailed_name.invokeExact(Interop.allocateNativeString(actionName), targetValue.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
+    @ApiStatus.Internal
+    static class DowncallHandles {
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_action_activate = Interop.downcallHandle(
+            "g_action_activate",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_action_change_state = Interop.downcallHandle(
+            "g_action_change_state",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_action_get_enabled = Interop.downcallHandle(
+            "g_action_get_enabled",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_action_get_name = Interop.downcallHandle(
+            "g_action_get_name",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_action_get_parameter_type = Interop.downcallHandle(
+            "g_action_get_parameter_type",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_action_get_state = Interop.downcallHandle(
+            "g_action_get_state",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_action_get_state_hint = Interop.downcallHandle(
+            "g_action_get_state_hint",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_action_get_state_type = Interop.downcallHandle(
+            "g_action_get_state_type",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_action_name_is_valid = Interop.downcallHandle(
+            "g_action_name_is_valid",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_action_parse_detailed_name = Interop.downcallHandle(
+            "g_action_parse_detailed_name",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_action_print_detailed_name = Interop.downcallHandle(
+            "g_action_print_detailed_name",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
+    
     class ActionImpl extends org.gtk.gobject.Object implements Action {
+        
+        static {
+            Gio.javagi$ensureInitialized();
+        }
+        
         public ActionImpl(io.github.jwharm.javagi.Refcounted ref) {
             super(ref);
         }

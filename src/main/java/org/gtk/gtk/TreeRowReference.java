@@ -11,23 +11,33 @@ import org.jetbrains.annotations.*;
  * new GtkTreeRowReference with gtk_tree_row_reference_new().
  */
 public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public TreeRowReference(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle gtk_tree_row_reference_new = Interop.downcallHandle(
-        "gtk_tree_row_reference_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNew(@NotNull TreeModel model, @NotNull TreePath path) {
+    private static Refcounted constructNew(@NotNull org.gtk.gtk.TreeModel model, @NotNull org.gtk.gtk.TreePath path) {
+        java.util.Objects.requireNonNull(model, "Parameter 'model' must not be null");
+        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_tree_row_reference_new.invokeExact(model.handle(), path.handle()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_row_reference_new.invokeExact(model.handle(), path.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -37,23 +47,24 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
      * by {@code path}, so long as it exists. Any changes that occur on {@code model} are
      * propagated, and the path is updated appropriately. If
      * {@code path} isn’t a valid path in {@code model}, then {@code null} is returned.
+     * @param model a {@code GtkTreeModel}
+     * @param path a valid {@code GtkTreePath} to monitor
      */
-    public TreeRowReference(@NotNull TreeModel model, @NotNull TreePath path) {
+    public TreeRowReference(@NotNull org.gtk.gtk.TreeModel model, @NotNull org.gtk.gtk.TreePath path) {
         super(constructNew(model, path));
     }
     
-    private static final MethodHandle gtk_tree_row_reference_new_proxy = Interop.downcallHandle(
-        "gtk_tree_row_reference_new_proxy",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNewProxy(@NotNull org.gtk.gobject.Object proxy, @NotNull TreeModel model, @NotNull TreePath path) {
+    private static Refcounted constructNewProxy(@NotNull org.gtk.gobject.Object proxy, @NotNull org.gtk.gtk.TreeModel model, @NotNull org.gtk.gtk.TreePath path) {
+        java.util.Objects.requireNonNull(proxy, "Parameter 'proxy' must not be null");
+        java.util.Objects.requireNonNull(model, "Parameter 'model' must not be null");
+        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_tree_row_reference_new_proxy.invokeExact(proxy.handle(), model.handle(), path.handle()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_tree_row_reference_new_proxy.invokeExact(proxy.handle(), model.handle(), path.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -81,153 +92,189 @@ public class TreeRowReference extends io.github.jwharm.javagi.ResourceBase {
      * This type of row reference is primarily meant by structures that
      * need to carefully monitor exactly when a row reference updates
      * itself, and is not generally needed by most applications.
+     * @param proxy a proxy {@code GObject}
+     * @param model a {@code GtkTreeModel}
+     * @param path a valid {@code GtkTreePath} to monitor
+     * @return a newly allocated {@code GtkTreeRowReference}
      */
-    public static TreeRowReference newProxy(@NotNull org.gtk.gobject.Object proxy, @NotNull TreeModel model, @NotNull TreePath path) {
+    public static TreeRowReference newProxy(@NotNull org.gtk.gobject.Object proxy, @NotNull org.gtk.gtk.TreeModel model, @NotNull org.gtk.gtk.TreePath path) {
         return new TreeRowReference(constructNewProxy(proxy, model, path));
     }
     
-    private static final MethodHandle gtk_tree_row_reference_copy = Interop.downcallHandle(
-        "gtk_tree_row_reference_copy",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Copies a {@code GtkTreeRowReference}.
+     * @return a copy of {@code reference}
      */
-    public @NotNull TreeRowReference copy() {
+    public @NotNull org.gtk.gtk.TreeRowReference copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_tree_row_reference_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_row_reference_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new TreeRowReference(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.TreeRowReference(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle gtk_tree_row_reference_free = Interop.downcallHandle(
-        "gtk_tree_row_reference_free",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Free’s {@code reference}. {@code reference} may be {@code null}
      */
-    public @NotNull void free() {
+    public void free() {
         try {
-            gtk_tree_row_reference_free.invokeExact(handle());
+            DowncallHandles.gtk_tree_row_reference_free.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_tree_row_reference_get_model = Interop.downcallHandle(
-        "gtk_tree_row_reference_get_model",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns the model that the row reference is monitoring.
+     * @return the model
      */
-    public @NotNull TreeModel getModel() {
+    public @NotNull org.gtk.gtk.TreeModel getModel() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_tree_row_reference_get_model.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_row_reference_get_model.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.TreeModel.TreeModelImpl(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_tree_row_reference_get_path = Interop.downcallHandle(
-        "gtk_tree_row_reference_get_path",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns a path that the row reference currently points to,
      * or {@code null} if the path pointed to is no longer valid.
+     * @return a current path
      */
-    public @Nullable TreePath getPath() {
+    public @Nullable org.gtk.gtk.TreePath getPath() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_tree_row_reference_get_path.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_tree_row_reference_get_path.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new TreePath(Refcounted.get(RESULT, true));
+        return new org.gtk.gtk.TreePath(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle gtk_tree_row_reference_valid = Interop.downcallHandle(
-        "gtk_tree_row_reference_valid",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns {@code true} if the {@code reference} is non-{@code null} and refers to
      * a current valid path.
+     * @return {@code true} if {@code reference} points to a valid path
      */
     public boolean valid() {
         int RESULT;
         try {
-            RESULT = (int) gtk_tree_row_reference_valid.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_tree_row_reference_valid.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_tree_row_reference_deleted = Interop.downcallHandle(
-        "gtk_tree_row_reference_deleted",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Lets a set of row reference created by
      * gtk_tree_row_reference_new_proxy() know that the
      * model emitted the ::row-deleted signal.
+     * @param proxy a {@code GObject}
+     * @param path the path position that was deleted
      */
-    public static @NotNull void deleted(@NotNull org.gtk.gobject.Object proxy, @NotNull TreePath path) {
+    public static void deleted(@NotNull org.gtk.gobject.Object proxy, @NotNull org.gtk.gtk.TreePath path) {
+        java.util.Objects.requireNonNull(proxy, "Parameter 'proxy' must not be null");
+        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         try {
-            gtk_tree_row_reference_deleted.invokeExact(proxy.handle(), path.handle());
+            DowncallHandles.gtk_tree_row_reference_deleted.invokeExact(proxy.handle(), path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_tree_row_reference_inserted = Interop.downcallHandle(
-        "gtk_tree_row_reference_inserted",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Lets a set of row reference created by
      * gtk_tree_row_reference_new_proxy() know that the
      * model emitted the ::row-inserted signal.
+     * @param proxy a {@code GObject}
+     * @param path the row position that was inserted
      */
-    public static @NotNull void inserted(@NotNull org.gtk.gobject.Object proxy, @NotNull TreePath path) {
+    public static void inserted(@NotNull org.gtk.gobject.Object proxy, @NotNull org.gtk.gtk.TreePath path) {
+        java.util.Objects.requireNonNull(proxy, "Parameter 'proxy' must not be null");
+        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         try {
-            gtk_tree_row_reference_inserted.invokeExact(proxy.handle(), path.handle());
+            DowncallHandles.gtk_tree_row_reference_inserted.invokeExact(proxy.handle(), path.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_tree_row_reference_reordered = Interop.downcallHandle(
-        "gtk_tree_row_reference_reordered",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Lets a set of row reference created by
      * gtk_tree_row_reference_new_proxy() know that the
      * model emitted the ::rows-reordered signal.
+     * @param proxy a {@code GObject}
+     * @param path the parent path of the reordered signal
+     * @param iter the iter pointing to the parent of the reordered
+     * @param newOrder the new order of rows
      */
-    public static @NotNull void reordered(@NotNull org.gtk.gobject.Object proxy, @NotNull TreePath path, @NotNull TreeIter iter, @NotNull int[] newOrder) {
+    public static void reordered(@NotNull org.gtk.gobject.Object proxy, @NotNull org.gtk.gtk.TreePath path, @NotNull org.gtk.gtk.TreeIter iter, int[] newOrder) {
+        java.util.Objects.requireNonNull(proxy, "Parameter 'proxy' must not be null");
+        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+        java.util.Objects.requireNonNull(newOrder, "Parameter 'newOrder' must not be null");
         try {
-            gtk_tree_row_reference_reordered.invokeExact(proxy.handle(), path.handle(), iter.handle(), Interop.allocateNativeArray(newOrder));
+            DowncallHandles.gtk_tree_row_reference_reordered.invokeExact(proxy.handle(), path.handle(), iter.handle(), Interop.allocateNativeArray(newOrder, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_tree_row_reference_new = Interop.downcallHandle(
+            "gtk_tree_row_reference_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_row_reference_new_proxy = Interop.downcallHandle(
+            "gtk_tree_row_reference_new_proxy",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_row_reference_copy = Interop.downcallHandle(
+            "gtk_tree_row_reference_copy",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_row_reference_free = Interop.downcallHandle(
+            "gtk_tree_row_reference_free",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_row_reference_get_model = Interop.downcallHandle(
+            "gtk_tree_row_reference_get_model",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_row_reference_get_path = Interop.downcallHandle(
+            "gtk_tree_row_reference_get_path",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_row_reference_valid = Interop.downcallHandle(
+            "gtk_tree_row_reference_valid",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_row_reference_deleted = Interop.downcallHandle(
+            "gtk_tree_row_reference_deleted",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_row_reference_inserted = Interop.downcallHandle(
+            "gtk_tree_row_reference_inserted",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_tree_row_reference_reordered = Interop.downcallHandle(
+            "gtk_tree_row_reference_reordered",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

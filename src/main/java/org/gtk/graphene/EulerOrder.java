@@ -1,13 +1,27 @@
 package org.gtk.graphene;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Specify the order of the rotations on each axis.
  * <p>
  * The {@link EulerOrder#DEFAULT} value is special, and is used
  * as an alias for one of the other orders.
+ * @version 1.2
  */
 public class EulerOrder extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Rotate in the default order; the
      *   default order is one of the following enumeration values
@@ -173,5 +187,4 @@ public class EulerOrder extends io.github.jwharm.javagi.Enumeration {
     public EulerOrder(int value) {
         super(value);
     }
-    
 }

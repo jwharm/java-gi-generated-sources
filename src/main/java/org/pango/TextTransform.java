@@ -1,10 +1,24 @@
 package org.pango;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * An enumeration that affects how Pango treats characters during shaping.
+ * @version 1.50
  */
 public class TextTransform extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Leave text unchanged
      */
@@ -29,5 +43,4 @@ public class TextTransform extends io.github.jwharm.javagi.Enumeration {
     public TextTransform(int value) {
         super(value);
     }
-    
 }

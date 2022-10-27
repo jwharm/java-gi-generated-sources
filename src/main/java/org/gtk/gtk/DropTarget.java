@@ -12,7 +12,6 @@ import org.jetbrains.annotations.*;
  * widget is to create it via {@link DropTarget#DropTarget}, passing in the
  * {@code GType} of the data you want to receive and connect to the
  * {@code Gtk.DropTarget::drop} signal to receive the data:
- * 
  * <pre>{@code c
  * static gboolean
  * on_drop (GtkDropTarget *target,
@@ -59,7 +58,7 @@ import org.jetbrains.annotations.*;
  *    and the {@link DropTarget#reject} function to let other drop
  *    targets handle the drop
  *  * tracking an ongoing drag operation before the drop via the
- *    {@code Gtk.DropTarget::motion} and
+ *    {@code Gtk.DropTarget::enter}, {@code Gtk.DropTarget::motion} and
  *    {@code Gtk.DropTarget::leave} signals
  *  * configuring how to receive data by setting the
  *    {@code Gtk.DropTarget:preload} property and listening for its
@@ -78,8 +77,20 @@ import org.jetbrains.annotations.*;
  * UI state during a Drag-and-Drop operation (e.g. switching tabs), you can
  * use {@link DropControllerMotion}.
  */
-public class DropTarget extends EventController {
-
+public class DropTarget extends org.gtk.gtk.EventController {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public DropTarget(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -89,18 +100,16 @@ public class DropTarget extends EventController {
         return new DropTarget(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_drop_target_new = Interop.downcallHandle(
-        "gtk_drop_target_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
-    );
-    
-    private static Refcounted constructNew(@NotNull org.gtk.gobject.Type type, @NotNull org.gtk.gdk.DragAction actions) {
+    private static Refcounted constructNew(@NotNull org.gtk.glib.Type type, @NotNull org.gtk.gdk.DragAction actions) {
+        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+        java.util.Objects.requireNonNull(actions, "Parameter 'actions' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_drop_target_new.invokeExact(type.getValue(), actions.getValue()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_drop_target_new.invokeExact(type.getValue(), actions.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -109,136 +118,132 @@ public class DropTarget extends EventController {
      * If the drop target should support more than 1 type, pass
      * {@code G_TYPE_INVALID} for {@code type} and then call
      * {@link DropTarget#setGtypes}.
+     * @param type The supported type or {@code G_TYPE_INVALID}
+     * @param actions the supported actions
      */
-    public DropTarget(@NotNull org.gtk.gobject.Type type, @NotNull org.gtk.gdk.DragAction actions) {
+    public DropTarget(@NotNull org.gtk.glib.Type type, @NotNull org.gtk.gdk.DragAction actions) {
         super(constructNew(type, actions));
     }
     
-    private static final MethodHandle gtk_drop_target_get_actions = Interop.downcallHandle(
-        "gtk_drop_target_get_actions",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the actions that this drop target supports.
+     * @return the actions that this drop target supports
      */
     public @NotNull org.gtk.gdk.DragAction getActions() {
         int RESULT;
         try {
-            RESULT = (int) gtk_drop_target_get_actions.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_drop_target_get_actions.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gdk.DragAction(RESULT);
     }
     
-    private static final MethodHandle gtk_drop_target_get_current_drop = Interop.downcallHandle(
-        "gtk_drop_target_get_current_drop",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the currently handled drop operation.
      * <p>
      * If no drop operation is going on, {@code null} is returned.
+     * @return The current drop
      */
     public @Nullable org.gtk.gdk.Drop getCurrentDrop() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_drop_target_get_current_drop.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_target_get_current_drop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gdk.Drop(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle gtk_drop_target_get_formats = Interop.downcallHandle(
-        "gtk_drop_target_get_formats",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Gets the currently handled drop operation.
+     * <p>
+     * If no drop operation is going on, {@code null} is returned.
+     * @return The current drop
+     * @deprecated Use {@link DropTarget#getCurrentDrop} instead
+     */
+    @Deprecated
+    public @Nullable org.gtk.gdk.Drop getDrop() {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_target_get_drop.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.gtk.gdk.Drop(Refcounted.get(RESULT, false));
+    }
     
     /**
      * Gets the data formats that this drop target accepts.
      * <p>
      * If the result is {@code null}, all formats are expected to be supported.
+     * @return the supported data formats
      */
     public @Nullable org.gtk.gdk.ContentFormats getFormats() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_drop_target_get_formats.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_target_get_formats.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gdk.ContentFormats(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle gtk_drop_target_get_gtypes = Interop.downcallHandle(
-        "gtk_drop_target_get_gtypes",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the list of supported {@code GType}s that can be dropped on the target.
      * <p>
      * If no types have been set, {@code NULL} will be returned.
+     * @param nTypes the number of {@code GType}s contained in the
+     *   return value
+     * @return the {@code G_TYPE_INVALID}-terminated array of types included in
+     *   formats
      */
-    public org.gtk.gobject.Type[] getGtypes(@NotNull Out<Long> nTypes) {
+    public @Nullable org.gtk.glib.Type[] getGtypes(Out<Long> nTypes) {
+        java.util.Objects.requireNonNull(nTypes, "Parameter 'nTypes' must not be null");
         MemorySegment nTypesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_LONG);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_drop_target_get_gtypes.invokeExact(handle(), (Addressable) nTypesPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_target_get_gtypes.invokeExact(handle(), (Addressable) nTypesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         nTypes.set(nTypesPOINTER.get(ValueLayout.JAVA_LONG, 0));
-        org.gtk.gobject.Type[] resultARRAY = new org.gtk.gobject.Type[nTypes.get().intValue()];
+        if (RESULT.equals(MemoryAddress.NULL)) return null;
+        org.gtk.glib.Type[] resultARRAY = new org.gtk.glib.Type[nTypes.get().intValue()];
         for (int I = 0; I < nTypes.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.JAVA_LONG, I);
-            resultARRAY[I] = new org.gtk.gobject.Type(OBJ);
+            resultARRAY[I] = new org.gtk.glib.Type(OBJ);
         }
         return resultARRAY;
     }
     
-    private static final MethodHandle gtk_drop_target_get_preload = Interop.downcallHandle(
-        "gtk_drop_target_get_preload",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets whether data should be preloaded on hover.
+     * @return {@code true} if drop data should be preloaded
      */
     public boolean getPreload() {
         int RESULT;
         try {
-            RESULT = (int) gtk_drop_target_get_preload.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_drop_target_get_preload.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_drop_target_get_value = Interop.downcallHandle(
-        "gtk_drop_target_get_value",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the current drop data, as a {@code GValue}.
+     * @return The current drop data
      */
     public @Nullable org.gtk.gobject.Value getValue() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_drop_target_get_value.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_target_get_value.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gobject.Value(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_drop_target_reject = Interop.downcallHandle(
-        "gtk_drop_target_reject",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Rejects the ongoing drop operation.
@@ -250,64 +255,56 @@ public class DropTarget extends EventController {
      * on whether to accept a drag or not until after reading
      * the data.
      */
-    public @NotNull void reject() {
+    public void reject() {
         try {
-            gtk_drop_target_reject.invokeExact(handle());
+            DowncallHandles.gtk_drop_target_reject.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_drop_target_set_actions = Interop.downcallHandle(
-        "gtk_drop_target_set_actions",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the actions that this drop target supports.
+     * @param actions the supported actions
      */
-    public @NotNull void setActions(@NotNull org.gtk.gdk.DragAction actions) {
+    public void setActions(@NotNull org.gtk.gdk.DragAction actions) {
+        java.util.Objects.requireNonNull(actions, "Parameter 'actions' must not be null");
         try {
-            gtk_drop_target_set_actions.invokeExact(handle(), actions.getValue());
+            DowncallHandles.gtk_drop_target_set_actions.invokeExact(handle(), actions.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_drop_target_set_gtypes = Interop.downcallHandle(
-        "gtk_drop_target_set_gtypes",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
-    );
     
     /**
      * Sets the supported {@code GTypes} for this drop target.
+     * @param types all supported {@code GType}s
+     *   that can be dropped on the target
+     * @param nTypes number of {@code types}
      */
-    public @NotNull void setGtypes(@Nullable org.gtk.gobject.Type[] types, @NotNull long nTypes) {
+    public void setGtypes(org.gtk.glib.Type[] types, long nTypes) {
+        java.util.Objects.requireNonNullElse(types, MemoryAddress.NULL);
         try {
-            gtk_drop_target_set_gtypes.invokeExact(handle(), Interop.allocateNativeArray(org.gtk.gobject.Type.getLongValues(types)), nTypes);
+            DowncallHandles.gtk_drop_target_set_gtypes.invokeExact(handle(), Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(types), false), nTypes);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle gtk_drop_target_set_preload = Interop.downcallHandle(
-        "gtk_drop_target_set_preload",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Sets whether data should be preloaded on hover.
+     * @param preload {@code true} to preload drop data
      */
-    public @NotNull void setPreload(@NotNull boolean preload) {
+    public void setPreload(boolean preload) {
         try {
-            gtk_drop_target_set_preload.invokeExact(handle(), preload ? 1 : 0);
+            DowncallHandles.gtk_drop_target_set_preload.invokeExact(handle(), preload ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface AcceptHandler {
+    public interface Accept {
         boolean signalReceived(DropTarget source, @NotNull org.gtk.gdk.Drop drop);
     }
     
@@ -329,7 +326,7 @@ public class DropTarget extends EventController {
      * should be inspected via the ::notify:value signal, calling
      * {@link DropTarget#reject} if required.
      */
-    public SignalHandle onAccept(AcceptHandler handler) {
+    public Signal<DropTarget.Accept> onAccept(DropTarget.Accept handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -339,17 +336,17 @@ public class DropTarget extends EventController {
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<DropTarget.Accept>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface DropHandler {
-        boolean signalReceived(DropTarget source, @NotNull org.gtk.gobject.Value value, @NotNull double x, @NotNull double y);
+    public interface Drop {
+        boolean signalReceived(DropTarget source, @NotNull org.gtk.gobject.Value value, double x, double y);
     }
     
     /**
@@ -363,7 +360,7 @@ public class DropTarget extends EventController {
      * accept the drop. The handler is responsible for using the given {@code value}
      * and performing the drop operation.
      */
-    public SignalHandle onDrop(DropHandler handler) {
+    public Signal<DropTarget.Drop> onDrop(DropTarget.Drop handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -373,17 +370,17 @@ public class DropTarget extends EventController {
                         MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.of(ValueLayout.JAVA_BOOLEAN, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<DropTarget.Drop>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface EnterHandler {
-        void signalReceived(DropTarget source, @NotNull double x, @NotNull double y);
+    public interface Enter {
+        void signalReceived(DropTarget source, double x, double y);
     }
     
     /**
@@ -391,7 +388,7 @@ public class DropTarget extends EventController {
      * <p>
      * It can be used to set up custom highlighting.
      */
-    public SignalHandle onEnter(EnterHandler handler) {
+    public Signal<DropTarget.Enter> onEnter(DropTarget.Enter handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -401,16 +398,16 @@ public class DropTarget extends EventController {
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<DropTarget.Enter>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface LeaveHandler {
+    public interface Leave {
         void signalReceived(DropTarget source);
     }
     
@@ -420,7 +417,7 @@ public class DropTarget extends EventController {
      * Its main purpose it to undo things done in
      * {@code Gtk.DropTarget::enter}.
      */
-    public SignalHandle onLeave(LeaveHandler handler) {
+    public Signal<DropTarget.Leave> onLeave(DropTarget.Leave handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -430,23 +427,23 @@ public class DropTarget extends EventController {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<DropTarget.Leave>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface MotionHandler {
-        void signalReceived(DropTarget source, @NotNull double x, @NotNull double y);
+    public interface Motion {
+        void signalReceived(DropTarget source, double x, double y);
     }
     
     /**
      * Emitted while the pointer is moving over the drop target.
      */
-    public SignalHandle onMotion(MotionHandler handler) {
+    public Signal<DropTarget.Motion> onMotion(DropTarget.Motion handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -456,45 +453,107 @@ public class DropTarget extends EventController {
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<DropTarget.Motion>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_drop_target_new = Interop.downcallHandle(
+            "gtk_drop_target_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_drop_target_get_actions = Interop.downcallHandle(
+            "gtk_drop_target_get_actions",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_drop_target_get_current_drop = Interop.downcallHandle(
+            "gtk_drop_target_get_current_drop",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_drop_target_get_drop = Interop.downcallHandle(
+            "gtk_drop_target_get_drop",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_drop_target_get_formats = Interop.downcallHandle(
+            "gtk_drop_target_get_formats",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_drop_target_get_gtypes = Interop.downcallHandle(
+            "gtk_drop_target_get_gtypes",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_drop_target_get_preload = Interop.downcallHandle(
+            "gtk_drop_target_get_preload",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_drop_target_get_value = Interop.downcallHandle(
+            "gtk_drop_target_get_value",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_drop_target_reject = Interop.downcallHandle(
+            "gtk_drop_target_reject",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_drop_target_set_actions = Interop.downcallHandle(
+            "gtk_drop_target_set_actions",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_drop_target_set_gtypes = Interop.downcallHandle(
+            "gtk_drop_target_set_gtypes",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+        );
+        
+        private static final MethodHandle gtk_drop_target_set_preload = Interop.downcallHandle(
+            "gtk_drop_target_set_preload",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static boolean signalDropTargetAccept(MemoryAddress source, MemoryAddress drop, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (DropTarget.AcceptHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new DropTarget(Refcounted.get(source)), new org.gtk.gdk.Drop(Refcounted.get(drop, false)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (DropTarget.Accept) Interop.signalRegistry.get(HASH);
+            return HANDLER.signalReceived(new DropTarget(Refcounted.get(source)), new org.gtk.gdk.Drop(Refcounted.get(drop, false)));
         }
         
         public static boolean signalDropTargetDrop(MemoryAddress source, MemoryAddress value, double x, double y, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (DropTarget.DropHandler) Interop.signalRegistry.get(hash);
-            return handler.signalReceived(new DropTarget(Refcounted.get(source)), new org.gtk.gobject.Value(Refcounted.get(value, false)), x, y);
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (DropTarget.Drop) Interop.signalRegistry.get(HASH);
+            return HANDLER.signalReceived(new DropTarget(Refcounted.get(source)), new org.gtk.gobject.Value(Refcounted.get(value, false)), x, y);
         }
         
         public static void signalDropTargetEnter(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (DropTarget.EnterHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DropTarget(Refcounted.get(source)), x, y);
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (DropTarget.Enter) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new DropTarget(Refcounted.get(source)), x, y);
         }
         
         public static void signalDropTargetLeave(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (DropTarget.LeaveHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DropTarget(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (DropTarget.Leave) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new DropTarget(Refcounted.get(source)));
         }
         
         public static void signalDropTargetMotion(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (DropTarget.MotionHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DropTarget(Refcounted.get(source)), x, y);
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (DropTarget.Motion) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new DropTarget(Refcounted.get(source)), x, y);
         }
-        
     }
 }

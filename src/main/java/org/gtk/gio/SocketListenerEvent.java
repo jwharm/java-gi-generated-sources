@@ -1,13 +1,27 @@
 package org.gtk.gio;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Describes an event occurring on a {@link SocketListener}. See the
  * {@link SocketListener}::event signal for more details.
  * <p>
  * Additional values may be added to this type in the future.
+ * @version 2.46
  */
 public class SocketListenerEvent extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The listener is about to bind a socket.
      */
@@ -33,5 +47,4 @@ public class SocketListenerEvent extends io.github.jwharm.javagi.Enumeration {
     public SocketListenerEvent(int value) {
         super(value);
     }
-    
 }

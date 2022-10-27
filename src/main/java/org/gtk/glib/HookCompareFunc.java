@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -9,5 +11,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface HookCompareFunc {
-        int onHookCompareFunc(@NotNull Hook newHook, @NotNull Hook sibling);
+        int onHookCompareFunc(@NotNull org.gtk.glib.Hook newHook, @NotNull org.gtk.glib.Hook sibling);
 }

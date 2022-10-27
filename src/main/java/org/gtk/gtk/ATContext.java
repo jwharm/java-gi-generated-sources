@@ -14,7 +14,19 @@ import org.jetbrains.annotations.*;
  * changes in {@code GtkAccessible}.
  */
 public class ATContext extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public ATContext(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -24,18 +36,17 @@ public class ATContext extends org.gtk.gobject.Object {
         return new ATContext(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_at_context_create = Interop.downcallHandle(
-        "gtk_at_context_create",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructCreate(@NotNull AccessibleRole accessibleRole, @NotNull Accessible accessible, @NotNull org.gtk.gdk.Display display) {
+    private static Refcounted constructCreate(@NotNull org.gtk.gtk.AccessibleRole accessibleRole, @NotNull org.gtk.gtk.Accessible accessible, @NotNull org.gtk.gdk.Display display) {
+        java.util.Objects.requireNonNull(accessibleRole, "Parameter 'accessibleRole' must not be null");
+        java.util.Objects.requireNonNull(accessible, "Parameter 'accessible' must not be null");
+        java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_at_context_create.invokeExact(accessibleRole.getValue(), accessible.handle(), display.handle()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_at_context_create.invokeExact(accessibleRole.getValue(), accessible.handle(), display.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -44,49 +55,45 @@ public class ATContext extends org.gtk.gobject.Object {
      * <p>
      * The {@code GtkATContext} implementation being instantiated will depend on the
      * platform.
+     * @param accessibleRole the accessible role used by the {@code GtkATContext}
+     * @param accessible the {@code GtkAccessible} implementation using the {@code GtkATContext}
+     * @param display the {@code GdkDisplay} used by the {@code GtkATContext}
+     * @return the {@code GtkATContext}
      */
-    public static ATContext create(@NotNull AccessibleRole accessibleRole, @NotNull Accessible accessible, @NotNull org.gtk.gdk.Display display) {
+    public static ATContext create(@NotNull org.gtk.gtk.AccessibleRole accessibleRole, @NotNull org.gtk.gtk.Accessible accessible, @NotNull org.gtk.gdk.Display display) {
         return new ATContext(constructCreate(accessibleRole, accessible, display));
     }
     
-    private static final MethodHandle gtk_at_context_get_accessible = Interop.downcallHandle(
-        "gtk_at_context_get_accessible",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Retrieves the {@code GtkAccessible} using this context.
+     * @return a {@code GtkAccessible}
      */
-    public @NotNull Accessible getAccessible() {
+    public @NotNull org.gtk.gtk.Accessible getAccessible() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_at_context_get_accessible.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_at_context_get_accessible.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Accessible.AccessibleImpl(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Accessible.AccessibleImpl(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_at_context_get_accessible_role = Interop.downcallHandle(
-        "gtk_at_context_get_accessible_role",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Retrieves the accessible role of this context.
+     * @return a {@code GtkAccessibleRole}
      */
-    public @NotNull AccessibleRole getAccessibleRole() {
+    public @NotNull org.gtk.gtk.AccessibleRole getAccessibleRole() {
         int RESULT;
         try {
-            RESULT = (int) gtk_at_context_get_accessible_role.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_at_context_get_accessible_role.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new AccessibleRole(RESULT);
+        return new org.gtk.gtk.AccessibleRole(RESULT);
     }
     
     @FunctionalInterface
-    public interface StateChangeHandler {
+    public interface StateChange {
         void signalReceived(ATContext source);
     }
     
@@ -94,7 +101,7 @@ public class ATContext extends org.gtk.gobject.Object {
      * Emitted when the attributes of the accessible for the
      * {@code GtkATContext} instance change.
      */
-    public SignalHandle onStateChange(StateChangeHandler handler) {
+    public Signal<ATContext.StateChange> onStateChange(ATContext.StateChange handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -104,21 +111,38 @@ public class ATContext extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<ATContext.StateChange>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static void signalATContextStateChange(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (ATContext.StateChangeHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new ATContext(Refcounted.get(source)));
-        }
+    private static class DowncallHandles {
         
+        private static final MethodHandle gtk_at_context_create = Interop.downcallHandle(
+            "gtk_at_context_create",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_at_context_get_accessible = Interop.downcallHandle(
+            "gtk_at_context_get_accessible",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_at_context_get_accessible_role = Interop.downcallHandle(
+            "gtk_at_context_get_accessible_role",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+    }
+    
+    private static class Callbacks {
+        
+        public static void signalATContextStateChange(MemoryAddress source, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (ATContext.StateChange) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new ATContext(Refcounted.get(source)));
+        }
     }
 }

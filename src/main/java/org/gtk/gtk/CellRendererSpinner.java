@@ -19,8 +19,20 @@ import org.jetbrains.annotations.*;
  * for each cell is to bind them to columns in your tree model using e.g.
  * gtk_tree_view_column_add_attribute().
  */
-public class CellRendererSpinner extends CellRenderer {
-
+public class CellRendererSpinner extends org.gtk.gtk.CellRenderer {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public CellRendererSpinner(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -30,18 +42,14 @@ public class CellRendererSpinner extends CellRenderer {
         return new CellRendererSpinner(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_cell_renderer_spinner_new = Interop.downcallHandle(
-        "gtk_cell_renderer_spinner_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_cell_renderer_spinner_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_cell_renderer_spinner_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -52,4 +60,11 @@ public class CellRendererSpinner extends CellRenderer {
         super(constructNew());
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_cell_renderer_spinner_new = Interop.downcallHandle(
+            "gtk_cell_renderer_spinner_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+    }
 }

@@ -1,11 +1,24 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * A bitwise combination representing a condition to watch for on an
  * event source.
  */
 public class IOCondition extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * There is data to read.
      */
@@ -40,5 +53,4 @@ public class IOCondition extends io.github.jwharm.javagi.Bitfield {
     public IOCondition(int value) {
         super(value);
     }
-    
 }

@@ -28,7 +28,19 @@ import org.jetbrains.annotations.*;
  * end up with an infinitely growing widget.
  */
 public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.gdk.Paintable {
-
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public WidgetPaintable(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -38,59 +50,67 @@ public class WidgetPaintable extends org.gtk.gobject.Object implements org.gtk.g
         return new WidgetPaintable(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_widget_paintable_new = Interop.downcallHandle(
-        "gtk_widget_paintable_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNew(@Nullable Widget widget) {
+    private static Refcounted constructNew(@Nullable org.gtk.gtk.Widget widget) {
+        java.util.Objects.requireNonNullElse(widget, MemoryAddress.NULL);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_widget_paintable_new.invokeExact(widget.handle()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_widget_paintable_new.invokeExact(widget.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a new widget paintable observing the given widget.
+     * @param widget a {@code GtkWidget}
      */
-    public WidgetPaintable(@Nullable Widget widget) {
+    public WidgetPaintable(@Nullable org.gtk.gtk.Widget widget) {
         super(constructNew(widget));
     }
     
-    private static final MethodHandle gtk_widget_paintable_get_widget = Interop.downcallHandle(
-        "gtk_widget_paintable_get_widget",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the widget that is observed or {@code null} if none.
+     * @return the observed widget.
      */
-    public @Nullable Widget getWidget() {
+    public @Nullable org.gtk.gtk.Widget getWidget() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_widget_paintable_get_widget.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_widget_paintable_get_widget.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_widget_paintable_set_widget = Interop.downcallHandle(
-        "gtk_widget_paintable_set_widget",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the widget that should be observed.
+     * @param widget the widget to observe
      */
-    public @NotNull void setWidget(@Nullable Widget widget) {
+    public void setWidget(@Nullable org.gtk.gtk.Widget widget) {
+        java.util.Objects.requireNonNullElse(widget, MemoryAddress.NULL);
         try {
-            gtk_widget_paintable_set_widget.invokeExact(handle(), widget.handle());
+            DowncallHandles.gtk_widget_paintable_set_widget.invokeExact(handle(), widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_widget_paintable_new = Interop.downcallHandle(
+            "gtk_widget_paintable_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_widget_paintable_get_widget = Interop.downcallHandle(
+            "gtk_widget_paintable_get_widget",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_widget_paintable_set_widget = Interop.downcallHandle(
+            "gtk_widget_paintable_set_widget",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

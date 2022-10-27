@@ -25,9 +25,27 @@ import org.jetbrains.annotations.*;
  * Before GLib 2.72, {@code <gio/gunixcredentialsmessage.h>} belonged to the UNIX-specific
  * GIO interfaces, thus you had to use the {@code gio-unix-2.0.pc} pkg-config file
  * when using it. This is no longer necessary since GLib 2.72.
+ * @version 2.26
  */
-public class UnixCredentialsMessage extends SocketControlMessage {
-
+public class UnixCredentialsMessage extends org.gtk.gio.SocketControlMessage {
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gio.SocketControlMessage.getMemoryLayout().withName("parent_instance"),
+        org.gtk.gio.UnixCredentialsMessagePrivate.getMemoryLayout().withName("priv")
+    ).withName("GUnixCredentialsMessage");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public UnixCredentialsMessage(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -37,18 +55,14 @@ public class UnixCredentialsMessage extends SocketControlMessage {
         return new UnixCredentialsMessage(gobject.refcounted());
     }
     
-    private static final MethodHandle g_unix_credentials_message_new = Interop.downcallHandle(
-        "g_unix_credentials_message_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_unix_credentials_message_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_unix_credentials_message_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -58,61 +72,74 @@ public class UnixCredentialsMessage extends SocketControlMessage {
         super(constructNew());
     }
     
-    private static final MethodHandle g_unix_credentials_message_new_with_credentials = Interop.downcallHandle(
-        "g_unix_credentials_message_new_with_credentials",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNewWithCredentials(@NotNull Credentials credentials) {
+    private static Refcounted constructNewWithCredentials(@NotNull org.gtk.gio.Credentials credentials) {
+        java.util.Objects.requireNonNull(credentials, "Parameter 'credentials' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_unix_credentials_message_new_with_credentials.invokeExact(credentials.handle()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_unix_credentials_message_new_with_credentials.invokeExact(credentials.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Creates a new {@link UnixCredentialsMessage} holding {@code credentials}.
+     * @param credentials A {@link Credentials} object.
+     * @return a new {@link UnixCredentialsMessage}
      */
-    public static UnixCredentialsMessage newWithCredentials(@NotNull Credentials credentials) {
+    public static UnixCredentialsMessage newWithCredentials(@NotNull org.gtk.gio.Credentials credentials) {
         return new UnixCredentialsMessage(constructNewWithCredentials(credentials));
     }
     
-    private static final MethodHandle g_unix_credentials_message_get_credentials = Interop.downcallHandle(
-        "g_unix_credentials_message_get_credentials",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the credentials stored in {@code message}.
+     * @return A {@link Credentials} instance. Do not free, it is owned by {@code message}.
      */
-    public @NotNull Credentials getCredentials() {
+    public @NotNull org.gtk.gio.Credentials getCredentials() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_unix_credentials_message_get_credentials.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_unix_credentials_message_get_credentials.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Credentials(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.Credentials(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_unix_credentials_message_is_supported = Interop.downcallHandle(
-        "g_unix_credentials_message_is_supported",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT)
-    );
     
     /**
      * Checks if passing {@link Credentials} on a {@link Socket} is supported on this platform.
+     * @return {@code true} if supported, {@code false} otherwise
      */
     public static boolean isSupported() {
         int RESULT;
         try {
-            RESULT = (int) g_unix_credentials_message_is_supported.invokeExact();
+            RESULT = (int) DowncallHandles.g_unix_credentials_message_is_supported.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_unix_credentials_message_new = Interop.downcallHandle(
+            "g_unix_credentials_message_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_unix_credentials_message_new_with_credentials = Interop.downcallHandle(
+            "g_unix_credentials_message_new_with_credentials",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_unix_credentials_message_get_credentials = Interop.downcallHandle(
+            "g_unix_credentials_message_get_credentials",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_unix_credentials_message_is_supported = Interop.downcallHandle(
+            "g_unix_credentials_message_is_supported",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+        );
+    }
 }

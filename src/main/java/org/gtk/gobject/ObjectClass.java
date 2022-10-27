@@ -7,7 +7,6 @@ import org.jetbrains.annotations.*;
 
 /**
  * The class structure for the GObject type.
- * <p>
  * <pre>{@code <!-- language="C" -->
  * // Example of implementing a singleton using a constructor.
  * static MySingleton *the_singleton = NULL;
@@ -34,33 +33,54 @@ import org.jetbrains.annotations.*;
  * }</pre>
  */
 public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GObject.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.TypeClass.getMemoryLayout().withName("g_type_class"),
+        org.gtk.glib.SList.getMemoryLayout().withName("construct_properties"),
+        Interop.valueLayout.ADDRESS.withName("constructor"),
+        Interop.valueLayout.ADDRESS.withName("set_property"),
+        Interop.valueLayout.ADDRESS.withName("get_property"),
+        Interop.valueLayout.ADDRESS.withName("dispose"),
+        Interop.valueLayout.ADDRESS.withName("finalize"),
+        Interop.valueLayout.ADDRESS.withName("dispatch_properties_changed"),
+        Interop.valueLayout.ADDRESS.withName("notify"),
+        Interop.valueLayout.ADDRESS.withName("constructed"),
+        ValueLayout.JAVA_LONG.withName("flags"),
+        MemoryLayout.sequenceLayout(6, ValueLayout.ADDRESS).withName("pdummy")
+    ).withName("GObjectClass");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public ObjectClass(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle g_object_class_find_property = Interop.downcallHandle(
-        "g_object_class_find_property",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Looks up the {@link ParamSpec} for a property of a class.
+     * @param propertyName the name of the property to look up
+     * @return the {@link ParamSpec} for the property, or
+     *          {@code null} if the class doesn't have a property of that name
      */
-    public @NotNull ParamSpec findProperty(@NotNull java.lang.String propertyName) {
+    public @NotNull org.gtk.gobject.ParamSpec findProperty(@NotNull java.lang.String propertyName) {
+        java.util.Objects.requireNonNull(propertyName, "Parameter 'propertyName' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_object_class_find_property.invokeExact(handle(), Interop.allocateNativeString(propertyName));
+            RESULT = (MemoryAddress) DowncallHandles.g_object_class_find_property.invokeExact(handle(), Interop.allocateNativeString(propertyName));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new ParamSpec(Refcounted.get(RESULT, false));
+        return new org.gtk.gobject.ParamSpec(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_object_class_install_properties = Interop.downcallHandle(
-        "g_object_class_install_properties",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Installs new properties from an array of {@code GParamSpecs}.
@@ -79,7 +99,6 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
      * This function should be used if you plan to use a static array of
      * {@code GParamSpecs} and g_object_notify_by_pspec(). For instance, this
      * class initialization:
-     * <p>
      * <pre>{@code <!-- language="C" -->
      * enum {
      *   PROP_0, PROP_FOO, PROP_BAR, N_PROPERTIES
@@ -112,7 +131,6 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
      * }</pre>
      * <p>
      * allows calling g_object_notify_by_pspec() to notify of property changes:
-     * <p>
      * <pre>{@code <!-- language="C" -->
      * void
      * my_object_set_foo (MyObject *self, gint foo)
@@ -124,19 +142,18 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
      *     }
      *  }
      * }</pre>
+     * @param nPspecs the length of the {@code GParamSpecs} array
+     * @param pspecs the {@code GParamSpecs} array
+     *   defining the new properties
      */
-    public @NotNull void installProperties(@NotNull int nPspecs, @NotNull ParamSpec[] pspecs) {
+    public void installProperties(int nPspecs, org.gtk.gobject.ParamSpec[] pspecs) {
+        java.util.Objects.requireNonNull(pspecs, "Parameter 'pspecs' must not be null");
         try {
-            g_object_class_install_properties.invokeExact(handle(), nPspecs, Interop.allocateNativeArray(pspecs));
+            DowncallHandles.g_object_class_install_properties.invokeExact(handle(), nPspecs, Interop.allocateNativeArray(pspecs, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_object_class_install_property = Interop.downcallHandle(
-        "g_object_class_install_property",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Installs a new property.
@@ -149,44 +166,41 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
      * Note that it is possible to redefine a property in a derived class,
      * by installing a property with the same name. This can be useful at times,
      * e.g. to change the range of allowed values or the default value.
+     * @param propertyId the id for the new property
+     * @param pspec the {@link ParamSpec} for the new property
      */
-    public @NotNull void installProperty(@NotNull int propertyId, @NotNull ParamSpec pspec) {
+    public void installProperty(int propertyId, @NotNull org.gtk.gobject.ParamSpec pspec) {
+        java.util.Objects.requireNonNull(pspec, "Parameter 'pspec' must not be null");
         try {
-            g_object_class_install_property.invokeExact(handle(), propertyId, pspec.handle());
+            DowncallHandles.g_object_class_install_property.invokeExact(handle(), propertyId, pspec.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle g_object_class_list_properties = Interop.downcallHandle(
-        "g_object_class_list_properties",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Get an array of {@link ParamSpec}* for all properties of a class.
+     * @param nProperties return location for the length of the returned array
+     * @return an array of
+     *          {@link ParamSpec}* which should be freed after use
      */
-    public ParamSpec[] listProperties(@NotNull Out<Integer> nProperties) {
+    public @NotNull org.gtk.gobject.ParamSpec[] listProperties(Out<Integer> nProperties) {
+        java.util.Objects.requireNonNull(nProperties, "Parameter 'nProperties' must not be null");
         MemorySegment nPropertiesPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_object_class_list_properties.invokeExact(handle(), (Addressable) nPropertiesPOINTER.address());
+            RESULT = (MemoryAddress) DowncallHandles.g_object_class_list_properties.invokeExact(handle(), (Addressable) nPropertiesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         nProperties.set(nPropertiesPOINTER.get(ValueLayout.JAVA_INT, 0));
-        ParamSpec[] resultARRAY = new ParamSpec[nProperties.get().intValue()];
+        org.gtk.gobject.ParamSpec[] resultARRAY = new org.gtk.gobject.ParamSpec[nProperties.get().intValue()];
         for (int I = 0; I < nProperties.get().intValue(); I++) {
             var OBJ = RESULT.get(ValueLayout.ADDRESS, I);
-            resultARRAY[I] = new ParamSpec(Refcounted.get(OBJ, false));
+            resultARRAY[I] = new org.gtk.gobject.ParamSpec(Refcounted.get(OBJ, false));
         }
         return resultARRAY;
     }
-    
-    private static final MethodHandle g_object_class_override_property = Interop.downcallHandle(
-        "g_object_class_override_property",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Registers {@code property_id} as referring to a property with the name
@@ -205,13 +219,44 @@ public class ObjectClass extends io.github.jwharm.javagi.ResourceBase {
      * correct.  For virtually all uses, this makes no difference. If you
      * need to get the overridden property, you can call
      * g_param_spec_get_redirect_target().
+     * @param propertyId the new property ID
+     * @param name the name of a property registered in a parent class or
+     *  in an interface of this class.
      */
-    public @NotNull void overrideProperty(@NotNull int propertyId, @NotNull java.lang.String name) {
+    public void overrideProperty(int propertyId, @NotNull java.lang.String name) {
+        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
         try {
-            g_object_class_override_property.invokeExact(handle(), propertyId, Interop.allocateNativeString(name));
+            DowncallHandles.g_object_class_override_property.invokeExact(handle(), propertyId, Interop.allocateNativeString(name));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_object_class_find_property = Interop.downcallHandle(
+            "g_object_class_find_property",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_object_class_install_properties = Interop.downcallHandle(
+            "g_object_class_install_properties",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_object_class_install_property = Interop.downcallHandle(
+            "g_object_class_install_property",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_object_class_list_properties = Interop.downcallHandle(
+            "g_object_class_list_properties",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_object_class_override_property = Interop.downcallHandle(
+            "g_object_class_override_property",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+    }
 }

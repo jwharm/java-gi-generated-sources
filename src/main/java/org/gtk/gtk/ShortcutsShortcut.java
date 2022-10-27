@@ -11,8 +11,20 @@ import org.jetbrains.annotations.*;
  * <p>
  * This widget is only meant to be used with {@code GtkShortcutsWindow}.
  */
-public class ShortcutsShortcut extends Widget implements Accessible, Buildable, ConstraintTarget {
-
+public class ShortcutsShortcut extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public ShortcutsShortcut(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -21,5 +33,4 @@ public class ShortcutsShortcut extends Widget implements Accessible, Buildable, 
     public static ShortcutsShortcut castFrom(org.gtk.gobject.Object gobject) {
         return new ShortcutsShortcut(gobject.refcounted());
     }
-    
 }

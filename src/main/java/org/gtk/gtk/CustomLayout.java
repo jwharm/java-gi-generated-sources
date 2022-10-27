@@ -13,8 +13,20 @@ import org.jetbrains.annotations.*;
  * ease the porting towards the corresponding `GtkLayoutManager
  * virtual functions.
  */
-public class CustomLayout extends LayoutManager {
-
+public class CustomLayout extends org.gtk.gtk.LayoutManager {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public CustomLayout(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -24,4 +36,33 @@ public class CustomLayout extends LayoutManager {
         return new CustomLayout(gobject.refcounted());
     }
     
+    private static Refcounted constructNew(@Nullable org.gtk.gtk.CustomRequestModeFunc requestMode, @NotNull org.gtk.gtk.CustomMeasureFunc measure, @NotNull org.gtk.gtk.CustomAllocateFunc allocate) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    /**
+     * Creates a new legacy layout manager.
+     * <p>
+     * Legacy layout managers map to the old {@code GtkWidget} size negotiation
+     * virtual functions, and are meant to be used during the transition
+     * from layout containers to layout manager delegates.
+     * @param requestMode a function to retrieve
+     *   the {@code GtkSizeRequestMode} of the widget using the layout; the
+     *   default request mode is {@link SizeRequestMode#CONSTANT_SIZE}
+     * @param measure a function to measure the widget using the layout manager
+     * @param allocate a function to allocate the children of the widget using
+     *   the layout manager
+     */
+    public CustomLayout(@Nullable org.gtk.gtk.CustomRequestModeFunc requestMode, @NotNull org.gtk.gtk.CustomMeasureFunc measure, @NotNull org.gtk.gtk.CustomAllocateFunc allocate) {
+        this(Refcounted.get(null)); // avoid compiler error
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_custom_layout_new = Interop.downcallHandle(
+            "gtk_custom_layout_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

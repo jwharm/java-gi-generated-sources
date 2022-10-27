@@ -16,8 +16,20 @@ import org.jetbrains.annotations.*;
  * which are updated to reflect changes in the pointer position as it
  * moves over the widget.
  */
-public class EventControllerMotion extends EventController {
-
+public class EventControllerMotion extends org.gtk.gtk.EventController {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public EventControllerMotion(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -27,18 +39,14 @@ public class EventControllerMotion extends EventController {
         return new EventControllerMotion(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_event_controller_motion_new = Interop.downcallHandle(
-        "gtk_event_controller_motion_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_event_controller_motion_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_event_controller_motion_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -48,36 +56,28 @@ public class EventControllerMotion extends EventController {
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_event_controller_motion_contains_pointer = Interop.downcallHandle(
-        "gtk_event_controller_motion_contains_pointer",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns if a pointer is within {@code self} or one of its children.
+     * @return {@code true} if a pointer is within {@code self} or one of its children
      */
     public boolean containsPointer() {
         int RESULT;
         try {
-            RESULT = (int) gtk_event_controller_motion_contains_pointer.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_event_controller_motion_contains_pointer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_event_controller_motion_is_pointer = Interop.downcallHandle(
-        "gtk_event_controller_motion_is_pointer",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns if a pointer is within {@code self}, but not one of its children.
+     * @return {@code true} if a pointer is within {@code self} but not one of its children
      */
     public boolean isPointer() {
         int RESULT;
         try {
-            RESULT = (int) gtk_event_controller_motion_is_pointer.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_event_controller_motion_is_pointer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -85,14 +85,14 @@ public class EventControllerMotion extends EventController {
     }
     
     @FunctionalInterface
-    public interface EnterHandler {
-        void signalReceived(EventControllerMotion source, @NotNull double x, @NotNull double y);
+    public interface Enter {
+        void signalReceived(EventControllerMotion source, double x, double y);
     }
     
     /**
      * Signals that the pointer has entered the widget.
      */
-    public SignalHandle onEnter(EnterHandler handler) {
+    public Signal<EventControllerMotion.Enter> onEnter(EventControllerMotion.Enter handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -102,23 +102,23 @@ public class EventControllerMotion extends EventController {
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<EventControllerMotion.Enter>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface LeaveHandler {
+    public interface Leave {
         void signalReceived(EventControllerMotion source);
     }
     
     /**
      * Signals that the pointer has left the widget.
      */
-    public SignalHandle onLeave(LeaveHandler handler) {
+    public Signal<EventControllerMotion.Leave> onLeave(EventControllerMotion.Leave handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -128,23 +128,23 @@ public class EventControllerMotion extends EventController {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<EventControllerMotion.Leave>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface MotionHandler {
-        void signalReceived(EventControllerMotion source, @NotNull double x, @NotNull double y);
+    public interface Motion {
+        void signalReceived(EventControllerMotion source, double x, double y);
     }
     
     /**
      * Emitted when the pointer moves inside the widget.
      */
-    public SignalHandle onMotion(MotionHandler handler) {
+    public Signal<EventControllerMotion.Motion> onMotion(EventControllerMotion.Motion handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -154,33 +154,50 @@ public class EventControllerMotion extends EventController {
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<EventControllerMotion.Motion>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_event_controller_motion_new = Interop.downcallHandle(
+            "gtk_event_controller_motion_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_event_controller_motion_contains_pointer = Interop.downcallHandle(
+            "gtk_event_controller_motion_contains_pointer",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_event_controller_motion_is_pointer = Interop.downcallHandle(
+            "gtk_event_controller_motion_is_pointer",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static void signalEventControllerMotionEnter(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (EventControllerMotion.EnterHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new EventControllerMotion(Refcounted.get(source)), x, y);
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (EventControllerMotion.Enter) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new EventControllerMotion(Refcounted.get(source)), x, y);
         }
         
         public static void signalEventControllerMotionLeave(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (EventControllerMotion.LeaveHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new EventControllerMotion(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (EventControllerMotion.Leave) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new EventControllerMotion(Refcounted.get(source)));
         }
         
         public static void signalEventControllerMotionMotion(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (EventControllerMotion.MotionHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new EventControllerMotion(Refcounted.get(source)), x, y);
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (EventControllerMotion.Motion) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new EventControllerMotion(Refcounted.get(source)), x, y);
         }
-        
     }
 }

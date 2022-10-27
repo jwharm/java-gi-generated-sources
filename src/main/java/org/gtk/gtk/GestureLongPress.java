@@ -22,8 +22,20 @@ import org.jetbrains.annotations.*;
  * It can be modified by the {@code Gtk.GestureLongPress:delay-factor}
  * property.
  */
-public class GestureLongPress extends GestureSingle {
-
+public class GestureLongPress extends org.gtk.gtk.GestureSingle {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public GestureLongPress(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -33,18 +45,14 @@ public class GestureLongPress extends GestureSingle {
         return new GestureLongPress(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_gesture_long_press_new = Interop.downcallHandle(
-        "gtk_gesture_long_press_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_gesture_long_press_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_gesture_long_press_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -54,45 +62,37 @@ public class GestureLongPress extends GestureSingle {
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_gesture_long_press_get_delay_factor = Interop.downcallHandle(
-        "gtk_gesture_long_press_get_delay_factor",
-        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the delay factor.
+     * @return the delay factor
      */
     public double getDelayFactor() {
         double RESULT;
         try {
-            RESULT = (double) gtk_gesture_long_press_get_delay_factor.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_gesture_long_press_get_delay_factor.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle gtk_gesture_long_press_set_delay_factor = Interop.downcallHandle(
-        "gtk_gesture_long_press_set_delay_factor",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
-    );
-    
     /**
      * Applies the given delay factor.
      * <p>
      * The default long press time will be multiplied by this value.
      * Valid values are in the range [0.5..2.0].
+     * @param delayFactor The delay factor to apply
      */
-    public @NotNull void setDelayFactor(@NotNull double delayFactor) {
+    public void setDelayFactor(double delayFactor) {
         try {
-            gtk_gesture_long_press_set_delay_factor.invokeExact(handle(), delayFactor);
+            DowncallHandles.gtk_gesture_long_press_set_delay_factor.invokeExact(handle(), delayFactor);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface CancelledHandler {
+    public interface Cancelled {
         void signalReceived(GestureLongPress source);
     }
     
@@ -100,7 +100,7 @@ public class GestureLongPress extends GestureSingle {
      * Emitted whenever a press moved too far, or was released
      * before {@code Gtk.GestureLongPress::pressed} happened.
      */
-    public SignalHandle onCancelled(CancelledHandler handler) {
+    public Signal<GestureLongPress.Cancelled> onCancelled(GestureLongPress.Cancelled handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -110,24 +110,24 @@ public class GestureLongPress extends GestureSingle {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<GestureLongPress.Cancelled>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface PressedHandler {
-        void signalReceived(GestureLongPress source, @NotNull double x, @NotNull double y);
+    public interface Pressed {
+        void signalReceived(GestureLongPress source, double x, double y);
     }
     
     /**
      * Emitted whenever a press goes unmoved/unreleased longer than
      * what the GTK defaults tell.
      */
-    public SignalHandle onPressed(PressedHandler handler) {
+    public Signal<GestureLongPress.Pressed> onPressed(GestureLongPress.Pressed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -137,27 +137,44 @@ public class GestureLongPress extends GestureSingle {
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<GestureLongPress.Pressed>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_gesture_long_press_new = Interop.downcallHandle(
+            "gtk_gesture_long_press_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_gesture_long_press_get_delay_factor = Interop.downcallHandle(
+            "gtk_gesture_long_press_get_delay_factor",
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_gesture_long_press_set_delay_factor = Interop.downcallHandle(
+            "gtk_gesture_long_press_set_delay_factor",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static void signalGestureLongPressCancelled(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (GestureLongPress.CancelledHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GestureLongPress(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (GestureLongPress.Cancelled) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new GestureLongPress(Refcounted.get(source)));
         }
         
         public static void signalGestureLongPressPressed(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (GestureLongPress.PressedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GestureLongPress(Refcounted.get(source)), x, y);
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (GestureLongPress.Pressed) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new GestureLongPress(Refcounted.get(source)), x, y);
         }
-        
     }
 }

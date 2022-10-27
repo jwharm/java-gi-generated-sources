@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -15,8 +17,9 @@ import org.jetbrains.annotations.*;
  * contain the {@code /} character.
  * <p>
  * The return value will be freed with g_strfreev().
+ * @version 2.26
  */
 @FunctionalInterface
 public interface DBusSubtreeEnumerateFunc {
-        void onDBusSubtreeEnumerateFunc(@NotNull DBusConnection connection, @NotNull java.lang.String sender, @NotNull java.lang.String objectPath);
+        void onDBusSubtreeEnumerateFunc(@NotNull org.gtk.gio.DBusConnection connection, @NotNull java.lang.String sender, @NotNull java.lang.String objectPath);
 }

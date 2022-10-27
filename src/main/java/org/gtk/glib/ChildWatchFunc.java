@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -14,5 +16,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ChildWatchFunc {
-        void onChildWatchFunc(@NotNull Pid pid, @NotNull int waitStatus);
+        void onChildWatchFunc(@NotNull org.gtk.glib.Pid pid, int waitStatus);
 }

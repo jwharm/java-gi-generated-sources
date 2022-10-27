@@ -1,11 +1,25 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Flags to pass to g_file_set_contents_full() to affect its safety and
  * performance.
+ * @version 2.66
  */
 public class FileSetContentsFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * No guarantees about file consistency or durability.
      *   The most dangerous setting, which is slightly faster than other settings.
@@ -41,5 +55,4 @@ public class FileSetContentsFlags extends io.github.jwharm.javagi.Bitfield {
     public FileSetContentsFlags(int value) {
         super(value);
     }
-    
 }

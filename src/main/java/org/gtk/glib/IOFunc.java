@@ -1,6 +1,8 @@
 package org.gtk.glib;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -10,5 +12,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface IOFunc {
-        boolean onIOFunc(@NotNull IOChannel source, @NotNull IOCondition condition);
+        boolean onIOFunc(@NotNull org.gtk.glib.IOChannel source, @NotNull org.gtk.glib.IOCondition condition);
 }

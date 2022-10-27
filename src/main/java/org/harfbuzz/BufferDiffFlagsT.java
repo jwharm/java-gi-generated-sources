@@ -1,9 +1,14 @@
 package org.harfbuzz;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
- * Flags from comparing two {@link buffer_t}'s.
+ * Flags from comparing two {@link BufferT}'s.
  * <p>
- * Buffer with different {@link buffer_content_type_t} cannot be meaningfully
+ * Buffer with different {@link BufferContentTypeT} cannot be meaningfully
  * compared in any further detail.
  * <p>
  * For buffers with differing length, the per-glyph comparison is not
@@ -12,9 +17,18 @@ package org.harfbuzz;
  * <p>
  * If the buffers have the same length, we compare them glyph-by-glyph and
  * report which aspect(s) of the glyph info/position are different.
+ * @version 1.5.0
  */
 public class BufferDiffFlagsT extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * equal buffers.
      */
@@ -22,7 +36,7 @@ public class BufferDiffFlagsT extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * buffers with different
-     *     {@link buffer_content_type_t}.
+     *     {@link BufferContentTypeT}.
      */
     public static final BufferDiffFlagsT CONTENT_TYPE_MISMATCH = new BufferDiffFlagsT(1);
     
@@ -44,27 +58,26 @@ public class BufferDiffFlagsT extends io.github.jwharm.javagi.Bitfield {
     public static final BufferDiffFlagsT DOTTED_CIRCLE_PRESENT = new BufferDiffFlagsT(8);
     
     /**
-     * difference in {@link glyph_info_t}.codepoint
+     * difference in {@link GlyphInfoT}.codepoint
      */
     public static final BufferDiffFlagsT CODEPOINT_MISMATCH = new BufferDiffFlagsT(16);
     
     /**
-     * difference in {@link glyph_info_t}.cluster
+     * difference in {@link GlyphInfoT}.cluster
      */
     public static final BufferDiffFlagsT CLUSTER_MISMATCH = new BufferDiffFlagsT(32);
     
     /**
-     * difference in {@link glyph_flags_t}.
+     * difference in {@link GlyphFlagsT}.
      */
     public static final BufferDiffFlagsT GLYPH_FLAGS_MISMATCH = new BufferDiffFlagsT(64);
     
     /**
-     * difference in {@link glyph_position_t}.
+     * difference in {@link GlyphPositionT}.
      */
     public static final BufferDiffFlagsT POSITION_MISMATCH = new BufferDiffFlagsT(128);
     
     public BufferDiffFlagsT(int value) {
         super(value);
     }
-    
 }

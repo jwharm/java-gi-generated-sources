@@ -1,10 +1,24 @@
 package org.harfbuzz;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Defined by <a href="https://docs.microsoft.com/en-us/typography/opentype/spec/dvaraxisreg">OpenType Design-Variation Axis Tag Registry</a>.
+ * @version 3.0.0
  */
 public class StyleTagT extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Used to vary between non-italic and italic.
      * A value of 0 can be interpreted as "Roman" (non-italic); a value of 1 can
@@ -51,5 +65,4 @@ public class StyleTagT extends io.github.jwharm.javagi.Enumeration {
     public StyleTagT(int value) {
         super(value);
     }
-    
 }

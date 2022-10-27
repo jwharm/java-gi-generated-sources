@@ -23,7 +23,6 @@ import org.jetbrains.annotations.*;
  * called to end the stream and finalize everything.
  * <p>
  * The loader will emit three important signals throughout the process:
- * <p>
  * <ul>
  * <li>{@code GdkPixbuf.PixbufLoader::size-prepared} will be emitted as
  *    soon as the image has enough information to determine the size of
@@ -42,8 +41,9 @@ import org.jetbrains.annotations.*;
  *    completeness of an image from the updated area. For example, in an
  *    interlaced image you will need to make several passes before the
  *    image is done loading.
- * 
- * <h2>Loading an animation</h2>
+ * </ul>
+ * <p>
+ * <strong>Loading an animation</strong><br/>
  * Loading an animation is almost as easy as loading an image. Once the
  * first {@code GdkPixbuf.PixbufLoader::area-prepared} signal has been
  * emitted, you can call {@link PixbufLoader#getAnimation} to
@@ -53,7 +53,24 @@ import org.jetbrains.annotations.*;
  * desired time stamp.
  */
 public class PixbufLoader extends org.gtk.gobject.Object {
-
+    
+    static {
+        GdkPixbuf.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
+        Interop.valueLayout.ADDRESS.withName("priv")
+    ).withName("GdkPixbufLoader");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public PixbufLoader(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -63,18 +80,14 @@ public class PixbufLoader extends org.gtk.gobject.Object {
         return new PixbufLoader(gobject.refcounted());
     }
     
-    private static final MethodHandle gdk_pixbuf_loader_new = Interop.downcallHandle(
-        "gdk_pixbuf_loader_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_pixbuf_loader_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_loader_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -84,22 +97,19 @@ public class PixbufLoader extends org.gtk.gobject.Object {
         super(constructNew());
     }
     
-    private static final MethodHandle gdk_pixbuf_loader_new_with_mime_type = Interop.downcallHandle(
-        "gdk_pixbuf_loader_new_with_mime_type",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNewWithMimeType(@NotNull java.lang.String mimeType) throws GErrorException {
+        java.util.Objects.requireNonNull(mimeType, "Parameter 'mimeType' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_pixbuf_loader_new_with_mime_type.invokeExact(Interop.allocateNativeString(mimeType), (Addressable) GERROR), true);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_loader_new_with_mime_type.invokeExact(Interop.allocateNativeString(mimeType), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
     /**
@@ -118,27 +128,27 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * To obtain the full list of supported mime types, call
      * gdk_pixbuf_format_get_mime_types() on each of the {@link PixbufFormat}
      * structs returned by gdk_pixbuf_get_formats().
+     * @param mimeType the mime type to be loaded
+     * @return A newly-created pixbuf loader.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static PixbufLoader newWithMimeType(@NotNull java.lang.String mimeType) throws GErrorException {
         return new PixbufLoader(constructNewWithMimeType(mimeType));
     }
     
-    private static final MethodHandle gdk_pixbuf_loader_new_with_type = Interop.downcallHandle(
-        "gdk_pixbuf_loader_new_with_type",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNewWithType(@NotNull java.lang.String imageType) throws GErrorException {
+        java.util.Objects.requireNonNull(imageType, "Parameter 'imageType' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_pixbuf_loader_new_with_type.invokeExact(Interop.allocateNativeString(imageType), (Addressable) GERROR), true);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_pixbuf_loader_new_with_type.invokeExact(Interop.allocateNativeString(imageType), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
     /**
@@ -156,15 +166,13 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * "xpm" are among the supported formats. To obtain the full list of
      * supported image formats, call gdk_pixbuf_format_get_name() on each
      * of the {@link PixbufFormat} structs returned by gdk_pixbuf_get_formats().
+     * @param imageType name of the image format to be loaded with the image
+     * @return A newly-created pixbuf loader.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static PixbufLoader newWithType(@NotNull java.lang.String imageType) throws GErrorException {
         return new PixbufLoader(constructNewWithType(imageType));
     }
-    
-    private static final MethodHandle gdk_pixbuf_loader_close = Interop.downcallHandle(
-        "gdk_pixbuf_loader_close",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Informs a pixbuf loader that no further writes with
@@ -182,12 +190,15 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * <p>
      * Remember that this function does not release a reference on the loader, so
      * you will need to explicitly release any reference you hold.
+     * @return {@code TRUE} if all image data written so far was successfully
+     *   passed out via the update_area signal
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean close() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) gdk_pixbuf_loader_close.invokeExact(handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gdk_pixbuf_loader_close.invokeExact(handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -196,11 +207,6 @@ public class PixbufLoader extends org.gtk.gobject.Object {
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gdk_pixbuf_loader_get_animation = Interop.downcallHandle(
-        "gdk_pixbuf_loader_get_animation",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Queries the {@link PixbufAnimation} that a pixbuf loader is currently creating.
@@ -211,40 +217,33 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * <p>
      * If the loader doesn't have enough bytes yet, and hasn't emitted the {@code area-prepared}
      * signal, this function will return {@code NULL}.
+     * @return The animation that the loader is
+     *   currently loading
      */
-    public @Nullable PixbufAnimation getAnimation() {
+    public @Nullable org.gtk.gdkpixbuf.PixbufAnimation getAnimation() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gdk_pixbuf_loader_get_animation.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_loader_get_animation.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PixbufAnimation(Refcounted.get(RESULT, false));
+        return new org.gtk.gdkpixbuf.PixbufAnimation(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gdk_pixbuf_loader_get_format = Interop.downcallHandle(
-        "gdk_pixbuf_loader_get_format",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Obtains the available information about the format of the
      * currently loading image file.
+     * @return A {@link PixbufFormat}
      */
-    public @Nullable PixbufFormat getFormat() {
+    public @Nullable org.gtk.gdkpixbuf.PixbufFormat getFormat() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gdk_pixbuf_loader_get_format.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_loader_get_format.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PixbufFormat(Refcounted.get(RESULT, false));
+        return new org.gtk.gdkpixbuf.PixbufFormat(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gdk_pixbuf_loader_get_pixbuf = Interop.downcallHandle(
-        "gdk_pixbuf_loader_get_pixbuf",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Queries the {@link Pixbuf} that a pixbuf loader is currently creating.
@@ -262,21 +261,18 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * <p>
      * Additionally, if the loader is an animation, it will return the "static
      * image" of the animation (see gdk_pixbuf_animation_get_static_image()).
+     * @return The pixbuf that the loader is
+     *   creating
      */
-    public @Nullable Pixbuf getPixbuf() {
+    public @Nullable org.gtk.gdkpixbuf.Pixbuf getPixbuf() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gdk_pixbuf_loader_get_pixbuf.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_loader_get_pixbuf.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Pixbuf(Refcounted.get(RESULT, false));
+        return new org.gtk.gdkpixbuf.Pixbuf(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gdk_pixbuf_loader_set_size = Interop.downcallHandle(
-        "gdk_pixbuf_loader_set_size",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Causes the image to be scaled while it is loaded.
@@ -287,28 +283,31 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * <p>
      * Attempts to set the desired image size  are ignored after the
      * emission of the ::size-prepared signal.
+     * @param width The desired width of the image being loaded.
+     * @param height The desired height of the image being loaded.
      */
-    public @NotNull void setSize(@NotNull int width, @NotNull int height) {
+    public void setSize(int width, int height) {
         try {
-            gdk_pixbuf_loader_set_size.invokeExact(handle(), width, height);
+            DowncallHandles.gdk_pixbuf_loader_set_size.invokeExact(handle(), width, height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle gdk_pixbuf_loader_write = Interop.downcallHandle(
-        "gdk_pixbuf_loader_write",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Parses the next {@code count} bytes in the given image buffer.
+     * @param buf Pointer to image data.
+     * @param count Length of the {@code buf} buffer in bytes.
+     * @return {@code TRUE} if the write was successful, or
+     *   {@code FALSE} if the loader cannot parse the buffer
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean write(@NotNull byte[] buf, @NotNull long count) throws io.github.jwharm.javagi.GErrorException {
+    public boolean write(byte[] buf, long count) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) gdk_pixbuf_loader_write.invokeExact(handle(), Interop.allocateNativeArray(buf), count, (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gdk_pixbuf_loader_write.invokeExact(handle(), Interop.allocateNativeArray(buf, false), count, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -318,19 +317,19 @@ public class PixbufLoader extends org.gtk.gobject.Object {
         return RESULT != 0;
     }
     
-    private static final MethodHandle gdk_pixbuf_loader_write_bytes = Interop.downcallHandle(
-        "gdk_pixbuf_loader_write_bytes",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Parses the next contents of the given image buffer.
+     * @param buffer The image data as a {@code GBytes} buffer.
+     * @return {@code TRUE} if the write was successful, or {@code FALSE} if
+     *   the loader cannot parse the buffer
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean writeBytes(@NotNull org.gtk.glib.Bytes buffer) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) gdk_pixbuf_loader_write_bytes.invokeExact(handle(), buffer.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gdk_pixbuf_loader_write_bytes.invokeExact(handle(), buffer.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -341,7 +340,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
     }
     
     @FunctionalInterface
-    public interface AreaPreparedHandler {
+    public interface AreaPrepared {
         void signalReceived(PixbufLoader source);
     }
     
@@ -353,7 +352,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * gdk_pixbuf_loader_get_pixbuf() to fetch the partially-loaded
      * pixbuf.
      */
-    public SignalHandle onAreaPrepared(AreaPreparedHandler handler) {
+    public Signal<PixbufLoader.AreaPrepared> onAreaPrepared(PixbufLoader.AreaPrepared handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -363,17 +362,17 @@ public class PixbufLoader extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<PixbufLoader.AreaPrepared>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface AreaUpdatedHandler {
-        void signalReceived(PixbufLoader source, @NotNull int x, @NotNull int y, @NotNull int width, @NotNull int height);
+    public interface AreaUpdated {
+        void signalReceived(PixbufLoader source, int x, int y, int width, int height);
     }
     
     /**
@@ -386,7 +385,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * Applications can use this signal to know when to repaint
      * areas of an image that is being loaded.
      */
-    public SignalHandle onAreaUpdated(AreaUpdatedHandler handler) {
+    public Signal<PixbufLoader.AreaUpdated> onAreaUpdated(PixbufLoader.AreaUpdated handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -396,16 +395,16 @@ public class PixbufLoader extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<PixbufLoader.AreaUpdated>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface ClosedHandler {
+    public interface Closed {
         void signalReceived(PixbufLoader source);
     }
     
@@ -416,7 +415,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * notification when an image loader is closed by the code that
      * drives it.
      */
-    public SignalHandle onClosed(ClosedHandler handler) {
+    public Signal<PixbufLoader.Closed> onClosed(PixbufLoader.Closed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -426,17 +425,17 @@ public class PixbufLoader extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<PixbufLoader.Closed>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface SizePreparedHandler {
-        void signalReceived(PixbufLoader source, @NotNull int width, @NotNull int height);
+    public interface SizePrepared {
+        void signalReceived(PixbufLoader source, int width, int height);
     }
     
     /**
@@ -448,7 +447,7 @@ public class PixbufLoader extends org.gtk.gobject.Object {
      * to this signal to set the desired size to which the image
      * should be scaled.
      */
-    public SignalHandle onSizePrepared(SizePreparedHandler handler) {
+    public Signal<PixbufLoader.SizePrepared> onSizePrepared(PixbufLoader.SizePrepared handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -458,39 +457,91 @@ public class PixbufLoader extends org.gtk.gobject.Object {
                         MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<PixbufLoader.SizePrepared>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gdk_pixbuf_loader_new = Interop.downcallHandle(
+            "gdk_pixbuf_loader_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_pixbuf_loader_new_with_mime_type = Interop.downcallHandle(
+            "gdk_pixbuf_loader_new_with_mime_type",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_pixbuf_loader_new_with_type = Interop.downcallHandle(
+            "gdk_pixbuf_loader_new_with_type",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_pixbuf_loader_close = Interop.downcallHandle(
+            "gdk_pixbuf_loader_close",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_pixbuf_loader_get_animation = Interop.downcallHandle(
+            "gdk_pixbuf_loader_get_animation",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_pixbuf_loader_get_format = Interop.downcallHandle(
+            "gdk_pixbuf_loader_get_format",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_pixbuf_loader_get_pixbuf = Interop.downcallHandle(
+            "gdk_pixbuf_loader_get_pixbuf",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_pixbuf_loader_set_size = Interop.downcallHandle(
+            "gdk_pixbuf_loader_set_size",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gdk_pixbuf_loader_write = Interop.downcallHandle(
+            "gdk_pixbuf_loader_write",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_pixbuf_loader_write_bytes = Interop.downcallHandle(
+            "gdk_pixbuf_loader_write_bytes",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static void signalPixbufLoaderAreaPrepared(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (PixbufLoader.AreaPreparedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new PixbufLoader(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (PixbufLoader.AreaPrepared) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new PixbufLoader(Refcounted.get(source)));
         }
         
         public static void signalPixbufLoaderAreaUpdated(MemoryAddress source, int x, int y, int width, int height, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (PixbufLoader.AreaUpdatedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new PixbufLoader(Refcounted.get(source)), x, y, width, height);
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (PixbufLoader.AreaUpdated) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new PixbufLoader(Refcounted.get(source)), x, y, width, height);
         }
         
         public static void signalPixbufLoaderClosed(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (PixbufLoader.ClosedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new PixbufLoader(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (PixbufLoader.Closed) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new PixbufLoader(Refcounted.get(source)));
         }
         
         public static void signalPixbufLoaderSizePrepared(MemoryAddress source, int width, int height, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (PixbufLoader.SizePreparedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new PixbufLoader(Refcounted.get(source)), width, height);
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (PixbufLoader.SizePrepared) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new PixbufLoader(Refcounted.get(source)), width, height);
         }
-        
     }
 }

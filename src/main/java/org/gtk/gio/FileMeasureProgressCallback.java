@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -31,8 +33,9 @@ import org.jetbrains.annotations.*;
  * <p>
  * The last progress callback may or may not be equal to the final
  * result.  Always check the async result to get the final value.
+ * @version 2.38
  */
 @FunctionalInterface
 public interface FileMeasureProgressCallback {
-        void onFileMeasureProgressCallback(@NotNull boolean reporting, @NotNull long currentSize, @NotNull long numDirs, @NotNull long numFiles);
+        void onFileMeasureProgressCallback(boolean reporting, long currentSize, long numDirs, long numFiles);
 }

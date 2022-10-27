@@ -12,8 +12,20 @@ import org.jetbrains.annotations.*;
  * {@code Gtk.GestureZoom::scale-changed} signal is emitted to report
  * the scale factor.
  */
-public class GestureZoom extends Gesture {
-
+public class GestureZoom extends org.gtk.gtk.Gesture {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public GestureZoom(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -23,18 +35,14 @@ public class GestureZoom extends Gesture {
         return new GestureZoom(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_gesture_zoom_new = Interop.downcallHandle(
-        "gtk_gesture_zoom_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_gesture_zoom_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_gesture_zoom_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -45,11 +53,6 @@ public class GestureZoom extends Gesture {
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_gesture_zoom_get_scale_delta = Interop.downcallHandle(
-        "gtk_gesture_zoom_get_scale_delta",
-        FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the scale delta.
      * <p>
@@ -57,11 +60,12 @@ public class GestureZoom extends Gesture {
      * difference since the gesture was recognized (hence the
      * starting point is considered 1:1). If {@code gesture} is not
      * active, 1 is returned.
+     * @return the scale delta
      */
     public double getScaleDelta() {
         double RESULT;
         try {
-            RESULT = (double) gtk_gesture_zoom_get_scale_delta.invokeExact(handle());
+            RESULT = (double) DowncallHandles.gtk_gesture_zoom_get_scale_delta.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -69,14 +73,14 @@ public class GestureZoom extends Gesture {
     }
     
     @FunctionalInterface
-    public interface ScaleChangedHandler {
-        void signalReceived(GestureZoom source, @NotNull double scale);
+    public interface ScaleChanged {
+        void signalReceived(GestureZoom source, double scale);
     }
     
     /**
      * Emitted whenever the distance between both tracked sequences changes.
      */
-    public SignalHandle onScaleChanged(ScaleChangedHandler handler) {
+    public Signal<GestureZoom.ScaleChanged> onScaleChanged(GestureZoom.ScaleChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -86,21 +90,33 @@ public class GestureZoom extends Gesture {
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<GestureZoom.ScaleChanged>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
-    
-        public static void signalGestureZoomScaleChanged(MemoryAddress source, double scale, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (GestureZoom.ScaleChangedHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new GestureZoom(Refcounted.get(source)), scale);
-        }
+    private static class DowncallHandles {
         
+        private static final MethodHandle gtk_gesture_zoom_new = Interop.downcallHandle(
+            "gtk_gesture_zoom_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_gesture_zoom_get_scale_delta = Interop.downcallHandle(
+            "gtk_gesture_zoom_get_scale_delta",
+            FunctionDescriptor.of(ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS)
+        );
+    }
+    
+    private static class Callbacks {
+        
+        public static void signalGestureZoomScaleChanged(MemoryAddress source, double scale, MemoryAddress data) {
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (GestureZoom.ScaleChanged) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new GestureZoom(Refcounted.get(source)), scale);
+        }
     }
 }

@@ -14,8 +14,8 @@ import org.jetbrains.annotations.*;
  * threads are spawned, or should have appropriate locking to ensure no access
  * conflicts to environment variables shared between {@link TestDBus} and other
  * threads.
- * 
- * <h2>Creating unit tests using GTestDBus</h2>
+ * <p>
+ * <strong>Creating unit tests using GTestDBus</strong><br/>
  * Testing of D-Bus services can be tricky because normally we only ever run
  * D-Bus services over an existing instance of the D-Bus daemon thus we
  * usually don't activate D-Bus services that are not yet installed into the
@@ -77,9 +77,22 @@ import org.jetbrains.annotations.*;
  * 
  *     CLEANFILES += gschemas.compiled
  * }</pre>
+ * @version 2.34
  */
 public class TestDBus extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public TestDBus(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -89,48 +102,38 @@ public class TestDBus extends org.gtk.gobject.Object {
         return new TestDBus(gobject.refcounted());
     }
     
-    private static final MethodHandle g_test_dbus_new = Interop.downcallHandle(
-        "g_test_dbus_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
-    private static Refcounted constructNew(@NotNull TestDBusFlags flags) {
+    private static Refcounted constructNew(@NotNull org.gtk.gio.TestDBusFlags flags) {
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_test_dbus_new.invokeExact(flags.getValue()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_test_dbus_new.invokeExact(flags.getValue()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
      * Create a new {@link TestDBus} object.
+     * @param flags a {@link TestDBusFlags}
      */
-    public TestDBus(@NotNull TestDBusFlags flags) {
+    public TestDBus(@NotNull org.gtk.gio.TestDBusFlags flags) {
         super(constructNew(flags));
     }
-    
-    private static final MethodHandle g_test_dbus_add_service_dir = Interop.downcallHandle(
-        "g_test_dbus_add_service_dir",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Add a path where dbus-daemon will look up .service files. This can't be
      * called after g_test_dbus_up().
+     * @param path path to a directory containing .service files
      */
-    public @NotNull void addServiceDir(@NotNull java.lang.String path) {
+    public void addServiceDir(@NotNull java.lang.String path) {
+        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         try {
-            g_test_dbus_add_service_dir.invokeExact(handle(), Interop.allocateNativeString(path));
+            DowncallHandles.g_test_dbus_add_service_dir.invokeExact(handle(), Interop.allocateNativeString(path));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_test_dbus_down = Interop.downcallHandle(
-        "g_test_dbus_down",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Stop the session bus started by g_test_dbus_up().
@@ -139,56 +142,43 @@ public class TestDBus extends org.gtk.gobject.Object {
      * to be destroyed. This is done to ensure that the next unit test won't get a
      * leaked singleton from this test.
      */
-    public @NotNull void down() {
+    public void down() {
         try {
-            g_test_dbus_down.invokeExact(handle());
+            DowncallHandles.g_test_dbus_down.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle g_test_dbus_get_bus_address = Interop.downcallHandle(
-        "g_test_dbus_get_bus_address",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Get the address on which dbus-daemon is running. If g_test_dbus_up() has not
      * been called yet, {@code null} is returned. This can be used with
      * g_dbus_connection_new_for_address().
+     * @return the address of the bus, or {@code null}.
      */
     public @Nullable java.lang.String getBusAddress() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_test_dbus_get_bus_address.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_test_dbus_get_bus_address.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle g_test_dbus_get_flags = Interop.downcallHandle(
-        "g_test_dbus_get_flags",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Get the flags of the {@link TestDBus} object.
+     * @return the value of {@link TestDBus}:flags property
      */
-    public @NotNull TestDBusFlags getFlags() {
+    public @NotNull org.gtk.gio.TestDBusFlags getFlags() {
         int RESULT;
         try {
-            RESULT = (int) g_test_dbus_get_flags.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_test_dbus_get_flags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new TestDBusFlags(RESULT);
+        return new org.gtk.gio.TestDBusFlags(RESULT);
     }
-    
-    private static final MethodHandle g_test_dbus_stop = Interop.downcallHandle(
-        "g_test_dbus_stop",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Stop the session bus started by g_test_dbus_up().
@@ -198,18 +188,13 @@ public class TestDBus extends org.gtk.gobject.Object {
      * tests wanting to verify behaviour after the session bus has been stopped
      * can use this function but should still call g_test_dbus_down() when done.
      */
-    public @NotNull void stop() {
+    public void stop() {
         try {
-            g_test_dbus_stop.invokeExact(handle());
+            DowncallHandles.g_test_dbus_stop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_test_dbus_up = Interop.downcallHandle(
-        "g_test_dbus_up",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Start a dbus-daemon instance and set DBUS_SESSION_BUS_ADDRESS. After this
@@ -221,18 +206,13 @@ public class TestDBus extends org.gtk.gobject.Object {
      * If this function is called from unit test's main(), then g_test_dbus_down()
      * must be called after g_test_run().
      */
-    public @NotNull void up() {
+    public void up() {
         try {
-            g_test_dbus_up.invokeExact(handle());
+            DowncallHandles.g_test_dbus_up.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_test_dbus_unset = Interop.downcallHandle(
-        "g_test_dbus_unset",
-        FunctionDescriptor.ofVoid()
-    );
     
     /**
      * Unset DISPLAY and DBUS_SESSION_BUS_ADDRESS env variables to ensure the test
@@ -242,12 +222,54 @@ public class TestDBus extends org.gtk.gobject.Object {
      * bus is running. It is not necessary to call this if unit test already calls
      * g_test_dbus_up() before acquiring the session bus.
      */
-    public static @NotNull void unset() {
+    public static void unset() {
         try {
-            g_test_dbus_unset.invokeExact();
+            DowncallHandles.g_test_dbus_unset.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_test_dbus_new = Interop.downcallHandle(
+            "g_test_dbus_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_test_dbus_add_service_dir = Interop.downcallHandle(
+            "g_test_dbus_add_service_dir",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_test_dbus_down = Interop.downcallHandle(
+            "g_test_dbus_down",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_test_dbus_get_bus_address = Interop.downcallHandle(
+            "g_test_dbus_get_bus_address",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_test_dbus_get_flags = Interop.downcallHandle(
+            "g_test_dbus_get_flags",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_test_dbus_stop = Interop.downcallHandle(
+            "g_test_dbus_stop",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_test_dbus_up = Interop.downcallHandle(
+            "g_test_dbus_up",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_test_dbus_unset = Interop.downcallHandle(
+            "g_test_dbus_unset",
+            FunctionDescriptor.ofVoid()
+        );
+    }
 }

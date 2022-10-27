@@ -1,10 +1,24 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Error codes returned by regular expressions functions.
+ * @version 2.14
  */
 public class RegexError extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Compilation of the regular expression failed.
      */
@@ -85,7 +99,7 @@ public class RegexError extends io.github.jwharm.javagi.Enumeration {
     
     /**
      * Unrecognized character after "(?",
-     *     "(?<" or "(?P". Since 2.16
+     *     "(?&lt;" or "(?P". Since 2.16
      */
     public static final RegexError UNRECOGNIZED_CHARACTER = new RegexError(112);
     
@@ -322,8 +336,8 @@ public class RegexError extends io.github.jwharm.javagi.Enumeration {
     public static final RegexError TOO_MANY_FORWARD_REFERENCES = new RegexError(172);
     
     /**
-     * the name is too long in "(<strong>MARK)", "(</strong>PRUNE)",
-     *     "(<strong>SKIP)", or "(</strong>THEN)". Since: 2.34
+     * the name is too long in "(*MARK)", "(*PRUNE)",
+     *     "(*SKIP)", or "(*THEN)". Since: 2.34
      */
     public static final RegexError NAME_TOO_LONG = new RegexError(175);
     
@@ -336,5 +350,4 @@ public class RegexError extends io.github.jwharm.javagi.Enumeration {
     public RegexError(int value) {
         super(value);
     }
-    
 }

@@ -10,7 +10,23 @@ import org.jetbrains.annotations.*;
  * certain position in an animation.
  */
 public class PixbufAnimationIter extends org.gtk.gobject.Object {
-
+    
+    static {
+        GdkPixbuf.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
+    ).withName("GdkPixbufAnimationIter");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public PixbufAnimationIter(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -19,11 +35,6 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
     public static PixbufAnimationIter castFrom(org.gtk.gobject.Object gobject) {
         return new PixbufAnimationIter(gobject.refcounted());
     }
-    
-    private static final MethodHandle gdk_pixbuf_animation_iter_advance = Interop.downcallHandle(
-        "gdk_pixbuf_animation_iter_advance",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Possibly advances an animation to a new frame.
@@ -47,21 +58,19 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
      * display, assuming the display had been rendered prior to advancing;
      * if {@code TRUE}, you need to call gdk_pixbuf_animation_iter_get_pixbuf()
      * and update the display with the new pixbuf.
+     * @param currentTime current time
+     * @return {@code TRUE} if the image may need updating
      */
     public boolean advance(@Nullable org.gtk.glib.TimeVal currentTime) {
+        java.util.Objects.requireNonNullElse(currentTime, MemoryAddress.NULL);
         int RESULT;
         try {
-            RESULT = (int) gdk_pixbuf_animation_iter_advance.invokeExact(handle(), currentTime.handle());
+            RESULT = (int) DowncallHandles.gdk_pixbuf_animation_iter_advance.invokeExact(handle(), currentTime.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gdk_pixbuf_animation_iter_get_delay_time = Interop.downcallHandle(
-        "gdk_pixbuf_animation_iter_get_delay_time",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the number of milliseconds the current pixbuf should be displayed,
@@ -73,21 +82,17 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
      * Note that some formats, like GIF, might clamp the timeout values in the
      * image file to avoid updates that are just too quick. The minimum timeout
      * for GIF images is currently 20 milliseconds.
+     * @return delay time in milliseconds (thousandths of a second)
      */
     public int getDelayTime() {
         int RESULT;
         try {
-            RESULT = (int) gdk_pixbuf_animation_iter_get_delay_time.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_pixbuf_animation_iter_get_delay_time.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle gdk_pixbuf_animation_iter_get_pixbuf = Interop.downcallHandle(
-        "gdk_pixbuf_animation_iter_get_pixbuf",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the current pixbuf which should be displayed.
@@ -105,21 +110,17 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
      * <p>
      * Copy the pixbuf to keep it (don't just add a reference), as it may get
      * recycled as you advance the iterator.
+     * @return the pixbuf to be displayed
      */
-    public @NotNull Pixbuf getPixbuf() {
+    public @NotNull org.gtk.gdkpixbuf.Pixbuf getPixbuf() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gdk_pixbuf_animation_iter_get_pixbuf.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_animation_iter_get_pixbuf.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Pixbuf(Refcounted.get(RESULT, false));
+        return new org.gtk.gdkpixbuf.Pixbuf(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gdk_pixbuf_animation_iter_on_currently_loading_frame = Interop.downcallHandle(
-        "gdk_pixbuf_animation_iter_on_currently_loading_frame",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Used to determine how to respond to the area_updated signal on
@@ -128,15 +129,38 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
      * The {@code ::area_updated} signal is emitted for an area of the frame currently
      * streaming in to the loader. So if you're on the currently loading frame,
      * you will need to redraw the screen for the updated area.
+     * @return {@code TRUE} if the frame we're on is partially loaded, or the last frame
      */
     public boolean onCurrentlyLoadingFrame() {
         int RESULT;
         try {
-            RESULT = (int) gdk_pixbuf_animation_iter_on_currently_loading_frame.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_pixbuf_animation_iter_on_currently_loading_frame.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gdk_pixbuf_animation_iter_advance = Interop.downcallHandle(
+            "gdk_pixbuf_animation_iter_advance",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_pixbuf_animation_iter_get_delay_time = Interop.downcallHandle(
+            "gdk_pixbuf_animation_iter_get_delay_time",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_pixbuf_animation_iter_get_pixbuf = Interop.downcallHandle(
+            "gdk_pixbuf_animation_iter_get_pixbuf",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_pixbuf_animation_iter_on_currently_loading_frame = Interop.downcallHandle(
+            "gdk_pixbuf_animation_iter_on_currently_loading_frame",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+    }
 }

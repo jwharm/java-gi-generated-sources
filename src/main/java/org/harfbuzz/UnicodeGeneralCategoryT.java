@@ -1,11 +1,24 @@
 package org.harfbuzz;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Data type for the "General_Category" (gc) property from
  * the Unicode Character Database.
  */
 public class UnicodeGeneralCategoryT extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * [Cc]
      */
@@ -159,5 +172,4 @@ public class UnicodeGeneralCategoryT extends io.github.jwharm.javagi.Enumeration
     public UnicodeGeneralCategoryT(int value) {
         super(value);
     }
-    
 }

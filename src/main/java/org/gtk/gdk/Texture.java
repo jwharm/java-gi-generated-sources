@@ -21,8 +21,20 @@ import org.jetbrains.annotations.*;
  * anything about it other than increasing the reference count via
  * {@link org.gtk.gobject.Object#ref}, and consequently, it is a thread-safe object.
  */
-public class Texture extends org.gtk.gobject.Object implements Paintable, org.gtk.gio.Icon, org.gtk.gio.LoadableIcon {
-
+public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paintable, org.gtk.gio.Icon, org.gtk.gio.LoadableIcon {
+    
+    static {
+        Gdk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public Texture(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -32,18 +44,15 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
         return new Texture(gobject.refcounted());
     }
     
-    private static final MethodHandle gdk_texture_new_for_pixbuf = Interop.downcallHandle(
-        "gdk_texture_new_for_pixbuf",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNewForPixbuf(@NotNull org.gtk.gdkpixbuf.Pixbuf pixbuf) {
+        java.util.Objects.requireNonNull(pixbuf, "Parameter 'pixbuf' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_texture_new_for_pixbuf.invokeExact(pixbuf.handle()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_texture_new_for_pixbuf.invokeExact(pixbuf.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -52,27 +61,26 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * This function is threadsafe, so that you can e.g. use GTask
      * and {@link org.gtk.gio.Task#runInThread} to avoid blocking the main thread
      * while loading a big image.
+     * @param pixbuf a {@code GdkPixbuf}
+     * @return a new {@code GdkTexture}
      */
     public static Texture newForPixbuf(@NotNull org.gtk.gdkpixbuf.Pixbuf pixbuf) {
         return new Texture(constructNewForPixbuf(pixbuf));
     }
     
-    private static final MethodHandle gdk_texture_new_from_bytes = Interop.downcallHandle(
-        "gdk_texture_new_from_bytes",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNewFromBytes(@NotNull org.gtk.glib.Bytes bytes) throws GErrorException {
+        java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_texture_new_from_bytes.invokeExact(bytes.handle(), (Addressable) GERROR), true);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_texture_new_from_bytes.invokeExact(bytes.handle(), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
     /**
@@ -86,27 +94,27 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * This function is threadsafe, so that you can e.g. use GTask
      * and {@link org.gtk.gio.Task#runInThread} to avoid blocking the main thread
      * while loading a big image.
+     * @param bytes a {@code GBytes} containing the data to load
+     * @return A newly-created {@code GdkTexture}
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static Texture newFromBytes(@NotNull org.gtk.glib.Bytes bytes) throws GErrorException {
         return new Texture(constructNewFromBytes(bytes));
     }
     
-    private static final MethodHandle gdk_texture_new_from_file = Interop.downcallHandle(
-        "gdk_texture_new_from_file",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNewFromFile(@NotNull org.gtk.gio.File file) throws GErrorException {
+        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_texture_new_from_file.invokeExact(file.handle(), (Addressable) GERROR), true);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_texture_new_from_file.invokeExact(file.handle(), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
     /**
@@ -120,27 +128,27 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * This function is threadsafe, so that you can e.g. use GTask
      * and {@link org.gtk.gio.Task#runInThread} to avoid blocking the main thread
      * while loading a big image.
+     * @param file {@code GFile} to load
+     * @return A newly-created {@code GdkTexture}
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static Texture newFromFile(@NotNull org.gtk.gio.File file) throws GErrorException {
         return new Texture(constructNewFromFile(file));
     }
     
-    private static final MethodHandle gdk_texture_new_from_filename = Interop.downcallHandle(
-        "gdk_texture_new_from_filename",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNewFromFilename(@NotNull java.lang.String path) throws GErrorException {
+        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_texture_new_from_filename.invokeExact(Interop.allocateNativeString(path), (Addressable) GERROR), true);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_texture_new_from_filename.invokeExact(Interop.allocateNativeString(path), (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
     /**
@@ -154,23 +162,23 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * This function is threadsafe, so that you can e.g. use GTask
      * and {@link org.gtk.gio.Task#runInThread} to avoid blocking the main thread
      * while loading a big image.
+     * @param path the filename to load
+     * @return A newly-created {@code GdkTexture}
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static Texture newFromFilename(@NotNull java.lang.String path) throws GErrorException {
         return new Texture(constructNewFromFilename(path));
     }
     
-    private static final MethodHandle gdk_texture_new_from_resource = Interop.downcallHandle(
-        "gdk_texture_new_from_resource",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNewFromResource(@NotNull java.lang.String resourcePath) {
+        java.util.Objects.requireNonNull(resourcePath, "Parameter 'resourcePath' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gdk_texture_new_from_resource.invokeExact(Interop.allocateNativeString(resourcePath)), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gdk_texture_new_from_resource.invokeExact(Interop.allocateNativeString(resourcePath)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -187,15 +195,12 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * This function is threadsafe, so that you can e.g. use GTask
      * and {@link org.gtk.gio.Task#runInThread} to avoid blocking the main thread
      * while loading a big image.
+     * @param resourcePath the path of the resource file
+     * @return A newly-created {@code GdkTexture}
      */
     public static Texture newFromResource(@NotNull java.lang.String resourcePath) {
         return new Texture(constructNewFromResource(resourcePath));
     }
-    
-    private static final MethodHandle gdk_texture_download = Interop.downcallHandle(
-        "gdk_texture_download",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
-    );
     
     /**
      * Downloads the {@code texture} into local memory.
@@ -217,55 +222,46 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      *                       cairo_image_surface_get_stride (surface));
      * cairo_surface_mark_dirty (surface);
      * }</pre>
+     * @param data pointer to enough memory to be filled with the
+     *   downloaded data of {@code texture}
+     * @param stride rowstride in bytes
      */
-    public @NotNull void download(@NotNull byte[] data, @NotNull long stride) {
+    public void download(byte[] data, long stride) {
+        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         try {
-            gdk_texture_download.invokeExact(handle(), Interop.allocateNativeArray(data), stride);
+            DowncallHandles.gdk_texture_download.invokeExact(handle(), Interop.allocateNativeArray(data, false), stride);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle gdk_texture_get_height = Interop.downcallHandle(
-        "gdk_texture_get_height",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the height of the {@code texture}, in pixels.
+     * @return the height of the {@code GdkTexture}
      */
     public int getHeight() {
         int RESULT;
         try {
-            RESULT = (int) gdk_texture_get_height.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_texture_get_height.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle gdk_texture_get_width = Interop.downcallHandle(
-        "gdk_texture_get_width",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the width of {@code texture}, in pixels.
+     * @return the width of the {@code GdkTexture}
      */
     public int getWidth() {
         int RESULT;
         try {
-            RESULT = (int) gdk_texture_get_width.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gdk_texture_get_width.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle gdk_texture_save_to_png = Interop.downcallHandle(
-        "gdk_texture_save_to_png",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Store the given {@code texture} to the {@code filename} as a PNG file.
@@ -275,21 +271,19 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * want to store to a {@code Gio.File} or other location, you might want to
      * use {@link Texture#saveToPngBytes} or look into the
      * gdk-pixbuf library.
+     * @param filename the filename to store to
+     * @return {@code true} if saving succeeded, {@code false} on failure.
      */
     public boolean saveToPng(@NotNull java.lang.String filename) {
+        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
         int RESULT;
         try {
-            RESULT = (int) gdk_texture_save_to_png.invokeExact(handle(), Interop.allocateNativeString(filename));
+            RESULT = (int) DowncallHandles.gdk_texture_save_to_png.invokeExact(handle(), Interop.allocateNativeString(filename));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gdk_texture_save_to_png_bytes = Interop.downcallHandle(
-        "gdk_texture_save_to_png_bytes",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Store the given {@code texture} in memory as a PNG file.
@@ -306,41 +300,35 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * If you are dealing with high dynamic range float data, you
      * might also want to consider {@link Texture#saveToTiffBytes}
      * instead.
+     * @return a newly allocated {@code GBytes} containing PNG data
      */
     public @NotNull org.gtk.glib.Bytes saveToPngBytes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gdk_texture_save_to_png_bytes.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_texture_save_to_png_bytes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle gdk_texture_save_to_tiff = Interop.downcallHandle(
-        "gdk_texture_save_to_tiff",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Store the given {@code texture} to the {@code filename} as a TIFF file.
      * <p>
      * GTK will attempt to store data without loss.
+     * @param filename the filename to store to
+     * @return {@code true} if saving succeeded, {@code false} on failure.
      */
     public boolean saveToTiff(@NotNull java.lang.String filename) {
+        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
         int RESULT;
         try {
-            RESULT = (int) gdk_texture_save_to_tiff.invokeExact(handle(), Interop.allocateNativeString(filename));
+            RESULT = (int) DowncallHandles.gdk_texture_save_to_tiff.invokeExact(handle(), Interop.allocateNativeString(filename));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gdk_texture_save_to_tiff_bytes = Interop.downcallHandle(
-        "gdk_texture_save_to_tiff_bytes",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Store the given {@code texture} in memory as a TIFF file.
@@ -355,15 +343,78 @@ public class Texture extends org.gtk.gobject.Object implements Paintable, org.gt
      * If that is not your concern and you are interested in a
      * smaller size and a more portable format, you might want to
      * use {@link Texture#saveToPngBytes}.
+     * @return a newly allocated {@code GBytes} containing TIFF data
      */
     public @NotNull org.gtk.glib.Bytes saveToTiffBytes() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gdk_texture_save_to_tiff_bytes.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gdk_texture_save_to_tiff_bytes.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gdk_texture_new_for_pixbuf = Interop.downcallHandle(
+            "gdk_texture_new_for_pixbuf",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_texture_new_from_bytes = Interop.downcallHandle(
+            "gdk_texture_new_from_bytes",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_texture_new_from_file = Interop.downcallHandle(
+            "gdk_texture_new_from_file",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_texture_new_from_filename = Interop.downcallHandle(
+            "gdk_texture_new_from_filename",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_texture_new_from_resource = Interop.downcallHandle(
+            "gdk_texture_new_from_resource",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_texture_download = Interop.downcallHandle(
+            "gdk_texture_download",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG)
+        );
+        
+        private static final MethodHandle gdk_texture_get_height = Interop.downcallHandle(
+            "gdk_texture_get_height",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_texture_get_width = Interop.downcallHandle(
+            "gdk_texture_get_width",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_texture_save_to_png = Interop.downcallHandle(
+            "gdk_texture_save_to_png",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_texture_save_to_png_bytes = Interop.downcallHandle(
+            "gdk_texture_save_to_png_bytes",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_texture_save_to_tiff = Interop.downcallHandle(
+            "gdk_texture_save_to_tiff",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gdk_texture_save_to_tiff_bytes = Interop.downcallHandle(
+            "gdk_texture_save_to_tiff_bytes",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

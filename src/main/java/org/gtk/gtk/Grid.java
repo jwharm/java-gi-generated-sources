@@ -20,8 +20,8 @@ import org.jetbrains.annotations.*;
  * <p>
  * The behaviour of {@code GtkGrid} when several children occupy the same grid
  * cell is undefined.
- * 
- * <h1>GtkGrid as GtkBuildable</h1>
+ * <p>
+ * <strong>GtkGrid as GtkBuildable</strong><br/>
  * Every child in a {@code GtkGrid} has access to a custom {@code Gtk.Buildable}
  * element, called {@code <layout>}. It can by used to specify a position in the
  * grid and optionally spans. All properties that can be used in the {@code <layout>}
@@ -30,7 +30,6 @@ import org.jetbrains.annotations.*;
  * It is implemented by {@code GtkWidget} using {@link LayoutManager}.
  * <p>
  * To showcase it, here is a simple example:
- * 
  * <pre>{@code xml
  * <object class="GtkGrid" id="my_grid">
  *   <child>
@@ -79,15 +78,31 @@ import org.jetbrains.annotations.*;
  * This is defined by the {@code row-span} property. The last button is
  * located in the second row and spans across two columns, which is
  * defined by the {@code column-span} property.
- * 
- * <h1>CSS nodes</h1>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * {@code GtkGrid} uses a single CSS node with name {@code grid}.
- * 
- * <h1>Accessibility</h1>
+ * <p>
+ * <strong>Accessibility</strong><br/>
  * {@code GtkGrid} uses the {@link AccessibleRole#GROUP} role.
  */
-public class Grid extends Widget implements Accessible, Buildable, ConstraintTarget, Orientable {
-
+public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget, org.gtk.gtk.Orientable {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
+    ).withName("GtkGrid");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public Grid(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -97,18 +112,14 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
         return new Grid(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_grid_new = Interop.downcallHandle(
-        "gtk_grid_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_grid_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_grid_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -118,30 +129,26 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_grid_attach = Interop.downcallHandle(
-        "gtk_grid_attach",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Adds a widget to the grid.
      * <p>
      * The position of {@code child} is determined by {@code column} and {@code row}.
      * The number of “cells” that {@code child} will occupy is determined
      * by {@code width} and {@code height}.
+     * @param child the widget to add
+     * @param column the column number to attach the left side of {@code child} to
+     * @param row the row number to attach the top side of {@code child} to
+     * @param width the number of columns that {@code child} will span
+     * @param height the number of rows that {@code child} will span
      */
-    public @NotNull void attach(@NotNull Widget child, @NotNull int column, @NotNull int row, @NotNull int width, @NotNull int height) {
+    public void attach(@NotNull org.gtk.gtk.Widget child, int column, int row, int width, int height) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            gtk_grid_attach.invokeExact(handle(), child.handle(), column, row, width, height);
+            DowncallHandles.gtk_grid_attach.invokeExact(handle(), child.handle(), column, row, width, height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_grid_attach_next_to = Interop.downcallHandle(
-        "gtk_grid_attach_next_to",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Adds a widget to the grid.
@@ -153,148 +160,127 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * <p>
      * Attaching widgets labeled {@code [1]}, {@code [2]}, {@code [3]} with {@code @sibling == %NULL} and
      * {@code @side == %GTK_POS_LEFT} yields a layout of {@code [3][2][1]}.
+     * @param child the widget to add
+     * @param sibling the child of {@code grid} that {@code child} will be placed
+     *   next to, or {@code null} to place {@code child} at the beginning or end
+     * @param side the side of {@code sibling} that {@code child} is positioned next to
+     * @param width the number of columns that {@code child} will span
+     * @param height the number of rows that {@code child} will span
      */
-    public @NotNull void attachNextTo(@NotNull Widget child, @Nullable Widget sibling, @NotNull PositionType side, @NotNull int width, @NotNull int height) {
+    public void attachNextTo(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget sibling, @NotNull org.gtk.gtk.PositionType side, int width, int height) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+        java.util.Objects.requireNonNullElse(sibling, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(side, "Parameter 'side' must not be null");
         try {
-            gtk_grid_attach_next_to.invokeExact(handle(), child.handle(), sibling.handle(), side.getValue(), width, height);
+            DowncallHandles.gtk_grid_attach_next_to.invokeExact(handle(), child.handle(), sibling.handle(), side.getValue(), width, height);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle gtk_grid_get_baseline_row = Interop.downcallHandle(
-        "gtk_grid_get_baseline_row",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns which row defines the global baseline of {@code grid}.
+     * @return the row index defining the global baseline
      */
     public int getBaselineRow() {
         int RESULT;
         try {
-            RESULT = (int) gtk_grid_get_baseline_row.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_grid_get_baseline_row.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle gtk_grid_get_child_at = Interop.downcallHandle(
-        "gtk_grid_get_child_at",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Gets the child of {@code grid} whose area covers the grid
      * cell at {@code column}, {@code row}.
+     * @param column the left edge of the cell
+     * @param row the top edge of the cell
+     * @return the child at the given position
      */
-    public @Nullable Widget getChildAt(@NotNull int column, @NotNull int row) {
+    public @Nullable org.gtk.gtk.Widget getChildAt(int column, int row) {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_grid_get_child_at.invokeExact(handle(), column, row);
+            RESULT = (MemoryAddress) DowncallHandles.gtk_grid_get_child_at.invokeExact(handle(), column, row);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_grid_get_column_homogeneous = Interop.downcallHandle(
-        "gtk_grid_get_column_homogeneous",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns whether all columns of {@code grid} have the same width.
+     * @return whether all columns of {@code grid} have the same width.
      */
     public boolean getColumnHomogeneous() {
         int RESULT;
         try {
-            RESULT = (int) gtk_grid_get_column_homogeneous.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_grid_get_column_homogeneous.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_grid_get_column_spacing = Interop.downcallHandle(
-        "gtk_grid_get_column_spacing",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the amount of space between the columns of {@code grid}.
+     * @return the column spacing of {@code grid}
      */
     public int getColumnSpacing() {
         int RESULT;
         try {
-            RESULT = (int) gtk_grid_get_column_spacing.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_grid_get_column_spacing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle gtk_grid_get_row_baseline_position = Interop.downcallHandle(
-        "gtk_grid_get_row_baseline_position",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Returns the baseline position of {@code row}.
      * <p>
      * See {@link Grid#setRowBaselinePosition}.
+     * @param row a row index
+     * @return the baseline position of {@code row}
      */
-    public @NotNull BaselinePosition getRowBaselinePosition(@NotNull int row) {
+    public @NotNull org.gtk.gtk.BaselinePosition getRowBaselinePosition(int row) {
         int RESULT;
         try {
-            RESULT = (int) gtk_grid_get_row_baseline_position.invokeExact(handle(), row);
+            RESULT = (int) DowncallHandles.gtk_grid_get_row_baseline_position.invokeExact(handle(), row);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new BaselinePosition(RESULT);
+        return new org.gtk.gtk.BaselinePosition(RESULT);
     }
-    
-    private static final MethodHandle gtk_grid_get_row_homogeneous = Interop.downcallHandle(
-        "gtk_grid_get_row_homogeneous",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns whether all rows of {@code grid} have the same height.
+     * @return whether all rows of {@code grid} have the same height.
      */
     public boolean getRowHomogeneous() {
         int RESULT;
         try {
-            RESULT = (int) gtk_grid_get_row_homogeneous.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_grid_get_row_homogeneous.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_grid_get_row_spacing = Interop.downcallHandle(
-        "gtk_grid_get_row_spacing",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the amount of space between the rows of {@code grid}.
+     * @return the row spacing of {@code grid}
      */
     public int getRowSpacing() {
         int RESULT;
         try {
-            RESULT = (int) gtk_grid_get_row_spacing.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_grid_get_row_spacing.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle gtk_grid_insert_column = Interop.downcallHandle(
-        "gtk_grid_insert_column",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Inserts a column at the specified position.
@@ -302,19 +288,15 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * Children which are attached at or to the right of this position
      * are moved one column to the right. Children which span across this
      * position are grown to span the new column.
+     * @param position the position to insert the column at
      */
-    public @NotNull void insertColumn(@NotNull int position) {
+    public void insertColumn(int position) {
         try {
-            gtk_grid_insert_column.invokeExact(handle(), position);
+            DowncallHandles.gtk_grid_insert_column.invokeExact(handle(), position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_grid_insert_next_to = Interop.downcallHandle(
-        "gtk_grid_insert_next_to",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Inserts a row or column at the specified position.
@@ -323,19 +305,19 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * determined by {@code side}. If {@code side} is {@link PositionType#TOP} or {@link PositionType#BOTTOM},
      * a row is inserted. If {@code side} is {@link PositionType#LEFT} of {@link PositionType#RIGHT},
      * a column is inserted.
+     * @param sibling the child of {@code grid} that the new row or column will be
+     *   placed next to
+     * @param side the side of {@code sibling} that {@code child} is positioned next to
      */
-    public @NotNull void insertNextTo(@NotNull Widget sibling, @NotNull PositionType side) {
+    public void insertNextTo(@NotNull org.gtk.gtk.Widget sibling, @NotNull org.gtk.gtk.PositionType side) {
+        java.util.Objects.requireNonNull(sibling, "Parameter 'sibling' must not be null");
+        java.util.Objects.requireNonNull(side, "Parameter 'side' must not be null");
         try {
-            gtk_grid_insert_next_to.invokeExact(handle(), sibling.handle(), side.getValue());
+            DowncallHandles.gtk_grid_insert_next_to.invokeExact(handle(), sibling.handle(), side.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_grid_insert_row = Interop.downcallHandle(
-        "gtk_grid_insert_row",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Inserts a row at the specified position.
@@ -343,30 +325,36 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * Children which are attached at or below this position
      * are moved one row down. Children which span across this
      * position are grown to span the new row.
+     * @param position the position to insert the row at
      */
-    public @NotNull void insertRow(@NotNull int position) {
+    public void insertRow(int position) {
         try {
-            gtk_grid_insert_row.invokeExact(handle(), position);
+            DowncallHandles.gtk_grid_insert_row.invokeExact(handle(), position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle gtk_grid_query_child = Interop.downcallHandle(
-        "gtk_grid_query_child",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Queries the attach points and spans of {@code child} inside the given {@code GtkGrid}.
+     * @param child a {@code GtkWidget} child of {@code grid}
+     * @param column the column used to attach the left side of {@code child}
+     * @param row the row used to attach the top side of {@code child}
+     * @param width the number of columns {@code child} spans
+     * @param height the number of rows {@code child} spans
      */
-    public @NotNull void queryChild(@NotNull Widget child, @NotNull Out<Integer> column, @NotNull Out<Integer> row, @NotNull Out<Integer> width, @NotNull Out<Integer> height) {
+    public void queryChild(@NotNull org.gtk.gtk.Widget child, Out<Integer> column, Out<Integer> row, Out<Integer> width, Out<Integer> height) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+        java.util.Objects.requireNonNull(column, "Parameter 'column' must not be null");
+        java.util.Objects.requireNonNull(row, "Parameter 'row' must not be null");
+        java.util.Objects.requireNonNull(width, "Parameter 'width' must not be null");
+        java.util.Objects.requireNonNull(height, "Parameter 'height' must not be null");
         MemorySegment columnPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment rowPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment widthPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment heightPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            gtk_grid_query_child.invokeExact(handle(), child.handle(), (Addressable) columnPOINTER.address(), (Addressable) rowPOINTER.address(), (Addressable) widthPOINTER.address(), (Addressable) heightPOINTER.address());
+            DowncallHandles.gtk_grid_query_child.invokeExact(handle(), child.handle(), (Addressable) columnPOINTER.address(), (Addressable) rowPOINTER.address(), (Addressable) widthPOINTER.address(), (Addressable) heightPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -376,29 +364,21 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
         height.set(heightPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
-    private static final MethodHandle gtk_grid_remove = Interop.downcallHandle(
-        "gtk_grid_remove",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Removes a child from {@code grid}.
      * <p>
      * The child must have been added with
-     * {@code Gtk.Grid.attach_next_to}.
+     * {@link Grid#attach} or {@link Grid#attachNextTo}.
+     * @param child the child widget to remove
      */
-    public @NotNull void remove(@NotNull Widget child) {
+    public void remove(@NotNull org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
         try {
-            gtk_grid_remove.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_grid_remove.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_grid_remove_column = Interop.downcallHandle(
-        "gtk_grid_remove_column",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Removes a column from the grid.
@@ -407,19 +387,15 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * spanning children that overlap this column have their
      * width reduced by one, and children after the column
      * are moved to the left.
+     * @param position the position of the column to remove
      */
-    public @NotNull void removeColumn(@NotNull int position) {
+    public void removeColumn(int position) {
         try {
-            gtk_grid_remove_column.invokeExact(handle(), position);
+            DowncallHandles.gtk_grid_remove_column.invokeExact(handle(), position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_grid_remove_row = Interop.downcallHandle(
-        "gtk_grid_remove_row",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Removes a row from the grid.
@@ -428,19 +404,15 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * spanning children that overlap this row have their
      * height reduced by one, and children below the row
      * are moved up.
+     * @param position the position of the row to remove
      */
-    public @NotNull void removeRow(@NotNull int position) {
+    public void removeRow(int position) {
         try {
-            gtk_grid_remove_row.invokeExact(handle(), position);
+            DowncallHandles.gtk_grid_remove_row.invokeExact(handle(), position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_grid_set_baseline_row = Interop.downcallHandle(
-        "gtk_grid_set_baseline_row",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets which row defines the global baseline for the entire grid.
@@ -448,96 +420,196 @@ public class Grid extends Widget implements Accessible, Buildable, ConstraintTar
      * Each row in the grid can have its own local baseline, but only
      * one of those is global, meaning it will be the baseline in the
      * parent of the {@code grid}.
+     * @param row the row index
      */
-    public @NotNull void setBaselineRow(@NotNull int row) {
+    public void setBaselineRow(int row) {
         try {
-            gtk_grid_set_baseline_row.invokeExact(handle(), row);
+            DowncallHandles.gtk_grid_set_baseline_row.invokeExact(handle(), row);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_grid_set_column_homogeneous = Interop.downcallHandle(
-        "gtk_grid_set_column_homogeneous",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether all columns of {@code grid} will have the same width.
+     * @param homogeneous {@code true} to make columns homogeneous
      */
-    public @NotNull void setColumnHomogeneous(@NotNull boolean homogeneous) {
+    public void setColumnHomogeneous(boolean homogeneous) {
         try {
-            gtk_grid_set_column_homogeneous.invokeExact(handle(), homogeneous ? 1 : 0);
+            DowncallHandles.gtk_grid_set_column_homogeneous.invokeExact(handle(), homogeneous ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_grid_set_column_spacing = Interop.downcallHandle(
-        "gtk_grid_set_column_spacing",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the amount of space between columns of {@code grid}.
+     * @param spacing the amount of space to insert between columns
      */
-    public @NotNull void setColumnSpacing(@NotNull int spacing) {
+    public void setColumnSpacing(int spacing) {
         try {
-            gtk_grid_set_column_spacing.invokeExact(handle(), spacing);
+            DowncallHandles.gtk_grid_set_column_spacing.invokeExact(handle(), spacing);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_grid_set_row_baseline_position = Interop.downcallHandle(
-        "gtk_grid_set_row_baseline_position",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets how the baseline should be positioned on {@code row} of the
      * grid, in case that row is assigned more space than is requested.
      * <p>
      * The default baseline position is {@link BaselinePosition#CENTER}.
+     * @param row a row index
+     * @param pos a {@code GtkBaselinePosition}
      */
-    public @NotNull void setRowBaselinePosition(@NotNull int row, @NotNull BaselinePosition pos) {
+    public void setRowBaselinePosition(int row, @NotNull org.gtk.gtk.BaselinePosition pos) {
+        java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
         try {
-            gtk_grid_set_row_baseline_position.invokeExact(handle(), row, pos.getValue());
+            DowncallHandles.gtk_grid_set_row_baseline_position.invokeExact(handle(), row, pos.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_grid_set_row_homogeneous = Interop.downcallHandle(
-        "gtk_grid_set_row_homogeneous",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether all rows of {@code grid} will have the same height.
+     * @param homogeneous {@code true} to make rows homogeneous
      */
-    public @NotNull void setRowHomogeneous(@NotNull boolean homogeneous) {
+    public void setRowHomogeneous(boolean homogeneous) {
         try {
-            gtk_grid_set_row_homogeneous.invokeExact(handle(), homogeneous ? 1 : 0);
+            DowncallHandles.gtk_grid_set_row_homogeneous.invokeExact(handle(), homogeneous ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_grid_set_row_spacing = Interop.downcallHandle(
-        "gtk_grid_set_row_spacing",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the amount of space between rows of {@code grid}.
+     * @param spacing the amount of space to insert between rows
      */
-    public @NotNull void setRowSpacing(@NotNull int spacing) {
+    public void setRowSpacing(int spacing) {
         try {
-            gtk_grid_set_row_spacing.invokeExact(handle(), spacing);
+            DowncallHandles.gtk_grid_set_row_spacing.invokeExact(handle(), spacing);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_grid_new = Interop.downcallHandle(
+            "gtk_grid_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_grid_attach = Interop.downcallHandle(
+            "gtk_grid_attach",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_grid_attach_next_to = Interop.downcallHandle(
+            "gtk_grid_attach_next_to",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_grid_get_baseline_row = Interop.downcallHandle(
+            "gtk_grid_get_baseline_row",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_grid_get_child_at = Interop.downcallHandle(
+            "gtk_grid_get_child_at",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_grid_get_column_homogeneous = Interop.downcallHandle(
+            "gtk_grid_get_column_homogeneous",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_grid_get_column_spacing = Interop.downcallHandle(
+            "gtk_grid_get_column_spacing",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_grid_get_row_baseline_position = Interop.downcallHandle(
+            "gtk_grid_get_row_baseline_position",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_grid_get_row_homogeneous = Interop.downcallHandle(
+            "gtk_grid_get_row_homogeneous",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_grid_get_row_spacing = Interop.downcallHandle(
+            "gtk_grid_get_row_spacing",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_grid_insert_column = Interop.downcallHandle(
+            "gtk_grid_insert_column",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_grid_insert_next_to = Interop.downcallHandle(
+            "gtk_grid_insert_next_to",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_grid_insert_row = Interop.downcallHandle(
+            "gtk_grid_insert_row",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_grid_query_child = Interop.downcallHandle(
+            "gtk_grid_query_child",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_grid_remove = Interop.downcallHandle(
+            "gtk_grid_remove",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_grid_remove_column = Interop.downcallHandle(
+            "gtk_grid_remove_column",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_grid_remove_row = Interop.downcallHandle(
+            "gtk_grid_remove_row",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_grid_set_baseline_row = Interop.downcallHandle(
+            "gtk_grid_set_baseline_row",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_grid_set_column_homogeneous = Interop.downcallHandle(
+            "gtk_grid_set_column_homogeneous",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_grid_set_column_spacing = Interop.downcallHandle(
+            "gtk_grid_set_column_spacing",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_grid_set_row_baseline_position = Interop.downcallHandle(
+            "gtk_grid_set_row_baseline_position",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_grid_set_row_homogeneous = Interop.downcallHandle(
+            "gtk_grid_set_row_homogeneous",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_grid_set_row_spacing = Interop.downcallHandle(
+            "gtk_grid_set_row_spacing",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
 }

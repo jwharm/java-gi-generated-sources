@@ -12,9 +12,20 @@ import org.jetbrains.annotations.*;
  * See g_stat() for more information.
  */
 public class StatBuf extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GLib.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public StatBuf(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
 }

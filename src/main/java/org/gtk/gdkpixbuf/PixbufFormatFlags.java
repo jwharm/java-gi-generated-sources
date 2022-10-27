@@ -1,11 +1,25 @@
 package org.gtk.gdkpixbuf;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Flags which allow a module to specify further details about the supported
  * operations.
+ * @version 2.2
  */
 public class PixbufFormatFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * the module can write out images in the format.
      */
@@ -25,5 +39,4 @@ public class PixbufFormatFlags extends io.github.jwharm.javagi.Bitfield {
     public PixbufFormatFlags(int value) {
         super(value);
     }
-    
 }

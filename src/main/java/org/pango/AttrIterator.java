@@ -15,49 +15,49 @@ import org.jetbrains.annotations.*;
  * currently in effect can be queried.
  */
 public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Pango.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public AttrIterator(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle pango_attr_iterator_copy = Interop.downcallHandle(
-        "pango_attr_iterator_copy",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Copy a {@code PangoAttrIterator}.
+     * @return the newly allocated
+     *   {@code PangoAttrIterator}, which should be freed with
+     *   {@link AttrIterator#destroy}
      */
-    public @NotNull AttrIterator copy() {
+    public @NotNull org.pango.AttrIterator copy() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_iterator_copy.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_iterator_copy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new AttrIterator(Refcounted.get(RESULT, true));
+        return new org.pango.AttrIterator(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle pango_attr_iterator_destroy = Interop.downcallHandle(
-        "pango_attr_iterator_destroy",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Destroy a {@code PangoAttrIterator} and free all associated memory.
      */
-    public @NotNull void destroy() {
+    public void destroy() {
         try {
-            pango_attr_iterator_destroy.invokeExact(handle());
+            DowncallHandles.pango_attr_iterator_destroy.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle pango_attr_iterator_get = Interop.downcallHandle(
-        "pango_attr_iterator_get",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Find the current attribute of a particular type
@@ -66,79 +66,86 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
      * When multiple attributes of the same type overlap,
      * the attribute whose range starts closest to the
      * current location is used.
+     * @param type the type of attribute to find
+     * @return the current
+     *   attribute of the given type, or {@code null} if no attribute
+     *   of that type applies to the current location.
      */
-    public @Nullable Attribute get(@NotNull AttrType type) {
+    public @Nullable org.pango.Attribute get(@NotNull org.pango.AttrType type) {
+        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_iterator_get.invokeExact(handle(), type.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_iterator_get.invokeExact(handle(), type.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Attribute(Refcounted.get(RESULT, false));
+        return new org.pango.Attribute(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle pango_attr_iterator_get_attrs = Interop.downcallHandle(
-        "pango_attr_iterator_get_attrs",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets a list of all attributes at the current position of the
      * iterator.
+     * @return a list of all attributes for the current range. To free
+     *   this value, call {@link Attribute#destroy} on each
+     *   value and g_slist_free() on the list.
      */
     public @NotNull org.gtk.glib.SList getAttrs() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) pango_attr_iterator_get_attrs.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.pango_attr_iterator_get_attrs.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.SList(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle pango_attr_iterator_get_font = Interop.downcallHandle(
-        "pango_attr_iterator_get_font",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Get the font and other attributes at the current
      * iterator position.
+     * @param desc a {@code PangoFontDescription} to fill in with the current
+     *   values. The family name in this structure will be set using
+     *   {@link FontDescription#setFamilyStatic} using
+     *   values from an attribute in the {@code PangoAttrList} associated
+     *   with the iterator, so if you plan to keep it around, you
+     *   must call:
+     *   {@code pango_font_description_set_family (desc, pango_font_description_get_family (desc))}.
+     * @param language location to store language tag
+     *   for item, or {@code null} if none is found.
+     * @param extraAttrs location in which to store a list of non-font attributes
+     *   at the the current position; only the highest priority
+     *   value of each attribute will be added to this list. In
+     *   order to free this value, you must call
+     *   {@link Attribute#destroy} on each member.
      */
-    public @NotNull void getFont(@NotNull FontDescription desc, @NotNull Out<Language> language, @NotNull Out<org.gtk.glib.SList> extraAttrs) {
+    public void getFont(@NotNull org.pango.FontDescription desc, @NotNull Out<org.pango.Language> language, @NotNull Out<org.gtk.glib.SList> extraAttrs) {
+        java.util.Objects.requireNonNull(desc, "Parameter 'desc' must not be null");
+        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
+        java.util.Objects.requireNonNull(extraAttrs, "Parameter 'extraAttrs' must not be null");
         MemorySegment languagePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment extraAttrsPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         try {
-            pango_attr_iterator_get_font.invokeExact(handle(), desc.handle(), (Addressable) languagePOINTER.address(), (Addressable) extraAttrsPOINTER.address());
+            DowncallHandles.pango_attr_iterator_get_font.invokeExact(handle(), desc.handle(), (Addressable) languagePOINTER.address(), (Addressable) extraAttrsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        language.set(new Language(Refcounted.get(languagePOINTER.get(ValueLayout.ADDRESS, 0), true)));
+        language.set(new org.pango.Language(Refcounted.get(languagePOINTER.get(ValueLayout.ADDRESS, 0), true)));
         extraAttrs.set(new org.gtk.glib.SList(Refcounted.get(extraAttrsPOINTER.get(ValueLayout.ADDRESS, 0), true)));
     }
     
-    private static final MethodHandle pango_attr_iterator_next = Interop.downcallHandle(
-        "pango_attr_iterator_next",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Advance the iterator until the next change of style.
+     * @return {@code false} if the iterator is at the end
+     *   of the list, otherwise {@code true}
      */
     public boolean next() {
         int RESULT;
         try {
-            RESULT = (int) pango_attr_iterator_next.invokeExact(handle());
+            RESULT = (int) DowncallHandles.pango_attr_iterator_next.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle pango_attr_iterator_range = Interop.downcallHandle(
-        "pango_attr_iterator_range",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Get the range of the current segment.
@@ -147,12 +154,16 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
      * like the values in {@code PangoAttribute}. To deal with this API
      * oversight, stored return values that wouldn't fit into
      * a signed integer are clamped to {@code G_MAXINT}.
+     * @param start location to store the start of the range
+     * @param end location to store the end of the range
      */
-    public @NotNull void range(@NotNull Out<Integer> start, @NotNull Out<Integer> end) {
+    public void range(Out<Integer> start, Out<Integer> end) {
+        java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
+        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         MemorySegment startPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         MemorySegment endPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         try {
-            pango_attr_iterator_range.invokeExact(handle(), (Addressable) startPOINTER.address(), (Addressable) endPOINTER.address());
+            DowncallHandles.pango_attr_iterator_range.invokeExact(handle(), (Addressable) startPOINTER.address(), (Addressable) endPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,4 +171,41 @@ public class AttrIterator extends io.github.jwharm.javagi.ResourceBase {
         end.set(endPOINTER.get(ValueLayout.JAVA_INT, 0));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle pango_attr_iterator_copy = Interop.downcallHandle(
+            "pango_attr_iterator_copy",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_attr_iterator_destroy = Interop.downcallHandle(
+            "pango_attr_iterator_destroy",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_attr_iterator_get = Interop.downcallHandle(
+            "pango_attr_iterator_get",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_attr_iterator_get_attrs = Interop.downcallHandle(
+            "pango_attr_iterator_get_attrs",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_attr_iterator_get_font = Interop.downcallHandle(
+            "pango_attr_iterator_get_font",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_attr_iterator_next = Interop.downcallHandle(
+            "pango_attr_iterator_next",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_attr_iterator_range = Interop.downcallHandle(
+            "pango_attr_iterator_range",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

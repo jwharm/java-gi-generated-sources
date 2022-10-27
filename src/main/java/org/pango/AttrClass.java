@@ -13,9 +13,27 @@ import org.jetbrains.annotations.*;
  * one should use the wrapper functions provided for {@code PangoAttribute}.
  */
 public class AttrClass extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Pango.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.pango.AttrType.getMemoryLayout().withName("type"),
+        Interop.valueLayout.ADDRESS.withName("copy"),
+        Interop.valueLayout.ADDRESS.withName("destroy"),
+        Interop.valueLayout.ADDRESS.withName("equal")
+    ).withName("PangoAttrClass");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public AttrClass(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
 }

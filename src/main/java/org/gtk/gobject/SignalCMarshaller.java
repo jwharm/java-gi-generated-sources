@@ -9,5 +9,5 @@ package org.gtk.gobject;
  * takes over responsibility of actual function invocation for the signal
  * system.
  */
-public interface SignalCMarshaller {
+public interface SignalCMarshaller extends org.gtk.gobject.ClosureMarshal {
 }

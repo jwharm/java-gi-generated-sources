@@ -15,8 +15,20 @@ import org.jetbrains.annotations.*;
  * This controller is not able to accept drops, use {@link DropTarget}
  * for that purpose.
  */
-public class DropControllerMotion extends EventController {
-
+public class DropControllerMotion extends org.gtk.gtk.EventController {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public DropControllerMotion(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -26,18 +38,14 @@ public class DropControllerMotion extends EventController {
         return new DropControllerMotion(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_drop_controller_motion_new = Interop.downcallHandle(
-        "gtk_drop_controller_motion_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_drop_controller_motion_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_drop_controller_motion_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -48,57 +56,47 @@ public class DropControllerMotion extends EventController {
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_drop_controller_motion_contains_pointer = Interop.downcallHandle(
-        "gtk_drop_controller_motion_contains_pointer",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns if a Drag-and-Drop operation is within the widget
      * {@code self} or one of its children.
+     * @return {@code true} if a dragging pointer is within {@code self} or one of its children.
      */
     public boolean containsPointer() {
         int RESULT;
         try {
-            RESULT = (int) gtk_drop_controller_motion_contains_pointer.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_drop_controller_motion_contains_pointer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_drop_controller_motion_get_drop = Interop.downcallHandle(
-        "gtk_drop_controller_motion_get_drop",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the {@code GdkDrop} of a current Drag-and-Drop operation
      * over the widget of {@code self}.
+     * @return The {@code GdkDrop} currently
+     *   happening within {@code self}
      */
     public @Nullable org.gtk.gdk.Drop getDrop() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_drop_controller_motion_get_drop.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_drop_controller_motion_get_drop.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gdk.Drop(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle gtk_drop_controller_motion_is_pointer = Interop.downcallHandle(
-        "gtk_drop_controller_motion_is_pointer",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns if a Drag-and-Drop operation is within the widget
      * {@code self}, not one of its children.
+     * @return {@code true} if a dragging pointer is within {@code self} but
+     *   not one of its children
      */
     public boolean isPointer() {
         int RESULT;
         try {
-            RESULT = (int) gtk_drop_controller_motion_is_pointer.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gtk_drop_controller_motion_is_pointer.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,14 +104,14 @@ public class DropControllerMotion extends EventController {
     }
     
     @FunctionalInterface
-    public interface EnterHandler {
-        void signalReceived(DropControllerMotion source, @NotNull double x, @NotNull double y);
+    public interface Enter {
+        void signalReceived(DropControllerMotion source, double x, double y);
     }
     
     /**
      * Signals that the pointer has entered the widget.
      */
-    public SignalHandle onEnter(EnterHandler handler) {
+    public Signal<DropControllerMotion.Enter> onEnter(DropControllerMotion.Enter handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -123,23 +121,23 @@ public class DropControllerMotion extends EventController {
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<DropControllerMotion.Enter>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface LeaveHandler {
+    public interface Leave {
         void signalReceived(DropControllerMotion source);
     }
     
     /**
      * Signals that the pointer has left the widget.
      */
-    public SignalHandle onLeave(LeaveHandler handler) {
+    public Signal<DropControllerMotion.Leave> onLeave(DropControllerMotion.Leave handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -149,23 +147,23 @@ public class DropControllerMotion extends EventController {
                         MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<DropControllerMotion.Leave>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     @FunctionalInterface
-    public interface MotionHandler {
-        void signalReceived(DropControllerMotion source, @NotNull double x, @NotNull double y);
+    public interface Motion {
+        void signalReceived(DropControllerMotion source, double x, double y);
     }
     
     /**
      * Emitted when the pointer moves inside the widget.
      */
-    public SignalHandle onMotion(MotionHandler handler) {
+    public Signal<DropControllerMotion.Motion> onMotion(DropControllerMotion.Motion handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
                 handle(),
@@ -175,33 +173,55 @@ public class DropControllerMotion extends EventController {
                         MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
                     FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_DOUBLE, ValueLayout.JAVA_DOUBLE, ValueLayout.ADDRESS),
                     Interop.getScope()),
-                (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(handler)),
+                Interop.registerCallback(handler),
                 (Addressable) MemoryAddress.NULL, 0);
-            return new SignalHandle(handle(), RESULT);
+            return new Signal<DropControllerMotion.Motion>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_drop_controller_motion_new = Interop.downcallHandle(
+            "gtk_drop_controller_motion_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_drop_controller_motion_contains_pointer = Interop.downcallHandle(
+            "gtk_drop_controller_motion_contains_pointer",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_drop_controller_motion_get_drop = Interop.downcallHandle(
+            "gtk_drop_controller_motion_get_drop",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_drop_controller_motion_is_pointer = Interop.downcallHandle(
+            "gtk_drop_controller_motion_is_pointer",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+    }
     
+    private static class Callbacks {
+        
         public static void signalDropControllerMotionEnter(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (DropControllerMotion.EnterHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DropControllerMotion(Refcounted.get(source)), x, y);
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (DropControllerMotion.Enter) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new DropControllerMotion(Refcounted.get(source)), x, y);
         }
         
         public static void signalDropControllerMotionLeave(MemoryAddress source, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (DropControllerMotion.LeaveHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DropControllerMotion(Refcounted.get(source)));
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (DropControllerMotion.Leave) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new DropControllerMotion(Refcounted.get(source)));
         }
         
         public static void signalDropControllerMotionMotion(MemoryAddress source, double x, double y, MemoryAddress data) {
-            int hash = data.get(ValueLayout.JAVA_INT, 0);
-            var handler = (DropControllerMotion.MotionHandler) Interop.signalRegistry.get(hash);
-            handler.signalReceived(new DropControllerMotion(Refcounted.get(source)), x, y);
+            int HASH = data.get(ValueLayout.JAVA_INT, 0);
+            var HANDLER = (DropControllerMotion.Motion) Interop.signalRegistry.get(HASH);
+            HANDLER.signalReceived(new DropControllerMotion(Refcounted.get(source)), x, y);
         }
-        
     }
 }

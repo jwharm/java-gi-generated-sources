@@ -1,5 +1,10 @@
 package org.gtk.gdkpixbuf;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Control the alpha channel for drawables.
  * <p>
@@ -15,7 +20,15 @@ package org.gtk.gdkpixbuf;
  * For now both cases fall back to a bilevel clipping mask.
  */
 public class PixbufAlphaMode extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * A bilevel clipping mask (black and white)
      *  will be created and used to draw the image.  Pixels below 0.5 opacity
@@ -33,5 +46,4 @@ public class PixbufAlphaMode extends io.github.jwharm.javagi.Enumeration {
     public PixbufAlphaMode(int value) {
         super(value);
     }
-    
 }

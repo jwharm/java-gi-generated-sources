@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * <img src="./doc-files/overlay.png" alt="An example GtkOverlay">
  * <p>
  * The position of each overlay widget is determined by its
- * {@code Gtk.Widget:valign}
+ * {@code Gtk.Widget:halign} and {@code Gtk.Widget:valign}
  * properties. E.g. a widget with both alignments set to {@link Align#START}
  * will be placed at the top left corner of the {@code GtkOverlay} container,
  * whereas an overlay with halign set to {@link Align#CENTER} and valign set
@@ -26,19 +26,31 @@ import org.jetbrains.annotations.*;
  * An overlay’s minimum and natural sizes are those of its main child.
  * The sizes of overlay children are not considered when measuring these
  * preferred sizes.
- * 
- * <h1>GtkOverlay as GtkBuildable</h1>
+ * <p>
+ * <strong>GtkOverlay as GtkBuildable</strong><br/>
  * The {@code GtkOverlay} implementation of the {@code GtkBuildable} interface
  * supports placing a child as an overlay by specifying “overlay” as
  * the “type” attribute of a {@code <child>} element.
- * 
- * <h1>CSS nodes</h1>
+ * <p>
+ * <strong>CSS nodes</strong><br/>
  * {@code GtkOverlay} has a single CSS node with the name “overlay”. Overlay children
  * whose alignments cause them to be positioned at an edge get the style classes
  * “.left”, “.right”, “.top”, and/or “.bottom” according to their position.
  */
-public class Overlay extends Widget implements Accessible, Buildable, ConstraintTarget {
-
+public class Overlay extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, org.gtk.gtk.Buildable, org.gtk.gtk.ConstraintTarget {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public Overlay(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -48,18 +60,14 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
         return new Overlay(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_overlay_new = Interop.downcallHandle(
-        "gtk_overlay_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_overlay_new.invokeExact(), false);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_overlay_new.invokeExact(), false);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -68,11 +76,6 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
     public Overlay() {
         super(constructNew());
     }
-    
-    private static final MethodHandle gtk_overlay_add_overlay = Interop.downcallHandle(
-        "gtk_overlay_add_overlay",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Adds {@code widget} to {@code overlay}.
@@ -83,122 +86,103 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
      * The position at which {@code widget} is placed is determined
      * from its {@code Gtk.Widget:halign} and
      * {@code Gtk.Widget:valign} properties.
+     * @param widget a {@code GtkWidget} to be added to the container
      */
-    public @NotNull void addOverlay(@NotNull Widget widget) {
+    public void addOverlay(@NotNull org.gtk.gtk.Widget widget) {
+        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            gtk_overlay_add_overlay.invokeExact(handle(), widget.handle());
+            DowncallHandles.gtk_overlay_add_overlay.invokeExact(handle(), widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_overlay_get_child = Interop.downcallHandle(
-        "gtk_overlay_get_child",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the child widget of {@code overlay}.
+     * @return the child widget of {@code overlay}
      */
-    public @Nullable Widget getChild() {
+    public @Nullable org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_overlay_get_child.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_overlay_get_child.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Widget(Refcounted.get(RESULT, false));
+        return new org.gtk.gtk.Widget(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle gtk_overlay_get_clip_overlay = Interop.downcallHandle(
-        "gtk_overlay_get_clip_overlay",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets whether {@code widget} should be clipped within the parent.
+     * @param widget an overlay child of {@code GtkOverlay}
+     * @return whether the widget is clipped within the parent.
      */
-    public boolean getClipOverlay(@NotNull Widget widget) {
+    public boolean getClipOverlay(@NotNull org.gtk.gtk.Widget widget) {
+        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         int RESULT;
         try {
-            RESULT = (int) gtk_overlay_get_clip_overlay.invokeExact(handle(), widget.handle());
+            RESULT = (int) DowncallHandles.gtk_overlay_get_clip_overlay.invokeExact(handle(), widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gtk_overlay_get_measure_overlay = Interop.downcallHandle(
-        "gtk_overlay_get_measure_overlay",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets whether {@code widget}'s size is included in the measurement of
      * {@code overlay}.
+     * @param widget an overlay child of {@code GtkOverlay}
+     * @return whether the widget is measured
      */
-    public boolean getMeasureOverlay(@NotNull Widget widget) {
+    public boolean getMeasureOverlay(@NotNull org.gtk.gtk.Widget widget) {
+        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         int RESULT;
         try {
-            RESULT = (int) gtk_overlay_get_measure_overlay.invokeExact(handle(), widget.handle());
+            RESULT = (int) DowncallHandles.gtk_overlay_get_measure_overlay.invokeExact(handle(), widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle gtk_overlay_remove_overlay = Interop.downcallHandle(
-        "gtk_overlay_remove_overlay",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Removes an overlay that was added with gtk_overlay_add_overlay().
+     * @param widget a {@code GtkWidget} to be removed
      */
-    public @NotNull void removeOverlay(@NotNull Widget widget) {
+    public void removeOverlay(@NotNull org.gtk.gtk.Widget widget) {
+        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            gtk_overlay_remove_overlay.invokeExact(handle(), widget.handle());
+            DowncallHandles.gtk_overlay_remove_overlay.invokeExact(handle(), widget.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_overlay_set_child = Interop.downcallHandle(
-        "gtk_overlay_set_child",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the child widget of {@code overlay}.
+     * @param child the child widget
      */
-    public @NotNull void setChild(@Nullable Widget child) {
+    public void setChild(@Nullable org.gtk.gtk.Widget child) {
+        java.util.Objects.requireNonNullElse(child, MemoryAddress.NULL);
         try {
-            gtk_overlay_set_child.invokeExact(handle(), child.handle());
+            DowncallHandles.gtk_overlay_set_child.invokeExact(handle(), child.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_overlay_set_clip_overlay = Interop.downcallHandle(
-        "gtk_overlay_set_clip_overlay",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether {@code widget} should be clipped within the parent.
+     * @param widget an overlay child of {@code GtkOverlay}
+     * @param clipOverlay whether the child should be clipped
      */
-    public @NotNull void setClipOverlay(@NotNull Widget widget, @NotNull boolean clipOverlay) {
+    public void setClipOverlay(@NotNull org.gtk.gtk.Widget widget, boolean clipOverlay) {
+        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            gtk_overlay_set_clip_overlay.invokeExact(handle(), widget.handle(), clipOverlay ? 1 : 0);
+            DowncallHandles.gtk_overlay_set_clip_overlay.invokeExact(handle(), widget.handle(), clipOverlay ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gtk_overlay_set_measure_overlay = Interop.downcallHandle(
-        "gtk_overlay_set_measure_overlay",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets whether {@code widget} is included in the measured size of {@code overlay}.
@@ -206,16 +190,96 @@ public class Overlay extends Widget implements Accessible, Buildable, Constraint
      * The overlay will request the size of the largest child that has
      * this property set to {@code true}. Children who are not included may
      * be drawn outside of {@code overlay}'s allocation if they are too large.
+     * @param widget an overlay child of {@code GtkOverlay}
+     * @param measure whether the child should be measured
      */
-    public @NotNull void setMeasureOverlay(@NotNull Widget widget, @NotNull boolean measure) {
+    public void setMeasureOverlay(@NotNull org.gtk.gtk.Widget widget, boolean measure) {
+        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
         try {
-            gtk_overlay_set_measure_overlay.invokeExact(handle(), widget.handle(), measure ? 1 : 0);
+            DowncallHandles.gtk_overlay_set_measure_overlay.invokeExact(handle(), widget.handle(), measure ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static class Callbacks {
+    @FunctionalInterface
+    public interface GetChildPosition {
+        boolean signalReceived(Overlay source, @NotNull org.gtk.gtk.Widget widget, @NotNull Out<org.gtk.gdk.Rectangle> allocation);
+    }
     
+    /**
+     * Emitted to determine the position and size of any overlay
+     * child widgets.
+     * <p>
+     * A handler for this signal should fill {@code allocation} with
+     * the desired position and size for {@code widget}, relative to
+     * the 'main' child of {@code overlay}.
+     * <p>
+     * The default handler for this signal uses the {@code widget}'s
+     * halign and valign properties to determine the position
+     * and gives the widget its natural size (except that an
+     * alignment of {@link Align#FILL} will cause the overlay to
+     * be full-width/height). If the main child is a
+     * {@code GtkScrolledWindow}, the overlays are placed relative
+     * to its contents.
+     */
+    public Signal<Overlay.GetChildPosition> onGetChildPosition(Overlay.GetChildPosition handler) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_overlay_new = Interop.downcallHandle(
+            "gtk_overlay_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_overlay_add_overlay = Interop.downcallHandle(
+            "gtk_overlay_add_overlay",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_overlay_get_child = Interop.downcallHandle(
+            "gtk_overlay_get_child",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_overlay_get_clip_overlay = Interop.downcallHandle(
+            "gtk_overlay_get_clip_overlay",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_overlay_get_measure_overlay = Interop.downcallHandle(
+            "gtk_overlay_get_measure_overlay",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_overlay_remove_overlay = Interop.downcallHandle(
+            "gtk_overlay_remove_overlay",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_overlay_set_child = Interop.downcallHandle(
+            "gtk_overlay_set_child",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_overlay_set_clip_overlay = Interop.downcallHandle(
+            "gtk_overlay_set_clip_overlay",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle gtk_overlay_set_measure_overlay = Interop.downcallHandle(
+            "gtk_overlay_set_measure_overlay",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
+    
+    private static class Callbacks {
+        
+        public static boolean signalOverlayGetChildPosition(MemoryAddress source, MemoryAddress widget, MemoryAddress allocation, MemoryAddress data) {
+        // Operation not supported yet
+    return false;
+    }
     }
 }

@@ -1,10 +1,23 @@
 package org.gtk.gdk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Specifies the direction for scroll events.
  */
 public class ScrollDirection extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * the surface is scrolled up.
      */
@@ -34,5 +47,4 @@ public class ScrollDirection extends io.github.jwharm.javagi.Enumeration {
     public ScrollDirection(int value) {
         super(value);
     }
-    
 }

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * A {@code GtkListItemFactory} creates widgets for the items taken from a {@code GListModel}.
  * <p>
  * This is one of the core concepts of handling list widgets such
- * as {@code Gtk.GridView}.
+ * as {@link ListView}.
  * <p>
  * The {@code GtkListItemFactory} is tasked with creating widgets for items
  * taken from the model when the views need them and updating them as
@@ -56,7 +56,19 @@ import org.jetbrains.annotations.*;
  * views is allowed, but very uncommon.
  */
 public class ListItemFactory extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public ListItemFactory(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -65,5 +77,4 @@ public class ListItemFactory extends org.gtk.gobject.Object {
     public static ListItemFactory castFrom(org.gtk.gobject.Object gobject) {
         return new ListItemFactory(gobject.refcounted());
     }
-    
 }

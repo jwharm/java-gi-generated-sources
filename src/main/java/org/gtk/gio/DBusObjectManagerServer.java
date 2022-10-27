@@ -28,9 +28,27 @@ import org.jetbrains.annotations.*;
  * intended to be used with {@link DBusObjectManagerServer} or any D-Bus
  * object implementing the org.freedesktop.DBus.ObjectManager
  * interface.
+ * @version 2.30
  */
-public class DBusObjectManagerServer extends org.gtk.gobject.Object implements DBusObjectManager {
-
+public class DBusObjectManagerServer extends org.gtk.gobject.Object implements org.gtk.gio.DBusObjectManager {
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
+        org.gtk.gio.DBusObjectManagerServerPrivate.getMemoryLayout().withName("priv")
+    ).withName("GDBusObjectManagerServer");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public DBusObjectManagerServer(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -40,18 +58,15 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
         return new DBusObjectManagerServer(gobject.refcounted());
     }
     
-    private static final MethodHandle g_dbus_object_manager_server_new = Interop.downcallHandle(
-        "g_dbus_object_manager_server_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew(@NotNull java.lang.String objectPath) {
+        java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_dbus_object_manager_server_new.invokeExact(Interop.allocateNativeString(objectPath)), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_dbus_object_manager_server_new.invokeExact(Interop.allocateNativeString(objectPath)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -62,15 +77,11 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
      * want to export all of your objects before doing so to avoid
      * <a href="http://dbus.freedesktop.org/doc/dbus-specification.html#standard-interfaces-objectmanager">InterfacesAdded</a>
      * signals being emitted.
+     * @param objectPath The object path to export the manager object at.
      */
     public DBusObjectManagerServer(@NotNull java.lang.String objectPath) {
         super(constructNew(objectPath));
     }
-    
-    private static final MethodHandle g_dbus_object_manager_server_export = Interop.downcallHandle(
-        "g_dbus_object_manager_server_export",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Exports {@code object} on {@code manager}.
@@ -83,91 +94,78 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
      * <p>
      * Note that {@code manager} will take a reference on {@code object} for as long as
      * it is exported.
+     * @param object A {@link DBusObjectSkeleton}.
      */
-    public @NotNull void export(@NotNull DBusObjectSkeleton object) {
+    public void export(@NotNull org.gtk.gio.DBusObjectSkeleton object) {
+        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
         try {
-            g_dbus_object_manager_server_export.invokeExact(handle(), object.handle());
+            DowncallHandles.g_dbus_object_manager_server_export.invokeExact(handle(), object.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_dbus_object_manager_server_export_uniquely = Interop.downcallHandle(
-        "g_dbus_object_manager_server_export_uniquely",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Like g_dbus_object_manager_server_export() but appends a string of
      * the form _N (with N being a natural number) to {@code object}'s object path
      * if an object with the given path already exists. As such, the
      * {@link DBusObjectProxy}:g-object-path property of {@code object} may be modified.
+     * @param object An object.
      */
-    public @NotNull void exportUniquely(@NotNull DBusObjectSkeleton object) {
+    public void exportUniquely(@NotNull org.gtk.gio.DBusObjectSkeleton object) {
+        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
         try {
-            g_dbus_object_manager_server_export_uniquely.invokeExact(handle(), object.handle());
+            DowncallHandles.g_dbus_object_manager_server_export_uniquely.invokeExact(handle(), object.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_dbus_object_manager_server_get_connection = Interop.downcallHandle(
-        "g_dbus_object_manager_server_get_connection",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the {@link DBusConnection} used by {@code manager}.
+     * @return A {@link DBusConnection} object or {@code null} if
+     *   {@code manager} isn't exported on a connection. The returned object should
+     *   be freed with g_object_unref().
      */
-    public @Nullable DBusConnection getConnection() {
+    public @Nullable org.gtk.gio.DBusConnection getConnection() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_dbus_object_manager_server_get_connection.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_object_manager_server_get_connection.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new DBusConnection(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.DBusConnection(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_dbus_object_manager_server_is_exported = Interop.downcallHandle(
-        "g_dbus_object_manager_server_is_exported",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns whether {@code object} is currently exported on {@code manager}.
+     * @param object An object.
+     * @return {@code true} if {@code object} is exported
      */
-    public boolean isExported(@NotNull DBusObjectSkeleton object) {
+    public boolean isExported(@NotNull org.gtk.gio.DBusObjectSkeleton object) {
+        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
         int RESULT;
         try {
-            RESULT = (int) g_dbus_object_manager_server_is_exported.invokeExact(handle(), object.handle());
+            RESULT = (int) DowncallHandles.g_dbus_object_manager_server_is_exported.invokeExact(handle(), object.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
-    private static final MethodHandle g_dbus_object_manager_server_set_connection = Interop.downcallHandle(
-        "g_dbus_object_manager_server_set_connection",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Exports all objects managed by {@code manager} on {@code connection}. If
      * {@code connection} is {@code null}, stops exporting objects.
+     * @param connection A {@link DBusConnection} or {@code null}.
      */
-    public @NotNull void setConnection(@Nullable DBusConnection connection) {
+    public void setConnection(@Nullable org.gtk.gio.DBusConnection connection) {
+        java.util.Objects.requireNonNullElse(connection, MemoryAddress.NULL);
         try {
-            g_dbus_object_manager_server_set_connection.invokeExact(handle(), connection.handle());
+            DowncallHandles.g_dbus_object_manager_server_set_connection.invokeExact(handle(), connection.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_dbus_object_manager_server_unexport = Interop.downcallHandle(
-        "g_dbus_object_manager_server_unexport",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * If {@code manager} has an object at {@code path}, removes the object. Otherwise
@@ -175,15 +173,55 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements D
      * <p>
      * Note that {@code object_path} must be in the hierarchy rooted by the
      * object path for {@code manager}.
+     * @param objectPath An object path.
+     * @return {@code true} if object at {@code object_path} was removed, {@code false} otherwise.
      */
     public boolean unexport(@NotNull java.lang.String objectPath) {
+        java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
         int RESULT;
         try {
-            RESULT = (int) g_dbus_object_manager_server_unexport.invokeExact(handle(), Interop.allocateNativeString(objectPath));
+            RESULT = (int) DowncallHandles.g_dbus_object_manager_server_unexport.invokeExact(handle(), Interop.allocateNativeString(objectPath));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_dbus_object_manager_server_new = Interop.downcallHandle(
+            "g_dbus_object_manager_server_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_dbus_object_manager_server_export = Interop.downcallHandle(
+            "g_dbus_object_manager_server_export",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_dbus_object_manager_server_export_uniquely = Interop.downcallHandle(
+            "g_dbus_object_manager_server_export_uniquely",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_dbus_object_manager_server_get_connection = Interop.downcallHandle(
+            "g_dbus_object_manager_server_get_connection",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_dbus_object_manager_server_is_exported = Interop.downcallHandle(
+            "g_dbus_object_manager_server_is_exported",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_dbus_object_manager_server_set_connection = Interop.downcallHandle(
+            "g_dbus_object_manager_server_set_connection",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_dbus_object_manager_server_unexport = Interop.downcallHandle(
+            "g_dbus_object_manager_server_unexport",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

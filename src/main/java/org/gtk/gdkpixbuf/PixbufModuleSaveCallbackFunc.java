@@ -1,6 +1,8 @@
 package org.gtk.gdkpixbuf;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -12,5 +14,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PixbufModuleSaveCallbackFunc {
-        boolean onPixbufModuleSaveCallbackFunc(@NotNull PixbufSaveFunc saveFunc, @NotNull Pixbuf pixbuf, @Nullable PointerString optionKeys, @Nullable PointerString optionValues);
+        boolean onPixbufModuleSaveCallbackFunc(@NotNull org.gtk.gdkpixbuf.PixbufSaveFunc saveFunc, @NotNull org.gtk.gdkpixbuf.Pixbuf pixbuf, PointerString optionKeys, PointerString optionValues);
 }

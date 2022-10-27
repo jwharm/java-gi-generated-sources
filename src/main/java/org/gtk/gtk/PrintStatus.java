@@ -1,11 +1,24 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The status gives a rough indication of the completion of a running
  * print operation.
  */
 public class PrintStatus extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The printing has not started yet; this
      *   status is set initially, and while the print dialog is shown.
@@ -60,5 +73,4 @@ public class PrintStatus extends io.github.jwharm.javagi.Enumeration {
     public PrintStatus(int value) {
         super(value);
     }
-    
 }

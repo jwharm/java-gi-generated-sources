@@ -10,8 +10,20 @@ import org.jetbrains.annotations.*;
  * interface that can be used as a proxy for an action group
  * that is exported over D-Bus with g_dbus_connection_export_action_group().
  */
-public class DBusActionGroup extends org.gtk.gobject.Object implements ActionGroup, RemoteActionGroup {
-
+public class DBusActionGroup extends org.gtk.gobject.Object implements org.gtk.gio.ActionGroup, org.gtk.gio.RemoteActionGroup {
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public DBusActionGroup(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -20,11 +32,6 @@ public class DBusActionGroup extends org.gtk.gobject.Object implements ActionGro
     public static DBusActionGroup castFrom(org.gtk.gobject.Object gobject) {
         return new DBusActionGroup(gobject.refcounted());
     }
-    
-    private static final MethodHandle g_dbus_action_group_get = Interop.downcallHandle(
-        "g_dbus_action_group_get",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Obtains a {@link DBusActionGroup} for the action group which is exported at
@@ -40,15 +47,30 @@ public class DBusActionGroup extends org.gtk.gobject.Object implements ActionGro
      * already be filled in.  The correct thing to do is connect the signals
      * for the action group to monitor for changes and then to call
      * g_action_group_list_actions() to get the initial list.
+     * @param connection A {@link DBusConnection}
+     * @param busName the bus name which exports the action
+     *     group or {@code null} if {@code connection} is not a message bus connection
+     * @param objectPath the object path at which the action group is exported
+     * @return a {@link DBusActionGroup}
      */
-    public static @NotNull DBusActionGroup get(@NotNull DBusConnection connection, @Nullable java.lang.String busName, @NotNull java.lang.String objectPath) {
+    public static @NotNull org.gtk.gio.DBusActionGroup get(@NotNull org.gtk.gio.DBusConnection connection, @Nullable java.lang.String busName, @NotNull java.lang.String objectPath) {
+        java.util.Objects.requireNonNull(connection, "Parameter 'connection' must not be null");
+        java.util.Objects.requireNonNullElse(busName, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_dbus_action_group_get.invokeExact(connection.handle(), Interop.allocateNativeString(busName), Interop.allocateNativeString(objectPath));
+            RESULT = (MemoryAddress) DowncallHandles.g_dbus_action_group_get.invokeExact(connection.handle(), Interop.allocateNativeString(busName), Interop.allocateNativeString(objectPath));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new DBusActionGroup(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.DBusActionGroup(Refcounted.get(RESULT, true));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_dbus_action_group_get = Interop.downcallHandle(
+            "g_dbus_action_group_get",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

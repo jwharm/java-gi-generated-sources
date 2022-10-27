@@ -20,7 +20,6 @@ import org.jetbrains.annotations.*;
  * a set {@code GError} on failure.
  * <p>
  * A typical implementation might look something like this:
- * <p>
  * <pre>{@code <!-- language="C" -->
  * enum {
  *    NOT_INITIALIZED,
@@ -105,13 +104,9 @@ import org.jetbrains.annotations.*;
  *   iface->init_finish = foo_init_finish;
  * }
  * }</pre>
+ * @version 2.22
  */
 public interface AsyncInitable extends io.github.jwharm.javagi.Proxy {
-
-    @ApiStatus.Internal static final MethodHandle g_async_initable_init_async = Interop.downcallHandle(
-        "g_async_initable_init_async",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Starts asynchronous initialization of the object implementing the
@@ -150,35 +145,40 @@ public interface AsyncInitable extends io.github.jwharm.javagi.Proxy {
      * in a thread, so if you want to support asynchronous initialization via
      * threads, just implement the {@link AsyncInitable} interface without overriding
      * any interface methods.
+     * @param ioPriority the [I/O priority][io-priority] of the operation
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @param callback a {@link AsyncReadyCallback} to call when the request is satisfied
      */
-    default @NotNull void initAsync(@NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
+    default void initAsync(int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            g_async_initable_init_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
+            DowncallHandles.g_async_initable_init_async.invokeExact(handle(), ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
+                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    @ApiStatus.Internal static final MethodHandle g_async_initable_init_finish = Interop.downcallHandle(
-        "g_async_initable_init_finish",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Finishes asynchronous initialization and returns the result.
      * See g_async_initable_init_async().
+     * @param res a {@link AsyncResult}.
+     * @return {@code true} if successful. If an error has occurred, this function
+     * will return {@code false} and set {@code error} appropriately if present.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean initFinish(@NotNull AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
+    default boolean initFinish(@NotNull org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_async_initable_init_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_async_initable_init_finish.invokeExact(handle(), res.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -188,10 +188,24 @@ public interface AsyncInitable extends io.github.jwharm.javagi.Proxy {
         return RESULT != 0;
     }
     
-    @ApiStatus.Internal static final MethodHandle g_async_initable_new_valist_async = Interop.downcallHandle(
-        "g_async_initable_new_valist_async",
-        FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Helper function for constructing {@link AsyncInitable} object. This is
+     * similar to g_object_new() but also initializes the object asynchronously.
+     * <p>
+     * When the initialization is finished, {@code callback} will be called. You can
+     * then call g_async_initable_new_finish() to get the new object and check
+     * for any errors.
+     * @param objectType a {@link org.gtk.gobject.Type} supporting {@link AsyncInitable}.
+     * @param ioPriority the [I/O priority][io-priority] of the operation
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @param callback a {@link AsyncReadyCallback} to call when the initialization is
+     *     finished
+     * @param firstPropertyName the name of the first property, or {@code null} if no
+     *     properties
+     */
+    public static void newAsync(@NotNull org.gtk.glib.Type objectType, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback, @Nullable java.lang.String firstPropertyName) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Helper function for constructing {@link AsyncInitable} object. This is
@@ -201,22 +215,110 @@ public interface AsyncInitable extends io.github.jwharm.javagi.Proxy {
      * When the initialization is finished, {@code callback} will be called. You can
      * then call g_async_initable_new_finish() to get the new object and check
      * for any errors.
+     * @param objectType a {@link org.gtk.gobject.Type} supporting {@link AsyncInitable}.
+     * @param firstPropertyName the name of the first property, followed by
+     * the value, and other property value pairs, and ended by {@code null}.
+     * @param varArgs The var args list generated from {@code first_property_name}.
+     * @param ioPriority the [I/O priority][io-priority] of the operation
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @param callback a {@link AsyncReadyCallback} to call when the initialization is
+     *     finished
      */
-    public static @NotNull void newValistAsync(@NotNull org.gtk.gobject.Type objectType, @NotNull java.lang.String firstPropertyName, @NotNull VaList varArgs, @NotNull int ioPriority, @Nullable Cancellable cancellable, @Nullable AsyncReadyCallback callback) {
+    public static void newValistAsync(@NotNull org.gtk.glib.Type objectType, @NotNull java.lang.String firstPropertyName, @NotNull VaList varArgs, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNull(objectType, "Parameter 'objectType' must not be null");
+        java.util.Objects.requireNonNull(firstPropertyName, "Parameter 'firstPropertyName' must not be null");
+        java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
         try {
-            g_async_initable_new_valist_async.invokeExact(objectType.getValue(), Interop.allocateNativeString(firstPropertyName), varArgs, ioPriority, cancellable.handle(), 
+            DowncallHandles.g_async_initable_new_valist_async.invokeExact(objectType.getValue(), Interop.allocateNativeString(firstPropertyName), varArgs, ioPriority, cancellable.handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.class, "__cbAsyncReadyCallback",
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(callback)));
+                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    /**
+     * Helper function for constructing {@link AsyncInitable} object. This is
+     * similar to g_object_newv() but also initializes the object asynchronously.
+     * <p>
+     * When the initialization is finished, {@code callback} will be called. You can
+     * then call g_async_initable_new_finish() to get the new object and check
+     * for any errors.
+     * @param objectType a {@link org.gtk.gobject.Type} supporting {@link AsyncInitable}.
+     * @param nParameters the number of parameters in {@code parameters}
+     * @param parameters the parameters to use to construct the object
+     * @param ioPriority the [I/O priority][io-priority] of the operation
+     * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
+     * @param callback a {@link AsyncReadyCallback} to call when the initialization is
+     *     finished
+     * @deprecated Use g_object_new_with_properties() and
+     * g_async_initable_init_async() instead. See {@link org.gtk.gobject.Parameter} for more information.
+     */
+    @Deprecated
+    public static void newvAsync(@NotNull org.gtk.glib.Type objectType, int nParameters, @NotNull org.gtk.gobject.Parameter parameters, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        java.util.Objects.requireNonNull(objectType, "Parameter 'objectType' must not be null");
+        java.util.Objects.requireNonNull(parameters, "Parameter 'parameters' must not be null");
+        java.util.Objects.requireNonNullElse(cancellable, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(callback, MemoryAddress.NULL);
+        try {
+            DowncallHandles.g_async_initable_newv_async.invokeExact(objectType.getValue(), nParameters, parameters.handle(), ioPriority, cancellable.handle(), 
+                    (Addressable) Linker.nativeLinker().upcallStub(
+                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
+                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
+                        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
+                        Interop.getScope()), 
+                   (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
+    
+    @ApiStatus.Internal
+    static class DowncallHandles {
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_async_initable_init_async = Interop.downcallHandle(
+            "g_async_initable_init_async",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_async_initable_init_finish = Interop.downcallHandle(
+            "g_async_initable_init_finish",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_async_initable_new_async = Interop.downcallHandle(
+            "g_async_initable_new_async",
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_async_initable_new_valist_async = Interop.downcallHandle(
+            "g_async_initable_new_valist_async",
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        @ApiStatus.Internal
+        static final MethodHandle g_async_initable_newv_async = Interop.downcallHandle(
+            "g_async_initable_newv_async",
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_LONG, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
+    
     class AsyncInitableImpl extends org.gtk.gobject.Object implements AsyncInitable {
+        
+        static {
+            Gio.javagi$ensureInitialized();
+        }
+        
         public AsyncInitableImpl(io.github.jwharm.javagi.Refcounted ref) {
             super(ref);
         }

@@ -1,5 +1,10 @@
 package org.gtk.glib;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * These are the possible line break classifications.
  * <p>
@@ -9,7 +14,15 @@ package org.gtk.glib;
  * See <a href="http://www.unicode.org/unicode/reports/tr14/">Unicode Line Breaking Algorithm</a>.
  */
 public class UnicodeBreakType extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Mandatory Break (BK)
      */
@@ -233,5 +246,4 @@ public class UnicodeBreakType extends io.github.jwharm.javagi.Enumeration {
     public UnicodeBreakType(int value) {
         super(value);
     }
-    
 }

@@ -1,11 +1,25 @@
 package org.pango;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * These flags affect how Pango treats characters that are normally
  * not visible in the output.
+ * @version 1.44
  */
 public class ShowFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * No special treatment for invisible characters
      */
@@ -30,5 +44,4 @@ public class ShowFlags extends io.github.jwharm.javagi.Bitfield {
     public ShowFlags(int value) {
         super(value);
     }
-    
 }

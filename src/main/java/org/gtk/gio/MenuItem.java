@@ -8,9 +8,22 @@ import org.jetbrains.annotations.*;
 /**
  * {@link MenuItem} is an opaque structure type.  You must access it using the
  * functions below.
+ * @version 2.32
  */
 public class MenuItem extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public MenuItem(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -20,18 +33,16 @@ public class MenuItem extends org.gtk.gobject.Object {
         return new MenuItem(gobject.refcounted());
     }
     
-    private static final MethodHandle g_menu_item_new = Interop.downcallHandle(
-        "g_menu_item_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew(@Nullable java.lang.String label, @Nullable java.lang.String detailedAction) {
+        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(detailedAction, MemoryAddress.NULL);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_menu_item_new.invokeExact(Interop.allocateNativeString(label), Interop.allocateNativeString(detailedAction)), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_menu_item_new.invokeExact(Interop.allocateNativeString(label), Interop.allocateNativeString(detailedAction)), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -43,23 +54,22 @@ public class MenuItem extends org.gtk.gobject.Object {
      * If {@code detailed_action} is non-{@code null} it is used to set the "action" and
      * possibly the "target" attribute of the new item.  See
      * g_menu_item_set_detailed_action() for more information.
+     * @param label the section label, or {@code null}
+     * @param detailedAction the detailed action string, or {@code null}
      */
     public MenuItem(@Nullable java.lang.String label, @Nullable java.lang.String detailedAction) {
         super(constructNew(label, detailedAction));
     }
     
-    private static final MethodHandle g_menu_item_new_from_model = Interop.downcallHandle(
-        "g_menu_item_new_from_model",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
-    
-    private static Refcounted constructNewFromModel(@NotNull MenuModel model, @NotNull int itemIndex) {
+    private static Refcounted constructNewFromModel(@NotNull org.gtk.gio.MenuModel model, int itemIndex) {
+        java.util.Objects.requireNonNull(model, "Parameter 'model' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_menu_item_new_from_model.invokeExact(model.handle(), itemIndex), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_menu_item_new_from_model.invokeExact(model.handle(), itemIndex), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -68,23 +78,24 @@ public class MenuItem extends org.gtk.gobject.Object {
      * <p>
      * {@code item_index} must be valid (ie: be sure to call
      * g_menu_model_get_n_items() first).
+     * @param model a {@link MenuModel}
+     * @param itemIndex the index of an item in {@code model}
+     * @return a new {@link MenuItem}.
      */
-    public static MenuItem newFromModel(@NotNull MenuModel model, @NotNull int itemIndex) {
+    public static MenuItem newFromModel(@NotNull org.gtk.gio.MenuModel model, int itemIndex) {
         return new MenuItem(constructNewFromModel(model, itemIndex));
     }
     
-    private static final MethodHandle g_menu_item_new_section = Interop.downcallHandle(
-        "g_menu_item_new_section",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNewSection(@Nullable java.lang.String label, @NotNull MenuModel section) {
+    private static Refcounted constructNewSection(@Nullable java.lang.String label, @NotNull org.gtk.gio.MenuModel section) {
+        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(section, "Parameter 'section' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_menu_item_new_section.invokeExact(Interop.allocateNativeString(label), section.handle()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_menu_item_new_section.invokeExact(Interop.allocateNativeString(label), section.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -148,23 +159,24 @@ public class MenuItem extends org.gtk.gobject.Object {
      *   </item>
      * </menu>
      * }</pre>
+     * @param label the section label, or {@code null}
+     * @param section a {@link MenuModel} with the items of the section
+     * @return a new {@link MenuItem}
      */
-    public static MenuItem newSection(@Nullable java.lang.String label, @NotNull MenuModel section) {
+    public static MenuItem newSection(@Nullable java.lang.String label, @NotNull org.gtk.gio.MenuModel section) {
         return new MenuItem(constructNewSection(label, section));
     }
     
-    private static final MethodHandle g_menu_item_new_submenu = Interop.downcallHandle(
-        "g_menu_item_new_submenu",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNewSubmenu(@Nullable java.lang.String label, @NotNull MenuModel submenu) {
+    private static Refcounted constructNewSubmenu(@Nullable java.lang.String label, @NotNull org.gtk.gio.MenuModel submenu) {
+        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(submenu, "Parameter 'submenu' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_menu_item_new_submenu.invokeExact(Interop.allocateNativeString(label), submenu.handle()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_menu_item_new_submenu.invokeExact(Interop.allocateNativeString(label), submenu.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -172,15 +184,32 @@ public class MenuItem extends org.gtk.gobject.Object {
      * <p>
      * This is a convenience API around g_menu_item_new() and
      * g_menu_item_set_submenu().
+     * @param label the section label, or {@code null}
+     * @param submenu a {@link MenuModel} with the items of the submenu
+     * @return a new {@link MenuItem}
      */
-    public static MenuItem newSubmenu(@Nullable java.lang.String label, @NotNull MenuModel submenu) {
+    public static MenuItem newSubmenu(@Nullable java.lang.String label, @NotNull org.gtk.gio.MenuModel submenu) {
         return new MenuItem(constructNewSubmenu(label, submenu));
     }
     
-    private static final MethodHandle g_menu_item_get_attribute_value = Interop.downcallHandle(
-        "g_menu_item_get_attribute_value",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Queries the named {@code attribute} on {@code menu_item}.
+     * <p>
+     * If the attribute exists and matches the {@link org.gtk.glib.VariantType} corresponding
+     * to {@code format_string} then {@code format_string} is used to deconstruct the
+     * value into the positional parameters and {@code true} is returned.
+     * <p>
+     * If the attribute does not exist, or it does exist but has the wrong
+     * type, then the positional parameters are ignored and {@code false} is
+     * returned.
+     * @param attribute the attribute name to query
+     * @param formatString a {@link org.gtk.glib.Variant} format string
+     * @return {@code true} if the named attribute was found with the expected
+     *     type
+     */
+    public boolean getAttribute(@NotNull java.lang.String attribute, @NotNull java.lang.String formatString) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Queries the named {@code attribute} on {@code menu_item}.
@@ -188,39 +217,64 @@ public class MenuItem extends org.gtk.gobject.Object {
      * If {@code expected_type} is specified and the attribute does not have this
      * type, {@code null} is returned.  {@code null} is also returned if the attribute
      * simply does not exist.
+     * @param attribute the attribute name to query
+     * @param expectedType the expected type of the attribute
+     * @return the attribute value, or {@code null}
      */
     public @Nullable org.gtk.glib.Variant getAttributeValue(@NotNull java.lang.String attribute, @Nullable org.gtk.glib.VariantType expectedType) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
+        java.util.Objects.requireNonNullElse(expectedType, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_menu_item_get_attribute_value.invokeExact(handle(), Interop.allocateNativeString(attribute), expectedType.handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_menu_item_get_attribute_value.invokeExact(handle(), Interop.allocateNativeString(attribute), expectedType.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.Variant(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle g_menu_item_get_link = Interop.downcallHandle(
-        "g_menu_item_get_link",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Queries the named {@code link} on {@code menu_item}.
+     * @param link the link name to query
+     * @return the link, or {@code null}
      */
-    public @Nullable MenuModel getLink(@NotNull java.lang.String link) {
+    public @Nullable org.gtk.gio.MenuModel getLink(@NotNull java.lang.String link) {
+        java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_menu_item_get_link.invokeExact(handle(), Interop.allocateNativeString(link));
+            RESULT = (MemoryAddress) DowncallHandles.g_menu_item_get_link.invokeExact(handle(), Interop.allocateNativeString(link));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new MenuModel(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.MenuModel(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle g_menu_item_set_action_and_target_value = Interop.downcallHandle(
-        "g_menu_item_set_action_and_target_value",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Sets or unsets the "action" and "target" attributes of {@code menu_item}.
+     * <p>
+     * If {@code action} is {@code null} then both the "action" and "target" attributes
+     * are unset (and {@code format_string} is ignored along with the positional
+     * parameters).
+     * <p>
+     * If {@code action} is non-{@code null} then the "action" attribute is set.
+     * {@code format_string} is then inspected.  If it is non-{@code null} then the proper
+     * position parameters are collected to create a {@link org.gtk.glib.Variant} instance to
+     * use as the target value.  If it is {@code null} then the positional
+     * parameters are ignored and the "target" attribute is unset.
+     * <p>
+     * See also g_menu_item_set_action_and_target_value() for an equivalent
+     * call that directly accepts a {@link org.gtk.glib.Variant}.  See
+     * g_menu_item_set_detailed_action() for a more convenient version that
+     * works with string-typed targets.
+     * <p>
+     * See also g_menu_item_set_action_and_target_value() for a
+     * description of the semantics of the action and target attributes.
+     * @param action the name of the action for this item
+     * @param formatString a GVariant format string
+     */
+    public void setActionAndTarget(@Nullable java.lang.String action, @Nullable java.lang.String formatString) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Sets or unsets the "action" and "target" attributes of {@code menu_item}.
@@ -259,19 +313,43 @@ public class MenuItem extends org.gtk.gobject.Object {
      * See g_menu_item_set_action_and_target() or
      * g_menu_item_set_detailed_action() for two equivalent calls that are
      * probably more convenient for most uses.
+     * @param action the name of the action for this item
+     * @param targetValue a {@link org.gtk.glib.Variant} to use as the action target
      */
-    public @NotNull void setActionAndTargetValue(@Nullable java.lang.String action, @Nullable org.gtk.glib.Variant targetValue) {
+    public void setActionAndTargetValue(@Nullable java.lang.String action, @Nullable org.gtk.glib.Variant targetValue) {
+        java.util.Objects.requireNonNullElse(action, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(targetValue, MemoryAddress.NULL);
         try {
-            g_menu_item_set_action_and_target_value.invokeExact(handle(), Interop.allocateNativeString(action), targetValue.handle());
+            DowncallHandles.g_menu_item_set_action_and_target_value.invokeExact(handle(), Interop.allocateNativeString(action), targetValue.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle g_menu_item_set_attribute_value = Interop.downcallHandle(
-        "g_menu_item_set_attribute_value",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
+    /**
+     * Sets or unsets an attribute on {@code menu_item}.
+     * <p>
+     * The attribute to set or unset is specified by {@code attribute}. This
+     * can be one of the standard attribute names {@code G_MENU_ATTRIBUTE_LABEL},
+     * {@code G_MENU_ATTRIBUTE_ACTION}, {@code G_MENU_ATTRIBUTE_TARGET}, or a custom
+     * attribute name.
+     * Attribute names are restricted to lowercase characters, numbers
+     * and '-'. Furthermore, the names must begin with a lowercase character,
+     * must not end with a '-', and must not contain consecutive dashes.
+     * <p>
+     * If {@code format_string} is non-{@code null} then the proper position parameters
+     * are collected to create a {@link org.gtk.glib.Variant} instance to use as the attribute
+     * value.  If it is {@code null} then the positional parameterrs are ignored
+     * and the named attribute is unset.
+     * <p>
+     * See also g_menu_item_set_attribute_value() for an equivalent call
+     * that directly accepts a {@link org.gtk.glib.Variant}.
+     * @param attribute the attribute to set
+     * @param formatString a {@link org.gtk.glib.Variant} format string, or {@code null}
+     */
+    public void setAttribute(@NotNull java.lang.String attribute, @Nullable java.lang.String formatString) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Sets or unsets an attribute on {@code menu_item}.
@@ -293,19 +371,18 @@ public class MenuItem extends org.gtk.gobject.Object {
      * <p>
      * See also g_menu_item_set_attribute() for a more convenient way to do
      * the same.
+     * @param attribute the attribute to set
+     * @param value a {@link org.gtk.glib.Variant} to use as the value, or {@code null}
      */
-    public @NotNull void setAttributeValue(@NotNull java.lang.String attribute, @Nullable org.gtk.glib.Variant value) {
+    public void setAttributeValue(@NotNull java.lang.String attribute, @Nullable org.gtk.glib.Variant value) {
+        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
+        java.util.Objects.requireNonNullElse(value, MemoryAddress.NULL);
         try {
-            g_menu_item_set_attribute_value.invokeExact(handle(), Interop.allocateNativeString(attribute), value.handle());
+            DowncallHandles.g_menu_item_set_attribute_value.invokeExact(handle(), Interop.allocateNativeString(attribute), value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_menu_item_set_detailed_action = Interop.downcallHandle(
-        "g_menu_item_set_detailed_action",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the "action" and possibly the "target" attribute of {@code menu_item}.
@@ -319,19 +396,16 @@ public class MenuItem extends org.gtk.gobject.Object {
      * <p>
      * See also g_menu_item_set_action_and_target_value() for a description of
      * the semantics of the action and target attributes.
+     * @param detailedAction the "detailed" action string
      */
-    public @NotNull void setDetailedAction(@NotNull java.lang.String detailedAction) {
+    public void setDetailedAction(@NotNull java.lang.String detailedAction) {
+        java.util.Objects.requireNonNull(detailedAction, "Parameter 'detailedAction' must not be null");
         try {
-            g_menu_item_set_detailed_action.invokeExact(handle(), Interop.allocateNativeString(detailedAction));
+            DowncallHandles.g_menu_item_set_detailed_action.invokeExact(handle(), Interop.allocateNativeString(detailedAction));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_menu_item_set_icon = Interop.downcallHandle(
-        "g_menu_item_set_icon",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets (or unsets) the icon on {@code menu_item}.
@@ -346,38 +420,32 @@ public class MenuItem extends org.gtk.gobject.Object {
      * 'Quit').
      * <p>
      * If {@code icon} is {@code null} then the icon is unset.
+     * @param icon a {@link Icon}, or {@code null}
      */
-    public @NotNull void setIcon(@NotNull Icon icon) {
+    public void setIcon(@NotNull org.gtk.gio.Icon icon) {
+        java.util.Objects.requireNonNull(icon, "Parameter 'icon' must not be null");
         try {
-            g_menu_item_set_icon.invokeExact(handle(), icon.handle());
+            DowncallHandles.g_menu_item_set_icon.invokeExact(handle(), icon.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_menu_item_set_label = Interop.downcallHandle(
-        "g_menu_item_set_label",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets or unsets the "label" attribute of {@code menu_item}.
      * <p>
      * If {@code label} is non-{@code null} it is used as the label for the menu item.  If
      * it is {@code null} then the label attribute is unset.
+     * @param label the label to set, or {@code null} to unset
      */
-    public @NotNull void setLabel(@Nullable java.lang.String label) {
+    public void setLabel(@Nullable java.lang.String label) {
+        java.util.Objects.requireNonNullElse(label, MemoryAddress.NULL);
         try {
-            g_menu_item_set_label.invokeExact(handle(), Interop.allocateNativeString(label));
+            DowncallHandles.g_menu_item_set_label.invokeExact(handle(), Interop.allocateNativeString(label));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_menu_item_set_link = Interop.downcallHandle(
-        "g_menu_item_set_link",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Creates a link from {@code menu_item} to {@code model} if non-{@code null}, or unsets it.
@@ -390,19 +458,18 @@ public class MenuItem extends org.gtk.gobject.Object {
      * Link types are restricted to lowercase characters, numbers
      * and '-'. Furthermore, the names must begin with a lowercase character,
      * must not end with a '-', and must not contain consecutive dashes.
+     * @param link type of link to establish or unset
+     * @param model the {@link MenuModel} to link to (or {@code null} to unset)
      */
-    public @NotNull void setLink(@NotNull java.lang.String link, @Nullable MenuModel model) {
+    public void setLink(@NotNull java.lang.String link, @Nullable org.gtk.gio.MenuModel model) {
+        java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
+        java.util.Objects.requireNonNullElse(model, MemoryAddress.NULL);
         try {
-            g_menu_item_set_link.invokeExact(handle(), Interop.allocateNativeString(link), model.handle());
+            DowncallHandles.g_menu_item_set_link.invokeExact(handle(), Interop.allocateNativeString(link), model.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_menu_item_set_section = Interop.downcallHandle(
-        "g_menu_item_set_section",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets or unsets the "section" link of {@code menu_item} to {@code section}.
@@ -412,19 +479,16 @@ public class MenuItem extends org.gtk.gobject.Object {
      * the menu that {@code menu_item} is added to.  See g_menu_item_new_section()
      * for more information about what it means for a menu item to be a
      * section.
+     * @param section a {@link MenuModel}, or {@code null}
      */
-    public @NotNull void setSection(@Nullable MenuModel section) {
+    public void setSection(@Nullable org.gtk.gio.MenuModel section) {
+        java.util.Objects.requireNonNullElse(section, MemoryAddress.NULL);
         try {
-            g_menu_item_set_section.invokeExact(handle(), section.handle());
+            DowncallHandles.g_menu_item_set_section.invokeExact(handle(), section.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_menu_item_set_submenu = Interop.downcallHandle(
-        "g_menu_item_set_submenu",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets or unsets the "submenu" link of {@code menu_item} to {@code submenu}.
@@ -434,13 +498,102 @@ public class MenuItem extends org.gtk.gobject.Object {
      * <p>
      * The effect of having one menu appear as a submenu of another is
      * exactly as it sounds.
+     * @param submenu a {@link MenuModel}, or {@code null}
      */
-    public @NotNull void setSubmenu(@Nullable MenuModel submenu) {
+    public void setSubmenu(@Nullable org.gtk.gio.MenuModel submenu) {
+        java.util.Objects.requireNonNullElse(submenu, MemoryAddress.NULL);
         try {
-            g_menu_item_set_submenu.invokeExact(handle(), submenu.handle());
+            DowncallHandles.g_menu_item_set_submenu.invokeExact(handle(), submenu.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_menu_item_new = Interop.downcallHandle(
+            "g_menu_item_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_item_new_from_model = Interop.downcallHandle(
+            "g_menu_item_new_from_model",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_menu_item_new_section = Interop.downcallHandle(
+            "g_menu_item_new_section",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_item_new_submenu = Interop.downcallHandle(
+            "g_menu_item_new_submenu",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_item_get_attribute = Interop.downcallHandle(
+            "g_menu_item_get_attribute",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_item_get_attribute_value = Interop.downcallHandle(
+            "g_menu_item_get_attribute_value",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_item_get_link = Interop.downcallHandle(
+            "g_menu_item_get_link",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_item_set_action_and_target = Interop.downcallHandle(
+            "g_menu_item_set_action_and_target",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_item_set_action_and_target_value = Interop.downcallHandle(
+            "g_menu_item_set_action_and_target_value",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_item_set_attribute = Interop.downcallHandle(
+            "g_menu_item_set_attribute",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_item_set_attribute_value = Interop.downcallHandle(
+            "g_menu_item_set_attribute_value",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_item_set_detailed_action = Interop.downcallHandle(
+            "g_menu_item_set_detailed_action",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_item_set_icon = Interop.downcallHandle(
+            "g_menu_item_set_icon",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_item_set_label = Interop.downcallHandle(
+            "g_menu_item_set_label",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_item_set_link = Interop.downcallHandle(
+            "g_menu_item_set_link",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_item_set_section = Interop.downcallHandle(
+            "g_menu_item_set_section",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_menu_item_set_submenu = Interop.downcallHandle(
+            "g_menu_item_set_submenu",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

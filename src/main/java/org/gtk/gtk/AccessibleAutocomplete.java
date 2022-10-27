@@ -1,11 +1,24 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The possible values for the {@link AccessibleProperty#AUTOCOMPLETE}
  * accessible property.
  */
 public class AccessibleAutocomplete extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Automatic suggestions are not displayed.
      */
@@ -37,5 +50,4 @@ public class AccessibleAutocomplete extends io.github.jwharm.javagi.Enumeration 
     public AccessibleAutocomplete(int value) {
         super(value);
     }
-    
 }

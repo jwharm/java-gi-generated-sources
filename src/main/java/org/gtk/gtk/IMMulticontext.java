@@ -13,8 +13,25 @@ import org.jetbrains.annotations.*;
  * to implement their {@code im-module} property for switching between different
  * input methods.
  */
-public class IMMulticontext extends IMContext {
-
+public class IMMulticontext extends org.gtk.gtk.IMContext {
+    
+    static {
+        Gtk.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        org.gtk.gtk.IMContext.getMemoryLayout().withName("object"),
+        org.gtk.gtk.IMMulticontextPrivate.getMemoryLayout().withName("priv")
+    ).withName("GtkIMMulticontext");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public IMMulticontext(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -24,18 +41,14 @@ public class IMMulticontext extends IMContext {
         return new IMMulticontext(gobject.refcounted());
     }
     
-    private static final MethodHandle gtk_im_multicontext_new = Interop.downcallHandle(
-        "gtk_im_multicontext_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNew() {
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gtk_im_multicontext_new.invokeExact(), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gtk_im_multicontext_new.invokeExact(), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -45,28 +58,19 @@ public class IMMulticontext extends IMContext {
         super(constructNew());
     }
     
-    private static final MethodHandle gtk_im_multicontext_get_context_id = Interop.downcallHandle(
-        "gtk_im_multicontext_get_context_id",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the id of the currently active delegate of the {@code context}.
+     * @return the id of the currently active delegate
      */
     public @NotNull java.lang.String getContextId() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gtk_im_multicontext_get_context_id.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gtk_im_multicontext_get_context_id.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle gtk_im_multicontext_set_context_id = Interop.downcallHandle(
-        "gtk_im_multicontext_set_context_id",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the context id for {@code context}.
@@ -77,13 +81,32 @@ public class IMMulticontext extends IMContext {
      * Setting this to a non-{@code null} value overrides the system-wide
      * IM module setting. See the {@code Gtk.Settings:gtk-im-module}
      * property.
+     * @param contextId the id to use
      */
-    public @NotNull void setContextId(@Nullable java.lang.String contextId) {
+    public void setContextId(@Nullable java.lang.String contextId) {
+        java.util.Objects.requireNonNullElse(contextId, MemoryAddress.NULL);
         try {
-            gtk_im_multicontext_set_context_id.invokeExact(handle(), Interop.allocateNativeString(contextId));
+            DowncallHandles.gtk_im_multicontext_set_context_id.invokeExact(handle(), Interop.allocateNativeString(contextId));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gtk_im_multicontext_new = Interop.downcallHandle(
+            "gtk_im_multicontext_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_im_multicontext_get_context_id = Interop.downcallHandle(
+            "gtk_im_multicontext_get_context_id",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gtk_im_multicontext_set_context_id = Interop.downcallHandle(
+            "gtk_im_multicontext_set_context_id",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

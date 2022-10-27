@@ -14,12 +14,24 @@ import org.jetbrains.annotations.*;
  * {@link org.gtk.gdk.Surface}.
  * <p>
  * It is necessary to realize a {@code GskRenderer} instance using
- * {@code Gsk.Renderer.render},
+ * {@link Renderer#realize} before calling {@link Renderer#render},
  * in order to create the appropriate windowing system resources needed
  * to render the scene.
  */
 public class Renderer extends org.gtk.gobject.Object {
-
+    
+    static {
+        Gsk.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public Renderer(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -29,18 +41,15 @@ public class Renderer extends org.gtk.gobject.Object {
         return new Renderer(gobject.refcounted());
     }
     
-    private static final MethodHandle gsk_renderer_new_for_surface = Interop.downcallHandle(
-        "gsk_renderer_new_for_surface",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     private static Refcounted constructNewForSurface(@NotNull org.gtk.gdk.Surface surface) {
+        java.util.Objects.requireNonNull(surface, "Parameter 'surface' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) gsk_renderer_new_for_surface.invokeExact(surface.handle()), true);
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.gsk_renderer_new_for_surface.invokeExact(surface.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
     /**
@@ -51,53 +60,42 @@ public class Renderer extends org.gtk.gobject.Object {
      * default. The ultimate fallback is the cairo renderer.
      * <p>
      * The renderer will be realized before it is returned.
+     * @param surface a {@code GdkSurface}
+     * @return a {@code GskRenderer}
      */
     public static Renderer newForSurface(@NotNull org.gtk.gdk.Surface surface) {
         return new Renderer(constructNewForSurface(surface));
     }
     
-    private static final MethodHandle gsk_renderer_get_surface = Interop.downcallHandle(
-        "gsk_renderer_get_surface",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Retrieves the {@code GdkSurface} set using gsk_enderer_realize().
      * <p>
      * If the renderer has not been realized yet, {@code null} will be returned.
+     * @return a {@code GdkSurface}
      */
     public @Nullable org.gtk.gdk.Surface getSurface() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gsk_renderer_get_surface.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_renderer_get_surface.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gdk.Surface(Refcounted.get(RESULT, false));
     }
     
-    private static final MethodHandle gsk_renderer_is_realized = Interop.downcallHandle(
-        "gsk_renderer_is_realized",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Checks whether the {@code renderer} is realized or not.
+     * @return {@code true} if the {@code GskRenderer} was realized, and {@code false} otherwise
      */
     public boolean isRealized() {
         int RESULT;
         try {
-            RESULT = (int) gsk_renderer_is_realized.invokeExact(handle());
+            RESULT = (int) DowncallHandles.gsk_renderer_is_realized.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gsk_renderer_realize = Interop.downcallHandle(
-        "gsk_renderer_realize",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Creates the resources needed by the {@code renderer} to render the scene
@@ -108,12 +106,16 @@ public class Renderer extends org.gtk.gobject.Object {
      * <p>
      * Note that it is mandatory to call {@link Renderer#unrealize} before
      * destroying the renderer.
+     * @param surface the {@code GdkSurface} renderer will be used on
+     * @return Whether the renderer was successfully realized
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean realize(@Nullable org.gtk.gdk.Surface surface) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(surface, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) gsk_renderer_realize.invokeExact(handle(), surface.handle(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.gsk_renderer_realize.invokeExact(handle(), surface.handle(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -122,11 +124,6 @@ public class Renderer extends org.gtk.gobject.Object {
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle gsk_renderer_render = Interop.downcallHandle(
-        "gsk_renderer_render",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Renders the scene graph, described by a tree of {@code GskRenderNode} instances
@@ -141,19 +138,19 @@ public class Renderer extends org.gtk.gobject.Object {
      * <p>
      * The {@code renderer} will acquire a reference on the {@code GskRenderNode} tree while
      * the rendering is in progress.
+     * @param root a {@code GskRenderNode}
+     * @param region the {@code cairo_region_t} that must be redrawn or {@code null}
+     *   for the whole window
      */
-    public @NotNull void render(@NotNull RenderNode root, @Nullable org.cairographics.Region region) {
+    public void render(@NotNull org.gtk.gsk.RenderNode root, @Nullable org.cairographics.Region region) {
+        java.util.Objects.requireNonNull(root, "Parameter 'root' must not be null");
+        java.util.Objects.requireNonNullElse(region, MemoryAddress.NULL);
         try {
-            gsk_renderer_render.invokeExact(handle(), root.handle(), region.handle());
+            DowncallHandles.gsk_renderer_render.invokeExact(handle(), root.handle(), region.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle gsk_renderer_render_texture = Interop.downcallHandle(
-        "gsk_renderer_render_texture",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Renders the scene graph, described by a tree of {@code GskRenderNode} instances,
@@ -164,31 +161,68 @@ public class Renderer extends org.gtk.gobject.Object {
      * <p>
      * If you want to apply any transformations to {@code root}, you should put it into a
      * transform node and pass that node instead.
+     * @param root a {@code GskRenderNode}
+     * @param viewport the section to draw or {@code null} to use {@code root}'s bounds
+     * @return a {@code GdkTexture} with the rendered contents of {@code root}.
      */
-    public @NotNull org.gtk.gdk.Texture renderTexture(@NotNull RenderNode root, @Nullable org.gtk.graphene.Rect viewport) {
+    public @NotNull org.gtk.gdk.Texture renderTexture(@NotNull org.gtk.gsk.RenderNode root, @Nullable org.gtk.graphene.Rect viewport) {
+        java.util.Objects.requireNonNull(root, "Parameter 'root' must not be null");
+        java.util.Objects.requireNonNullElse(viewport, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) gsk_renderer_render_texture.invokeExact(handle(), root.handle(), viewport.handle());
+            RESULT = (MemoryAddress) DowncallHandles.gsk_renderer_render_texture.invokeExact(handle(), root.handle(), viewport.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.gdk.Texture(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle gsk_renderer_unrealize = Interop.downcallHandle(
-        "gsk_renderer_unrealize",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Releases all the resources created by gsk_renderer_realize().
      */
-    public @NotNull void unrealize() {
+    public void unrealize() {
         try {
-            gsk_renderer_unrealize.invokeExact(handle());
+            DowncallHandles.gsk_renderer_unrealize.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle gsk_renderer_new_for_surface = Interop.downcallHandle(
+            "gsk_renderer_new_for_surface",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gsk_renderer_get_surface = Interop.downcallHandle(
+            "gsk_renderer_get_surface",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gsk_renderer_is_realized = Interop.downcallHandle(
+            "gsk_renderer_is_realized",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gsk_renderer_realize = Interop.downcallHandle(
+            "gsk_renderer_realize",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gsk_renderer_render = Interop.downcallHandle(
+            "gsk_renderer_render",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gsk_renderer_render_texture = Interop.downcallHandle(
+            "gsk_renderer_render_texture",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle gsk_renderer_unrealize = Interop.downcallHandle(
+            "gsk_renderer_unrealize",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
 }

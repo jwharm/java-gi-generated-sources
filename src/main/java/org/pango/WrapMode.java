@@ -1,5 +1,10 @@
 package org.pango;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * {@code PangoWrapMode} describes how to wrap the lines of a {@code PangoLayout}
  * to the desired width.
@@ -10,7 +15,15 @@ package org.pango;
  * segmentation algorithm.
  */
 public class WrapMode extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * wrap lines at word boundaries.
      */
@@ -30,5 +43,4 @@ public class WrapMode extends io.github.jwharm.javagi.Enumeration {
     public WrapMode(int value) {
         super(value);
     }
-    
 }

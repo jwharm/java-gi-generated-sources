@@ -1,6 +1,8 @@
 package org.gtk.gio;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -11,5 +13,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ReallocFunc {
-        java.lang.foreign.MemoryAddress onReallocFunc(@NotNull long size);
+        java.lang.foreign.MemoryAddress onReallocFunc(long size);
 }

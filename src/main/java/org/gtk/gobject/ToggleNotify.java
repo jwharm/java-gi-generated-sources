@@ -1,6 +1,8 @@
 package org.gtk.gobject;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -11,5 +13,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ToggleNotify {
-        void onToggleNotify(@NotNull Object object, @NotNull boolean isLastRef);
+        void onToggleNotify(@NotNull org.gtk.gobject.Object object, boolean isLastRef);
 }

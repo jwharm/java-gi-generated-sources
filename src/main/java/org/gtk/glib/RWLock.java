@@ -69,17 +69,30 @@ import org.jetbrains.annotations.*;
  * g_rw_lock_init() on it and g_rw_lock_clear() when done.
  * <p>
  * A GRWLock should only be accessed with the g_rw_lock_ functions.
+ * @version 2.32
  */
 public class RWLock extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GLib.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.ADDRESS.withName("p"),
+        MemoryLayout.sequenceLayout(2, ValueLayout.JAVA_INT).withName("i")
+    ).withName("GRWLock");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public RWLock(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
-    private static final MethodHandle g_rw_lock_clear = Interop.downcallHandle(
-        "g_rw_lock_clear",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Frees the resources allocated to a lock with g_rw_lock_init().
@@ -92,18 +105,13 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Sine: 2.32
      */
-    public @NotNull void clear() {
+    public void clear() {
         try {
-            g_rw_lock_clear.invokeExact(handle());
+            DowncallHandles.g_rw_lock_clear.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_rw_lock_init = Interop.downcallHandle(
-        "g_rw_lock_init",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Initializes a {@link RWLock} so that it can be used.
@@ -112,7 +120,6 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      * allocated on the stack, or as part of a larger structure.  It is not
      * necessary to initialise a reader-writer lock that has been statically
      * allocated.
-     * <p>
      * <pre>{@code <!-- language="C" -->
      *   typedef struct {
      *     GRWLock l;
@@ -131,18 +138,13 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      * Calling g_rw_lock_init() on an already initialized {@link RWLock} leads
      * to undefined behaviour.
      */
-    public @NotNull void init() {
+    public void init() {
         try {
-            g_rw_lock_init.invokeExact(handle());
+            DowncallHandles.g_rw_lock_init.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_rw_lock_reader_lock = Interop.downcallHandle(
-        "g_rw_lock_reader_lock",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Obtain a read lock on {@code rw_lock}. If another thread currently holds
@@ -161,38 +163,29 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      * held on the same lock simultaneously. If the limit is hit,
      * or if a deadlock is detected, a critical warning will be emitted.
      */
-    public @NotNull void readerLock() {
+    public void readerLock() {
         try {
-            g_rw_lock_reader_lock.invokeExact(handle());
+            DowncallHandles.g_rw_lock_reader_lock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_rw_lock_reader_trylock = Interop.downcallHandle(
-        "g_rw_lock_reader_trylock",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tries to obtain a read lock on {@code rw_lock} and returns {@code true} if
      * the read lock was successfully obtained. Otherwise it
      * returns {@code false}.
+     * @return {@code true} if {@code rw_lock} could be locked
      */
     public boolean readerTrylock() {
         int RESULT;
         try {
-            RESULT = (int) g_rw_lock_reader_trylock.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_rw_lock_reader_trylock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_rw_lock_reader_unlock = Interop.downcallHandle(
-        "g_rw_lock_reader_unlock",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Release a read lock on {@code rw_lock}.
@@ -200,18 +193,13 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      * Calling g_rw_lock_reader_unlock() on a lock that is not held
      * by the current thread leads to undefined behaviour.
      */
-    public @NotNull void readerUnlock() {
+    public void readerUnlock() {
         try {
-            g_rw_lock_reader_unlock.invokeExact(handle());
+            DowncallHandles.g_rw_lock_reader_unlock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_rw_lock_writer_lock = Interop.downcallHandle(
-        "g_rw_lock_writer_lock",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Obtain a write lock on {@code rw_lock}. If another thread currently holds
@@ -221,39 +209,30 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      * Calling g_rw_lock_writer_lock() while the current thread already
      * owns a read or write lock on {@code rw_lock} leads to undefined behaviour.
      */
-    public @NotNull void writerLock() {
+    public void writerLock() {
         try {
-            g_rw_lock_writer_lock.invokeExact(handle());
+            DowncallHandles.g_rw_lock_writer_lock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_rw_lock_writer_trylock = Interop.downcallHandle(
-        "g_rw_lock_writer_trylock",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Tries to obtain a write lock on {@code rw_lock}. If another thread
      * currently holds a read or write lock on {@code rw_lock}, it immediately
      * returns {@code false}.
      * Otherwise it locks {@code rw_lock} and returns {@code true}.
+     * @return {@code true} if {@code rw_lock} could be locked
      */
     public boolean writerTrylock() {
         int RESULT;
         try {
-            RESULT = (int) g_rw_lock_writer_trylock.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_rw_lock_writer_trylock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_rw_lock_writer_unlock = Interop.downcallHandle(
-        "g_rw_lock_writer_unlock",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Release a write lock on {@code rw_lock}.
@@ -261,12 +240,54 @@ public class RWLock extends io.github.jwharm.javagi.ResourceBase {
      * Calling g_rw_lock_writer_unlock() on a lock that is not held
      * by the current thread leads to undefined behaviour.
      */
-    public @NotNull void writerUnlock() {
+    public void writerUnlock() {
         try {
-            g_rw_lock_writer_unlock.invokeExact(handle());
+            DowncallHandles.g_rw_lock_writer_unlock.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_rw_lock_clear = Interop.downcallHandle(
+            "g_rw_lock_clear",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_rw_lock_init = Interop.downcallHandle(
+            "g_rw_lock_init",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_rw_lock_reader_lock = Interop.downcallHandle(
+            "g_rw_lock_reader_lock",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_rw_lock_reader_trylock = Interop.downcallHandle(
+            "g_rw_lock_reader_trylock",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_rw_lock_reader_unlock = Interop.downcallHandle(
+            "g_rw_lock_reader_unlock",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_rw_lock_writer_lock = Interop.downcallHandle(
+            "g_rw_lock_writer_lock",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_rw_lock_writer_trylock = Interop.downcallHandle(
+            "g_rw_lock_writer_trylock",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_rw_lock_writer_unlock = Interop.downcallHandle(
+            "g_rw_lock_writer_unlock",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+    }
 }

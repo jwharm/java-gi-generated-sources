@@ -1,11 +1,24 @@
 package org.gtk.gobject;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Bit masks used to check or determine specific characteristics of a
  * fundamental type.
  */
 public class TypeFundamentalFlags extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * Indicates a classed type
      */
@@ -29,5 +42,4 @@ public class TypeFundamentalFlags extends io.github.jwharm.javagi.Bitfield {
     public TypeFundamentalFlags(int value) {
         super(value);
     }
-    
 }

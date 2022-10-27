@@ -1,5 +1,10 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Describes hints that might be taken into account by input methods
  * or applications.
@@ -14,7 +19,15 @@ package org.gtk.gtk;
  * ignore unknown values.
  */
 public class InputHints extends io.github.jwharm.javagi.Bitfield {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * No special behaviour suggested
      */
@@ -87,5 +100,4 @@ public class InputHints extends io.github.jwharm.javagi.Bitfield {
     public InputHints(int value) {
         super(value);
     }
-    
 }

@@ -12,8 +12,20 @@ import org.jetbrains.annotations.*;
  * When creating a {@code PangoFontsetSimple}, you have to provide
  * the array of fonts that make up the fontset.
  */
-public class FontsetSimple extends Fontset {
-
+public class FontsetSimple extends org.pango.Fontset {
+    
+    static {
+        Pango.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public FontsetSimple(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
@@ -23,61 +35,69 @@ public class FontsetSimple extends Fontset {
         return new FontsetSimple(gobject.refcounted());
     }
     
-    private static final MethodHandle pango_fontset_simple_new = Interop.downcallHandle(
-        "pango_fontset_simple_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNew(@NotNull Language language) {
+    private static Refcounted constructNew(@NotNull org.pango.Language language) {
+        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) pango_fontset_simple_new.invokeExact(language.handle()), true);
-            return RESULT;
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-    }
-    
-    /**
-     * Creates a new {@code PangoFontsetSimple} for the given language.
-     */
-    public FontsetSimple(@NotNull Language language) {
-        super(constructNew(language));
-    }
-    
-    private static final MethodHandle pango_fontset_simple_append = Interop.downcallHandle(
-        "pango_fontset_simple_append",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
-    /**
-     * Adds a font to the fontset.
-     * <p>
-     * The fontset takes ownership of {@code font}.
-     */
-    public @NotNull void append(@NotNull Font font) {
-        try {
-            pango_fontset_simple_append.invokeExact(handle(), font.refcounted().unowned().handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-    }
-    
-    private static final MethodHandle pango_fontset_simple_size = Interop.downcallHandle(
-        "pango_fontset_simple_size",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
-    /**
-     * Returns the number of fonts in the fontset.
-     */
-    public int size() {
-        int RESULT;
-        try {
-            RESULT = (int) pango_fontset_simple_size.invokeExact(handle());
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.pango_fontset_simple_new.invokeExact(language.handle()), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
+    /**
+     * Creates a new {@code PangoFontsetSimple} for the given language.
+     * @param language a {@code PangoLanguage} tag
+     */
+    public FontsetSimple(@NotNull org.pango.Language language) {
+        super(constructNew(language));
+    }
+    
+    /**
+     * Adds a font to the fontset.
+     * <p>
+     * The fontset takes ownership of {@code font}.
+     * @param font a {@code PangoFont}.
+     */
+    public void append(@NotNull org.pango.Font font) {
+        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+        try {
+            DowncallHandles.pango_fontset_simple_append.invokeExact(handle(), font.refcounted().unowned().handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
+    
+    /**
+     * Returns the number of fonts in the fontset.
+     * @return the size of {@code fontset}
+     */
+    public int size() {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.pango_fontset_simple_size.invokeExact(handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle pango_fontset_simple_new = Interop.downcallHandle(
+            "pango_fontset_simple_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_fontset_simple_append = Interop.downcallHandle(
+            "pango_fontset_simple_append",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle pango_fontset_simple_size = Interop.downcallHandle(
+            "pango_fontset_simple_size",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+    }
 }

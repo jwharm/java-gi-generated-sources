@@ -1,7 +1,20 @@
 package org.cairographics;
 
-public class HintMetrics extends io.github.jwharm.javagi.Enumeration {
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
 
+public class HintMetrics extends io.github.jwharm.javagi.Enumeration {
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public static final HintMetrics DEFAULT = new HintMetrics(0);
     
     public static final HintMetrics OFF = new HintMetrics(1);
@@ -11,5 +24,4 @@ public class HintMetrics extends io.github.jwharm.javagi.Enumeration {
     public HintMetrics(int value) {
         super(value);
     }
-    
 }

@@ -17,8 +17,8 @@ import org.jetbrains.annotations.*;
  * <a href="https://en.wikipedia.org/wiki/IDN_homograph_attack">homograph attacks</a>, so
  * {@link Uri} is not suitable for formatting URIs for display to the user for making
  * security-sensitive decisions.
- * 
- * <h2>Relative and absolute URIs # {#relative-absolute-uris}</h2>
+ * <p>
+ * <strong>Relative and absolute URIs # {#relative-absolute-uris}</strong><br/>
  * As defined in <a href="https://tools.ietf.org/html/rfc3986#section-4">RFC 3986</a>, the
  * hierarchical nature of URIs means that they can either be ‘relative
  * references’ (sometimes referred to as ‘relative URIs’) or ‘URIs’ (for
@@ -45,8 +45,8 @@ import org.jetbrains.annotations.*;
  * A {@link Uri} instance is always an absolute URI. A string may be an absolute URI
  * or a relative reference; see the documentation for individual functions as to
  * what forms they accept.
- * 
- * <h2>Parsing URIs</h2>
+ * <p>
+ * <strong>Parsing URIs</strong><br/>
  * The most minimalist APIs for parsing URIs are g_uri_split() and
  * g_uri_split_with_user(). These split a URI into its component
  * parts, and return the parts; the difference between the two is that
@@ -78,8 +78,8 @@ import org.jetbrains.annotations.*;
  * For example, you might want to use {@link UriParamsFlags#WWW_FORM} when parsing the
  * params for a web URI, so compare the result of g_uri_peek_scheme() against
  * {@code http} and {@code https}.
- * 
- * <h2>Building URIs</h2>
+ * <p>
+ * <strong>Building URIs</strong><br/>
  * g_uri_join() and g_uri_join_with_user() can be used to construct
  * valid URI strings from a set of component strings. They are the
  * inverse of g_uri_split() and g_uri_split_with_user().
@@ -91,16 +91,16 @@ import org.jetbrains.annotations.*;
  * {@link UriFlags} argument. In particular, it is important to keep in mind
  * whether the URI components you are using are already {@code %}-encoded. If so,
  * you must pass the {@link UriFlags#ENCODED} flag.
- * 
- * <h2>`file://` URIs</h2>
+ * <p>
+ * <strong>`file://` URIs</strong><br/>
  * Note that Windows and Unix both define special rules for parsing
  * {@code file://} URIs (involving non-UTF-8 character sets on Unix, and the
  * interpretation of path separators on Windows). {@link Uri} does not
  * implement these rules. Use g_filename_from_uri() and
  * g_filename_to_uri() if you want to properly convert between
  * {@code file://} URIs and local filenames.
- * 
- * <h2>URI Equality</h2>
+ * <p>
+ * <strong>URI Equality</strong><br/>
  * Note that there is no {@code g_uri_equal ()} function, because comparing
  * URIs usefully requires scheme-specific knowledge that {@link Uri} does
  * not have. {@link Uri} can help with normalization if you use the various
@@ -109,17 +109,25 @@ import org.jetbrains.annotations.*;
  * For example, {@code data:,foo} and {@code data:;base64,Zm9v} resolve to the same
  * thing according to the {@code data:} URI specification which GLib does not
  * handle.
+ * @version 2.66
  */
 public class Uri extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GLib.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public Uri(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
-    private static final MethodHandle g_uri_get_auth_params = Interop.downcallHandle(
-        "g_uri_get_auth_params",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets {@code uri}'s authentication parameters, which may contain
@@ -129,58 +137,46 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Depending on the URI scheme, g_uri_parse_params() may be useful for
      * further parsing this information.
+     * @return {@code uri}'s authentication parameters.
      */
     public @Nullable java.lang.String getAuthParams() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_get_auth_params.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_get_auth_params.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle g_uri_get_flags = Interop.downcallHandle(
-        "g_uri_get_flags",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets {@code uri}'s flags set upon construction.
+     * @return {@code uri}'s flags.
      */
-    public @NotNull UriFlags getFlags() {
+    public @NotNull org.gtk.glib.UriFlags getFlags() {
         int RESULT;
         try {
-            RESULT = (int) g_uri_get_flags.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_uri_get_flags.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new UriFlags(RESULT);
+        return new org.gtk.glib.UriFlags(RESULT);
     }
-    
-    private static final MethodHandle g_uri_get_fragment = Interop.downcallHandle(
-        "g_uri_get_fragment",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets {@code uri}'s fragment, which may contain {@code %}-encoding, depending on
      * the flags with which {@code uri} was created.
+     * @return {@code uri}'s fragment.
      */
     public @Nullable java.lang.String getFragment() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_get_fragment.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_get_fragment.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_uri_get_host = Interop.downcallHandle(
-        "g_uri_get_host",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets {@code uri}'s host. This will never have {@code %}-encoded characters,
@@ -192,78 +188,62 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * the string form of the URI. Note that in this case there may also
      * be a scope ID attached to the address. Eg, {@code fe80::1234%}{@code em1} (or
      * {@code fe80::1234%}{@code 25em1} if the string is still encoded).
+     * @return {@code uri}'s host.
      */
     public @Nullable java.lang.String getHost() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_get_host.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_get_host.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_uri_get_password = Interop.downcallHandle(
-        "g_uri_get_password",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets {@code uri}'s password, which may contain {@code %}-encoding, depending on
      * the flags with which {@code uri} was created. (If {@code uri} was not created
      * with {@link UriFlags#HAS_PASSWORD} then this will be {@code null}.)
+     * @return {@code uri}'s password.
      */
     public @Nullable java.lang.String getPassword() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_get_password.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_get_password.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_uri_get_path = Interop.downcallHandle(
-        "g_uri_get_path",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets {@code uri}'s path, which may contain {@code %}-encoding, depending on the
      * flags with which {@code uri} was created.
+     * @return {@code uri}'s path.
      */
     public @NotNull java.lang.String getPath() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_get_path.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_get_path.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle g_uri_get_port = Interop.downcallHandle(
-        "g_uri_get_port",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets {@code uri}'s port.
+     * @return {@code uri}'s port, or {@code -1} if no port was specified.
      */
     public int getPort() {
         int RESULT;
         try {
-            RESULT = (int) g_uri_get_port.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_uri_get_port.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_uri_get_query = Interop.downcallHandle(
-        "g_uri_get_query",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets {@code uri}'s query, which may contain {@code %}-encoding, depending on the
@@ -271,123 +251,104 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * For queries consisting of a series of {@code name=value} parameters,
      * {@link UriParamsIter} or g_uri_parse_params() may be useful.
+     * @return {@code uri}'s query.
      */
     public @Nullable java.lang.String getQuery() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_get_query.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_get_query.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_uri_get_scheme = Interop.downcallHandle(
-        "g_uri_get_scheme",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets {@code uri}'s scheme. Note that this will always be all-lowercase,
      * regardless of the string or strings that {@code uri} was created from.
+     * @return {@code uri}'s scheme.
      */
     public @NotNull java.lang.String getScheme() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_get_scheme.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_get_scheme.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_uri_get_user = Interop.downcallHandle(
-        "g_uri_get_user",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the ‘username’ component of {@code uri}'s userinfo, which may contain
      * {@code %}-encoding, depending on the flags with which {@code uri} was created.
      * If {@code uri} was not created with {@link UriFlags#HAS_PASSWORD} or
      * {@link UriFlags#HAS_AUTH_PARAMS}, this is the same as g_uri_get_userinfo().
+     * @return {@code uri}'s user.
      */
     public @Nullable java.lang.String getUser() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_get_user.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_get_user.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_uri_get_userinfo = Interop.downcallHandle(
-        "g_uri_get_userinfo",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets {@code uri}'s userinfo, which may contain {@code %}-encoding, depending on
      * the flags with which {@code uri} was created.
+     * @return {@code uri}'s userinfo.
      */
     public @Nullable java.lang.String getUserinfo() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_get_userinfo.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_get_userinfo.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_uri_parse_relative = Interop.downcallHandle(
-        "g_uri_parse_relative",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Parses {@code uri_ref} according to {@code flags} and, if it is a
      * [relative URI][relative-absolute-uris], resolves it relative to {@code base_uri}.
      * If the result is not a valid absolute URI, it will be discarded, and an error
      * returned.
+     * @param uriRef a string representing a relative or absolute URI
+     * @param flags flags describing how to parse {@code uri_ref}
+     * @return a new {@link Uri}, or NULL on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull Uri parseRelative(@NotNull java.lang.String uriRef, @NotNull UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
+    public @NotNull org.gtk.glib.Uri parseRelative(@NotNull java.lang.String uriRef, @NotNull org.gtk.glib.UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(uriRef, "Parameter 'uriRef' must not be null");
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_parse_relative.invokeExact(handle(), Interop.allocateNativeString(uriRef), flags.getValue(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_parse_relative.invokeExact(handle(), Interop.allocateNativeString(uriRef), flags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Uri(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Uri(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_uri_ref = Interop.downcallHandle(
-        "g_uri_ref",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Increments the reference count of {@code uri} by one.
+     * @return {@code uri}
      */
-    public @NotNull Uri ref() {
+    public @NotNull org.gtk.glib.Uri ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Uri(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Uri(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_uri_to_string = Interop.downcallHandle(
-        "g_uri_to_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Returns a string representing {@code uri}.
@@ -402,40 +363,36 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * If {@code uri} might contain sensitive details, such as authentication parameters,
      * or private data in its query string, and the returned string is going to be
      * logged, then consider using g_uri_to_string_partial() to redact parts.
+     * @return a string representing {@code uri},
+     *     which the caller must free.
      */
     public @NotNull java.lang.String toString() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_to_string.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_to_string.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_uri_to_string_partial = Interop.downcallHandle(
-        "g_uri_to_string_partial",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Returns a string representing {@code uri}, subject to the options in
      * {@code flags}. See g_uri_to_string() and {@link UriHideFlags} for more details.
+     * @param flags flags describing what parts of {@code uri} to hide
+     * @return a string representing
+     *     {@code uri}, which the caller must free.
      */
-    public @NotNull java.lang.String toStringPartial(@NotNull UriHideFlags flags) {
+    public @NotNull java.lang.String toStringPartial(@NotNull org.gtk.glib.UriHideFlags flags) {
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_to_string_partial.invokeExact(handle(), flags.getValue());
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_to_string_partial.invokeExact(handle(), flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_uri_unref = Interop.downcallHandle(
-        "g_uri_unref",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Atomically decrements the reference count of {@code uri} by one.
@@ -443,39 +400,45 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * When the reference count reaches zero, the resources allocated by
      * {@code uri} are freed
      */
-    public @NotNull void unref() {
+    public void unref() {
         try {
-            g_uri_unref.invokeExact(handle());
+            DowncallHandles.g_uri_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_uri_build = Interop.downcallHandle(
-        "g_uri_build",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Creates a new {@link Uri} from the given components according to {@code flags}.
      * <p>
      * See also g_uri_build_with_user(), which allows specifying the
      * components of the "userinfo" separately.
+     * @param flags flags describing how to build the {@link Uri}
+     * @param scheme the URI scheme
+     * @param userinfo the userinfo component, or {@code null}
+     * @param host the host component, or {@code null}
+     * @param port the port, or {@code -1}
+     * @param path the path component
+     * @param query the query component, or {@code null}
+     * @param fragment the fragment, or {@code null}
+     * @return a new {@link Uri}
      */
-    public static @NotNull Uri build(@NotNull UriFlags flags, @NotNull java.lang.String scheme, @Nullable java.lang.String userinfo, @Nullable java.lang.String host, @NotNull int port, @NotNull java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
+    public static @NotNull org.gtk.glib.Uri build(@NotNull org.gtk.glib.UriFlags flags, @NotNull java.lang.String scheme, @Nullable java.lang.String userinfo, @Nullable java.lang.String host, int port, @NotNull java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        java.util.Objects.requireNonNull(scheme, "Parameter 'scheme' must not be null");
+        java.util.Objects.requireNonNullElse(userinfo, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(host, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+        java.util.Objects.requireNonNullElse(query, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(fragment, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_build.invokeExact(flags.getValue(), Interop.allocateNativeString(scheme), Interop.allocateNativeString(userinfo), Interop.allocateNativeString(host), port, Interop.allocateNativeString(path), Interop.allocateNativeString(query), Interop.allocateNativeString(fragment));
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_build.invokeExact(flags.getValue(), Interop.allocateNativeString(scheme), Interop.allocateNativeString(userinfo), Interop.allocateNativeString(host), port, Interop.allocateNativeString(path), Interop.allocateNativeString(query), Interop.allocateNativeString(fragment));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Uri(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Uri(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_uri_build_with_user = Interop.downcallHandle(
-        "g_uri_build_with_user",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Creates a new {@link Uri} from the given components according to {@code flags}
@@ -486,36 +449,46 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * In contrast to g_uri_build(), this allows specifying the components
      * of the ‘userinfo’ field separately. Note that {@code user} must be non-{@code null}
      * if either {@code password} or {@code auth_params} is non-{@code null}.
+     * @param flags flags describing how to build the {@link Uri}
+     * @param scheme the URI scheme
+     * @param user the user component of the userinfo, or {@code null}
+     * @param password the password component of the userinfo, or {@code null}
+     * @param authParams the auth params of the userinfo, or {@code null}
+     * @param host the host component, or {@code null}
+     * @param port the port, or {@code -1}
+     * @param path the path component
+     * @param query the query component, or {@code null}
+     * @param fragment the fragment, or {@code null}
+     * @return a new {@link Uri}
      */
-    public static @NotNull Uri buildWithUser(@NotNull UriFlags flags, @NotNull java.lang.String scheme, @Nullable java.lang.String user, @Nullable java.lang.String password, @Nullable java.lang.String authParams, @Nullable java.lang.String host, @NotNull int port, @NotNull java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
+    public static @NotNull org.gtk.glib.Uri buildWithUser(@NotNull org.gtk.glib.UriFlags flags, @NotNull java.lang.String scheme, @Nullable java.lang.String user, @Nullable java.lang.String password, @Nullable java.lang.String authParams, @Nullable java.lang.String host, int port, @NotNull java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        java.util.Objects.requireNonNull(scheme, "Parameter 'scheme' must not be null");
+        java.util.Objects.requireNonNullElse(user, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(password, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(authParams, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(host, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+        java.util.Objects.requireNonNullElse(query, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(fragment, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_build_with_user.invokeExact(flags.getValue(), Interop.allocateNativeString(scheme), Interop.allocateNativeString(user), Interop.allocateNativeString(password), Interop.allocateNativeString(authParams), Interop.allocateNativeString(host), port, Interop.allocateNativeString(path), Interop.allocateNativeString(query), Interop.allocateNativeString(fragment));
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_build_with_user.invokeExact(flags.getValue(), Interop.allocateNativeString(scheme), Interop.allocateNativeString(user), Interop.allocateNativeString(password), Interop.allocateNativeString(authParams), Interop.allocateNativeString(host), port, Interop.allocateNativeString(path), Interop.allocateNativeString(query), Interop.allocateNativeString(fragment));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Uri(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Uri(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle g_uri_error_quark = Interop.downcallHandle(
-        "g_uri_error_quark",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT)
-    );
-    
-    public static @NotNull Quark errorQuark() {
+    public static @NotNull org.gtk.glib.Quark errorQuark() {
         int RESULT;
         try {
-            RESULT = (int) g_uri_error_quark.invokeExact();
+            RESULT = (int) DowncallHandles.g_uri_error_quark.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new Quark(RESULT);
+        return new org.gtk.glib.Quark(RESULT);
     }
-    
-    private static final MethodHandle g_uri_escape_bytes = Interop.downcallHandle(
-        "g_uri_escape_bytes",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
-    );
     
     /**
      * Escapes arbitrary data for use in a URI.
@@ -529,21 +502,24 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Though technically incorrect, this will also allow escaping nul
      * bytes as {@code %}{@code 00}.
+     * @param unescaped the unescaped input data.
+     * @param length the length of {@code unescaped}
+     * @param reservedCharsAllowed a string of reserved
+     *   characters that are allowed to be used, or {@code null}.
+     * @return an escaped version of {@code unescaped}.
+     *     The returned string should be freed when no longer needed.
      */
-    public static @NotNull java.lang.String escapeBytes(@NotNull byte[] unescaped, @NotNull long length, @Nullable java.lang.String reservedCharsAllowed) {
+    public static @NotNull java.lang.String escapeBytes(byte[] unescaped, long length, @Nullable java.lang.String reservedCharsAllowed) {
+        java.util.Objects.requireNonNull(unescaped, "Parameter 'unescaped' must not be null");
+        java.util.Objects.requireNonNullElse(reservedCharsAllowed, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_escape_bytes.invokeExact(Interop.allocateNativeArray(unescaped), length, Interop.allocateNativeString(reservedCharsAllowed));
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_escape_bytes.invokeExact(Interop.allocateNativeArray(unescaped, false), length, Interop.allocateNativeString(reservedCharsAllowed));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_uri_escape_string = Interop.downcallHandle(
-        "g_uri_escape_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Escapes a string for use in a URI.
@@ -554,21 +530,24 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * they are not escaped. This is useful for the "reserved" characters
      * in the URI specification, since those are allowed unescaped in some
      * portions of a URI.
+     * @param unescaped the unescaped input string.
+     * @param reservedCharsAllowed a string of reserved
+     *   characters that are allowed to be used, or {@code null}.
+     * @param allowUtf8 {@code true} if the result can include UTF-8 characters.
+     * @return an escaped version of {@code unescaped}. The
+     * returned string should be freed when no longer needed.
      */
-    public static @NotNull java.lang.String escapeString(@NotNull java.lang.String unescaped, @Nullable java.lang.String reservedCharsAllowed, @NotNull boolean allowUtf8) {
+    public static @NotNull java.lang.String escapeString(@NotNull java.lang.String unescaped, @Nullable java.lang.String reservedCharsAllowed, boolean allowUtf8) {
+        java.util.Objects.requireNonNull(unescaped, "Parameter 'unescaped' must not be null");
+        java.util.Objects.requireNonNullElse(reservedCharsAllowed, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_escape_string.invokeExact(Interop.allocateNativeString(unescaped), Interop.allocateNativeString(reservedCharsAllowed), allowUtf8 ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_escape_string.invokeExact(Interop.allocateNativeString(unescaped), Interop.allocateNativeString(reservedCharsAllowed), allowUtf8 ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_uri_is_valid = Interop.downcallHandle(
-        "g_uri_is_valid",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Parses {@code uri_string} according to {@code flags}, to determine whether it is a valid
@@ -579,12 +558,18 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * See g_uri_split(), and the definition of {@link UriFlags}, for more
      * information on the effect of {@code flags}.
+     * @param uriString a string containing an absolute URI
+     * @param flags flags for parsing {@code uri_string}
+     * @return {@code true} if {@code uri_string} is a valid absolute URI, {@code false} on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean isValid(@NotNull java.lang.String uriString, @NotNull UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean isValid(@NotNull java.lang.String uriString, @NotNull org.gtk.glib.UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(uriString, "Parameter 'uriString' must not be null");
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_uri_is_valid.invokeExact(Interop.allocateNativeString(uriString), flags.getValue(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_uri_is_valid.invokeExact(Interop.allocateNativeString(uriString), flags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -593,11 +578,6 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_uri_join = Interop.downcallHandle(
-        "g_uri_join",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Joins the given components together according to {@code flags} to create
@@ -614,21 +594,32 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * {@link UriFlags#HAS_PASSWORD} and {@link UriFlags#HAS_AUTH_PARAMS} are ignored if set
      * in {@code flags}.
+     * @param flags flags describing how to build the URI string
+     * @param scheme the URI scheme, or {@code null}
+     * @param userinfo the userinfo component, or {@code null}
+     * @param host the host component, or {@code null}
+     * @param port the port, or {@code -1}
+     * @param path the path component
+     * @param query the query component, or {@code null}
+     * @param fragment the fragment, or {@code null}
+     * @return an absolute URI string
      */
-    public static @NotNull java.lang.String join(@NotNull UriFlags flags, @Nullable java.lang.String scheme, @Nullable java.lang.String userinfo, @Nullable java.lang.String host, @NotNull int port, @NotNull java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
+    public static @NotNull java.lang.String join(@NotNull org.gtk.glib.UriFlags flags, @Nullable java.lang.String scheme, @Nullable java.lang.String userinfo, @Nullable java.lang.String host, int port, @NotNull java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        java.util.Objects.requireNonNullElse(scheme, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(userinfo, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(host, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+        java.util.Objects.requireNonNullElse(query, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(fragment, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_join.invokeExact(flags.getValue(), Interop.allocateNativeString(scheme), Interop.allocateNativeString(userinfo), Interop.allocateNativeString(host), port, Interop.allocateNativeString(path), Interop.allocateNativeString(query), Interop.allocateNativeString(fragment));
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_join.invokeExact(flags.getValue(), Interop.allocateNativeString(scheme), Interop.allocateNativeString(userinfo), Interop.allocateNativeString(host), port, Interop.allocateNativeString(path), Interop.allocateNativeString(query), Interop.allocateNativeString(fragment));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_uri_join_with_user = Interop.downcallHandle(
-        "g_uri_join_with_user",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Joins the given components together according to {@code flags} to create
@@ -640,65 +631,83 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * {@link UriFlags#HAS_PASSWORD} and {@link UriFlags#HAS_AUTH_PARAMS} are ignored if set
      * in {@code flags}.
+     * @param flags flags describing how to build the URI string
+     * @param scheme the URI scheme, or {@code null}
+     * @param user the user component of the userinfo, or {@code null}
+     * @param password the password component of the userinfo, or
+     *   {@code null}
+     * @param authParams the auth params of the userinfo, or
+     *   {@code null}
+     * @param host the host component, or {@code null}
+     * @param port the port, or {@code -1}
+     * @param path the path component
+     * @param query the query component, or {@code null}
+     * @param fragment the fragment, or {@code null}
+     * @return an absolute URI string
      */
-    public static @NotNull java.lang.String joinWithUser(@NotNull UriFlags flags, @Nullable java.lang.String scheme, @Nullable java.lang.String user, @Nullable java.lang.String password, @Nullable java.lang.String authParams, @Nullable java.lang.String host, @NotNull int port, @NotNull java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
+    public static @NotNull java.lang.String joinWithUser(@NotNull org.gtk.glib.UriFlags flags, @Nullable java.lang.String scheme, @Nullable java.lang.String user, @Nullable java.lang.String password, @Nullable java.lang.String authParams, @Nullable java.lang.String host, int port, @NotNull java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        java.util.Objects.requireNonNullElse(scheme, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(user, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(password, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(authParams, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(host, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+        java.util.Objects.requireNonNullElse(query, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(fragment, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_join_with_user.invokeExact(flags.getValue(), Interop.allocateNativeString(scheme), Interop.allocateNativeString(user), Interop.allocateNativeString(password), Interop.allocateNativeString(authParams), Interop.allocateNativeString(host), port, Interop.allocateNativeString(path), Interop.allocateNativeString(query), Interop.allocateNativeString(fragment));
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_join_with_user.invokeExact(flags.getValue(), Interop.allocateNativeString(scheme), Interop.allocateNativeString(user), Interop.allocateNativeString(password), Interop.allocateNativeString(authParams), Interop.allocateNativeString(host), port, Interop.allocateNativeString(path), Interop.allocateNativeString(query), Interop.allocateNativeString(fragment));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
-    private static final MethodHandle g_uri_list_extract_uris = Interop.downcallHandle(
-        "g_uri_list_extract_uris",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
-    
     /**
      * Splits an URI list conforming to the text/uri-list
      * mime type defined in RFC 2483 into individual URIs,
      * discarding any comments. The URIs are not validated.
+     * @param uriList an URI list
+     * @return a newly allocated {@code null}-terminated list
+     *   of strings holding the individual URIs. The array should be freed
+     *   with g_strfreev().
      */
-    public static PointerString listExtractUris(@NotNull java.lang.String uriList) {
+    public static @NotNull PointerString listExtractUris(@NotNull java.lang.String uriList) {
+        java.util.Objects.requireNonNull(uriList, "Parameter 'uriList' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_list_extract_uris.invokeExact(Interop.allocateNativeString(uriList));
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_list_extract_uris.invokeExact(Interop.allocateNativeString(uriList));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new PointerString(RESULT);
     }
     
-    private static final MethodHandle g_uri_parse = Interop.downcallHandle(
-        "g_uri_parse",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Parses {@code uri_string} according to {@code flags}. If the result is not a
      * valid [absolute URI][relative-absolute-uris], it will be discarded, and an
      * error returned.
+     * @param uriString a string representing an absolute URI
+     * @param flags flags describing how to parse {@code uri_string}
+     * @return a new {@link Uri}, or NULL on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull Uri parse(@NotNull java.lang.String uriString, @NotNull UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
+    public static @NotNull org.gtk.glib.Uri parse(@NotNull java.lang.String uriString, @NotNull org.gtk.glib.UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(uriString, "Parameter 'uriString' must not be null");
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_parse.invokeExact(Interop.allocateNativeString(uriString), flags.getValue(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_parse.invokeExact(Interop.allocateNativeString(uriString), flags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Uri(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Uri(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_uri_parse_params = Interop.downcallHandle(
-        "g_uri_parse_params",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Many URI schemes include one or more attribute/value pairs as part of the URI
@@ -725,12 +734,27 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If {@code params} cannot be parsed (for example, it contains two {@code separators}
      * characters in a row), then {@code error} is set and {@code null} is returned.
+     * @param params a {@code %}-encoded string containing {@code attribute=value}
+     *   parameters
+     * @param length the length of {@code params}, or {@code -1} if it is nul-terminated
+     * @param separators the separator byte character set between parameters. (usually
+     *   {@code &}, but sometimes {@code ;} or both {@code &;}). Note that this function works on
+     *   bytes not characters, so it can't be used to delimit UTF-8 strings for
+     *   anything but ASCII characters. You may pass an empty set, in which case
+     *   no splitting will occur.
+     * @param flags flags to modify the way the parameters are handled.
+     * @return A hash table of attribute/value pairs, with both names and values
+     *     fully-decoded; or {@code null} on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.glib.HashTable parseParams(@NotNull java.lang.String params, @NotNull long length, @NotNull java.lang.String separators, @NotNull UriParamsFlags flags) throws io.github.jwharm.javagi.GErrorException {
+    public static @NotNull org.gtk.glib.HashTable parseParams(@NotNull java.lang.String params, long length, @NotNull java.lang.String separators, @NotNull org.gtk.glib.UriParamsFlags flags) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
+        java.util.Objects.requireNonNull(separators, "Parameter 'separators' must not be null");
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_parse_params.invokeExact(Interop.allocateNativeString(params), length, Interop.allocateNativeString(separators), flags.getValue(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_parse_params.invokeExact(Interop.allocateNativeString(params), length, Interop.allocateNativeString(separators), flags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -740,11 +764,6 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
         return new org.gtk.glib.HashTable(Refcounted.get(RESULT, true));
     }
     
-    private static final MethodHandle g_uri_parse_scheme = Interop.downcallHandle(
-        "g_uri_parse_scheme",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Gets the scheme portion of a URI string.
      * <a href="https://tools.ietf.org/html/rfc3986#section-3">RFC 3986</a> decodes the scheme
@@ -753,21 +772,20 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * URI = scheme ":" hier-part [ "?" query ] [ "#" fragment ]
      * }</pre>
      * Common schemes include {@code file}, {@code https}, {@code svn+ssh}, etc.
+     * @param uri a valid URI.
+     * @return The ‘scheme’ component of the URI, or
+     *     {@code null} on error. The returned string should be freed when no longer needed.
      */
     public static @Nullable java.lang.String parseScheme(@NotNull java.lang.String uri) {
+        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_parse_scheme.invokeExact(Interop.allocateNativeString(uri));
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_parse_scheme.invokeExact(Interop.allocateNativeString(uri));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_uri_peek_scheme = Interop.downcallHandle(
-        "g_uri_peek_scheme",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the scheme portion of a URI string.
@@ -780,21 +798,21 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Unlike g_uri_parse_scheme(), the returned scheme is normalized to
      * all-lowercase and does not need to be freed.
+     * @param uri a valid URI.
+     * @return The ‘scheme’ component of the URI, or
+     *     {@code null} on error. The returned string is normalized to all-lowercase, and
+     *     interned via g_intern_string(), so it does not need to be freed.
      */
     public static @Nullable java.lang.String peekScheme(@NotNull java.lang.String uri) {
+        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_peek_scheme.invokeExact(Interop.allocateNativeString(uri));
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_peek_scheme.invokeExact(Interop.allocateNativeString(uri));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_uri_resolve_relative = Interop.downcallHandle(
-        "g_uri_resolve_relative",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Parses {@code uri_ref} according to {@code flags} and, if it is a
@@ -804,12 +822,21 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * (If {@code base_uri_string} is {@code null}, this just returns {@code uri_ref}, or
      * {@code null} if {@code uri_ref} is invalid or not absolute.)
+     * @param baseUriString a string representing a base URI
+     * @param uriRef a string representing a relative or absolute URI
+     * @param flags flags describing how to parse {@code uri_ref}
+     * @return the resolved URI string,
+     * or NULL on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull java.lang.String resolveRelative(@Nullable java.lang.String baseUriString, @NotNull java.lang.String uriRef, @NotNull UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
+    public static @NotNull java.lang.String resolveRelative(@Nullable java.lang.String baseUriString, @NotNull java.lang.String uriRef, @NotNull org.gtk.glib.UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNullElse(baseUriString, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(uriRef, "Parameter 'uriRef' must not be null");
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_resolve_relative.invokeExact(Interop.allocateNativeString(baseUriString), Interop.allocateNativeString(uriRef), flags.getValue(), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_resolve_relative.invokeExact(Interop.allocateNativeString(baseUriString), Interop.allocateNativeString(uriRef), flags.getValue(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -818,11 +845,6 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_uri_split = Interop.downcallHandle(
-        "g_uri_split",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Parses {@code uri_ref} (which can be an
@@ -841,8 +863,36 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * {@link UriFlags#HAS_AUTH_PARAMS} {@code flags} are ignored by g_uri_split(),
      * since it always returns only the full userinfo; use
      * g_uri_split_with_user() if you want it split up.
+     * @param uriRef a string containing a relative or absolute URI
+     * @param flags flags for parsing {@code uri_ref}
+     * @param scheme on return, contains
+     *    the scheme (converted to lowercase), or {@code null}
+     * @param userinfo on return, contains
+     *    the userinfo, or {@code null}
+     * @param host on return, contains the
+     *    host, or {@code null}
+     * @param port on return, contains the
+     *    port, or {@code -1}
+     * @param path on return, contains the
+     *    path
+     * @param query on return, contains the
+     *    query, or {@code null}
+     * @param fragment on return, contains
+     *    the fragment, or {@code null}
+     * @return {@code true} if {@code uri_ref} parsed successfully, {@code false}
+     *   on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean split(@NotNull java.lang.String uriRef, @NotNull UriFlags flags, @Nullable Out<java.lang.String> scheme, @Nullable Out<java.lang.String> userinfo, @Nullable Out<java.lang.String> host, @NotNull Out<Integer> port, @NotNull Out<java.lang.String> path, @Nullable Out<java.lang.String> query, @Nullable Out<java.lang.String> fragment) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean split(@NotNull java.lang.String uriRef, @NotNull org.gtk.glib.UriFlags flags, @Nullable Out<java.lang.String> scheme, @Nullable Out<java.lang.String> userinfo, @Nullable Out<java.lang.String> host, Out<Integer> port, @NotNull Out<java.lang.String> path, @Nullable Out<java.lang.String> query, @Nullable Out<java.lang.String> fragment) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(uriRef, "Parameter 'uriRef' must not be null");
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        java.util.Objects.requireNonNullElse(scheme, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(userinfo, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(host, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(port, "Parameter 'port' must not be null");
+        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+        java.util.Objects.requireNonNullElse(query, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(fragment, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment schemePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment userinfoPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -853,9 +903,12 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment fragmentPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_uri_split.invokeExact(Interop.allocateNativeString(uriRef), flags.getValue(), (Addressable) schemePOINTER.address(), (Addressable) userinfoPOINTER.address(), (Addressable) hostPOINTER.address(), (Addressable) portPOINTER.address(), (Addressable) pathPOINTER.address(), (Addressable) queryPOINTER.address(), (Addressable) fragmentPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_uri_split.invokeExact(Interop.allocateNativeString(uriRef), flags.getValue(), (Addressable) schemePOINTER.address(), (Addressable) userinfoPOINTER.address(), (Addressable) hostPOINTER.address(), (Addressable) portPOINTER.address(), (Addressable) pathPOINTER.address(), (Addressable) queryPOINTER.address(), (Addressable) fragmentPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
         }
         scheme.set(schemePOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
         userinfo.set(userinfoPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
@@ -864,16 +917,8 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
         path.set(pathPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
         query.set(queryPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
         fragment.set(fragmentPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_uri_split_network = Interop.downcallHandle(
-        "g_uri_split_network",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Parses {@code uri_string} (which must be an [absolute URI][relative-absolute-uris])
@@ -882,31 +927,42 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * mostly a wrapper around that function with simpler arguments.
      * However, it will return an error if {@code uri_string} is a relative URI,
      * or does not contain a hostname component.
+     * @param uriString a string containing an absolute URI
+     * @param flags flags for parsing {@code uri_string}
+     * @param scheme on return, contains
+     *    the scheme (converted to lowercase), or {@code null}
+     * @param host on return, contains the
+     *    host, or {@code null}
+     * @param port on return, contains the
+     *    port, or {@code -1}
+     * @return {@code true} if {@code uri_string} parsed successfully,
+     *   {@code false} on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean splitNetwork(@NotNull java.lang.String uriString, @NotNull UriFlags flags, @Nullable Out<java.lang.String> scheme, @Nullable Out<java.lang.String> host, @NotNull Out<Integer> port) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean splitNetwork(@NotNull java.lang.String uriString, @NotNull org.gtk.glib.UriFlags flags, @Nullable Out<java.lang.String> scheme, @Nullable Out<java.lang.String> host, Out<Integer> port) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(uriString, "Parameter 'uriString' must not be null");
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        java.util.Objects.requireNonNullElse(scheme, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(host, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(port, "Parameter 'port' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment schemePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment hostPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment portPOINTER = Interop.getAllocator().allocate(ValueLayout.JAVA_INT);
         int RESULT;
         try {
-            RESULT = (int) g_uri_split_network.invokeExact(Interop.allocateNativeString(uriString), flags.getValue(), (Addressable) schemePOINTER.address(), (Addressable) hostPOINTER.address(), (Addressable) portPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_uri_split_network.invokeExact(Interop.allocateNativeString(uriString), flags.getValue(), (Addressable) schemePOINTER.address(), (Addressable) hostPOINTER.address(), (Addressable) portPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
         }
         scheme.set(schemePOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
         host.set(hostPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
         port.set(portPOINTER.get(ValueLayout.JAVA_INT, 0));
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_uri_split_with_user = Interop.downcallHandle(
-        "g_uri_split_with_user",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Parses {@code uri_ref} (which can be an
@@ -920,8 +976,42 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * be parsed out if {@code flags} contains {@link UriFlags#HAS_PASSWORD}, and
      * {@code auth_params} will only be parsed out if {@code flags} contains
      * {@link UriFlags#HAS_AUTH_PARAMS}.
+     * @param uriRef a string containing a relative or absolute URI
+     * @param flags flags for parsing {@code uri_ref}
+     * @param scheme on return, contains
+     *    the scheme (converted to lowercase), or {@code null}
+     * @param user on return, contains
+     *    the user, or {@code null}
+     * @param password on return, contains
+     *    the password, or {@code null}
+     * @param authParams on return, contains
+     *    the auth_params, or {@code null}
+     * @param host on return, contains the
+     *    host, or {@code null}
+     * @param port on return, contains the
+     *    port, or {@code -1}
+     * @param path on return, contains the
+     *    path
+     * @param query on return, contains the
+     *    query, or {@code null}
+     * @param fragment on return, contains
+     *    the fragment, or {@code null}
+     * @return {@code true} if {@code uri_ref} parsed successfully, {@code false}
+     *   on error.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean splitWithUser(@NotNull java.lang.String uriRef, @NotNull UriFlags flags, @Nullable Out<java.lang.String> scheme, @Nullable Out<java.lang.String> user, @Nullable Out<java.lang.String> password, @Nullable Out<java.lang.String> authParams, @Nullable Out<java.lang.String> host, @NotNull Out<Integer> port, @NotNull Out<java.lang.String> path, @Nullable Out<java.lang.String> query, @Nullable Out<java.lang.String> fragment) throws io.github.jwharm.javagi.GErrorException {
+    public static boolean splitWithUser(@NotNull java.lang.String uriRef, @NotNull org.gtk.glib.UriFlags flags, @Nullable Out<java.lang.String> scheme, @Nullable Out<java.lang.String> user, @Nullable Out<java.lang.String> password, @Nullable Out<java.lang.String> authParams, @Nullable Out<java.lang.String> host, Out<Integer> port, @NotNull Out<java.lang.String> path, @Nullable Out<java.lang.String> query, @Nullable Out<java.lang.String> fragment) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(uriRef, "Parameter 'uriRef' must not be null");
+        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+        java.util.Objects.requireNonNullElse(scheme, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(user, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(password, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(authParams, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(host, MemoryAddress.NULL);
+        java.util.Objects.requireNonNull(port, "Parameter 'port' must not be null");
+        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+        java.util.Objects.requireNonNullElse(query, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(fragment, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment schemePOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemorySegment userPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
@@ -934,9 +1024,12 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
         MemorySegment fragmentPOINTER = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_uri_split_with_user.invokeExact(Interop.allocateNativeString(uriRef), flags.getValue(), (Addressable) schemePOINTER.address(), (Addressable) userPOINTER.address(), (Addressable) passwordPOINTER.address(), (Addressable) authParamsPOINTER.address(), (Addressable) hostPOINTER.address(), (Addressable) portPOINTER.address(), (Addressable) pathPOINTER.address(), (Addressable) queryPOINTER.address(), (Addressable) fragmentPOINTER.address(), (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_uri_split_with_user.invokeExact(Interop.allocateNativeString(uriRef), flags.getValue(), (Addressable) schemePOINTER.address(), (Addressable) userPOINTER.address(), (Addressable) passwordPOINTER.address(), (Addressable) authParamsPOINTER.address(), (Addressable) hostPOINTER.address(), (Addressable) portPOINTER.address(), (Addressable) pathPOINTER.address(), (Addressable) queryPOINTER.address(), (Addressable) fragmentPOINTER.address(), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
         }
         scheme.set(schemePOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
         user.set(userPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
@@ -947,16 +1040,8 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
         path.set(pathPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
         query.set(queryPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
         fragment.set(fragmentPOINTER.get(ValueLayout.ADDRESS, 0).getUtf8String(0));
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_uri_unescape_bytes = Interop.downcallHandle(
-        "g_uri_unescape_bytes",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Unescapes a segment of an escaped string as binary data.
@@ -969,25 +1054,31 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * returned. This is useful if you want to avoid for instance having a slash
      * being expanded in an escaped path element, which might confuse pathname
      * handling.
+     * @param escapedString A URI-escaped string
+     * @param length the length (in bytes) of {@code escaped_string} to escape, or {@code -1} if it
+     *   is nul-terminated.
+     * @param illegalCharacters a string of illegal characters
+     *   not to be allowed, or {@code null}.
+     * @return an unescaped version of {@code escaped_string}
+     *     or {@code null} on error (if decoding failed, using {@link UriError#FAILED} error
+     *     code). The returned {@link Bytes} should be unreffed when no longer needed.
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull Bytes unescapeBytes(@NotNull java.lang.String escapedString, @NotNull long length, @Nullable java.lang.String illegalCharacters) throws io.github.jwharm.javagi.GErrorException {
+    public static @NotNull org.gtk.glib.Bytes unescapeBytes(@NotNull java.lang.String escapedString, long length, @Nullable java.lang.String illegalCharacters) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(escapedString, "Parameter 'escapedString' must not be null");
+        java.util.Objects.requireNonNullElse(illegalCharacters, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_unescape_bytes.invokeExact(Interop.allocateNativeString(escapedString), length, Interop.allocateNativeString(illegalCharacters), (Addressable) GERROR);
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_unescape_bytes.invokeExact(Interop.allocateNativeString(escapedString), length, Interop.allocateNativeString(illegalCharacters), (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new Bytes(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.Bytes(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_uri_unescape_segment = Interop.downcallHandle(
-        "g_uri_unescape_segment",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Unescapes a segment of an escaped string.
@@ -1000,21 +1091,28 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * Note: {@code NUL} byte is not accepted in the output, in contrast to
      * g_uri_unescape_bytes().
+     * @param escapedString A string, may be {@code null}
+     * @param escapedStringEnd Pointer to end of {@code escaped_string},
+     *   may be {@code null}
+     * @param illegalCharacters An optional string of illegal
+     *   characters not to be allowed, may be {@code null}
+     * @return an unescaped version of {@code escaped_string},
+     * or {@code null} on error. The returned string should be freed when no longer
+     * needed.  As a special case if {@code null} is given for {@code escaped_string}, this
+     * function will return {@code null}.
      */
     public static @Nullable java.lang.String unescapeSegment(@Nullable java.lang.String escapedString, @Nullable java.lang.String escapedStringEnd, @Nullable java.lang.String illegalCharacters) {
+        java.util.Objects.requireNonNullElse(escapedString, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(escapedStringEnd, MemoryAddress.NULL);
+        java.util.Objects.requireNonNullElse(illegalCharacters, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_unescape_segment.invokeExact(Interop.allocateNativeString(escapedString), Interop.allocateNativeString(escapedStringEnd), Interop.allocateNativeString(illegalCharacters));
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_unescape_segment.invokeExact(Interop.allocateNativeString(escapedString), Interop.allocateNativeString(escapedStringEnd), Interop.allocateNativeString(illegalCharacters));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
-    
-    private static final MethodHandle g_uri_unescape_string = Interop.downcallHandle(
-        "g_uri_unescape_string",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Unescapes a whole escaped string.
@@ -1024,15 +1122,204 @@ public class Uri extends io.github.jwharm.javagi.ResourceBase {
      * that is an error and {@code null} will be returned. This is useful if you
      * want to avoid for instance having a slash being expanded in an
      * escaped path element, which might confuse pathname handling.
+     * @param escapedString an escaped string to be unescaped.
+     * @param illegalCharacters a string of illegal characters
+     *   not to be allowed, or {@code null}.
+     * @return an unescaped version of {@code escaped_string}.
+     * The returned string should be freed when no longer needed.
      */
     public static @Nullable java.lang.String unescapeString(@NotNull java.lang.String escapedString, @Nullable java.lang.String illegalCharacters) {
+        java.util.Objects.requireNonNull(escapedString, "Parameter 'escapedString' must not be null");
+        java.util.Objects.requireNonNullElse(illegalCharacters, MemoryAddress.NULL);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_uri_unescape_string.invokeExact(Interop.allocateNativeString(escapedString), Interop.allocateNativeString(illegalCharacters));
+            RESULT = (MemoryAddress) DowncallHandles.g_uri_unescape_string.invokeExact(Interop.allocateNativeString(escapedString), Interop.allocateNativeString(illegalCharacters));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT.getUtf8String(0);
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_uri_get_auth_params = Interop.downcallHandle(
+            "g_uri_get_auth_params",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_get_flags = Interop.downcallHandle(
+            "g_uri_get_flags",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_get_fragment = Interop.downcallHandle(
+            "g_uri_get_fragment",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_get_host = Interop.downcallHandle(
+            "g_uri_get_host",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_get_password = Interop.downcallHandle(
+            "g_uri_get_password",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_get_path = Interop.downcallHandle(
+            "g_uri_get_path",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_get_port = Interop.downcallHandle(
+            "g_uri_get_port",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_get_query = Interop.downcallHandle(
+            "g_uri_get_query",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_get_scheme = Interop.downcallHandle(
+            "g_uri_get_scheme",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_get_user = Interop.downcallHandle(
+            "g_uri_get_user",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_get_userinfo = Interop.downcallHandle(
+            "g_uri_get_userinfo",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_parse_relative = Interop.downcallHandle(
+            "g_uri_parse_relative",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_ref = Interop.downcallHandle(
+            "g_uri_ref",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_to_string = Interop.downcallHandle(
+            "g_uri_to_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_to_string_partial = Interop.downcallHandle(
+            "g_uri_to_string_partial",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_uri_unref = Interop.downcallHandle(
+            "g_uri_unref",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_build = Interop.downcallHandle(
+            "g_uri_build",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_build_with_user = Interop.downcallHandle(
+            "g_uri_build_with_user",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_error_quark = Interop.downcallHandle(
+            "g_uri_error_quark",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_uri_escape_bytes = Interop.downcallHandle(
+            "g_uri_escape_bytes",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_escape_string = Interop.downcallHandle(
+            "g_uri_escape_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_uri_is_valid = Interop.downcallHandle(
+            "g_uri_is_valid",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_join = Interop.downcallHandle(
+            "g_uri_join",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_join_with_user = Interop.downcallHandle(
+            "g_uri_join_with_user",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_list_extract_uris = Interop.downcallHandle(
+            "g_uri_list_extract_uris",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_parse = Interop.downcallHandle(
+            "g_uri_parse",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_parse_params = Interop.downcallHandle(
+            "g_uri_parse_params",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_parse_scheme = Interop.downcallHandle(
+            "g_uri_parse_scheme",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_peek_scheme = Interop.downcallHandle(
+            "g_uri_peek_scheme",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_resolve_relative = Interop.downcallHandle(
+            "g_uri_resolve_relative",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_split = Interop.downcallHandle(
+            "g_uri_split",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_split_network = Interop.downcallHandle(
+            "g_uri_split_network",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_split_with_user = Interop.downcallHandle(
+            "g_uri_split_with_user",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_unescape_bytes = Interop.downcallHandle(
+            "g_uri_unescape_bytes",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_LONG, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_unescape_segment = Interop.downcallHandle(
+            "g_uri_unescape_segment",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_uri_unescape_string = Interop.downcallHandle(
+            "g_uri_unescape_string",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+    }
 }

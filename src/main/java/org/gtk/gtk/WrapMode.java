@@ -1,10 +1,23 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Describes a type of line wrapping.
  */
 public class WrapMode extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * do not wrap lines; just make the text area wider
      */
@@ -31,5 +44,4 @@ public class WrapMode extends io.github.jwharm.javagi.Enumeration {
     public WrapMode(int value) {
         super(value);
     }
-    
 }

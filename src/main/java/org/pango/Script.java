@@ -1,5 +1,10 @@
 package org.pango;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * The {@code PangoScript} enumeration identifies different writing
  * systems.
@@ -13,7 +18,15 @@ package org.pango;
  * whose values are interchangeable with {@code PangoScript}.
  */
 public class Script extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * a value never returned from pango_script_for_unichar()
      */
@@ -609,4 +622,89 @@ public class Script extends io.github.jwharm.javagi.Enumeration {
         super(value);
     }
     
+    /**
+     * Looks up the script for a particular character.
+     * <p>
+     * The script of a character is defined by
+     * <a href="http://www.unicode.org/reports/tr24/">Unicode Standard Annex 24: Script names</a>.
+     * <p>
+     * No check is made for {@code ch} being a valid Unicode character; if you pass
+     * in invalid character, the result is undefined.
+     * <p>
+     * Note that while the return type of this function is declared
+     * as {@code PangoScript}, as of Pango 1.18, this function simply returns
+     * the return value of {@link org.gtk.glib.GLib#unicharGetScript}. Callers must be
+     * prepared to handle unknown values.
+     * @param ch a Unicode character
+     * @return the {@code PangoScript} for the character.
+     * @deprecated Use g_unichar_get_script()
+     */
+    @Deprecated
+    public static @NotNull org.pango.Script forUnichar(int ch) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.pango_script_for_unichar.invokeExact(ch);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.pango.Script(RESULT);
+    }
+    
+    /**
+     * Finds a language tag that is reasonably representative of {@code script}.
+     * <p>
+     * The language will usually be the most widely spoken or used language
+     * written in that script: for instance, the sample language for
+     * {@link Script#CYRILLIC} is ru (Russian), the sample language for
+     * {@link Script#ARABIC} is ar.
+     * <p>
+     * For some scripts, no sample language will be returned because
+     * there is no language that is sufficiently representative. The
+     * best example of this is {@link Script#HAN}, where various different
+     * variants of written Chinese, Japanese, and Korean all use
+     * significantly different sets of Han characters and forms
+     * of shared characters. No sample language can be provided
+     * for many historical scripts as well.
+     * <p>
+     * As of 1.18, this function checks the environment variables
+     * {@code PANGO_LANGUAGE} and {@code LANGUAGE} (checked in that order) first.
+     * If one of them is set, it is parsed as a list of language tags
+     * separated by colons or other separators. This function
+     * will return the first language in the parsed list that Pango
+     * believes may use {@code script} for writing. This last predicate
+     * is tested using {@link Language#includesScript}. This can
+     * be used to control Pango's font selection for non-primary
+     * languages. For example, a {@code PANGO_LANGUAGE} enviroment variable
+     * set to "en:fa" makes Pango choose fonts suitable for Persian (fa)
+     * instead of Arabic (ar) when a segment of Arabic text is found
+     * in an otherwise non-Arabic text. The same trick can be used to
+     * choose a default language for {@link Script#HAN} when setting
+     * context language is not feasible.
+     * @param script a {@code PangoScript}
+     * @return a {@code PangoLanguage} that is representative
+     *   of the script
+     */
+    public static @Nullable org.pango.Language getSampleLanguage(@NotNull org.pango.Script script) {
+        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.pango_script_get_sample_language.invokeExact(script.getValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.pango.Language(Refcounted.get(RESULT, true));
+    }
+    
+    private static class DowncallHandles {
+        
+        private static final MethodHandle pango_script_for_unichar = Interop.downcallHandle(
+            "pango_script_for_unichar",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle pango_script_get_sample_language = Interop.downcallHandle(
+            "pango_script_get_sample_language",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+    }
 }

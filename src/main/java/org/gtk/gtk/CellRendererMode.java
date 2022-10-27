@@ -1,10 +1,23 @@
 package org.gtk.gtk;
 
+import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
+import org.jetbrains.annotations.*;
+
 /**
  * Identifies how the user can interact with a particular cell.
  */
 public class CellRendererMode extends io.github.jwharm.javagi.Enumeration {
-
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     /**
      * The cell is just for display
      *  and cannot be interacted with.  Note that this doesn’t mean that eg. the
@@ -26,5 +39,4 @@ public class CellRendererMode extends io.github.jwharm.javagi.Enumeration {
     public CellRendererMode(int value) {
         super(value);
     }
-    
 }

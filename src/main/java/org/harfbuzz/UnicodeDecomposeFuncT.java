@@ -1,17 +1,19 @@
 package org.harfbuzz;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
- * A virtual method for the {@link unicode_funcs_t} structure.
+ * A virtual method for the {@link UnicodeFuncsT} structure.
  * <p>
  * This method should decompose an input Unicode code point,
- * returning the two decomposed code points in {@link codepoint_t}
+ * returning the two decomposed code points in {@link CodepointT}
  * output parameters (if successful). The method must return an
- * {@link bool_t} indicating the success of the composition.
+ * {@link BoolT} indicating the success of the composition.
  */
 @FunctionalInterface
 public interface UnicodeDecomposeFuncT {
-        BoolT onUnicodeDecomposeFuncT(@NotNull UnicodeFuncsT ufuncs, @NotNull CodepointT ab, @NotNull Out<CodepointT> a, @NotNull Out<CodepointT> b, @Nullable java.lang.foreign.MemoryAddress userData);
+        org.harfbuzz.BoolT onUnicodeDecomposeFuncT(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.CodepointT ab, @NotNull Out<org.harfbuzz.CodepointT> a, @NotNull Out<org.harfbuzz.CodepointT> b, @Nullable java.lang.foreign.MemoryAddress userData);
 }

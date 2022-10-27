@@ -1,6 +1,8 @@
 package org.gtk.gtk;
 
 import io.github.jwharm.javagi.*;
+import java.lang.foreign.*;
+import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
@@ -8,5 +10,5 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ShortcutFunc {
-        boolean onShortcutFunc(@NotNull Widget widget, @Nullable org.gtk.glib.Variant args);
+        boolean onShortcutFunc(@NotNull org.gtk.gtk.Widget widget, @Nullable org.gtk.glib.Variant args);
 }

@@ -7,29 +7,40 @@ import org.jetbrains.annotations.*;
 
 /**
  * This is an opaque structure type.  You may not access it directly.
+ * @version 2.32
  */
 public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        Gio.javagi$ensureInitialized();
+    }
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return Interop.valueLayout.ADDRESS;
+    }
+    
     public SettingsSchemaSource(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
     
-    private static final MethodHandle g_settings_schema_source_new_from_directory = Interop.downcallHandle(
-        "g_settings_schema_source_new_from_directory",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
-    private static Refcounted constructNewFromDirectory(@NotNull java.lang.String directory, @Nullable SettingsSchemaSource parent, @NotNull boolean trusted) throws GErrorException {
+    private static Refcounted constructNewFromDirectory(@NotNull java.lang.String directory, @Nullable org.gtk.gio.SettingsSchemaSource parent, boolean trusted) throws GErrorException {
+        java.util.Objects.requireNonNull(directory, "Parameter 'directory' must not be null");
+        java.util.Objects.requireNonNullElse(parent, MemoryAddress.NULL);
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
+        Refcounted RESULT;
         try {
-            Refcounted RESULT = Refcounted.get((MemoryAddress) g_settings_schema_source_new_from_directory.invokeExact(Interop.allocateNativeString(directory), parent.handle(), trusted ? 1 : 0, (Addressable) GERROR), true);
-            if (GErrorException.isErrorSet(GERROR)) {
-                throw new GErrorException(GERROR);
-            }
-            return RESULT;
+            RESULT = Refcounted.get((MemoryAddress) DowncallHandles.g_settings_schema_source_new_from_directory.invokeExact(Interop.allocateNativeString(directory), parent.handle(), trusted ? 1 : 0, (Addressable) GERROR), true);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return RESULT;
     }
     
     /**
@@ -64,15 +75,37 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
      * For this second reason, except in very unusual situations, the
      * {@code parent} should probably be given as the default schema source, as
      * returned by g_settings_schema_source_get_default().
+     * @param directory the filename of a directory
+     * @param parent a {@link SettingsSchemaSource}, or {@code null}
+     * @param trusted {@code true}, if the directory is trusted
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static SettingsSchemaSource newFromDirectory(@NotNull java.lang.String directory, @Nullable SettingsSchemaSource parent, @NotNull boolean trusted) throws GErrorException {
+    public static SettingsSchemaSource newFromDirectory(@NotNull java.lang.String directory, @Nullable org.gtk.gio.SettingsSchemaSource parent, boolean trusted) throws GErrorException {
         return new SettingsSchemaSource(constructNewFromDirectory(directory, parent, trusted));
     }
     
-    private static final MethodHandle g_settings_schema_source_lookup = Interop.downcallHandle(
-        "g_settings_schema_source_lookup",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
-    );
+    /**
+     * Lists the schemas in a given source.
+     * <p>
+     * If {@code recursive} is {@code true} then include parent sources.  If {@code false} then
+     * only include the schemas from one source (ie: one directory).  You
+     * probably want {@code true}.
+     * <p>
+     * Non-relocatable schemas are those for which you can call
+     * g_settings_new().  Relocatable schemas are those for which you must
+     * use g_settings_new_with_path().
+     * <p>
+     * Do not call this function from normal programs.  This is designed for
+     * use by database editors, commandline tools, etc.
+     * @param recursive if we should recurse
+     * @param nonRelocatable the
+     *   list of non-relocatable schemas, in no defined order
+     * @param relocatable the list
+     *   of relocatable schemas, in no defined order
+     */
+    public void listSchemas(boolean recursive, Out<java.lang.String[]> nonRelocatable, Out<java.lang.String[]> relocatable) {
+        throw new UnsupportedOperationException("Operation not supported yet");
+    }
     
     /**
      * Looks up a schema with the identifier {@code schema_id} in {@code source}.
@@ -85,55 +118,45 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
      * then the parent sources will also be checked.
      * <p>
      * If the schema isn't found, {@code null} is returned.
+     * @param schemaId a schema ID
+     * @param recursive {@code true} if the lookup should be recursive
+     * @return a new {@link SettingsSchema}
      */
-    public @Nullable SettingsSchema lookup(@NotNull java.lang.String schemaId, @NotNull boolean recursive) {
+    public @Nullable org.gtk.gio.SettingsSchema lookup(@NotNull java.lang.String schemaId, boolean recursive) {
+        java.util.Objects.requireNonNull(schemaId, "Parameter 'schemaId' must not be null");
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_settings_schema_source_lookup.invokeExact(handle(), Interop.allocateNativeString(schemaId), recursive ? 1 : 0);
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_source_lookup.invokeExact(handle(), Interop.allocateNativeString(schemaId), recursive ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new SettingsSchema(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.SettingsSchema(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_settings_schema_source_ref = Interop.downcallHandle(
-        "g_settings_schema_source_ref",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Increase the reference count of {@code source}, returning a new reference.
+     * @return a new reference to {@code source}
      */
-    public @NotNull SettingsSchemaSource ref() {
+    public @NotNull org.gtk.gio.SettingsSchemaSource ref() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_settings_schema_source_ref.invokeExact(handle());
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_source_ref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new SettingsSchemaSource(Refcounted.get(RESULT, true));
+        return new org.gtk.gio.SettingsSchemaSource(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_settings_schema_source_unref = Interop.downcallHandle(
-        "g_settings_schema_source_unref",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
-    );
     
     /**
      * Decrease the reference count of {@code source}, possibly freeing it.
      */
-    public @NotNull void unref() {
+    public void unref() {
         try {
-            g_settings_schema_source_unref.invokeExact(handle());
+            DowncallHandles.g_settings_schema_source_unref.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_settings_schema_source_get_default = Interop.downcallHandle(
-        "g_settings_schema_source_get_default",
-        FunctionDescriptor.of(ValueLayout.ADDRESS)
-    );
     
     /**
      * Gets the default system schema source.
@@ -149,15 +172,48 @@ public class SettingsSchemaSource extends io.github.jwharm.javagi.ResourceBase {
      * in {@code XDG_DATA_DIRS} and {@code GSETTINGS_SCHEMA_DIR}. For this reason, all
      * lookups performed against the default source should probably be done
      * recursively.
+     * @return the default schema source
      */
-    public static @Nullable SettingsSchemaSource getDefault() {
+    public static @Nullable org.gtk.gio.SettingsSchemaSource getDefault() {
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_settings_schema_source_get_default.invokeExact();
+            RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_source_get_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new SettingsSchemaSource(Refcounted.get(RESULT, false));
+        return new org.gtk.gio.SettingsSchemaSource(Refcounted.get(RESULT, false));
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_settings_schema_source_new_from_directory = Interop.downcallHandle(
+            "g_settings_schema_source_new_from_directory",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_settings_schema_source_list_schemas = Interop.downcallHandle(
+            "g_settings_schema_source_list_schemas",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_settings_schema_source_lookup = Interop.downcallHandle(
+            "g_settings_schema_source_lookup",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_settings_schema_source_ref = Interop.downcallHandle(
+            "g_settings_schema_source_ref",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_settings_schema_source_unref = Interop.downcallHandle(
+            "g_settings_schema_source_unref",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_settings_schema_source_get_default = Interop.downcallHandle(
+            "g_settings_schema_source_get_default",
+            FunctionDescriptor.of(ValueLayout.ADDRESS)
+        );
+    }
 }

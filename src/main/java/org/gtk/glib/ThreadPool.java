@@ -11,15 +11,28 @@ import org.jetbrains.annotations.*;
  * so you must not copy this struct.
  */
 public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
-
+    
+    static {
+        GLib.javagi$ensureInitialized();
+    }
+    
+    private static GroupLayout memoryLayout = MemoryLayout.structLayout(
+        Interop.valueLayout.ADDRESS.withName("func"),
+        Interop.valueLayout.ADDRESS.withName("user_data"),
+        ValueLayout.JAVA_INT.withName("exclusive")
+    ).withName("GThreadPool");
+    
+    /**
+     * Memory layout of the native struct is unknown (no fields in the GIR file).
+     * @return always {code Interop.valueLayout.ADDRESS}
+     */
+    public static MemoryLayout getMemoryLayout() {
+        return memoryLayout;
+    }
+    
     public ThreadPool(io.github.jwharm.javagi.Refcounted ref) {
         super(ref);
     }
-    
-    private static final MethodHandle g_thread_pool_free = Interop.downcallHandle(
-        "g_thread_pool_free",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
-    );
     
     /**
      * Frees all resources allocated for {@code pool}.
@@ -36,74 +49,60 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
      * Otherwise this function returns immediately.
      * <p>
      * After calling this function {@code pool} must not be used anymore.
+     * @param immediate should {@code pool} shut down immediately?
+     * @param wait should the function wait for all tasks to be finished?
      */
-    public @NotNull void free(@NotNull boolean immediate, @NotNull boolean wait) {
+    public void free(boolean immediate, boolean wait) {
         try {
-            g_thread_pool_free.invokeExact(handle(), immediate ? 1 : 0, wait ? 1 : 0);
+            DowncallHandles.g_thread_pool_free.invokeExact(handle(), immediate ? 1 : 0, wait ? 1 : 0);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle g_thread_pool_get_max_threads = Interop.downcallHandle(
-        "g_thread_pool_get_max_threads",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the maximal number of threads for {@code pool}.
+     * @return the maximal number of threads
      */
     public int getMaxThreads() {
         int RESULT;
         try {
-            RESULT = (int) g_thread_pool_get_max_threads.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_thread_pool_get_max_threads.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle g_thread_pool_get_num_threads = Interop.downcallHandle(
-        "g_thread_pool_get_num_threads",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the number of threads currently running in {@code pool}.
+     * @return the number of threads currently running
      */
     public int getNumThreads() {
         int RESULT;
         try {
-            RESULT = (int) g_thread_pool_get_num_threads.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_thread_pool_get_num_threads.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle g_thread_pool_move_to_front = Interop.downcallHandle(
-        "g_thread_pool_move_to_front",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Moves the item to the front of the queue of unprocessed
      * items, so that it will be processed next.
+     * @param data an unprocessed item in the pool
+     * @return {@code true} if the item was found and moved
      */
     public boolean moveToFront(@Nullable java.lang.foreign.MemoryAddress data) {
         int RESULT;
         try {
-            RESULT = (int) g_thread_pool_move_to_front.invokeExact(handle(), data);
+            RESULT = (int) DowncallHandles.g_thread_pool_move_to_front.invokeExact(handle(), data);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_thread_pool_push = Interop.downcallHandle(
-        "g_thread_pool_push",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Inserts {@code data} into the list of tasks to be executed by {@code pool}.
@@ -120,12 +119,15 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
      * work to do.
      * <p>
      * Before version 2.32, this function did not return a success status.
+     * @param data a new task for {@code pool}
+     * @return {@code true} on success, {@code false} if an error occurred
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public boolean push(@Nullable java.lang.foreign.MemoryAddress data) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_thread_pool_push.invokeExact(handle(), data, (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_thread_pool_push.invokeExact(handle(), data, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -134,11 +136,6 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_thread_pool_set_max_threads = Interop.downcallHandle(
-        "g_thread_pool_set_max_threads",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the maximal allowed number of threads for {@code pool}.
@@ -161,12 +158,16 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
      * created.
      * <p>
      * Before version 2.32, this function did not return a success status.
+     * @param maxThreads a new maximal number of threads for {@code pool},
+     *     or -1 for unlimited
+     * @return {@code true} on success, {@code false} if an error occurred
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean setMaxThreads(@NotNull int maxThreads) throws io.github.jwharm.javagi.GErrorException {
+    public boolean setMaxThreads(int maxThreads) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         int RESULT;
         try {
-            RESULT = (int) g_thread_pool_set_max_threads.invokeExact(handle(), maxThreads, (Addressable) GERROR);
+            RESULT = (int) DowncallHandles.g_thread_pool_set_max_threads.invokeExact(handle(), maxThreads, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -175,11 +176,6 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
         }
         return RESULT != 0;
     }
-    
-    private static final MethodHandle g_thread_pool_set_sort_function = Interop.downcallHandle(
-        "g_thread_pool_set_sort_function",
-        FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
-    );
     
     /**
      * Sets the function used to sort the list of tasks. This allows the
@@ -191,43 +187,41 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
      * scheduled by the operating system and are executed at random. It
      * cannot be assumed that threads are executed in the order they are
      * created.
+     * @param func the {@link CompareDataFunc} used to sort the list of tasks.
+     *     This function is passed two tasks. It should return
+     *     0 if the order in which they are handled does not matter,
+     *     a negative value if the first task should be processed before
+     *     the second or a positive value if the second task should be
+     *     processed first.
      */
-    public @NotNull void setSortFunction(@NotNull CompareDataFunc func) {
+    public void setSortFunction(@NotNull org.gtk.glib.CompareDataFunc func) {
+        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         try {
-            g_thread_pool_set_sort_function.invokeExact(handle(), 
+            DowncallHandles.g_thread_pool_set_sort_function.invokeExact(handle(), 
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.class, "__cbCompareDataFunc",
+                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
                             MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)));
+                   (Addressable) (Interop.registerCallback(func)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    private static final MethodHandle g_thread_pool_unprocessed = Interop.downcallHandle(
-        "g_thread_pool_unprocessed",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
-    
     /**
      * Returns the number of tasks still unprocessed in {@code pool}.
+     * @return the number of unprocessed tasks
      */
     public int unprocessed() {
         int RESULT;
         try {
-            RESULT = (int) g_thread_pool_unprocessed.invokeExact(handle());
+            RESULT = (int) DowncallHandles.g_thread_pool_unprocessed.invokeExact(handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_thread_pool_get_max_idle_time = Interop.downcallHandle(
-        "g_thread_pool_get_max_idle_time",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT)
-    );
     
     /**
      * This function will return the maximum {@code interval} that a
@@ -236,57 +230,47 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
      * <p>
      * If this function returns 0, threads waiting in the thread
      * pool for new work are not stopped.
+     * @return the maximum {@code interval} (milliseconds) to wait
+     *     for new tasks in the thread pool before stopping the
+     *     thread
      */
     public static int getMaxIdleTime() {
         int RESULT;
         try {
-            RESULT = (int) g_thread_pool_get_max_idle_time.invokeExact();
+            RESULT = (int) DowncallHandles.g_thread_pool_get_max_idle_time.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle g_thread_pool_get_max_unused_threads = Interop.downcallHandle(
-        "g_thread_pool_get_max_unused_threads",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Returns the maximal allowed number of unused threads.
+     * @return the maximal number of unused threads
      */
     public static int getMaxUnusedThreads() {
         int RESULT;
         try {
-            RESULT = (int) g_thread_pool_get_max_unused_threads.invokeExact();
+            RESULT = (int) DowncallHandles.g_thread_pool_get_max_unused_threads.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    private static final MethodHandle g_thread_pool_get_num_unused_threads = Interop.downcallHandle(
-        "g_thread_pool_get_num_unused_threads",
-        FunctionDescriptor.of(ValueLayout.JAVA_INT)
-    );
-    
     /**
      * Returns the number of currently unused threads.
+     * @return the number of currently unused threads
      */
     public static int getNumUnusedThreads() {
         int RESULT;
         try {
-            RESULT = (int) g_thread_pool_get_num_unused_threads.invokeExact();
+            RESULT = (int) DowncallHandles.g_thread_pool_get_num_unused_threads.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
-    
-    private static final MethodHandle g_thread_pool_new = Interop.downcallHandle(
-        "g_thread_pool_new",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * This function creates a new thread pool.
@@ -320,49 +304,58 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
      * and not all {@code max_threads} threads could be created.
      * See {@link ThreadError} for possible errors that may occur.
      * Note, even in case of error a valid {@link ThreadPool} is returned.
+     * @param func a function to execute in the threads of the new thread pool
+     * @param maxThreads the maximal number of threads to execute concurrently
+     *     in  the new thread pool, -1 means no limit
+     * @param exclusive should this thread pool be exclusive?
+     * @return the new {@link ThreadPool}
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull ThreadPool new_(@NotNull Func func, @NotNull int maxThreads, @NotNull boolean exclusive) throws io.github.jwharm.javagi.GErrorException {
+    public static @NotNull org.gtk.glib.ThreadPool new_(@NotNull org.gtk.glib.Func func, int maxThreads, boolean exclusive) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_thread_pool_new.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_thread_pool_new.invokeExact(
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.class, "__cbFunc",
+                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)), maxThreads, exclusive ? 1 : 0, (Addressable) GERROR);
+                   (Addressable) (Interop.registerCallback(func)), maxThreads, exclusive ? 1 : 0, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new ThreadPool(Refcounted.get(RESULT, false));
+        return new org.gtk.glib.ThreadPool(Refcounted.get(RESULT, false));
     }
-    
-    private static final MethodHandle g_thread_pool_new_full = Interop.downcallHandle(
-        "g_thread_pool_new_full",
-        FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
-    );
     
     /**
      * This function creates a new thread pool similar to g_thread_pool_new()
      * but allowing {@code item_free_func} to be specified to free the data passed
      * to g_thread_pool_push() in the case that the {@link ThreadPool} is stopped
      * and freed before all tasks have been executed.
+     * @param func a function to execute in the threads of the new thread pool
+     * @param maxThreads the maximal number of threads to execute concurrently
+     *     in the new thread pool, {@code -1} means no limit
+     * @param exclusive should this thread pool be exclusive?
+     * @return the new {@link ThreadPool}
+     * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull ThreadPool newFull(@NotNull Func func, @NotNull int maxThreads, @NotNull boolean exclusive) throws io.github.jwharm.javagi.GErrorException {
+    public static @NotNull org.gtk.glib.ThreadPool newFull(@NotNull org.gtk.glib.Func func, int maxThreads, boolean exclusive) throws io.github.jwharm.javagi.GErrorException {
+        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(ValueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
-            RESULT = (MemoryAddress) g_thread_pool_new_full.invokeExact(
+            RESULT = (MemoryAddress) DowncallHandles.g_thread_pool_new_full.invokeExact(
                     (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.class, "__cbFunc",
+                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbFunc",
                             MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
                         FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS),
                         Interop.getScope()), 
-                    (Addressable) Interop.getAllocator().allocate(ValueLayout.JAVA_INT, Interop.registerCallback(func)), 
+                   (Addressable) (Interop.registerCallback(func)), 
                     Interop.cbDestroyNotifySymbol(), maxThreads, exclusive ? 1 : 0, (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -370,13 +363,8 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new ThreadPool(Refcounted.get(RESULT, true));
+        return new org.gtk.glib.ThreadPool(Refcounted.get(RESULT, true));
     }
-    
-    private static final MethodHandle g_thread_pool_set_max_idle_time = Interop.downcallHandle(
-        "g_thread_pool_set_max_idle_time",
-        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
-    );
     
     /**
      * This function will set the maximum {@code interval} that a thread
@@ -388,19 +376,16 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
      * By setting {@code interval} to 0, idle threads will not be stopped.
      * <p>
      * The default value is 15000 (15 seconds).
+     * @param interval the maximum {@code interval} (in milliseconds)
+     *     a thread can be idle
      */
-    public static @NotNull void setMaxIdleTime(@NotNull int interval) {
+    public static void setMaxIdleTime(int interval) {
         try {
-            g_thread_pool_set_max_idle_time.invokeExact(interval);
+            DowncallHandles.g_thread_pool_set_max_idle_time.invokeExact(interval);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_thread_pool_set_max_unused_threads = Interop.downcallHandle(
-        "g_thread_pool_set_max_unused_threads",
-        FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
-    );
     
     /**
      * Sets the maximal number of unused threads to {@code max_threads}.
@@ -408,31 +393,109 @@ public class ThreadPool extends io.github.jwharm.javagi.ResourceBase {
      * of unused threads.
      * <p>
      * The default value is 2.
+     * @param maxThreads maximal number of unused threads
      */
-    public static @NotNull void setMaxUnusedThreads(@NotNull int maxThreads) {
+    public static void setMaxUnusedThreads(int maxThreads) {
         try {
-            g_thread_pool_set_max_unused_threads.invokeExact(maxThreads);
+            DowncallHandles.g_thread_pool_set_max_unused_threads.invokeExact(maxThreads);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-    
-    private static final MethodHandle g_thread_pool_stop_unused_threads = Interop.downcallHandle(
-        "g_thread_pool_stop_unused_threads",
-        FunctionDescriptor.ofVoid()
-    );
     
     /**
      * Stops all currently unused threads. This does not change the
      * maximal number of unused threads. This function can be used to
      * regularly stop all unused threads e.g. from g_timeout_add().
      */
-    public static @NotNull void stopUnusedThreads() {
+    public static void stopUnusedThreads() {
         try {
-            g_thread_pool_stop_unused_threads.invokeExact();
+            DowncallHandles.g_thread_pool_stop_unused_threads.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
+    private static class DowncallHandles {
+        
+        private static final MethodHandle g_thread_pool_free = Interop.downcallHandle(
+            "g_thread_pool_free",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_thread_pool_get_max_threads = Interop.downcallHandle(
+            "g_thread_pool_get_max_threads",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_thread_pool_get_num_threads = Interop.downcallHandle(
+            "g_thread_pool_get_num_threads",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_thread_pool_move_to_front = Interop.downcallHandle(
+            "g_thread_pool_move_to_front",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_thread_pool_push = Interop.downcallHandle(
+            "g_thread_pool_push",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_thread_pool_set_max_threads = Interop.downcallHandle(
+            "g_thread_pool_set_max_threads",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_thread_pool_set_sort_function = Interop.downcallHandle(
+            "g_thread_pool_set_sort_function",
+            FunctionDescriptor.ofVoid(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_thread_pool_unprocessed = Interop.downcallHandle(
+            "g_thread_pool_unprocessed",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_thread_pool_get_max_idle_time = Interop.downcallHandle(
+            "g_thread_pool_get_max_idle_time",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_thread_pool_get_max_unused_threads = Interop.downcallHandle(
+            "g_thread_pool_get_max_unused_threads",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_thread_pool_get_num_unused_threads = Interop.downcallHandle(
+            "g_thread_pool_get_num_unused_threads",
+            FunctionDescriptor.of(ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_thread_pool_new = Interop.downcallHandle(
+            "g_thread_pool_new",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_thread_pool_new_full = Interop.downcallHandle(
+            "g_thread_pool_new_full",
+            FunctionDescriptor.of(ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.ADDRESS, ValueLayout.JAVA_INT, ValueLayout.JAVA_INT, ValueLayout.ADDRESS)
+        );
+        
+        private static final MethodHandle g_thread_pool_set_max_idle_time = Interop.downcallHandle(
+            "g_thread_pool_set_max_idle_time",
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_thread_pool_set_max_unused_threads = Interop.downcallHandle(
+            "g_thread_pool_set_max_unused_threads",
+            FunctionDescriptor.ofVoid(ValueLayout.JAVA_INT)
+        );
+        
+        private static final MethodHandle g_thread_pool_stop_unused_threads = Interop.downcallHandle(
+            "g_thread_pool_stop_unused_threads",
+            FunctionDescriptor.ofVoid()
+        );
+    }
 }
